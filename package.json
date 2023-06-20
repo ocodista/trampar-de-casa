@@ -1,0 +1,16 @@
+{
+  "name": "trampoemcasa",
+  "version": "1.0.0",
+  "description": "Conexão definitiva entre desenvolvedores brasileiros e oportunidades de trabalho remoto.",
+  "main": "index.jsx",
+  "repository": "git@github.com:ocodista/trampoemcasa.git",
+  "author": "Caio Borghi <caiohoborghi@gmail.com>",
+  "license": "MIT",
+  "private": true,
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.60.0",
+    "@typescript-eslint/parser": "^5.60.0",
+    "eslint": "^8.43.0",
+    "eslint-plugin-react": "^7.32.2"
+  }
+}
