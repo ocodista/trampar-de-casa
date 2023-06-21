@@ -37,26 +37,6 @@ export default function Index() {
               </div>
               <div className='w-auto'>
                 <div className='flex flex-wrap items-center'>
-                  {/* <div className='w-auto hidden mr-5 lg:block'>
-                    <div className='inline-block'>
-                      <button
-                        className='py-3 px-5 w-full hover:text-gray-700 font-medium rounded-xl bg-transparent transition ease-in-out duration-200'
-                        type='button'
-                      >
-                        Sign In
-                      </button>
-                    </div>
-                  </div>
-                  <div className='w-auto hidden lg:block'>
-                    <div className='inline-block'>
-                      <button
-                        className='py-3 px-5 w-full font-semibold border hover:border-gray-300 rounded-xl focus:ring focus:ring-gray-50 bg-white hover:bg-gray-50 transition ease-in-out duration-200'
-                        type='button'
-                      >
-                        Create Free Account
-                      </button>
-                    </div>
-                  </div> */}
                   <div className='w-auto lg:hidden'>
                     <a href='#'>
                       <svg
@@ -96,7 +76,7 @@ export default function Index() {
                         <a className='inline-block' href='#'>
                           <img
                             src='images/casa.png'
-                            alt=''
+                            alt='Logo da Trampar de Casa'
                           />
                         </a>
                       </div>
@@ -129,45 +109,21 @@ export default function Index() {
                         </a>
                       </li>
                       <li className='mb-12'>
-                        <a className='font-medium hover:text-gray-700' href='#'>
-                          Solutions
+                        <a className='font-medium hover:text-gray-700' href='#valores'>
+                          Nossos Valores
                         </a>
                       </li>
                       <li className='mb-12'>
-                        <a className='font-medium hover:text-gray-700' href='#'>
-                          Resources
+                        <a className='font-medium hover:text-gray-700' href='#como-funciona'>
+                          Como Funciona
                         </a>
                       </li>
                       <li>
-                        <a className='font-medium hover:text-gray-700' href='#'>
-                          Pricing
+                        <a className='font-medium hover:text-gray-700' href='#perguntas-frequentes'>
+                          Perguntas Frequentes
                         </a>
                       </li>
                     </ul>
-                  </div>
-                  <div className='flex flex-col justify-end w-full pb-8'>
-                    <div className='flex flex-wrap'>
-                      <div className='w-full mb-3'>
-                        <div className='block'>
-                          <button
-                            className='py-3 px-5 w-full hover:text-gray-700 font-medium rounded-xl bg-transparent transition ease-in-out duration-200'
-                            type='button'
-                          >
-                            Sign In
-                          </button>
-                        </div>
-                      </div>
-                      <div className='w-full'>
-                        <div className='block'>
-                          <button
-                            className='py-3 px-5 w-full font-semibold border hover:border-gray-300 rounded-xl focus:ring focus:ring-gray-50 bg-white hover:bg-gray-50 transition ease-in-out duration-200'
-                            type='button'
-                          >
-                            Create Free Account
-                          </button>
-                        </div>
-                      </div>
-                    </div>
                   </div>
                 </div>
               </nav>
@@ -182,7 +138,7 @@ export default function Index() {
                       <img
                         className='w-full md:w-auto rounded-lg transform hover:scale-105 transition ease-in-out duration-1000'
                         src='images/home-1.jpg'
-                        alt=''
+                        alt='Logo da Trampar de Casa'
                       />
                     </div>
                     <div className='p-8 absolute bottom-0 left-0 w-full md:p-0'>
@@ -210,7 +166,7 @@ export default function Index() {
                             className='p-3 xl:p-0 xl:pr-7 w-full text-gray-600 placeholder-gray-600 outline-none'
                             id='headerInput3-1'
                             type='text'
-                            placeholder='Digite seu melhor e-mail '
+                            placeholder='Digite seu melhor e-mail'
                             name=''
                           />
                         </div>
