@@ -197,12 +197,12 @@ export default function Index() {
                 <div className='w-full md:w-1/2 xl:flex-1 p-8 xl:p-12'>
                   <div className='xl:max-w-2xl'>
                     <h1 style={{ textWrap: "balance" }} className='mb-7 text-6xl md:text-8xl xl:text-10xl font-bold font-heading tracking-px-n leading-none'>
-                      Vagas de trabalho remoto diretamente no seu e-mail.
+                      Vagas remotas no seu e-mail.
                     </h1>
-                    <p className='mb-9 text-lg text-gray-900 font-medium md:max-w-md'>
+                    <p className='mb-9 text-lg text-gray-900 font-medium'>
                       Levamos as melhores oportunidades de trampo até você.
                     </p>
-                    <div className='mb-16 p-1.5 xl:pl-7 inline-block md:max-w-xl w-full border-2 border-black rounded-3xl focus-within:ring focus-within:ring-indigo-300'>
+                    <div className='mb-16 p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-3xl focus-within:ring focus-within:ring-indigo-300'>
                       <div className='flex flex-wrap items-center'>
                         <div className='w-full xl:flex-1'>
                           <input
@@ -433,8 +433,8 @@ export default function Index() {
                 />
               </div>
               <div className='w-full md:w-1/2 p-8'>
-                <h2 className='mb-20 text-6xl md:text-7xl font-bold font-heading tracking-px-n leading-tight md:max-w-lg'>
-                  Como nós te ajudamos a encontrar sua vaga remota.
+                <h2 className='mb-20 text-6xl md:text-7xl font-bold font-heading tracking-px-n leading-tight'>
+                  Como Funciona
                 </h2>
                 <div className='flex flex-wrap -m-1.5'>
                   <div className='w-full p-1.5'>
@@ -457,7 +457,7 @@ export default function Index() {
                         />
                       </div>
                       <div className='flex-1 p-6'>
-                        <div className='md:max-w-xs'>
+                        <div>
                           <h3 className='mb-3 text-2xl font-semibold leading-snug'>
                             Você se inscreve
                           </h3>
@@ -490,7 +490,7 @@ export default function Index() {
                         />
                       </div>
                       <div className='flex-1 p-6'>
-                        <div className='md:max-w-xs'>
+                        <div>
                           <h3 className='mb-3 text-2xl font-semibold leading-snug'>
                             Analizamos as vagas
                           </h3>
@@ -517,7 +517,7 @@ export default function Index() {
                         </div>
                       </div>
                       <div className='flex-1 p-6'>
-                        <div className='md:max-w-xs'>
+                        <div>
                           <h3 className='mb-3 text-2xl font-semibold leading-snug'>
                             Enviamos as oportunidades
                           </h3>
@@ -542,7 +542,7 @@ export default function Index() {
             <h2 className='mb-16 text-6xl md:text-8xl xl:text-10xl font-bold font-heading tracking-px-n leading-none'>
               Perguntas Frequentes
             </h2>
-            <div className='mb-8 md:max-w-5xl'>
+            <div className='mb-8'>
               <div className='flex flex-wrap -m-4'>
                 <div className='w-full md:w-1/2 p-4'>
                   <div className='p-6 border border-gray-200 rounded-2xl shadow-10xl'>
