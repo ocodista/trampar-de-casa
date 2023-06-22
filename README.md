@@ -1,11 +1,11 @@
-# Trampar de casa 👨💻🏠
+# Trampar de Casa 👨💻🏠
 
 > Conexão definitiva entre desenvolvedores brasileiros e oportunidades de trabalho remoto.
 
 ---
 
 ## Sobre o Projeto 🎯 
-O TrampoEmCasa é uma iniciativa open-source dedicada a conectar desenvolvedores brasileiros a oportunidades de trabalho remoto, incentivando a inclusão, diversidade e quebrando barreiras geográficas.  
+O Trampar de Casa é uma iniciativa open-source dedicada a conectar desenvolvedores brasileiros a oportunidades de trabalho remoto, incentivando a inclusão, diversidade e quebrando barreiras geográficas.  
 
 Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas que correspondem ao perfil de nossos inscritos.
 
@@ -13,7 +13,7 @@ Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas 
 
 ## 🚧 Funcionalidades em Desenvolvimento 🚧
 
-Estamos trabalhando para implementar novas funcionalidades que vão tornar o TrampoEmCasa ainda melhor. Aqui estão algumas que estão em nosso roadmap:
+Estamos trabalhando para implementar novas funcionalidades que vão tornar o Trampar de Casa ainda melhor. Aqui estão algumas que estão em nosso roadmap:
 
 [ ] **Cron Job para Envio de Emails**: Implementação de um Cron Job que enviará emails semanalmente (quarta-feira 11:00) para nossos usuários com as melhores oportunidades de trabalho remoto. 
 
