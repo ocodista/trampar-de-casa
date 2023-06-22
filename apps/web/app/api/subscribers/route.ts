@@ -1,14 +1,16 @@
 import { NextResponse } from "next/server";
 import { Entities } from "../../../global/enums/entities";
 import { createClient } from "@supabase/supabase-js";
+import { StatusCodes } from "http-status-codes";
+import { SupabaseCodes } from "../../../global/enums/supabaseCodes";
 
 interface EmailRequest {
   email: string;
 }
 
-export async function POST (requisicao: Request) {
-  const { email } = (await requisicao.json()) as EmailRequest;
-  if (email) {
+export async function POST (request: Request) {
+  const { email } = (await request.json()) as EmailRequest;
+  if (!email) {
     return new NextResponse(null, { status: 403 });
   }
 
@@ -22,11 +24,14 @@ export async function POST (requisicao: Request) {
     .insert({ email })
     .select();
 
-  if (error) {
-    // eslint-disable-next-line no-console
-    console.error(error);
-    return new NextResponse(null, { status: 500 });
+  if (!error)
+    return NextResponse.json(data);
+
+  if (error.code === SupabaseCodes.DuplicatedRow) {
+    return new NextResponse("Email já cadastrado.", { status: StatusCodes.CONFLICT })
   }
 
-  return NextResponse.json(data);
+  // eslint-disable-next-line no-console
+  console.error(error);
+  return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR });
 }
