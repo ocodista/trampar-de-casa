@@ -10,6 +10,7 @@
     "strict": false,
     "forceConsistentCasingInFileNames": true,
     "noEmit": true,
+    "target": "es2020",
     "incremental": true,
     "esModuleInterop": true,
     "module": "esnext",
@@ -31,5 +32,11 @@
   ],
   "exclude": [
     "node_modules"
-  ]
+  ],
+  "ts-node": {
+    "esm": true,
+    "compilerOptions": {
+      "module": "nodenext",
+    }
+  }
 }
