@@ -1,4 +1,4 @@
-# TrampoEmCasa 👨💻🏠
+# Trampar de casa 👨💻🏠
 
 > Conexão definitiva entre desenvolvedores brasileiros e oportunidades de trabalho remoto.
 
