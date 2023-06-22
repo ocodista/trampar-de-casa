@@ -10,7 +10,7 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Inscritos {
+model Subscriber {
   id          BigInt @id @default(autoincrement())
   created_at  DateTime @default(now())
   email       String
