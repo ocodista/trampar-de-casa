@@ -5,3 +5,7 @@
 html {
   scroll-behavior: smooth;
 }
+
+canvas {
+  z-index: 30 !important
+}
