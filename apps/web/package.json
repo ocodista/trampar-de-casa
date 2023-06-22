@@ -18,7 +18,7 @@
   },
   "prisma": {
     "schema": "app/api/prisma/schema.prisma",
-    "seed": "npx ts-node -r tsconfig-paths/register app/api/prisma/seed.ts"
+    "seed": "npx ts-node app/api/prisma/seed.ts"
   },
   "devDependencies": {
     "@types/node": "^17.0.12",
