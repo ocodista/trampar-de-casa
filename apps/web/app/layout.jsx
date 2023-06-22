@@ -1,7 +1,7 @@
 import "./global.css"
 
 export const metadata = {
-  title: 'Trampe Em Casa',
+  title: 'Trampar de Casa',
   description: 'Divulgação de vagas 100% remotas.'
 }
 

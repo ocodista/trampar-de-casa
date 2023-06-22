@@ -14,8 +14,9 @@ export default function Index() {
                   <div className='w-auto mr-14'>
                     <a href='#'>
                       <img
-                        src='flaro-assets/logos/flaro-logo-black.svg'
-                        alt=''
+                        src='images/casa.png'
+                        className='h-[80px]'
+                        alt='Logotipo da Trampar De Casa'
                       />
                     </a>
                   </div>
@@ -94,7 +95,7 @@ export default function Index() {
                       <div className='w-auto p-2'>
                         <a className='inline-block' href='#'>
                           <img
-                            src='flaro-assets/logos/flaro-logo-black.svg'
+                            src='images/casa.png'
                             alt=''
                           />
                         </a>
