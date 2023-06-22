@@ -6,13 +6,10 @@ const getSubscribers = (): Prisma.InscritosCreateInput[] => {
 
     return [
         {
-           email: 'test@gmail.com' 
+           email: 'mateus.vnlima@gmail.com' 
         },
         {
-            email: '@gmail.com'
-        },
-        {
-            email: 'tombrady@gmail.com'
+            email: 'caiohoborghi@gmail.com'
         }
     ]
 }
