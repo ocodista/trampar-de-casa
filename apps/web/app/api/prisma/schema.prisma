@@ -3,6 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
+  output = "../../../node_modules/.prisma/client"
 }
 
 datasource db {
@@ -13,5 +14,5 @@ datasource db {
 model Subscribers {
   id          BigInt @id @default(autoincrement())
   created_at  DateTime @default(now())
-  email       String
+  email       String @unique
 }
