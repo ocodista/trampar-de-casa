@@ -28,7 +28,9 @@ export const Hero = () => {
 
   const [isConfettiVisible, setConfettiVisibility] = useState(false)
   useEffect(() => {
-    setTimeout(() => setConfettiVisibility(false), 20_000)
+    setTimeout(() => {
+      setConfettiVisibility(false)
+    }, 20_000)
   }, [isConfettiVisible])
 
   const { toast } = useToast()
@@ -70,7 +72,7 @@ export const Hero = () => {
       {isConfettiVisible && <Confetti width={window.innerWidth - PADDING_X} />}
       <section className="relative">
         <div className="container mx-auto overflow-hidden">
-          <div className="relative z-20 flex items-center justify-between px-4 py-5 bg-transparent">
+          <div className="relative flex items-center justify-between px-4 py-5 bg-transparent">
             <div className="w-auto">
               <div className="flex flex-wrap items-center">
                 <div className="w-auto mr-14">
