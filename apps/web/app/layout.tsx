@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 
 export default function RootLayout ({ children }) {
   return (
-    <html lang="ptbr">
+    <html className="scroll-smooth" lang="ptbr">
       <body>
         {children}
         <Toaster />
