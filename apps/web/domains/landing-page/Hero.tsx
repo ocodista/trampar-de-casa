@@ -5,6 +5,8 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Confetti from 'react-confetti'
+import { useToast } from "../../global/components/ui/use-toast";
+import { StatusCodes } from "http-status-codes";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -15,10 +17,7 @@ type ValidationSchema = z.infer<typeof validationSchema>;
 const PADDING_X = 32
 
 export const Hero = () => {
-  const [isConfettiVisible, setConfettiVisibility] = useState(false)
-  useEffect(() => {
-    setTimeout(() => setConfettiVisibility(false), 20_000)
-  }, [isConfettiVisible])
+  const [isLoading, setLoading] = useState(false)
   const {
     register,
     getValues,
@@ -27,23 +26,44 @@ export const Hero = () => {
     resolver: zodResolver(validationSchema),
   });
 
-  // TODO: Show loader
-  // TODO: Handle error
-  // TODO: Show confetti on success
+  const [isConfettiVisible, setConfettiVisibility] = useState(false)
+  useEffect(() => {
+    setTimeout(() => {
+      setConfettiVisibility(false)
+    }, 20_000)
+  }, [isConfettiVisible])
 
+  const { toast } = useToast()
+
+  
+  // TODO: Create loader
+  // TODO: Handle error globally
   const saveSubscriber = async () => {
     const email = getValues().email;
     try {
+      setLoading(true)
       const response = await fetch(ApiRoutes.Subscribers, {
         body: JSON.stringify({ email }),
         method: "POST",
       });
-      console.log("Inscrito", response);
-      if (response.ok)
+      
+      if (response.ok) {
         setConfettiVisibility(true)
+        toast({ title: 'Tudo certo 🥳', description: 'Você receberá as vagas na próxima quarta-feira!' })
+        return
+      }
+
+      if (response.status === StatusCodes.CONFLICT) {
+        toast({ title: 'Algo deu errado 🥶', variant: 'destructive', description: await response.text() })
+        return
+      }
+
+      throw new Error(response.statusText)
     } catch (err) {
-      console.error(err);
-    } 
+      toast({ title: 'Algo deu errado 🥶', variant: 'destructive', description: 'Não conseguimos adicionar seu e-mail, tente novamente mais tarde.' })
+    } finally {
+      setLoading(false)
+    }
     return false;
   };
 
@@ -52,7 +72,7 @@ export const Hero = () => {
       {isConfettiVisible && <Confetti width={window.innerWidth - PADDING_X} />}
       <section className="relative">
         <div className="container mx-auto overflow-hidden">
-          <div className="relative z-20 flex items-center justify-between px-4 py-5 bg-transparent">
+          <div className="relative flex items-center justify-between px-4 py-5 bg-transparent">
             <div className="w-auto">
               <div className="flex flex-wrap items-center">
                 <div className="w-auto mr-14">
@@ -223,8 +243,9 @@ export const Hero = () => {
                           <div className="block">
                             <button
                               type="submit"
-                              disabled={!isValid}
-                              className="py-4 px-7 w-full text-white font-semibold rounded-xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200 pointer disabled:opacity-50 cursor-pointer"
+                              disabled={!isValid || isLoading}
+                              className="py-4 px-7 w-full text-white font-semibold rounded-xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200 pointer 
+                              disabled:opacity-50 cursor-pointer disabled:cursor-default"
                             >
                             Quero participar
                             </button>
