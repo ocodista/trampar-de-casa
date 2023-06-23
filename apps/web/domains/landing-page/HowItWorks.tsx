@@ -42,7 +42,7 @@ export const HowItWorks = () => (
                     </h3>
                     <p className="text-gray-700 font-medium leading-relaxed">
                       Forneça-nos seu melhor e-mail e defina suas preferências
-                      de trabalho (cargo, tecnologias e idioma)
+                      de trabalho (cargo, tecnologias e idioma).
                     </p>
                   </div>
                 </div>
