@@ -7,6 +7,7 @@ import { z } from "zod";
 import Confetti from 'react-confetti'
 import { useToast } from "../../global/components/ui/use-toast";
 import { StatusCodes } from "http-status-codes";
+import { ToggleTheme } from "../../global/components/ui/toggleTheme";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -72,7 +73,7 @@ export const Hero = () => {
       {isConfettiVisible && <Confetti width={window.innerWidth - PADDING_X} />}
       <section className="relative">
         <div className="container mx-auto overflow-hidden">
-          <div className="relative flex items-center justify-between px-4 py-5 bg-transparent">
+          <div className="relative flex items-center justify-between px-4 py-5 bg-transparent ">
             <div className="w-auto">
               <div className="flex flex-wrap items-center">
                 <div className="w-auto mr-14">
@@ -94,6 +95,9 @@ export const Hero = () => {
                     </li>
                     <li className="mr-9 font-medium hover:text-gray-700">
                       <a href="#perguntas-frequentes">Perguntas Frequentes</a>
+                    </li>
+                    <li className="mr-9 font-medium hover:text-gray-700">
+                      <ToggleTheme />
                     </li>
                   </ul>
                 </div>
@@ -219,10 +223,10 @@ export const Hero = () => {
                   <h1 className="mb-7 text-6xl md:text-8xl xl:text-10xl font-bold font-heading tracking-px-n leading-none">
                   Vagas remotas no seu e-mail.
                   </h1>
-                  <p className="mb-9 text-lg text-gray-900 font-medium">
+                  <p className="mb-9 text-lg dark:text-gray-200 text-gray-900 font-medium">
                   Levamos as melhores oportunidades de trampo até você.
                   </p>
-                  <div className="mb-16 p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-3xl focus-within:ring focus-within:ring-indigo-300">
+                  <div className="mb-16 p-1.5 xl:pl-7 inline-block w-full border-2 dark:border-white border-black rounded-3xl focus-within:ring focus-within:ring-indigo-300">
                     <form
                       onSubmit={async (e) => {
                         e.preventDefault();
@@ -232,7 +236,7 @@ export const Hero = () => {
                       <div className="flex flex-wrap items-center">
                         <div className="w-full xl:flex-1">
                           <input
-                            className="p-3 xl:p-0 xl:pr-7 w-full text-gray-600 placeholder-gray-600 outline-none"
+                            className="p-3 xl:p-0 xl:pr-7 w-full dark:bg-transparent text-gray-600 placeholder-gray-600 outline-none"
                             id="email"
                             type="email"
                             placeholder="Digite seu melhor e-mail"

@@ -43,7 +43,7 @@ export const Values = () => (
                 </svg>
               </div>
               <div className="flex-1 p-4">
-                <h3 className="mb-3 text-lg font-semibold">Software Livre</h3>
+                <h3 className="mb-3 text-lg text-gray-900 font-semibold">Software Livre</h3>
                 <p className="text-gray-600 font-medium">
                   Todo o código utilizado neste projeto é público e está
                   disponível através do GitHub. Se você simpatiza com a ideia de
@@ -164,7 +164,7 @@ export const Values = () => (
                 </svg>
               </div>
               <div className="flex-1 p-4">
-                <h3 className="mb-3 text-lg font-semibold">
+                <h3 className="mb-3 text-lg text-gray-900 font-semibold">
                   Em busca de um mundo melhor
                 </h3>
                 <p className="text-gray-600 font-medium">

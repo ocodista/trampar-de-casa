@@ -1,7 +1,7 @@
 export const FAQ = () => (
   <section
     id="perguntas-frequentes"
-    className="pt-28 pb-32 bg-white overflow-hidden"
+    className="pt-28 pb-32 bg-transparent overflow-hidden"
   >
     <div className="container px-4 mx-auto">
       <p className="mb-5 text-sm text-indigo-600 font-semibold uppercase tracking-px">
