@@ -2,7 +2,7 @@ import { Prisma, PrismaClient } from "@prisma/client";
 
 const client = new PrismaClient();
 
-const getSubscribers = (): Prisma.InscritosCreateInput[] => {
+const getSubscribers = (): Prisma.SubscribersCreateInput[] => {
 
   return [
     {
@@ -16,6 +16,6 @@ const getSubscribers = (): Prisma.InscritosCreateInput[] => {
 
 void async function (){
   const subscribers = await Promise.all(
-    getSubscribers().map(async (subscriber) => client.inscritos.create({ data: subscriber }))
+    getSubscribers().map(async (subscriber) => client.subscribers.create({ data: subscriber }))
   )
 }()
