@@ -5,7 +5,7 @@ generator client {
   provider = "prisma-client-js"
   output = "./client"
 }
-
+// TODO: Change ID to UUID
 datasource db {
   provider = "postgresql"
   url      = env("DATABASE_URL")
