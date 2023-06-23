@@ -1,0 +1,25 @@
+version: '3.5'
+services:
+  trampar-casa:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - 3000:3000
+    restart: unless-stopped
+
+  #URL https://localhost:9443
+  portainer:
+    image: portainer/portainer-ce:latest
+    ports:
+      - 9443:9443
+    volumes:
+      - data:/data
+      - /var/run/docker.sock:/var/run/docker.sock
+    restart: unless-stopped
+
+volumes:
+  data:
+networks:
+  local:
+    driver: bridge
