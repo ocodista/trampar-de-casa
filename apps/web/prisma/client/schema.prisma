@@ -12,7 +12,64 @@ datasource db {
 }
 
 model Subscribers {
-  id          BigInt @id @default(autoincrement())
-  created_at  DateTime @default(now())
-  email       String @unique
+  id                String            @id      @default(uuid())
+  Email             String            @unique
+  Name              String
+  LinkedInUrl       String
+  GitHub            String?
+  YearsOfExperience Int
+  Skills            Json?
+  EnglishLevel      EnglishLevel?
+  SentRoles         SentRoles[]       @relation(name:"SentRoles")
+  CreatedAt         DateTime          @default(now())
+
+  @@map("Subscribers")
+}
+
+
+model Roles {
+  id              String      @id @default(uuid())
+  CompanyId       String
+  Company         Companies   @relation(fields: [CompanyId], references: [id])
+  Title           String
+  Description     String
+  Country         String
+  Language        String
+  Currency        String?
+  Salary          String?
+  CreatedAt       DateTime?   @default(now())
+  SentRolesId     String      @unique
+  SentRoles       SentRoles   @relation(fields: [SentRolesId], references: [id])
+
+  @@map("Roles")
+}
+
+model SentRoles {
+  id      String              @id @default(uuid())
+  SentAt  DateTime?
+  RoleId  String
+  Role    Roles?
+  Subscribers Subscribers[]   @relation(name:"SentRoles")
+
+  @@map("SenRoles")
+  @@index([SentAt])
+}
+
+model Companies {
+  id          String      @id @default(uuid())
+  Name        String
+  Url         String
+  LogoUrl     String?
+  CountryIcon String
+  Roles       Roles[]
+  CreatedAt   DateTime?   @default(now())
+
+  @@map("Companies")
+}
+
+enum EnglishLevel {
+  Beginner
+  Intermediary
+  Advanced
+  Fluent
 }

@@ -107,8 +107,42 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.SubscribersScalarFieldEnum = {
   id: 'id',
-  created_at: 'created_at',
-  email: 'email'
+  Email: 'Email',
+  Name: 'Name',
+  LinkedInUrl: 'LinkedInUrl',
+  GitHub: 'GitHub',
+  YearsOfExperience: 'YearsOfExperience',
+  Skills: 'Skills',
+  EnglishLevel: 'EnglishLevel',
+  CreatedAt: 'CreatedAt'
+};
+
+exports.Prisma.RolesScalarFieldEnum = {
+  id: 'id',
+  CompanyId: 'CompanyId',
+  Title: 'Title',
+  Description: 'Description',
+  Country: 'Country',
+  Language: 'Language',
+  Currency: 'Currency',
+  Salary: 'Salary',
+  CreatedAt: 'CreatedAt',
+  SentRolesId: 'SentRolesId'
+};
+
+exports.Prisma.SentRolesScalarFieldEnum = {
+  id: 'id',
+  SentAt: 'SentAt',
+  RoleId: 'RoleId'
+};
+
+exports.Prisma.CompaniesScalarFieldEnum = {
+  id: 'id',
+  Name: 'Name',
+  Url: 'Url',
+  LogoUrl: 'LogoUrl',
+  CountryIcon: 'CountryIcon',
+  CreatedAt: 'CreatedAt'
 };
 
 exports.Prisma.SortOrder = {
@@ -116,14 +150,38 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
+};
+
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
 };
 
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
+};
+
+exports.Prisma.NullsOrder = {
+  first: 'first',
+  last: 'last'
+};
+exports.EnglishLevel = {
+  Beginner: 'Beginner',
+  Intermediary: 'Intermediary',
+  Advanced: 'Advanced',
+  Fluent: 'Fluent'
+};
 
 exports.Prisma.ModelName = {
-  Subscribers: 'Subscribers'
+  Subscribers: 'Subscribers',
+  Roles: 'Roles',
+  SentRoles: 'SentRoles',
+  Companies: 'Companies'
 };
 
 /**
