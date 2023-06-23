@@ -24,8 +24,8 @@
     "zod": "^3.21.4"
   },
   "prisma": {
-    "schema": "app/api/prisma/schema.prisma",
-    "seed": "npx ts-node app/api/prisma/seed.ts"
+    "schema": "prisma/schema.prisma",
+    "seed": "npx ts-node prisma/seed.ts"
   },
   "devDependencies": {
     "@types/node": "^17.0.12",

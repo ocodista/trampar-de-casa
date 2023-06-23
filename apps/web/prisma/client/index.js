@@ -119,7 +119,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\mateus.lima\\Documents\\personal\\dev\\JavaScript\\trampar-de-casa\\apps\\web\\app\\api\\prisma\\client",
+      "value": "C:\\Users\\mateus.lima\\Documents\\personal\\dev\\JavaScript\\trampar-de-casa\\apps\\web\\prisma\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -136,8 +136,8 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../../../.env",
-    "schemaEnvPath": "../../../../.env"
+    "rootEnvPath": "../../.env",
+    "schemaEnvPath": "../../.env"
   },
   "relativePath": "..",
   "clientVersion": "4.16.1",
@@ -146,15 +146,14 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
-  "dataProxy": false,
-  "postinstall": false
+  "dataProxy": false
 }
 
 const fs = require('fs')
 
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
-  config.dirname = path.join(process.cwd(), "app/api/prisma/client")
+  config.dirname = path.join(process.cwd(), "prisma/client")
   config.isBundled = true
 }
 
@@ -178,6 +177,6 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "app/api/prisma/client/query_engine-windows.dll.node")
+path.join(process.cwd(), "prisma/client/query_engine-windows.dll.node")
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "app/api/prisma/client/schema.prisma")
+path.join(process.cwd(), "prisma/client/schema.prisma")
