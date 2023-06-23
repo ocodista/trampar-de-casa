@@ -70,7 +70,7 @@ export const HowItWorks = () => (
                 <div className="flex-1 p-6">
                   <div>
                     <h3 className="mb-3 text-2xl font-semibold leading-snug">
-                      Analizamos as vagas
+                      Analisamos as vagas
                     </h3>
                     <p className="text-gray-700 font-medium leading-relaxed">
                       Nós cruzamos suas preferências com nossas vagas
