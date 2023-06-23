@@ -17,6 +17,7 @@ type ValidationSchema = z.infer<typeof validationSchema>;
 const PADDING_X = 32
 
 export const Hero = () => {
+  const [subscribersCount, setSubscribersCount] = useState(0)
   const [isLoading, setLoading] = useState(false)
   const {
     register,
@@ -34,6 +35,16 @@ export const Hero = () => {
   }, [isConfettiVisible])
 
   const { toast } = useToast()
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(ApiRoutes.Subscribers)
+      if (response.ok) {
+        const count = await response.json()
+        setSubscribersCount(count)
+      }
+    })()
+  }, [])
 
   
   // TODO: Create loader
@@ -219,10 +230,13 @@ export const Hero = () => {
                   <h1 className="mb-7 text-6xl md:text-8xl xl:text-10xl font-bold font-heading tracking-px-n leading-none">
                   Vagas remotas no seu e-mail.
                   </h1>
-                  <p className="mb-9 text-lg text-gray-900 font-medium">
+                  <p className="text-lg text-gray-900 font-medium">
                   Levamos as melhores oportunidades de trampo até você.
                   </p>
-                  <div className="mb-16 p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-3xl focus-within:ring focus-within:ring-indigo-300">
+                  <div className="h-[24px] mt-5 mb-3">
+                    {Boolean(subscribersCount) && <h4 className="text-gray-900  font-semibold roll-animation">Junte-se a {subscribersCount} inscritos 🚀</h4>}
+                  </div>
+                  <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300">
                     <form
                       onSubmit={async (e) => {
                         e.preventDefault();
@@ -253,11 +267,6 @@ export const Hero = () => {
                         </div>
                       </div>
                     </form>
-                  </div>
-                  <div className="flex flex-wrap items-center -m-16">
-                    <div className="w-auto">
-                      <div className="h-16 w-px bg-gray-200" />
-                    </div>
                   </div>
                 </div>
               </div>
