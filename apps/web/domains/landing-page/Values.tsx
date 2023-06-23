@@ -45,8 +45,14 @@ export const Values = () => (
                 <p className="text-gray-600 font-medium">
                   Todo o código utilizado neste projeto é público e está
                   disponível através do GitHub. Se você simpatiza com a ideia de
-                  adoção do modelo de trabalho remoto, contribua com nosso
-                  projeto!
+                  adoção do modelo de trabalho remoto,{" "}
+                  <a
+                    className="font-medium"
+                    target="_blank"
+                    href="https://github.com/ocodista/trampar-de-casa"
+                  >
+                    contribua com nosso projeto!
+                  </a>
                 </p>
               </div>
             </div>
