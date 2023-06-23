@@ -1,5 +1,3 @@
-import React from "react";
-
 export const Values = () => (
   <section id="valores" className="pt-32 pb-36 bg-indigo-600 overflow-hidden">
     <div className="container px-4 mx-auto">
@@ -16,7 +14,11 @@ export const Values = () => (
       </div>
       <div className="flex flex-wrap -m-3">
         <div className="w-full md:w-1/2 p-3">
-          <div className="p-7 bg-white border border-gray-900 rounded-3xl">
+          <a
+            href="https://github.com/ocodista/trampar-de-casa"
+            target="_blank"
+            className="p-7 block bg-white border border-gray-900 rounded-3xl"
+          >
             <div className="flex flex-wrap -m-4">
               <div className="w-auto p-4">
                 <svg
@@ -45,18 +47,12 @@ export const Values = () => (
                 <p className="text-gray-600 font-medium">
                   Todo o código utilizado neste projeto é público e está
                   disponível através do GitHub. Se você simpatiza com a ideia de
-                  adoção do modelo de trabalho remoto,{" "}
-                  <a
-                    className="font-medium underline underline-offset-2"
-                    target="_blank"
-                    href="https://github.com/ocodista/trampar-de-casa"
-                  >
-                    contribua com nosso projeto!
-                  </a>
+                  adoção do modelo de trabalho remoto, contribua com nosso
+                  projeto!
                 </p>
               </div>
             </div>
-          </div>
+          </a>
         </div>
         <div className="w-full md:w-1/2 p-3">
           <div className="p-7 bg-white border border-gray-900 rounded-3xl">
