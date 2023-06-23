@@ -13,7 +13,7 @@ datasource db {
 
 model Subscribers {
   id                String            @id      @default(uuid())
-  Email             String            @unique  @default("")
+  Email             String            @unique
   Name              String
   LinkedInUrl       String
   GitHub            String?
