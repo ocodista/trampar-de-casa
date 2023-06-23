@@ -37,9 +37,8 @@ Pretendemos usar a combinação de Vercel (conforme este [guia](https://vercel.c
 ---
 
 ## Contribuidores ✨
-Qualquer contribuição é bem-vinda!
+<a href="https://github.com/ocodista/trampar-de-casa/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=ocodista/trampar-de-casa" />
+</a>
 
-[![All Contributors](https://img.shields.io/badge/all_contributors-0-orange.svg?style=flat-square)](#contributors-)
-
-<!-- ALL-CONTRIBUTORS-LIST:START - Do not remove or modify this section -->
-<!-- ALL-CONTRIBUTORS-LIST:END -->
+Toda e qualquer contribuição é muito bem-vinda!
