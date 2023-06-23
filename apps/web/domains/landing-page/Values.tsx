@@ -47,7 +47,7 @@ export const Values = () => (
                   disponível através do GitHub. Se você simpatiza com a ideia de
                   adoção do modelo de trabalho remoto,{" "}
                   <a
-                    className="font-medium"
+                    className="font-medium underline underline-offset-2"
                     target="_blank"
                     href="https://github.com/ocodista/trampar-de-casa"
                   >
