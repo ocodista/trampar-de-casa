@@ -1,41 +1,11 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { ApiRoutes } from "../../global/enums/apiRoutes";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import Confetti from 'react-confetti'
-import { useToast } from "../../global/components/ui/use-toast";
-import { StatusCodes } from "http-status-codes";
-
-const validationSchema = z.object({
-  email: z.string().email("Insira um e-mail válido!"),
-});
-
-type ValidationSchema = z.infer<typeof validationSchema>;
-
-const PADDING_X = 32
+import { ApiRoutes } from "../../../global/enums/apiRoutes";
+import Image from "next/image";
+import { EmailForm } from "./EmailForm";
 
 export const Hero = () => {
   const [subscribersCount, setSubscribersCount] = useState(0)
-  const [isLoading, setLoading] = useState(false)
-  const {
-    register,
-    getValues,
-    formState: { isValid },
-  } = useForm<ValidationSchema>({
-    resolver: zodResolver(validationSchema),
-  });
-
-  const [isConfettiVisible, setConfettiVisibility] = useState(false)
-  useEffect(() => {
-    setTimeout(() => {
-      setConfettiVisibility(false)
-    }, 20_000)
-  }, [isConfettiVisible])
-
-  const { toast } = useToast()
-
   useEffect(() => {
     (async () => {
       const response = await fetch(ApiRoutes.Subscribers)
@@ -45,42 +15,8 @@ export const Hero = () => {
       }
     })()
   }, [])
-
-  
-  // TODO: Create loader
-  // TODO: Handle error globally
-  const saveSubscriber = async () => {
-    const email = getValues().email;
-    try {
-      setLoading(true)
-      const response = await fetch(ApiRoutes.Subscribers, {
-        body: JSON.stringify({ email }),
-        method: "POST",
-      });
-      
-      if (response.ok) {
-        setConfettiVisibility(true)
-        toast({ title: 'Tudo certo 🥳', description: 'Você receberá as vagas na próxima quarta-feira!' })
-        return
-      }
-
-      if (response.status === StatusCodes.CONFLICT) {
-        toast({ title: 'Algo deu errado 🥶', variant: 'destructive', description: await response.text() })
-        return
-      }
-
-      throw new Error(response.statusText)
-    } catch (err) {
-      toast({ title: 'Algo deu errado 🥶', variant: 'destructive', description: 'Não conseguimos adicionar seu e-mail, tente novamente mais tarde.' })
-    } finally {
-      setLoading(false)
-    }
-    return false;
-  };
-
   return (
     <>
-      {isConfettiVisible && <Confetti width={window.innerWidth - PADDING_X} />}
       <section className="relative">
         <div className="container mx-auto overflow-hidden">
           <div className="relative flex items-center justify-between px-4 py-5 bg-transparent">
@@ -209,10 +145,12 @@ export const Hero = () => {
               <div className="w-full md:w-1/2 p-8 xl:p-12 xl:w-1/2 md:flex">
                 <div className="md:inline-block relative">
                   <div className="overflow-hidden rounded-lg">
-                    <img
+                    <Image
                       className="w-full md:w-auto rounded-lg transform hover:scale-105 transition ease-in-out duration-1000"
-                      src="images/home-1.jpg"
-                      alt="Logo da Trampar de Casa"
+                      src="/images/home-1.jpg"
+                      width="500"
+                      height="500"
+                      alt="Imagem ilustrando trabalho remoto"
                     />
                   </div>
                   <div className="p-8 absolute bottom-0 left-0 w-full md:p-0">
@@ -237,36 +175,7 @@ export const Hero = () => {
                     {Boolean(subscribersCount) && <h4 className="text-gray-900  font-semibold roll-animation">Junte-se a {subscribersCount} inscritos 🚀</h4>}
                   </div>
                   <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300">
-                    <form
-                      onSubmit={async (e) => {
-                        e.preventDefault();
-                        await saveSubscriber();
-                      }}
-                    >
-                      <div className="flex flex-wrap items-center">
-                        <div className="w-full xl:flex-1">
-                          <input
-                            className="p-3 xl:p-0 xl:pr-7 w-full text-gray-600 placeholder-gray-600 outline-none"
-                            id="email"
-                            type="email"
-                            placeholder="Digite seu melhor e-mail"
-                            {...register("email")}
-                          />
-                        </div>
-                        <div className="w-full xl:w-auto">
-                          <div className="block">
-                            <button
-                              type="submit"
-                              disabled={!isValid || isLoading}
-                              className="py-4 px-7 w-full text-white font-semibold rounded-xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200 pointer 
-                              disabled:opacity-50 cursor-pointer disabled:cursor-default"
-                            >
-                            Quero participar
-                            </button>
-                          </div>
-                        </div>
-                      </div>
-                    </form>
+                    <EmailForm />
                   </div>
                 </div>
               </div>
