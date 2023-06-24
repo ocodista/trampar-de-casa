@@ -2,13 +2,12 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { StatusCodes } from "http-status-codes";
 import { useState, useEffect } from "react";
 import { useForm } from "react-hook-form";
-import { useToast } from "../../../global/components/ui/use-toast";
-import { ApiRoutes } from "../../../global/enums/apiRoutes";
 import { z } from "zod";
 import Confetti from 'react-confetti';
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "../../../global/components/ui/dialog";
-import { Button } from "../../../global/components/ui/button";
-import { SubscriberForm } from "../../subscriber/SubscriberForm";
+import { useRouter } from "next/navigation";
+import { useToast } from "../../../global/components/ui/use-toast";
+import { ApiRoutes } from "../../../global/enums/apiRoutes";
+import { UiRoutes } from "../../../global/enums/uiRoutes";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -29,6 +28,7 @@ export const EmailForm = () => {
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
   });
+  const router = useRouter();
 
   const email = watch("email")
 
@@ -70,13 +70,15 @@ export const EmailForm = () => {
     }
     return false;
   };
+
   return (
     <>
       {isConfettiVisible && <div className="absolute top-0 left-0"><Confetti width={window.innerWidth - PADDING_X} /></div>}
       <form
         onSubmit={async (e) => {
           e.preventDefault();
-          //await saveSubscriber();
+          alert("Clickou")
+          router.push(UiRoutes.Profile)
         }}
       >
         <div className="flex flex-wrap items-center">
@@ -91,33 +93,13 @@ export const EmailForm = () => {
           </div>
           <div className="w-full xl:w-auto">
             <div className="block">
-              <Dialog >
-                <DialogTrigger asChild>
-                  <Button 
-                    disabled={!isValid || isLoading}
-                    className="py-4 px-7 w-full text-white font-semibold rounded-xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200 pointer disabled:opacity-50 cursor-pointer disabled:cursor-default"
-                  >Quero participar</Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-[425px]">
-                  <DialogHeader>
-                    <DialogTitle>
-                      Quase lá!
-                    </DialogTitle>
-                    <DialogDescription>
-                      Precisamos de algumas informações adicionais antes de te cadastrar.
-                    </DialogDescription>
-                    <SubscriberForm email={email} />
-                  </DialogHeader>
-                </DialogContent>
-              </Dialog>
-              {/* <button
-                type="button"
+              <button
+                type="submit"
                 disabled={!isValid || isLoading}
-                className="py-4 px-7 w-full text-white font-semibold rounded-xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200 pointer 
-                              disabled:opacity-50 cursor-pointer disabled:cursor-default"
+                className="py-4 px-7 w-full text-white font-semibold rounded-xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200 pointer disabled:opacity-50 cursor-pointer disabled:cursor-default"
               >
                 Quero participar
-              </button> */}
+              </button>
             </div>
           </div>
         </div>

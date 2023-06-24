@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 import { Toaster } from "../global/components/ui/toaster";
 import "./global.css";
+import { Header } from "./components/Header";
 
 export const metadata: Metadata = {
   title: 'Vagas 100% remotas',
@@ -13,7 +14,12 @@ export default function RootLayout ({ children }) {
   return (
     <html className="scroll-smooth" lang="ptbr">
       <body>
-        {children}
+        <nav>
+          <Header />
+        </nav>
+        <main>
+          {children}
+        </main>
         <Toaster />
       </body>
     </html>
