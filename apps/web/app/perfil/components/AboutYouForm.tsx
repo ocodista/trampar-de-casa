@@ -1,13 +1,10 @@
 'use client';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { Control, ControllerRenderProps, Path, useForm, FormProvider } from 'react-hook-form';
+import { useForm, FormProvider } from 'react-hook-form';
 import * as z from 'zod'
-import { Form, FormControl, FormDescription, FormField, FormItem, FormLabel, FormMessage } from '../../global/components/ui/form';
-import { Input } from '../../global/components/ui/input';
-import { Button } from '../../global/components/ui/button';
-import { LEGENDARY_PROGRAMMERS } from '../../global/constants';
-import { oneOf } from '../../global/utils';
-import { CustomFormField } from '../../global/components/CustomFormField';
+import { Button } from '../../../global/components/ui/button';
+import { CustomFormField } from '../../../global/components/CustomFormField';
+import FormDateField from './FormDateField';
 
 enum EnglishLevel {
   Beginner,
@@ -18,30 +15,27 @@ enum EnglishLevel {
 
 const formSchema = z.object({
   name: z.string({ required_error: 'Nome é obrigatório' }),
-  email: z.string().email(),
   linkedInUrl: z.string({ required_error: 'LinkedIn é obrigatório' }).url({ message: 'Formato de URL inválido.' }).startsWith('https://linkedin.com/in/', 'URL do perfil deve começar com https://linkedin.com/in/'),
   github: z.string().url({ message: 'Formato de URL inválido.' }).optional(),
-  yearsOfExperience: z.number({ required_error: 'Precisamos saber da sua experiência' }).positive({ message: 'Experiência não pode ser negativa.' }),
+  startDate: z.date({
+    required_error: "Selecione a data do seu primeiro emprego"
+  }),
   englishLevel: z.nativeEnum(EnglishLevel),
 })
 
 
-type SubscriberFormState = z.infer<typeof formSchema>
+type AboutYouFormState = z.infer<typeof formSchema>
 
-interface SubscriberFormProps {
-  email: string
-}
-export const SubscriberForm = ({ email }: SubscriberFormProps) => {
-  const form = useForm<SubscriberFormState>({
+export const AboutYouForm = () => {
+  const form = useForm<AboutYouFormState>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      email,
       linkedInUrl: 'https://linkedin.com/in/',
-      yearsOfExperience: 1
-    }
+    },
+    mode: "onBlur"
   })
 
-  const onSubmit = (values: SubscriberFormState) => {
+  const onSubmit = (values: AboutYouFormState) => {
     console.log("Submitted")
     console.log(values)
   }
@@ -52,7 +46,7 @@ export const SubscriberForm = ({ email }: SubscriberFormProps) => {
         <CustomFormField 
           name="name"
           label="Nome"
-          placeholder={"Martin Fowler"}
+          placeholder="Martin Fowler"
           description="Insira seu nome completo"
         />
         <CustomFormField
@@ -67,14 +61,8 @@ export const SubscriberForm = ({ email }: SubscriberFormProps) => {
           placeholder="https://github.com/"
           description="Insira a url completa do seu GitHub (opcional)"
         />
-        <CustomFormField
-          name="yearsOfExperience"
-          label="Ano(s) de Experiência"
-          type="number"
-          placeholder="Ex: 1"
-          description="Há quantos anos você trabalha com tecnologia?"
-        />
-        <Button type="submit">Salvar</Button>
+        <FormDateField name="startDate" label="Primeiro emprego com tecnologia" description="Tudo bem não lembrar o dia, o que importa é o mês e ano." />
+        <Button type="submit" disabled={!form.formState.isValid}>Salvar</Button>
       </form>
     </FormProvider>
   )

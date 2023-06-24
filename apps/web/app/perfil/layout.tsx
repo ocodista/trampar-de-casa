@@ -13,16 +13,20 @@ export const metadata: Metadata = {
 
 const sidebarNavItems = [
   {
-    title: "Informações Pessoais",
-    href: "/examples/forms",
+    title: "Sobre Você",
+    href: "/perfil",
   },
   {
     title: "Habilidades",
-    href: "/examples/forms/account",
+    href: "/perfil/habilidades",
   },
   {
     title: "Idiomas",
-    href: "/examples/forms/appearance",
+    href: "/perfil/idiomas",
+  },
+  {
+    title: "Preferências",
+    href: "/perfil/preferencias"
   }
 ]
 
@@ -33,7 +37,7 @@ interface SettingsLayoutProps {
 export default function SettingsLayout ({ children }: SettingsLayoutProps) {
   return (
     <>
-      <div className="space-y-6 p-10 pb-16 block">
+      <div className="container px-8 mx-auto space-y-6 pb-16 block">
         <div className="space-y-0.5">
           <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
           <p className="text-muted-foreground">
