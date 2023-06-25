@@ -1,10 +1,11 @@
-FROM node:lts-slim as builder
+FROM node:lts-slim
 
-COPY apps/ ./apps/
-WORKDIR /apps
+WORKDIR /home
+COPY . .
+COPY  ./turbo.json /home/apps/web
 
-COPY package.json yarn.lock turbo.json ./
-#COPY turbo.json ./apps
+WORKDIR /home/apps/web
+
 RUN yarn install
 RUN yarn build
 

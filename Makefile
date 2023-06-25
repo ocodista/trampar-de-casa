@@ -1,6 +1,9 @@
 build-docker:
 	docker build -t trampar_de_casa -f ./Dockerfile .
 
+run-build:
+	@docker-compose -f docker-compose.yml up -d --build
+
 run:
 	@docker-compose -f docker-compose.yml up -d
 

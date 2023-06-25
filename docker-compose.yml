@@ -1,12 +1,11 @@
 version: '3.5'
 services:
-  trampar-casa:
+  trampar-conteiner:
     build:
       context: .
       dockerfile: Dockerfile
     ports:
       - 3000:3000
-    restart: unless-stopped
 
   #URL https://localhost:9443
   portainer:

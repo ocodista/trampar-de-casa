@@ -36,6 +36,23 @@ Pretendemos usar a combinação de Vercel (conforme este [guia](https://vercel.c
 
 ---
 
+## Rodando o Projeto via Docker
+
+
+Aqui estão alguns comandos úteis que podem ser utilizados em ambientes linux:
+
+  ```
+  make run-build
+  ```
+  Esse comando inicia os contêineres definidos no arquivo docker-compose.yml, reconstruindo as imagens se necessário.
+
+  ```
+  make run
+  ```
+  Esse comando inicia os contêineres definidos no arquivo docker-compose.yml.
+
+---
+
 ## Contribuidores ✨
 Qualquer contribuição é bem-vinda!
 
