@@ -1,4 +1,4 @@
-version: '3.5'
+version: '3.8'
 services:
   trampar-conteiner:
     build:
@@ -16,6 +16,16 @@ services:
       - data:/data
       - /var/run/docker.sock:/var/run/docker.sock
     restart: unless-stopped
+
+  db:
+      image: supabase/postgres
+      ports:
+        - "54322:5432"
+      environment:
+        POSTGRES_USER: postgres
+        POSTGRES_PASSWORD: postgres
+        POSTGRES_DB: postgres
+      restart: unless-stopped
 
 volumes:
   data:
