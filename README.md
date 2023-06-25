@@ -21,7 +21,7 @@ Pretendemos usar a combinação de Vercel (conforme este [guia](https://vercel.c
 
 - [ ] **Formulário de Cadastro para Empresas**: Desenvolvimento de um formulário de cadastro de empresas para tornar o processo de postagem de vagas mais eficiente. As empresas poderão preencher seus dados, como nome, site e link do logo.
 
-- [ ] **Login de Usuários**: Adição de um sistema de login para usuários utilizando a plataforma Clerk para tornar a busca por empregos remotos ainda mais eficiente.
+- [ ] **Login de Usuários**: Adição de um sistema de login para usuários utilizando o supabase auth com magic link.
 
 ---
 
