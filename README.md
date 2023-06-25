@@ -41,7 +41,7 @@ Pretendemos usar a combinação de Vercel (conforme este [guia](https://vercel.c
 1. Após clonar o repositório localmente, a partir do seu fork, entre na pasta criada.
 2. Execute o comando `yarn`.
 3. Se você não tiver o yarn instalado, execute `npm install --global yarn`.
-4. Para executar a aplicação no ambiente de desenvolvimento, execute o comando `npm run dev`.
+4. Para executar a aplicação no ambiente de desenvolvimento, execute o comando `yarn dev`.
 5. A aplicação estará disponível em http://localhost:3000.
 
 ## Contribuidores ✨
