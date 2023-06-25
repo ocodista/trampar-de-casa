@@ -4092,6 +4092,11 @@ validate-npm-package-name@^5.0.0:
   dependencies:
     builtins "^5.0.0"
 
+vercel-email@^0.0.6:
+  version "0.0.6"
+  resolved "https://registry.yarnpkg.com/vercel-email/-/vercel-email-0.0.6.tgz#56f8b2b1474739611d05d04a5c83e023d6663ffb"
+  integrity sha512-lpELZ8/B6qyLMUOzmvZiU5evo1Hv5jfSpI/rrzny5UYfOAUKFYycraXNT+fT/cC6ewUKQVJDg8/v3LwyX3cCzA==
+
 watchpack@2.4.0:
   version "2.4.0"
   resolved "https://registry.yarnpkg.com/watchpack/-/watchpack-2.4.0.tgz#fa33032374962c78113f93c7f2fb4c54c9862a5d"
