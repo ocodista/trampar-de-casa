@@ -36,6 +36,14 @@ Pretendemos usar a combinação de Vercel (conforme este [guia](https://vercel.c
 
 ---
 
+## Como executar a aplicação localmente
+
+1. Após clonar o repositório localmente, a partir do seu fork, entre na pasta criada.
+2. Execute o comando `npm install`.
+3. Se você não tiver o yarn instalado, execute `npm install --global yarn`.
+4. Para executar a aplicação no ambiente de desenvolvimento, execute o comando `npm run dev`.
+5. A aplicação estará disponível em http://localhost:3000.
+
 ## Contribuidores ✨
 <a href="https://github.com/ocodista/trampar-de-casa/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ocodista/trampar-de-casa" />
