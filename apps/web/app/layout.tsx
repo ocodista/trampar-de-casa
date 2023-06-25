@@ -13,7 +13,7 @@ export const metadata: Metadata = {
   robots: "index, follow",
 };
 
-export default function RootLayout({ children }) {
+export default function RootLayout ({ children }) {
   return (
     <html className="scroll-smooth" lang="ptbr">
       <Script strategy="afterInteractive" data-domain="trampardecasa.com.br" src="https://plausible.io/js/script.js" />
