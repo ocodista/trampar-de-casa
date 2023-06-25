@@ -15,7 +15,7 @@ Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas 
 
 Estamos trabalhando para implementar novas funcionalidades que vão tornar o Trampar de Casa ainda melhor. Aqui estão algumas que estão em nosso roadmap:
 
-- [ ] **Cron Job para Envio de Emails**: Implementação de um Cron Job que enviará emails semanalmente (quarta-feira 11:00) para nossos usuários com as melhores oportunidades de trabalho remoto. 
+- [ ] **Cron Job para Envio de Emails**: Implementação de um Cron Job que enviará emails semanalmente (quarta-feira às 11h) para nossos usuários com as melhores oportunidades de trabalho remoto. 
 
 Pretendemos usar a combinação de Vercel (conforme este [guia](https://vercel.com/guides/how-to-setup-cron-jobs-on-vercel)), react.email para construção dos emails e Supabase para o banco de dados.
 
