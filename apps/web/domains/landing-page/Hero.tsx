@@ -257,6 +257,7 @@ export const Hero = () => {
                     <form
                       onSubmit={async (e) => {
                         e.preventDefault();
+                        setIsThrowError(true)
                         await withLoading(saveSubscriber);
                       }}
                     >
