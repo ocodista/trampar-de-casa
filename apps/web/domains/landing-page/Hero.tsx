@@ -7,7 +7,7 @@ import { z } from "zod";
 import Confetti from "react-confetti";
 import { useToast } from "../../global/components/ui/use-toast";
 import { StatusCodes } from "http-status-codes";
-import { Loading } from "app/context/Loading";
+import { LoadingContext } from "../../app/contexts/LoadingContext";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -19,7 +19,7 @@ const PADDING_X = 32;
 
 export const Hero = () => {
   const [subscribersCount, setSubscribersCount] = useState(0)
-  const { isLoading, withLoading } = useContext(Loading);
+  const { isLoading, withLoading } = useContext(LoadingContext);
 
   const {
     register,
@@ -155,7 +155,7 @@ export const Hero = () => {
           </div>
           <div className="hidden navbar-menu fixed top-0 left-0 bottom-0 w-4/6 sm:max-w-xs z-50">
             <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80" />
-            <nav className="relative z-10 px-9 pt-8 bg-white h-full overflow-y-auto">
+            <nav className="relative px-9 pt-8 bg-white h-full overflow-y-auto">
               <div className="flex flex-wrap justify-between h-full">
                 <div className="w-full">
                   <div className="flex items-center justify-between -m-2">
@@ -220,7 +220,7 @@ export const Hero = () => {
             </nav>
           </div>
         </div>
-        <div className="relative z-20 overflow-hidden pt-12 pb-28">
+        <div className="relative  overflow-hidden pt-12 pb-28">
           <div className="container px-4 mx-auto">
             <div className="flex flex-wrap xl:items-center -m-8">
               <div className="w-full md:w-1/2 p-8 xl:p-12 xl:w-1/2 md:flex">
