@@ -107,42 +107,43 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.SubscribersScalarFieldEnum = {
   id: 'id',
-  Email: 'Email',
-  Name: 'Name',
-  LinkedInUrl: 'LinkedInUrl',
-  GitHub: 'GitHub',
-  YearsOfExperience: 'YearsOfExperience',
-  Skills: 'Skills',
-  EnglishLevel: 'EnglishLevel',
-  CreatedAt: 'CreatedAt'
+  email: 'email',
+  name: 'name',
+  linkedInUrl: 'linkedInUrl',
+  gitHub: 'gitHub',
+  startedWorkingAt: 'startedWorkingAt',
+  skills: 'skills',
+  englishLevel: 'englishLevel',
+  isConfirmed: 'isConfirmed',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.RolesScalarFieldEnum = {
   id: 'id',
-  CompanyId: 'CompanyId',
-  Title: 'Title',
-  Description: 'Description',
-  Country: 'Country',
-  Language: 'Language',
-  Currency: 'Currency',
-  Salary: 'Salary',
-  CreatedAt: 'CreatedAt',
-  SentRolesId: 'SentRolesId'
+  companyId: 'companyId',
+  title: 'title',
+  description: 'description',
+  country: 'country',
+  language: 'language',
+  currency: 'currency',
+  salary: 'salary',
+  createdAt: 'createdAt',
+  sentRolesId: 'sentRolesId'
 };
 
 exports.Prisma.SentRolesScalarFieldEnum = {
   id: 'id',
-  SentAt: 'SentAt',
-  RoleId: 'RoleId'
+  sentAt: 'sentAt',
+  roleId: 'roleId'
 };
 
 exports.Prisma.CompaniesScalarFieldEnum = {
   id: 'id',
-  Name: 'Name',
-  Url: 'Url',
-  LogoUrl: 'LogoUrl',
-  CountryIcon: 'CountryIcon',
-  CreatedAt: 'CreatedAt'
+  name: 'name',
+  url: 'url',
+  logoUrl: 'logoUrl',
+  countryIcon: 'countryIcon',
+  createdAt: 'createdAt'
 };
 
 exports.Prisma.SortOrder = {

@@ -14,18 +14,19 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 
 export type SubscribersPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
   objects: {
-    SentRoles: SentRolesPayload<ExtArgs>[]
+    sentRoles: SentRolesPayload<ExtArgs>[]
   }
   scalars: $Extensions.GetResult<{
     id: string
-    Email: string
-    Name: string
-    LinkedInUrl: string
-    GitHub: string | null
-    YearsOfExperience: number
-    Skills: Prisma.JsonValue | null
-    EnglishLevel: EnglishLevel | null
-    CreatedAt: Date
+    email: string
+    name: string | null
+    linkedInUrl: string | null
+    gitHub: string | null
+    startedWorkingAt: number | null
+    skills: Prisma.JsonValue | null
+    englishLevel: EnglishLevel | null
+    isConfirmed: boolean
+    createdAt: Date
   }, ExtArgs["result"]["subscribers"]>
   composites: {}
 }
@@ -37,20 +38,20 @@ export type SubscribersPayload<ExtArgs extends $Extensions.Args = $Extensions.De
 export type Subscribers = runtime.Types.DefaultSelection<SubscribersPayload>
 export type RolesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
   objects: {
-    Company: CompaniesPayload<ExtArgs>
-    SentRoles: SentRolesPayload<ExtArgs>
+    company: CompaniesPayload<ExtArgs>
+    sentRoles: SentRolesPayload<ExtArgs>
   }
   scalars: $Extensions.GetResult<{
     id: string
-    CompanyId: string
-    Title: string
-    Description: string
-    Country: string
-    Language: string
-    Currency: string | null
-    Salary: string | null
-    CreatedAt: Date | null
-    SentRolesId: string
+    companyId: string
+    title: string
+    description: string
+    country: string
+    language: string
+    currency: string | null
+    salary: string | null
+    createdAt: Date | null
+    sentRolesId: string
   }, ExtArgs["result"]["roles"]>
   composites: {}
 }
@@ -62,13 +63,13 @@ export type RolesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultA
 export type Roles = runtime.Types.DefaultSelection<RolesPayload>
 export type SentRolesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
   objects: {
-    Role: RolesPayload<ExtArgs> | null
-    Subscribers: SubscribersPayload<ExtArgs>[]
+    role: RolesPayload<ExtArgs> | null
+    subscribers: SubscribersPayload<ExtArgs>[]
   }
   scalars: $Extensions.GetResult<{
     id: string
-    SentAt: Date | null
-    RoleId: string
+    sentAt: Date | null
+    roleId: string
   }, ExtArgs["result"]["sentRoles"]>
   composites: {}
 }
@@ -80,15 +81,15 @@ export type SentRolesPayload<ExtArgs extends $Extensions.Args = $Extensions.Defa
 export type SentRoles = runtime.Types.DefaultSelection<SentRolesPayload>
 export type CompaniesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
   objects: {
-    Roles: RolesPayload<ExtArgs>[]
+    roles: RolesPayload<ExtArgs>[]
   }
   scalars: $Extensions.GetResult<{
     id: string
-    Name: string
-    Url: string
-    LogoUrl: string | null
-    CountryIcon: string
-    CreatedAt: Date | null
+    name: string
+    url: string
+    logoUrl: string | null
+    countryIcon: string
+    createdAt: Date | null
   }, ExtArgs["result"]["companies"]>
   composites: {}
 }
@@ -1285,11 +1286,11 @@ export namespace Prisma {
 
 
   export type SubscribersCountOutputType = {
-    SentRoles: number
+    sentRoles: number
   }
 
   export type SubscribersCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    SentRoles?: boolean | SubscribersCountOutputTypeCountSentRolesArgs
+    sentRoles?: boolean | SubscribersCountOutputTypeCountSentRolesArgs
   }
 
   // Custom InputTypes
@@ -1320,11 +1321,11 @@ export namespace Prisma {
 
 
   export type SentRolesCountOutputType = {
-    Subscribers: number
+    subscribers: number
   }
 
   export type SentRolesCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    Subscribers?: boolean | SentRolesCountOutputTypeCountSubscribersArgs
+    subscribers?: boolean | SentRolesCountOutputTypeCountSubscribersArgs
   }
 
   // Custom InputTypes
@@ -1355,11 +1356,11 @@ export namespace Prisma {
 
 
   export type CompaniesCountOutputType = {
-    Roles: number
+    roles: number
   }
 
   export type CompaniesCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    Roles?: boolean | CompaniesCountOutputTypeCountRolesArgs
+    roles?: boolean | CompaniesCountOutputTypeCountRolesArgs
   }
 
   // Custom InputTypes
@@ -1402,89 +1403,95 @@ export namespace Prisma {
   }
 
   export type SubscribersAvgAggregateOutputType = {
-    YearsOfExperience: number | null
+    startedWorkingAt: number | null
   }
 
   export type SubscribersSumAggregateOutputType = {
-    YearsOfExperience: number | null
+    startedWorkingAt: number | null
   }
 
   export type SubscribersMinAggregateOutputType = {
     id: string | null
-    Email: string | null
-    Name: string | null
-    LinkedInUrl: string | null
-    GitHub: string | null
-    YearsOfExperience: number | null
-    EnglishLevel: EnglishLevel | null
-    CreatedAt: Date | null
+    email: string | null
+    name: string | null
+    linkedInUrl: string | null
+    gitHub: string | null
+    startedWorkingAt: number | null
+    englishLevel: EnglishLevel | null
+    isConfirmed: boolean | null
+    createdAt: Date | null
   }
 
   export type SubscribersMaxAggregateOutputType = {
     id: string | null
-    Email: string | null
-    Name: string | null
-    LinkedInUrl: string | null
-    GitHub: string | null
-    YearsOfExperience: number | null
-    EnglishLevel: EnglishLevel | null
-    CreatedAt: Date | null
+    email: string | null
+    name: string | null
+    linkedInUrl: string | null
+    gitHub: string | null
+    startedWorkingAt: number | null
+    englishLevel: EnglishLevel | null
+    isConfirmed: boolean | null
+    createdAt: Date | null
   }
 
   export type SubscribersCountAggregateOutputType = {
     id: number
-    Email: number
-    Name: number
-    LinkedInUrl: number
-    GitHub: number
-    YearsOfExperience: number
-    Skills: number
-    EnglishLevel: number
-    CreatedAt: number
+    email: number
+    name: number
+    linkedInUrl: number
+    gitHub: number
+    startedWorkingAt: number
+    skills: number
+    englishLevel: number
+    isConfirmed: number
+    createdAt: number
     _all: number
   }
 
 
   export type SubscribersAvgAggregateInputType = {
-    YearsOfExperience?: true
+    startedWorkingAt?: true
   }
 
   export type SubscribersSumAggregateInputType = {
-    YearsOfExperience?: true
+    startedWorkingAt?: true
   }
 
   export type SubscribersMinAggregateInputType = {
     id?: true
-    Email?: true
-    Name?: true
-    LinkedInUrl?: true
-    GitHub?: true
-    YearsOfExperience?: true
-    EnglishLevel?: true
-    CreatedAt?: true
+    email?: true
+    name?: true
+    linkedInUrl?: true
+    gitHub?: true
+    startedWorkingAt?: true
+    englishLevel?: true
+    isConfirmed?: true
+    createdAt?: true
   }
 
   export type SubscribersMaxAggregateInputType = {
     id?: true
-    Email?: true
-    Name?: true
-    LinkedInUrl?: true
-    GitHub?: true
-    YearsOfExperience?: true
-    EnglishLevel?: true
-    CreatedAt?: true
+    email?: true
+    name?: true
+    linkedInUrl?: true
+    gitHub?: true
+    startedWorkingAt?: true
+    englishLevel?: true
+    isConfirmed?: true
+    createdAt?: true
   }
 
   export type SubscribersCountAggregateInputType = {
     id?: true
-    Email?: true
-    Name?: true
-    LinkedInUrl?: true
-    GitHub?: true
-    YearsOfExperience?: true
-    Skills?: true
-    EnglishLevel?: true
-    CreatedAt?: true
+    email?: true
+    name?: true
+    linkedInUrl?: true
+    gitHub?: true
+    startedWorkingAt?: true
+    skills?: true
+    englishLevel?: true
+    isConfirmed?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -1577,14 +1584,15 @@ export namespace Prisma {
 
   export type SubscribersGroupByOutputType = {
     id: string
-    Email: string
-    Name: string
-    LinkedInUrl: string
-    GitHub: string | null
-    YearsOfExperience: number
-    Skills: JsonValue | null
-    EnglishLevel: EnglishLevel | null
-    CreatedAt: Date
+    email: string
+    name: string | null
+    linkedInUrl: string | null
+    gitHub: string | null
+    startedWorkingAt: number | null
+    skills: JsonValue | null
+    englishLevel: EnglishLevel | null
+    isConfirmed: boolean
+    createdAt: Date
     _count: SubscribersCountAggregateOutputType | null
     _avg: SubscribersAvgAggregateOutputType | null
     _sum: SubscribersSumAggregateOutputType | null
@@ -1608,32 +1616,34 @@ export namespace Prisma {
 
   export type SubscribersSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    Email?: boolean
-    Name?: boolean
-    LinkedInUrl?: boolean
-    GitHub?: boolean
-    YearsOfExperience?: boolean
-    Skills?: boolean
-    EnglishLevel?: boolean
-    CreatedAt?: boolean
-    SentRoles?: boolean | Subscribers$SentRolesArgs<ExtArgs>
+    email?: boolean
+    name?: boolean
+    linkedInUrl?: boolean
+    gitHub?: boolean
+    startedWorkingAt?: boolean
+    skills?: boolean
+    englishLevel?: boolean
+    isConfirmed?: boolean
+    createdAt?: boolean
+    sentRoles?: boolean | Subscribers$sentRolesArgs<ExtArgs>
     _count?: boolean | SubscribersCountOutputTypeArgs<ExtArgs>
   }, ExtArgs["result"]["subscribers"]>
 
   export type SubscribersSelectScalar = {
     id?: boolean
-    Email?: boolean
-    Name?: boolean
-    LinkedInUrl?: boolean
-    GitHub?: boolean
-    YearsOfExperience?: boolean
-    Skills?: boolean
-    EnglishLevel?: boolean
-    CreatedAt?: boolean
+    email?: boolean
+    name?: boolean
+    linkedInUrl?: boolean
+    gitHub?: boolean
+    startedWorkingAt?: boolean
+    skills?: boolean
+    englishLevel?: boolean
+    isConfirmed?: boolean
+    createdAt?: boolean
   }
 
   export type SubscribersInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    SentRoles?: boolean | Subscribers$SentRolesArgs<ExtArgs>
+    sentRoles?: boolean | Subscribers$sentRolesArgs<ExtArgs>
     _count?: boolean | SubscribersCountOutputTypeArgs<ExtArgs>
   }
 
@@ -2007,7 +2017,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    SentRoles<T extends Subscribers$SentRolesArgs<ExtArgs> = {}>(args?: Subset<T, Subscribers$SentRolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findMany', never>| Null>;
+    sentRoles<T extends Subscribers$sentRolesArgs<ExtArgs> = {}>(args?: Subset<T, Subscribers$sentRolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -2365,9 +2375,9 @@ export namespace Prisma {
 
 
   /**
-   * Subscribers.SentRoles
+   * Subscribers.sentRoles
    */
-  export type Subscribers$SentRolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type Subscribers$sentRolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the SentRoles
      */
@@ -2414,82 +2424,82 @@ export namespace Prisma {
 
   export type RolesMinAggregateOutputType = {
     id: string | null
-    CompanyId: string | null
-    Title: string | null
-    Description: string | null
-    Country: string | null
-    Language: string | null
-    Currency: string | null
-    Salary: string | null
-    CreatedAt: Date | null
-    SentRolesId: string | null
+    companyId: string | null
+    title: string | null
+    description: string | null
+    country: string | null
+    language: string | null
+    currency: string | null
+    salary: string | null
+    createdAt: Date | null
+    sentRolesId: string | null
   }
 
   export type RolesMaxAggregateOutputType = {
     id: string | null
-    CompanyId: string | null
-    Title: string | null
-    Description: string | null
-    Country: string | null
-    Language: string | null
-    Currency: string | null
-    Salary: string | null
-    CreatedAt: Date | null
-    SentRolesId: string | null
+    companyId: string | null
+    title: string | null
+    description: string | null
+    country: string | null
+    language: string | null
+    currency: string | null
+    salary: string | null
+    createdAt: Date | null
+    sentRolesId: string | null
   }
 
   export type RolesCountAggregateOutputType = {
     id: number
-    CompanyId: number
-    Title: number
-    Description: number
-    Country: number
-    Language: number
-    Currency: number
-    Salary: number
-    CreatedAt: number
-    SentRolesId: number
+    companyId: number
+    title: number
+    description: number
+    country: number
+    language: number
+    currency: number
+    salary: number
+    createdAt: number
+    sentRolesId: number
     _all: number
   }
 
 
   export type RolesMinAggregateInputType = {
     id?: true
-    CompanyId?: true
-    Title?: true
-    Description?: true
-    Country?: true
-    Language?: true
-    Currency?: true
-    Salary?: true
-    CreatedAt?: true
-    SentRolesId?: true
+    companyId?: true
+    title?: true
+    description?: true
+    country?: true
+    language?: true
+    currency?: true
+    salary?: true
+    createdAt?: true
+    sentRolesId?: true
   }
 
   export type RolesMaxAggregateInputType = {
     id?: true
-    CompanyId?: true
-    Title?: true
-    Description?: true
-    Country?: true
-    Language?: true
-    Currency?: true
-    Salary?: true
-    CreatedAt?: true
-    SentRolesId?: true
+    companyId?: true
+    title?: true
+    description?: true
+    country?: true
+    language?: true
+    currency?: true
+    salary?: true
+    createdAt?: true
+    sentRolesId?: true
   }
 
   export type RolesCountAggregateInputType = {
     id?: true
-    CompanyId?: true
-    Title?: true
-    Description?: true
-    Country?: true
-    Language?: true
-    Currency?: true
-    Salary?: true
-    CreatedAt?: true
-    SentRolesId?: true
+    companyId?: true
+    title?: true
+    description?: true
+    country?: true
+    language?: true
+    currency?: true
+    salary?: true
+    createdAt?: true
+    sentRolesId?: true
     _all?: true
   }
 
@@ -2568,15 +2578,15 @@ export namespace Prisma {
 
   export type RolesGroupByOutputType = {
     id: string
-    CompanyId: string
-    Title: string
-    Description: string
-    Country: string
-    Language: string
-    Currency: string | null
-    Salary: string | null
-    CreatedAt: Date | null
-    SentRolesId: string
+    companyId: string
+    title: string
+    description: string
+    country: string
+    language: string
+    currency: string | null
+    salary: string | null
+    createdAt: Date | null
+    sentRolesId: string
     _count: RolesCountAggregateOutputType | null
     _min: RolesMinAggregateOutputType | null
     _max: RolesMaxAggregateOutputType | null
@@ -2598,35 +2608,35 @@ export namespace Prisma {
 
   export type RolesSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    CompanyId?: boolean
-    Title?: boolean
-    Description?: boolean
-    Country?: boolean
-    Language?: boolean
-    Currency?: boolean
-    Salary?: boolean
-    CreatedAt?: boolean
-    SentRolesId?: boolean
-    Company?: boolean | CompaniesArgs<ExtArgs>
-    SentRoles?: boolean | SentRolesArgs<ExtArgs>
+    companyId?: boolean
+    title?: boolean
+    description?: boolean
+    country?: boolean
+    language?: boolean
+    currency?: boolean
+    salary?: boolean
+    createdAt?: boolean
+    sentRolesId?: boolean
+    company?: boolean | CompaniesArgs<ExtArgs>
+    sentRoles?: boolean | SentRolesArgs<ExtArgs>
   }, ExtArgs["result"]["roles"]>
 
   export type RolesSelectScalar = {
     id?: boolean
-    CompanyId?: boolean
-    Title?: boolean
-    Description?: boolean
-    Country?: boolean
-    Language?: boolean
-    Currency?: boolean
-    Salary?: boolean
-    CreatedAt?: boolean
-    SentRolesId?: boolean
+    companyId?: boolean
+    title?: boolean
+    description?: boolean
+    country?: boolean
+    language?: boolean
+    currency?: boolean
+    salary?: boolean
+    createdAt?: boolean
+    sentRolesId?: boolean
   }
 
   export type RolesInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    Company?: boolean | CompaniesArgs<ExtArgs>
-    SentRoles?: boolean | SentRolesArgs<ExtArgs>
+    company?: boolean | CompaniesArgs<ExtArgs>
+    sentRoles?: boolean | SentRolesArgs<ExtArgs>
   }
 
 
@@ -2999,9 +3009,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    Company<T extends CompaniesArgs<ExtArgs> = {}>(args?: Subset<T, CompaniesArgs<ExtArgs>>): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
+    company<T extends CompaniesArgs<ExtArgs> = {}>(args?: Subset<T, CompaniesArgs<ExtArgs>>): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    SentRoles<T extends SentRolesArgs<ExtArgs> = {}>(args?: Subset<T, SentRolesArgs<ExtArgs>>): Prisma__SentRolesClient<$Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
+    sentRoles<T extends SentRolesArgs<ExtArgs> = {}>(args?: Subset<T, SentRolesArgs<ExtArgs>>): Prisma__SentRolesClient<$Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -3387,40 +3397,40 @@ export namespace Prisma {
 
   export type SentRolesMinAggregateOutputType = {
     id: string | null
-    SentAt: Date | null
-    RoleId: string | null
+    sentAt: Date | null
+    roleId: string | null
   }
 
   export type SentRolesMaxAggregateOutputType = {
     id: string | null
-    SentAt: Date | null
-    RoleId: string | null
+    sentAt: Date | null
+    roleId: string | null
   }
 
   export type SentRolesCountAggregateOutputType = {
     id: number
-    SentAt: number
-    RoleId: number
+    sentAt: number
+    roleId: number
     _all: number
   }
 
 
   export type SentRolesMinAggregateInputType = {
     id?: true
-    SentAt?: true
-    RoleId?: true
+    sentAt?: true
+    roleId?: true
   }
 
   export type SentRolesMaxAggregateInputType = {
     id?: true
-    SentAt?: true
-    RoleId?: true
+    sentAt?: true
+    roleId?: true
   }
 
   export type SentRolesCountAggregateInputType = {
     id?: true
-    SentAt?: true
-    RoleId?: true
+    sentAt?: true
+    roleId?: true
     _all?: true
   }
 
@@ -3499,8 +3509,8 @@ export namespace Prisma {
 
   export type SentRolesGroupByOutputType = {
     id: string
-    SentAt: Date | null
-    RoleId: string
+    sentAt: Date | null
+    roleId: string
     _count: SentRolesCountAggregateOutputType | null
     _min: SentRolesMinAggregateOutputType | null
     _max: SentRolesMaxAggregateOutputType | null
@@ -3522,22 +3532,22 @@ export namespace Prisma {
 
   export type SentRolesSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    SentAt?: boolean
-    RoleId?: boolean
-    Role?: boolean | RolesArgs<ExtArgs>
-    Subscribers?: boolean | SentRoles$SubscribersArgs<ExtArgs>
+    sentAt?: boolean
+    roleId?: boolean
+    role?: boolean | RolesArgs<ExtArgs>
+    subscribers?: boolean | SentRoles$subscribersArgs<ExtArgs>
     _count?: boolean | SentRolesCountOutputTypeArgs<ExtArgs>
   }, ExtArgs["result"]["sentRoles"]>
 
   export type SentRolesSelectScalar = {
     id?: boolean
-    SentAt?: boolean
-    RoleId?: boolean
+    sentAt?: boolean
+    roleId?: boolean
   }
 
   export type SentRolesInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    Role?: boolean | RolesArgs<ExtArgs>
-    Subscribers?: boolean | SentRoles$SubscribersArgs<ExtArgs>
+    role?: boolean | RolesArgs<ExtArgs>
+    subscribers?: boolean | SentRoles$subscribersArgs<ExtArgs>
     _count?: boolean | SentRolesCountOutputTypeArgs<ExtArgs>
   }
 
@@ -3911,9 +3921,9 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    Role<T extends RolesArgs<ExtArgs> = {}>(args?: Subset<T, RolesArgs<ExtArgs>>): Prisma__RolesClient<$Types.GetResult<RolesPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
+    role<T extends RolesArgs<ExtArgs> = {}>(args?: Subset<T, RolesArgs<ExtArgs>>): Prisma__RolesClient<$Types.GetResult<RolesPayload<ExtArgs>, T, 'findUnique', never> | Null, never, ExtArgs>;
 
-    Subscribers<T extends SentRoles$SubscribersArgs<ExtArgs> = {}>(args?: Subset<T, SentRoles$SubscribersArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SubscribersPayload<ExtArgs>, T, 'findMany', never>| Null>;
+    subscribers<T extends SentRoles$subscribersArgs<ExtArgs> = {}>(args?: Subset<T, SentRoles$subscribersArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SubscribersPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -4271,9 +4281,9 @@ export namespace Prisma {
 
 
   /**
-   * SentRoles.Subscribers
+   * SentRoles.subscribers
    */
-  export type SentRoles$SubscribersArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type SentRoles$subscribersArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Subscribers
      */
@@ -4320,58 +4330,58 @@ export namespace Prisma {
 
   export type CompaniesMinAggregateOutputType = {
     id: string | null
-    Name: string | null
-    Url: string | null
-    LogoUrl: string | null
-    CountryIcon: string | null
-    CreatedAt: Date | null
+    name: string | null
+    url: string | null
+    logoUrl: string | null
+    countryIcon: string | null
+    createdAt: Date | null
   }
 
   export type CompaniesMaxAggregateOutputType = {
     id: string | null
-    Name: string | null
-    Url: string | null
-    LogoUrl: string | null
-    CountryIcon: string | null
-    CreatedAt: Date | null
+    name: string | null
+    url: string | null
+    logoUrl: string | null
+    countryIcon: string | null
+    createdAt: Date | null
   }
 
   export type CompaniesCountAggregateOutputType = {
     id: number
-    Name: number
-    Url: number
-    LogoUrl: number
-    CountryIcon: number
-    CreatedAt: number
+    name: number
+    url: number
+    logoUrl: number
+    countryIcon: number
+    createdAt: number
     _all: number
   }
 
 
   export type CompaniesMinAggregateInputType = {
     id?: true
-    Name?: true
-    Url?: true
-    LogoUrl?: true
-    CountryIcon?: true
-    CreatedAt?: true
+    name?: true
+    url?: true
+    logoUrl?: true
+    countryIcon?: true
+    createdAt?: true
   }
 
   export type CompaniesMaxAggregateInputType = {
     id?: true
-    Name?: true
-    Url?: true
-    LogoUrl?: true
-    CountryIcon?: true
-    CreatedAt?: true
+    name?: true
+    url?: true
+    logoUrl?: true
+    countryIcon?: true
+    createdAt?: true
   }
 
   export type CompaniesCountAggregateInputType = {
     id?: true
-    Name?: true
-    Url?: true
-    LogoUrl?: true
-    CountryIcon?: true
-    CreatedAt?: true
+    name?: true
+    url?: true
+    logoUrl?: true
+    countryIcon?: true
+    createdAt?: true
     _all?: true
   }
 
@@ -4450,11 +4460,11 @@ export namespace Prisma {
 
   export type CompaniesGroupByOutputType = {
     id: string
-    Name: string
-    Url: string
-    LogoUrl: string | null
-    CountryIcon: string
-    CreatedAt: Date | null
+    name: string
+    url: string
+    logoUrl: string | null
+    countryIcon: string
+    createdAt: Date | null
     _count: CompaniesCountAggregateOutputType | null
     _min: CompaniesMinAggregateOutputType | null
     _max: CompaniesMaxAggregateOutputType | null
@@ -4476,26 +4486,26 @@ export namespace Prisma {
 
   export type CompaniesSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
-    Name?: boolean
-    Url?: boolean
-    LogoUrl?: boolean
-    CountryIcon?: boolean
-    CreatedAt?: boolean
-    Roles?: boolean | Companies$RolesArgs<ExtArgs>
+    name?: boolean
+    url?: boolean
+    logoUrl?: boolean
+    countryIcon?: boolean
+    createdAt?: boolean
+    roles?: boolean | Companies$rolesArgs<ExtArgs>
     _count?: boolean | CompaniesCountOutputTypeArgs<ExtArgs>
   }, ExtArgs["result"]["companies"]>
 
   export type CompaniesSelectScalar = {
     id?: boolean
-    Name?: boolean
-    Url?: boolean
-    LogoUrl?: boolean
-    CountryIcon?: boolean
-    CreatedAt?: boolean
+    name?: boolean
+    url?: boolean
+    logoUrl?: boolean
+    countryIcon?: boolean
+    createdAt?: boolean
   }
 
   export type CompaniesInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    Roles?: boolean | Companies$RolesArgs<ExtArgs>
+    roles?: boolean | Companies$rolesArgs<ExtArgs>
     _count?: boolean | CompaniesCountOutputTypeArgs<ExtArgs>
   }
 
@@ -4869,7 +4879,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    Roles<T extends Companies$RolesArgs<ExtArgs> = {}>(args?: Subset<T, Companies$RolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<RolesPayload<ExtArgs>, T, 'findMany', never>| Null>;
+    roles<T extends Companies$rolesArgs<ExtArgs> = {}>(args?: Subset<T, Companies$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<RolesPayload<ExtArgs>, T, 'findMany', never>| Null>;
 
     private get _document();
     /**
@@ -5227,9 +5237,9 @@ export namespace Prisma {
 
 
   /**
-   * Companies.Roles
+   * Companies.roles
    */
-  export type Companies$RolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  export type Companies$rolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     /**
      * Select specific fields to fetch from the Roles
      */
@@ -5279,14 +5289,15 @@ export namespace Prisma {
 
   export const SubscribersScalarFieldEnum: {
     id: 'id',
-    Email: 'Email',
-    Name: 'Name',
-    LinkedInUrl: 'LinkedInUrl',
-    GitHub: 'GitHub',
-    YearsOfExperience: 'YearsOfExperience',
-    Skills: 'Skills',
-    EnglishLevel: 'EnglishLevel',
-    CreatedAt: 'CreatedAt'
+    email: 'email',
+    name: 'name',
+    linkedInUrl: 'linkedInUrl',
+    gitHub: 'gitHub',
+    startedWorkingAt: 'startedWorkingAt',
+    skills: 'skills',
+    englishLevel: 'englishLevel',
+    isConfirmed: 'isConfirmed',
+    createdAt: 'createdAt'
   };
 
   export type SubscribersScalarFieldEnum = (typeof SubscribersScalarFieldEnum)[keyof typeof SubscribersScalarFieldEnum]
@@ -5294,15 +5305,15 @@ export namespace Prisma {
 
   export const RolesScalarFieldEnum: {
     id: 'id',
-    CompanyId: 'CompanyId',
-    Title: 'Title',
-    Description: 'Description',
-    Country: 'Country',
-    Language: 'Language',
-    Currency: 'Currency',
-    Salary: 'Salary',
-    CreatedAt: 'CreatedAt',
-    SentRolesId: 'SentRolesId'
+    companyId: 'companyId',
+    title: 'title',
+    description: 'description',
+    country: 'country',
+    language: 'language',
+    currency: 'currency',
+    salary: 'salary',
+    createdAt: 'createdAt',
+    sentRolesId: 'sentRolesId'
   };
 
   export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
@@ -5310,8 +5321,8 @@ export namespace Prisma {
 
   export const SentRolesScalarFieldEnum: {
     id: 'id',
-    SentAt: 'SentAt',
-    RoleId: 'RoleId'
+    sentAt: 'sentAt',
+    roleId: 'roleId'
   };
 
   export type SentRolesScalarFieldEnum = (typeof SentRolesScalarFieldEnum)[keyof typeof SentRolesScalarFieldEnum]
@@ -5319,11 +5330,11 @@ export namespace Prisma {
 
   export const CompaniesScalarFieldEnum: {
     id: 'id',
-    Name: 'Name',
-    Url: 'Url',
-    LogoUrl: 'LogoUrl',
-    CountryIcon: 'CountryIcon',
-    CreatedAt: 'CreatedAt'
+    name: 'name',
+    url: 'url',
+    logoUrl: 'logoUrl',
+    countryIcon: 'countryIcon',
+    createdAt: 'createdAt'
   };
 
   export type CompaniesScalarFieldEnum = (typeof CompaniesScalarFieldEnum)[keyof typeof CompaniesScalarFieldEnum]
@@ -5379,46 +5390,49 @@ export namespace Prisma {
     AND?: Enumerable<SubscribersWhereInput>
     OR?: Enumerable<SubscribersWhereInput>
     NOT?: Enumerable<SubscribersWhereInput>
-    id?: StringFilter | string
-    Email?: StringFilter | string
-    Name?: StringFilter | string
-    LinkedInUrl?: StringFilter | string
-    GitHub?: StringNullableFilter | string | null
-    YearsOfExperience?: IntFilter | number
-    Skills?: JsonNullableFilter
-    EnglishLevel?: EnumEnglishLevelNullableFilter | EnglishLevel | null
-    CreatedAt?: DateTimeFilter | Date | string
-    SentRoles?: SentRolesListRelationFilter
+    id?: UuidFilter | string
+    email?: StringFilter | string
+    name?: StringNullableFilter | string | null
+    linkedInUrl?: StringNullableFilter | string | null
+    gitHub?: StringNullableFilter | string | null
+    startedWorkingAt?: IntNullableFilter | number | null
+    skills?: JsonNullableFilter
+    englishLevel?: EnumEnglishLevelNullableFilter | EnglishLevel | null
+    isConfirmed?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
+    sentRoles?: SentRolesListRelationFilter
   }
 
   export type SubscribersOrderByWithRelationInput = {
     id?: SortOrder
-    Email?: SortOrder
-    Name?: SortOrder
-    LinkedInUrl?: SortOrder
-    GitHub?: SortOrderInput | SortOrder
-    YearsOfExperience?: SortOrder
-    Skills?: SortOrderInput | SortOrder
-    EnglishLevel?: SortOrderInput | SortOrder
-    CreatedAt?: SortOrder
-    SentRoles?: SentRolesOrderByRelationAggregateInput
+    email?: SortOrder
+    name?: SortOrderInput | SortOrder
+    linkedInUrl?: SortOrderInput | SortOrder
+    gitHub?: SortOrderInput | SortOrder
+    startedWorkingAt?: SortOrderInput | SortOrder
+    skills?: SortOrderInput | SortOrder
+    englishLevel?: SortOrderInput | SortOrder
+    isConfirmed?: SortOrder
+    createdAt?: SortOrder
+    sentRoles?: SentRolesOrderByRelationAggregateInput
   }
 
   export type SubscribersWhereUniqueInput = {
     id?: string
-    Email?: string
+    email?: string
   }
 
   export type SubscribersOrderByWithAggregationInput = {
     id?: SortOrder
-    Email?: SortOrder
-    Name?: SortOrder
-    LinkedInUrl?: SortOrder
-    GitHub?: SortOrderInput | SortOrder
-    YearsOfExperience?: SortOrder
-    Skills?: SortOrderInput | SortOrder
-    EnglishLevel?: SortOrderInput | SortOrder
-    CreatedAt?: SortOrder
+    email?: SortOrder
+    name?: SortOrderInput | SortOrder
+    linkedInUrl?: SortOrderInput | SortOrder
+    gitHub?: SortOrderInput | SortOrder
+    startedWorkingAt?: SortOrderInput | SortOrder
+    skills?: SortOrderInput | SortOrder
+    englishLevel?: SortOrderInput | SortOrder
+    isConfirmed?: SortOrder
+    createdAt?: SortOrder
     _count?: SubscribersCountOrderByAggregateInput
     _avg?: SubscribersAvgOrderByAggregateInput
     _max?: SubscribersMaxOrderByAggregateInput
@@ -5430,15 +5444,16 @@ export namespace Prisma {
     AND?: Enumerable<SubscribersScalarWhereWithAggregatesInput>
     OR?: Enumerable<SubscribersScalarWhereWithAggregatesInput>
     NOT?: Enumerable<SubscribersScalarWhereWithAggregatesInput>
-    id?: StringWithAggregatesFilter | string
-    Email?: StringWithAggregatesFilter | string
-    Name?: StringWithAggregatesFilter | string
-    LinkedInUrl?: StringWithAggregatesFilter | string
-    GitHub?: StringNullableWithAggregatesFilter | string | null
-    YearsOfExperience?: IntWithAggregatesFilter | number
-    Skills?: JsonNullableWithAggregatesFilter
-    EnglishLevel?: EnumEnglishLevelNullableWithAggregatesFilter | EnglishLevel | null
-    CreatedAt?: DateTimeWithAggregatesFilter | Date | string
+    id?: UuidWithAggregatesFilter | string
+    email?: StringWithAggregatesFilter | string
+    name?: StringNullableWithAggregatesFilter | string | null
+    linkedInUrl?: StringNullableWithAggregatesFilter | string | null
+    gitHub?: StringNullableWithAggregatesFilter | string | null
+    startedWorkingAt?: IntNullableWithAggregatesFilter | number | null
+    skills?: JsonNullableWithAggregatesFilter
+    englishLevel?: EnumEnglishLevelNullableWithAggregatesFilter | EnglishLevel | null
+    isConfirmed?: BoolWithAggregatesFilter | boolean
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type RolesWhereInput = {
@@ -5446,50 +5461,50 @@ export namespace Prisma {
     OR?: Enumerable<RolesWhereInput>
     NOT?: Enumerable<RolesWhereInput>
     id?: StringFilter | string
-    CompanyId?: StringFilter | string
-    Title?: StringFilter | string
-    Description?: StringFilter | string
-    Country?: StringFilter | string
-    Language?: StringFilter | string
-    Currency?: StringNullableFilter | string | null
-    Salary?: StringNullableFilter | string | null
-    CreatedAt?: DateTimeNullableFilter | Date | string | null
-    SentRolesId?: StringFilter | string
-    Company?: XOR<CompaniesRelationFilter, CompaniesWhereInput>
-    SentRoles?: XOR<SentRolesRelationFilter, SentRolesWhereInput>
+    companyId?: StringFilter | string
+    title?: StringFilter | string
+    description?: StringFilter | string
+    country?: StringFilter | string
+    language?: StringFilter | string
+    currency?: StringNullableFilter | string | null
+    salary?: StringNullableFilter | string | null
+    createdAt?: DateTimeNullableFilter | Date | string | null
+    sentRolesId?: StringFilter | string
+    company?: XOR<CompaniesRelationFilter, CompaniesWhereInput>
+    sentRoles?: XOR<SentRolesRelationFilter, SentRolesWhereInput>
   }
 
   export type RolesOrderByWithRelationInput = {
     id?: SortOrder
-    CompanyId?: SortOrder
-    Title?: SortOrder
-    Description?: SortOrder
-    Country?: SortOrder
-    Language?: SortOrder
-    Currency?: SortOrderInput | SortOrder
-    Salary?: SortOrderInput | SortOrder
-    CreatedAt?: SortOrderInput | SortOrder
-    SentRolesId?: SortOrder
-    Company?: CompaniesOrderByWithRelationInput
-    SentRoles?: SentRolesOrderByWithRelationInput
+    companyId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    country?: SortOrder
+    language?: SortOrder
+    currency?: SortOrderInput | SortOrder
+    salary?: SortOrderInput | SortOrder
+    createdAt?: SortOrderInput | SortOrder
+    sentRolesId?: SortOrder
+    company?: CompaniesOrderByWithRelationInput
+    sentRoles?: SentRolesOrderByWithRelationInput
   }
 
   export type RolesWhereUniqueInput = {
     id?: string
-    SentRolesId?: string
+    sentRolesId?: string
   }
 
   export type RolesOrderByWithAggregationInput = {
     id?: SortOrder
-    CompanyId?: SortOrder
-    Title?: SortOrder
-    Description?: SortOrder
-    Country?: SortOrder
-    Language?: SortOrder
-    Currency?: SortOrderInput | SortOrder
-    Salary?: SortOrderInput | SortOrder
-    CreatedAt?: SortOrderInput | SortOrder
-    SentRolesId?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    country?: SortOrder
+    language?: SortOrder
+    currency?: SortOrderInput | SortOrder
+    salary?: SortOrderInput | SortOrder
+    createdAt?: SortOrderInput | SortOrder
+    sentRolesId?: SortOrder
     _count?: RolesCountOrderByAggregateInput
     _max?: RolesMaxOrderByAggregateInput
     _min?: RolesMinOrderByAggregateInput
@@ -5500,15 +5515,15 @@ export namespace Prisma {
     OR?: Enumerable<RolesScalarWhereWithAggregatesInput>
     NOT?: Enumerable<RolesScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    CompanyId?: StringWithAggregatesFilter | string
-    Title?: StringWithAggregatesFilter | string
-    Description?: StringWithAggregatesFilter | string
-    Country?: StringWithAggregatesFilter | string
-    Language?: StringWithAggregatesFilter | string
-    Currency?: StringNullableWithAggregatesFilter | string | null
-    Salary?: StringNullableWithAggregatesFilter | string | null
-    CreatedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    SentRolesId?: StringWithAggregatesFilter | string
+    companyId?: StringWithAggregatesFilter | string
+    title?: StringWithAggregatesFilter | string
+    description?: StringWithAggregatesFilter | string
+    country?: StringWithAggregatesFilter | string
+    language?: StringWithAggregatesFilter | string
+    currency?: StringNullableWithAggregatesFilter | string | null
+    salary?: StringNullableWithAggregatesFilter | string | null
+    createdAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    sentRolesId?: StringWithAggregatesFilter | string
   }
 
   export type SentRolesWhereInput = {
@@ -5516,18 +5531,18 @@ export namespace Prisma {
     OR?: Enumerable<SentRolesWhereInput>
     NOT?: Enumerable<SentRolesWhereInput>
     id?: StringFilter | string
-    SentAt?: DateTimeNullableFilter | Date | string | null
-    RoleId?: StringFilter | string
-    Role?: XOR<RolesRelationFilter, RolesWhereInput> | null
-    Subscribers?: SubscribersListRelationFilter
+    sentAt?: DateTimeNullableFilter | Date | string | null
+    roleId?: StringFilter | string
+    role?: XOR<RolesRelationFilter, RolesWhereInput> | null
+    subscribers?: SubscribersListRelationFilter
   }
 
   export type SentRolesOrderByWithRelationInput = {
     id?: SortOrder
-    SentAt?: SortOrderInput | SortOrder
-    RoleId?: SortOrder
-    Role?: RolesOrderByWithRelationInput
-    Subscribers?: SubscribersOrderByRelationAggregateInput
+    sentAt?: SortOrderInput | SortOrder
+    roleId?: SortOrder
+    role?: RolesOrderByWithRelationInput
+    subscribers?: SubscribersOrderByRelationAggregateInput
   }
 
   export type SentRolesWhereUniqueInput = {
@@ -5536,8 +5551,8 @@ export namespace Prisma {
 
   export type SentRolesOrderByWithAggregationInput = {
     id?: SortOrder
-    SentAt?: SortOrderInput | SortOrder
-    RoleId?: SortOrder
+    sentAt?: SortOrderInput | SortOrder
+    roleId?: SortOrder
     _count?: SentRolesCountOrderByAggregateInput
     _max?: SentRolesMaxOrderByAggregateInput
     _min?: SentRolesMinOrderByAggregateInput
@@ -5548,8 +5563,8 @@ export namespace Prisma {
     OR?: Enumerable<SentRolesScalarWhereWithAggregatesInput>
     NOT?: Enumerable<SentRolesScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    SentAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    RoleId?: StringWithAggregatesFilter | string
+    sentAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    roleId?: StringWithAggregatesFilter | string
   }
 
   export type CompaniesWhereInput = {
@@ -5557,22 +5572,22 @@ export namespace Prisma {
     OR?: Enumerable<CompaniesWhereInput>
     NOT?: Enumerable<CompaniesWhereInput>
     id?: StringFilter | string
-    Name?: StringFilter | string
-    Url?: StringFilter | string
-    LogoUrl?: StringNullableFilter | string | null
-    CountryIcon?: StringFilter | string
-    CreatedAt?: DateTimeNullableFilter | Date | string | null
-    Roles?: RolesListRelationFilter
+    name?: StringFilter | string
+    url?: StringFilter | string
+    logoUrl?: StringNullableFilter | string | null
+    countryIcon?: StringFilter | string
+    createdAt?: DateTimeNullableFilter | Date | string | null
+    roles?: RolesListRelationFilter
   }
 
   export type CompaniesOrderByWithRelationInput = {
     id?: SortOrder
-    Name?: SortOrder
-    Url?: SortOrder
-    LogoUrl?: SortOrderInput | SortOrder
-    CountryIcon?: SortOrder
-    CreatedAt?: SortOrderInput | SortOrder
-    Roles?: RolesOrderByRelationAggregateInput
+    name?: SortOrder
+    url?: SortOrder
+    logoUrl?: SortOrderInput | SortOrder
+    countryIcon?: SortOrder
+    createdAt?: SortOrderInput | SortOrder
+    roles?: RolesOrderByRelationAggregateInput
   }
 
   export type CompaniesWhereUniqueInput = {
@@ -5581,11 +5596,11 @@ export namespace Prisma {
 
   export type CompaniesOrderByWithAggregationInput = {
     id?: SortOrder
-    Name?: SortOrder
-    Url?: SortOrder
-    LogoUrl?: SortOrderInput | SortOrder
-    CountryIcon?: SortOrder
-    CreatedAt?: SortOrderInput | SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    logoUrl?: SortOrderInput | SortOrder
+    countryIcon?: SortOrder
+    createdAt?: SortOrderInput | SortOrder
     _count?: CompaniesCountOrderByAggregateInput
     _max?: CompaniesMaxOrderByAggregateInput
     _min?: CompaniesMinOrderByAggregateInput
@@ -5596,305 +5611,324 @@ export namespace Prisma {
     OR?: Enumerable<CompaniesScalarWhereWithAggregatesInput>
     NOT?: Enumerable<CompaniesScalarWhereWithAggregatesInput>
     id?: StringWithAggregatesFilter | string
-    Name?: StringWithAggregatesFilter | string
-    Url?: StringWithAggregatesFilter | string
-    LogoUrl?: StringNullableWithAggregatesFilter | string | null
-    CountryIcon?: StringWithAggregatesFilter | string
-    CreatedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    name?: StringWithAggregatesFilter | string
+    url?: StringWithAggregatesFilter | string
+    logoUrl?: StringNullableWithAggregatesFilter | string | null
+    countryIcon?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
   }
 
   export type SubscribersCreateInput = {
     id?: string
-    Email: string
-    Name: string
-    LinkedInUrl: string
-    GitHub?: string | null
-    YearsOfExperience: number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: EnglishLevel | null
-    CreatedAt?: Date | string
-    SentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
+    email: string
+    name?: string | null
+    linkedInUrl?: string | null
+    gitHub?: string | null
+    startedWorkingAt?: number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: EnglishLevel | null
+    isConfirmed?: boolean
+    createdAt?: Date | string
+    sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
   }
 
   export type SubscribersUncheckedCreateInput = {
     id?: string
-    Email: string
-    Name: string
-    LinkedInUrl: string
-    GitHub?: string | null
-    YearsOfExperience: number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: EnglishLevel | null
-    CreatedAt?: Date | string
-    SentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
+    email: string
+    name?: string | null
+    linkedInUrl?: string | null
+    gitHub?: string | null
+    startedWorkingAt?: number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: EnglishLevel | null
+    isConfirmed?: boolean
+    createdAt?: Date | string
+    sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
   }
 
   export type SubscribersUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Email?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    LinkedInUrl?: StringFieldUpdateOperationsInput | string
-    GitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    YearsOfExperience?: IntFieldUpdateOperationsInput | number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
-    CreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    SentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitHub?: NullableStringFieldUpdateOperationsInput | string | null
+    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
+    isConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
   }
 
   export type SubscribersUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Email?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    LinkedInUrl?: StringFieldUpdateOperationsInput | string
-    GitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    YearsOfExperience?: IntFieldUpdateOperationsInput | number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
-    CreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    SentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitHub?: NullableStringFieldUpdateOperationsInput | string | null
+    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
+    isConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
   }
 
   export type SubscribersCreateManyInput = {
     id?: string
-    Email: string
-    Name: string
-    LinkedInUrl: string
-    GitHub?: string | null
-    YearsOfExperience: number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: EnglishLevel | null
-    CreatedAt?: Date | string
+    email: string
+    name?: string | null
+    linkedInUrl?: string | null
+    gitHub?: string | null
+    startedWorkingAt?: number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: EnglishLevel | null
+    isConfirmed?: boolean
+    createdAt?: Date | string
   }
 
   export type SubscribersUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Email?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    LinkedInUrl?: StringFieldUpdateOperationsInput | string
-    GitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    YearsOfExperience?: IntFieldUpdateOperationsInput | number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
-    CreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitHub?: NullableStringFieldUpdateOperationsInput | string | null
+    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
+    isConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubscribersUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Email?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    LinkedInUrl?: StringFieldUpdateOperationsInput | string
-    GitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    YearsOfExperience?: IntFieldUpdateOperationsInput | number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
-    CreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitHub?: NullableStringFieldUpdateOperationsInput | string | null
+    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
+    isConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RolesCreateInput = {
     id?: string
-    Title: string
-    Description: string
-    Country: string
-    Language: string
-    Currency?: string | null
-    Salary?: string | null
-    CreatedAt?: Date | string | null
-    Company: CompaniesCreateNestedOneWithoutRolesInput
-    SentRoles: SentRolesCreateNestedOneWithoutRoleInput
+    title: string
+    description: string
+    country: string
+    language: string
+    currency?: string | null
+    salary?: string | null
+    createdAt?: Date | string | null
+    company: CompaniesCreateNestedOneWithoutRolesInput
+    sentRoles: SentRolesCreateNestedOneWithoutRoleInput
   }
 
   export type RolesUncheckedCreateInput = {
     id?: string
-    CompanyId: string
-    Title: string
-    Description: string
-    Country: string
-    Language: string
-    Currency?: string | null
-    Salary?: string | null
-    CreatedAt?: Date | string | null
-    SentRolesId: string
+    companyId: string
+    title: string
+    description: string
+    country: string
+    language: string
+    currency?: string | null
+    salary?: string | null
+    createdAt?: Date | string | null
+    sentRolesId: string
   }
 
   export type RolesUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Title?: StringFieldUpdateOperationsInput | string
-    Description?: StringFieldUpdateOperationsInput | string
-    Country?: StringFieldUpdateOperationsInput | string
-    Language?: StringFieldUpdateOperationsInput | string
-    Currency?: NullableStringFieldUpdateOperationsInput | string | null
-    Salary?: NullableStringFieldUpdateOperationsInput | string | null
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
-    SentRoles?: SentRolesUpdateOneRequiredWithoutRoleNestedInput
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
+    sentRoles?: SentRolesUpdateOneRequiredWithoutRoleNestedInput
   }
 
   export type RolesUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    CompanyId?: StringFieldUpdateOperationsInput | string
-    Title?: StringFieldUpdateOperationsInput | string
-    Description?: StringFieldUpdateOperationsInput | string
-    Country?: StringFieldUpdateOperationsInput | string
-    Language?: StringFieldUpdateOperationsInput | string
-    Currency?: NullableStringFieldUpdateOperationsInput | string | null
-    Salary?: NullableStringFieldUpdateOperationsInput | string | null
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    SentRolesId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentRolesId?: StringFieldUpdateOperationsInput | string
   }
 
   export type RolesCreateManyInput = {
     id?: string
-    CompanyId: string
-    Title: string
-    Description: string
-    Country: string
-    Language: string
-    Currency?: string | null
-    Salary?: string | null
-    CreatedAt?: Date | string | null
-    SentRolesId: string
+    companyId: string
+    title: string
+    description: string
+    country: string
+    language: string
+    currency?: string | null
+    salary?: string | null
+    createdAt?: Date | string | null
+    sentRolesId: string
   }
 
   export type RolesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Title?: StringFieldUpdateOperationsInput | string
-    Description?: StringFieldUpdateOperationsInput | string
-    Country?: StringFieldUpdateOperationsInput | string
-    Language?: StringFieldUpdateOperationsInput | string
-    Currency?: NullableStringFieldUpdateOperationsInput | string | null
-    Salary?: NullableStringFieldUpdateOperationsInput | string | null
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type RolesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    CompanyId?: StringFieldUpdateOperationsInput | string
-    Title?: StringFieldUpdateOperationsInput | string
-    Description?: StringFieldUpdateOperationsInput | string
-    Country?: StringFieldUpdateOperationsInput | string
-    Language?: StringFieldUpdateOperationsInput | string
-    Currency?: NullableStringFieldUpdateOperationsInput | string | null
-    Salary?: NullableStringFieldUpdateOperationsInput | string | null
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    SentRolesId?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentRolesId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SentRolesCreateInput = {
     id?: string
-    SentAt?: Date | string | null
-    RoleId: string
-    Role?: RolesCreateNestedOneWithoutSentRolesInput
-    Subscribers?: SubscribersCreateNestedManyWithoutSentRolesInput
+    sentAt?: Date | string | null
+    roleId: string
+    role?: RolesCreateNestedOneWithoutSentRolesInput
+    subscribers?: SubscribersCreateNestedManyWithoutSentRolesInput
   }
 
   export type SentRolesUncheckedCreateInput = {
     id?: string
-    SentAt?: Date | string | null
-    RoleId: string
-    Role?: RolesUncheckedCreateNestedOneWithoutSentRolesInput
-    Subscribers?: SubscribersUncheckedCreateNestedManyWithoutSentRolesInput
+    sentAt?: Date | string | null
+    roleId: string
+    role?: RolesUncheckedCreateNestedOneWithoutSentRolesInput
+    subscribers?: SubscribersUncheckedCreateNestedManyWithoutSentRolesInput
   }
 
   export type SentRolesUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    SentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    RoleId?: StringFieldUpdateOperationsInput | string
-    Role?: RolesUpdateOneWithoutSentRolesNestedInput
-    Subscribers?: SubscribersUpdateManyWithoutSentRolesNestedInput
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    role?: RolesUpdateOneWithoutSentRolesNestedInput
+    subscribers?: SubscribersUpdateManyWithoutSentRolesNestedInput
   }
 
   export type SentRolesUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    SentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    RoleId?: StringFieldUpdateOperationsInput | string
-    Role?: RolesUncheckedUpdateOneWithoutSentRolesNestedInput
-    Subscribers?: SubscribersUncheckedUpdateManyWithoutSentRolesNestedInput
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    role?: RolesUncheckedUpdateOneWithoutSentRolesNestedInput
+    subscribers?: SubscribersUncheckedUpdateManyWithoutSentRolesNestedInput
   }
 
   export type SentRolesCreateManyInput = {
     id?: string
-    SentAt?: Date | string | null
-    RoleId: string
+    sentAt?: Date | string | null
+    roleId: string
   }
 
   export type SentRolesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    SentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    RoleId?: StringFieldUpdateOperationsInput | string
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SentRolesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    SentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    RoleId?: StringFieldUpdateOperationsInput | string
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
   }
 
   export type CompaniesCreateInput = {
     id?: string
-    Name: string
-    Url: string
-    LogoUrl?: string | null
-    CountryIcon: string
-    CreatedAt?: Date | string | null
-    Roles?: RolesCreateNestedManyWithoutCompanyInput
+    name: string
+    url: string
+    logoUrl?: string | null
+    countryIcon: string
+    createdAt?: Date | string | null
+    roles?: RolesCreateNestedManyWithoutCompanyInput
   }
 
   export type CompaniesUncheckedCreateInput = {
     id?: string
-    Name: string
-    Url: string
-    LogoUrl?: string | null
-    CountryIcon: string
-    CreatedAt?: Date | string | null
-    Roles?: RolesUncheckedCreateNestedManyWithoutCompanyInput
+    name: string
+    url: string
+    logoUrl?: string | null
+    countryIcon: string
+    createdAt?: Date | string | null
+    roles?: RolesUncheckedCreateNestedManyWithoutCompanyInput
   }
 
   export type CompaniesUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    Url?: StringFieldUpdateOperationsInput | string
-    LogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    CountryIcon?: StringFieldUpdateOperationsInput | string
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Roles?: RolesUpdateManyWithoutCompanyNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    countryIcon?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roles?: RolesUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompaniesUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    Url?: StringFieldUpdateOperationsInput | string
-    LogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    CountryIcon?: StringFieldUpdateOperationsInput | string
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Roles?: RolesUncheckedUpdateManyWithoutCompanyNestedInput
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    countryIcon?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roles?: RolesUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
   export type CompaniesCreateManyInput = {
     id?: string
-    Name: string
-    Url: string
-    LogoUrl?: string | null
-    CountryIcon: string
-    CreatedAt?: Date | string | null
+    name: string
+    url: string
+    logoUrl?: string | null
+    countryIcon: string
+    createdAt?: Date | string | null
   }
 
   export type CompaniesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    Url?: StringFieldUpdateOperationsInput | string
-    LogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    CountryIcon?: StringFieldUpdateOperationsInput | string
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    countryIcon?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CompaniesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    Url?: StringFieldUpdateOperationsInput | string
-    LogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    CountryIcon?: StringFieldUpdateOperationsInput | string
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    countryIcon?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  }
+
+  export type UuidFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    mode?: QueryMode
+    not?: NestedUuidFilter | string
   }
 
   export type StringFilter = {
@@ -5927,15 +5961,15 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
-  export type IntFilter = {
-    equals?: number
-    in?: Enumerable<number> | number
-    notIn?: Enumerable<number> | number
+  export type IntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | number | null
+    notIn?: Enumerable<number> | number | null
     lt?: number
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedIntFilter | number
+    not?: NestedIntNullableFilter | number | null
   }
   export type JsonNullableFilter = 
     | PatchUndefined<
@@ -5967,6 +6001,11 @@ export namespace Prisma {
     not?: NestedEnumEnglishLevelNullableFilter | EnglishLevel | null
   }
 
+  export type BoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
+  }
+
   export type DateTimeFilter = {
     equals?: Date | string
     in?: Enumerable<Date> | Enumerable<string> | Date | string
@@ -5995,44 +6034,62 @@ export namespace Prisma {
 
   export type SubscribersCountOrderByAggregateInput = {
     id?: SortOrder
-    Email?: SortOrder
-    Name?: SortOrder
-    LinkedInUrl?: SortOrder
-    GitHub?: SortOrder
-    YearsOfExperience?: SortOrder
-    Skills?: SortOrder
-    EnglishLevel?: SortOrder
-    CreatedAt?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    linkedInUrl?: SortOrder
+    gitHub?: SortOrder
+    startedWorkingAt?: SortOrder
+    skills?: SortOrder
+    englishLevel?: SortOrder
+    isConfirmed?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type SubscribersAvgOrderByAggregateInput = {
-    YearsOfExperience?: SortOrder
+    startedWorkingAt?: SortOrder
   }
 
   export type SubscribersMaxOrderByAggregateInput = {
     id?: SortOrder
-    Email?: SortOrder
-    Name?: SortOrder
-    LinkedInUrl?: SortOrder
-    GitHub?: SortOrder
-    YearsOfExperience?: SortOrder
-    EnglishLevel?: SortOrder
-    CreatedAt?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    linkedInUrl?: SortOrder
+    gitHub?: SortOrder
+    startedWorkingAt?: SortOrder
+    englishLevel?: SortOrder
+    isConfirmed?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type SubscribersMinOrderByAggregateInput = {
     id?: SortOrder
-    Email?: SortOrder
-    Name?: SortOrder
-    LinkedInUrl?: SortOrder
-    GitHub?: SortOrder
-    YearsOfExperience?: SortOrder
-    EnglishLevel?: SortOrder
-    CreatedAt?: SortOrder
+    email?: SortOrder
+    name?: SortOrder
+    linkedInUrl?: SortOrder
+    gitHub?: SortOrder
+    startedWorkingAt?: SortOrder
+    englishLevel?: SortOrder
+    isConfirmed?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type SubscribersSumOrderByAggregateInput = {
-    YearsOfExperience?: SortOrder
+    startedWorkingAt?: SortOrder
+  }
+
+  export type UuidWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    mode?: QueryMode
+    not?: NestedUuidWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
   }
 
   export type StringWithAggregatesFilter = {
@@ -6071,20 +6128,20 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter
   }
 
-  export type IntWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number> | number
-    notIn?: Enumerable<number> | number
+  export type IntNullableWithAggregatesFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | number | null
+    notIn?: Enumerable<number> | number | null
     lt?: number
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedIntWithAggregatesFilter | number
-    _count?: NestedIntFilter
-    _avg?: NestedFloatFilter
-    _sum?: NestedIntFilter
-    _min?: NestedIntFilter
-    _max?: NestedIntFilter
+    not?: NestedIntNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedIntNullableFilter
+    _min?: NestedIntNullableFilter
+    _max?: NestedIntNullableFilter
   }
   export type JsonNullableWithAggregatesFilter = 
     | PatchUndefined<
@@ -6120,6 +6177,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter
     _min?: NestedEnumEnglishLevelNullableFilter
     _max?: NestedEnumEnglishLevelNullableFilter
+  }
+
+  export type BoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
   }
 
   export type DateTimeWithAggregatesFilter = {
@@ -6159,41 +6224,41 @@ export namespace Prisma {
 
   export type RolesCountOrderByAggregateInput = {
     id?: SortOrder
-    CompanyId?: SortOrder
-    Title?: SortOrder
-    Description?: SortOrder
-    Country?: SortOrder
-    Language?: SortOrder
-    Currency?: SortOrder
-    Salary?: SortOrder
-    CreatedAt?: SortOrder
-    SentRolesId?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    country?: SortOrder
+    language?: SortOrder
+    currency?: SortOrder
+    salary?: SortOrder
+    createdAt?: SortOrder
+    sentRolesId?: SortOrder
   }
 
   export type RolesMaxOrderByAggregateInput = {
     id?: SortOrder
-    CompanyId?: SortOrder
-    Title?: SortOrder
-    Description?: SortOrder
-    Country?: SortOrder
-    Language?: SortOrder
-    Currency?: SortOrder
-    Salary?: SortOrder
-    CreatedAt?: SortOrder
-    SentRolesId?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    country?: SortOrder
+    language?: SortOrder
+    currency?: SortOrder
+    salary?: SortOrder
+    createdAt?: SortOrder
+    sentRolesId?: SortOrder
   }
 
   export type RolesMinOrderByAggregateInput = {
     id?: SortOrder
-    CompanyId?: SortOrder
-    Title?: SortOrder
-    Description?: SortOrder
-    Country?: SortOrder
-    Language?: SortOrder
-    Currency?: SortOrder
-    Salary?: SortOrder
-    CreatedAt?: SortOrder
-    SentRolesId?: SortOrder
+    companyId?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
+    country?: SortOrder
+    language?: SortOrder
+    currency?: SortOrder
+    salary?: SortOrder
+    createdAt?: SortOrder
+    sentRolesId?: SortOrder
   }
 
   export type DateTimeNullableWithAggregatesFilter = {
@@ -6227,20 +6292,20 @@ export namespace Prisma {
 
   export type SentRolesCountOrderByAggregateInput = {
     id?: SortOrder
-    SentAt?: SortOrder
-    RoleId?: SortOrder
+    sentAt?: SortOrder
+    roleId?: SortOrder
   }
 
   export type SentRolesMaxOrderByAggregateInput = {
     id?: SortOrder
-    SentAt?: SortOrder
-    RoleId?: SortOrder
+    sentAt?: SortOrder
+    roleId?: SortOrder
   }
 
   export type SentRolesMinOrderByAggregateInput = {
     id?: SortOrder
-    SentAt?: SortOrder
-    RoleId?: SortOrder
+    sentAt?: SortOrder
+    roleId?: SortOrder
   }
 
   export type RolesListRelationFilter = {
@@ -6255,29 +6320,29 @@ export namespace Prisma {
 
   export type CompaniesCountOrderByAggregateInput = {
     id?: SortOrder
-    Name?: SortOrder
-    Url?: SortOrder
-    LogoUrl?: SortOrder
-    CountryIcon?: SortOrder
-    CreatedAt?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    logoUrl?: SortOrder
+    countryIcon?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type CompaniesMaxOrderByAggregateInput = {
     id?: SortOrder
-    Name?: SortOrder
-    Url?: SortOrder
-    LogoUrl?: SortOrder
-    CountryIcon?: SortOrder
-    CreatedAt?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    logoUrl?: SortOrder
+    countryIcon?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type CompaniesMinOrderByAggregateInput = {
     id?: SortOrder
-    Name?: SortOrder
-    Url?: SortOrder
-    LogoUrl?: SortOrder
-    CountryIcon?: SortOrder
-    CreatedAt?: SortOrder
+    name?: SortOrder
+    url?: SortOrder
+    logoUrl?: SortOrder
+    countryIcon?: SortOrder
+    createdAt?: SortOrder
   }
 
   export type SentRolesCreateNestedManyWithoutSubscribersInput = {
@@ -6300,8 +6365,8 @@ export namespace Prisma {
     set?: string | null
   }
 
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
     increment?: number
     decrement?: number
     multiply?: number
@@ -6310,6 +6375,10 @@ export namespace Prisma {
 
   export type NullableEnumEnglishLevelFieldUpdateOperationsInput = {
     set?: EnglishLevel | null
+  }
+
+  export type BoolFieldUpdateOperationsInput = {
+    set?: boolean
   }
 
   export type DateTimeFieldUpdateOperationsInput = {
@@ -6486,6 +6555,17 @@ export namespace Prisma {
     deleteMany?: Enumerable<RolesScalarWhereInput>
   }
 
+  export type NestedUuidFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidFilter | string
+  }
+
   export type NestedStringFilter = {
     equals?: string
     in?: Enumerable<string> | string
@@ -6514,15 +6594,15 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
-  export type NestedIntFilter = {
-    equals?: number
-    in?: Enumerable<number> | number
-    notIn?: Enumerable<number> | number
+  export type NestedIntNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | number | null
+    notIn?: Enumerable<number> | number | null
     lt?: number
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedIntFilter | number
+    not?: NestedIntNullableFilter | number | null
   }
 
   export type NestedEnumEnglishLevelNullableFilter = {
@@ -6530,6 +6610,11 @@ export namespace Prisma {
     in?: Enumerable<EnglishLevel> | null
     notIn?: Enumerable<EnglishLevel> | null
     not?: NestedEnumEnglishLevelNullableFilter | EnglishLevel | null
+  }
+
+  export type NestedBoolFilter = {
+    equals?: boolean
+    not?: NestedBoolFilter | boolean
   }
 
   export type NestedDateTimeFilter = {
@@ -6541,6 +6626,31 @@ export namespace Prisma {
     gt?: Date | string
     gte?: Date | string
     not?: NestedDateTimeFilter | Date | string
+  }
+
+  export type NestedUuidWithAggregatesFilter = {
+    equals?: string
+    in?: Enumerable<string> | string
+    notIn?: Enumerable<string> | string
+    lt?: string
+    lte?: string
+    gt?: string
+    gte?: string
+    not?: NestedUuidWithAggregatesFilter | string
+    _count?: NestedIntFilter
+    _min?: NestedStringFilter
+    _max?: NestedStringFilter
+  }
+
+  export type NestedIntFilter = {
+    equals?: number
+    in?: Enumerable<number> | number
+    notIn?: Enumerable<number> | number
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntFilter | number
   }
 
   export type NestedStringWithAggregatesFilter = {
@@ -6577,7 +6687,7 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter
   }
 
-  export type NestedIntNullableFilter = {
+  export type NestedIntNullableWithAggregatesFilter = {
     equals?: number | null
     in?: Enumerable<number> | number | null
     notIn?: Enumerable<number> | number | null
@@ -6585,34 +6695,23 @@ export namespace Prisma {
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedIntNullableFilter | number | null
+    not?: NestedIntNullableWithAggregatesFilter | number | null
+    _count?: NestedIntNullableFilter
+    _avg?: NestedFloatNullableFilter
+    _sum?: NestedIntNullableFilter
+    _min?: NestedIntNullableFilter
+    _max?: NestedIntNullableFilter
   }
 
-  export type NestedIntWithAggregatesFilter = {
-    equals?: number
-    in?: Enumerable<number> | number
-    notIn?: Enumerable<number> | number
+  export type NestedFloatNullableFilter = {
+    equals?: number | null
+    in?: Enumerable<number> | number | null
+    notIn?: Enumerable<number> | number | null
     lt?: number
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedIntWithAggregatesFilter | number
-    _count?: NestedIntFilter
-    _avg?: NestedFloatFilter
-    _sum?: NestedIntFilter
-    _min?: NestedIntFilter
-    _max?: NestedIntFilter
-  }
-
-  export type NestedFloatFilter = {
-    equals?: number
-    in?: Enumerable<number> | number
-    notIn?: Enumerable<number> | number
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatFilter | number
+    not?: NestedFloatNullableFilter | number | null
   }
   export type NestedJsonNullableFilter = 
     | PatchUndefined<
@@ -6645,6 +6744,14 @@ export namespace Prisma {
     _count?: NestedIntNullableFilter
     _min?: NestedEnumEnglishLevelNullableFilter
     _max?: NestedEnumEnglishLevelNullableFilter
+  }
+
+  export type NestedBoolWithAggregatesFilter = {
+    equals?: boolean
+    not?: NestedBoolWithAggregatesFilter | boolean
+    _count?: NestedIntFilter
+    _min?: NestedBoolFilter
+    _max?: NestedBoolFilter
   }
 
   export type NestedDateTimeWithAggregatesFilter = {
@@ -6688,16 +6795,16 @@ export namespace Prisma {
 
   export type SentRolesCreateWithoutSubscribersInput = {
     id?: string
-    SentAt?: Date | string | null
-    RoleId: string
-    Role?: RolesCreateNestedOneWithoutSentRolesInput
+    sentAt?: Date | string | null
+    roleId: string
+    role?: RolesCreateNestedOneWithoutSentRolesInput
   }
 
   export type SentRolesUncheckedCreateWithoutSubscribersInput = {
     id?: string
-    SentAt?: Date | string | null
-    RoleId: string
-    Role?: RolesUncheckedCreateNestedOneWithoutSentRolesInput
+    sentAt?: Date | string | null
+    roleId: string
+    role?: RolesUncheckedCreateNestedOneWithoutSentRolesInput
   }
 
   export type SentRolesCreateOrConnectWithoutSubscribersInput = {
@@ -6726,26 +6833,26 @@ export namespace Prisma {
     OR?: Enumerable<SentRolesScalarWhereInput>
     NOT?: Enumerable<SentRolesScalarWhereInput>
     id?: StringFilter | string
-    SentAt?: DateTimeNullableFilter | Date | string | null
-    RoleId?: StringFilter | string
+    sentAt?: DateTimeNullableFilter | Date | string | null
+    roleId?: StringFilter | string
   }
 
   export type CompaniesCreateWithoutRolesInput = {
     id?: string
-    Name: string
-    Url: string
-    LogoUrl?: string | null
-    CountryIcon: string
-    CreatedAt?: Date | string | null
+    name: string
+    url: string
+    logoUrl?: string | null
+    countryIcon: string
+    createdAt?: Date | string | null
   }
 
   export type CompaniesUncheckedCreateWithoutRolesInput = {
     id?: string
-    Name: string
-    Url: string
-    LogoUrl?: string | null
-    CountryIcon: string
-    CreatedAt?: Date | string | null
+    name: string
+    url: string
+    logoUrl?: string | null
+    countryIcon: string
+    createdAt?: Date | string | null
   }
 
   export type CompaniesCreateOrConnectWithoutRolesInput = {
@@ -6755,16 +6862,16 @@ export namespace Prisma {
 
   export type SentRolesCreateWithoutRoleInput = {
     id?: string
-    SentAt?: Date | string | null
-    RoleId: string
-    Subscribers?: SubscribersCreateNestedManyWithoutSentRolesInput
+    sentAt?: Date | string | null
+    roleId: string
+    subscribers?: SubscribersCreateNestedManyWithoutSentRolesInput
   }
 
   export type SentRolesUncheckedCreateWithoutRoleInput = {
     id?: string
-    SentAt?: Date | string | null
-    RoleId: string
-    Subscribers?: SubscribersUncheckedCreateNestedManyWithoutSentRolesInput
+    sentAt?: Date | string | null
+    roleId: string
+    subscribers?: SubscribersUncheckedCreateNestedManyWithoutSentRolesInput
   }
 
   export type SentRolesCreateOrConnectWithoutRoleInput = {
@@ -6779,20 +6886,20 @@ export namespace Prisma {
 
   export type CompaniesUpdateWithoutRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    Url?: StringFieldUpdateOperationsInput | string
-    LogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    CountryIcon?: StringFieldUpdateOperationsInput | string
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    countryIcon?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type CompaniesUncheckedUpdateWithoutRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    Url?: StringFieldUpdateOperationsInput | string
-    LogoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    CountryIcon?: StringFieldUpdateOperationsInput | string
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    name?: StringFieldUpdateOperationsInput | string
+    url?: StringFieldUpdateOperationsInput | string
+    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    countryIcon?: StringFieldUpdateOperationsInput | string
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SentRolesUpsertWithoutRoleInput = {
@@ -6802,40 +6909,40 @@ export namespace Prisma {
 
   export type SentRolesUpdateWithoutRoleInput = {
     id?: StringFieldUpdateOperationsInput | string
-    SentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    RoleId?: StringFieldUpdateOperationsInput | string
-    Subscribers?: SubscribersUpdateManyWithoutSentRolesNestedInput
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    subscribers?: SubscribersUpdateManyWithoutSentRolesNestedInput
   }
 
   export type SentRolesUncheckedUpdateWithoutRoleInput = {
     id?: StringFieldUpdateOperationsInput | string
-    SentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    RoleId?: StringFieldUpdateOperationsInput | string
-    Subscribers?: SubscribersUncheckedUpdateManyWithoutSentRolesNestedInput
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    subscribers?: SubscribersUncheckedUpdateManyWithoutSentRolesNestedInput
   }
 
   export type RolesCreateWithoutSentRolesInput = {
     id?: string
-    Title: string
-    Description: string
-    Country: string
-    Language: string
-    Currency?: string | null
-    Salary?: string | null
-    CreatedAt?: Date | string | null
-    Company: CompaniesCreateNestedOneWithoutRolesInput
+    title: string
+    description: string
+    country: string
+    language: string
+    currency?: string | null
+    salary?: string | null
+    createdAt?: Date | string | null
+    company: CompaniesCreateNestedOneWithoutRolesInput
   }
 
   export type RolesUncheckedCreateWithoutSentRolesInput = {
     id?: string
-    CompanyId: string
-    Title: string
-    Description: string
-    Country: string
-    Language: string
-    Currency?: string | null
-    Salary?: string | null
-    CreatedAt?: Date | string | null
+    companyId: string
+    title: string
+    description: string
+    country: string
+    language: string
+    currency?: string | null
+    salary?: string | null
+    createdAt?: Date | string | null
   }
 
   export type RolesCreateOrConnectWithoutSentRolesInput = {
@@ -6845,26 +6952,28 @@ export namespace Prisma {
 
   export type SubscribersCreateWithoutSentRolesInput = {
     id?: string
-    Email: string
-    Name: string
-    LinkedInUrl: string
-    GitHub?: string | null
-    YearsOfExperience: number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: EnglishLevel | null
-    CreatedAt?: Date | string
+    email: string
+    name?: string | null
+    linkedInUrl?: string | null
+    gitHub?: string | null
+    startedWorkingAt?: number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: EnglishLevel | null
+    isConfirmed?: boolean
+    createdAt?: Date | string
   }
 
   export type SubscribersUncheckedCreateWithoutSentRolesInput = {
     id?: string
-    Email: string
-    Name: string
-    LinkedInUrl: string
-    GitHub?: string | null
-    YearsOfExperience: number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: EnglishLevel | null
-    CreatedAt?: Date | string
+    email: string
+    name?: string | null
+    linkedInUrl?: string | null
+    gitHub?: string | null
+    startedWorkingAt?: number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: EnglishLevel | null
+    isConfirmed?: boolean
+    createdAt?: Date | string
   }
 
   export type SubscribersCreateOrConnectWithoutSentRolesInput = {
@@ -6879,26 +6988,26 @@ export namespace Prisma {
 
   export type RolesUpdateWithoutSentRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Title?: StringFieldUpdateOperationsInput | string
-    Description?: StringFieldUpdateOperationsInput | string
-    Country?: StringFieldUpdateOperationsInput | string
-    Language?: StringFieldUpdateOperationsInput | string
-    Currency?: NullableStringFieldUpdateOperationsInput | string | null
-    Salary?: NullableStringFieldUpdateOperationsInput | string | null
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    Company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
   }
 
   export type RolesUncheckedUpdateWithoutSentRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    CompanyId?: StringFieldUpdateOperationsInput | string
-    Title?: StringFieldUpdateOperationsInput | string
-    Description?: StringFieldUpdateOperationsInput | string
-    Country?: StringFieldUpdateOperationsInput | string
-    Language?: StringFieldUpdateOperationsInput | string
-    Currency?: NullableStringFieldUpdateOperationsInput | string | null
-    Salary?: NullableStringFieldUpdateOperationsInput | string | null
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    companyId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   }
 
   export type SubscribersUpsertWithWhereUniqueWithoutSentRolesInput = {
@@ -6921,39 +7030,40 @@ export namespace Prisma {
     AND?: Enumerable<SubscribersScalarWhereInput>
     OR?: Enumerable<SubscribersScalarWhereInput>
     NOT?: Enumerable<SubscribersScalarWhereInput>
-    id?: StringFilter | string
-    Email?: StringFilter | string
-    Name?: StringFilter | string
-    LinkedInUrl?: StringFilter | string
-    GitHub?: StringNullableFilter | string | null
-    YearsOfExperience?: IntFilter | number
-    Skills?: JsonNullableFilter
-    EnglishLevel?: EnumEnglishLevelNullableFilter | EnglishLevel | null
-    CreatedAt?: DateTimeFilter | Date | string
+    id?: UuidFilter | string
+    email?: StringFilter | string
+    name?: StringNullableFilter | string | null
+    linkedInUrl?: StringNullableFilter | string | null
+    gitHub?: StringNullableFilter | string | null
+    startedWorkingAt?: IntNullableFilter | number | null
+    skills?: JsonNullableFilter
+    englishLevel?: EnumEnglishLevelNullableFilter | EnglishLevel | null
+    isConfirmed?: BoolFilter | boolean
+    createdAt?: DateTimeFilter | Date | string
   }
 
   export type RolesCreateWithoutCompanyInput = {
     id?: string
-    Title: string
-    Description: string
-    Country: string
-    Language: string
-    Currency?: string | null
-    Salary?: string | null
-    CreatedAt?: Date | string | null
-    SentRoles: SentRolesCreateNestedOneWithoutRoleInput
+    title: string
+    description: string
+    country: string
+    language: string
+    currency?: string | null
+    salary?: string | null
+    createdAt?: Date | string | null
+    sentRoles: SentRolesCreateNestedOneWithoutRoleInput
   }
 
   export type RolesUncheckedCreateWithoutCompanyInput = {
     id?: string
-    Title: string
-    Description: string
-    Country: string
-    Language: string
-    Currency?: string | null
-    Salary?: string | null
-    CreatedAt?: Date | string | null
-    SentRolesId: string
+    title: string
+    description: string
+    country: string
+    language: string
+    currency?: string | null
+    salary?: string | null
+    createdAt?: Date | string | null
+    sentRolesId: string
   }
 
   export type RolesCreateOrConnectWithoutCompanyInput = {
@@ -6987,119 +7097,122 @@ export namespace Prisma {
     OR?: Enumerable<RolesScalarWhereInput>
     NOT?: Enumerable<RolesScalarWhereInput>
     id?: StringFilter | string
-    CompanyId?: StringFilter | string
-    Title?: StringFilter | string
-    Description?: StringFilter | string
-    Country?: StringFilter | string
-    Language?: StringFilter | string
-    Currency?: StringNullableFilter | string | null
-    Salary?: StringNullableFilter | string | null
-    CreatedAt?: DateTimeNullableFilter | Date | string | null
-    SentRolesId?: StringFilter | string
+    companyId?: StringFilter | string
+    title?: StringFilter | string
+    description?: StringFilter | string
+    country?: StringFilter | string
+    language?: StringFilter | string
+    currency?: StringNullableFilter | string | null
+    salary?: StringNullableFilter | string | null
+    createdAt?: DateTimeNullableFilter | Date | string | null
+    sentRolesId?: StringFilter | string
   }
 
   export type SentRolesUpdateWithoutSubscribersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    SentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    RoleId?: StringFieldUpdateOperationsInput | string
-    Role?: RolesUpdateOneWithoutSentRolesNestedInput
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    role?: RolesUpdateOneWithoutSentRolesNestedInput
   }
 
   export type SentRolesUncheckedUpdateWithoutSubscribersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    SentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    RoleId?: StringFieldUpdateOperationsInput | string
-    Role?: RolesUncheckedUpdateOneWithoutSentRolesNestedInput
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
+    role?: RolesUncheckedUpdateOneWithoutSentRolesNestedInput
   }
 
   export type SentRolesUncheckedUpdateManyWithoutSentRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    SentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    RoleId?: StringFieldUpdateOperationsInput | string
+    sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    roleId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SubscribersUpdateWithoutSentRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Email?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    LinkedInUrl?: StringFieldUpdateOperationsInput | string
-    GitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    YearsOfExperience?: IntFieldUpdateOperationsInput | number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
-    CreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitHub?: NullableStringFieldUpdateOperationsInput | string | null
+    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
+    isConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubscribersUncheckedUpdateWithoutSentRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Email?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    LinkedInUrl?: StringFieldUpdateOperationsInput | string
-    GitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    YearsOfExperience?: IntFieldUpdateOperationsInput | number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
-    CreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitHub?: NullableStringFieldUpdateOperationsInput | string | null
+    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
+    isConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubscribersUncheckedUpdateManyWithoutSubscribersInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Email?: StringFieldUpdateOperationsInput | string
-    Name?: StringFieldUpdateOperationsInput | string
-    LinkedInUrl?: StringFieldUpdateOperationsInput | string
-    GitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    YearsOfExperience?: IntFieldUpdateOperationsInput | number
-    Skills?: NullableJsonNullValueInput | InputJsonValue
-    EnglishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
-    CreatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitHub?: NullableStringFieldUpdateOperationsInput | string | null
+    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
+    isConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RolesCreateManyCompanyInput = {
     id?: string
-    Title: string
-    Description: string
-    Country: string
-    Language: string
-    Currency?: string | null
-    Salary?: string | null
-    CreatedAt?: Date | string | null
-    SentRolesId: string
+    title: string
+    description: string
+    country: string
+    language: string
+    currency?: string | null
+    salary?: string | null
+    createdAt?: Date | string | null
+    sentRolesId: string
   }
 
   export type RolesUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Title?: StringFieldUpdateOperationsInput | string
-    Description?: StringFieldUpdateOperationsInput | string
-    Country?: StringFieldUpdateOperationsInput | string
-    Language?: StringFieldUpdateOperationsInput | string
-    Currency?: NullableStringFieldUpdateOperationsInput | string | null
-    Salary?: NullableStringFieldUpdateOperationsInput | string | null
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    SentRoles?: SentRolesUpdateOneRequiredWithoutRoleNestedInput
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentRoles?: SentRolesUpdateOneRequiredWithoutRoleNestedInput
   }
 
   export type RolesUncheckedUpdateWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Title?: StringFieldUpdateOperationsInput | string
-    Description?: StringFieldUpdateOperationsInput | string
-    Country?: StringFieldUpdateOperationsInput | string
-    Language?: StringFieldUpdateOperationsInput | string
-    Currency?: NullableStringFieldUpdateOperationsInput | string | null
-    Salary?: NullableStringFieldUpdateOperationsInput | string | null
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    SentRolesId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentRolesId?: StringFieldUpdateOperationsInput | string
   }
 
   export type RolesUncheckedUpdateManyWithoutRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
-    Title?: StringFieldUpdateOperationsInput | string
-    Description?: StringFieldUpdateOperationsInput | string
-    Country?: StringFieldUpdateOperationsInput | string
-    Language?: StringFieldUpdateOperationsInput | string
-    Currency?: NullableStringFieldUpdateOperationsInput | string | null
-    Salary?: NullableStringFieldUpdateOperationsInput | string | null
-    CreatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    SentRolesId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    sentRolesId?: StringFieldUpdateOperationsInput | string
   }
 
 

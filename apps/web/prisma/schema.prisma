@@ -12,16 +12,17 @@ datasource db {
 }
 
 model Subscribers {
-  id                String            @id      @default(uuid())
-  Email             String            @unique
-  Name              String
-  LinkedInUrl       String
-  GitHub            String?
-  YearsOfExperience Int
-  Skills            Json?
-  EnglishLevel      EnglishLevel?
-  SentRoles         SentRoles[]       @relation(name:"SentRoles")
-  CreatedAt         DateTime          @default(now())
+  id                String            @id      @db.Uuid   @default(dbgenerated("gen_random_uuid()"))
+  email             String            @unique
+  name              String?
+  linkedInUrl       String?
+  gitHub            String?
+  startedWorkingAt  Int?
+  skills            Json?
+  englishLevel      EnglishLevel?
+  sentRoles         SentRoles[]       @relation(name:"SentRoles")
+  isConfirmed       Boolean           @default(false)
+  createdAt         DateTime          @default(now())
 
   @@map("Subscribers")
 }
@@ -29,40 +30,40 @@ model Subscribers {
 
 model Roles {
   id              String      @id @default(uuid())
-  CompanyId       String
-  Company         Companies   @relation(fields: [CompanyId], references: [id])
-  Title           String
-  Description     String
-  Country         String
-  Language        String
-  Currency        String?
-  Salary          String?
-  CreatedAt       DateTime?   @default(now())
-  SentRolesId     String      @unique
-  SentRoles       SentRoles   @relation(fields: [SentRolesId], references: [id])
+  companyId       String
+  company         Companies   @relation(fields: [companyId], references: [id])
+  title           String
+  description     String
+  country         String
+  language        String
+  currency        String?
+  salary          String?
+  createdAt       DateTime?   @default(now())
+  sentRolesId     String      @unique
+  sentRoles       SentRoles   @relation(fields: [sentRolesId], references: [id])
 
   @@map("Roles")
 }
 
 model SentRoles {
   id      String              @id @default(uuid())
-  SentAt  DateTime?
-  RoleId  String
-  Role    Roles?
-  Subscribers Subscribers[]   @relation(name:"SentRoles")
+  sentAt  DateTime?
+  roleId  String
+  role    Roles?
+  subscribers Subscribers[]   @relation(name:"SentRoles")
 
   @@map("SentRoles")
-  @@index([SentAt])
+  @@index([sentAt])
 }
 
 model Companies {
   id          String      @id @default(uuid())
-  Name        String
-  Url         String
-  LogoUrl     String?
-  CountryIcon String
-  Roles       Roles[]
-  CreatedAt   DateTime?   @default(now())
+  name        String
+  url         String
+  logoUrl     String?
+  countryIcon String
+  roles       Roles[]
+  createdAt   DateTime?   @default(now())
 
   @@map("Companies")
 }
