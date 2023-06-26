@@ -14,9 +14,38 @@ export function ToggleTheme () {
   if (!mounted) {
     return null
   }
+  
+  function toggle (e) {
+    const x = e.clientX;
+    const y = e.clientY;
+    const endRadius = Math.hypot(
+      Math.max(x, innerWidth - x),
+      Math.max(y, innerHeight - y)
+    );
+    const transition = document.startViewTransition(() => {
+      // setClass((isDark = !isDark))
+      theme == 'dark' ? setTheme("light") : setTheme("dark");
+    })
+    transition.ready.then(() => {
+      const clipPath = [
+        `circle(0px at ${x}px ${y}px)`,
+        `circle(${endRadius}px at ${x}px ${y}px)`,
+      ]
+      document.documentElement.animate(
+        {
+          clipPath: theme == 'light' ? clipPath : [...clipPath].reverse(),
+        },
+        {
+          duration: 300,
+          easing: 'ease-in',
+          pseudoElement: theme == 'light' ? '::view-transition-new(root)' : '::view-transition-old(root)',
+        },
+      )
+    })
+  }
   return (
     <button
-      onClick={ () => theme == "dark" ? setTheme('light') : setTheme("dark") }
+      onClick={ toggle }
       className=''>
       { theme == "dark" ? <Moon /> : <Sun />}
     </button>
