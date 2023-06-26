@@ -3,6 +3,7 @@ import { Entities } from "../../../global/enums/entities";
 import { createClient } from "@supabase/supabase-js";
 import { StatusCodes } from "http-status-codes";
 import { SupabaseCodes } from "../../../global/enums/supabaseCodes";
+import { getSupabaseClient } from "../../db/getSupabaseClient";
 
 interface EmailRequest {
   email: string;
@@ -14,10 +15,7 @@ export async function POST (request: Request) {
     return new NextResponse(null, { status: 403 });
   }
 
-  const supabase = createClient(
-    process.env['SUPABASE_URL'],
-    process.env['SUPABASE_SERVICE_ROLE']
-  );
+  const supabase = getSupabaseClient();
 
   const { data, error } = await supabase
     .from(Entities.Subcribers)

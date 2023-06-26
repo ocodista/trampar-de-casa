@@ -2,7 +2,7 @@ import { Metadata } from "next";
 import { Toaster } from "../global/components/ui/toaster";
 import "./global.css";
 import Script from "next/script";
-import LoadingProvider from "./context/Loading";
+import { LoadingProvider } from "./contexts/LoadingContext";
 
 export const metadata: Metadata = {
   title: "Vagas 100% remotas",
