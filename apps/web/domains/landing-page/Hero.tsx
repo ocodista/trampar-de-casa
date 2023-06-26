@@ -1,12 +1,13 @@
 "use client";
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { ApiRoutes } from "../../global/enums/apiRoutes";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import Confetti from 'react-confetti'
+import Confetti from "react-confetti";
 import { useToast } from "../../global/components/ui/use-toast";
 import { StatusCodes } from "http-status-codes";
+import { Loading } from "app/context/Loading";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -14,10 +15,12 @@ const validationSchema = z.object({
 
 type ValidationSchema = z.infer<typeof validationSchema>;
 
-const PADDING_X = 32
+const PADDING_X = 32;
 
 export const Hero = () => {
-  const [isLoading, setLoading] = useState(false)
+  const [subscribersCount, setSubscribersCount] = useState(0)
+  const { isLoading, withLoading } = useContext(Loading);
+
   const {
     register,
     getValues,
@@ -26,14 +29,24 @@ export const Hero = () => {
     resolver: zodResolver(validationSchema),
   });
 
-  const [isConfettiVisible, setConfettiVisibility] = useState(false)
+  const [isConfettiVisible, setConfettiVisibility] = useState(false);
   useEffect(() => {
     setTimeout(() => {
-      setConfettiVisibility(false)
-    }, 20_000)
-  }, [isConfettiVisible])
+      setConfettiVisibility(false);
+    }, 20_000);
+  }, [isConfettiVisible]);
 
-  const { toast } = useToast()
+  const { toast } = useToast();
+
+  useEffect(() => {
+    (async () => {
+      const response = await fetch(ApiRoutes.Subscribers)
+      if (response.ok) {
+        const count = await response.json()
+        setSubscribersCount(count)
+      }
+    })()
+  }, [])
 
   
   // TODO: Create loader
@@ -41,29 +54,39 @@ export const Hero = () => {
   const saveSubscriber = async () => {
     const email = getValues().email;
     try {
-      setLoading(true)
       const response = await fetch(ApiRoutes.Subscribers, {
         body: JSON.stringify({ email }),
         method: "POST",
       });
-      
+
       if (response.ok) {
-        setConfettiVisibility(true)
-        toast({ title: 'Tudo certo 🥳', description: 'Você receberá as vagas na próxima quarta-feira!' })
-        return
+        setConfettiVisibility(true);
+        toast({
+          title: "Tudo certo 🥳",
+          description: "Você receberá as vagas na próxima quarta-feira!",
+        });
+        return;
       }
 
       if (response.status === StatusCodes.CONFLICT) {
-        toast({ title: 'Algo deu errado 🥶', variant: 'destructive', description: await response.text() })
-        return
+        toast({
+          title: "Algo deu errado 🥶",
+          variant: "destructive",
+          description: await response.text(),
+        });
+        return;
       }
 
-      throw new Error(response.statusText)
+      throw new Error(response.statusText);
     } catch (err) {
-      toast({ title: 'Algo deu errado 🥶', variant: 'destructive', description: 'Não conseguimos adicionar seu e-mail, tente novamente mais tarde.' })
-    } finally {
-      setLoading(false)
+      toast({
+        title: "Algo deu errado 🥶",
+        variant: "destructive",
+        description:
+          "Não conseguimos adicionar seu e-mail, tente novamente mais tarde.",
+      });
     }
+
     return false;
   };
 
@@ -111,7 +134,12 @@ export const Hero = () => {
                       fill="none"
                       xmlns="http://www.w3.org/2000/svg"
                     >
-                      <rect width={56} height={56} rx={28} fill="currentColor" />
+                      <rect
+                        width={56}
+                        height={56}
+                        rx={28}
+                        fill="currentColor"
+                      />
                       <path
                         d="M37 32H19M37 24H19"
                         stroke="white"
@@ -167,7 +195,7 @@ export const Hero = () => {
                         className="font-medium hover:text-gray-700"
                         href="#valores"
                       >
-                      Nossos Valores
+                        Nossos Valores
                       </a>
                     </li>
                     <li className="mb-12">
@@ -175,7 +203,7 @@ export const Hero = () => {
                         className="font-medium hover:text-gray-700"
                         href="#como-funciona"
                       >
-                      Como Funciona
+                        Como Funciona
                       </a>
                     </li>
                     <li>
@@ -183,7 +211,7 @@ export const Hero = () => {
                         className="font-medium hover:text-gray-700"
                         href="#perguntas-frequentes"
                       >
-                      Perguntas Frequentes
+                        Perguntas Frequentes
                       </a>
                     </li>
                   </ul>
@@ -207,8 +235,8 @@ export const Hero = () => {
                   <div className="p-8 absolute bottom-0 left-0 w-full md:p-0">
                     <div className="p-11 bg-black bg-opacity-70 backdrop-blur-xl rounded-lg md:w-full">
                       <p className="text-sm text-white text-opacity-60 font-semibold uppercase tracking-px">
-                      RECEBA VAGAS EM PORTUGUÊS OU INGLÊS, DE ACORDO COM SUA
-                      PREFERÊNCIA.
+                        RECEBA VAGAS EM PORTUGUÊS OU INGLÊS, DE ACORDO COM SUA
+                        PREFERÊNCIA.
                       </p>
                     </div>
                   </div>
@@ -217,16 +245,19 @@ export const Hero = () => {
               <div className="w-full md:w-1/2 xl:flex-1 p-8 xl:p-12">
                 <div className="xl:max-w-2xl">
                   <h1 className="mb-7 text-6xl md:text-8xl xl:text-10xl font-bold font-heading tracking-px-n leading-none">
-                  Vagas remotas no seu e-mail.
+                    Vagas remotas no seu e-mail.
                   </h1>
-                  <p className="mb-9 text-lg text-gray-900 font-medium">
+                  <p className="text-lg text-gray-900 font-medium">
                   Levamos as melhores oportunidades de trampo até você.
                   </p>
-                  <div className="mb-16 p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-3xl focus-within:ring focus-within:ring-indigo-300">
+                  <div className="h-[24px] mt-5 mb-3">
+                    {Boolean(subscribersCount) && <h4 className="text-gray-900  font-semibold roll-animation">Junte-se a {subscribersCount} inscritos 🚀</h4>}
+                  </div>
+                  <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300">
                     <form
                       onSubmit={async (e) => {
                         e.preventDefault();
-                        await saveSubscriber();
+                        await withLoading(saveSubscriber);
                       }}
                     >
                       <div className="flex flex-wrap items-center">
@@ -247,17 +278,12 @@ export const Hero = () => {
                               className="py-4 px-7 w-full text-white font-semibold rounded-xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200 pointer 
                               disabled:opacity-50 cursor-pointer disabled:cursor-default"
                             >
-                            Quero participar
+                              Quero participar
                             </button>
                           </div>
                         </div>
                       </div>
                     </form>
-                  </div>
-                  <div className="flex flex-wrap items-center -m-16">
-                    <div className="w-auto">
-                      <div className="h-16 w-px bg-gray-200" />
-                    </div>
                   </div>
                 </div>
               </div>

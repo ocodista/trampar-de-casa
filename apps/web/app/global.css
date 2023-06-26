@@ -76,3 +76,24 @@
     @apply bg-background text-foreground;
   }
 }
+
+canvas {
+  z-index: 20px;
+}
+.roll-animation {
+  animation: 3s anim-rol ease;
+}
+@keyframes anim-rol{
+  0% {
+    opacity: 0;
+    transform: rotateX(90def);
+  }
+  50% {
+    opacity: 1;
+    transform: rotateX(720deg);
+  }
+  100% {
+    opacity: 1;
+    transform: rotateX(720deg);
+  }
+}
