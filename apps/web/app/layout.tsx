@@ -3,8 +3,6 @@ import { Toaster } from "../global/components/ui/toaster";
 import "./global.css";
 import Script from "next/script";
 import LoadingProvider from "./context/Loading";
-import { GlobalErrorBoundary } from "global/GlobalErrorBoundary";
-import { toast } from "global/components/ui/use-toast";
 
 export const metadata: Metadata = {
   title: "Vagas 100% remotas",
@@ -21,9 +19,7 @@ export default function RootLayout ({ children }) {
       <Script strategy="afterInteractive" data-domain="trampardecasa.com.br" src="https://plausible.io/js/script.js" />
       <body>
         <LoadingProvider>
-          <GlobalErrorBoundary toast={toast}>
-            {children}
-          </GlobalErrorBoundary>
+          {children}
           <Toaster />
         </LoadingProvider>
       </body>
