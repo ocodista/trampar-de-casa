@@ -100,7 +100,7 @@ export const HowItWorks = () => (
                       Enviamos as oportunidades
                     </h3>
                     <p className="text-gray-700 font-medium leading-relaxed">
-                      Toda quarta-feira às 11:00h da manhã enviaremos uma lista
+                      Toda quarta-feira às 11h enviaremos uma lista
                       com as vagas que fazem mais sentido para você.
                     </p>
                   </div>
