@@ -32,3 +32,6 @@ yarn-error.log*
 
 # vercel
 .vercel
+
+# Ignore Prisma client
+/prisma/client/

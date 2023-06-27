@@ -38,6 +38,7 @@ model Roles {
   language        String
   currency        String?
   salary          String?
+  skills          Json?
   createdAt       DateTime?   @default(now())
   sentRolesId     String      @unique
   sentRoles       SentRoles   @relation(fields: [sentRolesId], references: [id])
