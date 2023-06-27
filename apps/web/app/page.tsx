@@ -1,9 +1,9 @@
 "use client";
 import React from "react";
-import { Hero } from "../domains/landing-page/Hero";
-import { Values } from "../domains/landing-page/Values";
-import { FAQ } from "../domains/landing-page/FAQ";
-import { HowItWorks } from "../domains/landing-page/HowItWorks";
+import { Hero } from "./landing-page/Hero";
+import { Values } from "./landing-page/Values";
+import { FAQ } from "./landing-page/FAQ";
+import { HowItWorks } from "./landing-page/HowItWorks";
 
 export default function Page () {
   return (
