@@ -3,7 +3,7 @@ import { createClient } from "@supabase/supabase-js";
 import { StatusCodes } from "http-status-codes";
 import { getSupabaseClient } from "../../db/getSupabaseClient";
 import { Entities, SupabaseCodes } from 'shared/src/enums';
-import { sendConfirmationEmail } from "shared";
+import { sendConfirmationEmail } from 'shared/src/email';
 
 interface EmailRequest {
   email: string;
