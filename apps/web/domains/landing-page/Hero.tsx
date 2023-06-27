@@ -63,7 +63,7 @@ export const Hero = () => {
         setConfettiVisibility(true);
         toast({
           title: "Tudo certo 🥳",
-          description: "Você receberá as vagas na próxima quarta-feira!",
+          description: "Enviamos uma confirmação para o seu e-mail!",
         });
         return;
       }
