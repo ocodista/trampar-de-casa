@@ -1,8 +1,8 @@
 import { StatusCodes } from "http-status-codes"
 import { NextResponse } from "next/server"
 import { getSupabaseClient } from "../../../db/getSupabaseClient"
-import { Entities } from "../../../../global/enums/entities"
 import { decrypt } from "../../../security/cryptography"
+import { Entities } from 'shared/src/enums';
 
 export async function POST (request: Request) {
   const body = await request.json()
