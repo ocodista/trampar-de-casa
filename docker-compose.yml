@@ -10,14 +10,6 @@ services:
       RABBITMQ_DEFAULT_USER: trampar
       RABBITMQ_DEFAULT_PASS: trampar-de-casa
 
-
-  trampar-conteiner:
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - 3000:3000
-
   #URL https://localhost:9443
   portainer:
     image: portainer/portainer-ce:latest
@@ -37,6 +29,15 @@ services:
         POSTGRES_PASSWORD: postgres
         POSTGRES_DB: postgres
       restart: unless-stopped
+
+  trampar-conteiner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      - db
+    ports:
+      - 3000:3000
 
 volumes:
   data:
