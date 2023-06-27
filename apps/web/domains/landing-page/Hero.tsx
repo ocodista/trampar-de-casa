@@ -1,6 +1,5 @@
 "use client";
 import React, { useContext, useEffect, useState } from "react";
-import { ApiRoutes } from "../../global/enums/apiRoutes";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -8,6 +7,7 @@ import Confetti from "react-confetti";
 import { useToast } from "../../global/components/ui/use-toast";
 import { StatusCodes } from "http-status-codes";
 import { LoadingContext } from "../../app/contexts/LoadingContext";
+import { ApiRoutes } from "shared/src/enums";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -63,7 +63,7 @@ export const Hero = () => {
         setConfettiVisibility(true);
         toast({
           title: "Tudo certo 🥳",
-          description: "Você receberá as vagas na próxima quarta-feira!",
+          description: "Enviamos uma confirmação para o seu e-mail!",
         });
         return;
       }

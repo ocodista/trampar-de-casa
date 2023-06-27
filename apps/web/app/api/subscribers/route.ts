@@ -1,9 +1,9 @@
 import { NextResponse } from "next/server";
-import { Entities } from "../../../global/enums/entities";
 import { createClient } from "@supabase/supabase-js";
 import { StatusCodes } from "http-status-codes";
-import { SupabaseCodes } from "../../../global/enums/supabaseCodes";
 import { getSupabaseClient } from "../../db/getSupabaseClient";
+import { Entities, SupabaseCodes } from 'shared/src/enums';
+import { sendConfirmationEmail } from 'shared/src/email';
 
 interface EmailRequest {
   email: string;
@@ -16,14 +16,25 @@ export async function POST (request: Request) {
   }
 
   const supabase = getSupabaseClient();
-
   const { data, error } = await supabase
     .from(Entities.Subcribers)
     .insert({ email })
     .select();
 
-  if (!error)
+  if (!error) {
+    try {
+      await sendConfirmationEmail({ 
+        secretKey: process.env['CRYPT_SECRET'], 
+        to: email, 
+        resendKey: process.env['RESEND_KEY'], 
+        subscriberId: data[0].id 
+      })
+    } catch (err) {
+      // eslint-disable-next-line no-console
+      console.error(err)
+    }
     return NextResponse.json(data);
+  }
 
   if (error.code === SupabaseCodes.DuplicatedRow) {
     return new NextResponse("Email já cadastrado.", { status: StatusCodes.CONFLICT })

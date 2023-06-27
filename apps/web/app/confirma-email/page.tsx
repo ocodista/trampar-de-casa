@@ -2,8 +2,8 @@
 import { useSearchParams } from "next/navigation"
 import { useContext, useEffect } from "react"
 import { LoadingContext } from "../contexts/LoadingContext"
-import { ApiRoutes } from "../../global/enums/apiRoutes"
 import { useToast } from "../../global/components/ui/use-toast"
+import { ApiRoutes } from "shared/src/enums"
 
 export default function Page (){
   const { isLoading, setLoaderVisibility  } = useContext(LoadingContext)
