@@ -16,7 +16,6 @@
     "@supabase/supabase-js": "^2.26.0",
     "@types/amqplib": "^0.10.1",
     "amqplib": "^0.10.3",
-    "crypto": "^1.0.1",
     "dotenv": "^16.3.1",
     "node-fetch": "^3.3.1",
     "resend": "^0.15.3",

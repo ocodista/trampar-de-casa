@@ -11,7 +11,6 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "crypto": "^1.0.1",
     "resend": "^0.16.0",
     "typescript": "^5.1.3"
   }

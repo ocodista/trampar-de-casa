@@ -1,4 +1,4 @@
-import crypto from 'crypto'
+import * as crypto from 'crypto'
 
 export const decrypt = (text: string): string => {
   const textParts = decodeURIComponent(text).split(':');
