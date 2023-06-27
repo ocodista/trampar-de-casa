@@ -10,7 +10,7 @@ export async function POST (request: Request) {
   if (!body[field] || body[field] !== process.env['EMAIL_PASS'])
     return new NextResponse(null, { status: StatusCodes.UNAUTHORIZED })
 
-  const { to, from, subject, html, text } = body
+  const { to, from, subject, html, text, bcc } = body
   if (!("text" in body || "html" in body)) {
     return new NextResponse(null, { status: StatusCodes.BAD_REQUEST })
   }
@@ -20,14 +20,16 @@ export async function POST (request: Request) {
       to,
       from,
       subject,
-      text
+      text,
+      bcc
     })
   } else if ("html" in body) {
     await Email.send({
       to,
       from,
       subject,
-      html
+      html,
+      bcc
     })
   }
   

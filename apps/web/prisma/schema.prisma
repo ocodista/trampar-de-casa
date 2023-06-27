@@ -12,7 +12,65 @@ datasource db {
 }
 
 model Subscribers {
-  id          BigInt @id @default(autoincrement())
-  created_at  DateTime @default(now())
-  email       String @unique
+  id                String            @id      @db.Uuid   @default(dbgenerated("gen_random_uuid()"))
+  email             String            @unique
+  name              String?
+  linkedInUrl       String?
+  gitHub            String?
+  startedWorkingAt  Int?
+  skills            Json?
+  englishLevel      EnglishLevel?
+  sentRoles         SentRoles[]       @relation(name:"SentRoles")
+  isConfirmed       Boolean           @default(false)
+  createdAt         DateTime          @default(now())
+
+  @@map("Subscribers")
+}
+
+
+model Roles {
+  id              String      @id @default(uuid())
+  companyId       String
+  company         Companies   @relation(fields: [companyId], references: [id])
+  title           String
+  description     String
+  country         String
+  language        String
+  currency        String?
+  salary          String?
+  createdAt       DateTime?   @default(now())
+  sentRolesId     String      @unique
+  sentRoles       SentRoles   @relation(fields: [sentRolesId], references: [id])
+
+  @@map("Roles")
+}
+
+model SentRoles {
+  id      String              @id @default(uuid())
+  sentAt  DateTime?
+  roleId  String
+  role    Roles?
+  subscribers Subscribers[]   @relation(name:"SentRoles")
+
+  @@map("SentRoles")
+  @@index([sentAt])
+}
+
+model Companies {
+  id          String      @id @default(uuid())
+  name        String
+  url         String
+  logoUrl     String?
+  countryIcon String
+  roles       Roles[]
+  createdAt   DateTime?   @default(now())
+
+  @@map("Companies")
+}
+
+enum EnglishLevel {
+  Beginner
+  Intermediary
+  Advanced
+  Fluent
 }

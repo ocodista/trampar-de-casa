@@ -1,5 +1,16 @@
 version: '3.8'
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    ports:
+      - 5672:5672   # RabbitMQ
+      - 15672:15672 # Management console
+    environment:
+      RABBITMQ_DEFAULT_USER: trampar
+      RABBITMQ_DEFAULT_PASS: trampar-de-casa
+
+
   trampar-conteiner:
     build:
       context: .
