@@ -1,4 +1,4 @@
-import { cn } from 'global/utils';
+import { cn } from "./utils";
 
 const Spinner = () => {
   return (

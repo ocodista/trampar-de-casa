@@ -1,7 +1,7 @@
 'use client';
 
-import { LoadingOverlay } from 'global/components/ui/loadingOverlay';
 import { createContext, useState } from 'react';
+import { LoadingOverlay } from '../components/ui/loadingOverlay';
 
 type LoadingContext = {
   isLoading: boolean;

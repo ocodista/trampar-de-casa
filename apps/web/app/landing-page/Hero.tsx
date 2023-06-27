@@ -4,10 +4,10 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Confetti from "react-confetti";
-import { useToast } from "../../global/components/ui/use-toast";
 import { StatusCodes } from "http-status-codes";
-import { LoadingContext } from "../../app/contexts/LoadingContext";
+import { LoadingContext } from "../contexts/LoadingContext";
 import { ApiRoutes } from "shared/src/enums";
+import { useToast } from "../components/ui/use-toast";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
