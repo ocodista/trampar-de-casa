@@ -1,4 +1,4 @@
 module.exports = {
   reactStrictMode: true,
-  transpilePackages: ["security", "shared"],
+  transpilePackages: ["ui", "eslint-config-custom", "shared"],
 };
