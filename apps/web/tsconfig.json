@@ -22,7 +22,13 @@
     ],
     "baseUrl": "."
   },
-  "include": ["next-env.d.ts", ".next/types/**/*.ts", "**/*.ts", "**/*.tsx", "tests/setup.js"],
+  "include": [
+    "next-env.d.ts",
+    ".next/types/**/*.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "vitest.config.ts"
+  ],
   "exclude": ["node_modules"],
   "ts-node": {
     "esm": true,

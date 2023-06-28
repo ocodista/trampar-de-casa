@@ -9,8 +9,7 @@
     "lint": "next lint",
     "db-start": "npx supabase start",
     "db-stop": "npx supabase stop --backup",
-    "test": "vitest",
-    "coverage": "vitest run --coverage"
+    "test": "vitest run"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
