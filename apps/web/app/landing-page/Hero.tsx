@@ -18,7 +18,6 @@ type ValidationSchema = z.infer<typeof validationSchema>;
 const PADDING_X = 32;
 
 export const Hero = () => {
-  const [subscribersCount, setSubscribersCount] = useState(0)
   const { isLoading, withLoading } = useContext(LoadingContext);
 
   const {
@@ -38,15 +37,15 @@ export const Hero = () => {
 
   const { toast } = useToast();
 
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(ApiRoutes.Subscribers)
-      if (response.ok) {
-        const count = await response.json()
-        setSubscribersCount(count)
-      }
-    })()
-  }, [])
+ 
+
+  const subscribersCount = async () => {
+    const response = await fetch(ApiRoutes.Subscribers)
+    if (response.ok) {
+      const count = await response.json()
+      return count
+    }
+  }
 
   
   // TODO: Create loader
