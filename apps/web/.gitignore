@@ -33,10 +33,9 @@ yarn-error.log*
 # vercel
 .vercel
 
-
-# Ignore Prisma client
-/prisma/client/
-
-# Don't ignore Prisma client type definition
+# Ignore Prisma client but don't ignore Prisma client type definition
+/prisma/client/*
 !/prisma/client/index.d.ts
+
+
 
