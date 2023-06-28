@@ -23,6 +23,7 @@ model Subscribers {
   sentRoles         SentRoles[]       @relation(name:"SentRoles")
   isConfirmed       Boolean           @default(false)
   createdAt         DateTime          @default(now())
+  optOut            Boolean           @default(false)
 
   @@map("Subscribers")
 }
@@ -38,6 +39,7 @@ model Roles {
   language        String
   currency        String?
   salary          String?
+  skills          Json?
   createdAt       DateTime?   @default(now())
   sentRolesId     String      @unique
   sentRoles       SentRoles   @relation(fields: [sentRolesId], references: [id])
