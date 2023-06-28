@@ -1,6 +1,6 @@
 'use client'
 import { useSearchParams } from "next/navigation"
-import { useContext, useEffect } from "react"
+import { useCallback, useContext, useEffect } from "react"
 import { LoadingContext } from "../../contexts/LoadingContext"
 import { ApiRoutes } from "shared/src/enums"
 import { useToast } from "../../components/ui/use-toast"
@@ -12,7 +12,7 @@ export default function Page (){
   const id = searchParams.get("id") || ""
   const { toast } = useToast()
 
-  const showToast = () => toast({ title: 'Algo deu errado', variant: 'destructive', description: 'Tente novamente mais tarde' })
+  const showToast = useCallback(() => toast({ title: 'Algo deu errado', variant: 'destructive', description: 'Tente novamente mais tarde' }), [toast])
 
   useEffect(() => {
     if (!id) {
@@ -34,7 +34,7 @@ export default function Page (){
       }
       setLoaderVisibility(false)
     })()
-  }, [])
+  }, [id, setLoaderVisibility, showToast])
 
   if (isLoading) return null
 
