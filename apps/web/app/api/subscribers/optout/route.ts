@@ -3,13 +3,10 @@ import { NextResponse } from "next/server"
 import { getSupabaseClient } from "../../../db/getSupabaseClient"
 import { Entities } from 'shared/src/enums';
 import { decrypt } from "shared/src/security";
-import url from 'url'
 
-export async function GET (request: Request) {
+export async function POST (request: Request) {
     try {
-        // Get query params
-        // Ref: https://stackoverflow.com/a/76246887/18256370
-        const { id } = url.parse(request.url, true).query
+        const { id } = await request.json()
 
         if (!id)
         return new NextResponse(null, { status: StatusCodes.BAD_REQUEST })
@@ -27,7 +24,7 @@ export async function GET (request: Request) {
         return NextResponse.json(data)
 
     } catch(err) {
-        // console.error(err)
+        console.error(err)
         return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
     }
 
