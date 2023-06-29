@@ -49,8 +49,6 @@ export const Hero = () => {
   }, [])
 
   
-  // TODO: Create loader
-  // TODO: Handle error globally
   const saveSubscriber = async () => {
     const email = getValues().email;
     try {
@@ -237,8 +235,7 @@ export const Hero = () => {
                   <div className="p-8 absolute bottom-0 left-0 w-full md:p-0">
                     <div className="p-11 bg-black bg-opacity-70 backdrop-blur-xl rounded-lg md:w-full">
                       <p className="text-sm text-white text-opacity-60 font-semibold uppercase tracking-px">
-                        RECEBA VAGAS EM PORTUGUÊS OU INGLÊS, DE ACORDO COM SUA
-                        PREFERÊNCIA.
+                        RECEBA VAGAS NACIONAIS E INTERNACIONAIS.
                       </p>
                     </div>
                   </div>
