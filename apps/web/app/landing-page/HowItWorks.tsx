@@ -5,11 +5,13 @@ export const HowItWorks = () => (
     <div className="container px-4 mx-auto">
       <div className="flex flex-wrap lg:items-center -m-8">
         <div className="w-full md:w-1/2 p-8">
-          <img
-            className="mx-auto transform hover:-translate-y-4 transition ease-in-out duration-1000 rounded-2xl"
-            src="https://images.unsplash.com/photo-1473172707857-f9e276582ab6?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzIzMzB8MHwxfHNlYXJjaHwxNnx8dGhpbmtpbmd8ZW58MHx8fHwxNjg3MzkxMTMzfDA&ixlib=rb-4.0.3&q=85&w=1920"
-            alt=""
-          />
+          <figure>
+            <img
+              className="mx-auto transform hover:-translate-y-4 transition ease-in-out duration-1000 rounded-2xl"
+              src="https://images.unsplash.com/photo-1473172707857-f9e276582ab6?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzIzMzB8MHwxfHNlYXJjaHwxNnx8dGhpbmtpbmd8ZW58MHx8fHwxNjg3MzkxMTMzfDA&ixlib=rb-4.0.3&q=85&w=1920"
+              alt=""
+            />
+          </figure>
         </div>
         <div className="w-full md:w-1/2 p-8">
           <h2 className="mb-20 text-6xl md:text-7xl font-bold font-heading tracking-px-n leading-tight">

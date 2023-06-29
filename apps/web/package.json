@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db-start": "npx supabase start",
+    "db-start": "npx prisma generate && npx supabase start",
+    "db-seed": "npx prisma db seed",
     "db-stop": "npx supabase stop --backup"
   },
   "dependencies": {
