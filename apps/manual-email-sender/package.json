@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "send-openings": "ts-node src/openings-email/sendEmail.ts",
+    "send-openings": "ts-node src/openings-email/sendEmail.ts"
   },
   "keywords": [],
   "author": "",
