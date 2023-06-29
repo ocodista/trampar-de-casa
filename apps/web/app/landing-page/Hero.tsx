@@ -50,8 +50,6 @@ export const Hero = () => {
 
   const { data:subscribersCount } = useQuery<number>( 'subscribres', async () => await getSubscribersCount())
   
-  // TODO: Create loader
-  // TODO: Handle error globally
   const saveSubscriber = async () => {
     const email = getValues().email;
     try {
@@ -95,7 +93,7 @@ export const Hero = () => {
     <>
       {isConfettiVisible && <Confetti width={window.innerWidth - PADDING_X} />}
       <section className="relative">
-        <div className="container mx-auto overflow-hidden">
+        <header className="container mx-auto overflow-hidden">
           <div className="relative flex items-center justify-between px-4 py-5 bg-transparent">
             <div className="w-auto">
               <div className="flex flex-wrap items-center">
@@ -108,7 +106,7 @@ export const Hero = () => {
                     />
                   </a>
                 </div>
-                <div className="w-auto hidden lg:block">
+                <nav className="w-auto hidden lg:block">
                   <ul className="flex items-center mr-16">
                     <li className="mr-9 font-medium hover:text-gray-700">
                       <a href="#valores">Nossos Valores</a>
@@ -120,7 +118,7 @@ export const Hero = () => {
                       <a href="#perguntas-frequentes">Perguntas Frequentes</a>
                     </li>
                   </ul>
-                </div>
+                </nav>
               </div>
             </div>
             <div className="w-auto">
@@ -220,24 +218,25 @@ export const Hero = () => {
               </div>
             </nav>
           </div>
-        </div>
+        </header>
         <div className="relative  overflow-hidden pt-12 pb-28">
           <div className="container px-4 mx-auto">
             <div className="flex flex-wrap xl:items-center -m-8">
               <div className="w-full md:w-1/2 p-8 xl:p-12 xl:w-1/2 md:flex">
                 <div className="md:inline-block relative">
                   <div className="overflow-hidden rounded-lg">
-                    <img
-                      className="w-full md:w-auto rounded-lg transform hover:scale-105 transition ease-in-out duration-1000"
-                      src="images/home-1.jpg"
-                      alt="Logo da Trampar de Casa"
-                    />
+                    <figure>
+                      <img
+                        className="w-full md:w-auto rounded-lg transform hover:scale-105 transition ease-in-out duration-1000"
+                        src="images/home-1.jpg"
+                        alt="Logo da Trampar de Casa"
+                      />
+                    </figure>
                   </div>
                   <div className="p-8 absolute bottom-0 left-0 w-full md:p-0">
                     <div className="p-11 bg-black bg-opacity-70 backdrop-blur-xl rounded-lg md:w-full">
                       <p className="text-sm text-white text-opacity-60 font-semibold uppercase tracking-px">
-                        RECEBA VAGAS EM PORTUGUÊS OU INGLÊS, DE ACORDO COM SUA
-                        PREFERÊNCIA.
+                        RECEBA VAGAS NACIONAIS E INTERNACIONAIS.
                       </p>
                     </div>
                   </div>
