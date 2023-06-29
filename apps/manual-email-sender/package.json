@@ -4,8 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "add-unconfirmed-to-queue": "ts-node src/confirmation-email/addUnconfirmedToQueue.ts",
-    "send-unconfirmed-from-queue": "ts-node src/confirmation-email/sendConfirmationEmailsFromQueue.ts"
+    "send-openings": "ts-node src/openings-email/sendEmail.ts",
   },
   "keywords": [],
   "author": "",
