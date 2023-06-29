@@ -4,14 +4,18 @@ import { Hero } from "./landing-page/Hero";
 import { Values } from "./landing-page/Values";
 import { FAQ } from "./landing-page/FAQ";
 import { HowItWorks } from "./landing-page/HowItWorks";
+import { QueryClient, QueryClientProvider } from "react-query";
 
 export default function Page () {
+  const queryClient = new QueryClient()
   return (
     <>
-      <Hero />
-      <Values />
-      <HowItWorks />
-      <FAQ />
+      <QueryClientProvider client={queryClient}>
+        <Hero />
+        <Values />
+        <HowItWorks />
+        <FAQ />
+      </QueryClientProvider>
     </>
   );
 }

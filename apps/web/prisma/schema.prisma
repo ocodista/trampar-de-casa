@@ -23,6 +23,7 @@ model Subscribers {
   sentRoles         SentRoles[]       @relation(name:"SentRoles")
   isConfirmed       Boolean           @default(false)
   createdAt         DateTime          @default(now())
+  optOut            Boolean           @default(false)
 
   @@map("Subscribers")
 }

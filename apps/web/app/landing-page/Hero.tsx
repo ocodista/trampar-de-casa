@@ -8,6 +8,7 @@ import { StatusCodes } from "http-status-codes";
 import { LoadingContext } from "../contexts/LoadingContext";
 import { ApiRoutes } from "shared/src/enums";
 import { useToast } from "../components/ui/use-toast";
+import { useQuery } from "react-query";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -15,10 +16,11 @@ const validationSchema = z.object({
 
 type ValidationSchema = z.infer<typeof validationSchema>;
 
-const PADDING_X = 32;
+const PADDING_X = 32; 
+
+
 
 export const Hero = () => {
-  const [subscribersCount, setSubscribersCount] = useState(0)
   const { isLoading, withLoading } = useContext(LoadingContext);
 
   const {
@@ -38,16 +40,15 @@ export const Hero = () => {
 
   const { toast } = useToast();
 
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(ApiRoutes.Subscribers)
-      if (response.ok) {
-        const count = await response.json()
-        setSubscribersCount(count)
-      }
-    })()
-  }, [])
+  const getSubscribersCount = async () => {
+    const response = await fetch(ApiRoutes.Subscribers)
+    if (response.ok) {
+      const count = await response.json()
+      return count
+    }
+  }
 
+  const { data:subscribersCount } = useQuery<number>( 'subscribres', async () => await getSubscribersCount())
   
   // TODO: Create loader
   // TODO: Handle error globally
