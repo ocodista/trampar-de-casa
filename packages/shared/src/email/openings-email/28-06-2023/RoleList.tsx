@@ -2,6 +2,16 @@ import { Row, Column, Heading } from "@react-email/components";
 import React from "react";
 import { Role } from "./roles";
 
+interface Skill {
+  name: string;
+}
+
+const Skill = ({ name }: Skill) => (
+  <div className="px-4 py-1.5 whitespace-nowrap mb-1 border-2 border-solid bg-zinc-200 border-black text-xs rounded-2xl">
+    {name}
+  </div>
+);
+
 export const RoleCard = ({
   company,
   headerInfo,
@@ -11,6 +21,8 @@ export const RoleCard = ({
   skills,
   language,
 }: Role) => {
+  const firstSkills = skills.slice(0, 4);
+
   return (
     <a
       href={url}
@@ -36,18 +48,9 @@ export const RoleCard = ({
           <Heading className="text-sm">{title}</Heading>
         </Row>
         <section className="flex flex-wrap gap-x-2">
-          {skills.map((skill: string, index: number) =>
-            // Max width doesn't work so we need to limit the number of skills
-            // TODO: Make max width work!
-            index > 3 ? null : (
-              <div
-                key={skill}
-                className="px-4 py-1.5 whitespace-nowrap mb-1 border-2 border-solid bg-zinc-200 border-black text-xs rounded-2xl"
-              >
-                {skill}
-              </div>
-            )
-          )}
+          {firstSkills.map((skill: string) => (
+            <Skill key={skill} name={skill} />
+          ))}
         </section>
         <Row className="text-gray-400 mt-2">
           <Column align="left" className="flex items-center text-xs">
@@ -69,7 +72,9 @@ export const RoleCard = ({
 };
 
 const RoleList = ({ roles }: { roles: Role[] }) => {
-  return roles.map((role) => <RoleCard {...role} />);
+  return roles.map((role) => (
+    <RoleCard key={`${role.title}-${role.company}`} {...role} />
+  ));
 };
 
 export default RoleList;
