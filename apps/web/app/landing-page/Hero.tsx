@@ -8,7 +8,7 @@ import { StatusCodes } from "http-status-codes";
 import { LoadingContext } from "../contexts/LoadingContext";
 import { ApiRoutes } from "shared/src/enums";
 import { useToast } from "../components/ui/use-toast";
-import { QueryClient, useQuery } from "react-query";
+import { useQuery } from "react-query";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -16,9 +16,9 @@ const validationSchema = z.object({
 
 type ValidationSchema = z.infer<typeof validationSchema>;
 
-const PADDING_X = 32;
+const PADDING_X = 32; 
 
-export const queryClient = new QueryClient()
+
 
 export const Hero = () => {
   const { isLoading, withLoading } = useContext(LoadingContext);
@@ -48,7 +48,7 @@ export const Hero = () => {
     }
   }
 
-  const { data:subscribresCount } = useQuery<number>( 'subscribres', async () => await getSubscribersCount())
+  const { data:subscribersCount } = useQuery<number>( 'subscribres', async () => await getSubscribersCount())
   
   // TODO: Create loader
   // TODO: Handle error globally
@@ -252,7 +252,7 @@ export const Hero = () => {
                   Levamos as melhores oportunidades de trampo até você.
                   </p>
                   <div className="h-[24px] mt-5 mb-3">
-                    {Boolean(subscribresCount) && <h4 className="text-gray-900  font-semibold roll-animation">Junte-se a {subscribresCount} inscritos 🚀</h4>}
+                    {Boolean(subscribersCount) && <h4 className="text-gray-900  font-semibold roll-animation">Junte-se a {subscribersCount} inscritos 🚀</h4>}
                   </div>
                   <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300">
                     <form
