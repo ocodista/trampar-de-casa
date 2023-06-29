@@ -41,8 +41,8 @@ model Roles {
   salary          String?
   skills          Json?
   createdAt       DateTime?   @default(now())
-  sentRolesId     String      @unique
-  sentRoles       SentRoles   @relation(fields: [sentRolesId], references: [id])
+  sentRolesId     String?      @unique
+  sentRoles       SentRoles?   @relation(fields: [sentRolesId], references: [id])
 
   @@map("Roles")
 }
