@@ -4,8 +4,9 @@
 
 ---
 
-## Sobre o Projeto 🎯 
-O Trampar de Casa é uma iniciativa open-source dedicada a conectar desenvolvedores brasileiros a oportunidades de trabalho remoto, incentivando a inclusão, diversidade e quebrando barreiras geográficas.  
+## Sobre o Projeto 🎯
+
+O Trampar de Casa é uma iniciativa open-source dedicada a conectar desenvolvedores brasileiros a oportunidades de trabalho remoto, incentivando a inclusão, diversidade e quebrando barreiras geográficas.
 
 Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas que correspondem ao perfil de nossos inscritos.
 
@@ -15,7 +16,7 @@ Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas 
 
 Estamos trabalhando para implementar novas funcionalidades que vão tornar o Trampar de Casa ainda melhor. Aqui estão algumas que estão em nosso roadmap:
 
-- [ ] **Cron Job para Envio de Emails**: Implementação de um Cron Job que enviará emails semanalmente (quarta-feira às 11h) para nossos usuários com as melhores oportunidades de trabalho remoto. 
+- [ ] **Cron Job para Envio de Emails**: Implementação de um Cron Job que enviará emails semanalmente (quarta-feira às 11h) para nossos usuários com as melhores oportunidades de trabalho remoto.
 
 Pretendemos usar a combinação de Vercel (conforme este [guia](https://vercel.com/guides/how-to-setup-cron-jobs-on-vercel)), react.email para construção dos emails e Supabase para o banco de dados.
 
@@ -55,8 +56,9 @@ Pretendemos usar a combinação de Vercel (conforme este [guia](https://vercel.c
 9. Caso tenha alguma dúvida consulta a [documentação oficial do supabase](https://supabase.com/docs/guides/getting-started/local-development) e a [documentação oficial do prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
 
 ## Contribuidores ✨
+
 <a href="https://github.com/ocodista/trampar-de-casa/graphs/contributors">
-  <img src="https://contrib.rocks/image?repo=ocodista/trampar-de-casa" />
+  <img src="https://contrib.rocks/image?repo=ocodista/trampar-de-casa&anon=0&columns=20&max=100" />
 </a>
 
 Toda e qualquer contribuição é muito bem-vinda!
