@@ -21,5 +21,8 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "dependencies": {
+    "react-query": "^3.39.3"
+  }
 }

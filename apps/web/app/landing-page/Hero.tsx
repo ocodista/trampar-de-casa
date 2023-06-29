@@ -3,6 +3,7 @@ import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
+import { useQuery } from "react-query";
 import Confetti from "react-confetti";
 import { StatusCodes } from "http-status-codes";
 import { LoadingContext } from "../contexts/LoadingContext";
@@ -18,7 +19,6 @@ type ValidationSchema = z.infer<typeof validationSchema>;
 const PADDING_X = 32;
 
 export const Hero = () => {
-  const [subscribersCount, setSubscribersCount] = useState(0)
   const { isLoading, withLoading } = useContext(LoadingContext);
 
   const {
@@ -38,17 +38,16 @@ export const Hero = () => {
 
   const { toast } = useToast();
 
-  useEffect(() => {
-    (async () => {
-      const response = await fetch(ApiRoutes.Subscribers)
-      if (response.ok) {
-        const count = await response.json()
-        setSubscribersCount(count)
-      }
-    })()
-  }, [])
+  const fetchSubscribersCount = async () => {
+    const response = await fetch(ApiRoutes.Subscribers)
 
-  
+    if (response.ok) {
+      const count = await response.json()
+      return count
+    }
+  }
+  const { data: subscribersCount } = useQuery("subscriberCountQuery", fetchSubscribersCount)
+
   // TODO: Create loader
   // TODO: Handle error globally
   const saveSubscriber = async () => {
