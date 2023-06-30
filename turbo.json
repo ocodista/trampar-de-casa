@@ -1,23 +1,16 @@
 {
   "$schema": "https://turbo.build/schema.json",
-  "globalDependencies": [
-    "**/.env.*local",
-    "SUPABASE_URL"
-  ],
+  "globalDependencies": ["**/.env.*local", "SUPABASE_URL"],
   "pipeline": {
     "build": {
-      "dependsOn": [
-        "^build"
-      ],
-      "outputs": [
-        ".next/**",
-        "!.next/cache/**"
-      ]
+      "dependsOn": ["^build"],
+      "outputs": [".next/**", "!.next/cache/**"]
     },
     "lint": {},
     "dev": {
       "cache": false,
       "persistent": true
-    }
+    },
+    "test": {}
   }
 }
