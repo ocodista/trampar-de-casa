@@ -40,12 +40,11 @@ export const Hero = () => {
 
   const { toast } = useToast();
 
-  const getSubscribersCount = async () => {
+  const getSubscribersCount = async (): Promise<number | null> => {
     const response = await fetch(ApiRoutes.Subscribers)
-    if (response.ok) {
-      const count = await response.json()
-      return count
-    }
+    if (!response?.ok) return null
+    const count = await response.json()
+    return count
   }
 
   const { data: subscribersCount } = useQuery<number>('subscribersCountQuery', async () => await getSubscribersCount())
