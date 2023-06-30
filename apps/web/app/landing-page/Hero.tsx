@@ -48,7 +48,7 @@ export const Hero = () => {
     }
   }
 
-  const { data:subscribersCount } = useQuery<number>( 'subscribres', async () => await getSubscribersCount())
+  const { data: subscribersCount } = useQuery<number>('subscribersCountQuery', async () => await getSubscribersCount())
   
   const saveSubscriber = async () => {
     const email = getValues().email;
