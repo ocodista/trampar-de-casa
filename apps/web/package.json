@@ -7,7 +7,8 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db-start": "npx supabase start",
+    "db-start": "npx prisma generate && npx supabase start",
+    "db-seed": "npx prisma db seed",
     "db-stop": "npx supabase stop --backup"
   },
   "dependencies": {
@@ -41,16 +42,21 @@
     "seed": "npx ts-node prisma/seed.ts"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
     "@types/node": "^17.0.12",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
+    "@vitejs/plugin-react": "^4.0.1",
     "autoprefixer": "^10.4.14",
     "eslint-config-custom": "*",
+    "jsdom": "^22.1.0",
     "postcss": "^8.4.24",
     "prisma": "^4.16.1",
     "supabase": "^1.68.6",
     "tailwindcss": "^3.3.2",
     "ts-node": "^10.9.1",
-    "typescript": "^4.5.3"
+    "typescript": "^4.5.3",
+    "vitest": "^0.32.2"
   }
 }
