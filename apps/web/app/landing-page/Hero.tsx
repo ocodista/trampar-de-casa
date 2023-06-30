@@ -18,7 +18,7 @@ type ValidationSchema = z.infer<typeof validationSchema>;
 const PADDING_X = 32;
 
 export const Hero = () => {
-  const [subscribersCount, setSubscribersCount] = useState(0)
+  const [subscribersCount, setSubscribersCount] = useState(0);
   const { isLoading, withLoading } = useContext(LoadingContext);
 
   const {
@@ -40,17 +40,14 @@ export const Hero = () => {
 
   useEffect(() => {
     (async () => {
-      const response = await fetch(ApiRoutes.Subscribers)
+      const response = await fetch(ApiRoutes.Subscribers);
       if (response.ok) {
-        const count = await response.json()
-        setSubscribersCount(count)
+        const count = await response.json();
+        setSubscribersCount(count);
       }
-    })()
-  }, [])
+    })();
+  }, []);
 
-  
-  // TODO: Create loader
-  // TODO: Handle error globally
   const saveSubscriber = async () => {
     const email = getValues().email;
     try {
@@ -94,7 +91,7 @@ export const Hero = () => {
     <>
       {isConfettiVisible && <Confetti width={window.innerWidth - PADDING_X} />}
       <section className="relative">
-        <div className="container mx-auto overflow-hidden">
+        <header className="container mx-auto overflow-hidden">
           <div className="relative flex items-center justify-between px-4 py-5 bg-transparent">
             <div className="w-auto">
               <div className="flex flex-wrap items-center">
@@ -107,7 +104,7 @@ export const Hero = () => {
                     />
                   </a>
                 </div>
-                <div className="w-auto hidden lg:block">
+                <nav className="w-auto hidden lg:block">
                   <ul className="flex items-center mr-16">
                     <li className="mr-9 font-medium hover:text-gray-700">
                       <a href="#valores">Nossos Valores</a>
@@ -119,7 +116,7 @@ export const Hero = () => {
                       <a href="#perguntas-frequentes">Perguntas Frequentes</a>
                     </li>
                   </ul>
-                </div>
+                </nav>
               </div>
             </div>
             <div className="w-auto">
@@ -219,24 +216,25 @@ export const Hero = () => {
               </div>
             </nav>
           </div>
-        </div>
+        </header>
         <div className="relative  overflow-hidden pt-12 pb-28">
           <div className="container px-4 mx-auto">
             <div className="flex flex-wrap xl:items-center -m-8">
               <div className="w-full md:w-1/2 p-8 xl:p-12 xl:w-1/2 md:flex">
                 <div className="md:inline-block relative">
                   <div className="overflow-hidden rounded-lg">
-                    <img
-                      className="w-full md:w-auto rounded-lg transform hover:scale-105 transition ease-in-out duration-1000"
-                      src="images/home-1.jpg"
-                      alt="Logo da Trampar de Casa"
-                    />
+                    <figure>
+                      <img
+                        className="w-full md:w-auto rounded-lg transform hover:scale-105 transition ease-in-out duration-1000"
+                        src="images/home-1.jpg"
+                        alt="Logo da Trampar de Casa"
+                      />
+                    </figure>
                   </div>
                   <div className="p-8 absolute bottom-0 left-0 w-full md:p-0">
                     <div className="p-11 bg-black bg-opacity-70 backdrop-blur-xl rounded-lg md:w-full">
                       <p className="text-sm text-white text-opacity-60 font-semibold uppercase tracking-px">
-                        RECEBA VAGAS EM PORTUGUÊS OU INGLÊS, DE ACORDO COM SUA
-                        PREFERÊNCIA.
+                        RECEBA VAGAS NACIONAIS E INTERNACIONAIS.
                       </p>
                     </div>
                   </div>
@@ -248,10 +246,14 @@ export const Hero = () => {
                     Vagas remotas no seu e-mail.
                   </h1>
                   <p className="text-lg text-gray-900 font-medium">
-                  Levamos as melhores oportunidades de trampo até você.
+                    Levamos as melhores oportunidades de trampo até você.
                   </p>
                   <div className="h-[24px] mt-5 mb-3">
-                    {Boolean(subscribersCount) && <h4 className="text-gray-900  font-semibold roll-animation">Junte-se a {subscribersCount} inscritos 🚀</h4>}
+                    {Boolean(subscribersCount) && (
+                      <h4 className="text-gray-900  font-semibold roll-animation">
+                        Junte-se a {subscribersCount} inscritos 🚀
+                      </h4>
+                    )}
                   </div>
                   <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300">
                     <form
