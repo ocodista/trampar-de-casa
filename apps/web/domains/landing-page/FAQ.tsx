@@ -17,7 +17,7 @@ export const FAQ = () => (
               <h3 className="mb-4 text-lg font-semibold leading-normal">
                 1. Qual o preço?
               </h3>
-              <p className="font-sans text-gray-600 leading-relaxed">
+              <p className="font-sans text-gray-600 dark:text-gray-400 leading-relaxed">
                 Nosso serviço é totalmente gratuito. Nosso objetivo é conectar
                 profissionais de tecnologia a oportunidades de trabalho remoto
                 de alta qualidade, sem nenhum custo.
@@ -29,7 +29,7 @@ export const FAQ = () => (
               <h3 className="mb-4 text-lg font-semibold leading-normal">
                 2. A vaga não é remota, e agora?
               </h3>
-              <p className="font-sans text-gray-600 leading-relaxed">
+              <p className="font-sans text-gray-600 dark:text-gray-400 leading-relaxed">
                 Caso encontre alguma vaga que não seja remota, denuncie!
                 Analisaremos todas as denúncias o mais rápido possível e
                 tomaremos as providências.
@@ -41,7 +41,7 @@ export const FAQ = () => (
               <h3 className="mb-4 text-lg font-semibold leading-normal">
                 3. Quantos e-mails receberei?
               </h3>
-              <p className="font-sans text-gray-600 leading-relaxed">
+              <p className="font-sans text-gray-600 dark:text-gray-400 leading-relaxed">
                 Apenas um e-mail por&nbsp; semana, nas quartas-feiras às 11h, com
                 vagas que fizerem sentido para você. Todas são 100% remotas.
               </p>
@@ -52,7 +52,7 @@ export const FAQ = () => (
               <h3 className="mb-4 text-lg font-semibold leading-normal">
                 4. O trabalho remoto pode afetar a produtividade?
               </h3>
-              <p className="font-sans text-gray-600 leading-relaxed">
+              <p className="font-sans text-gray-600 dark:text-gray-400 leading-relaxed">
                 O trabalho remoto pode aumentar sua produtividade ao reduzir o
                 tempo perdido em deslocamentos e interrupções no escritório.
               </p>

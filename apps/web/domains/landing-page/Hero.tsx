@@ -253,9 +253,9 @@ export const Hero = () => {
                   Levamos as melhores oportunidades de trampo até você.
                   </p>
                   <div className="h-[24px] mt-5 mb-3">
-                    {Boolean(subscribersCount) && <h4 className="text-gray-900  font-semibold roll-animation">Junte-se a {subscribersCount} inscritos 🚀</h4>}
+                    {Boolean(!subscribersCount) && <h4 className="text-gray-900 dark:text-gray-200 font-semibold roll-animation">Junte-se a {subscribersCount} inscritos 🚀</h4>}
                   </div>
-                  <div className="p-1.5 xl:pl-7 inline-block w-full border-2 dark:boder-white border-black rounded-xl focus-within:ring focus-within:ring-indigo-300">
+                  <div className="p-1.5 xl:pl-7 inline-block w-full border-2 dark:border-white border-black rounded-xl focus-within:ring focus-within:ring-indigo-300">
                     <form
                       onSubmit={async (e) => {
                         e.preventDefault();
@@ -265,7 +265,7 @@ export const Hero = () => {
                       <div className="flex flex-wrap items-center">
                         <div className="w-full xl:flex-1">
                           <input
-                            className="p-3 xl:p-0 xl:pr-7 w-full dark:bg-transparent text-gray-600 placeholder-gray-600 outline-none"
+                            className="p-3 xl:p-0 xl:pr-7 w-full dark:bg-transparent text-gray-600 dark:text-gray-200 dark:placeholder-gray-400 placeholder-gray-600 outline-none"
                             id="email"
                             type="email"
                             placeholder="Digite seu melhor e-mail"

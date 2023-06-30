@@ -1,7 +1,7 @@
 "use client"
 import React, { useEffect, useState } from 'react'
 import { useTheme } from "next-themes";
-import { Moon, Sun } from "lucide-react"
+import { Moon, Sun, Monitor } from "lucide-react"
 
 export function ToggleTheme () {
   const [mounted, setMounted] = useState(false)
@@ -24,7 +24,19 @@ export function ToggleTheme () {
     );
     const transition = document.startViewTransition(() => {
       // setClass((isDark = !isDark))
-      theme == 'dark' ? setTheme("light") : setTheme("dark");
+      switch (theme) {
+      case 'dark':
+        setTheme("light");
+        break;
+      case 'light':
+        setTheme("dark");
+        break;
+      case 'system':
+        setTheme("light");
+        break;
+      default:
+        setTheme("default");
+      }
     })
     transition.ready.then(() => {
       const clipPath = [
@@ -47,7 +59,7 @@ export function ToggleTheme () {
     <button
       onClick={ toggle }
       className=''>
-      { theme == "dark" ? <Moon /> : <Sun />}
+      { theme == "dark" ? <Moon /> : theme == "light" ? <Sun /> : <Monitor />}
     </button>
   )
 }
