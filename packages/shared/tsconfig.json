@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "types": ["vitest/importMeta"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
