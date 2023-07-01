@@ -225,10 +225,10 @@ export const Hero = () => {
                 <div className="inline-block mb-6 px-2 py-1 font-semibold bg-green-100 rounded-md roll-animation">
                   <div className="flex flex-wrap items-center -m-1">
                     <div className="w-auto py-1 px-2">
-                      <a className="text-sm" href="">
+                      <span className="text-sm">
                         👋 Junte-se a {subscribersCount.toLocaleString()}{" "}
                         inscritos!
-                      </a>
+                      </span>
                     </div>
                   </div>
                 </div>
