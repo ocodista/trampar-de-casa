@@ -1,14 +1,16 @@
 "use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { StatusCodes } from "http-status-codes";
-import Image from "next/image";
-import { useContext, useEffect, useState } from "react";
-import Confetti from "react-confetti";
+import React, { useContext, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
-import { ApiRoutes } from "shared/src/enums";
+import Image from "next/image";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { useToast } from "../components/ui/use-toast";
+import Confetti from "react-confetti";
+import { StatusCodes } from "http-status-codes";
 import { LoadingContext } from "../contexts/LoadingContext";
+
+import { ApiRoutes } from "shared/src/enums";
+
+import { useToast } from "../components/ui/use-toast";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -99,8 +101,8 @@ export const Hero = () => {
                 <div className="w-auto mr-14">
                   <a href="#">
                     <Image
-                      width={100}
-                      height={100}
+                      width={70}
+                      height={70}
                       src="images/logo.svg"
                       alt="Logotipo da Trampar De Casa"
                     />
@@ -161,8 +163,8 @@ export const Hero = () => {
                     <div className="w-auto p-2">
                       <a className="inline-block" href="#">
                         <Image
-                          width={100}
-                          height={100}
+                          width={70}
+                          height={70}
                           src="images/logo.svg"
                           alt="Logotipo da Trampar De Casa"
                         />
