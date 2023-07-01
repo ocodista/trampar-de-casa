@@ -9,6 +9,7 @@ import { LoadingContext } from "../../contexts/LoadingContext";
 import { ApiRoutes } from "shared/src/enums";
 import { useToast } from "../../components/ui/use-toast";
 import { PartnerCompanies } from "./PartnerCompanies";
+import { ErrorMessage } from "@hookform/error-message";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -22,13 +23,16 @@ export const Hero = () => {
   const [subscribersCount, setSubscribersCount] = useState(0);
   const { isLoading, withLoading } = useContext(LoadingContext);
 
+  const methods = useForm<ValidationSchema>({
+    resolver: zodResolver(validationSchema),
+    mode: "onTouched",
+  });
+
   const {
     register,
     getValues,
-    formState: { isValid },
-  } = useForm<ValidationSchema>({
-    resolver: zodResolver(validationSchema),
-  });
+    formState: { isValid, errors },
+  } = methods;
 
   const [isConfettiVisible, setConfettiVisibility] = useState(false);
   useEffect(() => {
@@ -213,12 +217,12 @@ export const Hero = () => {
           </nav>
         </div>
       </header>
-      <div className="pt-8 pb-10">
-        <div className="container px-4 mx-auto">
+      <div className="pt-8 pb-28">
+        <div className="container mx-auto">
           <div className="flex flex-wrap -m-8">
-            <div className="w-full md:w-1/2 p-8">
+            <div className="w-full md:w-1/2 p-8 pr-0">
               {subscribersCount ? (
-                <div className="inline-block mb-6 px-2 py-1 font-semibold bg-green-100 rounded-md">
+                <div className="inline-block mb-6 px-2 py-1 font-semibold bg-green-100 rounded-md roll-animation">
                   <div className="flex flex-wrap items-center -m-1">
                     <div className="w-auto py-1 px-2">
                       <a className="text-sm" href="">
@@ -231,13 +235,13 @@ export const Hero = () => {
               ) : (
                 <div className="h-[32px] mb-6"></div>
               )}
-              <h1 className="mb-6 text-6xl md:text-8xl lg:text-10xl font-bold font-heading md:max-w-xl leading-none">
+              <h1 className="mb-6 text-6xl md:text-8xl lg:text-10xl font-bold font-heading leading-none">
                 Vagas remotas no seu e-mail
               </h1>
               <p className="mb-11 text-lg text-gray-900 font-medium md:max-w-md">
                 Levamos as melhores oportunidades de trampo até você.
               </p>
-              <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300 -m-2.5 mb-20">
+              <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300 -m-2.5">
                 <form
                   onSubmit={async (e) => {
                     e.preventDefault();
@@ -250,6 +254,7 @@ export const Hero = () => {
                         className="p-3 xl:p-0 xl:pr-7 w-full text-gray-600 placeholder-gray-600 outline-none"
                         id="email"
                         type="email"
+                        disabled={isLoading}
                         placeholder="Digite seu melhor e-mail"
                         {...register("email")}
                       />
@@ -269,6 +274,13 @@ export const Hero = () => {
                   </div>
                 </form>
               </div>
+              <section className="text-red-400 my-4 mb-16 min-h-[30px] text-xs">
+                <ErrorMessage
+                  name="email"
+                  errors={errors}
+                  render={({ message }) => <p>{message}</p>}
+                />
+              </section>
               <PartnerCompanies />
             </div>
             <div className="w-full md:w-1/2 p-8">
