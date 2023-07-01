@@ -5,9 +5,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import Confetti from "react-confetti";
 import { StatusCodes } from "http-status-codes";
-import { LoadingContext } from "../contexts/LoadingContext";
+import { LoadingContext } from "../../contexts/LoadingContext";
 import { ApiRoutes } from "shared/src/enums";
-import { useToast } from "../components/ui/use-toast";
+import { useToast } from "../../components/ui/use-toast";
+import { PartnerCompanies } from "./PartnerCompanies";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -62,6 +63,7 @@ export const Hero = () => {
           title: "Tudo certo 🥳",
           description: "Enviamos uma confirmação para o seu e-mail!",
         });
+        setSubscribersCount(subscribersCount + 1);
         return;
       }
 
@@ -215,16 +217,19 @@ export const Hero = () => {
         <div className="container px-4 mx-auto">
           <div className="flex flex-wrap -m-8">
             <div className="w-full md:w-1/2 p-8">
-              {Boolean(subscribersCount) && (
+              {subscribersCount ? (
                 <div className="inline-block mb-6 px-2 py-1 font-semibold bg-green-100 rounded-md">
                   <div className="flex flex-wrap items-center -m-1">
                     <div className="w-auto py-1 px-2">
                       <a className="text-sm" href="">
-                        👋 Junte-se a {subscribersCount} inscritos!
+                        👋 Junte-se a {subscribersCount.toLocaleString()}{" "}
+                        inscritos!
                       </a>
                     </div>
                   </div>
                 </div>
+              ) : (
+                <div className="h-[32px] mb-6"></div>
               )}
               <h1 className="mb-6 text-6xl md:text-8xl lg:text-10xl font-bold font-heading md:max-w-xl leading-none">
                 Vagas remotas no seu e-mail
@@ -264,32 +269,7 @@ export const Hero = () => {
                   </div>
                 </form>
               </div>
-              <p className="mb-6 text-sm text-gray-500 font-semibold">
-                EMPRESAS QUE APOIAM O TRABALHO REMOTO
-              </p>
-              <div className="flex flex-wrap -m-3">
-                <div className="w-auto p-3 z-20">
-                  <img
-                    src="images/brand-strider-usage-positive-color-color.png"
-                    alt=""
-                    className="w-32"
-                  />
-                </div>
-                <div className="w-auto p-3">
-                  <img
-                    src="flaro-assets/logos/brands/brand2.png"
-                    alt=""
-                    className="hidden"
-                  />
-                </div>
-                <div className="w-auto p-3">
-                  <img
-                    src="flaro-assets/logos/brands/brand3.png"
-                    alt=""
-                    className="hidden"
-                  />
-                </div>
-              </div>
+              <PartnerCompanies />
             </div>
             <div className="w-full md:w-1/2 p-8">
               <img
