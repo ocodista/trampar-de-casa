@@ -3,8 +3,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { useForm, FormProvider } from "react-hook-form";
 import * as z from "zod";
 import { Button } from "../../../global/components/ui/button";
-import { CustomFormField } from "../../../global/components/CustomFormField";
-import FormDateField from "./FormDateField";
+import { CustomFormField, TextInput } from '../../../global/components/CustomFormField';
+import DateInput from "./DateInput";
 
 enum EnglishLevel {
   Beginner,
@@ -58,9 +58,9 @@ export const AboutYouForm = () => {
           label="Nome"
           placeholder="Martin Fowler"
           description="Insira seu nome completo"
+          Input={TextInput}
         />
-        <input type="month" />
-        <FormDateField
+        <DateInput
           name="startDate"
           label="Primeiro emprego com tecnologia"
           description="Tudo bem não lembrar o dia, o que importa é o mês e ano."
@@ -70,12 +70,14 @@ export const AboutYouForm = () => {
           label="LinkedIn"
           placeholder="https://linkedin.com/in/SEU-PERFIL"
           description="Informe a url completa do seu LinkedIn"
+          Input={TextInput}
         />
         <CustomFormField
           name="github"
           label="GitHub"
           placeholder="https://github.com/"
           description="Insira a url completa do seu GitHub (opcional)"
+          Input={TextInput}
         />
         <Button type="submit" disabled={!form.formState.isValid}>
           Salvar

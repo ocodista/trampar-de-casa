@@ -7,8 +7,8 @@ import {
   FormDescription,
   FormMessage,
 } from "./ui/form";
-import { Input } from "./ui/input";
-import { HTMLInputTypeAttribute } from "react";
+import { Input as BaseInput } from "./ui/input";
+import React, { HTMLInputTypeAttribute } from "react";
 
 interface CustomFormFieldProps {
   name: string;
@@ -16,6 +16,7 @@ interface CustomFormFieldProps {
   placeholder?: string;
   description?: string;
   type?: HTMLInputTypeAttribute;
+  Input?: React.FC<any>
 }
 
 export function CustomFormField<FormState>({
@@ -24,6 +25,7 @@ export function CustomFormField<FormState>({
   placeholder,
   description,
   type = "text",
+  Input
 }: CustomFormFieldProps) {
   const { control, register } = useFormContext();
   return (
@@ -34,30 +36,7 @@ export function CustomFormField<FormState>({
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            {type === "number" ? (
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
-              <Input
-                type={type}
-                placeholder={placeholder || ""}
-                {...(field as ControllerRenderProps<FormState>)}
-                {...register(name, { valueAsNumber: true })}
-              />
-            ) : (
-              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-              //@ts-ignore
-              <Input
-                type={type}
-                onFocus={(e) => {
-                  const goToLastCharacter = () => {
-                    e.target.selectionStart = e.target.value.length;
-                  };
-                  goToLastCharacter();
-                }}
-                placeholder={placeholder || ""}
-                {...(field as ControllerRenderProps<FormState>)}
-              />
-            )}
+            {Input({ register, name, placeholder, field })}
           </FormControl>
           <FormDescription>{description}</FormDescription>
           <FormMessage />
@@ -65,4 +44,32 @@ export function CustomFormField<FormState>({
       )}
     />
   );
+}
+
+export const TextInput = ({ field, placeholder }) => {
+  return (
+    <BaseInput
+      type="string"
+      onFocus={(e) => {
+        const goToLastCharacter = () => {
+          e.target.selectionStart = e.target.value.length;
+        };
+        goToLastCharacter();
+      }}
+      {...(field as ControllerRenderProps)}
+      placeholder={placeholder || ""}
+    />
+  )
+}
+
+
+export const NumberInput = ({ register, name, placeholder, field }) => {
+  return (
+    <BaseInput
+      type="number"
+      placeholder={placeholder || ""}
+      {...(field as ControllerRenderProps)}
+      {...register(name, { valueAsNumber: true })}
+    />
+  )
 }

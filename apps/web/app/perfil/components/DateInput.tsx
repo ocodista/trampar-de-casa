@@ -8,7 +8,7 @@ import { useFormContext } from 'react-hook-form'
 import { Popover, PopoverTrigger, PopoverContent } from '../../../global/components/ui/popover'
 import { Calendar } from '../../../global/components/ui/calendar'
 
-const FormDateField = ({ label, description, name }) => {
+const DateInput = ({ label, description, name }) => {
   const form = useFormContext()
   return (
     <FormField
@@ -58,4 +58,4 @@ const FormDateField = ({ label, description, name }) => {
   )
 }
 
-export default FormDateField
+export default DateInput

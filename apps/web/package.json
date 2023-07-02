@@ -11,11 +11,15 @@
     "db-stop": "npx supabase stop --backup"
   },
   "dependencies": {
+    "@headlessui/react": "^1.7.15",
+    "@heroicons/react": "^2.0.18",
     "@hookform/resolvers": "^3.1.1",
     "@prisma/client": "^4.16.1",
+    "@radix-ui/react-avatar": "^1.0.3",
     "@radix-ui/react-dialog": "^1.0.4",
     "@radix-ui/react-label": "^2.0.2",
     "@radix-ui/react-popover": "^1.0.6",
+    "@radix-ui/react-select": "^1.2.2",
     "@radix-ui/react-separator": "^1.0.3",
     "@radix-ui/react-toast": "^1.1.4",
     "@supabase/auth-helpers-nextjs": "^0.7.2",

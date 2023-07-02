@@ -1,22 +1,4 @@
-"use client";
-
-import { ChevronsUpDown, Command, Check } from "lucide-react";
-import React from "react";
-import { Button } from "../../../global/components/ui/button";
-import {
-  CommandInput,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-} from "../../../global/components/ui/command";
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from "../../../global/components/ui/popover";
-import { cn } from "../../../global/utils";
-
-const skillsData = {
+export const skillsData = {
   Design: [
     "Adobe XD",
     "Animation",
@@ -180,66 +162,7 @@ const skillsData = {
   ],
 };
 
-const transformData = (data) => {
-  const transformedData = [];
-
-  for (const category in data) {
-    for (const skill of data[category]) {
-      transformedData.push({
-        value: skill,
-        label: `${category}: ${skill}`,
-      });
-    }
-  }
-
-  return transformedData;
-};
-
-export default function ComboxDemo() {
-  const [open, setOpen] = React.useState(false);
-  const [value, setValue] = React.useState("");
-  const skills = transformData(skillsData);
-
-  return (
-    <Popover open={open} onOpenChange={setOpen}>
-      <PopoverTrigger asChild>
-        <Button
-          variant="outline"
-          role="combobox"
-          aria-expanded={open}
-          className="w-[200px] justify-between"
-        >
-          {value
-            ? skills.find((framework) => framework.value === value)?.label
-            : "Select framework..."}
-          <ChevronsUpDown className="ml-2 h-4 w-4 shrink-0 opacity-50" />
-        </Button>
-      </PopoverTrigger>
-      <PopoverContent className="w-[200px] p-0">
-        <Command>
-          <CommandInput placeholder="Search framework..." />
-          <CommandEmpty>No framework found.</CommandEmpty>
-          <CommandGroup>
-            {skills.map((framework) => (
-              <CommandItem
-                key={framework.value}
-                onSelect={(currentValue) => {
-                  setValue(currentValue === value ? "" : currentValue);
-                  setOpen(false);
-                }}
-              >
-                <Check
-                  className={cn(
-                    "mr-2 h-4 w-4",
-                    value === framework.value ? "opacity-100" : "opacity-0"
-                  )}
-                />
-                {framework.label}
-              </CommandItem>
-            ))}
-          </CommandGroup>
-        </Command>
-      </PopoverContent>
-    </Popover>
-  );
-}
+export const skills = Object.entries(skillsData).map(([label, skills]) => ({
+  label,
+  skills,
+}));
