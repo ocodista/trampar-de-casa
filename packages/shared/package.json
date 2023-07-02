@@ -11,6 +11,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@react-email/components": "^0.0.7",
+    "@react-email/render": "^0.0.7",
     "resend": "^0.16.0",
     "typescript": "^5.1.3"
   },

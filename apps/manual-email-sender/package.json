@@ -1,0 +1,26 @@
+{
+  "name": "email-sender",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "send-openings": "ts-node src/openings-email/sendEmail.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@react-email/components": "^0.0.7",
+    "@react-email/render": "^0.0.7",
+    "@supabase/supabase-js": "^2.26.0",
+    "@types/amqplib": "^0.10.1",
+    "amqplib": "^0.10.3",
+    "dotenv": "^16.3.1",
+    "node-fetch": "^3.3.1",
+    "resend": "^0.16.0",
+    "shared": "*",
+    "ts-node": "^10.9.1",
+    "types": "*",
+    "typescript": "^5.1.3"
+  }
+}
