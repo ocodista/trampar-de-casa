@@ -1,7 +1,7 @@
 import { Separator } from "../../global/components/ui/separator";
 import { AboutYouForm } from "./components/AboutYouForm";
 
-export default function SettingsProfilePage () {
+export default function SettingsProfilePage() {
   // TODO: Get email
   return (
     <div className="space-y-6">
@@ -12,7 +12,7 @@ export default function SettingsProfilePage () {
         </p>
       </div>
       <Separator />
-      <AboutYouForm /> 
+      <AboutYouForm />
     </div>
-  )
+  );
 }

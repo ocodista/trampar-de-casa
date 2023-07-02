@@ -1,5 +1,12 @@
 import { ControllerRenderProps, Path, useFormContext } from "react-hook-form";
-import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from "./ui/form";
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from "./ui/form";
 import { Input } from "./ui/input";
 import { HTMLInputTypeAttribute } from "react";
 
@@ -8,11 +15,17 @@ interface CustomFormFieldProps {
   label: string;
   placeholder?: string;
   description?: string;
-  type?: HTMLInputTypeAttribute
+  type?: HTMLInputTypeAttribute;
 }
 
-export function CustomFormField <FormState> ({ name, label, placeholder, description, type = 'text' }: CustomFormFieldProps) {
-  const { control, register } = useFormContext()
+export function CustomFormField<FormState>({
+  name,
+  label,
+  placeholder,
+  description,
+  type = "text",
+}: CustomFormFieldProps) {
+  const { control, register } = useFormContext();
   return (
     <FormField
       control={control}
@@ -21,28 +34,35 @@ export function CustomFormField <FormState> ({ name, label, placeholder, descrip
         <FormItem>
           <FormLabel>{label}</FormLabel>
           <FormControl>
-            {
-              type === 'number' ?
+            {type === "number" ? (
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               //@ts-ignore
-                <Input type={type} placeholder={placeholder || ""} {...field as ControllerRenderProps<FormState>} {...register(name, { valueAsNumber: true })} /> 
-                :
+              <Input
+                type={type}
+                placeholder={placeholder || ""}
+                {...(field as ControllerRenderProps<FormState>)}
+                {...register(name, { valueAsNumber: true })}
+              />
+            ) : (
               // eslint-disable-next-line @typescript-eslint/ban-ts-comment
               //@ts-ignore
-                <Input type={type} onFocus={(e) => {
+              <Input
+                type={type}
+                onFocus={(e) => {
                   const goToLastCharacter = () => {
-                    e.target.selectionStart = e.target.value.length
-                  }
-                  goToLastCharacter()
-                }} placeholder={placeholder || ""} {...field as ControllerRenderProps<FormState>} />
-            }
+                    e.target.selectionStart = e.target.value.length;
+                  };
+                  goToLastCharacter();
+                }}
+                placeholder={placeholder || ""}
+                {...(field as ControllerRenderProps<FormState>)}
+              />
+            )}
           </FormControl>
-          <FormDescription>
-            {description}
-          </FormDescription>
+          <FormDescription>{description}</FormDescription>
           <FormMessage />
         </FormItem>
       )}
     />
-  )
+  );
 }

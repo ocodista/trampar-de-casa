@@ -1,53 +1,69 @@
-'use client';
-import { zodResolver } from '@hookform/resolvers/zod';
-import { useForm, FormProvider } from 'react-hook-form';
-import * as z from 'zod'
-import { Button } from '../../../global/components/ui/button';
-import { CustomFormField } from '../../../global/components/CustomFormField';
-import FormDateField from './FormDateField';
+"use client";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useForm, FormProvider } from "react-hook-form";
+import * as z from "zod";
+import { Button } from "../../../global/components/ui/button";
+import { CustomFormField } from "../../../global/components/CustomFormField";
+import FormDateField from "./FormDateField";
 
 enum EnglishLevel {
   Beginner,
   Intermediary,
   Advanced,
-  Fluent
+  Fluent,
 }
 
 const formSchema = z.object({
-  name: z.string({ required_error: 'Nome é obrigatório' }),
-  linkedInUrl: z.string({ required_error: 'LinkedIn é obrigatório' }).url({ message: 'Formato de URL inválido.' }).startsWith('https://linkedin.com/in/', 'URL do perfil deve começar com https://linkedin.com/in/'),
-  github: z.string().url({ message: 'Formato de URL inválido.' }).optional(),
+  name: z.string({ required_error: "Nome é obrigatório" }).min(3, {
+    message: "Seu nome deve conter no mínimo 3 letras.",
+  }),
+  linkedInUrl: z
+    .string({ required_error: "LinkedIn é obrigatório" })
+    .url({ message: "Formato de URL inválido." })
+    .min(28, {
+      message: "Seu LinkedIn é obrigatório.",
+    })
+    .startsWith(
+      "https://linkedin.com/in/",
+      "URL do perfil deve começar com https://linkedin.com/in/"
+    ),
+  github: z.string().url({ message: "Formato de URL inválido." }).optional(),
   startDate: z.date({
-    required_error: "Selecione a data do seu primeiro emprego"
+    required_error: "Selecione a data do seu primeiro emprego",
   }),
   englishLevel: z.nativeEnum(EnglishLevel),
-})
+});
 
-
-type AboutYouFormState = z.infer<typeof formSchema>
+type AboutYouFormState = z.infer<typeof formSchema>;
 
 export const AboutYouForm = () => {
   const form = useForm<AboutYouFormState>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linkedInUrl: 'https://linkedin.com/in/',
+      linkedInUrl: "https://linkedin.com/in/",
     },
-    mode: "onBlur"
-  })
+    mode: "onChange",
+  });
 
   const onSubmit = (values: AboutYouFormState) => {
-    console.log("Submitted")
-    console.log(values)
-  }
+    console.log("Submitted");
+    console.log(values);
+  };
 
   return (
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-4">
-        <CustomFormField 
+        <CustomFormField
           name="name"
           label="Nome"
           placeholder="Martin Fowler"
           description="Insira seu nome completo"
+        />
+        <input type="month" />
+        <FormDateField
+          name="startDate"
+          label="Primeiro emprego com tecnologia"
+          description="Tudo bem não lembrar o dia, o que importa é o mês e ano."
         />
         <CustomFormField
           name="linkedInUrl"
@@ -61,9 +77,10 @@ export const AboutYouForm = () => {
           placeholder="https://github.com/"
           description="Insira a url completa do seu GitHub (opcional)"
         />
-        <FormDateField name="startDate" label="Primeiro emprego com tecnologia" description="Tudo bem não lembrar o dia, o que importa é o mês e ano." />
-        <Button type="submit" disabled={!form.formState.isValid}>Salvar</Button>
+        <Button type="submit" disabled={!form.formState.isValid}>
+          Salvar
+        </Button>
       </form>
     </FormProvider>
-  )
-}
+  );
+};
