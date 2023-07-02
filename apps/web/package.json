@@ -7,19 +7,22 @@
     "build": "next build",
     "start": "next start",
     "lint": "next lint",
-    "db-start": "npx supabase start",
+    "db-start": "npx prisma generate && npx supabase start",
+    "db-seed": "npx prisma db seed",
     "db-stop": "npx supabase stop --backup"
   },
   "dependencies": {
     "@hookform/resolvers": "^3.1.1",
     "@prisma/client": "^4.16.1",
     "@radix-ui/react-toast": "^1.1.4",
+    "@react-email/button": "^0.0.9",
+    "@react-email/components": "^0.0.7",
+    "@react-email/tailwind": "^0.0.8",
     "@supabase/auth-helpers-nextjs": "^0.7.2",
     "@supabase/supabase-js": "^2.26.0",
     "class-variance-authority": "^0.6.0",
     "clsx": "^1.2.1",
     "encoding": "^0.1.13",
-    "eslint-config-custom": "*",
     "http-status-codes": "^2.2.0",
     "lucide-react": "^0.248.0",
     "next": "^13.4.1",
@@ -28,6 +31,8 @@
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.0",
+    "security": "*",
+    "shared": "*",
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6",
     "vercel-email": "^0.0.6",
@@ -38,16 +43,21 @@
     "seed": "npx ts-node prisma/seed.ts"
   },
   "devDependencies": {
+    "@testing-library/jest-dom": "^5.16.5",
+    "@testing-library/react": "^14.0.0",
     "@types/node": "^17.0.12",
     "@types/react": "^18.0.22",
     "@types/react-dom": "^18.0.7",
+    "@vitejs/plugin-react": "^4.0.1",
     "autoprefixer": "^10.4.14",
     "eslint-config-custom": "*",
+    "jsdom": "^22.1.0",
     "postcss": "^8.4.24",
     "prisma": "^4.16.1",
     "supabase": "^1.68.6",
     "tailwindcss": "^3.3.2",
     "ts-node": "^10.9.1",
-    "typescript": "^4.5.3"
+    "typescript": "^4.5.3",
+    "vitest": "^0.32.2"
   }
 }

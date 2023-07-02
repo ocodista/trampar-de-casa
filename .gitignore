@@ -2,6 +2,11 @@
 
 # dependencies
 node_modules
+# As we are using YARN, we need to ensure that no package-lock will ever be pushed
+# Pushing it to the main repo will make nextjs build to fail
+package-lock.json 
+*package-lock.json
+**/*package-lock.json
 .pnp
 .pnp.js
 
