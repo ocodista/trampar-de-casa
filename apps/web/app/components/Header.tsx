@@ -14,7 +14,7 @@ export const Header = () => {
             <div className="w-auto mr-14">
               <a href="/">
                 <Image
-                  src="images/logo.svg"
+                  src="/images/logo.svg"
                   width={70}
                   height={70}
                   alt="Logotipo da Trampar De Casa"
