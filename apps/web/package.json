@@ -30,6 +30,7 @@
     "react-confetti": "^6.1.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.0",
+    "react-query": "^3.39.3",
     "security": "*",
     "shared": "*",
     "tailwind-merge": "^1.13.2",
