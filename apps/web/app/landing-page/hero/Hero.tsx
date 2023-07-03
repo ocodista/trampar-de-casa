@@ -286,7 +286,7 @@ export const Hero = () => {
             <div className="w-full md:w-1/2 p-8">
               <img
                 className="transform hover:-translate-y-16 transition ease-in-out duration-1000 rounded-xl"
-                src="images/HO-brasil.png"
+                src="images/HO-brasil.webp"
                 alt=""
               />
             </div>
