@@ -8,15 +8,14 @@ import {
   FormMessage,
 } from "./ui/form";
 import { Input as BaseInput } from "./ui/input";
-import React, { HTMLInputTypeAttribute } from "react";
+import React from "react";
 
 interface CustomFormFieldProps {
   name: string;
   label: string;
   placeholder?: string;
   description?: string;
-  type?: HTMLInputTypeAttribute;
-  Input?: React.FC<any>
+  Input?: React.FC<unknown>
 }
 
 export function CustomFormField<FormState>({
@@ -24,7 +23,6 @@ export function CustomFormField<FormState>({
   label,
   placeholder,
   description,
-  type = "text",
   Input
 }: CustomFormFieldProps) {
   const { control, register } = useFormContext();
