@@ -1,20 +1,20 @@
-import React from "react";
+import React from 'react'
 
 interface Company {
-  name: string;
-  url: string;
-  description: string;
-  imagePath: string;
+  name: string
+  url: string
+  description: string
+  imagePath: string
 }
 
 const companies: Company[] = [
   {
-    name: "Strider",
-    url: "https://app.onstrider.com/r/trampar_de_casa",
-    description: "Empresa brasileira com vagas internacionais 100% remotas.",
-    imagePath: "images/brand-strider-usage-positive-color-color.png",
+    name: 'Strider',
+    url: 'https://app.onstrider.com/r/trampar_de_casa',
+    description: 'Empresa brasileira com vagas internacionais 100% remotas.',
+    imagePath: 'images/brand-strider-usage-positive-color-color.png',
   },
-];
+]
 
 const CompanySection = ({ name, imagePath, url, description }: Company) => (
   <a href={url} target="_blank" className="w-auto p-3">
@@ -25,7 +25,7 @@ const CompanySection = ({ name, imagePath, url, description }: Company) => (
       title={description}
     />
   </a>
-);
+)
 
 export const PartnerCompanies = () => {
   return (
@@ -39,5 +39,5 @@ export const PartnerCompanies = () => {
         ))}
       </div>
     </section>
-  );
-};
+  )
+}
