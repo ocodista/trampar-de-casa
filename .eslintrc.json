@@ -2,6 +2,7 @@
   "extends": ["next/core-web-vitals", "turbo"],
   "plugins": ["turbo"],
   "rules": {
-    "turbo/no-undeclared-env-vars": "error"
+    "turbo/no-undeclared-env-vars": "off",
+    "@next/next/no-img-element": "off"
   }
 }

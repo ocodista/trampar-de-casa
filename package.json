@@ -7,6 +7,7 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev",
+    "lint-format": "yarn format && eslint --fix",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install"

@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export const HowItWorks = () => (
   <section id="como-funciona" className="py-32 bg-white overflow-hidden">
@@ -102,8 +102,8 @@ export const HowItWorks = () => (
                       Enviamos as oportunidades
                     </h3>
                     <p className="text-gray-700 font-medium leading-relaxed">
-                      Toda quarta-feira às 11h enviaremos uma lista
-                      com as vagas que fazem mais sentido para você.
+                      Toda quarta-feira às 11h enviaremos uma lista com as vagas
+                      que fazem mais sentido para você.
                     </p>
                   </div>
                 </div>
@@ -114,4 +114,4 @@ export const HowItWorks = () => (
       </div>
     </div>
   </section>
-);
+)

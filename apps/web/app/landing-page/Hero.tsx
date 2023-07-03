@@ -1,25 +1,25 @@
-"use client";
-import React, { useContext, useEffect, useState } from "react";
-import { useForm } from "react-hook-form";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
-import Confetti from "react-confetti";
-import { StatusCodes } from "http-status-codes";
-import { LoadingContext } from "../contexts/LoadingContext";
-import { ApiRoutes } from "shared/src/enums";
-import { useToast } from "../components/ui/use-toast";
+'use client'
+import React, { useContext, useEffect, useState } from 'react'
+import { useForm } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { z } from 'zod'
+import Confetti from 'react-confetti'
+import { StatusCodes } from 'http-status-codes'
+import { LoadingContext } from '../contexts/LoadingContext'
+import { ApiRoutes } from 'shared/src/enums'
+import { useToast } from '../components/ui/use-toast'
 
 const validationSchema = z.object({
-  email: z.string().email("Insira um e-mail válido!"),
-});
+  email: z.string().email('Insira um e-mail válido!'),
+})
 
-type ValidationSchema = z.infer<typeof validationSchema>;
+type ValidationSchema = z.infer<typeof validationSchema>
 
-const PADDING_X = 32;
+const PADDING_X = 32
 
 export const Hero = () => {
   const [subscribersCount, setSubscribersCount] = useState(0)
-  const { isLoading, withLoading } = useContext(LoadingContext);
+  const { isLoading, withLoading } = useContext(LoadingContext)
 
   const {
     register,
@@ -27,19 +27,19 @@ export const Hero = () => {
     formState: { isValid },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
-  });
+  })
 
-  const [isConfettiVisible, setConfettiVisibility] = useState(false);
+  const [isConfettiVisible, setConfettiVisibility] = useState(false)
   useEffect(() => {
     setTimeout(() => {
-      setConfettiVisibility(false);
-    }, 20_000);
-  }, [isConfettiVisible]);
+      setConfettiVisibility(false)
+    }, 20_000)
+  }, [isConfettiVisible])
 
-  const { toast } = useToast();
+  const { toast } = useToast()
 
   useEffect(() => {
-    (async () => {
+    ;(async () => {
       const response = await fetch(ApiRoutes.Subscribers)
       if (response.ok) {
         const count = await response.json()
@@ -48,45 +48,44 @@ export const Hero = () => {
     })()
   }, [])
 
-  
   const saveSubscriber = async () => {
-    const email = getValues().email;
+    const email = getValues().email
     try {
       const response = await fetch(ApiRoutes.Subscribers, {
         body: JSON.stringify({ email }),
-        method: "POST",
-      });
+        method: 'POST',
+      })
 
       if (response.ok) {
-        setConfettiVisibility(true);
+        setConfettiVisibility(true)
         toast({
-          title: "Tudo certo 🥳",
-          description: "Enviamos uma confirmação para o seu e-mail!",
-        });
-        return;
+          title: 'Tudo certo 🥳',
+          description: 'Enviamos uma confirmação para o seu e-mail!',
+        })
+        return
       }
 
       if (response.status === StatusCodes.CONFLICT) {
         toast({
-          title: "Algo deu errado 🥶",
-          variant: "destructive",
+          title: 'Algo deu errado 🥶',
+          variant: 'destructive',
           description: await response.text(),
-        });
-        return;
+        })
+        return
       }
 
-      throw new Error(response.statusText);
+      throw new Error(response.statusText)
     } catch (err) {
       toast({
-        title: "Algo deu errado 🥶",
-        variant: "destructive",
+        title: 'Algo deu errado 🥶',
+        variant: 'destructive',
         description:
-          "Não conseguimos adicionar seu e-mail, tente novamente mais tarde.",
-      });
+          'Não conseguimos adicionar seu e-mail, tente novamente mais tarde.',
+      })
     }
 
-    return false;
-  };
+    return false
+  }
 
   return (
     <>
@@ -247,16 +246,20 @@ export const Hero = () => {
                     Vagas remotas no seu e-mail.
                   </h1>
                   <p className="text-lg text-gray-900 font-medium">
-                  Levamos as melhores oportunidades de trampo até você.
+                    Levamos as melhores oportunidades de trampo até você.
                   </p>
                   <div className="h-[24px] mt-5 mb-3">
-                    {Boolean(subscribersCount) && <h4 className="text-gray-900  font-semibold roll-animation">Junte-se a {subscribersCount} inscritos 🚀</h4>}
+                    {Boolean(subscribersCount) && (
+                      <h4 className="text-gray-900  font-semibold roll-animation">
+                        Junte-se a {subscribersCount} inscritos 🚀
+                      </h4>
+                    )}
                   </div>
                   <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300">
                     <form
                       onSubmit={async (e) => {
-                        e.preventDefault();
-                        await withLoading(saveSubscriber);
+                        e.preventDefault()
+                        await withLoading(saveSubscriber)
                       }}
                     >
                       <div className="flex flex-wrap items-center">
@@ -266,7 +269,7 @@ export const Hero = () => {
                             id="email"
                             type="email"
                             placeholder="Digite seu melhor e-mail"
-                            {...register("email")}
+                            {...register('email')}
                           />
                         </div>
                         <div className="w-full xl:w-auto">
@@ -291,5 +294,5 @@ export const Hero = () => {
         </div>
       </section>
     </>
-  );
-};
+  )
+}
