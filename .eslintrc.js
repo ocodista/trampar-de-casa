@@ -7,6 +7,7 @@ module.exports = {
     "plugin:react/recommended",
     "plugin:@typescript-eslint/recommended",
     "next/core-web-vitals",
+    "prettier"
   ],
   rules: {
     "@next/next/no-html-link-for-pages": "off",
