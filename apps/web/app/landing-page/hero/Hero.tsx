@@ -11,6 +11,7 @@ import { useToast } from "../../components/ui/use-toast";
 import { PartnerCompanies } from "./PartnerCompanies";
 import { ErrorMessage } from "@hookform/error-message";
 import { useQuery } from "react-query";
+import Image from "next/image";
 
 const validationSchema = z.object({
   email: z.string().email("Insira um e-mail válido!"),
@@ -102,9 +103,10 @@ export const Hero = () => {
             <div className="flex flex-wrap items-center">
               <div className="w-auto mr-14">
                 <a href="#">
-                  <img
-                    src="images/casa.png"
-                    className="h-[80px]"
+                  <Image
+                    width={70}
+                    height={70}
+                    src="images/logo.svg"
                     alt="Logotipo da Trampar De Casa"
                   />
                 </a>
@@ -158,9 +160,11 @@ export const Hero = () => {
                 <div className="flex items-center justify-between -m-2">
                   <div className="w-auto p-2">
                     <a className="inline-block" href="#">
-                      <img
-                        src="images/casa.png"
-                        alt="Logo da Trampar de Casa"
+                      <Image
+                        width={70}
+                        height={70}
+                        src="images/logo.svg"
+                        alt="Logotipo da Trampar De Casa"
                       />
                     </a>
                   </div>
