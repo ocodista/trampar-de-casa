@@ -1,2 +1,0 @@
-export const LEGENDARY_PROGRAMMERS = 
-["Ada Lovelace", "Alan Turing", "Grace Hopper", "Donald Knuth", "Edsger W. Dijkstra", "Guido van Rossum", "Linus Torvalds", "Dennis Ritchie", "Ken Thompson", "James Gosling", "Anders Hejlsberg", "Bjarne Stroustrup", "Rasmus Lerdorf", "Robert C. Martin", "Martin Fowler", "Eric S. Raymond", "Richard Stallman", "Larry Wall", "John Backus", "Brian Kernighan"]
