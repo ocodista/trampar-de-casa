@@ -1,8 +1,15 @@
 # Trampar de Casa 👨💻🏠
 
-> Conexão definitiva entre desenvolvedores brasileiros e oportunidades de trabalho remoto.
+![GitHub last commit (branch)](https://img.shields.io/github/last-commit/ocodista/trampar-de-casa/main)
+![GitHub contributors](https://img.shields.io/github/contributors/ocodista/trampar-de-casa)
+![Vercel](https://vercelbadge.vercel.app/api/ocodista/trampar-de-casa)
+![Website](https://img.shields.io/website?up_message=online&up_color=green&down_message=offline&down_color=red&url=https%3A%2F%2Fwww.trampardecasa.com.br%2F)
+![GitHub license](https://img.shields.io/github/license/ocodista/trampar-de-casa)
 
----
+![Static Badge](https://img.shields.io/badge/nextjs-white?style=for-the-badge&logo=nextdotjs&logoColor=white&labelColor=black&color=white)
+![Static Badge](https://img.shields.io/badge/typescript-%2306B6D4?style=for-the-badge&logo=typescript&labelColor=white&color=%233178C6)
+![Static Badge](https://img.shields.io/badge/vite-%23646CFF?style=for-the-badge&logo=vite&labelColor=black)
+![Static Badge](https://img.shields.io/badge/tailwindcss-%2306B6D4?style=for-the-badge&logo=tailwindcss&labelColor=black&color=%2306B6D4)
 
 ## Sobre o Projeto 🎯
 
@@ -42,8 +49,9 @@ Pretendemos usar a combinação de Vercel (conforme este [guia](https://vercel.c
 1. Após clonar o repositório localmente, a partir do seu fork, entre na pasta criada.
 2. Execute o comando `yarn`.
 3. Se você não tiver o yarn instalado, execute `npm install --global yarn`.
-4. Para executar a aplicação no ambiente de desenvolvimento, execute o comando `yarn dev`.
-5. A aplicação estará disponível em http://localhost:3000.
+4. Para executar a aplicação no ambiente de desenvolvimento, execute o comando `turbo dev`.
+5. Se você não tiver o turbo instalado, execute `npm install --global turbo`.
+6. A aplicação estará disponível em http://localhost:3000.
 
 ## Como subir o banco de dados localmente
 
