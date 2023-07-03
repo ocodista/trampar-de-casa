@@ -44,12 +44,15 @@ export const Hero = () => {
   const { toast } = useToast();
 
   const getSubscribersCount = async (): Promise<number | null> => {
-    const response = await fetch(ApiRoutes.Subscribers)
-    if (!response?.ok) return null
-    const count = await response.json()
-    return count
-  }
-  const { data: subscribersCount } = useQuery<number>('subscribersCountQuery', async () => await getSubscribersCount())
+    const response = await fetch(ApiRoutes.Subscribers);
+    if (!response?.ok) return null;
+    const count = await response.json();
+    return count;
+  };
+  const { data: subscribersCount } = useQuery<number>(
+    "subscribersCountQuery",
+    async () => await getSubscribersCount()
+  );
 
   const saveSubscriber = async () => {
     const email = getValues().email;
@@ -235,7 +238,7 @@ export const Hero = () => {
               <h1 className="mb-6 text-6xl md:text-8xl lg:text-10xl font-bold font-heading leading-none">
                 Vagas remotas no seu e-mail
               </h1>
-              <p className="mb-11 text-lg text-gray-900 font-medium md:max-w-md">
+              <p className="mb-9 text-lg text-gray-900 font-medium md:max-w-md">
                 Levamos as melhores oportunidades de trampo até você.
               </p>
               <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300 -m-2.5">
