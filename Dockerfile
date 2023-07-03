@@ -3,12 +3,9 @@ FROM node:lts-slim
 WORKDIR /home
 COPY . .
 COPY  ./turbo.json /home/apps/web
+COPY  /apps/web/.env.example /home/apps/web/.env
 
 WORKDIR /home/apps/web
-
-# copy env.example into .env
-RUN if [ ! -f .env ]; then cp .env.example .env; fi
-
 
 RUN yarn install
 RUN yarn build
