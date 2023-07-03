@@ -78,7 +78,7 @@
 }
 
 canvas {
-  z-index: 20px;
+  z-index: 200;
 }
 .roll-animation {
   animation: 3s anim-rol ease;
