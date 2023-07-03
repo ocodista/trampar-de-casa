@@ -1,24 +1,24 @@
-"use client"
-import { Separator } from "../../global/components/ui/separator";
-import { SidebarNav } from "./components/sidebar-nav";
-import { FormProvider, useForm } from "react-hook-form";
+'use client'
+import { Separator } from '../components/ui/separator'
+import { SidebarNav } from './components/sidebar-nav'
+import { FormProvider, useForm } from 'react-hook-form'
 
-const title = "Preferências";
-const description = "Configure seu perfil para receber vagas mais assertivas.";
+const title = 'Preferências'
+const description = 'Configure seu perfil para receber vagas mais assertivas.'
 
 const sidebarNavItems = [
   {
-    title: "Sobre você",
-    href: "/perfil",
+    title: 'Sobre você',
+    href: '/perfil',
   },
   {
-    title: "Preferências",
-    href: "/perfil/preferencias",
+    title: 'Preferências',
+    href: '/perfil/preferencias',
   },
-];
+]
 
 interface SettingsLayoutProps {
-  children: React.ReactNode;
+  children: React.ReactNode
 }
 
 export default function SettingsLayout({ children }: SettingsLayoutProps) {
@@ -41,5 +41,5 @@ export default function SettingsLayout({ children }: SettingsLayoutProps) {
         </div>
       </FormProvider>
     </>
-  );
+  )
 }

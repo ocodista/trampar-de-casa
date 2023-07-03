@@ -1,10 +1,10 @@
-"use client";
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useForm, FormProvider } from "react-hook-form";
-import * as z from "zod";
-import { Button } from "../../../global/components/ui/button";
-import { CustomFormField, TextInput } from '../../../global/components/CustomFormField';
-import DateInput from "./DateInput";
+'use client'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { useForm, FormProvider } from 'react-hook-form'
+import * as z from 'zod'
+import DateInput from './DateInput'
+import { CustomFormField, TextInput } from '../../components/CustomFormField'
+import { Button } from '../../components/ui/button'
 
 enum EnglishLevel {
   Beginner,
@@ -14,41 +14,41 @@ enum EnglishLevel {
 }
 
 const formSchema = z.object({
-  name: z.string({ required_error: "Nome é obrigatório" }).min(3, {
-    message: "Seu nome deve conter no mínimo 3 letras.",
+  name: z.string({ required_error: 'Nome é obrigatório' }).min(3, {
+    message: 'Seu nome deve conter no mínimo 3 letras.',
   }),
   linkedInUrl: z
-    .string({ required_error: "LinkedIn é obrigatório" })
-    .url({ message: "Formato de URL inválido." })
+    .string({ required_error: 'LinkedIn é obrigatório' })
+    .url({ message: 'Formato de URL inválido.' })
     .min(28, {
-      message: "Seu LinkedIn é obrigatório.",
+      message: 'Seu LinkedIn é obrigatório.',
     })
     .startsWith(
-      "https://linkedin.com/in/",
-      "URL do perfil deve começar com https://linkedin.com/in/"
+      'https://linkedin.com/in/',
+      'URL do perfil deve começar com https://linkedin.com/in/'
     ),
-  github: z.string().url({ message: "Formato de URL inválido." }).optional(),
+  github: z.string().url({ message: 'Formato de URL inválido.' }).optional(),
   startDate: z.date({
-    required_error: "Selecione a data do seu primeiro emprego",
+    required_error: 'Selecione a data do seu primeiro emprego',
   }),
   englishLevel: z.nativeEnum(EnglishLevel),
-});
+})
 
-type AboutYouFormState = z.infer<typeof formSchema>;
+type AboutYouFormState = z.infer<typeof formSchema>
 
 export const AboutYouForm = () => {
   const form = useForm<AboutYouFormState>({
     resolver: zodResolver(formSchema),
     defaultValues: {
-      linkedInUrl: "https://linkedin.com/in/",
+      linkedInUrl: 'https://linkedin.com/in/',
     },
-    mode: "onChange",
-  });
+    mode: 'onChange',
+  })
 
   const onSubmit = (values: AboutYouFormState) => {
-    console.log("Submitted");
-    console.log(values);
-  };
+    console.log('Submitted')
+    console.log(values)
+  }
 
   return (
     <FormProvider {...form}>
@@ -84,5 +84,5 @@ export const AboutYouForm = () => {
         </Button>
       </form>
     </FormProvider>
-  );
-};
+  )
+}

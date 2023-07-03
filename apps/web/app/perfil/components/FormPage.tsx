@@ -1,4 +1,4 @@
-import { Separator } from "../../../global/components/ui/separator";
+import { Separator } from '../../components/ui/separator'
 
 export const FormPage = ({ title, subtitle, form }) => (
   <section className="space-y-6">
@@ -9,4 +9,4 @@ export const FormPage = ({ title, subtitle, form }) => (
     <Separator />
     {form()}
   </section>
-);
+)

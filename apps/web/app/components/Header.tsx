@@ -1,9 +1,10 @@
-"use client";
-import { useState } from "react";
-import { LandingPageRoutes } from "../landing-page/landingPageRoutes";
+'use client'
+import { useState } from 'react'
+import { LandingPageRoutes } from '../landing-page/landingPageRoutes'
+import Image from 'next/image'
 
 export const Header = () => {
-  const [isMobileMenuOpen, setMobileMenuVisibility] = useState(false);
+  const [isMobileMenuOpen, setMobileMenuVisibility] = useState(false)
 
   return (
     <div className="container mx-auto overflow-hidden">
@@ -12,9 +13,10 @@ export const Header = () => {
           <div className="flex flex-wrap items-center">
             <div className="w-auto mr-14">
               <a href="/">
-                <img
-                  src="images/casa.png"
-                  className="h-[80px]"
+                <Image
+                  src="images/logo.svg"
+                  width={70}
+                  height={70}
                   alt="Logotipo da Trampar De Casa"
                 />
               </a>
@@ -142,5 +144,5 @@ export const Header = () => {
         </div>
       )}
     </div>
-  );
-};
+  )
+}

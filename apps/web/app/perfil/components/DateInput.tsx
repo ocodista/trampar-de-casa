@@ -1,12 +1,23 @@
 import { CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import React from 'react'
-import { Button } from '../../../global/components/ui/button'
-import { FormField, FormItem, FormLabel, FormControl, FormDescription, FormMessage } from '../../../global/components/ui/form'
 import { cn } from '../../../global/utils'
 import { useFormContext } from 'react-hook-form'
-import { Popover, PopoverTrigger, PopoverContent } from '../../../global/components/ui/popover'
-import { Calendar } from '../../../global/components/ui/calendar'
+import {
+  FormField,
+  FormItem,
+  FormLabel,
+  FormControl,
+  FormDescription,
+  FormMessage,
+} from '../../components/ui/form'
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+} from '../../components/ui/popover'
+import { Calendar } from '../../components/ui/calendar'
+import { Button } from '../../components/ui/button'
 
 const DateInput = ({ label, description, name }) => {
   const form = useFormContext()
@@ -21,14 +32,14 @@ const DateInput = ({ label, description, name }) => {
             <PopoverTrigger asChild>
               <FormControl>
                 <Button
-                  variant={"outline"}
+                  variant={'outline'}
                   className={cn(
-                    "w-[240px] pl-3 text-left font-normal",
-                    !field.value && "text-muted-foreground"
+                    'w-[240px] pl-3 text-left font-normal',
+                    !field.value && 'text-muted-foreground'
                   )}
                 >
                   {field.value ? (
-                    format(field.value, "dd/MM/yyyy")
+                    format(field.value, 'dd/MM/yyyy')
                   ) : (
                     <span>Escolha uma data aproximada</span>
                   )}
@@ -42,15 +53,13 @@ const DateInput = ({ label, description, name }) => {
                 selected={field.value}
                 onSelect={field.onChange}
                 disabled={(date) =>
-                  date > new Date() || date < new Date("1900-01-01")
+                  date > new Date() || date < new Date('1900-01-01')
                 }
                 initialFocus
               />
             </PopoverContent>
           </Popover>
-          <FormDescription>
-            {description}
-          </FormDescription>
+          <FormDescription>{description}</FormDescription>
           <FormMessage />
         </FormItem>
       )}

@@ -11,7 +11,6 @@ import { useToast } from '../../components/ui/use-toast'
 import { PartnerCompanies } from './PartnerCompanies'
 import { ErrorMessage } from '@hookform/error-message'
 import { useQuery } from 'react-query'
-import Image from 'next/image'
 
 const validationSchema = z.object({
   email: z.string().email('Insira um e-mail válido!'),
