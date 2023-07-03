@@ -1,13 +1,17 @@
 'use client'
 import React, { useContext, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import Image from 'next/image'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { z } from 'zod'
 import Confetti from 'react-confetti'
 import { StatusCodes } from 'http-status-codes'
 import { LoadingContext } from '../contexts/LoadingContext'
+
 import { ApiRoutes } from 'shared/src/enums'
+
 import { useToast } from '../components/ui/use-toast'
+import { useQuery } from 'react-query'
 
 const validationSchema = z.object({
   email: z.string().email('Insira um e-mail válido!'),
@@ -18,7 +22,6 @@ type ValidationSchema = z.infer<typeof validationSchema>
 const PADDING_X = 32
 
 export const Hero = () => {
-  const [subscribersCount, setSubscribersCount] = useState(0)
   const { isLoading, withLoading } = useContext(LoadingContext)
 
   const {
@@ -38,15 +41,17 @@ export const Hero = () => {
 
   const { toast } = useToast()
 
-  useEffect(() => {
-    ;(async () => {
-      const response = await fetch(ApiRoutes.Subscribers)
-      if (response.ok) {
-        const count = await response.json()
-        setSubscribersCount(count)
-      }
-    })()
-  }, [])
+  const getSubscribersCount = async (): Promise<number | null> => {
+    const response = await fetch(ApiRoutes.Subscribers)
+    if (!response?.ok) return null
+    const count = await response.json()
+    return count
+  }
+
+  const { data: subscribersCount } = useQuery<number>(
+    'subscribersCountQuery',
+    async () => await getSubscribersCount()
+  )
 
   const saveSubscriber = async () => {
     const email = getValues().email
@@ -97,9 +102,10 @@ export const Hero = () => {
               <div className="flex flex-wrap items-center">
                 <div className="w-auto mr-14">
                   <a href="#">
-                    <img
-                      src="images/casa.png"
-                      className="h-[80px]"
+                    <Image
+                      width={70}
+                      height={70}
+                      src="images/logo.svg"
                       alt="Logotipo da Trampar De Casa"
                     />
                   </a>
@@ -158,9 +164,11 @@ export const Hero = () => {
                   <div className="flex items-center justify-between -m-2">
                     <div className="w-auto p-2">
                       <a className="inline-block" href="#">
-                        <img
-                          src="images/casa.png"
-                          alt="Logo da Trampar de Casa"
+                        <Image
+                          width={70}
+                          height={70}
+                          src="images/logo.svg"
+                          alt="Logotipo da Trampar De Casa"
                         />
                       </a>
                     </div>
