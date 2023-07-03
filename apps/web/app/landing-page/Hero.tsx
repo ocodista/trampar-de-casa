@@ -24,7 +24,7 @@ const PADDING_X = 32;
 
 
 export const Hero = () => {
- const { isLoading, withLoading } = useContext(LoadingContext);
+  const { isLoading, withLoading } = useContext(LoadingContext);
 
   const {
     register,
