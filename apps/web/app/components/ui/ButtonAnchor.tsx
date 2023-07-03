@@ -1,4 +1,4 @@
-const ButtonAnchor = ({ children, href, ...props }) => {
+const ButtonAnchor = ({ children, href }) => {
   return (
     <a
       href={href}

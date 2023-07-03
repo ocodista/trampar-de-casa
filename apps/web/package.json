@@ -6,7 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint",
+    "lint": "eslint ./app --fix",
     "db-start": "npx prisma generate && npx supabase start",
     "db-seed": "npx prisma db seed",
     "db-stop": "npx supabase stop --backup"

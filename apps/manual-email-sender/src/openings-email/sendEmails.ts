@@ -1,19 +1,17 @@
+/* eslint-disable no-console */
 import { createClient } from '@supabase/supabase-js'
-import { Channel } from 'amqplib'
 import dotenv from 'dotenv'
 import { Entities } from 'shared'
-import { EmailQueues } from 'shared/src/enums'
 import { openingEmailHTML } from '../../../../packages/shared/src/email/openings-email/28-06-2023/OpeningEmail'
 import { Resend } from 'resend'
 import path from 'path'
 import { readFileSync } from 'fs'
-import { connectToQueue } from 'shared/src/queue'
 import fs from 'fs'
 
 dotenv.config()
 
-const SUPABASE_URL = process.env.SUPABASE_URL || ''
-const SUPABASE_KEY = process.env.SUPABASE_KEY || ''
+const SUPABASE_URL = process.env['SUPABASE_URL'] || ''
+const SUPABASE_KEY = process.env['SUPABASE_KEY'] || ''
 
 const sentFileName = './sent-emails-28-06-2023.txt'
 

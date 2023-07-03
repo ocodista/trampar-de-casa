@@ -32,6 +32,7 @@ export const RoleCard = ({
         textDecoration: 'none',
         color: 'unset',
       }}
+      rel="noreferrer"
     >
       <div
         className={`p-4 my-4 text-sm border border-solid border-gray-300 rounded-md cursor-pointer`}
