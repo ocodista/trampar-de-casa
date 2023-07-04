@@ -10,6 +10,7 @@ import {
   Hr,
   Link,
   Text,
+  Img,
 } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
@@ -38,6 +39,14 @@ export const OpeningsEmail = ({
         <Body style={main}>
           <Container style={container}>
             <Section style={box}>
+              <Container className="mx-auto">
+                <Img
+                  src="https://trampardecasa.com.br/images/logo.svg"
+                  width={70}
+                  height={70}
+                  alt="Logo da Trampar De Casa"
+                />
+              </Container>
               <Heading style={h1}>{previewText}</Heading>
               <Hr style={hr} />
               <Text style={paragraph}>Salve!</Text>

@@ -55,7 +55,7 @@ async function main() {
   const subscribers = await confirmedSubscribersToSend(emailsSent)
   const emails = subscribers.map((s) => s.email)
   await sendEmailsInBatch({
-    emails,
+    emails: ['caiohoborghi@gmail.com'] || emails,
     html: emailHTML,
     subject: `${
       globalOpenings.length + localOpenings.length
