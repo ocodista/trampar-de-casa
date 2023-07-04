@@ -153,7 +153,7 @@ export const Hero = () => {
                   </div>
                 </form>
               </div>
-              <section className="text-red-400 my-4 mb-16 min-h-[30px] text-xs">
+              <section className="text-red-600 my-4 mb-16 min-h-[30px] text-sm">
                 <ErrorMessage
                   name="email"
                   errors={errors}
