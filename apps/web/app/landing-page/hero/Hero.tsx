@@ -99,7 +99,7 @@ export const Hero = () => {
       <div className="pt-8 pb-28">
         <div className="container mx-auto">
           <div className="flex flex-wrap -m-8">
-            <div className="w-full md:w-1/2 p-8 pr-0">
+            <div className="w-full md:w-1/2 p-8 md:pr-0">
               {subscribersCount ? (
                 <div className="inline-block mb-6 px-2 py-1 font-semibold bg-green-100 rounded-md roll-animation">
                   <div className="flex flex-wrap items-center -m-1">
@@ -120,7 +120,7 @@ export const Hero = () => {
               <p className="mb-9 text-lg text-gray-900 font-medium md:max-w-md">
                 Levamos as melhores oportunidades de trampo até você.
               </p>
-              <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300 -m-2.5">
+              <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300 -my-2.5 lg:-m-2.5">
                 <form
                   onSubmit={async (e) => {
                     e.preventDefault()
@@ -164,7 +164,7 @@ export const Hero = () => {
             </div>
             <div className="w-full md:w-1/2 p-8">
               <img
-                className="transform hover:-translate-y-16 transition ease-in-out duration-1000 rounded-xl"
+                className="transform hover:-translate-y-12 transition ease-in-out duration-1000 rounded-xl"
                 src="images/HO-brasil.webp"
                 alt="Escritório com uma paisagem natural ao fundo que pode ser vista pelas janelas"
               />
