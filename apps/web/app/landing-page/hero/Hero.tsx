@@ -36,6 +36,8 @@ export const Hero = () => {
   } = methods
 
   const [isConfettiVisible, setConfettiVisibility] = useState(false)
+  const [isMobileNavVisible, setMobileNavVisibility] = useState(false)
+
   useEffect(() => {
     setTimeout(() => {
       setConfettiVisibility(false)
@@ -98,7 +100,7 @@ export const Hero = () => {
     <>
       {isConfettiVisible && <Confetti width={window.innerWidth - PADDING_X} />}
       <header className="container mx-auto overflow-hidden">
-        <div className="relative flex items-center justify-between px-4 py-5 bg-transparent">
+        <div className="relative flex items-center justify-between lg:px-4 py-5 bg-transparent">
           <div className="w-auto">
             <div className="flex flex-wrap items-center">
               <div className="w-auto mr-14">
@@ -128,8 +130,12 @@ export const Hero = () => {
           </div>
           <div className="w-auto">
             <div className="flex flex-wrap items-center">
+              {/* burger button => opens nav sidemodal */}
               <div className="w-auto lg:hidden">
-                <a href="#">
+                <button
+                  onClick={() => setMobileNavVisibility(true)}
+                  aria-label="Abrir menu lateral"
+                >
                   <svg
                     className="navbar-burger text-indigo-600"
                     width={51}
@@ -147,84 +153,99 @@ export const Hero = () => {
                       strokeLinejoin="round"
                     />
                   </svg>
-                </a>
+                </button>
               </div>
             </div>
           </div>
         </div>
-        <div className="hidden navbar-menu fixed top-0 left-0 bottom-0 w-4/6 sm:max-w-xs z-50">
-          <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80" />
-          <nav className="relative px-9 pt-8 bg-white h-full overflow-y-auto">
-            <div className="flex flex-wrap justify-between h-full">
-              <div className="w-full">
-                <div className="flex items-center justify-between -m-2">
-                  <div className="w-auto p-2">
-                    <a className="inline-block" href="#">
-                      <Image
-                        width={70}
-                        height={70}
-                        src="images/logo.svg"
-                        alt="Logotipo da Trampar De Casa"
-                      />
-                    </a>
-                  </div>
-                  <div className="w-auto p-2">
-                    <a className="navbar-burger" href="#">
-                      <svg
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M6 18L18 6M6 6L18 18"
-                          stroke="#111827"
-                          strokeWidth={2}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
+        {/* hidden nav sidemodal */}
+        {isMobileNavVisible && (
+          <div
+            className="lg:hidden navbar-menu fixed top-0 left-0 bottom-0 w-4/6 sm:max-w-xs z-50"
+            role="dialog"
+            aria-modal="true"
+          >
+            <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80" />
+            <nav className="relative px-9 pt-8 bg-white h-full overflow-y-auto">
+              <div className="flex flex-wrap justify-between h-full">
+                <div className="w-full">
+                  <div className="flex items-center justify-between -m-2">
+                    <div className="w-auto p-2">
+                      <a className="inline-block" href="#">
+                        <Image
+                          width={70}
+                          height={70}
+                          src="images/logo.svg"
+                          alt="Logotipo da Trampar De Casa"
                         />
-                      </svg>
-                    </a>
+                      </a>
+                    </div>
+                    <div className="w-auto p-2">
+                      {/* close button => close nav sidemodal */}
+                      <button
+                        className="navbar-burger"
+                        onClick={() => setMobileNavVisibility(false)}
+                        aria-label="Fechar menu lateral"
+                      >
+                        <svg
+                          width={24}
+                          height={24}
+                          viewBox="0 0 24 24"
+                          fill="none"
+                          xmlns="http://www.w3.org/2000/svg"
+                        >
+                          <path
+                            d="M6 18L18 6M6 6L18 18"
+                            stroke="#111827"
+                            strokeWidth={2}
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                          />
+                        </svg>
+                      </button>
+                    </div>
                   </div>
                 </div>
+                <div className="flex flex-col justify-center py-16 w-full">
+                  <ul>
+                    <li className="mb-12">
+                      <a
+                        className="font-medium hover:text-gray-700"
+                        href="#valores"
+                        onClick={() => setMobileNavVisibility(false)}
+                      >
+                        Nossos Valores
+                      </a>
+                    </li>
+                    <li className="mb-12">
+                      <a
+                        className="font-medium hover:text-gray-700"
+                        href="#como-funciona"
+                        onClick={() => setMobileNavVisibility(false)}
+                      >
+                        Como Funciona
+                      </a>
+                    </li>
+                    <li>
+                      <a
+                        className="font-medium hover:text-gray-700"
+                        href="#perguntas-frequentes"
+                        onClick={() => setMobileNavVisibility(false)}
+                      >
+                        Perguntas Frequentes
+                      </a>
+                    </li>
+                  </ul>
+                </div>
               </div>
-              <div className="flex flex-col justify-center py-16 w-full">
-                <ul>
-                  <li className="mb-12">
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href="#valores"
-                    >
-                      Nossos Valores
-                    </a>
-                  </li>
-                  <li className="mb-12">
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href="#como-funciona"
-                    >
-                      Como Funciona
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href="#perguntas-frequentes"
-                    >
-                      Perguntas Frequentes
-                    </a>
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </nav>
-        </div>
+            </nav>
+          </div>
+        )}
       </header>
       <div className="pt-8 pb-28">
         <div className="container mx-auto">
           <div className="flex flex-wrap -m-8">
-            <div className="w-full md:w-1/2 p-8 pr-0">
+            <div className="w-full md:w-1/2 p-8 md:pr-0">
               {subscribersCount ? (
                 <div className="inline-block mb-6 px-2 py-1 font-semibold bg-green-100 rounded-md roll-animation">
                   <div className="flex flex-wrap items-center -m-1">
@@ -245,7 +266,7 @@ export const Hero = () => {
               <p className="mb-9 text-lg text-gray-900 font-medium md:max-w-md">
                 Levamos as melhores oportunidades de trampo até você.
               </p>
-              <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300 -m-2.5">
+              <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300 -my-2.5 lg:-m-2.5">
                 <form
                   onSubmit={async (e) => {
                     e.preventDefault()
@@ -289,7 +310,7 @@ export const Hero = () => {
             </div>
             <div className="w-full md:w-1/2 p-8">
               <img
-                className="transform hover:-translate-y-16 transition ease-in-out duration-1000 rounded-xl"
+                className="transform hover:-translate-y-12 transition ease-in-out duration-1000 rounded-xl"
                 src="images/HO-brasil.webp"
                 alt=""
               />
