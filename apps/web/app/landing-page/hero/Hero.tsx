@@ -230,7 +230,7 @@ export const Hero = () => {
           <div className="flex flex-wrap -m-8">
             <div className="w-full md:w-1/2 p-8 pr-0">
               {subscribersCount ? (
-                <div className="inline-block mb-6 px-2 py-1 font-semibold bg-green-100 rounded-md roll-animation">
+                <div className="inline-block mb-6 px-2 py-1 font-semibold dark:text-gray-900 bg-green-100 rounded-md roll-animation">
                   <div className="flex flex-wrap items-center -m-1">
                     <div className="w-auto py-1 px-2">
                       <span className="text-sm">

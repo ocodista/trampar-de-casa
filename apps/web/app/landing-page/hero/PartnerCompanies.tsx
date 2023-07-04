@@ -39,7 +39,7 @@ const CompanySection = ({
 )
 
 export const PartnerCompanies = () => {
-  const { theme } = useTheme();
+  const { resolvedTheme } = useTheme();
   return (
     <section>
       <p className="mb-6 text-sm dark:text-gray-200 text-gray-500 font-semibold">
@@ -47,7 +47,7 @@ export const PartnerCompanies = () => {
       </p>
       <div className="flex flex-wrap -m-3">
         {companies.map((company) => (
-          <CompanySection key={company.name} {...company} theme={theme} />
+          <CompanySection key={company.name} {...company} theme={resolvedTheme} />
         ))}
       </div>
     </section>
