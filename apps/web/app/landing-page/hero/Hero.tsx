@@ -166,7 +166,7 @@ export const Hero = () => {
               <img
                 className="transform hover:-translate-y-16 transition ease-in-out duration-1000 rounded-xl"
                 src="images/HO-brasil.webp"
-                alt=""
+                alt="Escritório com uma paisagem natural ao fundo que pode ser vista pelas janelas"
               />
             </div>
           </div>
