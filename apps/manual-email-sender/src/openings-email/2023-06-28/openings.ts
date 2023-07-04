@@ -1,46 +1,21 @@
-const striderRole = (
-  title: string,
-  minimumXP: number,
-  url: string,
-  skills: string[]
-) => ({
-  company: 'Strider',
-  title,
-  headerInfo: `Mínimo de ${minimumXP} anos de XP`,
-  language: 'Inglês Avançado',
-  currency: 'U$',
-  location: 'Estados Unidos',
-  url,
-  skills,
-})
+import { Opening } from '../../../../../packages/shared/src/email/openings-email/Opening'
+import { striderOpening } from '../../../../../packages/shared/src/email/openings-email/striderOpening'
+import { Openings } from '../Openings'
 
-export interface Role {
-  company: string
-  title: string
-  description?: string
-  location: string
-  language: string
-  currency: string
-  salary?: string
-  skills: string[]
-  headerInfo?: string
-  url: string
-}
-
-export const globalRoles: Role[] = [
-  striderRole(
+export const globalOpenings: Opening[] = [
+  striderOpening(
     'Mid-level Scraping Engineer - Python',
     3,
     'https://www.onstrider.com/jobs/mid-level-scraping-engineer-python-768b97ac',
     ['Python', 'Playwright', 'HTML']
   ),
-  striderRole(
+  striderOpening(
     'Mid Front-end Engineer - Vue.js',
     3,
     'https://www.onstrider.com/jobs/mid-front-end-engineer-vue.js-625390c7',
     ['JavaScript', 'Vue.js', 'HTML', 'CSS']
   ),
-  striderRole(
+  striderOpening(
     'Senior Back-end Engineer - Node.js, TypeScript',
     4,
     'https://www.onstrider.com/jobs/senior-back-end-engineer-nodejs-typescript-fc7792db',
@@ -56,25 +31,25 @@ export const globalRoles: Role[] = [
       'Azure Functions',
     ]
   ),
-  striderRole(
+  striderOpening(
     'Senior Data Engineer - Microsoft SQL Server',
     4,
     'https://www.onstrider.com/jobs/senior-data-engineer-microsoft-sql-server-863718d3',
     ['Microsoft SQL Server']
   ),
-  striderRole(
+  striderOpening(
     'Senior IOS Engineer - Swift',
     5,
     'https://www.onstrider.com/jobs/senior-ios-engineer-swift-3e707624',
     ['Swift', 'iOS SDK', 'AWS']
   ),
-  striderRole(
+  striderOpening(
     'Senior Back-end Engineer - .NET',
     5,
     'https://www.onstrider.com/jobs/senior-back-end-engineer-.net-4d63a34a',
     ['C#', '.NET Core', 'PostgreSQL']
   ),
-  striderRole(
+  striderOpening(
     'Senior Full-stack Enginner - Rails, React.js',
     5,
     'https://www.onstrider.com/jobs/senior-full-stack-engineer-rails-react.js',
@@ -122,7 +97,7 @@ export const globalRoles: Role[] = [
   },
 ]
 
-export const localRoles: Role[] = [
+export const localOpenings: Opening[] = [
   {
     url: 'https://applicants.bairesdev.com/job/111/176816/apply',
     company: 'BairesDev',
@@ -274,3 +249,5 @@ export const localRoles: Role[] = [
     location: '',
   },
 ]
+
+export const openings20230628: Openings = { localOpenings, globalOpenings }
