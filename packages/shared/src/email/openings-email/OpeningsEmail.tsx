@@ -41,7 +41,7 @@ export const OpeningsEmail = ({
             <Section style={box}>
               <Container className="mx-auto">
                 <Img
-                  src="https://trampardecasa.com.br/images/logo.svg"
+                  src="https://trampardecasa.com.br/images/logo.png"
                   width={70}
                   height={70}
                   alt="Logo da Trampar De Casa"
