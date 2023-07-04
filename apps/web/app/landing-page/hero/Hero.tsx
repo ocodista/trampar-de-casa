@@ -163,7 +163,7 @@ export const Hero = () => {
           <div
             className="lg:hidden navbar-menu fixed top-0 left-0 bottom-0 w-4/6 sm:max-w-xs z-50"
             role="dialog"
-            aria-modal="true"
+            aria-modal={isMobileNavVisible}
           >
             <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80" />
             <nav className="relative px-9 pt-8 bg-white h-full overflow-y-auto">
