@@ -12,87 +12,88 @@ import { PartnerCompanies } from "./PartnerCompanies";
 import { ErrorMessage } from "@hookform/error-message";
 import { useQuery } from "react-query";
 import { ToggleTheme } from "../../components/ui/toggleTheme";
+import Image from 'next/image'
 
 const validationSchema = z.object({
-  email: z.string().email("Insira um e-mail válido!"),
-});
+  email: z.string().email('Insira um e-mail válido!'),
+})
 
-type ValidationSchema = z.infer<typeof validationSchema>;
+type ValidationSchema = z.infer<typeof validationSchema>
 
-const PADDING_X = 32;
+const PADDING_X = 32
 
 export const Hero = () => {
-  const { isLoading, withLoading } = useContext(LoadingContext);
+  const { isLoading, withLoading } = useContext(LoadingContext)
 
   const methods = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
-    mode: "onTouched",
-  });
+    mode: 'onTouched',
+  })
 
   const {
     register,
     getValues,
     formState: { isValid, errors },
-  } = methods;
+  } = methods
 
-  const [isConfettiVisible, setConfettiVisibility] = useState(false);
+  const [isConfettiVisible, setConfettiVisibility] = useState(false)
   useEffect(() => {
     setTimeout(() => {
-      setConfettiVisibility(false);
-    }, 20_000);
-  }, [isConfettiVisible]);
+      setConfettiVisibility(false)
+    }, 20_000)
+  }, [isConfettiVisible])
 
-  const { toast } = useToast();
+  const { toast } = useToast()
 
   const getSubscribersCount = async (): Promise<number | null> => {
-    const response = await fetch(ApiRoutes.Subscribers);
-    if (!response?.ok) return null;
-    const count = await response.json();
-    return count;
-  };
+    const response = await fetch(ApiRoutes.Subscribers)
+    if (!response?.ok) return null
+    const count = await response.json()
+    return count
+  }
   const { data: subscribersCount } = useQuery<number>(
-    "subscribersCountQuery",
+    'subscribersCountQuery',
     async () => await getSubscribersCount()
-  );
+  )
 
   const saveSubscriber = async () => {
-    const email = getValues().email;
+    const email = getValues().email
     try {
       const response = await fetch(ApiRoutes.Subscribers, {
         body: JSON.stringify({ email }),
-        method: "POST",
-      });
+        method: 'POST',
+      })
 
       if (response.ok) {
-        setConfettiVisibility(true);
+        setConfettiVisibility(true)
         toast({
-          title: "Tudo certo 🥳",
-          description: "Enviamos uma confirmação para o seu e-mail!",
-        });
-        return;
+          title: 'Tudo certo 🥳',
+          description: 'Enviamos uma confirmação para o seu e-mail!',
+        })
+        return
       }
 
       if (response.status === StatusCodes.CONFLICT) {
         toast({
-          title: "Algo deu errado 🥶",
-          variant: "destructive",
+          title: 'Algo deu errado 🥶',
+          variant: 'destructive',
           description: await response.text(),
-        });
-        return;
+        })
+        return
       }
 
-      throw new Error(response.statusText);
+      throw new Error(response.statusText)
     } catch (err) {
       toast({
-        title: "Algo deu errado 🥶",
-        variant: "destructive",
+        title: 'Algo deu errado 🥶',
+        variant: 'destructive',
         description:
-          "Não conseguimos adicionar seu e-mail, tente novamente mais tarde.",
-      });
+          'Não conseguimos adicionar seu e-mail, tente novamente mais tarde.',
+      })
     }
 
-    return false;
-  };
+    return false
+  }
 
   return (
     <>
@@ -103,9 +104,10 @@ export const Hero = () => {
             <div className="flex flex-wrap items-center">
               <div className="w-auto mr-14">
                 <a href="#">
-                  <img
-                    src="images/casa.png"
-                    className="h-[80px]"
+                  <Image
+                    width={70}
+                    height={70}
+                    src="images/logo.svg"
                     alt="Logotipo da Trampar De Casa"
                   />
                 </a>
@@ -162,9 +164,11 @@ export const Hero = () => {
                 <div className="flex items-center justify-between -m-2">
                   <div className="w-auto p-2">
                     <a className="inline-block" href="#">
-                      <img
-                        src="images/casa.png"
-                        alt="Logo da Trampar de Casa"
+                      <Image
+                        width={70}
+                        height={70}
+                        src="images/logo.svg"
+                        alt="Logotipo da Trampar De Casa"
                       />
                     </a>
                   </div>
@@ -230,7 +234,7 @@ export const Hero = () => {
                   <div className="flex flex-wrap items-center -m-1">
                     <div className="w-auto py-1 px-2">
                       <span className="text-sm">
-                        👋 Junte-se a {subscribersCount.toLocaleString()}{" "}
+                        👋 Junte-se a {subscribersCount.toLocaleString()}{' '}
                         inscritos!
                       </span>
                     </div>
@@ -248,8 +252,8 @@ export const Hero = () => {
               <div className="p-1.5 xl:pl-7 inline-block w-full border-2 dark:border-white border-black rounded-xl focus-within:ring focus-within:ring-indigo-300 -m-2.5">
                 <form
                   onSubmit={async (e) => {
-                    e.preventDefault();
-                    await withLoading(saveSubscriber);
+                    e.preventDefault()
+                    await withLoading(saveSubscriber)
                   }}
                 >
                   <div className="flex flex-wrap items-center">
@@ -260,7 +264,7 @@ export const Hero = () => {
                         type="email"
                         disabled={isLoading}
                         placeholder="Digite seu melhor e-mail"
-                        {...register("email")}
+                        {...register('email')}
                       />
                     </div>
                     <div className="w-full xl:w-auto">
@@ -298,5 +302,5 @@ export const Hero = () => {
         </div>
       </div>
     </>
-  );
-};
+  )
+}

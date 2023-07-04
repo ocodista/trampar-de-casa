@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export const HowItWorks = () => (
   <section id="como-funciona" className="py-32 bg-transparent overflow-hidden">

@@ -18,7 +18,7 @@ const companies: Company[] = [
     imagePathLight: "images/brand-strider-usage-positive-color-color.png",
     imagePathDark: "images/brand-strider-usage-negative-color-color.png",
   },
-];
+]
 
 const CompanySection = ({
   name,
@@ -36,7 +36,7 @@ const CompanySection = ({
       title={description}
     />
   </a>
-);
+)
 
 export const PartnerCompanies = () => {
   const { theme } = useTheme();
@@ -51,5 +51,5 @@ export const PartnerCompanies = () => {
         ))}
       </div>
     </section>
-  );
-};
+  )
+}
