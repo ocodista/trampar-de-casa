@@ -13,6 +13,7 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 export type SubscribersPayload<
   ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
 > = {
+  name: 'Subscribers'
   objects: {
     sentRoles: SentRolesPayload<ExtArgs>[]
   }
@@ -43,6 +44,7 @@ export type Subscribers = runtime.Types.DefaultSelection<SubscribersPayload>
 export type RolesPayload<
   ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
 > = {
+  name: 'Roles'
   objects: {
     company: CompaniesPayload<ExtArgs>
     sentRoles: SentRolesPayload<ExtArgs> | null
@@ -74,6 +76,7 @@ export type Roles = runtime.Types.DefaultSelection<RolesPayload>
 export type SentRolesPayload<
   ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
 > = {
+  name: 'SentRoles'
   objects: {
     role: RolesPayload<ExtArgs> | null
     subscribers: SubscribersPayload<ExtArgs>[]
@@ -97,6 +100,7 @@ export type SentRoles = runtime.Types.DefaultSelection<SentRolesPayload>
 export type CompaniesPayload<
   ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
 > = {
+  name: 'Companies'
   objects: {
     roles: RolesPayload<ExtArgs>[]
   }
@@ -396,8 +400,8 @@ export namespace Prisma {
   export type Exact<T, W> = $Public.Exact<T, W>
 
   /**
-   * Prisma Client JS version: 4.16.1
-   * Query Engine version: b20ead4d3ab9e78ac112966e242ded703f4a052c
+   * Prisma Client JS version: 4.16.2
+   * Query Engine version: 4bc8b6e1b66cb932731fb1bdbbc550d1e010de81
    */
   export type PrismaVersion = {
     client: string
@@ -420,7 +424,7 @@ export namespace Prisma {
    * From https://github.com/sindresorhus/type-fest/
    * Matches a JSON array.
    */
-  export type JsonArray = Array<JsonValue>
+  export interface JsonArray extends Array<JsonValue> {}
 
   /**
    * From https://github.com/sindresorhus/type-fest/
@@ -446,7 +450,8 @@ export namespace Prisma {
    * Matches a JSON array.
    * Unlike `JsonArray`, readonly arrays are assignable to this type.
    */
-  export type InputJsonArray = ReadonlyArray<InputJsonValue | null>
+  export interface InputJsonArray
+    extends ReadonlyArray<InputJsonValue | null> {}
 
   /**
    * Matches any valid value that can be used as an input for operations like
@@ -632,7 +637,7 @@ export namespace Prisma {
     ? False
     : T extends Uint8Array
     ? False
-    : T extends bigint
+    : T extends BigInt
     ? False
     : T extends object
     ? True
@@ -657,7 +662,7 @@ export namespace Prisma {
 
   type EitherLoose<O extends object, K extends Key> = ComputeRaw<__Either<O, K>>
 
-  type _Either<O extends object, K extends Key, strict extends boolean> = {
+  type _Either<O extends object, K extends Key, strict extends Boolean> = {
     1: EitherStrict<O, K>
     0: EitherLoose<O, K>
   }[strict]
@@ -665,7 +670,7 @@ export namespace Prisma {
   type Either<
     O extends object,
     K extends Key,
-    strict extends boolean = 1
+    strict extends Boolean = 1
   > = O extends unknown ? _Either<O, K, strict> : never
 
   export type Union = any
@@ -705,7 +710,7 @@ export namespace Prisma {
   export type At<
     O extends object,
     K extends Key,
-    strict extends boolean = 1
+    strict extends Boolean = 1
   > = {
     1: AtStrict<O, K>
     0: AtLoose<O, K>
@@ -761,7 +766,7 @@ export namespace Prisma {
   */
   export type False = 0
 
-  export type Not<B extends boolean> = {
+  export type Not<B extends Boolean> = {
     0: 1
     1: 0
   }[B]
@@ -776,7 +781,7 @@ export namespace Prisma {
     Extends<Exclude<U1, U>, U1>
   >
 
-  export type Or<B1 extends boolean, B2 extends boolean> = {
+  export type Or<B1 extends Boolean, B2 extends Boolean> = {
     0: {
       0: 0
       1: 1
@@ -881,346 +886,287 @@ export namespace Prisma {
     }
     model: {
       Subscribers: {
+        payload: SubscribersPayload<ExtArgs>
         operations: {
           findUnique: {
             args: Prisma.SubscribersFindUniqueArgs<ExtArgs>
             result: $Utils.PayloadToResult<SubscribersPayload> | null
-            payload: SubscribersPayload<ExtArgs>
           }
           findUniqueOrThrow: {
             args: Prisma.SubscribersFindUniqueOrThrowArgs<ExtArgs>
             result: $Utils.PayloadToResult<SubscribersPayload>
-            payload: SubscribersPayload<ExtArgs>
           }
           findFirst: {
             args: Prisma.SubscribersFindFirstArgs<ExtArgs>
             result: $Utils.PayloadToResult<SubscribersPayload> | null
-            payload: SubscribersPayload<ExtArgs>
           }
           findFirstOrThrow: {
             args: Prisma.SubscribersFindFirstOrThrowArgs<ExtArgs>
             result: $Utils.PayloadToResult<SubscribersPayload>
-            payload: SubscribersPayload<ExtArgs>
           }
           findMany: {
             args: Prisma.SubscribersFindManyArgs<ExtArgs>
             result: $Utils.PayloadToResult<SubscribersPayload>[]
-            payload: SubscribersPayload<ExtArgs>
           }
           create: {
             args: Prisma.SubscribersCreateArgs<ExtArgs>
             result: $Utils.PayloadToResult<SubscribersPayload>
-            payload: SubscribersPayload<ExtArgs>
           }
           createMany: {
             args: Prisma.SubscribersCreateManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: SubscribersPayload<ExtArgs>
           }
           delete: {
             args: Prisma.SubscribersDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<SubscribersPayload>
-            payload: SubscribersPayload<ExtArgs>
           }
           update: {
             args: Prisma.SubscribersUpdateArgs<ExtArgs>
             result: $Utils.PayloadToResult<SubscribersPayload>
-            payload: SubscribersPayload<ExtArgs>
           }
           deleteMany: {
             args: Prisma.SubscribersDeleteManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: SubscribersPayload<ExtArgs>
           }
           updateMany: {
             args: Prisma.SubscribersUpdateManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: SubscribersPayload<ExtArgs>
           }
           upsert: {
             args: Prisma.SubscribersUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<SubscribersPayload>
-            payload: SubscribersPayload<ExtArgs>
           }
           aggregate: {
             args: Prisma.SubscribersAggregateArgs<ExtArgs>
             result: $Utils.Optional<AggregateSubscribers>
-            payload: SubscribersPayload<ExtArgs>
           }
           groupBy: {
             args: Prisma.SubscribersGroupByArgs<ExtArgs>
             result: $Utils.Optional<SubscribersGroupByOutputType>[]
-            payload: SubscribersPayload<ExtArgs>
           }
           count: {
             args: Prisma.SubscribersCountArgs<ExtArgs>
             result:
               | $Utils.Optional<SubscribersCountAggregateOutputType>
               | number
-            payload: SubscribersPayload<ExtArgs>
           }
         }
       }
       Roles: {
+        payload: RolesPayload<ExtArgs>
         operations: {
           findUnique: {
             args: Prisma.RolesFindUniqueArgs<ExtArgs>
             result: $Utils.PayloadToResult<RolesPayload> | null
-            payload: RolesPayload<ExtArgs>
           }
           findUniqueOrThrow: {
             args: Prisma.RolesFindUniqueOrThrowArgs<ExtArgs>
             result: $Utils.PayloadToResult<RolesPayload>
-            payload: RolesPayload<ExtArgs>
           }
           findFirst: {
             args: Prisma.RolesFindFirstArgs<ExtArgs>
             result: $Utils.PayloadToResult<RolesPayload> | null
-            payload: RolesPayload<ExtArgs>
           }
           findFirstOrThrow: {
             args: Prisma.RolesFindFirstOrThrowArgs<ExtArgs>
             result: $Utils.PayloadToResult<RolesPayload>
-            payload: RolesPayload<ExtArgs>
           }
           findMany: {
             args: Prisma.RolesFindManyArgs<ExtArgs>
             result: $Utils.PayloadToResult<RolesPayload>[]
-            payload: RolesPayload<ExtArgs>
           }
           create: {
             args: Prisma.RolesCreateArgs<ExtArgs>
             result: $Utils.PayloadToResult<RolesPayload>
-            payload: RolesPayload<ExtArgs>
           }
           createMany: {
             args: Prisma.RolesCreateManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: RolesPayload<ExtArgs>
           }
           delete: {
             args: Prisma.RolesDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<RolesPayload>
-            payload: RolesPayload<ExtArgs>
           }
           update: {
             args: Prisma.RolesUpdateArgs<ExtArgs>
             result: $Utils.PayloadToResult<RolesPayload>
-            payload: RolesPayload<ExtArgs>
           }
           deleteMany: {
             args: Prisma.RolesDeleteManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: RolesPayload<ExtArgs>
           }
           updateMany: {
             args: Prisma.RolesUpdateManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: RolesPayload<ExtArgs>
           }
           upsert: {
             args: Prisma.RolesUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<RolesPayload>
-            payload: RolesPayload<ExtArgs>
           }
           aggregate: {
             args: Prisma.RolesAggregateArgs<ExtArgs>
             result: $Utils.Optional<AggregateRoles>
-            payload: RolesPayload<ExtArgs>
           }
           groupBy: {
             args: Prisma.RolesGroupByArgs<ExtArgs>
             result: $Utils.Optional<RolesGroupByOutputType>[]
-            payload: RolesPayload<ExtArgs>
           }
           count: {
             args: Prisma.RolesCountArgs<ExtArgs>
             result: $Utils.Optional<RolesCountAggregateOutputType> | number
-            payload: RolesPayload<ExtArgs>
           }
         }
       }
       SentRoles: {
+        payload: SentRolesPayload<ExtArgs>
         operations: {
           findUnique: {
             args: Prisma.SentRolesFindUniqueArgs<ExtArgs>
             result: $Utils.PayloadToResult<SentRolesPayload> | null
-            payload: SentRolesPayload<ExtArgs>
           }
           findUniqueOrThrow: {
             args: Prisma.SentRolesFindUniqueOrThrowArgs<ExtArgs>
             result: $Utils.PayloadToResult<SentRolesPayload>
-            payload: SentRolesPayload<ExtArgs>
           }
           findFirst: {
             args: Prisma.SentRolesFindFirstArgs<ExtArgs>
             result: $Utils.PayloadToResult<SentRolesPayload> | null
-            payload: SentRolesPayload<ExtArgs>
           }
           findFirstOrThrow: {
             args: Prisma.SentRolesFindFirstOrThrowArgs<ExtArgs>
             result: $Utils.PayloadToResult<SentRolesPayload>
-            payload: SentRolesPayload<ExtArgs>
           }
           findMany: {
             args: Prisma.SentRolesFindManyArgs<ExtArgs>
             result: $Utils.PayloadToResult<SentRolesPayload>[]
-            payload: SentRolesPayload<ExtArgs>
           }
           create: {
             args: Prisma.SentRolesCreateArgs<ExtArgs>
             result: $Utils.PayloadToResult<SentRolesPayload>
-            payload: SentRolesPayload<ExtArgs>
           }
           createMany: {
             args: Prisma.SentRolesCreateManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: SentRolesPayload<ExtArgs>
           }
           delete: {
             args: Prisma.SentRolesDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<SentRolesPayload>
-            payload: SentRolesPayload<ExtArgs>
           }
           update: {
             args: Prisma.SentRolesUpdateArgs<ExtArgs>
             result: $Utils.PayloadToResult<SentRolesPayload>
-            payload: SentRolesPayload<ExtArgs>
           }
           deleteMany: {
             args: Prisma.SentRolesDeleteManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: SentRolesPayload<ExtArgs>
           }
           updateMany: {
             args: Prisma.SentRolesUpdateManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: SentRolesPayload<ExtArgs>
           }
           upsert: {
             args: Prisma.SentRolesUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<SentRolesPayload>
-            payload: SentRolesPayload<ExtArgs>
           }
           aggregate: {
             args: Prisma.SentRolesAggregateArgs<ExtArgs>
             result: $Utils.Optional<AggregateSentRoles>
-            payload: SentRolesPayload<ExtArgs>
           }
           groupBy: {
             args: Prisma.SentRolesGroupByArgs<ExtArgs>
             result: $Utils.Optional<SentRolesGroupByOutputType>[]
-            payload: SentRolesPayload<ExtArgs>
           }
           count: {
             args: Prisma.SentRolesCountArgs<ExtArgs>
             result: $Utils.Optional<SentRolesCountAggregateOutputType> | number
-            payload: SentRolesPayload<ExtArgs>
           }
         }
       }
       Companies: {
+        payload: CompaniesPayload<ExtArgs>
         operations: {
           findUnique: {
             args: Prisma.CompaniesFindUniqueArgs<ExtArgs>
             result: $Utils.PayloadToResult<CompaniesPayload> | null
-            payload: CompaniesPayload<ExtArgs>
           }
           findUniqueOrThrow: {
             args: Prisma.CompaniesFindUniqueOrThrowArgs<ExtArgs>
             result: $Utils.PayloadToResult<CompaniesPayload>
-            payload: CompaniesPayload<ExtArgs>
           }
           findFirst: {
             args: Prisma.CompaniesFindFirstArgs<ExtArgs>
             result: $Utils.PayloadToResult<CompaniesPayload> | null
-            payload: CompaniesPayload<ExtArgs>
           }
           findFirstOrThrow: {
             args: Prisma.CompaniesFindFirstOrThrowArgs<ExtArgs>
             result: $Utils.PayloadToResult<CompaniesPayload>
-            payload: CompaniesPayload<ExtArgs>
           }
           findMany: {
             args: Prisma.CompaniesFindManyArgs<ExtArgs>
             result: $Utils.PayloadToResult<CompaniesPayload>[]
-            payload: CompaniesPayload<ExtArgs>
           }
           create: {
             args: Prisma.CompaniesCreateArgs<ExtArgs>
             result: $Utils.PayloadToResult<CompaniesPayload>
-            payload: CompaniesPayload<ExtArgs>
           }
           createMany: {
             args: Prisma.CompaniesCreateManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: CompaniesPayload<ExtArgs>
           }
           delete: {
             args: Prisma.CompaniesDeleteArgs<ExtArgs>
             result: $Utils.PayloadToResult<CompaniesPayload>
-            payload: CompaniesPayload<ExtArgs>
           }
           update: {
             args: Prisma.CompaniesUpdateArgs<ExtArgs>
             result: $Utils.PayloadToResult<CompaniesPayload>
-            payload: CompaniesPayload<ExtArgs>
           }
           deleteMany: {
             args: Prisma.CompaniesDeleteManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: CompaniesPayload<ExtArgs>
           }
           updateMany: {
             args: Prisma.CompaniesUpdateManyArgs<ExtArgs>
             result: Prisma.BatchPayload
-            payload: CompaniesPayload<ExtArgs>
           }
           upsert: {
             args: Prisma.CompaniesUpsertArgs<ExtArgs>
             result: $Utils.PayloadToResult<CompaniesPayload>
-            payload: CompaniesPayload<ExtArgs>
           }
           aggregate: {
             args: Prisma.CompaniesAggregateArgs<ExtArgs>
             result: $Utils.Optional<AggregateCompanies>
-            payload: CompaniesPayload<ExtArgs>
           }
           groupBy: {
             args: Prisma.CompaniesGroupByArgs<ExtArgs>
             result: $Utils.Optional<CompaniesGroupByOutputType>[]
-            payload: CompaniesPayload<ExtArgs>
           }
           count: {
             args: Prisma.CompaniesCountArgs<ExtArgs>
             result: $Utils.Optional<CompaniesCountAggregateOutputType> | number
-            payload: CompaniesPayload<ExtArgs>
           }
         }
       }
     }
   } & {
     other: {
+      payload: any
       operations: {
         $executeRawUnsafe: {
           args: [query: string, ...values: any[]]
           result: any
-          payload: any
         }
         $executeRaw: {
           args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]]
           result: any
-          payload: any
         }
         $queryRawUnsafe: {
           args: [query: string, ...values: any[]]
           result: any
-          payload: any
         }
         $queryRaw: {
           args: [query: TemplateStringsArray | Prisma.Sql, ...values: any[]]
           result: any
-          payload: any
         }
       }
     }

@@ -1,7 +1,7 @@
 import { CalendarIcon } from 'lucide-react'
 import { format } from 'date-fns'
 import React from 'react'
-import { cn } from '../../../global/utils'
+import { cn } from '../../global/utils'
 import { useFormContext } from 'react-hook-form'
 import {
   FormField,
@@ -10,14 +10,10 @@ import {
   FormControl,
   FormDescription,
   FormMessage,
-} from '../../components/ui/form'
-import {
-  Popover,
-  PopoverTrigger,
-  PopoverContent,
-} from '../../components/ui/popover'
-import { Calendar } from '../../components/ui/calendar'
-import { Button } from '../../components/ui/button'
+} from './ui/form'
+import { Popover, PopoverTrigger, PopoverContent } from './ui/popover'
+import { Calendar } from './ui/calendar'
+import { Button } from './ui/button'
 
 const DateInput = ({ label, description, name }) => {
   const form = useFormContext()

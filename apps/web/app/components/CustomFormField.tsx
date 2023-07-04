@@ -16,6 +16,7 @@ interface CustomFormFieldProps {
   placeholder?: string
   description?: string
   Input?: React.FC<unknown>
+  className?: string
 }
 
 export function CustomFormField<FormState>({
@@ -24,6 +25,7 @@ export function CustomFormField<FormState>({
   placeholder,
   description,
   Input,
+  className,
 }: CustomFormFieldProps) {
   const { control, register } = useFormContext()
   return (
@@ -31,7 +33,7 @@ export function CustomFormField<FormState>({
       control={control}
       name={name as Path<FormState>}
       render={({ field }) => (
-        <FormItem>
+        <FormItem className={className}>
           <FormLabel>{label}</FormLabel>
           <FormControl>
             {Input({ register, name, placeholder, field })}
