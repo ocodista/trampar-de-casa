@@ -8,7 +8,7 @@ export const HowItWorks = () => (
           <figure>
             <img
               className="mx-auto transform hover:-translate-y-4 transition ease-in-out duration-1000 rounded-2xl"
-              src="images/footer-image.jpg"
+              src="images/footer-image.webp"
               alt=""
             />
           </figure>
