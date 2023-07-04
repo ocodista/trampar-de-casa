@@ -1,4 +1,4 @@
-import React from "react";
+import React from 'react'
 
 export const HowItWorks = () => (
   <section id="como-funciona" className="py-32 bg-white overflow-hidden">
@@ -9,7 +9,7 @@ export const HowItWorks = () => (
             <img
               className="mx-auto transform hover:-translate-y-4 transition ease-in-out duration-1000 rounded-2xl"
               src="https://images.unsplash.com/photo-1473172707857-f9e276582ab6?crop=entropy&cs=srgb&fm=jpg&ixid=M3wzMzIzMzB8MHwxfHNlYXJjaHwxNnx8dGhpbmtpbmd8ZW58MHx8fHwxNjg3MzkxMTMzfDA&ixlib=rb-4.0.3&q=85&w=1920"
-              alt=""
+              alt="Homem olhando para o pôr do sol no horizonte do mar"
             />
           </figure>
         </div>
@@ -102,8 +102,8 @@ export const HowItWorks = () => (
                       Enviamos as oportunidades
                     </h3>
                     <p className="text-gray-700 font-medium leading-relaxed">
-                      Toda quarta-feira às 11h enviaremos uma lista
-                      com as vagas que fazem mais sentido para você.
+                      Toda quarta-feira às 11h enviaremos uma lista com as vagas
+                      que fazem mais sentido para você.
                     </p>
                   </div>
                 </div>
@@ -114,4 +114,4 @@ export const HowItWorks = () => (
       </div>
     </div>
   </section>
-);
+)

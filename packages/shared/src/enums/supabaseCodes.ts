@@ -1,3 +1,3 @@
 export enum SupabaseCodes {
-  DuplicatedRow = "23505"
+  DuplicatedRow = '23505',
 }

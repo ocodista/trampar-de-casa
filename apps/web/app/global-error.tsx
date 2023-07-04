@@ -1,6 +1,6 @@
 "use client";
 
-export default function GlobalError ({
+export default function GlobalError({
   reset,
 }: {
   error: Error;
