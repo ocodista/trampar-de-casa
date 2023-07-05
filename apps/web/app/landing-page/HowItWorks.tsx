@@ -2,14 +2,14 @@ import React from "react";
 
 export const HowItWorks = () => (
   <section id="como-funciona" className="py-32 bg-white overflow-hidden">
-    <div className="container px-4 mx-auto">
+    <div className="container px-8 lg:px-4 mx-auto">
       <div className="flex flex-wrap lg:items-center -m-8">
         <div className="w-full md:w-1/2 p-8">
           <figure>
             <img
               className="mx-auto transform hover:-translate-y-4 transition ease-in-out duration-1000 rounded-2xl"
               src="images/footer-image.webp"
-              alt=""
+              alt="Homem olhando para o pôr do sol no horizonte do mar"
             />
           </figure>
         </div>
@@ -102,8 +102,8 @@ export const HowItWorks = () => (
                       Enviamos as oportunidades
                     </h3>
                     <p className="text-gray-700 font-medium leading-relaxed">
-                      Toda quarta-feira às 11h enviaremos uma lista
-                      com as vagas que fazem mais sentido para você.
+                      Toda quarta-feira às 11h enviaremos uma lista com as vagas
+                      que fazem mais sentido para você.
                     </p>
                   </div>
                 </div>
