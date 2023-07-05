@@ -4,16 +4,20 @@ import { ChevronUpIcon } from 'lucide-react'
 export default function ScrollToTopButton() {
   const [backToTop, setBackToTop] = useState(false)
   useEffect(() => {
-    window.addEventListener('scroll', () => {
-      if (window.scrollY > 600) {
-        setBackToTop(true)
-      } else {
-        setBackToTop(false)
-      }
-    })
+    window.addEventListener('scroll', handleScroll)
+
+    return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
-  const scrollUp = () => {
+  function handleScroll() {
+    if (window.scrollY > 600) {
+      setBackToTop(true)
+    } else {
+      setBackToTop(false)
+    }
+  }
+
+  function scrollUp() {
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
