@@ -1,2 +1,2 @@
-import { connectToQueue } from './connectToQueue';
+import { connectToQueue } from './connectToQueue'
 export { connectToQueue }

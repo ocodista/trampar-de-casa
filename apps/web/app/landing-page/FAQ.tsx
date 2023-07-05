@@ -3,7 +3,7 @@ export const FAQ = () => (
     id="perguntas-frequentes"
     className="pt-28 pb-32 bg-white overflow-hidden"
   >
-    <div className="container px-4 mx-auto">
+    <div className="container px-8 lg:px-4 mx-auto">
       <p className="mb-5 text-sm text-indigo-600 font-semibold uppercase tracking-px">
         ALGUMA DÚVIDA?
       </p>
@@ -42,8 +42,8 @@ export const FAQ = () => (
                 3. Quantos e-mails receberei?
               </h3>
               <p className="font-sans text-gray-600 leading-relaxed">
-                Apenas um e-mail por&nbsp; semana, nas quartas-feiras às 11h, com
-                vagas que fizerem sentido para você. Todas são 100% remotas.
+                Apenas um e-mail por&nbsp; semana, nas quartas-feiras às 11h,
+                com vagas que fizerem sentido para você. Todas são 100% remotas.
               </p>
             </div>
           </div>
@@ -62,4 +62,4 @@ export const FAQ = () => (
       </div>
     </div>
   </section>
-);
+)
