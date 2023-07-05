@@ -1,6 +1,6 @@
-import Link from "next/link";
+import Link from 'next/link'
 
-export default function NotFound () {
+export default function NotFound() {
   return (
     <div className="flex items-center justify-center w-full min-h-[70vh] text-gray-900 my-12 px-4">
       <div className="flex flex-col items-center w-full gap-6">
@@ -22,5 +22,5 @@ export default function NotFound () {
         </div>
       </div>
     </div>
-  );
+  )
 }

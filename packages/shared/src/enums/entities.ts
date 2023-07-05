@@ -1,3 +1,3 @@
 export enum Entities {
-  Subcribers = "Subscribers",
+  Subcribers = 'Subscribers',
 }

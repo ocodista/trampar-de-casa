@@ -5,6 +5,7 @@
   "main": "src/index.ts",
   "types": "src/index.ts",
   "scripts": {
+    "lint": "eslint ./src --fix",
     "test": "vitest run"
   },
   "keywords": [],
@@ -20,6 +21,7 @@
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@vitejs/plugin-react": "^4.0.1",
+    "eslint-config-custom": "*",
     "jsdom": "^22.1.0",
     "vitest": "^0.32.2"
   }

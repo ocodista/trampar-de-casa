@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "lint": "eslint ./src --fix",
     "send-openings": "ts-node src/openings-email/sendEmail.ts"
   },
   "keywords": [],
@@ -22,5 +23,8 @@
     "ts-node": "^10.9.1",
     "types": "*",
     "typescript": "^5.1.3"
+  },
+  "devDependencies": {
+    "eslint-config-custom": "*"
   }
 }
