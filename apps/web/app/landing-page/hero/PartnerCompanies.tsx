@@ -9,10 +9,10 @@ interface Company {
 
 const companies: Company[] = [
   {
-    name: 'Strider',
-    url: 'https://app.onstrider.com/r/trampar_de_casa',
-    description: 'Empresa brasileira com vagas internacionais 100% remotas.',
-    imagePath: 'images/brand-strider-usage-positive-color-color.png',
+    name: "Strider",
+    url: "https://app.onstrider.com/r/trampar_de_casa",
+    description: "Empresa brasileira com vagas internacionais 100% remotas.",
+    imagePath: "images/brand-strider-usage-positive-color-color.webp",
   },
 ]
 
