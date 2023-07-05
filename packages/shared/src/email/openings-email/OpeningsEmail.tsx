@@ -39,11 +39,11 @@ export const OpeningsEmail = ({
         <Body style={main}>
           <Container style={container}>
             <Section style={box}>
-              <Container className="mx-auto">
+              <Container className="flex justify-center items-center">
                 <Img
                   src="https://trampardecasa.com.br/images/logo.png"
-                  width={70}
                   height={70}
+                  width={100}
                   alt="Logo da Trampar De Casa"
                 />
               </Container>
