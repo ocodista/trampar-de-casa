@@ -1,4 +1,5 @@
 'use client'
+import Image from 'next/image'
 import { useQuery } from 'react-query'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -87,8 +88,8 @@ export const Hero = () => {
     <>
       <div className="pt-8 pb-28">
         <div className="container mx-auto">
-          <div className="flex flex-wrap -m-8">
-            <div className="w-full md:w-1/2 p-8 md:pr-0">
+          <div className="flex flex-wrap items-center -m-8">
+            <div className="w-full lg:w-1/2 p-8 lg:pr-0">
               {subscribersCount ? (
                 <div className="inline-block mb-6 px-2 py-1 font-semibold bg-green-100 rounded-md roll-animation">
                   <div className="flex flex-wrap items-center -m-1">
@@ -103,10 +104,10 @@ export const Hero = () => {
               ) : (
                 <div className="h-[32px] mb-6"></div>
               )}
-              <h1 className="mb-6 text-6xl md:text-8xl lg:text-10xl font-bold font-heading leading-none">
+              <h1 className="mb-6 text-6xl md:text-8xl lg:text-10xl font-bold font-heading leading-none max-xs:text-4xl">
                 Vagas remotas no seu e-mail
               </h1>
-              <p className="mb-9 text-lg text-gray-900 font-medium md:max-w-md">
+              <p className="mb-9 text-lg md:text-xl text-gray-900 font-medium max-xl:max-w-sm">
                 Levamos as melhores oportunidades de trampo até você.
               </p>
               <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300 -my-2.5 lg:-m-2.5">
@@ -151,11 +152,13 @@ export const Hero = () => {
               </section>
               <PartnerCompanies />
             </div>
-            <div className="w-full md:w-1/2 p-8">
-              <img
-                className="transform hover:-translate-y-12 transition ease-in-out duration-1000 rounded-xl"
-                src="images/HO-brasil.webp"
+            <div className="w-full lg:w-1/2 p-8">
+              <Image
+                className="mx-auto max-md:w-full max-lg:w-10/12 max-lg:aspect-video object-cover transform hover:-translate-y-12 transition ease-in-out duration-1000 rounded-xl"
+                src="/images/HO-brasil.webp"
                 alt="Escritório com uma paisagem natural ao fundo que pode ser vista pelas janelas"
+                width={583}
+                height={583}
               />
             </div>
           </div>

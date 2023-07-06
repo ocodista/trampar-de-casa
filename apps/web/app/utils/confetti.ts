@@ -17,17 +17,20 @@ export default function fireworks() {
     }
 
     const particleCount = 50 * (timeLeft / duration)
-    // since particles fall down, start a bit higher than random
+
+    // random on the left side
     confetti(
       Object.assign({}, defaults, {
         particleCount,
-        origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 },
+        origin: { x: randomInRange(0.1, 0.5), y: 0 },
       })
     )
+
+    // random on the right side
     confetti(
       Object.assign({}, defaults, {
         particleCount,
-        origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 },
+        origin: { x: randomInRange(0.6, 0.9), y: 0 },
       })
     )
   }, 250)
