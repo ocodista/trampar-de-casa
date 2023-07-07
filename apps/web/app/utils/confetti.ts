@@ -1,7 +1,7 @@
 import confetti from 'canvas-confetti'
 
 export default function fireworks() {
-  const duration = 8000 // 8 seconds
+  const duration = 6_500
   const animationEnd = Date.now() + duration
   const defaults = { startVelocity: 30, spread: 360, ticks: 60, zIndex: 0 }
 
