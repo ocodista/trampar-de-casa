@@ -1,4 +1,4 @@
-import React from 'react'
+import Image from 'next/image'
 
 interface Company {
   name: string
@@ -9,20 +9,22 @@ interface Company {
 
 const companies: Company[] = [
   {
-    name: "Strider",
-    url: "https://app.onstrider.com/r/trampar_de_casa",
-    description: "Empresa brasileira com vagas internacionais 100% remotas.",
-    imagePath: "images/brand-strider-usage-positive-color-color.webp",
+    name: 'Strider',
+    url: 'https://app.onstrider.com/r/trampar_de_casa',
+    description: 'Empresa brasileira com vagas internacionais 100% remotas.',
+    imagePath: '/images/brand-strider-usage-positive-color-color.webp',
   },
 ]
 
 const CompanySection = ({ name, imagePath, url, description }: Company) => (
   <a href={url} target="_blank" className="w-auto p-3">
-    <img
+    <Image
       src={imagePath}
       alt={`Logo da empresa ${name}`}
       className="w-32 cursor-pointer"
       title={description}
+      width={128}
+      height={28}
     />
   </a>
 )

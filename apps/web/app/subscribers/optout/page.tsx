@@ -3,7 +3,7 @@ import { useSearchParams } from 'next/navigation'
 import { useCallback, useContext, useEffect } from 'react'
 import { LoadingContext } from '../../contexts/LoadingContext'
 import { ApiRoutes } from 'shared/src/enums'
-import { useToast } from '../../components/ui/use-toast'
+import { useToast } from '../../hooks/use-toast'
 import ButtonAnchor from 'app/components/ui/ButtonAnchor'
 
 export default function Page() {

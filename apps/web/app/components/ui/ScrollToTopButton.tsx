@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import { ChevronUpIcon } from 'lucide-react'
+import clsx from 'clsx'
 
 export default function ScrollToTopButton() {
   const [backToTop, setBackToTop] = useState(false)
@@ -25,13 +26,19 @@ export default function ScrollToTopButton() {
   }
 
   return (
-    backToTop && (
-      <button
-        onClick={scrollUp}
-        className="fixed bottom-6 right-6 p-4 text-5xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200 rounded-lg shadow text-slate-100 border-slate-100 border opacity-75"
-      >
-        <ChevronUpIcon />
-      </button>
-    )
+    <button
+      onClick={scrollUp}
+      aria-label="Go to Top"
+      role="button"
+      className={clsx(
+        'fixed right-6 p-2 text-5xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition-all duration-300 rounded-lg shadow text-slate-100 border-slate-100 border',
+        [
+          { 'bottom-6 opacity-80': backToTop },
+          { '-bottom-20 opacity-0': !backToTop },
+        ]
+      )}
+    >
+      <ChevronUpIcon />
+    </button>
   )
 }
