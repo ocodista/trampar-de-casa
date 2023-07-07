@@ -15,7 +15,12 @@ interface CustomFormFieldProps {
   label: string
   placeholder?: string
   description?: string
-  Input?: React.FC<unknown>
+  Input?: React.FC<{
+    register
+    name: string
+    placeholder: string
+    field: any
+  }>
   className?: string
 }
 

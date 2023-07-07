@@ -8,7 +8,7 @@ import { CustomFormField } from '../../components/CustomFormField'
 import { AutoComplete } from '../../components/AutoComplete'
 import { FormRadioGroup } from '../../components/FormRadioGroup'
 import { ProfileFormKeys } from '../form'
-import { Checkbox } from '../../components/ui/checkbox'
+import { FormCheckBox } from '../components/FormCheckBox'
 
 const SkillsField = () => {
   const [selectedOptions, setSelectedOptions] = useState<ListOption[]>([])
@@ -64,18 +64,6 @@ const EnglishLevelGroup = () => {
     />
   )
 }
-
-const FormCheckBox = ({ id, title }) => (
-  <div className="flex items-center space-x-2">
-    <Checkbox id={id} />
-    <label
-      htmlFor={id}
-      className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
-    >
-      {title}
-    </label>
-  </div>
-)
 
 const ReceiveEmailConfig = () => (
   <div className="flex flex-col gap-2">

@@ -1,4 +1,5 @@
 import * as z from 'zod'
+import { EnglishLevel } from '../../global/EnglishLevel'
 
 export enum ProfileFormKeys {
   Name = 'name',
@@ -9,13 +10,6 @@ export enum ProfileFormKeys {
   EnglishLevel = 'englishLevel',
   InternationalRoles = 'internationalRoles',
   NationalRoles = 'nationalRoles',
-}
-
-enum EnglishLevel {
-  Beginner,
-  Intermediary,
-  Advanced,
-  Fluent,
 }
 
 export const profileFormSchema = z.object({

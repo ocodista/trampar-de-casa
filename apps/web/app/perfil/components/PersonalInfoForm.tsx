@@ -3,9 +3,9 @@ import DateInput from '../../components/DateInput'
 import { CustomFormField, TextInput } from '../../components/CustomFormField'
 import { ProfileFormKeys } from '../form'
 
-export const AboutYouForm = () => {
+export const PersonalInfoForm = () => {
   return (
-    <>
+    <section className="flex flex-col gap-4">
       <CustomFormField
         name={ProfileFormKeys.Name}
         label="Nome"
@@ -32,6 +32,6 @@ export const AboutYouForm = () => {
         description="Insira a url completa do seu GitHub (opcional)"
         Input={TextInput}
       />
-    </>
+    </section>
   )
 }
