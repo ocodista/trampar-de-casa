@@ -16,6 +16,7 @@ import { useToast } from '../../../components/ui/use-toast'
 import { useQuery } from 'react-query'
 import { UiRoutes } from '../../../enums/uiRoutes'
 import { EnglishLevel } from '../../../../global/EnglishLevel'
+import { LoadingOverlay } from '../../../components/ui/loadingOverlay'
 
 const title = 'Perfil'
 const description = 'Configure seu perfil para receber vagas mais assertivas.'
@@ -47,13 +48,12 @@ const ProfilePage: NextPage = () => {
 
   const router = useRouter()
 
-  const { data: subscriberProfile } = useQuery({
+  const { data: subscriberProfile, isLoading } = useQuery({
     queryKey: ['subscriberProfileQuery'],
     queryFn: getSubscriberProfile,
     onError: async (err) => {
       console.error(err)
       toast(errorMessage())
-      await new Promise((r) => setTimeout(r, 2000))
       router.push(UiRoutes.Home)
     },
   })
@@ -85,6 +85,8 @@ const ProfilePage: NextPage = () => {
       }
     })
   }
+
+  if (isLoading) return <LoadingOverlay className="flex" />
 
   return (
     <FormProvider {...form}>

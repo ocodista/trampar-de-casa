@@ -25,6 +25,7 @@ interface CustomFormFieldProps<FormState> {
     name: string
     placeholder: string
     field: ControllerRenderProps<FieldValues, Path<FormState>>
+    isSubmitting: boolean
   }>
   className?: string
 }
@@ -37,7 +38,11 @@ export function CustomFormField<FormState>({
   Input,
   className,
 }: CustomFormFieldProps<FormState>) {
-  const { control, register } = useFormContext()
+  const {
+    control,
+    register,
+    formState: { isSubmitting },
+  } = useFormContext()
   return (
     <FormField
       control={control}
@@ -47,7 +52,7 @@ export function CustomFormField<FormState>({
           <FormLabel>{label}</FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
           <FormControl>
-            {Input({ register, name, placeholder, field })}
+            {Input({ register, name, placeholder, field, isSubmitting })}
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -56,10 +61,11 @@ export function CustomFormField<FormState>({
   )
 }
 
-export const TextInput = ({ field, placeholder }) => {
+export const TextInput = ({ field, placeholder, isSubmitting }) => {
   return (
     <BaseInput
       type="string"
+      disabled={isSubmitting}
       onFocus={(e) => {
         const goToLastCharacter = () => {
           e.target.selectionStart = e.target.value.length
@@ -72,11 +78,18 @@ export const TextInput = ({ field, placeholder }) => {
   )
 }
 
-export const NumberInput = ({ register, name, placeholder, field }) => {
+export const NumberInput = ({
+  register,
+  name,
+  placeholder,
+  field,
+  isSubmitting,
+}) => {
   return (
     <BaseInput
       type="number"
       placeholder={placeholder || ''}
+      disabled={isSubmitting}
       {...(field as ControllerRenderProps)}
       {...register(name, { valueAsNumber: true })}
     />
