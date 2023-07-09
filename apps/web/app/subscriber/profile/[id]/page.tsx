@@ -6,7 +6,7 @@ import { ProfileSchema, profileFormSchema } from '../profileSchema'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Separator } from '../../../components/ui/separator'
 import { Button } from '../../../components/ui/button'
-import { usePathname } from 'next/navigation'
+import { usePathname, useRouter } from 'next/navigation'
 import { useContext, useEffect } from 'react'
 import { LoadingContext } from '../../../contexts/LoadingContext'
 import { NextPage } from 'next'
@@ -14,6 +14,8 @@ import { ApiRoutes } from 'shared/src/enums'
 import { errorMessage } from '../../../components/ui/toaster'
 import { useToast } from '../../../components/ui/use-toast'
 import { useQuery } from 'react-query'
+import { UiRoutes } from '../../../enums/uiRoutes'
+import { EnglishLevel } from '../../../../global/EnglishLevel'
 
 const title = 'Perfil'
 const description = 'Configure seu perfil para receber vagas mais assertivas.'
@@ -22,6 +24,8 @@ const ProfilePage: NextPage = () => {
   const form = useForm<ProfileSchema>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
+      name: '',
+      englishLevel: EnglishLevel.None,
       linkedInUrl: 'https://linkedin.com/in/',
     },
     mode: 'all',
@@ -34,15 +38,26 @@ const ProfilePage: NextPage = () => {
 
   const getSubscriberProfile = async (): Promise<Omit<ProfileSchema, 'id'>> => {
     const response = await fetch(`${ApiRoutes.Subscribers}/${id}`)
-    if (!response?.ok) return null
+    if (!response?.ok) {
+      throw new Error(response.statusText)
+    }
     const profile = await response.json()
     return profile
   }
 
-  const { data: subscriberProfile } = useQuery(
-    'subscriberProfileQuery',
-    async () => await getSubscriberProfile()
-  )
+  const router = useRouter()
+
+  const { data: subscriberProfile } = useQuery({
+    queryKey: ['subscriberProfileQuery'],
+    queryFn: getSubscriberProfile,
+    onError: async (err) => {
+      console.error(err)
+      toast(errorMessage())
+      await new Promise((r) => setTimeout(r, 2000))
+      router.push(UiRoutes.Home)
+    },
+  })
+
   useEffect(() => {
     subscriberProfile &&
       form.reset({
@@ -56,9 +71,9 @@ const ProfilePage: NextPage = () => {
   const onSubmit = async (formState: ProfileSchema) => {
     withLoading(async () => {
       try {
-        const response = await fetch(ApiRoutes.Subscribers, {
+        const response = await fetch(ApiRoutes.Subscribers + '/' + id, {
           method: 'PUT',
-          body: JSON.stringify({ ...formState, id }),
+          body: JSON.stringify(formState),
         })
 
         if (!response.ok) {

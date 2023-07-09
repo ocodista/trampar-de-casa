@@ -2,6 +2,7 @@ import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { Entities } from 'shared'
 import { getSupabaseClient } from '../../db/getSupabaseClient'
+import { ProfileSchema } from '../../subscriber/profile/profileSchema'
 
 const supabaseClient = getSupabaseClient()
 const table = Entities.Subcribers
@@ -37,19 +38,11 @@ export async function insertSubscriber(email: string) {
   return { data, error }
 }
 
-export async function updateSubscriber(body: UpdateSubscriber) {
+export async function updateSubscriber(id: string, body: ProfileSchema) {
   const { data, error } = await supabaseClient
     .from(Entities.Subcribers)
     .update(body)
-    .eq('id', body.id)
+    .eq('id', id)
     .select(PUBLIC_FIELDS)
   return { data, error }
-}
-
-export interface UpdateSubscriber {
-  id: string
-  name: string
-  github?: string
-  linkedInUrl: string
-  startedWorkingAt: string
 }

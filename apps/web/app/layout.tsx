@@ -27,15 +27,15 @@ export default function RootLayout({ children }) {
         data-domain="trampardecasa.com.br"
         src="https://plausible.io/js/script.js"
       />
-      <body>
-        <Toaster />
-        <nav>
-          <Header />
-        </nav>
-        <main>
-          <Providers>{children}</Providers>
-        </main>
-      </body>
+      <Providers>
+        <body>
+          <Toaster />
+          <nav>
+            <Header />
+          </nav>
+          <main>{children}</main>
+        </body>
+      </Providers>
     </html>
   )
 }

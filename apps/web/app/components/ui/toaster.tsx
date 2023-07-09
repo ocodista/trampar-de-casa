@@ -8,11 +8,11 @@ import {
   ToastTitle,
   ToastViewport,
 } from './toast'
-import { ToastProps, useToast } from './use-toast'
+import { ToastComponentProps, useToast } from './use-toast'
 
 export const errorMessage = (
   error = 'Tente novamente mais tarde'
-): ToastProps => ({
+): ToastComponentProps => ({
   title: 'Algo deu errado 🥶',
   variant: 'destructive',
   description: error,
