@@ -129,6 +129,7 @@ export type Companies = runtime.Types.DefaultSelection<CompaniesPayload>
  */
 
 export const EnglishLevel: {
+  None: 'None'
   Beginner: 'Beginner'
   Intermediary: 'Intermediary'
   Advanced: 'Advanced'
