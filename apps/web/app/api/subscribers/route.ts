@@ -4,10 +4,14 @@ import { StatusCodes } from 'http-status-codes'
 import { getSupabaseClient } from '../../db/getSupabaseClient'
 import { Entities, SupabaseCodes } from 'shared/src/enums'
 import { sendConfirmationEmail } from 'shared/src/email'
+import { kv } from '@vercel/kv'
 
 interface EmailRequest {
   email: string
 }
+
+//Time before subs count cache is invalid, in seconds
+const KV_CACHE_DURATION = 1800
 
 export async function POST(request: Request) {
   const { email } = (await request.json()) as EmailRequest
@@ -53,10 +57,21 @@ export async function GET() {
     process.env['SUPABASE_SERVICE_ROLE']
   )
 
-  const { count, error } = await supabase
-    .from(Entities.Subcribers)
-    .select('*', { count: 'exact' })
-  if (!error) return NextResponse.json(count)
+  const getSubsCount = async () => {
+    const { count, error } = await supabase
+      .from(Entities.Subcribers)
+      .select('*', { count: 'exact' })
+    return { count, error }
+  }
+
+  const cached_count: number = await kv.hget('subscribers', 'count')
+  if (cached_count) return NextResponse.json(cached_count)
+
+  const { count, error } = await getSubsCount()
+  if (!error) {
+    await kv.setex('subscribers', KV_CACHE_DURATION, count)
+    return NextResponse.json(count)
+  }
 
   return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
 }
