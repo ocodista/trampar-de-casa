@@ -8,7 +8,15 @@ import {
   ToastTitle,
   ToastViewport,
 } from './toast'
-import { useToast } from './use-toast'
+import { ToastProps, useToast } from './use-toast'
+
+export const errorMessage = (
+  error = 'Tente novamente mais tarde'
+): ToastProps => ({
+  title: 'Algo deu errado 🥶',
+  variant: 'destructive',
+  description: error,
+})
 
 export function Toaster() {
   const { toasts } = useToast()

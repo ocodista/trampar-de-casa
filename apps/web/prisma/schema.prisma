@@ -17,7 +17,7 @@ model Subscribers {
   name              String?
   linkedInUrl       String?
   gitHub            String?
-  startedWorkingAt  Int?
+  startedWorkingAt  DateTime?
   skills            Json?
   englishLevel      EnglishLevel?
   sentRoles         SentRoles[]       @relation(name:"SentRoles")

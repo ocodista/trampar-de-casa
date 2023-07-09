@@ -1,4 +1,4 @@
-import { Separator } from '../../components/ui/separator'
+import { Separator } from '../../../components/ui/separator'
 
 export const FormPage = ({ title, subtitle, form }) => (
   <section className="space-y-6">

@@ -19,8 +19,8 @@ const DateInput = ({ label, description, name }) => {
       render={({ field }) => (
         <FormItem className="flex flex-col">
           <FormLabel>{label}</FormLabel>
-          <FirstJobPicker dob={field.value} setDOB={field.onChange} />
           <FormDescription>{description}</FormDescription>
+          <FirstJobPicker dob={field.value} setDOB={field.onChange} />
           <FormMessage />
         </FormItem>
       )}

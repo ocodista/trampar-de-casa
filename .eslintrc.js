@@ -14,6 +14,7 @@ module.exports = {
     "@next/next/no-img-element": "off",
     "react/react-in-jsx-scope": 0,
     "no-console": "warn",
+    "react-hooks/exhaustive-deps": "off"
   },
   parserOptions: {
     babelOptions: {

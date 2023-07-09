@@ -1,3 +1,3 @@
 export enum UiRoutes {
-  Profile = '/perfil',
+  Profile = '/profile',
 }

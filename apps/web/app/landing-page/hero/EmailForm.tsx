@@ -1,19 +1,20 @@
-import { zodResolver } from "@hookform/resolvers/zod";
-import { StatusCodes } from "http-status-codes";
-import { useState, useEffect } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-import Confetti from 'react-confetti';
-import { useRouter } from "next/navigation";
-import { useToast } from "../../../global/components/ui/use-toast";
-import { ApiRoutes } from "../../../global/enums/apiRoutes";
-import { UiRoutes } from "../../../global/enums/uiRoutes";
+import { zodResolver } from '@hookform/resolvers/zod'
+import { StatusCodes } from 'http-status-codes'
+import { useState, useEffect } from 'react'
+import { useForm } from 'react-hook-form'
+import { z } from 'zod'
+import Confetti from 'react-confetti'
+import { useRouter } from 'next/navigation'
+import { useToast } from '../../../global/components/ui/use-toast'
+import { ApiRoutes } from '../../../global/enums/apiRoutes'
+import { UiRoutes } from '../../../global/enums/uiRoutes'
+import { errorMessage } from '../../constants'
 
 const validationSchema = z.object({
-  email: z.string().email("Insira um e-mail válido!"),
-});
+  email: z.string().email('Insira um e-mail válido!'),
+})
 
-type ValidationSchema = z.infer<typeof validationSchema>;
+type ValidationSchema = z.infer<typeof validationSchema>
 
 const PADDING_X = 32
 
@@ -27,10 +28,10 @@ export const EmailForm = () => {
     formState: { isValid },
   } = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
-  });
-  const router = useRouter();
+  })
+  const router = useRouter()
 
-  const email = watch("email")
+  const email = watch('email')
 
   useEffect(() => {
     setTimeout(() => {
@@ -43,41 +44,52 @@ export const EmailForm = () => {
   // TODO: Create loader
   // TODO: Handle error globally
   const saveSubscriber = async () => {
-    const email = getValues().email;
+    const email = getValues().email
     try {
       setLoading(true)
       const response = await fetch(ApiRoutes.Subscribers, {
         body: JSON.stringify({ email }),
-        method: "POST",
-      });
-      
+        method: 'POST',
+      })
+
       if (response.ok) {
         setConfettiVisibility(true)
-        toast({ title: 'Tudo certo 🥳', description: 'Você receberá as vagas na próxima quarta-feira!' })
+        toast({
+          title: 'Tudo certo 🥳',
+          description: 'Você receberá as vagas na próxima quarta-feira!',
+        })
         return
       }
 
       if (response.status === StatusCodes.CONFLICT) {
-        toast({ title: 'Algo deu errado 🥶', variant: 'destructive', description: await response.text() })
+        toast(errorMessage(await response.text()))
         return
       }
 
       throw new Error(response.statusText)
     } catch (err) {
-      toast({ title: 'Algo deu errado 🥶', variant: 'destructive', description: 'Não conseguimos adicionar seu e-mail, tente novamente mais tarde.' })
+      toast(
+        errorMessage(
+          'Não conseguimos adicionar seu e-mail, tente novamente mais tarde.'
+        )
+      )
     } finally {
       setLoading(false)
     }
-    return false;
-  };
+    return false
+  }
 
   return (
     <>
-      {isConfettiVisible && <div className="absolute top-0 left-0"><Confetti width={window.innerWidth - PADDING_X} /></div>}
+      {isConfettiVisible && (
+        <div className="absolute top-0 left-0">
+          <Confetti width={window.innerWidth - PADDING_X} />
+        </div>
+      )}
       <form
         onSubmit={async (e) => {
-          e.preventDefault();
-          alert("Clickou")
+          e.preventDefault()
+          alert('Clickou')
           router.push(UiRoutes.Profile)
         }}
       >
@@ -88,7 +100,7 @@ export const EmailForm = () => {
               id="email"
               type="email"
               placeholder="Digite seu melhor e-mail"
-              {...register("email")}
+              {...register('email')}
             />
           </div>
           <div className="w-full xl:w-auto">

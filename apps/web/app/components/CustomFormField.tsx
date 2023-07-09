@@ -1,4 +1,9 @@
-import { ControllerRenderProps, Path, useFormContext } from 'react-hook-form'
+import {
+  ControllerRenderProps,
+  FieldValues,
+  Path,
+  useFormContext,
+} from 'react-hook-form'
 import {
   FormField,
   FormItem,
@@ -10,7 +15,7 @@ import {
 import { Input as BaseInput } from './ui/input'
 import React from 'react'
 
-interface CustomFormFieldProps {
+interface CustomFormFieldProps<FormState> {
   name: string
   label: string
   placeholder?: string
@@ -19,7 +24,7 @@ interface CustomFormFieldProps {
     register
     name: string
     placeholder: string
-    field: any
+    field: ControllerRenderProps<FieldValues, Path<FormState>>
   }>
   className?: string
 }
@@ -31,7 +36,7 @@ export function CustomFormField<FormState>({
   description,
   Input,
   className,
-}: CustomFormFieldProps) {
+}: CustomFormFieldProps<FormState>) {
   const { control, register } = useFormContext()
   return (
     <FormField
@@ -40,10 +45,10 @@ export function CustomFormField<FormState>({
       render={({ field }) => (
         <FormItem className={className}>
           <FormLabel>{label}</FormLabel>
+          {description && <FormDescription>{description}</FormDescription>}
           <FormControl>
             {Input({ register, name, placeholder, field })}
           </FormControl>
-          <FormDescription>{description}</FormDescription>
           <FormMessage />
         </FormItem>
       )}

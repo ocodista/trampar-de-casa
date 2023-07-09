@@ -27,7 +27,8 @@
     ".next/types/**/*.ts",
     "**/*.ts",
     "**/*.tsx",
-    "vitest.config.ts"
+    "vitest.config.ts",
+    "app/api/subscribers/[id]"
   ],
   "exclude": ["node_modules"],
   "ts-node": {

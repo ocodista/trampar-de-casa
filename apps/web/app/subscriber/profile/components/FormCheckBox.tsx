@@ -1,4 +1,4 @@
-import { Checkbox } from '../../components/ui/checkbox'
+import { Checkbox } from '../../../components/ui/checkbox'
 
 export const FormCheckBox = ({ id, title }) => (
   <div className="flex items-center space-x-2">
