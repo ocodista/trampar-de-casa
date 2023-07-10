@@ -1,7 +1,8 @@
-import { Fragment, useState } from 'react'
 import { Combobox, Transition } from '@headlessui/react'
 import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import { Fragment, useState } from 'react'
 import { ListOption } from './ListOption'
+import { baseInputStyle } from './ui/input'
 
 interface AutoComplete {
   options: ListOption[]
@@ -32,9 +33,9 @@ export function AutoComplete({
     <div className="w-full">
       <Combobox value={selectedOptions} onChange={onSelectChange} multiple>
         <div className="relative mt-1">
-          <div className="relative w-full cursor-default overflow-hidden rounded-lg bg-white text-left shadow-md focus:outline-none focus-visible:ring-2 focus-visible:ring-white focus-visible:ring-opacity-75 focus-visible:ring-offset-2 focus-visible:ring-offset-teal-300 sm:text-sm">
+          <div className="relative w-full overflow-hidden">
             <Combobox.Input
-              className="w-full border border-s-gray-300 py-2 pl-3 pr-10 text-sm leading-5 text-gray-900 focus:ring-0 rounded-md"
+              className={baseInputStyle}
               displayValue={(option: any) => option.label}
               placeholder={placeholder}
               onChange={(event) => setQuery(event.target.value)}
