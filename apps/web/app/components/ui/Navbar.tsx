@@ -31,7 +31,7 @@ export default function Navbar({ navigation }) {
                       className="block h-8 w-auto lg:hidden"
                       width={70}
                       height={70}
-                      src="images/logo.svg"
+                      src="images/logo-text-white.svg"
                       alt="Logotipo da Trampar De Casa"
                     />
                   </a>
@@ -40,7 +40,7 @@ export default function Navbar({ navigation }) {
                       className="hidden h-8 w-auto lg:block"
                       width={70}
                       height={70}
-                      src="images/logo.svg"
+                      src="images/logo-text-white.svg"
                       alt="Logotipo da Trampar De Casa"
                     />
                   </a>

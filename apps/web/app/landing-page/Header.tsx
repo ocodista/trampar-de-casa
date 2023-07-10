@@ -1,9 +1,7 @@
 'use client'
 import Navbar from 'app/components/ui/Navbar'
-import { useState } from 'react'
 
 export function Header() {
-  const [isMobileNavVisible, setMobileNavVisibility] = useState(false)
   const navigation = [
     { name: 'Nossos Valores', href: '#valores', current: true },
     { name: 'Como Funciona', href: '#como-funciona', current: false },
