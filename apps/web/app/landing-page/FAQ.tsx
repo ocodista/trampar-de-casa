@@ -3,11 +3,11 @@ export const FAQ = () => (
     id="perguntas-frequentes"
     className="pt-28 pb-32 bg-white overflow-hidden"
   >
-    <div className="container px-4 mx-auto">
+    <div className="container px-8 lg:px-4 mx-auto">
       <p className="mb-5 text-sm text-indigo-600 font-semibold uppercase tracking-px">
         ALGUMA DÚVIDA?
       </p>
-      <h2 className="mb-16 text-6xl md:text-8xl xl:text-10xl font-bold font-heading tracking-px-n leading-none">
+      <h2 className="mb-16 text-6xl md:text-8xl xl:text-10xl font-bold font-heading tracking-px-n leading-none max-xs:hyphens-auto max-xs:text-4xl">
         Perguntas Frequentes
       </h2>
       <div className="mb-8">

@@ -1,10 +1,11 @@
+import { faker } from '@faker-js/faker'
 import { Companies, Prisma, PrismaClient } from './client'
 
 const prisma = new PrismaClient()
 
 const getSubscribers = (): Prisma.SubscribersCreateInput[] => [
   {
-    email: 'foo@gmail.com',
+    email: faker.internet.email(),
     englishLevel: 'Advanced',
     name: 'Foo',
     startedWorkingAt: new Date(),

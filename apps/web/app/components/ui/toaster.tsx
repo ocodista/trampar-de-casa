@@ -1,5 +1,6 @@
 'use client'
 
+import { useToast } from '../../hooks/use-toast'
 import {
   Toast,
   ToastClose,
@@ -8,15 +9,6 @@ import {
   ToastTitle,
   ToastViewport,
 } from './toast'
-import { ToastComponentProps, useToast } from './use-toast'
-
-export const errorMessage = (
-  error = 'Tente novamente mais tarde'
-): ToastComponentProps => ({
-  title: 'Algo deu errado 🥶',
-  variant: 'destructive',
-  description: error,
-})
 
 export function Toaster() {
   const { toasts } = useToast()

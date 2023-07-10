@@ -1,6 +1,6 @@
 import { Row, Column, Heading } from '@react-email/components'
 import React from 'react'
-import { Role } from './roles'
+import { Opening } from './Opening'
 
 interface Skill {
   name: string
@@ -12,7 +12,7 @@ const Skill = ({ name }: Skill) => (
   </div>
 )
 
-export const RoleCard = ({
+export const OpeningCard = ({
   company,
   headerInfo,
   url,
@@ -20,7 +20,7 @@ export const RoleCard = ({
   location,
   skills,
   language,
-}: Role) => {
+}: Opening) => {
   const firstSkills = skills.slice(0, 4)
 
   return (
@@ -72,10 +72,10 @@ export const RoleCard = ({
   )
 }
 
-const RoleList = ({ roles }: { roles: Role[] }) => {
-  return roles.map((role) => (
-    <RoleCard key={`${role.title}-${role.company}`} {...role} />
+const OpeningList = ({ openings: openings }: { openings: Opening[] }) => {
+  return openings.map((opening) => (
+    <OpeningCard key={`${opening.title}-${opening.company}`} {...opening} />
   ))
 }
 
-export default RoleList
+export default OpeningList
