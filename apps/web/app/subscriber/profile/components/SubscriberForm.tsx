@@ -60,7 +60,7 @@ export function SubscriberForm({
           <p className="text-muted-foreground">{description}</p>
         </header>
         <Separator className="my-6" />
-        <main className="flex flex-col sm:flex-row gap-6 md:gap-14">
+        <main className="grid grid-cols-1 md:grid-cols-2  gap-6 md:gap-14">
           <PersonalInfoForm />
           <SubscriptionForm />
         </main>
