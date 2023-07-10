@@ -2,8 +2,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Separator } from '@radix-ui/react-select'
 import { Button } from 'app/components/ui/button'
-import { errorMessage } from 'app/components/ui/toaster'
-import { useToast } from 'app/components/ui/use-toast'
+import { useToast } from 'app/hooks/use-toast'
 import { EnglishLevel } from 'global/EnglishLevel'
 import { usePathname } from 'next/navigation'
 import { FormProvider, useForm } from 'react-hook-form'
@@ -71,4 +70,7 @@ export function SubscriberForm({
       </form>
     </FormProvider>
   )
+}
+function errorMessage(): import('app/hooks/use-toast').ToastComponentProps {
+  throw new Error('Function not implemented.')
 }

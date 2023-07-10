@@ -1,7 +1,6 @@
 import { zodResolver } from '@hookform/resolvers/zod'
-import { errorMessage } from 'app/components/ui/toaster'
-import { useToast } from 'app/components/ui/use-toast'
 import { UiRoutes } from 'app/enums/uiRoutes'
+import { useToast } from 'app/hooks/use-toast'
 import { StatusCodes } from 'http-status-codes'
 import { useRouter } from 'next/navigation'
 import { useEffect, useState } from 'react'
@@ -118,4 +117,9 @@ export const EmailForm = () => {
       </form>
     </>
   )
+}
+function errorMessage(
+  arg0: string
+): import('app/hooks/use-toast').ToastComponentProps {
+  throw new Error('Function not implemented.')
 }
