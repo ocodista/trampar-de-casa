@@ -45,7 +45,11 @@ export function SubscriberForm({
       }
       toast({ title: 'Atualizado com sucesso!' })
     } catch (err) {
-      toast(errorMessage())
+      toast({
+        title: 'Algo deu errado',
+        variant: 'destructive',
+        description: 'Tente novamente mais tarde',
+      })
     }
   }
 
@@ -70,7 +74,4 @@ export function SubscriberForm({
       </form>
     </FormProvider>
   )
-}
-function errorMessage(): import('app/hooks/use-toast').ToastComponentProps {
-  throw new Error('Function not implemented.')
 }
