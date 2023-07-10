@@ -46,6 +46,7 @@
     "seed": "npx ts-node prisma/seed.ts"
   },
   "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/canvas-confetti": "^1.6.0",

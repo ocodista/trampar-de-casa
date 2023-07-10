@@ -1,13 +1,14 @@
 import { Companies, Prisma, PrismaClient } from './client'
+import { faker } from '@faker-js/faker'
 
 const prisma = new PrismaClient()
 
 const getSubscribers = (): Prisma.SubscribersCreateInput[] => [
   {
-    email: 'foo@gmail.com',
+    email: faker.internet.email(),
     englishLevel: 'Advanced',
     name: 'Foo',
-    startedWorkingAt: 5,
+    startedWorkingAt: faker.date.past(),
     skills: [
       { name: 'JavaScript', years: 5 },
       { name: 'React', years: 3 },
@@ -19,7 +20,7 @@ const getSubscribers = (): Prisma.SubscribersCreateInput[] => [
     email: 'bar@gmail.com',
     englishLevel: 'Beginner',
     name: 'Bar',
-    startedWorkingAt: 1,
+    startedWorkingAt: faker.date.past(),
     skills: [
       { name: 'Java', years: 1 },
       { name: 'Spring Boot', years: 1 },
