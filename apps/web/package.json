@@ -64,6 +64,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
+    "@prisma/nextjs-monorepo-workaround-plugin": "^4.16.2",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/canvas-confetti": "^1.6.0",

@@ -651,6 +651,11 @@
   resolved "https://registry.yarnpkg.com/@prisma/engines/-/engines-4.16.2.tgz#5ec8dd672c2173d597e469194916ad4826ce2e5f"
   integrity sha512-vx1nxVvN4QeT/cepQce68deh/Turxy5Mr+4L4zClFuK1GlxN3+ivxfuv+ej/gvidWn1cE1uAhW7ALLNlYbRUAw==
 
+"@prisma/nextjs-monorepo-workaround-plugin@^4.16.2":
+  version "4.16.2"
+  resolved "https://registry.yarnpkg.com/@prisma/nextjs-monorepo-workaround-plugin/-/nextjs-monorepo-workaround-plugin-4.16.2.tgz#155701b5b58c4723bd0097a871f6c4def1acd05a"
+  integrity sha512-A0ZplyjvkNz38GT8ddZlewwV9XFHXo3iwbFwtQXgA3HrQ2TWl042DzxsOybjkJUCLM5xZWa7sCC5QxqZIsX2og==
+
 "@radix-ui/number@1.0.1":
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/@radix-ui/number/-/number-1.0.1.tgz#644161a3557f46ed38a042acf4a770e826021674"
