@@ -7,23 +7,15 @@ const getSubscribers = (): Prisma.SubscribersCreateInput[] => [
     email: 'foo@gmail.com',
     englishLevel: 'Advanced',
     name: 'Foo',
-    startedWorkingAt: 5,
-    skills: [
-      { name: 'JavaScript', years: 5 },
-      { name: 'React', years: 3 },
-      { name: 'NodeJS', years: 3 },
-      { name: 'JavaScript', years: 2 },
-    ],
+    startedWorkingAt: new Date(),
+    skills: ['JavaScript', 'NodeJS', 'React'],
   },
   {
     email: 'bar@gmail.com',
     englishLevel: 'Beginner',
     name: 'Bar',
-    startedWorkingAt: 1,
-    skills: [
-      { name: 'Java', years: 1 },
-      { name: 'Spring Boot', years: 1 },
-    ],
+    startedWorkingAt: new Date(),
+    skills: ['Java', 'Spring Boot'],
   },
 ]
 
