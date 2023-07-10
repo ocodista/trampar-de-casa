@@ -1,8 +1,8 @@
-import './global.css'
+import { Metadata } from 'next'
 import Script from 'next/script'
 import { Header } from './components/Header'
-import { Metadata } from 'next'
 import { Toaster } from './components/ui/toaster'
+import './global.css'
 import { Providers } from './providers'
 
 const title = 'Vagas 100% remotas'
@@ -27,15 +27,15 @@ export default function RootLayout({ children }) {
         data-domain="trampardecasa.com.br"
         src="https://plausible.io/js/script.js"
       />
-      <Providers>
-        <body>
+      <body>
+        <Providers>
           <Toaster />
           <nav>
             <Header />
           </nav>
           <main>{children}</main>
-        </body>
-      </Providers>
+        </Providers>
+      </body>
     </html>
   )
 }
