@@ -17,13 +17,13 @@ model Subscribers {
   name              String?
   linkedInUrl       String?
   gitHub            String?
-  startedWorkingAt  Int?
+  startedWorkingAt  DateTime?
   skills            Json?
   englishLevel      EnglishLevel?
   sentRoles         SentRoles[]       @relation(name:"SentRoles")
   isConfirmed       Boolean           @default(false)
   createdAt         DateTime          @default(now())
-  updatedAt         DateTime          @updatedAt
+  updatedAt         DateTime?          @updatedAt
   optOut            Boolean           @default(false)
 
   @@map("Subscribers")
@@ -50,13 +50,13 @@ model Roles {
 }
 
 model SentRoles {
-  id      String              @id @default(uuid())
-  sentAt  DateTime?
-  roleId  String
-  role    Roles?
-  subscribers Subscribers[]   @relation(name:"SentRoles")
-  createdAt         DateTime  @default(now())
-  updatedAt         DateTime  @updatedAt
+  id            String          @id @default(uuid())
+  sentAt        DateTime?
+  roleId        String
+  role          Roles?
+  subscribers   Subscribers[]   @relation(name:"SentRoles")
+  createdAt     DateTime        @default(now())
+  updatedAt     DateTime        @updatedAt
 
   @@map("SentRoles")
   @@index([sentAt])
