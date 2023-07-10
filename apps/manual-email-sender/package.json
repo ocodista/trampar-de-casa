@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "lint": "eslint ./src --fix",
-    "send-openings": "ts-node src/openings-email/sendEmail.ts"
+    "send-openings": "ts-node src/openings-email/sendEmails.ts"
   },
   "keywords": [],
   "author": "",

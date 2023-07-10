@@ -2,7 +2,6 @@
 
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/ocodista/trampar-de-casa/main)
 ![GitHub contributors](https://img.shields.io/github/contributors/ocodista/trampar-de-casa)
-![Vercel](https://vercelbadge.vercel.app/api/ocodista/trampar-de-casa)
 ![Website](https://img.shields.io/website?up_message=online&up_color=green&down_message=offline&down_color=red&url=https%3A%2F%2Fwww.trampardecasa.com.br%2F)
 ![GitHub license](https://img.shields.io/github/license/ocodista/trampar-de-casa)
 

@@ -1,6 +1,6 @@
 'use client'
 
-import { createContext, useState } from 'react'
+import { createContext, useContext, useState } from 'react'
 import { LoadingOverlay } from '../components/ui/loadingOverlay'
 
 type LoadingContext = {
@@ -32,3 +32,5 @@ export const LoadingProvider = ({ children }) => {
     </LoadingContext.Provider>
   )
 }
+
+export const useLoadingContext = () => useContext(LoadingContext)

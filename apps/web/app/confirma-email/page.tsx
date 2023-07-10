@@ -1,12 +1,12 @@
 'use client'
 import { useSearchParams } from 'next/navigation'
-import { useContext, useEffect } from 'react'
-import { LoadingContext } from '../contexts/LoadingContext'
+import { useEffect } from 'react'
+import { useLoadingContext } from '../contexts/LoadingContext'
 import { ApiRoutes } from 'shared/src/enums'
-import { useToast } from '../components/ui/use-toast'
+import { useToast } from '../hooks/use-toast'
 
 export default function Page() {
-  const { isLoading, setLoaderVisibility } = useContext(LoadingContext)
+  const { isLoading, setLoaderVisibility } = useLoadingContext()
   const searchParams = useSearchParams()
   const id = searchParams.get('id') || ''
   const { toast } = useToast()
