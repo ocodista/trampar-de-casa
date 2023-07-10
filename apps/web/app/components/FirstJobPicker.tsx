@@ -1,10 +1,10 @@
 'use client'
-import React from 'react'
 import { format, subYears } from 'date-fns'
-import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
-import { Button, buttonVariants } from './ui/button'
+import React from 'react'
 import { cn } from '../../global/utils'
+import { Button, buttonVariants } from './ui/button'
 import { Calendar } from './ui/calendar'
+import { Popover, PopoverContent, PopoverTrigger } from './ui/popover'
 
 export function DOBPicker({
   dob,

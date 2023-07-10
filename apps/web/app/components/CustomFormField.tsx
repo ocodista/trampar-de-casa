@@ -1,3 +1,5 @@
+'use client'
+import React from 'react'
 import {
   ControllerRenderProps,
   FieldValues,
@@ -5,15 +7,14 @@ import {
   useFormContext,
 } from 'react-hook-form'
 import {
+  FormControl,
+  FormDescription,
   FormField,
   FormItem,
   FormLabel,
-  FormControl,
-  FormDescription,
   FormMessage,
 } from './ui/form'
 import { Input as BaseInput } from './ui/input'
-import React from 'react'
 
 interface CustomFormFieldProps<FormState> {
   name: string

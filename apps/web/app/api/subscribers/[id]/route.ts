@@ -1,3 +1,4 @@
+import { getDecryptedId } from 'app/api/getDecryptedId'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
@@ -5,9 +6,8 @@ import {
   ProfileSchema,
   profileFormSchema,
 } from '../../../subscriber/profile/profileSchema'
-import { getDecryptedId } from '../../getDecryptedId'
-import { getById, updateSubscriber } from '../db'
 import { logError } from '../../logError'
+import { getById, updateSubscriber } from '../db'
 
 const getId = (request: Request): string => {
   const { url } = request

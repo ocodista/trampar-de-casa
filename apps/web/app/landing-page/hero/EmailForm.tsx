@@ -1,14 +1,14 @@
 import { zodResolver } from '@hookform/resolvers/zod'
+import { errorMessage } from 'app/components/ui/toaster'
+import { useToast } from 'app/components/ui/use-toast'
+import { UiRoutes } from 'app/enums/uiRoutes'
 import { StatusCodes } from 'http-status-codes'
-import { useState, useEffect } from 'react'
-import { useForm } from 'react-hook-form'
-import { z } from 'zod'
-import Confetti from 'react-confetti'
 import { useRouter } from 'next/navigation'
-import { useToast } from '../../../global/components/ui/use-toast'
-import { ApiRoutes } from '../../../global/enums/apiRoutes'
-import { UiRoutes } from '../../../global/enums/uiRoutes'
-import { errorMessage } from '../../constants'
+import { useEffect, useState } from 'react'
+import Confetti from 'react-confetti'
+import { useForm } from 'react-hook-form'
+import { ApiRoutes } from 'shared'
+import { z } from 'zod'
 
 const validationSchema = z.object({
   email: z.string().email('Insira um e-mail válido!'),

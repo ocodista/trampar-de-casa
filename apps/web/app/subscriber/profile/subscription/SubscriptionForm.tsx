@@ -1,12 +1,12 @@
 'use client'
 import { useEffect, useState } from 'react'
+import { useFormContext } from 'react-hook-form'
 import { EnglishLevel } from '../../../../global/EnglishLevel'
 import { CustomFormField } from '../../../components/CustomFormField'
 import { FormRadioGroup } from '../../../components/FormRadioGroup'
-import { SkillsField } from '../components/SkillsField'
 import { Checkbox } from '../../../components/ui/checkbox'
-import { useFormContext } from 'react-hook-form'
 import { SubscriptionTopicsEnum } from '../../subscriptionTopics'
+import { SkillsField } from '../components/SkillsField'
 import { ProfileSchemaEnum } from '../profileSchema'
 
 const { None, Beginner, Intermediary, Advanced, Fluent } = EnglishLevel

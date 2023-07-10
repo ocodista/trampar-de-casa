@@ -1,6 +1,6 @@
 'use client'
-import DateInput from '../../../components/DateInput'
 import { CustomFormField, TextInput } from '../../../components/CustomFormField'
+import DateInput from '../../../components/DateInput'
 import { ProfileSchemaEnum } from '../profileSchema'
 
 export const PersonalInfoForm = () => {
