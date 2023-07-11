@@ -19,10 +19,12 @@ Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas 
 ---
 
 ## Roadmap do Projeto 🚧
+
 - [ ] **Cadastro de Preferências**: Definir preferências de trabalho dos usuários.
 - [ ] **Seleção e envio de vagas personalizadas**: Enviar vagas selecionadas com base nas preferências.
 - [ ] **Automatização de envio de vagas**: Enviar oportunidades regularmente sem pesquisar ativamente.
 - [ ] **Página para Empresas Parceiras**: Exibir mais detalhes das empresas parceiras.
+
 ---
 
 ## Como Contribuir 🚀
