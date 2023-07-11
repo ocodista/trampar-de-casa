@@ -1,6 +1,7 @@
+import { PrismaClient } from '@prisma/client'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
-import { EnglishLevel, PrismaClient } from 'prisma/client'
+import { EnglishLevel } from 'prisma/client'
 import { Entities } from 'shared'
 import { getSupabaseClient } from '../../db/getSupabaseClient'
 import { ProfileSchema } from '../../subscriber/profile/profileSchema'
