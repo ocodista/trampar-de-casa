@@ -18,18 +18,11 @@ Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas 
 
 ---
 
-## 🚧 Funcionalidades em Desenvolvimento 🚧
-
-Estamos trabalhando para implementar novas funcionalidades que vão tornar o Trampar de Casa ainda melhor. Aqui estão algumas que estão em nosso roadmap:
-
-- [ ] **Cron Job para Envio de Emails**: Implementação de um Cron Job que enviará emails semanalmente (quarta-feira às 11h) para nossos usuários com as melhores oportunidades de trabalho remoto.
-
-Pretendemos usar a combinação de Vercel (conforme este [guia](https://vercel.com/guides/how-to-setup-cron-jobs-on-vercel)), react.email para construção dos emails e Supabase para o banco de dados.
-
-- [ ] **Formulário de Cadastro para Empresas**: Desenvolvimento de um formulário de cadastro de empresas para tornar o processo de postagem de vagas mais eficiente. As empresas poderão preencher seus dados, como nome, site e link do logo.
-
-- [ ] **Login de Usuários**: Adição de um sistema de login para usuários utilizando o supabase auth com magic link.
-
+## Roadmap do Projeto 🚧
+- [ ] **Cadastro de Preferências**: Definir preferências de trabalho dos usuários.
+- [ ] **Seleção e envio de vagas personalizadas**: Enviar vagas selecionadas com base nas preferências.
+- [ ] **Automatização de envio de vagas**: Enviar oportunidades regularmente sem pesquisar ativamente.
+- [ ] **Página para Empresas Parceiras**: Exibir mais detalhes das empresas parceiras.
 ---
 
 ## Como Contribuir 🚀
