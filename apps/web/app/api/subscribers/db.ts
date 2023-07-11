@@ -7,8 +7,16 @@ import { ProfileSchema } from '../../subscriber/profile/profileSchema'
 
 const supabaseClient = getSupabaseClient()
 const table = Entities.Subcribers
-const PUBLIC_FIELDS =
+const PUBLIC_FIELDS_KEYS =
   'name, linkedInUrl, gitHub, startedWorkingAt, skills, englishLevel'
+const PUBLIC_FIELDS = {
+  name: true,
+  linkedInUrl: true,
+  gitHub: true,
+  startedWorkingAt: true,
+  skills: true,
+  englishLevel: true,
+}
 const errorResponse = new NextResponse(null, {
   status: StatusCodes.INTERNAL_SERVER_ERROR,
 })
@@ -28,7 +36,7 @@ export const getCount = async () =>
 
 export const getById = async (id: string) =>
   await handleResponse(
-    supabaseClient.from(table).select(PUBLIC_FIELDS).eq('id', id).single()
+    supabaseClient.from(table).select(PUBLIC_FIELDS_KEYS).eq('id', id).single()
   )
 
 export async function insertSubscriber(email: string) {
@@ -60,6 +68,7 @@ export async function updateSubscriber(
         create: topicIds.map(({ id }) => ({ topic: { connect: { id } } })),
       },
     },
+    select: PUBLIC_FIELDS,
   })
   return { data }
 }
