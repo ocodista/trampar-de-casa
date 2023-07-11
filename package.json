@@ -5,7 +5,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "turbo run build",
+    "start": "cd apps/web next start",
     "dev": "turbo run dev",
     "lint-format": "yarn format && eslint --fix",
     "lint": "turbo run lint",
