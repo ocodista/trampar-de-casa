@@ -5,8 +5,8 @@
   "private": true,
   "license": "MIT",
   "scripts": {
-    "build": "turbo run build",
-    "start": "next dev apps/web",
+    "build": "NODE_ENV=production turbo run build",
+    "start": "NODE_ENV=production next start apps/web",
     "dev": "turbo run dev",
     "lint-format": "yarn format && eslint --fix",
     "lint": "turbo run lint",
