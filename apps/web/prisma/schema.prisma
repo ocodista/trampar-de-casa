@@ -3,7 +3,7 @@
 
 generator client {
   provider = "prisma-client-js"
-  output = "./client"
+  output   = "./client"
 }
 
 datasource db {
@@ -12,87 +12,84 @@ datasource db {
 }
 
 model Subscribers {
-  id                String            @id      @db.Uuid   @default(dbgenerated("gen_random_uuid()"))
-  email             String            @unique
-  name              String?
-  linkedInUrl       String?
-  gitHub            String?
-  startedWorkingAt  DateTime?
-  skills            Json?
-  englishLevel      EnglishLevel?
-  sentRoles         SentRoles[]       @relation(name:"SentRoles")
-  topics            SubscriberTopics[]
-  isConfirmed       Boolean           @default(false)
-  createdAt         DateTime          @default(now())
-  updatedAt         DateTime?          @updatedAt
-  optOut            Boolean           @default(false)
+  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email            String             @unique
+  name             String?
+  linkedInUrl      String?
+  gitHub           String?
+  startedWorkingAt DateTime?
+  skills           Json?
+  englishLevel     EnglishLevel?
+  sentRoles        SentRoles[]        @relation(name: "SentRoles")
+  subscriberTopics SubscriberTopics[]
+  isConfirmed      Boolean            @default(false)
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime?          @updatedAt
+  optOut           Boolean            @default(false)
 
   @@map("Subscribers")
 }
 
-
 model Roles {
-  id              String        @id @default(uuid())
-  companyId       String
-  company         Companies     @relation(fields: [companyId], references: [id])
-  title           String
-  description     String
-  country         String
-  language        String
-  currency        String?
-  salary          String?
-  skills          Json?
-  createdAt       DateTime      @default(now())
-  updatedAt       DateTime      @updatedAt
-  sentRolesId     String?       @unique
-  sentRoles       SentRoles?    @relation(fields: [sentRolesId], references: [id])
+  id          String     @id @default(uuid())
+  companyId   String
+  company     Companies  @relation(fields: [companyId], references: [id])
+  title       String
+  description String
+  country     String
+  language    String
+  currency    String?
+  salary      String?
+  skills      Json?
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+  sentRolesId String?    @unique
+  sentRoles   SentRoles? @relation(fields: [sentRolesId], references: [id])
 
   @@map("Roles")
 }
 
 model SentRoles {
-  id            String          @id @default(uuid())
-  sentAt        DateTime?
-  roleId        String
-  role          Roles?
-  subscribers   Subscribers[]   @relation(name:"SentRoles")
-  createdAt     DateTime        @default(now())
-  updatedAt     DateTime        @updatedAt
+  id          String        @id @default(uuid())
+  sentAt      DateTime?
+  roleId      String
+  role        Roles?
+  subscribers Subscribers[] @relation(name: "SentRoles")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
 
-  @@map("SentRoles")
   @@index([sentAt])
+  @@map("SentRoles")
 }
 
 model SubscriberTopics {
-  id Int @id @default(autoincrement())
-  subscriber Subscribers @relation(fields: [subscriberId], references: [id])
-  subscriberId String @db.Uuid
-  topic Topics @relation(fields: [topicId], references: [id])
-  topicId Int
+  id           Int         @id @default(autoincrement())
+  subscriber   Subscribers @relation(fields: [subscriberId], references: [id])
+  subscriberId String      @db.Uuid
+  topic        Topics      @relation(fields: [topicId], references: [id])
+  topicId      Int
 }
 
 model Topics {
-  id Int @id @default(autoincrement())
-  name String @unique
-  subscribers SubscriberTopics[] 
+  id          Int                @id @default(autoincrement())
+  name        String             @unique
+  subscribers SubscriberTopics[]
 
   @@map("Topics")
 }
 
 model Companies {
-  id          String      @id @default(uuid())
+  id          String   @id @default(uuid())
   name        String
   url         String
   logoUrl     String?
   countryIcon String
   roles       Roles[]
-  createdAt   DateTime    @default(now())
-  updatedAt   DateTime    @updatedAt
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
 
   @@map("Companies")
 }
-
-
 
 enum EnglishLevel {
   Beginner

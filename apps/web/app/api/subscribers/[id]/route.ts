@@ -34,6 +34,10 @@ export async function PUT(request: Request) {
     return await logError(err)
   }
 
-  const { data, error } = await updateSubscriber(id, body)
-  return error ? await logError(error) : NextResponse.json(data)
+  try {
+    const { data } = await updateSubscriber(id, body)
+    return NextResponse.json(data)
+  } catch (error) {
+    return await logError(error)
+  }
 }

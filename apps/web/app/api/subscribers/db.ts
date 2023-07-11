@@ -55,7 +55,7 @@ export async function updateSubscriber(
       startedWorkingAt: body.startedWorkingAt,
       skills: body.skills,
       englishLevel: EnglishLevel[body.englishLevel],
-      topics: {
+      subscriberTopics: {
         deleteMany: {},
         create: topicIds.map(({ id }) => ({ topic: { connect: { id } } })),
       },

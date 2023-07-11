@@ -16,7 +16,7 @@ export type SubscribersPayload<
   name: 'Subscribers'
   objects: {
     sentRoles: SentRolesPayload<ExtArgs>[]
-    topics: SubscriberTopicsPayload<ExtArgs>[]
+    subscriberTopics: SubscriberTopicsPayload<ExtArgs>[]
   }
   scalars: $Extensions.GetResult<
     {
@@ -1562,14 +1562,16 @@ export namespace Prisma {
 
   export type SubscribersCountOutputType = {
     sentRoles: number
-    topics: number
+    subscriberTopics: number
   }
 
   export type SubscribersCountOutputTypeSelect<
     ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
   > = {
     sentRoles?: boolean | SubscribersCountOutputTypeCountSentRolesArgs
-    topics?: boolean | SubscribersCountOutputTypeCountTopicsArgs
+    subscriberTopics?:
+      | boolean
+      | SubscribersCountOutputTypeCountSubscriberTopicsArgs
   }
 
   // Custom InputTypes
@@ -1598,7 +1600,7 @@ export namespace Prisma {
   /**
    * SubscribersCountOutputType without action
    */
-  export type SubscribersCountOutputTypeCountTopicsArgs<
+  export type SubscribersCountOutputTypeCountSubscriberTopicsArgs<
     ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
   > = {
     where?: SubscriberTopicsWhereInput
@@ -1940,7 +1942,7 @@ export namespace Prisma {
       updatedAt?: boolean
       optOut?: boolean
       sentRoles?: boolean | Subscribers$sentRolesArgs<ExtArgs>
-      topics?: boolean | Subscribers$topicsArgs<ExtArgs>
+      subscriberTopics?: boolean | Subscribers$subscriberTopicsArgs<ExtArgs>
       _count?: boolean | SubscribersCountOutputTypeArgs<ExtArgs>
     },
     ExtArgs['result']['subscribers']
@@ -1965,7 +1967,7 @@ export namespace Prisma {
     ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
   > = {
     sentRoles?: boolean | Subscribers$sentRolesArgs<ExtArgs>
-    topics?: boolean | Subscribers$topicsArgs<ExtArgs>
+    subscriberTopics?: boolean | Subscribers$subscriberTopicsArgs<ExtArgs>
     _count?: boolean | SubscribersCountOutputTypeArgs<ExtArgs>
   }
 
@@ -2466,8 +2468,8 @@ export namespace Prisma {
       $Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findMany', never> | Null
     >
 
-    topics<T extends Subscribers$topicsArgs<ExtArgs> = {}>(
-      args?: Subset<T, Subscribers$topicsArgs<ExtArgs>>
+    subscriberTopics<T extends Subscribers$subscriberTopicsArgs<ExtArgs> = {}>(
+      args?: Subset<T, Subscribers$subscriberTopicsArgs<ExtArgs>>
     ): Prisma.PrismaPromise<
       | $Types.GetResult<SubscriberTopicsPayload<ExtArgs>, T, 'findMany', never>
       | Null
@@ -2882,9 +2884,9 @@ export namespace Prisma {
   }
 
   /**
-   * Subscribers.topics
+   * Subscribers.subscriberTopics
    */
-  export type Subscribers$topicsArgs<
+  export type Subscribers$subscriberTopicsArgs<
     ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
   > = {
     /**
@@ -8680,7 +8682,7 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableFilter | Date | string | null
     optOut?: BoolFilter | boolean
     sentRoles?: SentRolesListRelationFilter
-    topics?: SubscriberTopicsListRelationFilter
+    subscriberTopics?: SubscriberTopicsListRelationFilter
   }
 
   export type SubscribersOrderByWithRelationInput = {
@@ -8697,7 +8699,7 @@ export namespace Prisma {
     updatedAt?: SortOrderInput | SortOrder
     optOut?: SortOrder
     sentRoles?: SentRolesOrderByRelationAggregateInput
-    topics?: SubscriberTopicsOrderByRelationAggregateInput
+    subscriberTopics?: SubscriberTopicsOrderByRelationAggregateInput
   }
 
   export type SubscribersWhereUniqueInput = {
@@ -9025,7 +9027,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     optOut?: boolean
     sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
-    topics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
+    subscriberTopics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
   }
 
   export type SubscribersUncheckedCreateInput = {
@@ -9042,7 +9044,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     optOut?: boolean
     sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
-    topics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
+    subscriberTopics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
   }
 
   export type SubscribersUpdateInput = {
@@ -9070,7 +9072,7 @@ export namespace Prisma {
       | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
     sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
-    topics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
+    subscriberTopics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
   }
 
   export type SubscribersUncheckedUpdateInput = {
@@ -9098,7 +9100,7 @@ export namespace Prisma {
       | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
     sentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
-    topics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
+    subscriberTopics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
   }
 
   export type SubscribersCreateManyInput = {
@@ -9336,7 +9338,7 @@ export namespace Prisma {
   }
 
   export type SubscriberTopicsCreateInput = {
-    subscriber: SubscribersCreateNestedOneWithoutTopicsInput
+    subscriber: SubscribersCreateNestedOneWithoutSubscriberTopicsInput
     topic: TopicsCreateNestedOneWithoutSubscribersInput
   }
 
@@ -9347,7 +9349,7 @@ export namespace Prisma {
   }
 
   export type SubscriberTopicsUpdateInput = {
-    subscriber?: SubscribersUpdateOneRequiredWithoutTopicsNestedInput
+    subscriber?: SubscribersUpdateOneRequiredWithoutSubscriberTopicsNestedInput
     topic?: TopicsUpdateOneRequiredWithoutSubscribersNestedInput
   }
 
@@ -10276,12 +10278,12 @@ export namespace Prisma {
     deleteMany?: Enumerable<SubscribersScalarWhereInput>
   }
 
-  export type SubscribersCreateNestedOneWithoutTopicsInput = {
+  export type SubscribersCreateNestedOneWithoutSubscriberTopicsInput = {
     create?: XOR<
-      SubscribersCreateWithoutTopicsInput,
-      SubscribersUncheckedCreateWithoutTopicsInput
+      SubscribersCreateWithoutSubscriberTopicsInput,
+      SubscribersUncheckedCreateWithoutSubscriberTopicsInput
     >
-    connectOrCreate?: SubscribersCreateOrConnectWithoutTopicsInput
+    connectOrCreate?: SubscribersCreateOrConnectWithoutSubscriberTopicsInput
     connect?: SubscribersWhereUniqueInput
   }
 
@@ -10294,17 +10296,17 @@ export namespace Prisma {
     connect?: TopicsWhereUniqueInput
   }
 
-  export type SubscribersUpdateOneRequiredWithoutTopicsNestedInput = {
+  export type SubscribersUpdateOneRequiredWithoutSubscriberTopicsNestedInput = {
     create?: XOR<
-      SubscribersCreateWithoutTopicsInput,
-      SubscribersUncheckedCreateWithoutTopicsInput
+      SubscribersCreateWithoutSubscriberTopicsInput,
+      SubscribersUncheckedCreateWithoutSubscriberTopicsInput
     >
-    connectOrCreate?: SubscribersCreateOrConnectWithoutTopicsInput
-    upsert?: SubscribersUpsertWithoutTopicsInput
+    connectOrCreate?: SubscribersCreateOrConnectWithoutSubscriberTopicsInput
+    upsert?: SubscribersUpsertWithoutSubscriberTopicsInput
     connect?: SubscribersWhereUniqueInput
     update?: XOR<
-      SubscribersUpdateWithoutTopicsInput,
-      SubscribersUncheckedUpdateWithoutTopicsInput
+      SubscribersUpdateWithoutSubscriberTopicsInput,
+      SubscribersUncheckedUpdateWithoutSubscriberTopicsInput
     >
   }
 
@@ -10793,7 +10795,7 @@ export namespace Prisma {
     where: SubscriberTopicsScalarWhereInput
     data: XOR<
       SubscriberTopicsUpdateManyMutationInput,
-      SubscriberTopicsUncheckedUpdateManyWithoutTopicsInput
+      SubscriberTopicsUncheckedUpdateManyWithoutSubscriberTopicsInput
     >
   }
 
@@ -10969,7 +10971,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
-    topics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
+    subscriberTopics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
   }
 
   export type SubscribersUncheckedCreateWithoutSentRolesInput = {
@@ -10985,7 +10987,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
-    topics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
+    subscriberTopics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
   }
 
   export type SubscribersCreateOrConnectWithoutSentRolesInput = {
@@ -11081,7 +11083,7 @@ export namespace Prisma {
     optOut?: BoolFilter | boolean
   }
 
-  export type SubscribersCreateWithoutTopicsInput = {
+  export type SubscribersCreateWithoutSubscriberTopicsInput = {
     id?: string
     email: string
     name?: string | null
@@ -11097,7 +11099,7 @@ export namespace Prisma {
     sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
   }
 
-  export type SubscribersUncheckedCreateWithoutTopicsInput = {
+  export type SubscribersUncheckedCreateWithoutSubscriberTopicsInput = {
     id?: string
     email: string
     name?: string | null
@@ -11113,11 +11115,11 @@ export namespace Prisma {
     sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
   }
 
-  export type SubscribersCreateOrConnectWithoutTopicsInput = {
+  export type SubscribersCreateOrConnectWithoutSubscriberTopicsInput = {
     where: SubscribersWhereUniqueInput
     create: XOR<
-      SubscribersCreateWithoutTopicsInput,
-      SubscribersUncheckedCreateWithoutTopicsInput
+      SubscribersCreateWithoutSubscriberTopicsInput,
+      SubscribersUncheckedCreateWithoutSubscriberTopicsInput
     >
   }
 
@@ -11138,18 +11140,18 @@ export namespace Prisma {
     >
   }
 
-  export type SubscribersUpsertWithoutTopicsInput = {
+  export type SubscribersUpsertWithoutSubscriberTopicsInput = {
     update: XOR<
-      SubscribersUpdateWithoutTopicsInput,
-      SubscribersUncheckedUpdateWithoutTopicsInput
+      SubscribersUpdateWithoutSubscriberTopicsInput,
+      SubscribersUncheckedUpdateWithoutSubscriberTopicsInput
     >
     create: XOR<
-      SubscribersCreateWithoutTopicsInput,
-      SubscribersUncheckedCreateWithoutTopicsInput
+      SubscribersCreateWithoutSubscriberTopicsInput,
+      SubscribersUncheckedCreateWithoutSubscriberTopicsInput
     >
   }
 
-  export type SubscribersUpdateWithoutTopicsInput = {
+  export type SubscribersUpdateWithoutSubscriberTopicsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11176,7 +11178,7 @@ export namespace Prisma {
     sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
   }
 
-  export type SubscribersUncheckedUpdateWithoutTopicsInput = {
+  export type SubscribersUncheckedUpdateWithoutSubscriberTopicsInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -11224,7 +11226,7 @@ export namespace Prisma {
   }
 
   export type SubscriberTopicsCreateWithoutTopicInput = {
-    subscriber: SubscribersCreateNestedOneWithoutTopicsInput
+    subscriber: SubscribersCreateNestedOneWithoutSubscriberTopicsInput
   }
 
   export type SubscriberTopicsUncheckedCreateWithoutTopicInput = {
@@ -11400,10 +11402,11 @@ export namespace Prisma {
     topicId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type SubscriberTopicsUncheckedUpdateManyWithoutTopicsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    topicId?: IntFieldUpdateOperationsInput | number
-  }
+  export type SubscriberTopicsUncheckedUpdateManyWithoutSubscriberTopicsInput =
+    {
+      id?: IntFieldUpdateOperationsInput | number
+      topicId?: IntFieldUpdateOperationsInput | number
+    }
 
   export type SubscribersUpdateWithoutSentRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
@@ -11429,7 +11432,7 @@ export namespace Prisma {
       | string
       | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
-    topics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
+    subscriberTopics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
   }
 
   export type SubscribersUncheckedUpdateWithoutSentRolesInput = {
@@ -11456,7 +11459,7 @@ export namespace Prisma {
       | string
       | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
-    topics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
+    subscriberTopics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
   }
 
   export type SubscribersUncheckedUpdateManyWithoutSubscribersInput = {
@@ -11491,7 +11494,7 @@ export namespace Prisma {
   }
 
   export type SubscriberTopicsUpdateWithoutTopicInput = {
-    subscriber?: SubscribersUpdateOneRequiredWithoutTopicsNestedInput
+    subscriber?: SubscribersUpdateOneRequiredWithoutSubscriberTopicsNestedInput
   }
 
   export type SubscriberTopicsUncheckedUpdateWithoutTopicInput = {

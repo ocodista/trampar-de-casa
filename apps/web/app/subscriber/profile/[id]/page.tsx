@@ -6,7 +6,10 @@ import { SubscriberForm } from '../components/SubscriberForm'
 const ProfilePage = async ({ params }: { params: { id: string } }) => {
   const prisma = new PrismaClient()
   const subscriber = await prisma.subscribers
-    .findUniqueOrThrow({ where: { id: params.id }, include: { topics: true } })
+    .findUniqueOrThrow({
+      where: { id: params.id },
+      include: { subscriberTopics: true },
+    })
     .catch((e) => {
       console.error(e)
       notFound()
@@ -16,7 +19,7 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
     <SubscriberForm
       descriptionTopics={topics}
       profileInfos={{
-        receiveEmailConfig: subscriber.topics.map(({ topicId }) =>
+        receiveEmailConfig: subscriber.subscriberTopics.map(({ topicId }) =>
           String(topicId)
         ),
         englishLevel: subscriber.englishLevel as EnglishLevel,
