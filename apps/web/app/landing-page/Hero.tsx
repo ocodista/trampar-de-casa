@@ -35,7 +35,11 @@ export const Hero = () => {
   const { toast } = useToast()
 
   const getSubscribersCount = async (): Promise<number | null> => {
-    const response = await fetch(ApiRoutes.Subscribers)
+    const response = await fetch(ApiRoutes.Subscribers, {
+      next: {
+        revalidate: 60 * 30,
+      },
+    })
     if (!response?.ok) return null
     const count = await response.json()
     return count
