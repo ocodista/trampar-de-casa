@@ -1,7 +1,7 @@
-import { PrismaClient } from '@prisma/client'
+import { prisma } from 'app/db/getPrismaClient'
+import { EnglishLevel } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
-import { EnglishLevel } from 'prisma/client'
 import { Entities } from 'shared'
 import { getSupabaseClient } from '../../db/getSupabaseClient'
 import { ProfileSchema } from '../../subscriber/profile/profileSchema'
@@ -52,7 +52,6 @@ export async function updateSubscriber(
   id: string,
   { receiveEmailConfig, ...body }: ProfileSchema
 ) {
-  const prisma = new PrismaClient()
   const topicIds = receiveEmailConfig.map((id) => ({ id: Number(id) }))
   const data = await prisma.subscribers.update({
     where: { id },

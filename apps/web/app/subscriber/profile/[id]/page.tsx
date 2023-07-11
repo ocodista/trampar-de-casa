@@ -1,12 +1,18 @@
 import { getDecryptedId } from 'app/api/getDecryptedId'
+import { PrismaClient } from 'db'
 import { EnglishLevel } from 'global/EnglishLevel'
 import { notFound } from 'next/navigation'
-import { PrismaClient } from 'prisma/client'
 import { SubscriberForm } from '../components/SubscriberForm'
+
+const promisedGetDecryptedId = (id: string): Promise<string> =>
+  new Promise((r) => r(getDecryptedId(id)))
 
 const ProfilePage = async ({ params }: { params: { id: string } }) => {
   const prisma = new PrismaClient()
-  const decryptedId = getDecryptedId(params.id)
+  const decryptedId = await promisedGetDecryptedId(params.id).catch((e) => {
+    console.log(e)
+    notFound()
+  })
   const subscriber = await prisma.subscribers
     .findUniqueOrThrow({
       where: { id: decryptedId },
