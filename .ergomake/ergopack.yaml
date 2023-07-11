@@ -1,0 +1,4 @@
+apps:
+  app:
+    path: ../
+    publicPort: 3000
