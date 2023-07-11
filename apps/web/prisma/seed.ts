@@ -50,8 +50,20 @@ const getRoles = (companies: Companies[]): Prisma.RolesCreateInput[] => [
   },
 ]
 
+const getDescriptionTopics = (): Prisma.TopicsCreateInput[] => [
+  { name: 'Vagas internacionais' },
+  { name: 'Vagas nacionais' },
+  { name: 'Dicas de inglês' },
+  { name: 'Dicas de carreira' },
+]
+
 void (async function () {
   try {
+    await Promise.all(
+      getDescriptionTopics().map(async (descriptionTopic) => {
+        await prisma.topics.create({ data: descriptionTopic })
+      })
+    )
     const subscribers = await Promise.all(
       getSubscribers().map((subscriber) =>
         prisma.subscribers.create({ data: subscriber })

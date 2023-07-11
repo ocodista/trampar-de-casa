@@ -16,8 +16,10 @@ const description = 'Configure seu perfil para receber vagas mais assertivas.'
 
 export function SubscriberForm({
   profileInfos,
+  descriptionTopics,
 }: {
   profileInfos: ProfileSchema
+  descriptionTopics: { name: string; id: number }[]
 }) {
   const form = useForm<ProfileSchema>({
     resolver: zodResolver(profileFormSchema),
@@ -66,7 +68,7 @@ export function SubscriberForm({
         <Separator className="my-6" />
         <main className="grid grid-cols-1 md:grid-cols-2  gap-6 md:gap-14">
           <PersonalInfoForm />
-          <SubscriptionForm />
+          <SubscriptionForm descriptionTopics={descriptionTopics} />
         </main>
         <footer>
           <Button type="submit">Salvar</Button>

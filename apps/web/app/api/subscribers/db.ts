@@ -1,5 +1,6 @@
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
+import { EnglishLevel, PrismaClient } from 'prisma/client'
 import { Entities } from 'shared'
 import { getSupabaseClient } from '../../db/getSupabaseClient'
 import { ProfileSchema } from '../../subscriber/profile/profileSchema'
@@ -38,11 +39,27 @@ export async function insertSubscriber(email: string) {
   return { data, error }
 }
 
-export async function updateSubscriber(id: string, body: ProfileSchema) {
-  const { data, error } = await supabaseClient
-    .from(Entities.Subcribers)
-    .update(body)
-    .eq('id', id)
-    .select(PUBLIC_FIELDS)
-  return { data, error }
+export async function updateSubscriber(
+  id: string,
+  { receiveEmailConfig, ...body }: ProfileSchema
+) {
+  const prisma = new PrismaClient()
+  const topicIds = receiveEmailConfig.map((id) => ({ id: Number(id) }))
+  const data = await prisma.subscribers.update({
+    where: { id },
+    data: {
+      ...body,
+      name: body.name,
+      linkedInUrl: body.linkedInUrl,
+      gitHub: body.gitHub,
+      startedWorkingAt: body.startedWorkingAt,
+      skills: body.skills,
+      englishLevel: EnglishLevel[body.englishLevel],
+      topics: {
+        deleteMany: {},
+        create: topicIds.map(({ id }) => ({ topic: { connect: { id } } })),
+      },
+    },
+  })
+  return { data }
 }

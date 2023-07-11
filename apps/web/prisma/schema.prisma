@@ -21,6 +21,7 @@ model Subscribers {
   skills            Json?
   englishLevel      EnglishLevel?
   sentRoles         SentRoles[]       @relation(name:"SentRoles")
+  topics            SubscriberTopics[]
   isConfirmed       Boolean           @default(false)
   createdAt         DateTime          @default(now())
   updatedAt         DateTime?          @updatedAt
@@ -62,6 +63,22 @@ model SentRoles {
   @@index([sentAt])
 }
 
+model SubscriberTopics {
+  id Int @id @default(autoincrement())
+  subscriber Subscribers @relation(fields: [subscriberId], references: [id])
+  subscriberId String @db.Uuid
+  topic Topics @relation(fields: [topicId], references: [id])
+  topicId Int
+}
+
+model Topics {
+  id Int @id @default(autoincrement())
+  name String @unique
+  subscribers SubscriberTopics[] 
+
+  @@map("Topics")
+}
+
 model Companies {
   id          String      @id @default(uuid())
   name        String
@@ -74,6 +91,8 @@ model Companies {
 
   @@map("Companies")
 }
+
+
 
 enum EnglishLevel {
   Beginner

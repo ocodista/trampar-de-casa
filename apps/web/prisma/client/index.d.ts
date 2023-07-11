@@ -16,6 +16,7 @@ export type SubscribersPayload<
   name: 'Subscribers'
   objects: {
     sentRoles: SentRolesPayload<ExtArgs>[]
+    topics: SubscriberTopicsPayload<ExtArgs>[]
   }
   scalars: $Extensions.GetResult<
     {
@@ -101,6 +102,53 @@ export type SentRolesPayload<
  *
  */
 export type SentRoles = runtime.Types.DefaultSelection<SentRolesPayload>
+export type SubscriberTopicsPayload<
+  ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+> = {
+  name: 'SubscriberTopics'
+  objects: {
+    subscriber: SubscribersPayload<ExtArgs>
+    topic: TopicsPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<
+    {
+      id: number
+      subscriberId: string
+      topicId: number
+    },
+    ExtArgs['result']['subscriberTopics']
+  >
+  composites: {}
+}
+
+/**
+ * Model SubscriberTopics
+ *
+ */
+export type SubscriberTopics =
+  runtime.Types.DefaultSelection<SubscriberTopicsPayload>
+export type TopicsPayload<
+  ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+> = {
+  name: 'Topics'
+  objects: {
+    subscribers: SubscriberTopicsPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<
+    {
+      id: number
+      name: string
+    },
+    ExtArgs['result']['topics']
+  >
+  composites: {}
+}
+
+/**
+ * Model Topics
+ *
+ */
+export type Topics = runtime.Types.DefaultSelection<TopicsPayload>
 export type CompaniesPayload<
   ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
 > = {
@@ -334,6 +382,26 @@ export class PrismaClient<
    * ```
    */
   get sentRoles(): Prisma.SentRolesDelegate<GlobalReject, ExtArgs>
+
+  /**
+   * `prisma.subscriberTopics`: Exposes CRUD operations for the **SubscriberTopics** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more SubscriberTopics
+   * const subscriberTopics = await prisma.subscriberTopics.findMany()
+   * ```
+   */
+  get subscriberTopics(): Prisma.SubscriberTopicsDelegate<GlobalReject, ExtArgs>
+
+  /**
+   * `prisma.topics`: Exposes CRUD operations for the **Topics** model.
+   * Example usage:
+   * ```ts
+   * // Fetch zero or more Topics
+   * const topics = await prisma.topics.findMany()
+   * ```
+   */
+  get topics(): Prisma.TopicsDelegate<GlobalReject, ExtArgs>
 
   /**
    * `prisma.companies`: Exposes CRUD operations for the **Companies** model.
@@ -865,6 +933,8 @@ export namespace Prisma {
     Subscribers: 'Subscribers'
     Roles: 'Roles'
     SentRoles: 'SentRoles'
+    SubscriberTopics: 'SubscriberTopics'
+    Topics: 'Topics'
     Companies: 'Companies'
   }
 
@@ -886,7 +956,13 @@ export namespace Prisma {
     ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
   > = {
     meta: {
-      modelProps: 'subscribers' | 'roles' | 'sentRoles' | 'companies'
+      modelProps:
+        | 'subscribers'
+        | 'roles'
+        | 'sentRoles'
+        | 'subscriberTopics'
+        | 'topics'
+        | 'companies'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -1084,6 +1160,138 @@ export namespace Prisma {
           count: {
             args: Prisma.SentRolesCountArgs<ExtArgs>
             result: $Utils.Optional<SentRolesCountAggregateOutputType> | number
+          }
+        }
+      }
+      SubscriberTopics: {
+        payload: SubscriberTopicsPayload<ExtArgs>
+        operations: {
+          findUnique: {
+            args: Prisma.SubscriberTopicsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<SubscriberTopicsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubscriberTopicsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<SubscriberTopicsPayload>
+          }
+          findFirst: {
+            args: Prisma.SubscriberTopicsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<SubscriberTopicsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubscriberTopicsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<SubscriberTopicsPayload>
+          }
+          findMany: {
+            args: Prisma.SubscriberTopicsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<SubscriberTopicsPayload>[]
+          }
+          create: {
+            args: Prisma.SubscriberTopicsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<SubscriberTopicsPayload>
+          }
+          createMany: {
+            args: Prisma.SubscriberTopicsCreateManyArgs<ExtArgs>
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.SubscriberTopicsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<SubscriberTopicsPayload>
+          }
+          update: {
+            args: Prisma.SubscriberTopicsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<SubscriberTopicsPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubscriberTopicsDeleteManyArgs<ExtArgs>
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubscriberTopicsUpdateManyArgs<ExtArgs>
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.SubscriberTopicsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<SubscriberTopicsPayload>
+          }
+          aggregate: {
+            args: Prisma.SubscriberTopicsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateSubscriberTopics>
+          }
+          groupBy: {
+            args: Prisma.SubscriberTopicsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<SubscriberTopicsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubscriberTopicsCountArgs<ExtArgs>
+            result:
+              | $Utils.Optional<SubscriberTopicsCountAggregateOutputType>
+              | number
+          }
+        }
+      }
+      Topics: {
+        payload: TopicsPayload<ExtArgs>
+        operations: {
+          findUnique: {
+            args: Prisma.TopicsFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<TopicsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.TopicsFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<TopicsPayload>
+          }
+          findFirst: {
+            args: Prisma.TopicsFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<TopicsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.TopicsFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<TopicsPayload>
+          }
+          findMany: {
+            args: Prisma.TopicsFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<TopicsPayload>[]
+          }
+          create: {
+            args: Prisma.TopicsCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<TopicsPayload>
+          }
+          createMany: {
+            args: Prisma.TopicsCreateManyArgs<ExtArgs>
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.TopicsDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<TopicsPayload>
+          }
+          update: {
+            args: Prisma.TopicsUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<TopicsPayload>
+          }
+          deleteMany: {
+            args: Prisma.TopicsDeleteManyArgs<ExtArgs>
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.TopicsUpdateManyArgs<ExtArgs>
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.TopicsUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<TopicsPayload>
+          }
+          aggregate: {
+            args: Prisma.TopicsAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateTopics>
+          }
+          groupBy: {
+            args: Prisma.TopicsGroupByArgs<ExtArgs>
+            result: $Utils.Optional<TopicsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.TopicsCountArgs<ExtArgs>
+            result: $Utils.Optional<TopicsCountAggregateOutputType> | number
           }
         }
       }
@@ -1354,12 +1562,14 @@ export namespace Prisma {
 
   export type SubscribersCountOutputType = {
     sentRoles: number
+    topics: number
   }
 
   export type SubscribersCountOutputTypeSelect<
     ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
   > = {
     sentRoles?: boolean | SubscribersCountOutputTypeCountSentRolesArgs
+    topics?: boolean | SubscribersCountOutputTypeCountTopicsArgs
   }
 
   // Custom InputTypes
@@ -1383,6 +1593,15 @@ export namespace Prisma {
     ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
   > = {
     where?: SentRolesWhereInput
+  }
+
+  /**
+   * SubscribersCountOutputType without action
+   */
+  export type SubscribersCountOutputTypeCountTopicsArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    where?: SubscriberTopicsWhereInput
   }
 
   /**
@@ -1420,6 +1639,43 @@ export namespace Prisma {
     ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
   > = {
     where?: SubscribersWhereInput
+  }
+
+  /**
+   * Count Type TopicsCountOutputType
+   */
+
+  export type TopicsCountOutputType = {
+    subscribers: number
+  }
+
+  export type TopicsCountOutputTypeSelect<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    subscribers?: boolean | TopicsCountOutputTypeCountSubscribersArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * TopicsCountOutputType without action
+   */
+  export type TopicsCountOutputTypeArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the TopicsCountOutputType
+     */
+    select?: TopicsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * TopicsCountOutputType without action
+   */
+  export type TopicsCountOutputTypeCountSubscribersArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    where?: SubscriberTopicsWhereInput
   }
 
   /**
@@ -1684,6 +1940,7 @@ export namespace Prisma {
       updatedAt?: boolean
       optOut?: boolean
       sentRoles?: boolean | Subscribers$sentRolesArgs<ExtArgs>
+      topics?: boolean | Subscribers$topicsArgs<ExtArgs>
       _count?: boolean | SubscribersCountOutputTypeArgs<ExtArgs>
     },
     ExtArgs['result']['subscribers']
@@ -1708,6 +1965,7 @@ export namespace Prisma {
     ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
   > = {
     sentRoles?: boolean | Subscribers$sentRolesArgs<ExtArgs>
+    topics?: boolean | Subscribers$topicsArgs<ExtArgs>
     _count?: boolean | SubscribersCountOutputTypeArgs<ExtArgs>
   }
 
@@ -2208,6 +2466,13 @@ export namespace Prisma {
       $Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findMany', never> | Null
     >
 
+    topics<T extends Subscribers$topicsArgs<ExtArgs> = {}>(
+      args?: Subset<T, Subscribers$topicsArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      | $Types.GetResult<SubscriberTopicsPayload<ExtArgs>, T, 'findMany', never>
+      | Null
+    >
+
     private get _document()
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -2614,6 +2879,28 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: Enumerable<SentRolesScalarFieldEnum>
+  }
+
+  /**
+   * Subscribers.topics
+   */
+  export type Subscribers$topicsArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+    where?: SubscriberTopicsWhereInput
+    orderBy?: Enumerable<SubscriberTopicsOrderByWithRelationInput>
+    cursor?: SubscriberTopicsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<SubscriberTopicsScalarFieldEnum>
   }
 
   /**
@@ -4883,6 +5170,2246 @@ export namespace Prisma {
   }
 
   /**
+   * Model SubscriberTopics
+   */
+
+  export type AggregateSubscriberTopics = {
+    _count: SubscriberTopicsCountAggregateOutputType | null
+    _avg: SubscriberTopicsAvgAggregateOutputType | null
+    _sum: SubscriberTopicsSumAggregateOutputType | null
+    _min: SubscriberTopicsMinAggregateOutputType | null
+    _max: SubscriberTopicsMaxAggregateOutputType | null
+  }
+
+  export type SubscriberTopicsAvgAggregateOutputType = {
+    id: number | null
+    topicId: number | null
+  }
+
+  export type SubscriberTopicsSumAggregateOutputType = {
+    id: number | null
+    topicId: number | null
+  }
+
+  export type SubscriberTopicsMinAggregateOutputType = {
+    id: number | null
+    subscriberId: string | null
+    topicId: number | null
+  }
+
+  export type SubscriberTopicsMaxAggregateOutputType = {
+    id: number | null
+    subscriberId: string | null
+    topicId: number | null
+  }
+
+  export type SubscriberTopicsCountAggregateOutputType = {
+    id: number
+    subscriberId: number
+    topicId: number
+    _all: number
+  }
+
+  export type SubscriberTopicsAvgAggregateInputType = {
+    id?: true
+    topicId?: true
+  }
+
+  export type SubscriberTopicsSumAggregateInputType = {
+    id?: true
+    topicId?: true
+  }
+
+  export type SubscriberTopicsMinAggregateInputType = {
+    id?: true
+    subscriberId?: true
+    topicId?: true
+  }
+
+  export type SubscriberTopicsMaxAggregateInputType = {
+    id?: true
+    subscriberId?: true
+    topicId?: true
+  }
+
+  export type SubscriberTopicsCountAggregateInputType = {
+    id?: true
+    subscriberId?: true
+    topicId?: true
+    _all?: true
+  }
+
+  export type SubscriberTopicsAggregateArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Filter which SubscriberTopics to aggregate.
+     */
+    where?: SubscriberTopicsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of SubscriberTopics to fetch.
+     */
+    orderBy?: Enumerable<SubscriberTopicsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: SubscriberTopicsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` SubscriberTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` SubscriberTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned SubscriberTopics
+     **/
+    _count?: true | SubscriberTopicsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to average
+     **/
+    _avg?: SubscriberTopicsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: SubscriberTopicsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: SubscriberTopicsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: SubscriberTopicsMaxAggregateInputType
+  }
+
+  export type GetSubscriberTopicsAggregateType<
+    T extends SubscriberTopicsAggregateArgs
+  > = {
+    [P in keyof T & keyof AggregateSubscriberTopics]: P extends
+      | '_count'
+      | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubscriberTopics[P]>
+      : GetScalarType<T[P], AggregateSubscriberTopics[P]>
+  }
+
+  export type SubscriberTopicsGroupByArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    where?: SubscriberTopicsWhereInput
+    orderBy?: Enumerable<SubscriberTopicsOrderByWithAggregationInput>
+    by: SubscriberTopicsScalarFieldEnum[]
+    having?: SubscriberTopicsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubscriberTopicsCountAggregateInputType | true
+    _avg?: SubscriberTopicsAvgAggregateInputType
+    _sum?: SubscriberTopicsSumAggregateInputType
+    _min?: SubscriberTopicsMinAggregateInputType
+    _max?: SubscriberTopicsMaxAggregateInputType
+  }
+
+  export type SubscriberTopicsGroupByOutputType = {
+    id: number
+    subscriberId: string
+    topicId: number
+    _count: SubscriberTopicsCountAggregateOutputType | null
+    _avg: SubscriberTopicsAvgAggregateOutputType | null
+    _sum: SubscriberTopicsSumAggregateOutputType | null
+    _min: SubscriberTopicsMinAggregateOutputType | null
+    _max: SubscriberTopicsMaxAggregateOutputType | null
+  }
+
+  type GetSubscriberTopicsGroupByPayload<
+    T extends SubscriberTopicsGroupByArgs
+  > = Prisma.PrismaPromise<
+    Array<
+      PickArray<SubscriberTopicsGroupByOutputType, T['by']> & {
+        [P in keyof T &
+          keyof SubscriberTopicsGroupByOutputType]: P extends '_count'
+          ? T[P] extends boolean
+            ? number
+            : GetScalarType<T[P], SubscriberTopicsGroupByOutputType[P]>
+          : GetScalarType<T[P], SubscriberTopicsGroupByOutputType[P]>
+      }
+    >
+  >
+
+  export type SubscriberTopicsSelect<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean
+      subscriberId?: boolean
+      topicId?: boolean
+      subscriber?: boolean | SubscribersArgs<ExtArgs>
+      topic?: boolean | TopicsArgs<ExtArgs>
+    },
+    ExtArgs['result']['subscriberTopics']
+  >
+
+  export type SubscriberTopicsSelectScalar = {
+    id?: boolean
+    subscriberId?: boolean
+    topicId?: boolean
+  }
+
+  export type SubscriberTopicsInclude<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    subscriber?: boolean | SubscribersArgs<ExtArgs>
+    topic?: boolean | TopicsArgs<ExtArgs>
+  }
+
+  type SubscriberTopicsGetPayload<
+    S extends boolean | null | undefined | SubscriberTopicsArgs
+  > = $Types.GetResult<SubscriberTopicsPayload, S>
+
+  type SubscriberTopicsCountArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = Omit<SubscriberTopicsFindManyArgs, 'select' | 'include'> & {
+    select?: SubscriberTopicsCountAggregateInputType | true
+  }
+
+  export interface SubscriberTopicsDelegate<
+    GlobalRejectSettings extends
+      | Prisma.RejectOnNotFound
+      | Prisma.RejectPerOperation
+      | false
+      | undefined,
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > {
+    [K: symbol]: {
+      types: Prisma.TypeMap<ExtArgs>['model']['SubscriberTopics']
+      meta: { name: 'SubscriberTopics' }
+    }
+    /**
+     * Find zero or one SubscriberTopics that matches the filter.
+     * @param {SubscriberTopicsFindUniqueArgs} args - Arguments to find a SubscriberTopics
+     * @example
+     * // Get one SubscriberTopics
+     * const subscriberTopics = await prisma.subscriberTopics.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUnique<
+      T extends SubscriberTopicsFindUniqueArgs<ExtArgs>,
+      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
+        ? T['rejectOnNotFound']
+        : undefined
+    >(
+      args: SelectSubset<T, SubscriberTopicsFindUniqueArgs<ExtArgs>>
+    ): HasReject<
+      GlobalRejectSettings,
+      LocalRejectSettings,
+      'findUnique',
+      'SubscriberTopics'
+    > extends True
+      ? Prisma__SubscriberTopicsClient<
+          $Types.GetResult<
+            SubscriberTopicsPayload<ExtArgs>,
+            T,
+            'findUnique',
+            never
+          >,
+          never,
+          ExtArgs
+        >
+      : Prisma__SubscriberTopicsClient<
+          $Types.GetResult<
+            SubscriberTopicsPayload<ExtArgs>,
+            T,
+            'findUnique',
+            never
+          > | null,
+          null,
+          ExtArgs
+        >
+
+    /**
+     * Find one SubscriberTopics that matches the filter or throw an error  with `error.code='P2025'`
+     *     if no matches were found.
+     * @param {SubscriberTopicsFindUniqueOrThrowArgs} args - Arguments to find a SubscriberTopics
+     * @example
+     * // Get one SubscriberTopics
+     * const subscriberTopics = await prisma.subscriberTopics.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUniqueOrThrow<T extends SubscriberTopicsFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscriberTopicsFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__SubscriberTopicsClient<
+      $Types.GetResult<
+        SubscriberTopicsPayload<ExtArgs>,
+        T,
+        'findUniqueOrThrow',
+        never
+      >,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Find the first SubscriberTopics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriberTopicsFindFirstArgs} args - Arguments to find a SubscriberTopics
+     * @example
+     * // Get one SubscriberTopics
+     * const subscriberTopics = await prisma.subscriberTopics.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirst<
+      T extends SubscriberTopicsFindFirstArgs<ExtArgs>,
+      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
+        ? T['rejectOnNotFound']
+        : undefined
+    >(
+      args?: SelectSubset<T, SubscriberTopicsFindFirstArgs<ExtArgs>>
+    ): HasReject<
+      GlobalRejectSettings,
+      LocalRejectSettings,
+      'findFirst',
+      'SubscriberTopics'
+    > extends True
+      ? Prisma__SubscriberTopicsClient<
+          $Types.GetResult<
+            SubscriberTopicsPayload<ExtArgs>,
+            T,
+            'findFirst',
+            never
+          >,
+          never,
+          ExtArgs
+        >
+      : Prisma__SubscriberTopicsClient<
+          $Types.GetResult<
+            SubscriberTopicsPayload<ExtArgs>,
+            T,
+            'findFirst',
+            never
+          > | null,
+          null,
+          ExtArgs
+        >
+
+    /**
+     * Find the first SubscriberTopics that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriberTopicsFindFirstOrThrowArgs} args - Arguments to find a SubscriberTopics
+     * @example
+     * // Get one SubscriberTopics
+     * const subscriberTopics = await prisma.subscriberTopics.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirstOrThrow<T extends SubscriberTopicsFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscriberTopicsFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__SubscriberTopicsClient<
+      $Types.GetResult<
+        SubscriberTopicsPayload<ExtArgs>,
+        T,
+        'findFirstOrThrow',
+        never
+      >,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Find zero or more SubscriberTopics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriberTopicsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubscriberTopics
+     * const subscriberTopics = await prisma.subscriberTopics.findMany()
+     *
+     * // Get first 10 SubscriberTopics
+     * const subscriberTopics = await prisma.subscriberTopics.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const subscriberTopicsWithIdOnly = await prisma.subscriberTopics.findMany({ select: { id: true } })
+     *
+     **/
+    findMany<T extends SubscriberTopicsFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscriberTopicsFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Types.GetResult<SubscriberTopicsPayload<ExtArgs>, T, 'findMany', never>
+    >
+
+    /**
+     * Create a SubscriberTopics.
+     * @param {SubscriberTopicsCreateArgs} args - Arguments to create a SubscriberTopics.
+     * @example
+     * // Create one SubscriberTopics
+     * const SubscriberTopics = await prisma.subscriberTopics.create({
+     *   data: {
+     *     // ... data to create a SubscriberTopics
+     *   }
+     * })
+     *
+     **/
+    create<T extends SubscriberTopicsCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscriberTopicsCreateArgs<ExtArgs>>
+    ): Prisma__SubscriberTopicsClient<
+      $Types.GetResult<SubscriberTopicsPayload<ExtArgs>, T, 'create', never>,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Create many SubscriberTopics.
+     *     @param {SubscriberTopicsCreateManyArgs} args - Arguments to create many SubscriberTopics.
+     *     @example
+     *     // Create many SubscriberTopics
+     *     const subscriberTopics = await prisma.subscriberTopics.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *
+     **/
+    createMany<T extends SubscriberTopicsCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscriberTopicsCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a SubscriberTopics.
+     * @param {SubscriberTopicsDeleteArgs} args - Arguments to delete one SubscriberTopics.
+     * @example
+     * // Delete one SubscriberTopics
+     * const SubscriberTopics = await prisma.subscriberTopics.delete({
+     *   where: {
+     *     // ... filter to delete one SubscriberTopics
+     *   }
+     * })
+     *
+     **/
+    delete<T extends SubscriberTopicsDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscriberTopicsDeleteArgs<ExtArgs>>
+    ): Prisma__SubscriberTopicsClient<
+      $Types.GetResult<SubscriberTopicsPayload<ExtArgs>, T, 'delete', never>,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Update one SubscriberTopics.
+     * @param {SubscriberTopicsUpdateArgs} args - Arguments to update one SubscriberTopics.
+     * @example
+     * // Update one SubscriberTopics
+     * const subscriberTopics = await prisma.subscriberTopics.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    update<T extends SubscriberTopicsUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscriberTopicsUpdateArgs<ExtArgs>>
+    ): Prisma__SubscriberTopicsClient<
+      $Types.GetResult<SubscriberTopicsPayload<ExtArgs>, T, 'update', never>,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Delete zero or more SubscriberTopics.
+     * @param {SubscriberTopicsDeleteManyArgs} args - Arguments to filter SubscriberTopics to delete.
+     * @example
+     * // Delete a few SubscriberTopics
+     * const { count } = await prisma.subscriberTopics.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     **/
+    deleteMany<T extends SubscriberTopicsDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscriberTopicsDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubscriberTopics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriberTopicsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubscriberTopics
+     * const subscriberTopics = await prisma.subscriberTopics.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    updateMany<T extends SubscriberTopicsUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscriberTopicsUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SubscriberTopics.
+     * @param {SubscriberTopicsUpsertArgs} args - Arguments to update or create a SubscriberTopics.
+     * @example
+     * // Update or create a SubscriberTopics
+     * const subscriberTopics = await prisma.subscriberTopics.upsert({
+     *   create: {
+     *     // ... data to create a SubscriberTopics
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubscriberTopics we want to update
+     *   }
+     * })
+     **/
+    upsert<T extends SubscriberTopicsUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscriberTopicsUpsertArgs<ExtArgs>>
+    ): Prisma__SubscriberTopicsClient<
+      $Types.GetResult<SubscriberTopicsPayload<ExtArgs>, T, 'upsert', never>,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Count the number of SubscriberTopics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriberTopicsCountArgs} args - Arguments to filter SubscriberTopics to count.
+     * @example
+     * // Count the number of SubscriberTopics
+     * const count = await prisma.subscriberTopics.count({
+     *   where: {
+     *     // ... the filter for the SubscriberTopics we want to count
+     *   }
+     * })
+     **/
+    count<T extends SubscriberTopicsCountArgs>(
+      args?: Subset<T, SubscriberTopicsCountArgs>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubscriberTopicsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubscriberTopics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriberTopicsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends SubscriberTopicsAggregateArgs>(
+      args: Subset<T, SubscriberTopicsAggregateArgs>
+    ): Prisma.PrismaPromise<GetSubscriberTopicsAggregateType<T>>
+
+    /**
+     * Group by SubscriberTopics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscriberTopicsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends SubscriberTopicsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubscriberTopicsGroupByArgs['orderBy'] }
+        : { orderBy?: SubscriberTopicsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<
+        Keys<MaybeTupleToUnion<T['orderBy']>>
+      >,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+        ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+              ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+              : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`
+                ]
+          }[HavingFields]
+        : 'take' extends Keys<T>
+        ? 'orderBy' extends Keys<T>
+          ? ByValid extends True
+            ? {}
+            : {
+                [P in OrderFields]: P extends ByFields
+                  ? never
+                  : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+              }[OrderFields]
+          : 'Error: If you provide "take", you also need to provide "orderBy"'
+        : 'skip' extends Keys<T>
+        ? 'orderBy' extends Keys<T>
+          ? ByValid extends True
+            ? {}
+            : {
+                [P in OrderFields]: P extends ByFields
+                  ? never
+                  : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+              }[OrderFields]
+          : 'Error: If you provide "skip", you also need to provide "orderBy"'
+        : ByValid extends True
+        ? {}
+        : {
+            [P in OrderFields]: P extends ByFields
+              ? never
+              : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+          }[OrderFields]
+    >(
+      args: SubsetIntersection<T, SubscriberTopicsGroupByArgs, OrderByArg> &
+        InputErrors
+    ): {} extends InputErrors
+      ? GetSubscriberTopicsGroupByPayload<T>
+      : Prisma.PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubscriberTopics.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__SubscriberTopicsClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > implements Prisma.PrismaPromise<T>
+  {
+    private readonly _dmmf
+    private readonly _queryType
+    private readonly _rootField
+    private readonly _clientMethod
+    private readonly _args
+    private readonly _dataPath
+    private readonly _errorFormat
+    private readonly _measurePerformance?
+    private _isList
+    private _callsite
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise'
+    constructor(
+      _dmmf: runtime.DMMFClass,
+      _queryType: 'query' | 'mutation',
+      _rootField: string,
+      _clientMethod: string,
+      _args: any,
+      _dataPath: string[],
+      _errorFormat: ErrorFormat,
+      _measurePerformance?: boolean | undefined,
+      _isList?: boolean
+    )
+
+    subscriber<T extends SubscribersArgs<ExtArgs> = {}>(
+      args?: Subset<T, SubscribersArgs<ExtArgs>>
+    ): Prisma__SubscribersClient<
+      | $Types.GetResult<SubscribersPayload<ExtArgs>, T, 'findUnique', never>
+      | Null,
+      never,
+      ExtArgs
+    >
+
+    topic<T extends TopicsArgs<ExtArgs> = {}>(
+      args?: Subset<T, TopicsArgs<ExtArgs>>
+    ): Prisma__TopicsClient<
+      $Types.GetResult<TopicsPayload<ExtArgs>, T, 'findUnique', never> | Null,
+      never,
+      ExtArgs
+    >
+
+    private get _document()
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?:
+        | ((value: T) => TResult1 | PromiseLike<TResult1>)
+        | undefined
+        | null,
+      onrejected?:
+        | ((reason: any) => TResult2 | PromiseLike<TResult2>)
+        | undefined
+        | null
+    ): Promise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(
+      onrejected?:
+        | ((reason: any) => TResult | PromiseLike<TResult>)
+        | undefined
+        | null
+    ): Promise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>
+  }
+
+  // Custom InputTypes
+
+  /**
+   * SubscriberTopics base type for findUnique actions
+   */
+  export type SubscriberTopicsFindUniqueArgsBase<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscriberTopics to fetch.
+     */
+    where: SubscriberTopicsWhereUniqueInput
+  }
+
+  /**
+   * SubscriberTopics findUnique
+   */
+  export interface SubscriberTopicsFindUniqueArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > extends SubscriberTopicsFindUniqueArgsBase<ExtArgs> {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+  /**
+   * SubscriberTopics findUniqueOrThrow
+   */
+  export type SubscriberTopicsFindUniqueOrThrowArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscriberTopics to fetch.
+     */
+    where: SubscriberTopicsWhereUniqueInput
+  }
+
+  /**
+   * SubscriberTopics base type for findFirst actions
+   */
+  export type SubscriberTopicsFindFirstArgsBase<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscriberTopics to fetch.
+     */
+    where?: SubscriberTopicsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of SubscriberTopics to fetch.
+     */
+    orderBy?: Enumerable<SubscriberTopicsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for SubscriberTopics.
+     */
+    cursor?: SubscriberTopicsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` SubscriberTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` SubscriberTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of SubscriberTopics.
+     */
+    distinct?: Enumerable<SubscriberTopicsScalarFieldEnum>
+  }
+
+  /**
+   * SubscriberTopics findFirst
+   */
+  export interface SubscriberTopicsFindFirstArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > extends SubscriberTopicsFindFirstArgsBase<ExtArgs> {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+  /**
+   * SubscriberTopics findFirstOrThrow
+   */
+  export type SubscriberTopicsFindFirstOrThrowArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscriberTopics to fetch.
+     */
+    where?: SubscriberTopicsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of SubscriberTopics to fetch.
+     */
+    orderBy?: Enumerable<SubscriberTopicsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for SubscriberTopics.
+     */
+    cursor?: SubscriberTopicsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` SubscriberTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` SubscriberTopics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of SubscriberTopics.
+     */
+    distinct?: Enumerable<SubscriberTopicsScalarFieldEnum>
+  }
+
+  /**
+   * SubscriberTopics findMany
+   */
+  export type SubscriberTopicsFindManyArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscriberTopics to fetch.
+     */
+    where?: SubscriberTopicsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of SubscriberTopics to fetch.
+     */
+    orderBy?: Enumerable<SubscriberTopicsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing SubscriberTopics.
+     */
+    cursor?: SubscriberTopicsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` SubscriberTopics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` SubscriberTopics.
+     */
+    skip?: number
+    distinct?: Enumerable<SubscriberTopicsScalarFieldEnum>
+  }
+
+  /**
+   * SubscriberTopics create
+   */
+  export type SubscriberTopicsCreateArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SubscriberTopics.
+     */
+    data: XOR<SubscriberTopicsCreateInput, SubscriberTopicsUncheckedCreateInput>
+  }
+
+  /**
+   * SubscriberTopics createMany
+   */
+  export type SubscriberTopicsCreateManyArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * The data used to create many SubscriberTopics.
+     */
+    data: Enumerable<SubscriberTopicsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * SubscriberTopics update
+   */
+  export type SubscriberTopicsUpdateArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SubscriberTopics.
+     */
+    data: XOR<SubscriberTopicsUpdateInput, SubscriberTopicsUncheckedUpdateInput>
+    /**
+     * Choose, which SubscriberTopics to update.
+     */
+    where: SubscriberTopicsWhereUniqueInput
+  }
+
+  /**
+   * SubscriberTopics updateMany
+   */
+  export type SubscriberTopicsUpdateManyArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * The data used to update SubscriberTopics.
+     */
+    data: XOR<
+      SubscriberTopicsUpdateManyMutationInput,
+      SubscriberTopicsUncheckedUpdateManyInput
+    >
+    /**
+     * Filter which SubscriberTopics to update
+     */
+    where?: SubscriberTopicsWhereInput
+  }
+
+  /**
+   * SubscriberTopics upsert
+   */
+  export type SubscriberTopicsUpsertArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SubscriberTopics to update in case it exists.
+     */
+    where: SubscriberTopicsWhereUniqueInput
+    /**
+     * In case the SubscriberTopics found by the `where` argument doesn't exist, create a new SubscriberTopics with this data.
+     */
+    create: XOR<
+      SubscriberTopicsCreateInput,
+      SubscriberTopicsUncheckedCreateInput
+    >
+    /**
+     * In case the SubscriberTopics was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<
+      SubscriberTopicsUpdateInput,
+      SubscriberTopicsUncheckedUpdateInput
+    >
+  }
+
+  /**
+   * SubscriberTopics delete
+   */
+  export type SubscriberTopicsDeleteArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+    /**
+     * Filter which SubscriberTopics to delete.
+     */
+    where: SubscriberTopicsWhereUniqueInput
+  }
+
+  /**
+   * SubscriberTopics deleteMany
+   */
+  export type SubscriberTopicsDeleteManyArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Filter which SubscriberTopics to delete
+     */
+    where?: SubscriberTopicsWhereInput
+  }
+
+  /**
+   * SubscriberTopics without action
+   */
+  export type SubscriberTopicsArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+  }
+
+  /**
+   * Model Topics
+   */
+
+  export type AggregateTopics = {
+    _count: TopicsCountAggregateOutputType | null
+    _avg: TopicsAvgAggregateOutputType | null
+    _sum: TopicsSumAggregateOutputType | null
+    _min: TopicsMinAggregateOutputType | null
+    _max: TopicsMaxAggregateOutputType | null
+  }
+
+  export type TopicsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TopicsSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type TopicsMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+  }
+
+  export type TopicsMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+  }
+
+  export type TopicsCountAggregateOutputType = {
+    id: number
+    name: number
+    _all: number
+  }
+
+  export type TopicsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type TopicsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type TopicsMinAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type TopicsMaxAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type TopicsCountAggregateInputType = {
+    id?: true
+    name?: true
+    _all?: true
+  }
+
+  export type TopicsAggregateArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Filter which Topics to aggregate.
+     */
+    where?: TopicsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Topics to fetch.
+     */
+    orderBy?: Enumerable<TopicsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the start position
+     */
+    cursor?: TopicsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Topics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Topics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Count returned Topics
+     **/
+    _count?: true | TopicsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to average
+     **/
+    _avg?: TopicsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to sum
+     **/
+    _sum?: TopicsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the minimum value
+     **/
+    _min?: TopicsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     *
+     * Select which fields to find the maximum value
+     **/
+    _max?: TopicsMaxAggregateInputType
+  }
+
+  export type GetTopicsAggregateType<T extends TopicsAggregateArgs> = {
+    [P in keyof T & keyof AggregateTopics]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateTopics[P]>
+      : GetScalarType<T[P], AggregateTopics[P]>
+  }
+
+  export type TopicsGroupByArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    where?: TopicsWhereInput
+    orderBy?: Enumerable<TopicsOrderByWithAggregationInput>
+    by: TopicsScalarFieldEnum[]
+    having?: TopicsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: TopicsCountAggregateInputType | true
+    _avg?: TopicsAvgAggregateInputType
+    _sum?: TopicsSumAggregateInputType
+    _min?: TopicsMinAggregateInputType
+    _max?: TopicsMaxAggregateInputType
+  }
+
+  export type TopicsGroupByOutputType = {
+    id: number
+    name: string
+    _count: TopicsCountAggregateOutputType | null
+    _avg: TopicsAvgAggregateOutputType | null
+    _sum: TopicsSumAggregateOutputType | null
+    _min: TopicsMinAggregateOutputType | null
+    _max: TopicsMaxAggregateOutputType | null
+  }
+
+  type GetTopicsGroupByPayload<T extends TopicsGroupByArgs> =
+    Prisma.PrismaPromise<
+      Array<
+        PickArray<TopicsGroupByOutputType, T['by']> & {
+          [P in keyof T & keyof TopicsGroupByOutputType]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], TopicsGroupByOutputType[P]>
+            : GetScalarType<T[P], TopicsGroupByOutputType[P]>
+        }
+      >
+    >
+
+  export type TopicsSelect<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = $Extensions.GetSelect<
+    {
+      id?: boolean
+      name?: boolean
+      subscribers?: boolean | Topics$subscribersArgs<ExtArgs>
+      _count?: boolean | TopicsCountOutputTypeArgs<ExtArgs>
+    },
+    ExtArgs['result']['topics']
+  >
+
+  export type TopicsSelectScalar = {
+    id?: boolean
+    name?: boolean
+  }
+
+  export type TopicsInclude<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    subscribers?: boolean | Topics$subscribersArgs<ExtArgs>
+    _count?: boolean | TopicsCountOutputTypeArgs<ExtArgs>
+  }
+
+  type TopicsGetPayload<S extends boolean | null | undefined | TopicsArgs> =
+    $Types.GetResult<TopicsPayload, S>
+
+  type TopicsCountArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = Omit<TopicsFindManyArgs, 'select' | 'include'> & {
+    select?: TopicsCountAggregateInputType | true
+  }
+
+  export interface TopicsDelegate<
+    GlobalRejectSettings extends
+      | Prisma.RejectOnNotFound
+      | Prisma.RejectPerOperation
+      | false
+      | undefined,
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > {
+    [K: symbol]: {
+      types: Prisma.TypeMap<ExtArgs>['model']['Topics']
+      meta: { name: 'Topics' }
+    }
+    /**
+     * Find zero or one Topics that matches the filter.
+     * @param {TopicsFindUniqueArgs} args - Arguments to find a Topics
+     * @example
+     * // Get one Topics
+     * const topics = await prisma.topics.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUnique<
+      T extends TopicsFindUniqueArgs<ExtArgs>,
+      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
+        ? T['rejectOnNotFound']
+        : undefined
+    >(
+      args: SelectSubset<T, TopicsFindUniqueArgs<ExtArgs>>
+    ): HasReject<
+      GlobalRejectSettings,
+      LocalRejectSettings,
+      'findUnique',
+      'Topics'
+    > extends True
+      ? Prisma__TopicsClient<
+          $Types.GetResult<TopicsPayload<ExtArgs>, T, 'findUnique', never>,
+          never,
+          ExtArgs
+        >
+      : Prisma__TopicsClient<
+          $Types.GetResult<
+            TopicsPayload<ExtArgs>,
+            T,
+            'findUnique',
+            never
+          > | null,
+          null,
+          ExtArgs
+        >
+
+    /**
+     * Find one Topics that matches the filter or throw an error  with `error.code='P2025'`
+     *     if no matches were found.
+     * @param {TopicsFindUniqueOrThrowArgs} args - Arguments to find a Topics
+     * @example
+     * // Get one Topics
+     * const topics = await prisma.topics.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findUniqueOrThrow<T extends TopicsFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, TopicsFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__TopicsClient<
+      $Types.GetResult<TopicsPayload<ExtArgs>, T, 'findUniqueOrThrow', never>,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Find the first Topics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicsFindFirstArgs} args - Arguments to find a Topics
+     * @example
+     * // Get one Topics
+     * const topics = await prisma.topics.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirst<
+      T extends TopicsFindFirstArgs<ExtArgs>,
+      LocalRejectSettings = T['rejectOnNotFound'] extends RejectOnNotFound
+        ? T['rejectOnNotFound']
+        : undefined
+    >(
+      args?: SelectSubset<T, TopicsFindFirstArgs<ExtArgs>>
+    ): HasReject<
+      GlobalRejectSettings,
+      LocalRejectSettings,
+      'findFirst',
+      'Topics'
+    > extends True
+      ? Prisma__TopicsClient<
+          $Types.GetResult<TopicsPayload<ExtArgs>, T, 'findFirst', never>,
+          never,
+          ExtArgs
+        >
+      : Prisma__TopicsClient<
+          $Types.GetResult<
+            TopicsPayload<ExtArgs>,
+            T,
+            'findFirst',
+            never
+          > | null,
+          null,
+          ExtArgs
+        >
+
+    /**
+     * Find the first Topics that matches the filter or
+     * throw `NotFoundError` if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicsFindFirstOrThrowArgs} args - Arguments to find a Topics
+     * @example
+     * // Get one Topics
+     * const topics = await prisma.topics.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     **/
+    findFirstOrThrow<T extends TopicsFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, TopicsFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__TopicsClient<
+      $Types.GetResult<TopicsPayload<ExtArgs>, T, 'findFirstOrThrow', never>,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Find zero or more Topics that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Topics
+     * const topics = await prisma.topics.findMany()
+     *
+     * // Get first 10 Topics
+     * const topics = await prisma.topics.findMany({ take: 10 })
+     *
+     * // Only select the `id`
+     * const topicsWithIdOnly = await prisma.topics.findMany({ select: { id: true } })
+     *
+     **/
+    findMany<T extends TopicsFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, TopicsFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      $Types.GetResult<TopicsPayload<ExtArgs>, T, 'findMany', never>
+    >
+
+    /**
+     * Create a Topics.
+     * @param {TopicsCreateArgs} args - Arguments to create a Topics.
+     * @example
+     * // Create one Topics
+     * const Topics = await prisma.topics.create({
+     *   data: {
+     *     // ... data to create a Topics
+     *   }
+     * })
+     *
+     **/
+    create<T extends TopicsCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, TopicsCreateArgs<ExtArgs>>
+    ): Prisma__TopicsClient<
+      $Types.GetResult<TopicsPayload<ExtArgs>, T, 'create', never>,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Create many Topics.
+     *     @param {TopicsCreateManyArgs} args - Arguments to create many Topics.
+     *     @example
+     *     // Create many Topics
+     *     const topics = await prisma.topics.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *
+     **/
+    createMany<T extends TopicsCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, TopicsCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Topics.
+     * @param {TopicsDeleteArgs} args - Arguments to delete one Topics.
+     * @example
+     * // Delete one Topics
+     * const Topics = await prisma.topics.delete({
+     *   where: {
+     *     // ... filter to delete one Topics
+     *   }
+     * })
+     *
+     **/
+    delete<T extends TopicsDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, TopicsDeleteArgs<ExtArgs>>
+    ): Prisma__TopicsClient<
+      $Types.GetResult<TopicsPayload<ExtArgs>, T, 'delete', never>,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Update one Topics.
+     * @param {TopicsUpdateArgs} args - Arguments to update one Topics.
+     * @example
+     * // Update one Topics
+     * const topics = await prisma.topics.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    update<T extends TopicsUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, TopicsUpdateArgs<ExtArgs>>
+    ): Prisma__TopicsClient<
+      $Types.GetResult<TopicsPayload<ExtArgs>, T, 'update', never>,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Delete zero or more Topics.
+     * @param {TopicsDeleteManyArgs} args - Arguments to filter Topics to delete.
+     * @example
+     * // Delete a few Topics
+     * const { count } = await prisma.topics.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     *
+     **/
+    deleteMany<T extends TopicsDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, TopicsDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Topics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Topics
+     * const topics = await prisma.topics.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     *
+     **/
+    updateMany<T extends TopicsUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, TopicsUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Topics.
+     * @param {TopicsUpsertArgs} args - Arguments to update or create a Topics.
+     * @example
+     * // Update or create a Topics
+     * const topics = await prisma.topics.upsert({
+     *   create: {
+     *     // ... data to create a Topics
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Topics we want to update
+     *   }
+     * })
+     **/
+    upsert<T extends TopicsUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, TopicsUpsertArgs<ExtArgs>>
+    ): Prisma__TopicsClient<
+      $Types.GetResult<TopicsPayload<ExtArgs>, T, 'upsert', never>,
+      never,
+      ExtArgs
+    >
+
+    /**
+     * Count the number of Topics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicsCountArgs} args - Arguments to filter Topics to count.
+     * @example
+     * // Count the number of Topics
+     * const count = await prisma.topics.count({
+     *   where: {
+     *     // ... the filter for the Topics we want to count
+     *   }
+     * })
+     **/
+    count<T extends TopicsCountArgs>(
+      args?: Subset<T, TopicsCountArgs>
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], TopicsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Topics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+     **/
+    aggregate<T extends TopicsAggregateArgs>(
+      args: Subset<T, TopicsAggregateArgs>
+    ): Prisma.PrismaPromise<GetTopicsAggregateType<T>>
+
+    /**
+     * Group by Topics.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {TopicsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     *
+     **/
+    groupBy<
+      T extends TopicsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: TopicsGroupByArgs['orderBy'] }
+        : { orderBy?: TopicsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<
+        Keys<MaybeTupleToUnion<T['orderBy']>>
+      >,
+      ByFields extends TupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+        ? `Error: "by" must not be empty.`
+        : HavingValid extends False
+        ? {
+            [P in HavingFields]: P extends ByFields
+              ? never
+              : P extends string
+              ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+              : [
+                  Error,
+                  'Field ',
+                  P,
+                  ` in "having" needs to be provided in "by"`
+                ]
+          }[HavingFields]
+        : 'take' extends Keys<T>
+        ? 'orderBy' extends Keys<T>
+          ? ByValid extends True
+            ? {}
+            : {
+                [P in OrderFields]: P extends ByFields
+                  ? never
+                  : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+              }[OrderFields]
+          : 'Error: If you provide "take", you also need to provide "orderBy"'
+        : 'skip' extends Keys<T>
+        ? 'orderBy' extends Keys<T>
+          ? ByValid extends True
+            ? {}
+            : {
+                [P in OrderFields]: P extends ByFields
+                  ? never
+                  : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+              }[OrderFields]
+          : 'Error: If you provide "skip", you also need to provide "orderBy"'
+        : ByValid extends True
+        ? {}
+        : {
+            [P in OrderFields]: P extends ByFields
+              ? never
+              : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+          }[OrderFields]
+    >(
+      args: SubsetIntersection<T, TopicsGroupByArgs, OrderByArg> & InputErrors
+    ): {} extends InputErrors
+      ? GetTopicsGroupByPayload<T>
+      : Prisma.PrismaPromise<InputErrors>
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Topics.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__TopicsClient<
+    T,
+    Null = never,
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > implements Prisma.PrismaPromise<T>
+  {
+    private readonly _dmmf
+    private readonly _queryType
+    private readonly _rootField
+    private readonly _clientMethod
+    private readonly _args
+    private readonly _dataPath
+    private readonly _errorFormat
+    private readonly _measurePerformance?
+    private _isList
+    private _callsite
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise'
+    constructor(
+      _dmmf: runtime.DMMFClass,
+      _queryType: 'query' | 'mutation',
+      _rootField: string,
+      _clientMethod: string,
+      _args: any,
+      _dataPath: string[],
+      _errorFormat: ErrorFormat,
+      _measurePerformance?: boolean | undefined,
+      _isList?: boolean
+    )
+
+    subscribers<T extends Topics$subscribersArgs<ExtArgs> = {}>(
+      args?: Subset<T, Topics$subscribersArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<
+      | $Types.GetResult<SubscriberTopicsPayload<ExtArgs>, T, 'findMany', never>
+      | Null
+    >
+
+    private get _document()
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(
+      onfulfilled?:
+        | ((value: T) => TResult1 | PromiseLike<TResult1>)
+        | undefined
+        | null,
+      onrejected?:
+        | ((reason: any) => TResult2 | PromiseLike<TResult2>)
+        | undefined
+        | null
+    ): Promise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(
+      onrejected?:
+        | ((reason: any) => TResult | PromiseLike<TResult>)
+        | undefined
+        | null
+    ): Promise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>
+  }
+
+  // Custom InputTypes
+
+  /**
+   * Topics base type for findUnique actions
+   */
+  export type TopicsFindUniqueArgsBase<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the Topics
+     */
+    select?: TopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TopicsInclude<ExtArgs> | null
+    /**
+     * Filter, which Topics to fetch.
+     */
+    where: TopicsWhereUniqueInput
+  }
+
+  /**
+   * Topics findUnique
+   */
+  export interface TopicsFindUniqueArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > extends TopicsFindUniqueArgsBase<ExtArgs> {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findUniqueOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+  /**
+   * Topics findUniqueOrThrow
+   */
+  export type TopicsFindUniqueOrThrowArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the Topics
+     */
+    select?: TopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TopicsInclude<ExtArgs> | null
+    /**
+     * Filter, which Topics to fetch.
+     */
+    where: TopicsWhereUniqueInput
+  }
+
+  /**
+   * Topics base type for findFirst actions
+   */
+  export type TopicsFindFirstArgsBase<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the Topics
+     */
+    select?: TopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TopicsInclude<ExtArgs> | null
+    /**
+     * Filter, which Topics to fetch.
+     */
+    where?: TopicsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Topics to fetch.
+     */
+    orderBy?: Enumerable<TopicsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for Topics.
+     */
+    cursor?: TopicsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Topics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Topics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of Topics.
+     */
+    distinct?: Enumerable<TopicsScalarFieldEnum>
+  }
+
+  /**
+   * Topics findFirst
+   */
+  export interface TopicsFindFirstArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > extends TopicsFindFirstArgsBase<ExtArgs> {
+    /**
+     * Throw an Error if query returns no results
+     * @deprecated since 4.0.0: use `findFirstOrThrow` method instead
+     */
+    rejectOnNotFound?: RejectOnNotFound
+  }
+
+  /**
+   * Topics findFirstOrThrow
+   */
+  export type TopicsFindFirstOrThrowArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the Topics
+     */
+    select?: TopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TopicsInclude<ExtArgs> | null
+    /**
+     * Filter, which Topics to fetch.
+     */
+    where?: TopicsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Topics to fetch.
+     */
+    orderBy?: Enumerable<TopicsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for searching for Topics.
+     */
+    cursor?: TopicsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Topics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Topics.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     *
+     * Filter by unique combinations of Topics.
+     */
+    distinct?: Enumerable<TopicsScalarFieldEnum>
+  }
+
+  /**
+   * Topics findMany
+   */
+  export type TopicsFindManyArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the Topics
+     */
+    select?: TopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TopicsInclude<ExtArgs> | null
+    /**
+     * Filter, which Topics to fetch.
+     */
+    where?: TopicsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     *
+     * Determine the order of Topics to fetch.
+     */
+    orderBy?: Enumerable<TopicsOrderByWithRelationInput>
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     *
+     * Sets the position for listing Topics.
+     */
+    cursor?: TopicsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Take `±n` Topics from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     *
+     * Skip the first `n` Topics.
+     */
+    skip?: number
+    distinct?: Enumerable<TopicsScalarFieldEnum>
+  }
+
+  /**
+   * Topics create
+   */
+  export type TopicsCreateArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the Topics
+     */
+    select?: TopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TopicsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Topics.
+     */
+    data: XOR<TopicsCreateInput, TopicsUncheckedCreateInput>
+  }
+
+  /**
+   * Topics createMany
+   */
+  export type TopicsCreateManyArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * The data used to create many Topics.
+     */
+    data: Enumerable<TopicsCreateManyInput>
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Topics update
+   */
+  export type TopicsUpdateArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the Topics
+     */
+    select?: TopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TopicsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Topics.
+     */
+    data: XOR<TopicsUpdateInput, TopicsUncheckedUpdateInput>
+    /**
+     * Choose, which Topics to update.
+     */
+    where: TopicsWhereUniqueInput
+  }
+
+  /**
+   * Topics updateMany
+   */
+  export type TopicsUpdateManyArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * The data used to update Topics.
+     */
+    data: XOR<TopicsUpdateManyMutationInput, TopicsUncheckedUpdateManyInput>
+    /**
+     * Filter which Topics to update
+     */
+    where?: TopicsWhereInput
+  }
+
+  /**
+   * Topics upsert
+   */
+  export type TopicsUpsertArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the Topics
+     */
+    select?: TopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TopicsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Topics to update in case it exists.
+     */
+    where: TopicsWhereUniqueInput
+    /**
+     * In case the Topics found by the `where` argument doesn't exist, create a new Topics with this data.
+     */
+    create: XOR<TopicsCreateInput, TopicsUncheckedCreateInput>
+    /**
+     * In case the Topics was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<TopicsUpdateInput, TopicsUncheckedUpdateInput>
+  }
+
+  /**
+   * Topics delete
+   */
+  export type TopicsDeleteArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the Topics
+     */
+    select?: TopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TopicsInclude<ExtArgs> | null
+    /**
+     * Filter which Topics to delete.
+     */
+    where: TopicsWhereUniqueInput
+  }
+
+  /**
+   * Topics deleteMany
+   */
+  export type TopicsDeleteManyArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Filter which Topics to delete
+     */
+    where?: TopicsWhereInput
+  }
+
+  /**
+   * Topics.subscribers
+   */
+  export type Topics$subscribersArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the SubscriberTopics
+     */
+    select?: SubscriberTopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscriberTopicsInclude<ExtArgs> | null
+    where?: SubscriberTopicsWhereInput
+    orderBy?: Enumerable<SubscriberTopicsOrderByWithRelationInput>
+    cursor?: SubscriberTopicsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: Enumerable<SubscriberTopicsScalarFieldEnum>
+  }
+
+  /**
+   * Topics without action
+   */
+  export type TopicsArgs<
+    ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs
+  > = {
+    /**
+     * Select specific fields to fetch from the Topics
+     */
+    select?: TopicsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: TopicsInclude<ExtArgs> | null
+  }
+
+  /**
    * Model Companies
    */
 
@@ -6064,6 +8591,23 @@ export namespace Prisma {
   export type SentRolesScalarFieldEnum =
     (typeof SentRolesScalarFieldEnum)[keyof typeof SentRolesScalarFieldEnum]
 
+  export const SubscriberTopicsScalarFieldEnum: {
+    id: 'id'
+    subscriberId: 'subscriberId'
+    topicId: 'topicId'
+  }
+
+  export type SubscriberTopicsScalarFieldEnum =
+    (typeof SubscriberTopicsScalarFieldEnum)[keyof typeof SubscriberTopicsScalarFieldEnum]
+
+  export const TopicsScalarFieldEnum: {
+    id: 'id'
+    name: 'name'
+  }
+
+  export type TopicsScalarFieldEnum =
+    (typeof TopicsScalarFieldEnum)[keyof typeof TopicsScalarFieldEnum]
+
   export const CompaniesScalarFieldEnum: {
     id: 'id'
     name: 'name'
@@ -6136,6 +8680,7 @@ export namespace Prisma {
     updatedAt?: DateTimeNullableFilter | Date | string | null
     optOut?: BoolFilter | boolean
     sentRoles?: SentRolesListRelationFilter
+    topics?: SubscriberTopicsListRelationFilter
   }
 
   export type SubscribersOrderByWithRelationInput = {
@@ -6152,6 +8697,7 @@ export namespace Prisma {
     updatedAt?: SortOrderInput | SortOrder
     optOut?: SortOrder
     sentRoles?: SentRolesOrderByRelationAggregateInput
+    topics?: SubscriberTopicsOrderByRelationAggregateInput
   }
 
   export type SubscribersWhereUniqueInput = {
@@ -6329,6 +8875,87 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
+  export type SubscriberTopicsWhereInput = {
+    AND?: Enumerable<SubscriberTopicsWhereInput>
+    OR?: Enumerable<SubscriberTopicsWhereInput>
+    NOT?: Enumerable<SubscriberTopicsWhereInput>
+    id?: IntFilter | number
+    subscriberId?: UuidFilter | string
+    topicId?: IntFilter | number
+    subscriber?: XOR<SubscribersRelationFilter, SubscribersWhereInput>
+    topic?: XOR<TopicsRelationFilter, TopicsWhereInput>
+  }
+
+  export type SubscriberTopicsOrderByWithRelationInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    topicId?: SortOrder
+    subscriber?: SubscribersOrderByWithRelationInput
+    topic?: TopicsOrderByWithRelationInput
+  }
+
+  export type SubscriberTopicsWhereUniqueInput = {
+    id?: number
+  }
+
+  export type SubscriberTopicsOrderByWithAggregationInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    topicId?: SortOrder
+    _count?: SubscriberTopicsCountOrderByAggregateInput
+    _avg?: SubscriberTopicsAvgOrderByAggregateInput
+    _max?: SubscriberTopicsMaxOrderByAggregateInput
+    _min?: SubscriberTopicsMinOrderByAggregateInput
+    _sum?: SubscriberTopicsSumOrderByAggregateInput
+  }
+
+  export type SubscriberTopicsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<SubscriberTopicsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<SubscriberTopicsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<SubscriberTopicsScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    subscriberId?: UuidWithAggregatesFilter | string
+    topicId?: IntWithAggregatesFilter | number
+  }
+
+  export type TopicsWhereInput = {
+    AND?: Enumerable<TopicsWhereInput>
+    OR?: Enumerable<TopicsWhereInput>
+    NOT?: Enumerable<TopicsWhereInput>
+    id?: IntFilter | number
+    name?: StringFilter | string
+    subscribers?: SubscriberTopicsListRelationFilter
+  }
+
+  export type TopicsOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    subscribers?: SubscriberTopicsOrderByRelationAggregateInput
+  }
+
+  export type TopicsWhereUniqueInput = {
+    id?: number
+    name?: string
+  }
+
+  export type TopicsOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    _count?: TopicsCountOrderByAggregateInput
+    _avg?: TopicsAvgOrderByAggregateInput
+    _max?: TopicsMaxOrderByAggregateInput
+    _min?: TopicsMinOrderByAggregateInput
+    _sum?: TopicsSumOrderByAggregateInput
+  }
+
+  export type TopicsScalarWhereWithAggregatesInput = {
+    AND?: Enumerable<TopicsScalarWhereWithAggregatesInput>
+    OR?: Enumerable<TopicsScalarWhereWithAggregatesInput>
+    NOT?: Enumerable<TopicsScalarWhereWithAggregatesInput>
+    id?: IntWithAggregatesFilter | number
+    name?: StringWithAggregatesFilter | string
+  }
+
   export type CompaniesWhereInput = {
     AND?: Enumerable<CompaniesWhereInput>
     OR?: Enumerable<CompaniesWhereInput>
@@ -6398,6 +9025,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     optOut?: boolean
     sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
+    topics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
   }
 
   export type SubscribersUncheckedCreateInput = {
@@ -6414,6 +9042,7 @@ export namespace Prisma {
     updatedAt?: Date | string | null
     optOut?: boolean
     sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
+    topics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
   }
 
   export type SubscribersUpdateInput = {
@@ -6441,6 +9070,7 @@ export namespace Prisma {
       | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
     sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
+    topics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
   }
 
   export type SubscribersUncheckedUpdateInput = {
@@ -6468,6 +9098,7 @@ export namespace Prisma {
       | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
     sentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
+    topics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
   }
 
   export type SubscribersCreateManyInput = {
@@ -6704,6 +9335,78 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SubscriberTopicsCreateInput = {
+    subscriber: SubscribersCreateNestedOneWithoutTopicsInput
+    topic: TopicsCreateNestedOneWithoutSubscribersInput
+  }
+
+  export type SubscriberTopicsUncheckedCreateInput = {
+    id?: number
+    subscriberId: string
+    topicId: number
+  }
+
+  export type SubscriberTopicsUpdateInput = {
+    subscriber?: SubscribersUpdateOneRequiredWithoutTopicsNestedInput
+    topic?: TopicsUpdateOneRequiredWithoutSubscribersNestedInput
+  }
+
+  export type SubscriberTopicsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    subscriberId?: StringFieldUpdateOperationsInput | string
+    topicId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SubscriberTopicsCreateManyInput = {
+    id?: number
+    subscriberId: string
+    topicId: number
+  }
+
+  export type SubscriberTopicsUpdateManyMutationInput = {}
+
+  export type SubscriberTopicsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    subscriberId?: StringFieldUpdateOperationsInput | string
+    topicId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type TopicsCreateInput = {
+    name: string
+    subscribers?: SubscriberTopicsCreateNestedManyWithoutTopicInput
+  }
+
+  export type TopicsUncheckedCreateInput = {
+    id?: number
+    name: string
+    subscribers?: SubscriberTopicsUncheckedCreateNestedManyWithoutTopicInput
+  }
+
+  export type TopicsUpdateInput = {
+    name?: StringFieldUpdateOperationsInput | string
+    subscribers?: SubscriberTopicsUpdateManyWithoutTopicNestedInput
+  }
+
+  export type TopicsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    subscribers?: SubscriberTopicsUncheckedUpdateManyWithoutTopicNestedInput
+  }
+
+  export type TopicsCreateManyInput = {
+    id?: number
+    name: string
+  }
+
+  export type TopicsUpdateManyMutationInput = {
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TopicsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
   export type CompaniesCreateInput = {
     id?: string
     name: string
@@ -6885,12 +9588,22 @@ export namespace Prisma {
     none?: SentRolesWhereInput
   }
 
+  export type SubscriberTopicsListRelationFilter = {
+    every?: SubscriberTopicsWhereInput
+    some?: SubscriberTopicsWhereInput
+    none?: SubscriberTopicsWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
   }
 
   export type SentRolesOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
+  export type SubscriberTopicsOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
 
@@ -7157,6 +9870,94 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type IntFilter = {
+    equals?: number
+    in?: Enumerable<number> | number
+    notIn?: Enumerable<number> | number
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntFilter | number
+  }
+
+  export type SubscribersRelationFilter = {
+    is?: SubscribersWhereInput | null
+    isNot?: SubscribersWhereInput | null
+  }
+
+  export type TopicsRelationFilter = {
+    is?: TopicsWhereInput | null
+    isNot?: TopicsWhereInput | null
+  }
+
+  export type SubscriberTopicsCountOrderByAggregateInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    topicId?: SortOrder
+  }
+
+  export type SubscriberTopicsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    topicId?: SortOrder
+  }
+
+  export type SubscriberTopicsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    topicId?: SortOrder
+  }
+
+  export type SubscriberTopicsMinOrderByAggregateInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    topicId?: SortOrder
+  }
+
+  export type SubscriberTopicsSumOrderByAggregateInput = {
+    id?: SortOrder
+    topicId?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number> | number
+    notIn?: Enumerable<number> | number
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedIntFilter
+    _min?: NestedIntFilter
+    _max?: NestedIntFilter
+  }
+
+  export type TopicsCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type TopicsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type TopicsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type TopicsMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type TopicsSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type RolesListRelationFilter = {
     every?: RolesWhereInput
     some?: RolesWhereInput
@@ -7206,6 +10007,16 @@ export namespace Prisma {
     connect?: Enumerable<SentRolesWhereUniqueInput>
   }
 
+  export type SubscriberTopicsCreateNestedManyWithoutSubscriberInput = {
+    create?: XOR<
+      Enumerable<SubscriberTopicsCreateWithoutSubscriberInput>,
+      Enumerable<SubscriberTopicsUncheckedCreateWithoutSubscriberInput>
+    >
+    connectOrCreate?: Enumerable<SubscriberTopicsCreateOrConnectWithoutSubscriberInput>
+    createMany?: SubscriberTopicsCreateManySubscriberInputEnvelope
+    connect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+  }
+
   export type SentRolesUncheckedCreateNestedManyWithoutSubscribersInput = {
     create?: XOR<
       Enumerable<SentRolesCreateWithoutSubscribersInput>,
@@ -7214,6 +10025,17 @@ export namespace Prisma {
     connectOrCreate?: Enumerable<SentRolesCreateOrConnectWithoutSubscribersInput>
     connect?: Enumerable<SentRolesWhereUniqueInput>
   }
+
+  export type SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput =
+    {
+      create?: XOR<
+        Enumerable<SubscriberTopicsCreateWithoutSubscriberInput>,
+        Enumerable<SubscriberTopicsUncheckedCreateWithoutSubscriberInput>
+      >
+      connectOrCreate?: Enumerable<SubscriberTopicsCreateOrConnectWithoutSubscriberInput>
+      createMany?: SubscriberTopicsCreateManySubscriberInputEnvelope
+      connect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    }
 
   export type StringFieldUpdateOperationsInput = {
     set?: string
@@ -7255,6 +10077,23 @@ export namespace Prisma {
     deleteMany?: Enumerable<SentRolesScalarWhereInput>
   }
 
+  export type SubscriberTopicsUpdateManyWithoutSubscriberNestedInput = {
+    create?: XOR<
+      Enumerable<SubscriberTopicsCreateWithoutSubscriberInput>,
+      Enumerable<SubscriberTopicsUncheckedCreateWithoutSubscriberInput>
+    >
+    connectOrCreate?: Enumerable<SubscriberTopicsCreateOrConnectWithoutSubscriberInput>
+    upsert?: Enumerable<SubscriberTopicsUpsertWithWhereUniqueWithoutSubscriberInput>
+    createMany?: SubscriberTopicsCreateManySubscriberInputEnvelope
+    set?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    disconnect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    delete?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    connect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    update?: Enumerable<SubscriberTopicsUpdateWithWhereUniqueWithoutSubscriberInput>
+    updateMany?: Enumerable<SubscriberTopicsUpdateManyWithWhereWithoutSubscriberInput>
+    deleteMany?: Enumerable<SubscriberTopicsScalarWhereInput>
+  }
+
   export type SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput = {
     create?: XOR<
       Enumerable<SentRolesCreateWithoutSubscribersInput>,
@@ -7270,6 +10109,24 @@ export namespace Prisma {
     updateMany?: Enumerable<SentRolesUpdateManyWithWhereWithoutSubscribersInput>
     deleteMany?: Enumerable<SentRolesScalarWhereInput>
   }
+
+  export type SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput =
+    {
+      create?: XOR<
+        Enumerable<SubscriberTopicsCreateWithoutSubscriberInput>,
+        Enumerable<SubscriberTopicsUncheckedCreateWithoutSubscriberInput>
+      >
+      connectOrCreate?: Enumerable<SubscriberTopicsCreateOrConnectWithoutSubscriberInput>
+      upsert?: Enumerable<SubscriberTopicsUpsertWithWhereUniqueWithoutSubscriberInput>
+      createMany?: SubscriberTopicsCreateManySubscriberInputEnvelope
+      set?: Enumerable<SubscriberTopicsWhereUniqueInput>
+      disconnect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+      delete?: Enumerable<SubscriberTopicsWhereUniqueInput>
+      connect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+      update?: Enumerable<SubscriberTopicsUpdateWithWhereUniqueWithoutSubscriberInput>
+      updateMany?: Enumerable<SubscriberTopicsUpdateManyWithWhereWithoutSubscriberInput>
+      deleteMany?: Enumerable<SubscriberTopicsScalarWhereInput>
+    }
 
   export type CompaniesCreateNestedOneWithoutRolesInput = {
     create?: XOR<
@@ -7417,6 +10274,114 @@ export namespace Prisma {
     update?: Enumerable<SubscribersUpdateWithWhereUniqueWithoutSentRolesInput>
     updateMany?: Enumerable<SubscribersUpdateManyWithWhereWithoutSentRolesInput>
     deleteMany?: Enumerable<SubscribersScalarWhereInput>
+  }
+
+  export type SubscribersCreateNestedOneWithoutTopicsInput = {
+    create?: XOR<
+      SubscribersCreateWithoutTopicsInput,
+      SubscribersUncheckedCreateWithoutTopicsInput
+    >
+    connectOrCreate?: SubscribersCreateOrConnectWithoutTopicsInput
+    connect?: SubscribersWhereUniqueInput
+  }
+
+  export type TopicsCreateNestedOneWithoutSubscribersInput = {
+    create?: XOR<
+      TopicsCreateWithoutSubscribersInput,
+      TopicsUncheckedCreateWithoutSubscribersInput
+    >
+    connectOrCreate?: TopicsCreateOrConnectWithoutSubscribersInput
+    connect?: TopicsWhereUniqueInput
+  }
+
+  export type SubscribersUpdateOneRequiredWithoutTopicsNestedInput = {
+    create?: XOR<
+      SubscribersCreateWithoutTopicsInput,
+      SubscribersUncheckedCreateWithoutTopicsInput
+    >
+    connectOrCreate?: SubscribersCreateOrConnectWithoutTopicsInput
+    upsert?: SubscribersUpsertWithoutTopicsInput
+    connect?: SubscribersWhereUniqueInput
+    update?: XOR<
+      SubscribersUpdateWithoutTopicsInput,
+      SubscribersUncheckedUpdateWithoutTopicsInput
+    >
+  }
+
+  export type TopicsUpdateOneRequiredWithoutSubscribersNestedInput = {
+    create?: XOR<
+      TopicsCreateWithoutSubscribersInput,
+      TopicsUncheckedCreateWithoutSubscribersInput
+    >
+    connectOrCreate?: TopicsCreateOrConnectWithoutSubscribersInput
+    upsert?: TopicsUpsertWithoutSubscribersInput
+    connect?: TopicsWhereUniqueInput
+    update?: XOR<
+      TopicsUpdateWithoutSubscribersInput,
+      TopicsUncheckedUpdateWithoutSubscribersInput
+    >
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type SubscriberTopicsCreateNestedManyWithoutTopicInput = {
+    create?: XOR<
+      Enumerable<SubscriberTopicsCreateWithoutTopicInput>,
+      Enumerable<SubscriberTopicsUncheckedCreateWithoutTopicInput>
+    >
+    connectOrCreate?: Enumerable<SubscriberTopicsCreateOrConnectWithoutTopicInput>
+    createMany?: SubscriberTopicsCreateManyTopicInputEnvelope
+    connect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+  }
+
+  export type SubscriberTopicsUncheckedCreateNestedManyWithoutTopicInput = {
+    create?: XOR<
+      Enumerable<SubscriberTopicsCreateWithoutTopicInput>,
+      Enumerable<SubscriberTopicsUncheckedCreateWithoutTopicInput>
+    >
+    connectOrCreate?: Enumerable<SubscriberTopicsCreateOrConnectWithoutTopicInput>
+    createMany?: SubscriberTopicsCreateManyTopicInputEnvelope
+    connect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+  }
+
+  export type SubscriberTopicsUpdateManyWithoutTopicNestedInput = {
+    create?: XOR<
+      Enumerable<SubscriberTopicsCreateWithoutTopicInput>,
+      Enumerable<SubscriberTopicsUncheckedCreateWithoutTopicInput>
+    >
+    connectOrCreate?: Enumerable<SubscriberTopicsCreateOrConnectWithoutTopicInput>
+    upsert?: Enumerable<SubscriberTopicsUpsertWithWhereUniqueWithoutTopicInput>
+    createMany?: SubscriberTopicsCreateManyTopicInputEnvelope
+    set?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    disconnect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    delete?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    connect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    update?: Enumerable<SubscriberTopicsUpdateWithWhereUniqueWithoutTopicInput>
+    updateMany?: Enumerable<SubscriberTopicsUpdateManyWithWhereWithoutTopicInput>
+    deleteMany?: Enumerable<SubscriberTopicsScalarWhereInput>
+  }
+
+  export type SubscriberTopicsUncheckedUpdateManyWithoutTopicNestedInput = {
+    create?: XOR<
+      Enumerable<SubscriberTopicsCreateWithoutTopicInput>,
+      Enumerable<SubscriberTopicsUncheckedCreateWithoutTopicInput>
+    >
+    connectOrCreate?: Enumerable<SubscriberTopicsCreateOrConnectWithoutTopicInput>
+    upsert?: Enumerable<SubscriberTopicsUpsertWithWhereUniqueWithoutTopicInput>
+    createMany?: SubscriberTopicsCreateManyTopicInputEnvelope
+    set?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    disconnect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    delete?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    connect?: Enumerable<SubscriberTopicsWhereUniqueInput>
+    update?: Enumerable<SubscriberTopicsUpdateWithWhereUniqueWithoutTopicInput>
+    updateMany?: Enumerable<SubscriberTopicsUpdateManyWithWhereWithoutTopicInput>
+    deleteMany?: Enumerable<SubscriberTopicsScalarWhereInput>
   }
 
   export type RolesCreateNestedManyWithoutCompanyInput = {
@@ -7690,6 +10655,33 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
+  export type NestedIntWithAggregatesFilter = {
+    equals?: number
+    in?: Enumerable<number> | number
+    notIn?: Enumerable<number> | number
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedIntWithAggregatesFilter | number
+    _count?: NestedIntFilter
+    _avg?: NestedFloatFilter
+    _sum?: NestedIntFilter
+    _min?: NestedIntFilter
+    _max?: NestedIntFilter
+  }
+
+  export type NestedFloatFilter = {
+    equals?: number
+    in?: Enumerable<number> | number
+    notIn?: Enumerable<number> | number
+    lt?: number
+    lte?: number
+    gt?: number
+    gte?: number
+    not?: NestedFloatFilter | number
+  }
+
   export type SentRolesCreateWithoutSubscribersInput = {
     id?: string
     sentAt?: Date | string | null
@@ -7714,6 +10706,28 @@ export namespace Prisma {
       SentRolesCreateWithoutSubscribersInput,
       SentRolesUncheckedCreateWithoutSubscribersInput
     >
+  }
+
+  export type SubscriberTopicsCreateWithoutSubscriberInput = {
+    topic: TopicsCreateNestedOneWithoutSubscribersInput
+  }
+
+  export type SubscriberTopicsUncheckedCreateWithoutSubscriberInput = {
+    id?: number
+    topicId: number
+  }
+
+  export type SubscriberTopicsCreateOrConnectWithoutSubscriberInput = {
+    where: SubscriberTopicsWhereUniqueInput
+    create: XOR<
+      SubscriberTopicsCreateWithoutSubscriberInput,
+      SubscriberTopicsUncheckedCreateWithoutSubscriberInput
+    >
+  }
+
+  export type SubscriberTopicsCreateManySubscriberInputEnvelope = {
+    data: Enumerable<SubscriberTopicsCreateManySubscriberInput>
+    skipDuplicates?: boolean
   }
 
   export type SentRolesUpsertWithWhereUniqueWithoutSubscribersInput = {
@@ -7753,6 +10767,43 @@ export namespace Prisma {
     roleId?: StringFilter | string
     createdAt?: DateTimeFilter | Date | string
     updatedAt?: DateTimeFilter | Date | string
+  }
+
+  export type SubscriberTopicsUpsertWithWhereUniqueWithoutSubscriberInput = {
+    where: SubscriberTopicsWhereUniqueInput
+    update: XOR<
+      SubscriberTopicsUpdateWithoutSubscriberInput,
+      SubscriberTopicsUncheckedUpdateWithoutSubscriberInput
+    >
+    create: XOR<
+      SubscriberTopicsCreateWithoutSubscriberInput,
+      SubscriberTopicsUncheckedCreateWithoutSubscriberInput
+    >
+  }
+
+  export type SubscriberTopicsUpdateWithWhereUniqueWithoutSubscriberInput = {
+    where: SubscriberTopicsWhereUniqueInput
+    data: XOR<
+      SubscriberTopicsUpdateWithoutSubscriberInput,
+      SubscriberTopicsUncheckedUpdateWithoutSubscriberInput
+    >
+  }
+
+  export type SubscriberTopicsUpdateManyWithWhereWithoutSubscriberInput = {
+    where: SubscriberTopicsScalarWhereInput
+    data: XOR<
+      SubscriberTopicsUpdateManyMutationInput,
+      SubscriberTopicsUncheckedUpdateManyWithoutTopicsInput
+    >
+  }
+
+  export type SubscriberTopicsScalarWhereInput = {
+    AND?: Enumerable<SubscriberTopicsScalarWhereInput>
+    OR?: Enumerable<SubscriberTopicsScalarWhereInput>
+    NOT?: Enumerable<SubscriberTopicsScalarWhereInput>
+    id?: IntFilter | number
+    subscriberId?: UuidFilter | string
+    topicId?: IntFilter | number
   }
 
   export type CompaniesCreateWithoutRolesInput = {
@@ -7918,6 +10969,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    topics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
   }
 
   export type SubscribersUncheckedCreateWithoutSentRolesInput = {
@@ -7933,6 +10985,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    topics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
   }
 
   export type SubscribersCreateOrConnectWithoutSentRolesInput = {
@@ -8028,6 +11081,198 @@ export namespace Prisma {
     optOut?: BoolFilter | boolean
   }
 
+  export type SubscribersCreateWithoutTopicsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    linkedInUrl?: string | null
+    gitHub?: string | null
+    startedWorkingAt?: Date | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: EnglishLevel | null
+    isConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    optOut?: boolean
+    sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
+  }
+
+  export type SubscribersUncheckedCreateWithoutTopicsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    linkedInUrl?: string | null
+    gitHub?: string | null
+    startedWorkingAt?: Date | string | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?: EnglishLevel | null
+    isConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    optOut?: boolean
+    sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
+  }
+
+  export type SubscribersCreateOrConnectWithoutTopicsInput = {
+    where: SubscribersWhereUniqueInput
+    create: XOR<
+      SubscribersCreateWithoutTopicsInput,
+      SubscribersUncheckedCreateWithoutTopicsInput
+    >
+  }
+
+  export type TopicsCreateWithoutSubscribersInput = {
+    name: string
+  }
+
+  export type TopicsUncheckedCreateWithoutSubscribersInput = {
+    id?: number
+    name: string
+  }
+
+  export type TopicsCreateOrConnectWithoutSubscribersInput = {
+    where: TopicsWhereUniqueInput
+    create: XOR<
+      TopicsCreateWithoutSubscribersInput,
+      TopicsUncheckedCreateWithoutSubscribersInput
+    >
+  }
+
+  export type SubscribersUpsertWithoutTopicsInput = {
+    update: XOR<
+      SubscribersUpdateWithoutTopicsInput,
+      SubscribersUncheckedUpdateWithoutTopicsInput
+    >
+    create: XOR<
+      SubscribersCreateWithoutTopicsInput,
+      SubscribersUncheckedCreateWithoutTopicsInput
+    >
+  }
+
+  export type SubscribersUpdateWithoutTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitHub?: NullableStringFieldUpdateOperationsInput | string | null
+    startedWorkingAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?:
+      | NullableEnumEnglishLevelFieldUpdateOperationsInput
+      | EnglishLevel
+      | null
+    isConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
+    optOut?: BoolFieldUpdateOperationsInput | boolean
+    sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
+  }
+
+  export type SubscribersUncheckedUpdateWithoutTopicsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitHub?: NullableStringFieldUpdateOperationsInput | string | null
+    startedWorkingAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
+    skills?: NullableJsonNullValueInput | InputJsonValue
+    englishLevel?:
+      | NullableEnumEnglishLevelFieldUpdateOperationsInput
+      | EnglishLevel
+      | null
+    isConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
+    optOut?: BoolFieldUpdateOperationsInput | boolean
+    sentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
+  }
+
+  export type TopicsUpsertWithoutSubscribersInput = {
+    update: XOR<
+      TopicsUpdateWithoutSubscribersInput,
+      TopicsUncheckedUpdateWithoutSubscribersInput
+    >
+    create: XOR<
+      TopicsCreateWithoutSubscribersInput,
+      TopicsUncheckedCreateWithoutSubscribersInput
+    >
+  }
+
+  export type TopicsUpdateWithoutSubscribersInput = {
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type TopicsUncheckedUpdateWithoutSubscribersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SubscriberTopicsCreateWithoutTopicInput = {
+    subscriber: SubscribersCreateNestedOneWithoutTopicsInput
+  }
+
+  export type SubscriberTopicsUncheckedCreateWithoutTopicInput = {
+    id?: number
+    subscriberId: string
+  }
+
+  export type SubscriberTopicsCreateOrConnectWithoutTopicInput = {
+    where: SubscriberTopicsWhereUniqueInput
+    create: XOR<
+      SubscriberTopicsCreateWithoutTopicInput,
+      SubscriberTopicsUncheckedCreateWithoutTopicInput
+    >
+  }
+
+  export type SubscriberTopicsCreateManyTopicInputEnvelope = {
+    data: Enumerable<SubscriberTopicsCreateManyTopicInput>
+    skipDuplicates?: boolean
+  }
+
+  export type SubscriberTopicsUpsertWithWhereUniqueWithoutTopicInput = {
+    where: SubscriberTopicsWhereUniqueInput
+    update: XOR<
+      SubscriberTopicsUpdateWithoutTopicInput,
+      SubscriberTopicsUncheckedUpdateWithoutTopicInput
+    >
+    create: XOR<
+      SubscriberTopicsCreateWithoutTopicInput,
+      SubscriberTopicsUncheckedCreateWithoutTopicInput
+    >
+  }
+
+  export type SubscriberTopicsUpdateWithWhereUniqueWithoutTopicInput = {
+    where: SubscriberTopicsWhereUniqueInput
+    data: XOR<
+      SubscriberTopicsUpdateWithoutTopicInput,
+      SubscriberTopicsUncheckedUpdateWithoutTopicInput
+    >
+  }
+
+  export type SubscriberTopicsUpdateManyWithWhereWithoutTopicInput = {
+    where: SubscriberTopicsScalarWhereInput
+    data: XOR<
+      SubscriberTopicsUpdateManyMutationInput,
+      SubscriberTopicsUncheckedUpdateManyWithoutSubscribersInput
+    >
+  }
+
   export type RolesCreateWithoutCompanyInput = {
     id?: string
     title: string
@@ -8115,6 +11360,11 @@ export namespace Prisma {
     sentRolesId?: StringNullableFilter | string | null
   }
 
+  export type SubscriberTopicsCreateManySubscriberInput = {
+    id?: number
+    topicId: number
+  }
+
   export type SentRolesUpdateWithoutSubscribersInput = {
     id?: StringFieldUpdateOperationsInput | string
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
@@ -8141,6 +11391,20 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type SubscriberTopicsUpdateWithoutSubscriberInput = {
+    topic?: TopicsUpdateOneRequiredWithoutSubscribersNestedInput
+  }
+
+  export type SubscriberTopicsUncheckedUpdateWithoutSubscriberInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    topicId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SubscriberTopicsUncheckedUpdateManyWithoutTopicsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    topicId?: IntFieldUpdateOperationsInput | number
+  }
+
   export type SubscribersUpdateWithoutSentRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -8165,6 +11429,7 @@ export namespace Prisma {
       | string
       | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    topics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
   }
 
   export type SubscribersUncheckedUpdateWithoutSentRolesInput = {
@@ -8191,6 +11456,7 @@ export namespace Prisma {
       | string
       | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    topics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
   }
 
   export type SubscribersUncheckedUpdateManyWithoutSubscribersInput = {
@@ -8217,6 +11483,25 @@ export namespace Prisma {
       | string
       | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+  }
+
+  export type SubscriberTopicsCreateManyTopicInput = {
+    id?: number
+    subscriberId: string
+  }
+
+  export type SubscriberTopicsUpdateWithoutTopicInput = {
+    subscriber?: SubscribersUpdateOneRequiredWithoutTopicsNestedInput
+  }
+
+  export type SubscriberTopicsUncheckedUpdateWithoutTopicInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    subscriberId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SubscriberTopicsUncheckedUpdateManyWithoutSubscribersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    subscriberId?: StringFieldUpdateOperationsInput | string
   }
 
   export type RolesCreateManyCompanyInput = {

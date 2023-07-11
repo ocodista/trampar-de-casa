@@ -11,6 +11,7 @@ export enum ProfileSchemaEnum {
   NationalRoles = 'nationalRoles',
   InternationalRoles = 'internationalRoles',
   EnglishTipes = 'englishTips',
+  ReceiveEmailConfig = 'receiveEmailConfig',
 }
 
 export const profileFormSchema = z.object({
@@ -39,6 +40,7 @@ export const profileFormSchema = z.object({
   [ProfileSchemaEnum.Skills]: z
     .array(z.string())
     .min(1, { message: 'Escolha ao menos uma habilidade' }),
+  [ProfileSchemaEnum.ReceiveEmailConfig]: z.array(z.string()),
 })
 
 export type ProfileSchema = z.infer<typeof profileFormSchema>
