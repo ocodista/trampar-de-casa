@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build": "turbo run build",
-    "start": "next start apps/web",
+    "start": "next dev apps/web",
     "dev": "turbo run dev",
     "lint-format": "yarn format && eslint --fix",
     "lint": "turbo run lint",
