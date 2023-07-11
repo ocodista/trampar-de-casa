@@ -1,4 +1,5 @@
 'use client'
+import { format } from 'date-fns'
 import React from 'react'
 import {
   ControllerRenderProps,
@@ -74,6 +75,29 @@ export const TextInput = ({ field, placeholder, isSubmitting }) => {
         goToLastCharacter()
       }}
       {...(field as ControllerRenderProps)}
+      placeholder={placeholder || ''}
+    />
+  )
+}
+
+export const BaseDateInput = ({ field, placeholder, isSubmitting }) => {
+  const extractMonth = (dateString: string) => {
+    const [year, month] = format(new Date(dateString), 'yyyy-MM').split('-')
+    const sanitizedMouth = String(Number(month) + 1).padStart(2, '0')
+    const sanitizedDate = `${year}-${sanitizedMouth}`
+
+    return sanitizedDate
+  }
+  const fieldProps: ControllerRenderProps = {
+    ...(field as ControllerRenderProps),
+    value: extractMonth(field.value),
+  }
+  return (
+    <BaseInput
+      type="month"
+      lang="pt-BR"
+      disabled={isSubmitting}
+      {...fieldProps}
       placeholder={placeholder || ''}
     />
   )

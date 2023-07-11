@@ -1,6 +1,9 @@
 'use client'
-import { CustomFormField, TextInput } from '../../../components/CustomFormField'
-import DateInput from '../../../components/DateInput'
+import {
+  BaseDateInput,
+  CustomFormField,
+  TextInput,
+} from '../../../components/CustomFormField'
 import { ProfileSchemaEnum } from '../profileSchema'
 
 export const PersonalInfoForm = () => {
@@ -13,10 +16,10 @@ export const PersonalInfoForm = () => {
         description="Insira seu nome completo"
         Input={TextInput}
       />
-      <DateInput
+      <CustomFormField
         name={ProfileSchemaEnum.StartedWorkingAt}
         label="Primeiro emprego com tecnologia"
-        description="Tudo bem não lembrar o dia, o que importa é o mês e ano."
+        Input={BaseDateInput}
       />
       <CustomFormField
         name={ProfileSchemaEnum.LinkedInUrl}

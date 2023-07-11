@@ -16,7 +16,9 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
     <SubscriberForm
       descriptionTopics={topics}
       profileInfos={{
-        receiveEmailConfig: subscriber.topics.map(({ id }) => String(id)),
+        receiveEmailConfig: subscriber.topics.map(({ topicId }) =>
+          String(topicId)
+        ),
         englishLevel: subscriber.englishLevel as EnglishLevel,
         gitHub: subscriber.gitHub || '',
         linkedInUrl: subscriber.linkedInUrl || '',
