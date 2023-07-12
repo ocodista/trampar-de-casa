@@ -1,13 +1,17 @@
-import React, { useState, useMemo, useEffect } from 'react'
+import { useEffect, useMemo, useState } from 'react'
+import { useFormContext } from 'react-hook-form'
 import { AutoComplete } from '../../../components/AutoComplete'
 import { CustomFormField } from '../../../components/CustomFormField'
 import { ListOption } from '../../../components/ListOption'
-import { useFormContext } from 'react-hook-form'
-import { skills } from '../subscription/skills'
 import { ProfileSchemaEnum } from '../profileSchema'
+import { skills } from '../subscription/skills'
 
 export const SkillsField = () => {
-  const { setValue, watch } = useFormContext()
+  const {
+    setValue,
+    watch,
+    formState: { isSubmitting },
+  } = useFormContext()
   const [selectedOptions, setSelectedOptions] = useState<ListOption[]>([])
   const options = useMemo(() => skills, [])
   const formSkills = watch(ProfileSchemaEnum.Skills)
@@ -31,7 +35,6 @@ export const SkillsField = () => {
       }
     )
   }, [selectedOptions])
-
   return (
     <CustomFormField
       name={ProfileSchemaEnum.Skills}
@@ -40,6 +43,7 @@ export const SkillsField = () => {
       description="Selecione as tecnologias que já trabalhou"
       Input={({ register }) => (
         <AutoComplete
+          disabled={isSubmitting}
           selectedOptions={selectedOptions}
           onSelectChange={setSelectedOptions}
           placeholder="TypeScript, React, .NET"

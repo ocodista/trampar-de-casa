@@ -90,7 +90,12 @@ export const StartWorkAtInput = ({ field, placeholder, isSubmitting }) => {
     return sanitizedDate
   }
   useEffect(() => {
-    form.setValue(ProfileSchemaEnum.StartedWorkingAt, dateToMonth(field.value))
+    if (field.value) {
+      form.setValue(
+        ProfileSchemaEnum.StartedWorkingAt,
+        dateToMonth(field.value)
+      )
+    }
   }, [])
 
   const fieldProps = {
@@ -101,6 +106,7 @@ export const StartWorkAtInput = ({ field, placeholder, isSubmitting }) => {
         event.target.valueAsDate
       )
     },
+    max: dateToMonth(new Date().toString()),
   }
   return (
     <BaseInput

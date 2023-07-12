@@ -40,7 +40,9 @@ export const profileFormSchema = z.object({
   [ProfileSchemaEnum.Skills]: z
     .array(z.string())
     .min(1, { message: 'Escolha ao menos uma habilidade' }),
-  [ProfileSchemaEnum.ReceiveEmailConfig]: z.array(z.string()),
+  [ProfileSchemaEnum.ReceiveEmailConfig]: z
+    .array(z.string())
+    .min(1, { message: 'Escolha ao menos uma opção' }),
 })
 
 export type ProfileSchema = z.infer<typeof profileFormSchema>

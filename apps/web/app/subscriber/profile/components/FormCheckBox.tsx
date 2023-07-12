@@ -7,6 +7,7 @@ type FormCheckBoxProps = {
   title: string
   onChange?: (isChecked: boolean) => void
   isChecked?: boolean
+  disabled?: boolean
 }
 
 export const FormCheckBox = ({
@@ -14,6 +15,7 @@ export const FormCheckBox = ({
   title,
   onChange,
   isChecked: isCheckedProp,
+  disabled,
 }: FormCheckBoxProps) => {
   const [isChecked, setIsChecked] = useState(isCheckedProp)
   useEffect(() => {
@@ -23,6 +25,7 @@ export const FormCheckBox = ({
     <div className="flex items-center space-x-2">
       <Checkbox
         id={id}
+        disabled={disabled}
         checked={isChecked}
         onClick={() => {
           const newStateValue = !isChecked

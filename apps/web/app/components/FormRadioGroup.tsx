@@ -2,8 +2,8 @@ import { useFormContext } from 'react-hook-form'
 import { ListOption } from './ListOption'
 import { Label } from './ui/label'
 import {
-  RadioGroup as ShadcnRadioGroup,
   RadioGroupItem,
+  RadioGroup as ShadcnRadioGroup,
 } from './ui/radio-group'
 
 interface RadioGroup {
@@ -11,6 +11,7 @@ interface RadioGroup {
   setSelectedOption: (option: string) => void
   selectedOption: string
   formKey: string
+  disabled?: boolean
 }
 
 export function FormRadioGroup({
@@ -18,6 +19,7 @@ export function FormRadioGroup({
   selectedOption,
   setSelectedOption,
   formKey,
+  disabled,
 }: RadioGroup) {
   const { register } = useFormContext()
   return (
@@ -28,7 +30,11 @@ export function FormRadioGroup({
     >
       {options.map((option) => (
         <div key={option.value} className="flex items-center space-x-2">
-          <RadioGroupItem value={option.value} id={option.value} />
+          <RadioGroupItem
+            disabled={disabled}
+            value={option.value}
+            id={option.value}
+          />
           <Label htmlFor={option.value} {...register(formKey)}>
             {option.label}
           </Label>

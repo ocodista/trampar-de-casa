@@ -17,7 +17,7 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
 
   const subscriber = await getSubscriber(subscriberId)
   const subscriberTopics = await getSubscriberTopics(subscriberId)
-  const topics = await getTopics().catch(() => notFound())
+  const topics = await getTopics()
 
   return (
     <SubscriberForm
@@ -31,7 +31,9 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
         linkedInUrl: subscriber.linkedInUrl || '',
         name: subscriber.name,
         skills: subscriber.skills as string[],
-        startedWorkingAt: new Date(subscriber.startedWorkingAt),
+        startedWorkingAt: subscriber.startedWorkingAt
+          ? new Date(subscriber.startedWorkingAt)
+          : null,
       }}
     />
   )

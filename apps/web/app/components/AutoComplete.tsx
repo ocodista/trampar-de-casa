@@ -16,6 +16,7 @@ export function AutoComplete({
   placeholder,
   selectedOptions,
   onSelectChange,
+  disabled,
 }) {
   const [query, setQuery] = useState('')
 
@@ -31,7 +32,12 @@ export function AutoComplete({
 
   return (
     <div className="w-full">
-      <Combobox value={selectedOptions} onChange={onSelectChange} multiple>
+      <Combobox
+        disabled={disabled}
+        value={selectedOptions}
+        onChange={onSelectChange}
+        multiple
+      >
         <div className="relative mt-1">
           <div className="relative w-full overflow-hidden">
             <Combobox.Input
@@ -50,19 +56,21 @@ export function AutoComplete({
           {selectedOptions.length > 0 && (
             <ul className="flex flex-wrap gap-2 mt-2">
               {selectedOptions.map((option) => (
-                <li
-                  onClick={() =>
-                    onSelectChange(
-                      selectedOptions.filter(
-                        (selectedOption) =>
-                          selectedOption.value !== option.value
+                <li key={option.value}>
+                  <button
+                    disabled={disabled}
+                    className="cursor-pointer rounded-2xl border text-sm font-semibold px-2 py-1 border-s-gray-300"
+                    onClick={() =>
+                      onSelectChange(
+                        selectedOptions.filter(
+                          (selectedOption) =>
+                            selectedOption.value !== option.value
+                        )
                       )
-                    )
-                  }
-                  key={option.value}
-                  className="cursor-pointer rounded-2xl border text-sm font-semibold px-2 py-1 border-s-gray-300"
-                >
-                  {option.label}
+                    }
+                  >
+                    {option.label}
+                  </button>
                 </li>
               ))}
             </ul>
@@ -85,7 +93,7 @@ export function AutoComplete({
                     key={option.value}
                     className={({ active }) =>
                       `relative cursor-default select-none py-2 pl-10 pr-4 ${
-                        active ? 'bg-teal-600 text-white' : 'text-gray-900'
+                        active ? 'bg-blue-600 text-white' : 'text-gray-900'
                       }`
                     }
                     value={option}
@@ -102,7 +110,7 @@ export function AutoComplete({
                         {selected ? (
                           <span
                             className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-                              active ? 'text-white' : 'text-teal-600'
+                              active ? 'text-white' : 'text-blue-600'
                             }`}
                           >
                             <CheckIcon className="h-5 w-5" aria-hidden="true" />

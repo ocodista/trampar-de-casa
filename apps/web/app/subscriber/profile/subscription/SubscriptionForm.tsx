@@ -19,7 +19,11 @@ const LevelQuestions: Record<string, string> = {
 }
 
 const EnglishLevelGroup = () => {
-  const { setValue, watch } = useFormContext()
+  const {
+    setValue,
+    watch,
+    formState: { isSubmitting },
+  } = useFormContext()
   const [englishLevel, setEnglishLevel] = useState(EnglishLevel.None)
   useEffect(() => {
     if (!englishLevel) return
@@ -50,6 +54,7 @@ const EnglishLevelGroup = () => {
       label="Nível de Inglês"
       Input={() => (
         <FormRadioGroup
+          disabled={isSubmitting}
           selectedOption={englishLevel}
           setSelectedOption={(option: EnglishLevel) => setEnglishLevel(option)}
           options={Object.keys(EnglishLevel).map((key) => ({
