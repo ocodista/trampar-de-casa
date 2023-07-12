@@ -92,7 +92,7 @@ export function AutoComplete({
                   <Combobox.Option
                     key={option.value}
                     className={({ active }) =>
-                      `relative cursor-default select-none py-2 pl-10 pr-4 ${
+                      `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
                         active ? 'bg-blue-600 text-white' : 'text-gray-900'
                       }`
                     }
