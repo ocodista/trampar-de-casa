@@ -23,11 +23,12 @@ export type SubscribersPayload<
       name: string | null
       linkedInUrl: string | null
       gitHub: string | null
-      startedWorkingAt: number | null
+      startedWorkingAt: Date | null
       skills: Prisma.JsonValue | null
       englishLevel: EnglishLevel | null
       isConfirmed: boolean
       createdAt: Date
+      updatedAt: Date | null
       optOut: boolean
     },
     ExtArgs['result']['subscribers']
@@ -58,7 +59,8 @@ export type RolesPayload<
       currency: string | null
       salary: string | null
       skills: Prisma.JsonValue | null
-      createdAt: Date | null
+      createdAt: Date
+      updatedAt: Date
       sentRolesId: string | null
     },
     ExtArgs['result']['roles']
@@ -83,6 +85,8 @@ export type SentRolesPayload<
       id: string
       sentAt: Date | null
       roleId: string
+      createdAt: Date
+      updatedAt: Date
     },
     ExtArgs['result']['sentRoles']
   >
@@ -107,7 +111,8 @@ export type CompaniesPayload<
       url: string
       logoUrl: string | null
       countryIcon: string
-      createdAt: Date | null
+      createdAt: Date
+      updatedAt: Date
     },
     ExtArgs['result']['companies']
   >
@@ -1519,18 +1524,8 @@ export namespace Prisma {
 
   export type AggregateSubscribers = {
     _count: SubscribersCountAggregateOutputType | null
-    _avg: SubscribersAvgAggregateOutputType | null
-    _sum: SubscribersSumAggregateOutputType | null
     _min: SubscribersMinAggregateOutputType | null
     _max: SubscribersMaxAggregateOutputType | null
-  }
-
-  export type SubscribersAvgAggregateOutputType = {
-    startedWorkingAt: number | null
-  }
-
-  export type SubscribersSumAggregateOutputType = {
-    startedWorkingAt: number | null
   }
 
   export type SubscribersMinAggregateOutputType = {
@@ -1539,10 +1534,11 @@ export namespace Prisma {
     name: string | null
     linkedInUrl: string | null
     gitHub: string | null
-    startedWorkingAt: number | null
+    startedWorkingAt: Date | null
     englishLevel: EnglishLevel | null
     isConfirmed: boolean | null
     createdAt: Date | null
+    updatedAt: Date | null
     optOut: boolean | null
   }
 
@@ -1552,10 +1548,11 @@ export namespace Prisma {
     name: string | null
     linkedInUrl: string | null
     gitHub: string | null
-    startedWorkingAt: number | null
+    startedWorkingAt: Date | null
     englishLevel: EnglishLevel | null
     isConfirmed: boolean | null
     createdAt: Date | null
+    updatedAt: Date | null
     optOut: boolean | null
   }
 
@@ -1570,16 +1567,9 @@ export namespace Prisma {
     englishLevel: number
     isConfirmed: number
     createdAt: number
+    updatedAt: number
     optOut: number
     _all: number
-  }
-
-  export type SubscribersAvgAggregateInputType = {
-    startedWorkingAt?: true
-  }
-
-  export type SubscribersSumAggregateInputType = {
-    startedWorkingAt?: true
   }
 
   export type SubscribersMinAggregateInputType = {
@@ -1592,6 +1582,7 @@ export namespace Prisma {
     englishLevel?: true
     isConfirmed?: true
     createdAt?: true
+    updatedAt?: true
     optOut?: true
   }
 
@@ -1605,6 +1596,7 @@ export namespace Prisma {
     englishLevel?: true
     isConfirmed?: true
     createdAt?: true
+    updatedAt?: true
     optOut?: true
   }
 
@@ -1619,6 +1611,7 @@ export namespace Prisma {
     englishLevel?: true
     isConfirmed?: true
     createdAt?: true
+    updatedAt?: true
     optOut?: true
     _all?: true
   }
@@ -1663,18 +1656,6 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      *
-     * Select which fields to average
-     **/
-    _avg?: SubscribersAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
-     * Select which fields to sum
-     **/
-    _sum?: SubscribersSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     *
      * Select which fields to find the minimum value
      **/
     _min?: SubscribersMinAggregateInputType
@@ -1705,8 +1686,6 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: SubscribersCountAggregateInputType | true
-    _avg?: SubscribersAvgAggregateInputType
-    _sum?: SubscribersSumAggregateInputType
     _min?: SubscribersMinAggregateInputType
     _max?: SubscribersMaxAggregateInputType
   }
@@ -1717,15 +1696,14 @@ export namespace Prisma {
     name: string | null
     linkedInUrl: string | null
     gitHub: string | null
-    startedWorkingAt: number | null
+    startedWorkingAt: Date | null
     skills: JsonValue | null
     englishLevel: EnglishLevel | null
     isConfirmed: boolean
     createdAt: Date
+    updatedAt: Date | null
     optOut: boolean
     _count: SubscribersCountAggregateOutputType | null
-    _avg: SubscribersAvgAggregateOutputType | null
-    _sum: SubscribersSumAggregateOutputType | null
     _min: SubscribersMinAggregateOutputType | null
     _max: SubscribersMaxAggregateOutputType | null
   }
@@ -1758,6 +1736,7 @@ export namespace Prisma {
       englishLevel?: boolean
       isConfirmed?: boolean
       createdAt?: boolean
+      updatedAt?: boolean
       optOut?: boolean
       sentRoles?: boolean | Subscribers$sentRolesArgs<ExtArgs>
       _count?: boolean | SubscribersCountOutputTypeArgs<ExtArgs>
@@ -1776,6 +1755,7 @@ export namespace Prisma {
     englishLevel?: boolean
     isConfirmed?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     optOut?: boolean
   }
 
@@ -2727,6 +2707,7 @@ export namespace Prisma {
     currency: string | null
     salary: string | null
     createdAt: Date | null
+    updatedAt: Date | null
     sentRolesId: string | null
   }
 
@@ -2740,6 +2721,7 @@ export namespace Prisma {
     currency: string | null
     salary: string | null
     createdAt: Date | null
+    updatedAt: Date | null
     sentRolesId: string | null
   }
 
@@ -2754,6 +2736,7 @@ export namespace Prisma {
     salary: number
     skills: number
     createdAt: number
+    updatedAt: number
     sentRolesId: number
     _all: number
   }
@@ -2768,6 +2751,7 @@ export namespace Prisma {
     currency?: true
     salary?: true
     createdAt?: true
+    updatedAt?: true
     sentRolesId?: true
   }
 
@@ -2781,6 +2765,7 @@ export namespace Prisma {
     currency?: true
     salary?: true
     createdAt?: true
+    updatedAt?: true
     sentRolesId?: true
   }
 
@@ -2795,6 +2780,7 @@ export namespace Prisma {
     salary?: true
     skills?: true
     createdAt?: true
+    updatedAt?: true
     sentRolesId?: true
     _all?: true
   }
@@ -2882,7 +2868,8 @@ export namespace Prisma {
     currency: string | null
     salary: string | null
     skills: JsonValue | null
-    createdAt: Date | null
+    createdAt: Date
+    updatedAt: Date
     sentRolesId: string | null
     _count: RolesCountAggregateOutputType | null
     _min: RolesMinAggregateOutputType | null
@@ -2916,6 +2903,7 @@ export namespace Prisma {
       salary?: boolean
       skills?: boolean
       createdAt?: boolean
+      updatedAt?: boolean
       sentRolesId?: boolean
       company?: boolean | CompaniesArgs<ExtArgs>
       sentRoles?: boolean | SentRolesArgs<ExtArgs>
@@ -2934,6 +2922,7 @@ export namespace Prisma {
     salary?: boolean
     skills?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
     sentRolesId?: boolean
   }
 
@@ -3849,18 +3838,24 @@ export namespace Prisma {
     id: string | null
     sentAt: Date | null
     roleId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type SentRolesMaxAggregateOutputType = {
     id: string | null
     sentAt: Date | null
     roleId: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type SentRolesCountAggregateOutputType = {
     id: number
     sentAt: number
     roleId: number
+    createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -3868,18 +3863,24 @@ export namespace Prisma {
     id?: true
     sentAt?: true
     roleId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type SentRolesMaxAggregateInputType = {
     id?: true
     sentAt?: true
     roleId?: true
+    createdAt?: true
+    updatedAt?: true
   }
 
   export type SentRolesCountAggregateInputType = {
     id?: true
     sentAt?: true
     roleId?: true
+    createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -3960,6 +3961,8 @@ export namespace Prisma {
     id: string
     sentAt: Date | null
     roleId: string
+    createdAt: Date
+    updatedAt: Date
     _count: SentRolesCountAggregateOutputType | null
     _min: SentRolesMinAggregateOutputType | null
     _max: SentRolesMaxAggregateOutputType | null
@@ -3985,6 +3988,8 @@ export namespace Prisma {
       id?: boolean
       sentAt?: boolean
       roleId?: boolean
+      createdAt?: boolean
+      updatedAt?: boolean
       role?: boolean | RolesArgs<ExtArgs>
       subscribers?: boolean | SentRoles$subscribersArgs<ExtArgs>
       _count?: boolean | SentRolesCountOutputTypeArgs<ExtArgs>
@@ -3996,6 +4001,8 @@ export namespace Prisma {
     id?: boolean
     sentAt?: boolean
     roleId?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type SentRolesInclude<
@@ -4947,6 +4954,7 @@ export namespace Prisma {
     logoUrl: string | null
     countryIcon: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CompaniesMaxAggregateOutputType = {
@@ -4956,6 +4964,7 @@ export namespace Prisma {
     logoUrl: string | null
     countryIcon: string | null
     createdAt: Date | null
+    updatedAt: Date | null
   }
 
   export type CompaniesCountAggregateOutputType = {
@@ -4965,6 +4974,7 @@ export namespace Prisma {
     logoUrl: number
     countryIcon: number
     createdAt: number
+    updatedAt: number
     _all: number
   }
 
@@ -4975,6 +4985,7 @@ export namespace Prisma {
     logoUrl?: true
     countryIcon?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type CompaniesMaxAggregateInputType = {
@@ -4984,6 +4995,7 @@ export namespace Prisma {
     logoUrl?: true
     countryIcon?: true
     createdAt?: true
+    updatedAt?: true
   }
 
   export type CompaniesCountAggregateInputType = {
@@ -4993,6 +5005,7 @@ export namespace Prisma {
     logoUrl?: true
     countryIcon?: true
     createdAt?: true
+    updatedAt?: true
     _all?: true
   }
 
@@ -5075,7 +5088,8 @@ export namespace Prisma {
     url: string
     logoUrl: string | null
     countryIcon: string
-    createdAt: Date | null
+    createdAt: Date
+    updatedAt: Date
     _count: CompaniesCountAggregateOutputType | null
     _min: CompaniesMinAggregateOutputType | null
     _max: CompaniesMaxAggregateOutputType | null
@@ -5104,6 +5118,7 @@ export namespace Prisma {
       logoUrl?: boolean
       countryIcon?: boolean
       createdAt?: boolean
+      updatedAt?: boolean
       roles?: boolean | Companies$rolesArgs<ExtArgs>
       _count?: boolean | CompaniesCountOutputTypeArgs<ExtArgs>
     },
@@ -5117,6 +5132,7 @@ export namespace Prisma {
     logoUrl?: boolean
     countryIcon?: boolean
     createdAt?: boolean
+    updatedAt?: boolean
   }
 
   export type CompaniesInclude<
@@ -6067,6 +6083,7 @@ export namespace Prisma {
     englishLevel: 'englishLevel'
     isConfirmed: 'isConfirmed'
     createdAt: 'createdAt'
+    updatedAt: 'updatedAt'
     optOut: 'optOut'
   }
 
@@ -6084,6 +6101,7 @@ export namespace Prisma {
     salary: 'salary'
     skills: 'skills'
     createdAt: 'createdAt'
+    updatedAt: 'updatedAt'
     sentRolesId: 'sentRolesId'
   }
 
@@ -6094,6 +6112,8 @@ export namespace Prisma {
     id: 'id'
     sentAt: 'sentAt'
     roleId: 'roleId'
+    createdAt: 'createdAt'
+    updatedAt: 'updatedAt'
   }
 
   export type SentRolesScalarFieldEnum =
@@ -6106,6 +6126,7 @@ export namespace Prisma {
     logoUrl: 'logoUrl'
     countryIcon: 'countryIcon'
     createdAt: 'createdAt'
+    updatedAt: 'updatedAt'
   }
 
   export type CompaniesScalarFieldEnum =
@@ -6162,11 +6183,12 @@ export namespace Prisma {
     name?: StringNullableFilter | string | null
     linkedInUrl?: StringNullableFilter | string | null
     gitHub?: StringNullableFilter | string | null
-    startedWorkingAt?: IntNullableFilter | number | null
+    startedWorkingAt?: DateTimeNullableFilter | Date | string | null
     skills?: JsonNullableFilter
     englishLevel?: EnumEnglishLevelNullableFilter | EnglishLevel | null
     isConfirmed?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeNullableFilter | Date | string | null
     optOut?: BoolFilter | boolean
     sentRoles?: SentRolesListRelationFilter
   }
@@ -6182,6 +6204,7 @@ export namespace Prisma {
     englishLevel?: SortOrderInput | SortOrder
     isConfirmed?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
     optOut?: SortOrder
     sentRoles?: SentRolesOrderByRelationAggregateInput
   }
@@ -6202,12 +6225,11 @@ export namespace Prisma {
     englishLevel?: SortOrderInput | SortOrder
     isConfirmed?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrderInput | SortOrder
     optOut?: SortOrder
     _count?: SubscribersCountOrderByAggregateInput
-    _avg?: SubscribersAvgOrderByAggregateInput
     _max?: SubscribersMaxOrderByAggregateInput
     _min?: SubscribersMinOrderByAggregateInput
-    _sum?: SubscribersSumOrderByAggregateInput
   }
 
   export type SubscribersScalarWhereWithAggregatesInput = {
@@ -6219,7 +6241,11 @@ export namespace Prisma {
     name?: StringNullableWithAggregatesFilter | string | null
     linkedInUrl?: StringNullableWithAggregatesFilter | string | null
     gitHub?: StringNullableWithAggregatesFilter | string | null
-    startedWorkingAt?: IntNullableWithAggregatesFilter | number | null
+    startedWorkingAt?:
+      | DateTimeNullableWithAggregatesFilter
+      | Date
+      | string
+      | null
     skills?: JsonNullableWithAggregatesFilter
     englishLevel?:
       | EnumEnglishLevelNullableWithAggregatesFilter
@@ -6227,6 +6253,7 @@ export namespace Prisma {
       | null
     isConfirmed?: BoolWithAggregatesFilter | boolean
     createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
     optOut?: BoolWithAggregatesFilter | boolean
   }
 
@@ -6243,7 +6270,8 @@ export namespace Prisma {
     currency?: StringNullableFilter | string | null
     salary?: StringNullableFilter | string | null
     skills?: JsonNullableFilter
-    createdAt?: DateTimeNullableFilter | Date | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
     sentRolesId?: StringNullableFilter | string | null
     company?: XOR<CompaniesRelationFilter, CompaniesWhereInput>
     sentRoles?: XOR<SentRolesRelationFilter, SentRolesWhereInput> | null
@@ -6259,7 +6287,8 @@ export namespace Prisma {
     currency?: SortOrderInput | SortOrder
     salary?: SortOrderInput | SortOrder
     skills?: SortOrderInput | SortOrder
-    createdAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     sentRolesId?: SortOrderInput | SortOrder
     company?: CompaniesOrderByWithRelationInput
     sentRoles?: SentRolesOrderByWithRelationInput
@@ -6280,7 +6309,8 @@ export namespace Prisma {
     currency?: SortOrderInput | SortOrder
     salary?: SortOrderInput | SortOrder
     skills?: SortOrderInput | SortOrder
-    createdAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     sentRolesId?: SortOrderInput | SortOrder
     _count?: RolesCountOrderByAggregateInput
     _max?: RolesMaxOrderByAggregateInput
@@ -6300,7 +6330,8 @@ export namespace Prisma {
     currency?: StringNullableWithAggregatesFilter | string | null
     salary?: StringNullableWithAggregatesFilter | string | null
     skills?: JsonNullableWithAggregatesFilter
-    createdAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
     sentRolesId?: StringNullableWithAggregatesFilter | string | null
   }
 
@@ -6311,6 +6342,8 @@ export namespace Prisma {
     id?: StringFilter | string
     sentAt?: DateTimeNullableFilter | Date | string | null
     roleId?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
     role?: XOR<RolesRelationFilter, RolesWhereInput> | null
     subscribers?: SubscribersListRelationFilter
   }
@@ -6319,6 +6352,8 @@ export namespace Prisma {
     id?: SortOrder
     sentAt?: SortOrderInput | SortOrder
     roleId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     role?: RolesOrderByWithRelationInput
     subscribers?: SubscribersOrderByRelationAggregateInput
   }
@@ -6331,6 +6366,8 @@ export namespace Prisma {
     id?: SortOrder
     sentAt?: SortOrderInput | SortOrder
     roleId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: SentRolesCountOrderByAggregateInput
     _max?: SentRolesMaxOrderByAggregateInput
     _min?: SentRolesMinOrderByAggregateInput
@@ -6343,6 +6380,8 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter | string
     sentAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
     roleId?: StringWithAggregatesFilter | string
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type CompaniesWhereInput = {
@@ -6354,7 +6393,8 @@ export namespace Prisma {
     url?: StringFilter | string
     logoUrl?: StringNullableFilter | string | null
     countryIcon?: StringFilter | string
-    createdAt?: DateTimeNullableFilter | Date | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
     roles?: RolesListRelationFilter
   }
 
@@ -6364,7 +6404,8 @@ export namespace Prisma {
     url?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
     countryIcon?: SortOrder
-    createdAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     roles?: RolesOrderByRelationAggregateInput
   }
 
@@ -6378,7 +6419,8 @@ export namespace Prisma {
     url?: SortOrder
     logoUrl?: SortOrderInput | SortOrder
     countryIcon?: SortOrder
-    createdAt?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
     _count?: CompaniesCountOrderByAggregateInput
     _max?: CompaniesMaxOrderByAggregateInput
     _min?: CompaniesMinOrderByAggregateInput
@@ -6393,7 +6435,8 @@ export namespace Prisma {
     url?: StringWithAggregatesFilter | string
     logoUrl?: StringNullableWithAggregatesFilter | string | null
     countryIcon?: StringWithAggregatesFilter | string
-    createdAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
+    createdAt?: DateTimeWithAggregatesFilter | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter | Date | string
   }
 
   export type SubscribersCreateInput = {
@@ -6402,11 +6445,12 @@ export namespace Prisma {
     name?: string | null
     linkedInUrl?: string | null
     gitHub?: string | null
-    startedWorkingAt?: number | null
+    startedWorkingAt?: Date | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     optOut?: boolean
     sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
   }
@@ -6417,11 +6461,12 @@ export namespace Prisma {
     name?: string | null
     linkedInUrl?: string | null
     gitHub?: string | null
-    startedWorkingAt?: number | null
+    startedWorkingAt?: Date | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     optOut?: boolean
     sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
   }
@@ -6432,7 +6477,11 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    startedWorkingAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?:
       | NullableEnumEnglishLevelFieldUpdateOperationsInput
@@ -6440,6 +6489,11 @@ export namespace Prisma {
       | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
     sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
   }
@@ -6450,7 +6504,11 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    startedWorkingAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?:
       | NullableEnumEnglishLevelFieldUpdateOperationsInput
@@ -6458,6 +6516,11 @@ export namespace Prisma {
       | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
     sentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
   }
@@ -6468,11 +6531,12 @@ export namespace Prisma {
     name?: string | null
     linkedInUrl?: string | null
     gitHub?: string | null
-    startedWorkingAt?: number | null
+    startedWorkingAt?: Date | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     optOut?: boolean
   }
 
@@ -6482,7 +6546,11 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    startedWorkingAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?:
       | NullableEnumEnglishLevelFieldUpdateOperationsInput
@@ -6490,6 +6558,11 @@ export namespace Prisma {
       | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -6499,7 +6572,11 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    startedWorkingAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?:
       | NullableEnumEnglishLevelFieldUpdateOperationsInput
@@ -6507,6 +6584,11 @@ export namespace Prisma {
       | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -6519,7 +6601,8 @@ export namespace Prisma {
     currency?: string | null
     salary?: string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     company: CompaniesCreateNestedOneWithoutRolesInput
     sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
   }
@@ -6534,7 +6617,8 @@ export namespace Prisma {
     currency?: string | null
     salary?: string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     sentRolesId?: string | null
   }
 
@@ -6547,11 +6631,8 @@ export namespace Prisma {
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
     sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
   }
@@ -6566,11 +6647,8 @@ export namespace Prisma {
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -6584,7 +6662,8 @@ export namespace Prisma {
     currency?: string | null
     salary?: string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     sentRolesId?: string | null
   }
 
@@ -6597,11 +6676,8 @@ export namespace Prisma {
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type RolesUncheckedUpdateManyInput = {
@@ -6614,11 +6690,8 @@ export namespace Prisma {
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -6626,6 +6699,8 @@ export namespace Prisma {
     id?: string
     sentAt?: Date | string | null
     roleId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     role?: RolesCreateNestedOneWithoutSentRolesInput
     subscribers?: SubscribersCreateNestedManyWithoutSentRolesInput
   }
@@ -6634,6 +6709,8 @@ export namespace Prisma {
     id?: string
     sentAt?: Date | string | null
     roleId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     role?: RolesUncheckedCreateNestedOneWithoutSentRolesInput
     subscribers?: SubscribersUncheckedCreateNestedManyWithoutSentRolesInput
   }
@@ -6642,6 +6719,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: RolesUpdateOneWithoutSentRolesNestedInput
     subscribers?: SubscribersUpdateManyWithoutSentRolesNestedInput
   }
@@ -6650,6 +6729,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: RolesUncheckedUpdateOneWithoutSentRolesNestedInput
     subscribers?: SubscribersUncheckedUpdateManyWithoutSentRolesNestedInput
   }
@@ -6658,18 +6739,24 @@ export namespace Prisma {
     id?: string
     sentAt?: Date | string | null
     roleId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type SentRolesUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SentRolesUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CompaniesCreateInput = {
@@ -6678,7 +6765,8 @@ export namespace Prisma {
     url: string
     logoUrl?: string | null
     countryIcon: string
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     roles?: RolesCreateNestedManyWithoutCompanyInput
   }
 
@@ -6688,7 +6776,8 @@ export namespace Prisma {
     url: string
     logoUrl?: string | null
     countryIcon: string
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     roles?: RolesUncheckedCreateNestedManyWithoutCompanyInput
   }
 
@@ -6698,11 +6787,8 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roles?: RolesUpdateManyWithoutCompanyNestedInput
   }
 
@@ -6712,11 +6798,8 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     roles?: RolesUncheckedUpdateManyWithoutCompanyNestedInput
   }
 
@@ -6726,7 +6809,8 @@ export namespace Prisma {
     url: string
     logoUrl?: string | null
     countryIcon: string
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CompaniesUpdateManyMutationInput = {
@@ -6735,11 +6819,8 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CompaniesUncheckedUpdateManyInput = {
@@ -6748,11 +6829,8 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type UuidFilter = {
@@ -6797,15 +6875,15 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
-  export type IntNullableFilter = {
-    equals?: number | null
-    in?: Enumerable<number> | number | null
-    notIn?: Enumerable<number> | number | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntNullableFilter | number | null
+  export type DateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | Date | string | null
+    notIn?: Enumerable<Date> | Enumerable<string> | Date | string | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
   }
   export type JsonNullableFilter =
     | PatchUndefined<
@@ -6882,11 +6960,8 @@ export namespace Prisma {
     englishLevel?: SortOrder
     isConfirmed?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     optOut?: SortOrder
-  }
-
-  export type SubscribersAvgOrderByAggregateInput = {
-    startedWorkingAt?: SortOrder
   }
 
   export type SubscribersMaxOrderByAggregateInput = {
@@ -6899,6 +6974,7 @@ export namespace Prisma {
     englishLevel?: SortOrder
     isConfirmed?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     optOut?: SortOrder
   }
 
@@ -6912,11 +6988,8 @@ export namespace Prisma {
     englishLevel?: SortOrder
     isConfirmed?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     optOut?: SortOrder
-  }
-
-  export type SubscribersSumOrderByAggregateInput = {
-    startedWorkingAt?: SortOrder
   }
 
   export type UuidWithAggregatesFilter = {
@@ -6970,20 +7043,18 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter
   }
 
-  export type IntNullableWithAggregatesFilter = {
-    equals?: number | null
-    in?: Enumerable<number> | number | null
-    notIn?: Enumerable<number> | number | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntNullableWithAggregatesFilter | number | null
+  export type DateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | Date | string | null
+    notIn?: Enumerable<Date> | Enumerable<string> | Date | string | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
     _count?: NestedIntNullableFilter
-    _avg?: NestedFloatNullableFilter
-    _sum?: NestedIntNullableFilter
-    _min?: NestedIntNullableFilter
-    _max?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
   }
   export type JsonNullableWithAggregatesFilter =
     | PatchUndefined<
@@ -7049,17 +7120,6 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
-  export type DateTimeNullableFilter = {
-    equals?: Date | string | null
-    in?: Enumerable<Date> | Enumerable<string> | Date | string | null
-    notIn?: Enumerable<Date> | Enumerable<string> | Date | string | null
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeNullableFilter | Date | string | null
-  }
-
   export type CompaniesRelationFilter = {
     is?: CompaniesWhereInput | null
     isNot?: CompaniesWhereInput | null
@@ -7081,6 +7141,7 @@ export namespace Prisma {
     salary?: SortOrder
     skills?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     sentRolesId?: SortOrder
   }
 
@@ -7094,6 +7155,7 @@ export namespace Prisma {
     currency?: SortOrder
     salary?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     sentRolesId?: SortOrder
   }
 
@@ -7107,21 +7169,8 @@ export namespace Prisma {
     currency?: SortOrder
     salary?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
     sentRolesId?: SortOrder
-  }
-
-  export type DateTimeNullableWithAggregatesFilter = {
-    equals?: Date | string | null
-    in?: Enumerable<Date> | Enumerable<string> | Date | string | null
-    notIn?: Enumerable<Date> | Enumerable<string> | Date | string | null
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedDateTimeNullableFilter
-    _max?: NestedDateTimeNullableFilter
   }
 
   export type RolesRelationFilter = {
@@ -7143,18 +7192,24 @@ export namespace Prisma {
     id?: SortOrder
     sentAt?: SortOrder
     roleId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SentRolesMaxOrderByAggregateInput = {
     id?: SortOrder
     sentAt?: SortOrder
     roleId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SentRolesMinOrderByAggregateInput = {
     id?: SortOrder
     sentAt?: SortOrder
     roleId?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type RolesListRelationFilter = {
@@ -7174,6 +7229,7 @@ export namespace Prisma {
     logoUrl?: SortOrder
     countryIcon?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CompaniesMaxOrderByAggregateInput = {
@@ -7183,6 +7239,7 @@ export namespace Prisma {
     logoUrl?: SortOrder
     countryIcon?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type CompaniesMinOrderByAggregateInput = {
@@ -7192,6 +7249,7 @@ export namespace Prisma {
     logoUrl?: SortOrder
     countryIcon?: SortOrder
     createdAt?: SortOrder
+    updatedAt?: SortOrder
   }
 
   export type SentRolesCreateNestedManyWithoutSubscribersInput = {
@@ -7220,12 +7278,8 @@ export namespace Prisma {
     set?: string | null
   }
 
-  export type NullableIntFieldUpdateOperationsInput = {
-    set?: number | null
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
+  export type NullableDateTimeFieldUpdateOperationsInput = {
+    set?: Date | string | null
   }
 
   export type NullableEnumEnglishLevelFieldUpdateOperationsInput = {
@@ -7288,10 +7342,6 @@ export namespace Prisma {
     >
     connectOrCreate?: SentRolesCreateOrConnectWithoutRoleInput
     connect?: SentRolesWhereUniqueInput
-  }
-
-  export type NullableDateTimeFieldUpdateOperationsInput = {
-    set?: Date | string | null
   }
 
   export type CompaniesUpdateOneRequiredWithoutRolesNestedInput = {
@@ -7517,15 +7567,15 @@ export namespace Prisma {
     not?: NestedStringNullableFilter | string | null
   }
 
-  export type NestedIntNullableFilter = {
-    equals?: number | null
-    in?: Enumerable<number> | number | null
-    notIn?: Enumerable<number> | number | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntNullableFilter | number | null
+  export type NestedDateTimeNullableFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | Date | string | null
+    notIn?: Enumerable<Date> | Enumerable<string> | Date | string | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableFilter | Date | string | null
   }
 
   export type NestedEnumEnglishLevelNullableFilter = {
@@ -7610,7 +7660,7 @@ export namespace Prisma {
     _max?: NestedStringNullableFilter
   }
 
-  export type NestedIntNullableWithAggregatesFilter = {
+  export type NestedIntNullableFilter = {
     equals?: number | null
     in?: Enumerable<number> | number | null
     notIn?: Enumerable<number> | number | null
@@ -7618,23 +7668,21 @@ export namespace Prisma {
     lte?: number
     gt?: number
     gte?: number
-    not?: NestedIntNullableWithAggregatesFilter | number | null
-    _count?: NestedIntNullableFilter
-    _avg?: NestedFloatNullableFilter
-    _sum?: NestedIntNullableFilter
-    _min?: NestedIntNullableFilter
-    _max?: NestedIntNullableFilter
+    not?: NestedIntNullableFilter | number | null
   }
 
-  export type NestedFloatNullableFilter = {
-    equals?: number | null
-    in?: Enumerable<number> | number | null
-    notIn?: Enumerable<number> | number | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatNullableFilter | number | null
+  export type NestedDateTimeNullableWithAggregatesFilter = {
+    equals?: Date | string | null
+    in?: Enumerable<Date> | Enumerable<string> | Date | string | null
+    notIn?: Enumerable<Date> | Enumerable<string> | Date | string | null
+    lt?: Date | string
+    lte?: Date | string
+    gt?: Date | string
+    gte?: Date | string
+    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
+    _count?: NestedIntNullableFilter
+    _min?: NestedDateTimeNullableFilter
+    _max?: NestedDateTimeNullableFilter
   }
   export type NestedJsonNullableFilter =
     | PatchUndefined<
@@ -7697,35 +7745,12 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter
   }
 
-  export type NestedDateTimeNullableFilter = {
-    equals?: Date | string | null
-    in?: Enumerable<Date> | Enumerable<string> | Date | string | null
-    notIn?: Enumerable<Date> | Enumerable<string> | Date | string | null
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeNullableFilter | Date | string | null
-  }
-
-  export type NestedDateTimeNullableWithAggregatesFilter = {
-    equals?: Date | string | null
-    in?: Enumerable<Date> | Enumerable<string> | Date | string | null
-    notIn?: Enumerable<Date> | Enumerable<string> | Date | string | null
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedDateTimeNullableFilter
-    _max?: NestedDateTimeNullableFilter
-  }
-
   export type SentRolesCreateWithoutSubscribersInput = {
     id?: string
     sentAt?: Date | string | null
     roleId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     role?: RolesCreateNestedOneWithoutSentRolesInput
   }
 
@@ -7733,6 +7758,8 @@ export namespace Prisma {
     id?: string
     sentAt?: Date | string | null
     roleId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     role?: RolesUncheckedCreateNestedOneWithoutSentRolesInput
   }
 
@@ -7779,6 +7806,8 @@ export namespace Prisma {
     id?: StringFilter | string
     sentAt?: DateTimeNullableFilter | Date | string | null
     roleId?: StringFilter | string
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
   }
 
   export type CompaniesCreateWithoutRolesInput = {
@@ -7787,7 +7816,8 @@ export namespace Prisma {
     url: string
     logoUrl?: string | null
     countryIcon: string
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CompaniesUncheckedCreateWithoutRolesInput = {
@@ -7796,7 +7826,8 @@ export namespace Prisma {
     url: string
     logoUrl?: string | null
     countryIcon: string
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type CompaniesCreateOrConnectWithoutRolesInput = {
@@ -7811,6 +7842,8 @@ export namespace Prisma {
     id?: string
     sentAt?: Date | string | null
     roleId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     subscribers?: SubscribersCreateNestedManyWithoutSentRolesInput
   }
 
@@ -7818,6 +7851,8 @@ export namespace Prisma {
     id?: string
     sentAt?: Date | string | null
     roleId: string
+    createdAt?: Date | string
+    updatedAt?: Date | string
     subscribers?: SubscribersUncheckedCreateNestedManyWithoutSentRolesInput
   }
 
@@ -7846,11 +7881,8 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type CompaniesUncheckedUpdateWithoutRolesInput = {
@@ -7859,11 +7891,8 @@ export namespace Prisma {
     url?: StringFieldUpdateOperationsInput | string
     logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
     countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SentRolesUpsertWithoutRoleInput = {
@@ -7881,6 +7910,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscribers?: SubscribersUpdateManyWithoutSentRolesNestedInput
   }
 
@@ -7888,6 +7919,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscribers?: SubscribersUncheckedUpdateManyWithoutSentRolesNestedInput
   }
 
@@ -7900,7 +7933,8 @@ export namespace Prisma {
     currency?: string | null
     salary?: string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     company: CompaniesCreateNestedOneWithoutRolesInput
   }
 
@@ -7914,7 +7948,8 @@ export namespace Prisma {
     currency?: string | null
     salary?: string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
   }
 
   export type RolesCreateOrConnectWithoutSentRolesInput = {
@@ -7931,11 +7966,12 @@ export namespace Prisma {
     name?: string | null
     linkedInUrl?: string | null
     gitHub?: string | null
-    startedWorkingAt?: number | null
+    startedWorkingAt?: Date | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     optOut?: boolean
   }
 
@@ -7945,11 +7981,12 @@ export namespace Prisma {
     name?: string | null
     linkedInUrl?: string | null
     gitHub?: string | null
-    startedWorkingAt?: number | null
+    startedWorkingAt?: Date | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
+    updatedAt?: Date | string | null
     optOut?: boolean
   }
 
@@ -7981,11 +8018,8 @@ export namespace Prisma {
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
   }
 
@@ -7999,11 +8033,8 @@ export namespace Prisma {
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubscribersUpsertWithWhereUniqueWithoutSentRolesInput = {
@@ -8043,11 +8074,12 @@ export namespace Prisma {
     name?: StringNullableFilter | string | null
     linkedInUrl?: StringNullableFilter | string | null
     gitHub?: StringNullableFilter | string | null
-    startedWorkingAt?: IntNullableFilter | number | null
+    startedWorkingAt?: DateTimeNullableFilter | Date | string | null
     skills?: JsonNullableFilter
     englishLevel?: EnumEnglishLevelNullableFilter | EnglishLevel | null
     isConfirmed?: BoolFilter | boolean
     createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeNullableFilter | Date | string | null
     optOut?: BoolFilter | boolean
   }
 
@@ -8060,7 +8092,8 @@ export namespace Prisma {
     currency?: string | null
     salary?: string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
   }
 
@@ -8073,7 +8106,8 @@ export namespace Prisma {
     currency?: string | null
     salary?: string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     sentRolesId?: string | null
   }
 
@@ -8131,7 +8165,8 @@ export namespace Prisma {
     currency?: StringNullableFilter | string | null
     salary?: StringNullableFilter | string | null
     skills?: JsonNullableFilter
-    createdAt?: DateTimeNullableFilter | Date | string | null
+    createdAt?: DateTimeFilter | Date | string
+    updatedAt?: DateTimeFilter | Date | string
     sentRolesId?: StringNullableFilter | string | null
   }
 
@@ -8139,6 +8174,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: RolesUpdateOneWithoutSentRolesNestedInput
   }
 
@@ -8146,6 +8183,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     role?: RolesUncheckedUpdateOneWithoutSentRolesNestedInput
   }
 
@@ -8153,6 +8192,8 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     roleId?: StringFieldUpdateOperationsInput | string
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SubscribersUpdateWithoutSentRolesInput = {
@@ -8161,7 +8202,11 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    startedWorkingAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?:
       | NullableEnumEnglishLevelFieldUpdateOperationsInput
@@ -8169,6 +8214,11 @@ export namespace Prisma {
       | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -8178,7 +8228,11 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    startedWorkingAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?:
       | NullableEnumEnglishLevelFieldUpdateOperationsInput
@@ -8186,6 +8240,11 @@ export namespace Prisma {
       | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -8195,7 +8254,11 @@ export namespace Prisma {
     name?: NullableStringFieldUpdateOperationsInput | string | null
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
-    startedWorkingAt?: NullableIntFieldUpdateOperationsInput | number | null
+    startedWorkingAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?:
       | NullableEnumEnglishLevelFieldUpdateOperationsInput
@@ -8203,6 +8266,11 @@ export namespace Prisma {
       | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?:
+      | NullableDateTimeFieldUpdateOperationsInput
+      | Date
+      | string
+      | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
   }
 
@@ -8215,7 +8283,8 @@ export namespace Prisma {
     currency?: string | null
     salary?: string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
     sentRolesId?: string | null
   }
 
@@ -8228,11 +8297,8 @@ export namespace Prisma {
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
   }
 
@@ -8245,11 +8311,8 @@ export namespace Prisma {
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
@@ -8262,11 +8325,8 @@ export namespace Prisma {
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
     skills?: NullableJsonNullValueInput | InputJsonValue
-    createdAt?:
-      | NullableDateTimeFieldUpdateOperationsInput
-      | Date
-      | string
-      | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
