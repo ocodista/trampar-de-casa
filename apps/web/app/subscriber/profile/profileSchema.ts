@@ -34,7 +34,6 @@ export const profileFormSchema = z.object({
     .string()
     .url({ message: 'Formato de URL inválido.' })
     .or(z.literal(''))
-    .optional()
     .nullable()
     .transform((data) => (data ? data : null)),
   [ProfileSchemaEnum.StartedWorkingAt]: z.date({ coerce: true }),
