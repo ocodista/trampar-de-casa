@@ -16,18 +16,29 @@ import { render } from '@react-email/render'
 import React from 'react'
 import OpeningList from './OpeningList'
 import { Opening } from './Opening'
-import { main, container, box, h1, hr, paragraph, anchor } from './style'
+import {
+  main,
+  container,
+  box,
+  h1,
+  hr,
+  paragraph,
+  anchor,
+  footer,
+} from './style'
 
 interface OpeningsEmail {
   globalOpenings: Opening[]
   localOpenings: Opening[]
   feedbackFormUrl: string
+  unsubscribeUrl: string
 }
 
 export const OpeningsEmail = ({
   globalOpenings,
   localOpenings,
   feedbackFormUrl,
+  unsubscribeUrl,
 }: OpeningsEmail) => {
   const rolesCount = globalOpenings.length + localOpenings.length
   const previewText = `${rolesCount} vagas para você Trampar de Casa 🔥`
@@ -49,21 +60,17 @@ export const OpeningsEmail = ({
               </Container>
               <Heading style={h1}>{previewText}</Heading>
               <Hr style={hr} />
-              <Text style={paragraph}>Salve!</Text>
-              <Text style={paragraph}>Valeu aos que deram seu feedback!</Text>
               <Text style={paragraph}>
-                Estamos em busca de mais vagas Jr/Pleno e nosso sistema de vagas
-                personalizadas está quase pronto (feito com carinho nas
-                madrugadas 😅).
+                Bom dia, amantes do trabalho remoto{' '}
               </Text>
+              <Text style={paragraph}>Suas vagas chegaram!</Text>
               <Text style={paragraph}>
-                Queremos ouvir você, clique{' '}
+                O seu feedback ajuda <strong>demais</strong>, clique{' '}
                 <Link style={anchor} href={feedbackFormUrl}>
                   aqui.
                 </Link>
               </Text>
-              <Text style={paragraph}>Aproveite as melhores vagas.</Text>
-              <Text style={paragraph}>Abraços e até logo!</Text>
+              <Text style={paragraph}>Aproveite!</Text>
               <Hr style={hr} />
               <Heading style={h1}>
                 🌎 {globalOpenings.length} Vagas internacionais
@@ -78,6 +85,17 @@ export const OpeningsEmail = ({
                 Muito obrigado pela sua atenção e tempo!
               </Text>
               <Text style={paragraph}>Até a próxima!</Text>
+              <Text style={paragraph}></Text>
+              <Text style={footer}>
+                Se por algum motivo você deseja interromper o recebimento destas
+                comunicações, entendemos completamente. Nós respeitamos o seu
+                espaço e o valorizamos como membro da nossa comunidade. Para se
+                desinscrever, basta clicar{' '}
+                <Link style={anchor} href={unsubscribeUrl}>
+                  aqui
+                </Link>
+                .
+              </Text>
             </Section>
           </Container>
         </Body>
