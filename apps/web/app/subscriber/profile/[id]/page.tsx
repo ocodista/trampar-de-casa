@@ -1,6 +1,5 @@
-import { getAbsoluteUrl } from 'app/utils/vercel'
+import { getDecryptedId } from 'app/api/getDecryptedId'
 import { EnglishLevel } from 'global/EnglishLevel'
-import { notFound } from 'next/navigation'
 import { SubscriberForm } from '../components/SubscriberForm'
 import { getSubscriber } from '../getSubscriber'
 import { getSubscriberTopics } from '../getSubscriberTopics'
@@ -8,13 +7,7 @@ import { getTopics } from '../getTopics'
 
 export const revalidate = 0
 const ProfilePage = async ({ params }: { params: { id: string } }) => {
-  const decryptedIdResponse = await fetch(
-    `${getAbsoluteUrl()}/api/decrypt/${params.id}`
-  )
-  if (!decryptedIdResponse.ok) notFound()
-  const decryptedId = (await decryptedIdResponse.json()) as { id: string }
-  const subscriberId = decryptedId.id
-
+  const subscriberId = getDecryptedId(params.id)
   const subscriber = await getSubscriber(subscriberId)
   const subscriberTopics = await getSubscriberTopics(subscriberId)
   const topics = await getTopics()
