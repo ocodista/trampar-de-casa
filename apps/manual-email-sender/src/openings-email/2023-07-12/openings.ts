@@ -9,9 +9,9 @@ const localJrOpenings: Opening[] = [
     location: 'Brasil',
     language: 'Português',
     currency: 'BRL',
-    salary: 'Até R$4.000',
+    salary: 'Até R$ 4.000',
     skills: ['C#', '.NET', 'SQLServer', 'Angular', 'API'],
-    headerInfo: 'Júnior (R$4.000)',
+    headerInfo: 'Júnior (R$ 4.000)',
     url: 'https://programathor.com.br/jobs/29015-desenvolvedor-a-net-c-junior',
   },
   {
@@ -52,9 +52,9 @@ const localJrOpenings: Opening[] = [
     location: 'Brasil',
     language: 'Português',
     currency: 'BRL',
-    salary: 'R$5.100 a R$6.000',
+    salary: 'R$ 5.100 a R$ 6.000',
     skills: ['Bubble', 'HTML', 'CSS', 'JavaScript'],
-    headerInfo: 'Júnior (R$5.000 a R$6.000)',
+    headerInfo: 'Júnior (R$ 5.000 a R$ 6.000)',
     url: 'https://careers.nuuvem.com/o/desenvolvedor-bubble-jr-1',
   },
   {
@@ -84,7 +84,7 @@ const localJrOpenings: Opening[] = [
     location: 'Brasil',
     language: 'Português',
     currency: 'BRL',
-    salary: 'Até R$3.500',
+    salary: 'Até R$ 3.500',
     skills: [
       'CSS',
       'JavaScript',
@@ -92,7 +92,7 @@ const localJrOpenings: Opening[] = [
       'Testes Automatizados',
       'Testes Regressão',
     ],
-    headerInfo: 'Júnior (R$3.500)',
+    headerInfo: 'Júnior (R$ 3.500)',
     url: 'https://programathor.com.br/jobs/28976-analista-de-testes-junior-100-remoto',
   },
 ]
@@ -145,7 +145,7 @@ const localOpenings: Opening[] = [
     currency: 'BRL',
     salary: 'from R$ 8.000,00 to R$ 8.000,00 BRL/monthly',
     location: 'Brasil',
-    headerInfo: 'Pleno (até R$ 8.000,00)',
+    headerInfo: 'Pleno (até R$ 8.000)',
     language: 'Português',
     skills: ['CSS', 'JavaScript', 'Java', 'TypeScript', 'React'],
   },
@@ -214,7 +214,7 @@ const globalPartnerCompanies: Opening[] = [
     language: 'Inglês',
     currency: 'USD',
     skills: ['AWS', 'Docker', 'Kubernetes', 'Terraform', 'Linux'],
-    headerInfo: 'Júnior a Pleno ($2,000 a $3,500)',
+    headerInfo: 'Júnior a Pleno ($ 2,000 a $ 3,500)',
     url: 'https://public.app.shortcut.com/62/meteor-software/docs/33M0mvrlVcqjX85UO74Hdl/devops-engineer',
   },
   striderOpening(
@@ -222,28 +222,28 @@ const globalPartnerCompanies: Opening[] = [
     3,
     'app.onstrider.com/r/trampar_de_casa?job=bWlkLWxldmVsLXNjcmFwaW5nLWVuZ2luZWVyLXB5dGhvbi03NjhiOTdhYz9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
     ['Python', 'Playwright', 'HTML'],
-    'U$ 4,000 a U$ 6,200'
+    '$ 4,000 a $ 6,200'
   ),
   striderOpening(
     'Product Designer',
     3,
     'app.onstrider.com/r/trampar_de_casa?job=cHJvZHVjdC1kZXNpZ25lci1kN2VkMmJhOT9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
     ['Design for Web', 'UI/UX', 'Data Visualization'],
-    'U$ 6,300 a U$ 10,000'
+    '$ 6,300 a $ 10,000'
   ),
   striderOpening(
     'Database Administrator',
     4,
     'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLWRiYS1tc3NxbC04NjM3MThkMz9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
     ['SQL', 'Temporary Tables', 'SQL Test Scripts'],
-    'U$ 3,300 a U$ 4,500'
+    '$ 3,300 a $ 4,500'
   ),
   striderOpening(
     'Senior BE Engineer - Java, Spring',
     4,
     'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLWRiYS1tc3NxbC04NjM3MThkMz9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
     ['Java', 'Spring', 'React'],
-    'U$ 6,300 a U$ 8,000'
+    '$ 6,300 a $ 8,000'
   ),
   striderOpening(
     'Senior Full-stack Engineer - Spring, React.js',
@@ -256,14 +256,14 @@ const globalPartnerCompanies: Opening[] = [
     5,
     'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLWZ1bGwtc3RhY2stZW5naW5lZXItZGphbmdvLXJlYWN0LmpzLTBhOTc2MjU0MmEwMj9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
     ['Django', 'React', 'Full Stack', '50/50'],
-    'U$ 5,000 a U$ 7,500'
+    '$ 5,000 a $ 7,500'
   ),
   striderOpening(
     'Senior Machine Learning Engineer',
     6,
     'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLW1hY2hpbmUtbGVhcm5pbmctZW5naW5lZXItZTUzMDIyZDc/cmVmZXJyYWw9dHJhbXBhcl9kZV9jYXNh',
     ['Deep Learning', 'Computer Vision', 'Published Papers'],
-    'U$ 5,000 a U$ 6,500'
+    '$ 5,000 a $ 6,500'
   ),
 ]
 

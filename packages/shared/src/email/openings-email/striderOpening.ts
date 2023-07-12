@@ -9,7 +9,9 @@ export const striderOpening = (
 ): Opening => ({
   company: 'Strider',
   title,
-  headerInfo: `Mínimo de ${minimumXP} anos de XP${salary ? `(${salary})` : ''}`,
+  headerInfo: `Mínimo de ${minimumXP} anos de XP${
+    salary ? ` (${salary})` : ''
+  }`,
   language: 'Inglês Avançado',
   currency: 'U$',
   location: 'Estados Unidos',
