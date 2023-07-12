@@ -1,7 +1,7 @@
 'use client'
 import {
   CustomFormField,
-  StarWorkAtInput,
+  StartWorkAtInput,
   TextInput,
 } from '../../../components/CustomFormField'
 import { ProfileSchemaEnum } from '../profileSchema'
@@ -19,7 +19,7 @@ export const PersonalInfoForm = () => {
       <CustomFormField
         name={ProfileSchemaEnum.StartedWorkingAt}
         label="Primeiro emprego com tecnologia"
-        Input={StarWorkAtInput}
+        Input={StartWorkAtInput}
       />
       <CustomFormField
         name={ProfileSchemaEnum.LinkedInUrl}

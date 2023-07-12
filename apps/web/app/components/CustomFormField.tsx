@@ -81,7 +81,7 @@ export const TextInput = ({ field, placeholder, isSubmitting }) => {
   )
 }
 
-export const StarWorkAtInput = ({ field, placeholder, isSubmitting }) => {
+export const StartWorkAtInput = ({ field, placeholder, isSubmitting }) => {
   const form = useFormContext()
   const extractMonth = (dateString: string) => {
     const [year, month] = format(new Date(dateString), 'yyyy-MM').split('-')
