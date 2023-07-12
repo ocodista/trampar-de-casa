@@ -35,7 +35,7 @@ const CompanySection = ({ name, imagePath, url, description }: Company) => (
     <Image
       src={imagePath}
       alt={`Logo da empresa ${name}`}
-      className="cursor-pointer"
+      className="cursor-pointer aspect-video object-contain"
       title={description}
       width={128}
       height={28}
@@ -49,7 +49,7 @@ export const PartnerCompanies = () => {
       <p className="mb-4 text-sm text-gray-500 font-semibold">
         EMPRESAS QUE APOIAM O TRABALHO REMOTO
       </p>
-      <div className="flex flex-wrap items-center gap-10">
+      <div className="flex flex-wrap items-center gap-10 max-lg:justify-around">
         {companies.map((company) => (
           <CompanySection key={company.name} {...company} />
         ))}
