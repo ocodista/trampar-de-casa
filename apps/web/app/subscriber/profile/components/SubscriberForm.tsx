@@ -2,6 +2,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Separator } from '@radix-ui/react-select'
 import { Button } from 'app/components/ui/button'
+import { LoadingOverlay } from 'app/components/ui/loadingOverlay'
 import { useToast } from 'app/hooks/use-toast'
 import { EnglishLevel } from 'global/EnglishLevel'
 import { usePathname } from 'next/navigation'
@@ -56,24 +57,27 @@ export function SubscriberForm({
   }
 
   return (
-    <FormProvider {...form}>
-      <form
-        onSubmit={form.handleSubmit(onSubmit)}
-        className="container px-8 mx-auto space-y-6 pb-16 block"
-      >
-        <header className="space-y-0.5">
-          <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
-          <p className="text-muted-foreground">{description}</p>
-        </header>
-        <Separator className="my-6" />
-        <main className="grid grid-cols-1 md:grid-cols-2  gap-6 md:gap-14">
-          <PersonalInfoForm />
-          <SubscriptionForm descriptionTopics={descriptionTopics} />
-        </main>
-        <footer>
-          <Button type="submit">Salvar</Button>
-        </footer>
-      </form>
-    </FormProvider>
+    <>
+      {form.formState.isSubmitting && <LoadingOverlay className="flex" />}
+      <FormProvider {...form}>
+        <form
+          onSubmit={form.handleSubmit(onSubmit)}
+          className="container px-8 mx-auto space-y-6 pb-16 block"
+        >
+          <header className="space-y-0.5">
+            <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
+            <p className="text-muted-foreground">{description}</p>
+          </header>
+          <Separator className="my-6" />
+          <main className="grid grid-cols-1 md:grid-cols-2  gap-6 md:gap-14">
+            <PersonalInfoForm />
+            <SubscriptionForm descriptionTopics={descriptionTopics} />
+          </main>
+          <footer>
+            <Button type="submit">Salvar</Button>
+          </footer>
+        </form>
+      </FormProvider>
+    </>
   )
 }
