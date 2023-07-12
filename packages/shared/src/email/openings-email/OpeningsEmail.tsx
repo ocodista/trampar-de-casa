@@ -61,17 +61,27 @@ export const OpeningsEmail = ({
               <Heading style={h1}>{previewText}</Heading>
               <Hr style={hr} />
               <Text style={paragraph}>
-                Bom dia, amantes do trabalho remoto{' '}
+                Bom dia, amantes do trabalho remoto!{' '}
               </Text>
-              <Text style={paragraph}>Suas vagas chegaram!</Text>
               <Text style={paragraph}>
-                O seu feedback ajuda <strong>demais</strong>, clique{' '}
+                Temos uma grande novidade para compartilhar com vocês: fechamos
+                uma parceria com a renomada plataforma de desenvolvimento
+                FullStack JS e TS{' '}
+                <Link style={anchor} href="https://www.meteor.com/">
+                  Meteor
+                </Link>
+                {' - que também é open-source!'}
+              </Text>
+              <Text style={paragraph}>
+                O seu feedback nos ajuda <strong>demais</strong>, clique{' '}
                 <Link style={anchor} href={feedbackFormUrl}>
                   aqui.
                 </Link>
               </Text>
-              <Text style={paragraph}>Aproveite!</Text>
-              <Hr style={hr} />
+              <Text style={paragraph}>
+                Agora, é hora de você aproveitar as oportunidades de vagas.
+                Esperamos que goste!
+              </Text>
               <Heading style={h1}>
                 🌎 {globalOpenings.length} Vagas internacionais
               </Heading>

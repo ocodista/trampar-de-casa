@@ -4,15 +4,43 @@ import { Openings } from '../Openings'
 
 const localJrOpenings: Opening[] = [
   {
+    company: 'Melhor Escolha',
+    title: 'Analista de Testes Júnior',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'BRL',
+    salary: 'Até R$3.500',
+    skills: [
+      'CSS',
+      'JavaScript',
+      'HTML',
+      'Testes Automatizados',
+      'Testes Regressão',
+    ],
+    headerInfo: 'Júnior (R$3.500)',
+    url: 'https://programathor.com.br/jobs/28976-analista-de-testes-junior-100-remoto',
+  },
+  {
     company: 'Codecycle',
     title: 'Desenvolvedor(a) .Net (C#) Júnior',
     location: 'Brasil',
     language: 'Português',
     currency: 'BRL',
-    salary: 'Até R$ 4.000',
+    salary: 'Até R$4.000',
     skills: ['C#', '.NET', 'SQLServer', 'Angular', 'API'],
-    headerInfo: 'Júnior (R$ 4.000)',
+    headerInfo: 'Júnior (R$4.000)',
     url: 'https://programathor.com.br/jobs/29015-desenvolvedor-a-net-c-junior',
+  },
+  {
+    company: 'Nuuvem',
+    title: 'Desenvolvedor Bubble Jr',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'BRL',
+    salary: 'R$5.100 a R$ 6.000',
+    skills: ['Bubble', 'HTML', 'CSS', 'JavaScript'],
+    headerInfo: 'Júnior (R$5.000 a R$ 6.000)',
+    url: 'https://careers.nuuvem.com/o/desenvolvedor-bubble-jr-1',
   },
   {
     url: 'https://www.klutch.com.br/vagas/desenvolvedor-react-junior',
@@ -46,17 +74,7 @@ const localJrOpenings: Opening[] = [
     headerInfo: 'Júnior',
     url: 'https://jobs.smartrecruiters.com/Experian/743999914424554-desenvolvedor-a-ios-jr',
   },
-  {
-    company: 'Nuuvem',
-    title: 'Desenvolvedor Bubble Jr',
-    location: 'Brasil',
-    language: 'Português',
-    currency: 'BRL',
-    salary: 'R$ 5.100 a R$ 6.000',
-    skills: ['Bubble', 'HTML', 'CSS', 'JavaScript'],
-    headerInfo: 'Júnior (R$ 5.000 a R$ 6.000)',
-    url: 'https://careers.nuuvem.com/o/desenvolvedor-bubble-jr-1',
-  },
+
   {
     company: 'Knewin',
     title: 'Pessoa Desenvolvedora Java Fullstack (Júnior)',
@@ -77,23 +95,6 @@ const localJrOpenings: Opening[] = [
     skills: ['Curso Superior', 'SQL', 'ETL'],
     headerInfo: 'Júnior',
     url: 'https://celcoin.gupy.io/job/eyJqb2JJZCI6NDk2OTE5Nywic291cmNlIjoibGlua2VkaW4ifQ==',
-  },
-  {
-    company: 'Melhor Escolha',
-    title: 'Analista de Testes Júnior',
-    location: 'Brasil',
-    language: 'Português',
-    currency: 'BRL',
-    salary: 'Até R$ 3.500',
-    skills: [
-      'CSS',
-      'JavaScript',
-      'HTML',
-      'Testes Automatizados',
-      'Testes Regressão',
-    ],
-    headerInfo: 'Júnior (R$ 3.500)',
-    url: 'https://programathor.com.br/jobs/28976-analista-de-testes-junior-100-remoto',
   },
 ]
 
@@ -132,32 +133,10 @@ const localOpenings: Opening[] = [
     title: 'Desenvolvedor(a) de Software Pleno',
     currency: 'BRL',
     salary: 'from R$ 8.000,00 to R$ 8.000,00 BRL/monthly',
-    headerInfo: 'Pleno (até R$ 8.000)',
+    headerInfo: 'Pleno (até R$8.000)',
     language: 'Inglês',
     skills: ['HTML', 'CSS', 'Python', 'Java', 'C++'],
     location: 'Brasil',
-  },
-
-  {
-    url: 'https://programathor.com.br/jobs/28983-desenvolvedor-a-react-pleno',
-    company: 'ProgramaThor',
-    title: 'Desenvolvedor(a) React Pleno',
-    currency: 'BRL',
-    salary: 'from R$ 8.000,00 to R$ 8.000,00 BRL/monthly',
-    location: 'Brasil',
-    headerInfo: 'Pleno (até R$ 8.000)',
-    language: 'Português',
-    skills: ['CSS', 'JavaScript', 'Java', 'TypeScript', 'React'],
-  },
-  {
-    url: 'https://jobs.quickin.io/ucondo/jobs/649c2db133769e001a3fa28b',
-    company: 'uCondo',
-    location: 'Brasil',
-    title: 'Product Designer Sênior',
-    currency: 'BRL',
-    headerInfo: 'Sênior (R$ 7.000 a R$ 9.000)',
-    language: 'Português',
-    skills: ['Formação em UI/UX', 'Design System', 'Temas Saas'],
   },
   {
     company: 'JFOX',
@@ -194,6 +173,29 @@ const localOpenings: Opening[] = [
     headerInfo: 'Pleno',
     url: 'https://vagas.empregos.com.br/vaga/8778745/pessoa-desenvolvedora-php-remoto-em-porto-alegre-rs',
   },
+
+  {
+    url: 'https://programathor.com.br/jobs/28983-desenvolvedor-a-react-pleno',
+    company: 'ProgramaThor',
+    title: 'Desenvolvedor(a) React Pleno',
+    currency: 'BRL',
+    salary: 'from R$ 8.000,00 to R$ 8.000,00 BRL/monthly',
+    location: 'Brasil',
+    headerInfo: 'Pleno (até R$ 8.000)',
+    language: 'Português',
+    skills: ['CSS', 'JavaScript', 'Java', 'TypeScript', 'React'],
+  },
+  {
+    url: 'https://jobs.quickin.io/ucondo/jobs/649c2db133769e001a3fa28b',
+    company: 'uCondo',
+    location: 'Brasil',
+    title: 'Product Designer Sênior',
+    currency: 'BRL',
+    headerInfo: 'Sênior (R$ 7.000 a R$9.000)',
+    language: 'Português',
+    skills: ['Formação em UI/UX', 'Design System', 'Temas Saas'],
+  },
+
   {
     company: 'Zup Innovation',
     title: 'Senior Front-End Developer | Angular',
@@ -214,7 +216,7 @@ const globalPartnerCompanies: Opening[] = [
     language: 'Inglês',
     currency: 'USD',
     skills: ['AWS', 'Docker', 'Kubernetes', 'Terraform', 'Linux'],
-    headerInfo: 'Júnior a Pleno ($ 2,000 a $ 3,500)',
+    headerInfo: 'Júnior a Pleno ($2,000 a $ 3,500)',
     url: 'https://public.app.shortcut.com/62/meteor-software/docs/33M0mvrlVcqjX85UO74Hdl/devops-engineer',
   },
   striderOpening(
@@ -222,28 +224,28 @@ const globalPartnerCompanies: Opening[] = [
     3,
     'app.onstrider.com/r/trampar_de_casa?job=bWlkLWxldmVsLXNjcmFwaW5nLWVuZ2luZWVyLXB5dGhvbi03NjhiOTdhYz9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
     ['Python', 'Playwright', 'HTML'],
-    '$ 4,000 a $ 6,200'
+    '$4,000 a $ 6,200'
   ),
   striderOpening(
     'Product Designer',
     3,
     'app.onstrider.com/r/trampar_de_casa?job=cHJvZHVjdC1kZXNpZ25lci1kN2VkMmJhOT9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
     ['Design for Web', 'UI/UX', 'Data Visualization'],
-    '$ 6,300 a $ 10,000'
+    '$6,300 a $ 10,000'
   ),
   striderOpening(
     'Database Administrator',
     4,
     'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLWRiYS1tc3NxbC04NjM3MThkMz9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
     ['SQL', 'Temporary Tables', 'SQL Test Scripts'],
-    '$ 3,300 a $ 4,500'
+    '$3,300 a $ 4,500'
   ),
   striderOpening(
     'Senior BE Engineer - Java, Spring',
     4,
     'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLWRiYS1tc3NxbC04NjM3MThkMz9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
     ['Java', 'Spring', 'React'],
-    '$ 6,300 a $ 8,000'
+    '$6,300 a $ 8,000'
   ),
   striderOpening(
     'Senior Full-stack Engineer - Spring, React.js',
@@ -256,18 +258,102 @@ const globalPartnerCompanies: Opening[] = [
     5,
     'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLWZ1bGwtc3RhY2stZW5naW5lZXItZGphbmdvLXJlYWN0LmpzLTBhOTc2MjU0MmEwMj9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
     ['Django', 'React', 'Full Stack', '50/50'],
-    '$ 5,000 a $ 7,500'
+    '$5,000 a $ 7,500'
   ),
   striderOpening(
     'Senior Machine Learning Engineer',
     6,
     'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLW1hY2hpbmUtbGVhcm5pbmctZW5naW5lZXItZTUzMDIyZDc/cmVmZXJyYWw9dHJhbXBhcl9kZV9jYXNh',
     ['Deep Learning', 'Computer Vision', 'Published Papers'],
-    '$ 5,000 a $ 6,500'
+    '$5,000 a $ 6,500'
   ),
 ]
 
 const globalOpenings: Opening[] = [
+  {
+    title: 'Front End Product Software Engineer',
+    company: 'Dropbox',
+    location: 'Polônia',
+    language: 'Inglês',
+    url: 'https://dynamitejobs.com/company/dropbox/remote-job/front-end-product-software-engineer',
+    currency: 'USD',
+    headerInfo: 'Mínimo 2 anos de XP ($3,700 a $6,600)',
+    skills: ['JavaScript', 'React.js', 'TypeScript'],
+  },
+  {
+    title: 'Remote iOS Developer',
+    company: 'Photo AI',
+    location: 'Estados Unidos',
+    language: 'Inglês',
+    currency: 'USD',
+    url: 'https://remoteok.com/remote-jobs/remote-ios-developer-photo-ai-311851',
+    headerInfo: '$2,500 a $6,600',
+    skills: [
+      'Swift',
+      'iOS frameworks',
+      'RESTful APIs',
+      'Memory management',
+      'Multithreading',
+    ],
+  },
+  {
+    title: 'Front End Developer',
+    company: 'Coalition Technologies',
+    location: 'Mundial',
+    language: 'Inglês',
+    url: 'https://remotive.com/remote-jobs/software-dev/front-end-developer-1680495',
+    currency: 'USD',
+    headerInfo: 'Sênior ($2,600 a $6,000)',
+    skills: ['HTML5', 'CSS3', 'jQuery', 'Twitter’s Bootstrap', 'PHP/MYSQL'],
+  },
+  {
+    title: 'Front-end developer',
+    company: 'TextMagic',
+    location: 'Estônia',
+    language: 'Inglês',
+    url: 'https://dynamitejobs.com/company/textmagic/remote-job/front-end-developer-vue-js-typescript-spa-remote',
+    currency: 'USD',
+    headerInfo: 'Sênior ($5,000 a $10,000)',
+    skills: ['Vue.js', 'JavaScript', 'TypeScript', 'CSS'],
+  },
+
+  {
+    title: 'Sr. Product Designer',
+    company: 'FlyLance',
+    location: 'Estados Unidos',
+    language: 'Inglês',
+    url: 'https://www.flylance.com/role?id=receY44tUh9fTv0q6',
+    currency: 'USD',
+    headerInfo: 'Mínimo de 7 anos de XP',
+    skills: ['Figma', 'Teste de Usabilidade', 'Persona'],
+  },
+  {
+    title: 'Senior Backend Developer - Node (Remote)',
+    company: 'Bitfinex',
+    location: 'Mundial',
+    language: 'Inglês',
+    url: 'https://wellfound.com/company/bitfinex/jobs/2731909-senior-backend-developer-node-remote',
+    currency: 'USD',
+    headerInfo: 'Sênior ( $5,000 a $10,000 )',
+    skills: [
+      'Javascript',
+      'MySQL',
+      'MongoDB',
+      'Node.js',
+      'Blockchain',
+      'NodeJS',
+    ],
+  },
+  {
+    title: 'Machine Learning Intern',
+    company: 'Ivy',
+    location: 'Estados Unidos',
+    language: 'Inglês',
+    url: 'https://dynamitejobs.com/company/ivy01/remote-job/machine-learning-intern-3',
+    currency: 'USD',
+    headerInfo: 'Estagiário ( $2,500 a $4,000 )',
+    skills: ['Machine Learning', 'Python', 'PyTorch', 'Tensorflow'],
+  },
   {
     url: 'https://programathor.com.br/jobs/28986-desenvolvedor-a-rust-go-senior',
     company: 'ProgramaThor',
@@ -278,6 +364,48 @@ const globalOpenings: Opening[] = [
     headerInfo: 'Sênior (R$ 18.000)',
     language: 'Inglês',
     skills: ['Python', 'C++', 'MySQL', 'PostgreSQL', 'MongoDB'],
+  },
+  {
+    title: 'Sr. React Engineer',
+    company: 'FlyLance',
+    location: 'Estados Unidos',
+    language: 'Inglês',
+    url: 'https://www.flylance.com/role?id=recMaDly969lDSw7G',
+    currency: 'USD',
+    headerInfo: 'Senior',
+    skills: ['REACT', 'Typescript', 'Material UI', 'Azure DevOps'],
+  },
+  {
+    title: 'Sr. Frontend Engineer (Vue.js)',
+    company: 'FlyLance',
+    location: 'Estados Unidos',
+    language: 'Inglês',
+    url: 'https://www.flylance.com/role?id=rec1agBSh1RRZSzfu',
+    currency: 'USD',
+    headerInfo: 'Mínimo de 5 anos de XP',
+    skills: [
+      'Vue.js',
+      'JavaScript',
+      'REST API Development',
+      'SQL',
+      'Agile software development',
+    ],
+  },
+  {
+    title: 'Backend Developer (Python)',
+    company: 'dresslife',
+    location: 'Alemanha',
+    language: 'Inglês',
+    url: 'https://wellfound.com/company/dresslife/jobs/557180-backend-developer-python',
+    currency: 'EUR',
+    headerInfo: '€3.750 a €4.580',
+    skills: [
+      'Python',
+      'Node.js',
+      'Solutions Architecture',
+      'ECMAScript',
+      'Clean Code',
+    ],
   },
 ]
 
