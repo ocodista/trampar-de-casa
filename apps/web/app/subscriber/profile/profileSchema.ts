@@ -33,8 +33,10 @@ export const profileFormSchema = z.object({
   [ProfileSchemaEnum.GitHub]: z
     .string()
     .url({ message: 'Formato de URL inválido.' })
+    .or(z.literal(''))
+    .optional()
     .nullable()
-    .optional(),
+    .transform((data) => (data ? data : null)),
   [ProfileSchemaEnum.StartedWorkingAt]: z.date({ coerce: true }),
   [ProfileSchemaEnum.EnglishLevel]: z.nativeEnum(EnglishLevel),
   [ProfileSchemaEnum.Skills]: z
