@@ -86,7 +86,21 @@ export const Hero = () => {
 
   return (
     <>
-      <div className="pt-8 pb-28">
+      <div className="text-center">
+        <div
+          className="p-2 bg-[#4f46e5] items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
+          role="alert"
+        >
+          <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">
+            20% de desconto
+          </span>
+          <span className="font-semibold mr-2 text-left flex-auto">
+            No maior evento de <i>front</i> da América Latina com o cupom{' '}
+            <strong>TRAMPARDECASA</strong>
+          </span>
+        </div>
+      </div>
+      <div className="pt-6 pb-28">
         <div className="container mx-auto">
           <div className="flex flex-wrap items-center -m-8">
             <div className="w-full lg:w-1/2 p-8 lg:pr-0">
