@@ -48,8 +48,7 @@ export const HowItWorks = () => (
                       Você se inscreve
                     </h3>
                     <p className="text-gray-700 font-medium leading-relaxed">
-                      Forneça-nos seu melhor e-mail e defina suas preferências
-                      de trabalho (cargo, tecnologias e idioma).
+                      Forneça-nos seu melhor e-mail.
                     </p>
                   </div>
                 </div>
@@ -85,7 +84,7 @@ export const HowItWorks = () => (
                     </h3>
                     <p className="text-gray-700 font-medium leading-relaxed">
                       Nós cruzamos suas preferências com nossas vagas
-                      disponíveis.
+                      disponíveis. (EM BREVE)
                     </p>
                   </div>
                 </div>
