@@ -83,14 +83,14 @@ export const TextInput = ({ field, placeholder, isSubmitting }) => {
 
 export const StartWorkAtInput = ({ field, placeholder, isSubmitting }) => {
   const form = useFormContext()
-  const extractMonth = (dateString: string) => {
+  const dateToMonth = (dateString: string) => {
     const [year, month] = format(new Date(dateString), 'yyyy-MM').split('-')
     const sanitizedMonth = String(Number(month)).padStart(2, '0')
     const sanitizedDate = `${year}-${sanitizedMonth}`
     return sanitizedDate
   }
   useEffect(() => {
-    form.setValue(ProfileSchemaEnum.StartedWorkingAt, extractMonth(field.value))
+    form.setValue(ProfileSchemaEnum.StartedWorkingAt, dateToMonth(field.value))
   }, [])
 
   const fieldProps = {
