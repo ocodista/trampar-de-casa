@@ -401,7 +401,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 5.0.0
-   * Query Engine version: 4bc8b6e1b66cb932731fb1bdbbc550d1e010de81
+   * Query Engine version: 6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
    */
   export type PrismaVersion = {
     client: string
@@ -2792,7 +2792,7 @@ export namespace Prisma {
     updatedAt?: boolean
     sentRolesId?: boolean
     company?: boolean | CompaniesArgs<ExtArgs>
-    sentRoles?: boolean | SentRolesArgs<ExtArgs>
+    sentRoles?: boolean | Roles$sentRolesArgs<ExtArgs>
   }, ExtArgs["result"]["roles"]>
 
   export type RolesSelectScalar = {
@@ -2812,7 +2812,7 @@ export namespace Prisma {
 
   export type RolesInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     company?: boolean | CompaniesArgs<ExtArgs>
-    sentRoles?: boolean | SentRolesArgs<ExtArgs>
+    sentRoles?: boolean | Roles$sentRolesArgs<ExtArgs>
   }
 
 
@@ -3190,7 +3190,7 @@ export namespace Prisma {
 
     company<T extends CompaniesArgs<ExtArgs> = {}>(args?: Subset<T, CompaniesArgs<ExtArgs>>): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
 
-    sentRoles<T extends SentRolesArgs<ExtArgs> = {}>(args?: Subset<T, SentRolesArgs<ExtArgs>>): Prisma__SentRolesClient<$Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
+    sentRoles<T extends Roles$sentRolesArgs<ExtArgs> = {}>(args?: Subset<T, Roles$sentRolesArgs<ExtArgs>>): Prisma__SentRolesClient<$Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
 
     private get _document();
     /**
@@ -3545,6 +3545,22 @@ export namespace Prisma {
 
 
   /**
+   * Roles.sentRoles
+   */
+  export type Roles$sentRolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SentRoles
+     */
+    select?: SentRolesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SentRolesInclude<ExtArgs> | null
+    where?: SentRolesWhereInput
+  }
+
+
+  /**
    * Roles without action
    */
   export type RolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -3726,7 +3742,7 @@ export namespace Prisma {
     roleId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
-    role?: boolean | RolesArgs<ExtArgs>
+    role?: boolean | SentRoles$roleArgs<ExtArgs>
     subscribers?: boolean | SentRoles$subscribersArgs<ExtArgs>
     _count?: boolean | SentRolesCountOutputTypeArgs<ExtArgs>
   }, ExtArgs["result"]["sentRoles"]>
@@ -3740,7 +3756,7 @@ export namespace Prisma {
   }
 
   export type SentRolesInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    role?: boolean | RolesArgs<ExtArgs>
+    role?: boolean | SentRoles$roleArgs<ExtArgs>
     subscribers?: boolean | SentRoles$subscribersArgs<ExtArgs>
     _count?: boolean | SentRolesCountOutputTypeArgs<ExtArgs>
   }
@@ -4118,7 +4134,7 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    role<T extends RolesArgs<ExtArgs> = {}>(args?: Subset<T, RolesArgs<ExtArgs>>): Prisma__RolesClient<$Types.GetResult<RolesPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
+    role<T extends SentRoles$roleArgs<ExtArgs> = {}>(args?: Subset<T, SentRoles$roleArgs<ExtArgs>>): Prisma__RolesClient<$Types.GetResult<RolesPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
 
     subscribers<T extends SentRoles$subscribersArgs<ExtArgs> = {}>(args?: Subset<T, SentRoles$subscribersArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SubscribersPayload<ExtArgs>, T, 'findMany'>| Null>;
 
@@ -4464,6 +4480,22 @@ export namespace Prisma {
      * Filter which SentRoles to delete
      */
     where?: SentRolesWhereInput
+  }
+
+
+  /**
+   * SentRoles.role
+   */
+  export type SentRoles$roleArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Roles
+     */
+    select?: RolesSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RolesInclude<ExtArgs> | null
+    where?: RolesWhereInput
   }
 
 
@@ -7480,6 +7512,93 @@ export namespace Prisma {
 
 
   /**
+   * Field references 
+   */
+
+
+  /**
+   * Reference to a field of type 'String'
+   */
+  export type StringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String'>
+    
+
+
+  /**
+   * Reference to a field of type 'String[]'
+   */
+  export type ListStringFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'String[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime'
+   */
+  export type DateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime'>
+    
+
+
+  /**
+   * Reference to a field of type 'DateTime[]'
+   */
+  export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Json'
+   */
+  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
+    
+
+
+  /**
+   * Reference to a field of type 'EnglishLevel'
+   */
+  export type EnumEnglishLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnglishLevel'>
+    
+
+
+  /**
+   * Reference to a field of type 'EnglishLevel[]'
+   */
+  export type ListEnumEnglishLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnglishLevel[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Boolean'
+   */
+  export type BooleanFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Boolean'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int'
+   */
+  export type IntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int'>
+    
+
+
+  /**
+   * Reference to a field of type 'Int[]'
+   */
+  export type ListIntFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Int[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
+    
+  /**
    * Deep Input Types
    */
 
@@ -7488,18 +7607,18 @@ export namespace Prisma {
     AND?: SubscribersWhereInput | SubscribersWhereInput[]
     OR?: SubscribersWhereInput[]
     NOT?: SubscribersWhereInput | SubscribersWhereInput[]
-    id?: UuidFilter | string
-    email?: StringFilter | string
-    name?: StringNullableFilter | string | null
-    linkedInUrl?: StringNullableFilter | string | null
-    gitHub?: StringNullableFilter | string | null
-    startedWorkingAt?: DateTimeNullableFilter | Date | string | null
-    skills?: JsonNullableFilter
-    englishLevel?: EnumEnglishLevelNullableFilter | EnglishLevel | null
-    isConfirmed?: BoolFilter | boolean
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeNullableFilter | Date | string | null
-    optOut?: BoolFilter | boolean
+    id?: UuidFilter<"Subscribers"> | string
+    email?: StringFilter<"Subscribers"> | string
+    name?: StringNullableFilter<"Subscribers"> | string | null
+    linkedInUrl?: StringNullableFilter<"Subscribers"> | string | null
+    gitHub?: StringNullableFilter<"Subscribers"> | string | null
+    startedWorkingAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
+    skills?: JsonNullableFilter<"Subscribers">
+    englishLevel?: EnumEnglishLevelNullableFilter<"Subscribers"> | EnglishLevel | null
+    isConfirmed?: BoolFilter<"Subscribers"> | boolean
+    createdAt?: DateTimeFilter<"Subscribers"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
+    optOut?: BoolFilter<"Subscribers"> | boolean
     sentRoles?: SentRolesListRelationFilter
     subscriberTopics?: SubscriberTopicsListRelationFilter
   }
@@ -7521,10 +7640,25 @@ export namespace Prisma {
     subscriberTopics?: SubscriberTopicsOrderByRelationAggregateInput
   }
 
-  export type SubscribersWhereUniqueInput = {
+  export type SubscribersWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     email?: string
-  }
+    AND?: SubscribersWhereInput | SubscribersWhereInput[]
+    OR?: SubscribersWhereInput[]
+    NOT?: SubscribersWhereInput | SubscribersWhereInput[]
+    name?: StringNullableFilter<"Subscribers"> | string | null
+    linkedInUrl?: StringNullableFilter<"Subscribers"> | string | null
+    gitHub?: StringNullableFilter<"Subscribers"> | string | null
+    startedWorkingAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
+    skills?: JsonNullableFilter<"Subscribers">
+    englishLevel?: EnumEnglishLevelNullableFilter<"Subscribers"> | EnglishLevel | null
+    isConfirmed?: BoolFilter<"Subscribers"> | boolean
+    createdAt?: DateTimeFilter<"Subscribers"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
+    optOut?: BoolFilter<"Subscribers"> | boolean
+    sentRoles?: SentRolesListRelationFilter
+    subscriberTopics?: SubscriberTopicsListRelationFilter
+  }, "id" | "email">
 
   export type SubscribersOrderByWithAggregationInput = {
     id?: SortOrder
@@ -7548,38 +7682,38 @@ export namespace Prisma {
     AND?: SubscribersScalarWhereWithAggregatesInput | SubscribersScalarWhereWithAggregatesInput[]
     OR?: SubscribersScalarWhereWithAggregatesInput[]
     NOT?: SubscribersScalarWhereWithAggregatesInput | SubscribersScalarWhereWithAggregatesInput[]
-    id?: UuidWithAggregatesFilter | string
-    email?: StringWithAggregatesFilter | string
-    name?: StringNullableWithAggregatesFilter | string | null
-    linkedInUrl?: StringNullableWithAggregatesFilter | string | null
-    gitHub?: StringNullableWithAggregatesFilter | string | null
-    startedWorkingAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    skills?: JsonNullableWithAggregatesFilter
-    englishLevel?: EnumEnglishLevelNullableWithAggregatesFilter | EnglishLevel | null
-    isConfirmed?: BoolWithAggregatesFilter | boolean
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
-    updatedAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    optOut?: BoolWithAggregatesFilter | boolean
+    id?: UuidWithAggregatesFilter<"Subscribers"> | string
+    email?: StringWithAggregatesFilter<"Subscribers"> | string
+    name?: StringNullableWithAggregatesFilter<"Subscribers"> | string | null
+    linkedInUrl?: StringNullableWithAggregatesFilter<"Subscribers"> | string | null
+    gitHub?: StringNullableWithAggregatesFilter<"Subscribers"> | string | null
+    startedWorkingAt?: DateTimeNullableWithAggregatesFilter<"Subscribers"> | Date | string | null
+    skills?: JsonNullableWithAggregatesFilter<"Subscribers">
+    englishLevel?: EnumEnglishLevelNullableWithAggregatesFilter<"Subscribers"> | EnglishLevel | null
+    isConfirmed?: BoolWithAggregatesFilter<"Subscribers"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Subscribers"> | Date | string
+    updatedAt?: DateTimeNullableWithAggregatesFilter<"Subscribers"> | Date | string | null
+    optOut?: BoolWithAggregatesFilter<"Subscribers"> | boolean
   }
 
   export type RolesWhereInput = {
     AND?: RolesWhereInput | RolesWhereInput[]
     OR?: RolesWhereInput[]
     NOT?: RolesWhereInput | RolesWhereInput[]
-    id?: StringFilter | string
-    companyId?: StringFilter | string
-    title?: StringFilter | string
-    description?: StringFilter | string
-    country?: StringFilter | string
-    language?: StringFilter | string
-    currency?: StringNullableFilter | string | null
-    salary?: StringNullableFilter | string | null
-    skills?: JsonNullableFilter
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
-    sentRolesId?: StringNullableFilter | string | null
+    id?: StringFilter<"Roles"> | string
+    companyId?: StringFilter<"Roles"> | string
+    title?: StringFilter<"Roles"> | string
+    description?: StringFilter<"Roles"> | string
+    country?: StringFilter<"Roles"> | string
+    language?: StringFilter<"Roles"> | string
+    currency?: StringNullableFilter<"Roles"> | string | null
+    salary?: StringNullableFilter<"Roles"> | string | null
+    skills?: JsonNullableFilter<"Roles">
+    createdAt?: DateTimeFilter<"Roles"> | Date | string
+    updatedAt?: DateTimeFilter<"Roles"> | Date | string
+    sentRolesId?: StringNullableFilter<"Roles"> | string | null
     company?: XOR<CompaniesRelationFilter, CompaniesWhereInput>
-    sentRoles?: XOR<SentRolesRelationFilter, SentRolesWhereInput> | null
+    sentRoles?: XOR<SentRolesNullableRelationFilter, SentRolesWhereInput> | null
   }
 
   export type RolesOrderByWithRelationInput = {
@@ -7599,10 +7733,25 @@ export namespace Prisma {
     sentRoles?: SentRolesOrderByWithRelationInput
   }
 
-  export type RolesWhereUniqueInput = {
+  export type RolesWhereUniqueInput = Prisma.AtLeast<{
     id?: string
     sentRolesId?: string
-  }
+    AND?: RolesWhereInput | RolesWhereInput[]
+    OR?: RolesWhereInput[]
+    NOT?: RolesWhereInput | RolesWhereInput[]
+    companyId?: StringFilter<"Roles"> | string
+    title?: StringFilter<"Roles"> | string
+    description?: StringFilter<"Roles"> | string
+    country?: StringFilter<"Roles"> | string
+    language?: StringFilter<"Roles"> | string
+    currency?: StringNullableFilter<"Roles"> | string | null
+    salary?: StringNullableFilter<"Roles"> | string | null
+    skills?: JsonNullableFilter<"Roles">
+    createdAt?: DateTimeFilter<"Roles"> | Date | string
+    updatedAt?: DateTimeFilter<"Roles"> | Date | string
+    company?: XOR<CompaniesRelationFilter, CompaniesWhereInput>
+    sentRoles?: XOR<SentRolesNullableRelationFilter, SentRolesWhereInput> | null
+  }, "id" | "sentRolesId">
 
   export type RolesOrderByWithAggregationInput = {
     id?: SortOrder
@@ -7626,30 +7775,30 @@ export namespace Prisma {
     AND?: RolesScalarWhereWithAggregatesInput | RolesScalarWhereWithAggregatesInput[]
     OR?: RolesScalarWhereWithAggregatesInput[]
     NOT?: RolesScalarWhereWithAggregatesInput | RolesScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter | string
-    companyId?: StringWithAggregatesFilter | string
-    title?: StringWithAggregatesFilter | string
-    description?: StringWithAggregatesFilter | string
-    country?: StringWithAggregatesFilter | string
-    language?: StringWithAggregatesFilter | string
-    currency?: StringNullableWithAggregatesFilter | string | null
-    salary?: StringNullableWithAggregatesFilter | string | null
-    skills?: JsonNullableWithAggregatesFilter
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter | Date | string
-    sentRolesId?: StringNullableWithAggregatesFilter | string | null
+    id?: StringWithAggregatesFilter<"Roles"> | string
+    companyId?: StringWithAggregatesFilter<"Roles"> | string
+    title?: StringWithAggregatesFilter<"Roles"> | string
+    description?: StringWithAggregatesFilter<"Roles"> | string
+    country?: StringWithAggregatesFilter<"Roles"> | string
+    language?: StringWithAggregatesFilter<"Roles"> | string
+    currency?: StringNullableWithAggregatesFilter<"Roles"> | string | null
+    salary?: StringNullableWithAggregatesFilter<"Roles"> | string | null
+    skills?: JsonNullableWithAggregatesFilter<"Roles">
+    createdAt?: DateTimeWithAggregatesFilter<"Roles"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Roles"> | Date | string
+    sentRolesId?: StringNullableWithAggregatesFilter<"Roles"> | string | null
   }
 
   export type SentRolesWhereInput = {
     AND?: SentRolesWhereInput | SentRolesWhereInput[]
     OR?: SentRolesWhereInput[]
     NOT?: SentRolesWhereInput | SentRolesWhereInput[]
-    id?: StringFilter | string
-    sentAt?: DateTimeNullableFilter | Date | string | null
-    roleId?: StringFilter | string
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
-    role?: XOR<RolesRelationFilter, RolesWhereInput> | null
+    id?: StringFilter<"SentRoles"> | string
+    sentAt?: DateTimeNullableFilter<"SentRoles"> | Date | string | null
+    roleId?: StringFilter<"SentRoles"> | string
+    createdAt?: DateTimeFilter<"SentRoles"> | Date | string
+    updatedAt?: DateTimeFilter<"SentRoles"> | Date | string
+    role?: XOR<RolesNullableRelationFilter, RolesWhereInput> | null
     subscribers?: SubscribersListRelationFilter
   }
 
@@ -7663,9 +7812,18 @@ export namespace Prisma {
     subscribers?: SubscribersOrderByRelationAggregateInput
   }
 
-  export type SentRolesWhereUniqueInput = {
+  export type SentRolesWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-  }
+    AND?: SentRolesWhereInput | SentRolesWhereInput[]
+    OR?: SentRolesWhereInput[]
+    NOT?: SentRolesWhereInput | SentRolesWhereInput[]
+    sentAt?: DateTimeNullableFilter<"SentRoles"> | Date | string | null
+    roleId?: StringFilter<"SentRoles"> | string
+    createdAt?: DateTimeFilter<"SentRoles"> | Date | string
+    updatedAt?: DateTimeFilter<"SentRoles"> | Date | string
+    role?: XOR<RolesNullableRelationFilter, RolesWhereInput> | null
+    subscribers?: SubscribersListRelationFilter
+  }, "id">
 
   export type SentRolesOrderByWithAggregationInput = {
     id?: SortOrder
@@ -7682,20 +7840,20 @@ export namespace Prisma {
     AND?: SentRolesScalarWhereWithAggregatesInput | SentRolesScalarWhereWithAggregatesInput[]
     OR?: SentRolesScalarWhereWithAggregatesInput[]
     NOT?: SentRolesScalarWhereWithAggregatesInput | SentRolesScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter | string
-    sentAt?: DateTimeNullableWithAggregatesFilter | Date | string | null
-    roleId?: StringWithAggregatesFilter | string
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    id?: StringWithAggregatesFilter<"SentRoles"> | string
+    sentAt?: DateTimeNullableWithAggregatesFilter<"SentRoles"> | Date | string | null
+    roleId?: StringWithAggregatesFilter<"SentRoles"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"SentRoles"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"SentRoles"> | Date | string
   }
 
   export type SubscriberTopicsWhereInput = {
     AND?: SubscriberTopicsWhereInput | SubscriberTopicsWhereInput[]
     OR?: SubscriberTopicsWhereInput[]
     NOT?: SubscriberTopicsWhereInput | SubscriberTopicsWhereInput[]
-    id?: IntFilter | number
-    subscriberId?: UuidFilter | string
-    topicId?: IntFilter | number
+    id?: IntFilter<"SubscriberTopics"> | number
+    subscriberId?: UuidFilter<"SubscriberTopics"> | string
+    topicId?: IntFilter<"SubscriberTopics"> | number
     subscriber?: XOR<SubscribersRelationFilter, SubscribersWhereInput>
     topic?: XOR<TopicsRelationFilter, TopicsWhereInput>
   }
@@ -7708,9 +7866,16 @@ export namespace Prisma {
     topic?: TopicsOrderByWithRelationInput
   }
 
-  export type SubscriberTopicsWhereUniqueInput = {
+  export type SubscriberTopicsWhereUniqueInput = Prisma.AtLeast<{
     id?: number
-  }
+    AND?: SubscriberTopicsWhereInput | SubscriberTopicsWhereInput[]
+    OR?: SubscriberTopicsWhereInput[]
+    NOT?: SubscriberTopicsWhereInput | SubscriberTopicsWhereInput[]
+    subscriberId?: UuidFilter<"SubscriberTopics"> | string
+    topicId?: IntFilter<"SubscriberTopics"> | number
+    subscriber?: XOR<SubscribersRelationFilter, SubscribersWhereInput>
+    topic?: XOR<TopicsRelationFilter, TopicsWhereInput>
+  }, "id">
 
   export type SubscriberTopicsOrderByWithAggregationInput = {
     id?: SortOrder
@@ -7727,17 +7892,17 @@ export namespace Prisma {
     AND?: SubscriberTopicsScalarWhereWithAggregatesInput | SubscriberTopicsScalarWhereWithAggregatesInput[]
     OR?: SubscriberTopicsScalarWhereWithAggregatesInput[]
     NOT?: SubscriberTopicsScalarWhereWithAggregatesInput | SubscriberTopicsScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter | number
-    subscriberId?: UuidWithAggregatesFilter | string
-    topicId?: IntWithAggregatesFilter | number
+    id?: IntWithAggregatesFilter<"SubscriberTopics"> | number
+    subscriberId?: UuidWithAggregatesFilter<"SubscriberTopics"> | string
+    topicId?: IntWithAggregatesFilter<"SubscriberTopics"> | number
   }
 
   export type TopicsWhereInput = {
     AND?: TopicsWhereInput | TopicsWhereInput[]
     OR?: TopicsWhereInput[]
     NOT?: TopicsWhereInput | TopicsWhereInput[]
-    id?: IntFilter | number
-    name?: StringFilter | string
+    id?: IntFilter<"Topics"> | number
+    name?: StringFilter<"Topics"> | string
     subscribers?: SubscriberTopicsListRelationFilter
   }
 
@@ -7747,10 +7912,14 @@ export namespace Prisma {
     subscribers?: SubscriberTopicsOrderByRelationAggregateInput
   }
 
-  export type TopicsWhereUniqueInput = {
+  export type TopicsWhereUniqueInput = Prisma.AtLeast<{
     id?: number
     name?: string
-  }
+    AND?: TopicsWhereInput | TopicsWhereInput[]
+    OR?: TopicsWhereInput[]
+    NOT?: TopicsWhereInput | TopicsWhereInput[]
+    subscribers?: SubscriberTopicsListRelationFilter
+  }, "id" | "name">
 
   export type TopicsOrderByWithAggregationInput = {
     id?: SortOrder
@@ -7766,21 +7935,21 @@ export namespace Prisma {
     AND?: TopicsScalarWhereWithAggregatesInput | TopicsScalarWhereWithAggregatesInput[]
     OR?: TopicsScalarWhereWithAggregatesInput[]
     NOT?: TopicsScalarWhereWithAggregatesInput | TopicsScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter | number
-    name?: StringWithAggregatesFilter | string
+    id?: IntWithAggregatesFilter<"Topics"> | number
+    name?: StringWithAggregatesFilter<"Topics"> | string
   }
 
   export type CompaniesWhereInput = {
     AND?: CompaniesWhereInput | CompaniesWhereInput[]
     OR?: CompaniesWhereInput[]
     NOT?: CompaniesWhereInput | CompaniesWhereInput[]
-    id?: StringFilter | string
-    name?: StringFilter | string
-    url?: StringFilter | string
-    logoUrl?: StringNullableFilter | string | null
-    countryIcon?: StringFilter | string
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
+    id?: StringFilter<"Companies"> | string
+    name?: StringFilter<"Companies"> | string
+    url?: StringFilter<"Companies"> | string
+    logoUrl?: StringNullableFilter<"Companies"> | string | null
+    countryIcon?: StringFilter<"Companies"> | string
+    createdAt?: DateTimeFilter<"Companies"> | Date | string
+    updatedAt?: DateTimeFilter<"Companies"> | Date | string
     roles?: RolesListRelationFilter
   }
 
@@ -7795,9 +7964,19 @@ export namespace Prisma {
     roles?: RolesOrderByRelationAggregateInput
   }
 
-  export type CompaniesWhereUniqueInput = {
+  export type CompaniesWhereUniqueInput = Prisma.AtLeast<{
     id?: string
-  }
+    AND?: CompaniesWhereInput | CompaniesWhereInput[]
+    OR?: CompaniesWhereInput[]
+    NOT?: CompaniesWhereInput | CompaniesWhereInput[]
+    name?: StringFilter<"Companies"> | string
+    url?: StringFilter<"Companies"> | string
+    logoUrl?: StringNullableFilter<"Companies"> | string | null
+    countryIcon?: StringFilter<"Companies"> | string
+    createdAt?: DateTimeFilter<"Companies"> | Date | string
+    updatedAt?: DateTimeFilter<"Companies"> | Date | string
+    roles?: RolesListRelationFilter
+  }, "id">
 
   export type CompaniesOrderByWithAggregationInput = {
     id?: SortOrder
@@ -7816,13 +7995,13 @@ export namespace Prisma {
     AND?: CompaniesScalarWhereWithAggregatesInput | CompaniesScalarWhereWithAggregatesInput[]
     OR?: CompaniesScalarWhereWithAggregatesInput[]
     NOT?: CompaniesScalarWhereWithAggregatesInput | CompaniesScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter | string
-    name?: StringWithAggregatesFilter | string
-    url?: StringWithAggregatesFilter | string
-    logoUrl?: StringNullableWithAggregatesFilter | string | null
-    countryIcon?: StringWithAggregatesFilter | string
-    createdAt?: DateTimeWithAggregatesFilter | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter | Date | string
+    id?: StringWithAggregatesFilter<"Companies"> | string
+    name?: StringWithAggregatesFilter<"Companies"> | string
+    url?: StringWithAggregatesFilter<"Companies"> | string
+    logoUrl?: StringNullableWithAggregatesFilter<"Companies"> | string | null
+    countryIcon?: StringWithAggregatesFilter<"Companies"> | string
+    createdAt?: DateTimeWithAggregatesFilter<"Companies"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Companies"> | Date | string
   }
 
   export type SubscribersCreateInput = {
@@ -8253,102 +8432,102 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
-  export type UuidFilter = {
-    equals?: string
-    in?: string[] | string
-    notIn?: string[] | string
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
+  export type UuidFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedUuidFilter | string
+    not?: NestedUuidFilter<$PrismaModel> | string
   }
 
-  export type StringFilter = {
-    equals?: string
-    in?: string[] | string
-    notIn?: string[] | string
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
+  export type StringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedStringFilter | string
+    not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type StringNullableFilter = {
-    equals?: string | null
-    in?: string[] | string | null
-    notIn?: string[] | string | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
+  export type StringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedStringNullableFilter | string | null
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type DateTimeNullableFilter = {
-    equals?: Date | string | null
-    in?: Date[] | string[] | Date | string | null
-    notIn?: Date[] | string[] | Date | string | null
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeNullableFilter | Date | string | null
+  export type DateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
-  export type JsonNullableFilter = 
+  export type JsonNullableFilter<$PrismaModel = never> = 
     | PatchUndefined<
-        Either<Required<JsonNullableFilterBase>, Exclude<keyof Required<JsonNullableFilterBase>, 'path'>>,
-        Required<JsonNullableFilterBase>
+        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableFilterBase<$PrismaModel>>
       >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase>, 'path'>>
+    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonNullableFilterBase = {
-    equals?: InputJsonValue | JsonNullValueFilter
+  export type JsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     path?: string[]
-    string_contains?: string
-    string_starts_with?: string
-    string_ends_with?: string
-    array_contains?: InputJsonValue | null
-    array_starts_with?: InputJsonValue | null
-    array_ends_with?: InputJsonValue | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonNullValueFilter
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type EnumEnglishLevelNullableFilter = {
-    equals?: EnglishLevel | null
-    in?: EnglishLevel[] | EnglishLevel | null
-    notIn?: EnglishLevel[] | EnglishLevel | null
-    not?: NestedEnumEnglishLevelNullableFilter | EnglishLevel | null
+  export type EnumEnglishLevelNullableFilter<$PrismaModel = never> = {
+    equals?: EnglishLevel | EnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    in?: EnglishLevel[] | ListEnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    notIn?: EnglishLevel[] | ListEnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumEnglishLevelNullableFilter<$PrismaModel> | EnglishLevel | null
   }
 
-  export type BoolFilter = {
-    equals?: boolean
-    not?: NestedBoolFilter | boolean
+  export type BoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type DateTimeFilter = {
-    equals?: Date | string
-    in?: Date[] | string[] | Date | string
-    notIn?: Date[] | string[] | Date | string
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeFilter | Date | string
+  export type DateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
   export type SentRolesListRelationFilter = {
@@ -8419,134 +8598,134 @@ export namespace Prisma {
     optOut?: SortOrder
   }
 
-  export type UuidWithAggregatesFilter = {
-    equals?: string
-    in?: string[] | string
-    notIn?: string[] | string
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
+  export type UuidWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedUuidWithAggregatesFilter | string
-    _count?: NestedIntFilter
-    _min?: NestedStringFilter
-    _max?: NestedStringFilter
+    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type StringWithAggregatesFilter = {
-    equals?: string
-    in?: string[] | string
-    notIn?: string[] | string
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
+  export type StringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedStringWithAggregatesFilter | string
-    _count?: NestedIntFilter
-    _min?: NestedStringFilter
-    _max?: NestedStringFilter
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type StringNullableWithAggregatesFilter = {
-    equals?: string | null
-    in?: string[] | string | null
-    notIn?: string[] | string | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
+  export type StringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
     mode?: QueryMode
-    not?: NestedStringNullableWithAggregatesFilter | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedStringNullableFilter
-    _max?: NestedStringNullableFilter
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type DateTimeNullableWithAggregatesFilter = {
-    equals?: Date | string | null
-    in?: Date[] | string[] | Date | string | null
-    notIn?: Date[] | string[] | Date | string | null
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedDateTimeNullableFilter
-    _max?: NestedDateTimeNullableFilter
+  export type DateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
-  export type JsonNullableWithAggregatesFilter = 
+  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
     | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase>
+        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
+        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
       >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase>, 'path'>>
+    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
 
-  export type JsonNullableWithAggregatesFilterBase = {
-    equals?: InputJsonValue | JsonNullValueFilter
+  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     path?: string[]
-    string_contains?: string
-    string_starts_with?: string
-    string_ends_with?: string
-    array_contains?: InputJsonValue | null
-    array_starts_with?: InputJsonValue | null
-    array_ends_with?: InputJsonValue | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonNullValueFilter
-    _count?: NestedIntNullableFilter
-    _min?: NestedJsonNullableFilter
-    _max?: NestedJsonNullableFilter
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedJsonNullableFilter<$PrismaModel>
+    _max?: NestedJsonNullableFilter<$PrismaModel>
   }
 
-  export type EnumEnglishLevelNullableWithAggregatesFilter = {
-    equals?: EnglishLevel | null
-    in?: EnglishLevel[] | EnglishLevel | null
-    notIn?: EnglishLevel[] | EnglishLevel | null
-    not?: NestedEnumEnglishLevelNullableWithAggregatesFilter | EnglishLevel | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedEnumEnglishLevelNullableFilter
-    _max?: NestedEnumEnglishLevelNullableFilter
+  export type EnumEnglishLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: EnglishLevel | EnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    in?: EnglishLevel[] | ListEnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    notIn?: EnglishLevel[] | ListEnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumEnglishLevelNullableWithAggregatesFilter<$PrismaModel> | EnglishLevel | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumEnglishLevelNullableFilter<$PrismaModel>
+    _max?: NestedEnumEnglishLevelNullableFilter<$PrismaModel>
   }
 
-  export type BoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
+  export type BoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type DateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Date[] | string[] | Date | string
-    notIn?: Date[] | string[] | Date | string
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
+  export type DateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
   export type CompaniesRelationFilter = {
-    is?: CompaniesWhereInput | null
-    isNot?: CompaniesWhereInput | null
+    is?: CompaniesWhereInput
+    isNot?: CompaniesWhereInput
   }
 
-  export type SentRolesRelationFilter = {
+  export type SentRolesNullableRelationFilter = {
     is?: SentRolesWhereInput | null
     isNot?: SentRolesWhereInput | null
   }
@@ -8594,7 +8773,7 @@ export namespace Prisma {
     sentRolesId?: SortOrder
   }
 
-  export type RolesRelationFilter = {
+  export type RolesNullableRelationFilter = {
     is?: RolesWhereInput | null
     isNot?: RolesWhereInput | null
   }
@@ -8633,25 +8812,25 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type IntFilter = {
-    equals?: number
-    in?: number[] | number
-    notIn?: number[] | number
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntFilter | number
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
   export type SubscribersRelationFilter = {
-    is?: SubscribersWhereInput | null
-    isNot?: SubscribersWhereInput | null
+    is?: SubscribersWhereInput
+    isNot?: SubscribersWhereInput
   }
 
   export type TopicsRelationFilter = {
-    is?: TopicsWhereInput | null
-    isNot?: TopicsWhereInput | null
+    is?: TopicsWhereInput
+    isNot?: TopicsWhereInput
   }
 
   export type SubscriberTopicsCountOrderByAggregateInput = {
@@ -8682,20 +8861,20 @@ export namespace Prisma {
     topicId?: SortOrder
   }
 
-  export type IntWithAggregatesFilter = {
-    equals?: number
-    in?: number[] | number
-    notIn?: number[] | number
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntWithAggregatesFilter | number
-    _count?: NestedIntFilter
-    _avg?: NestedFloatFilter
-    _sum?: NestedIntFilter
-    _min?: NestedIntFilter
-    _max?: NestedIntFilter
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type TopicsCountOrderByAggregateInput = {
@@ -8882,17 +9061,17 @@ export namespace Prisma {
     connectOrCreate?: CompaniesCreateOrConnectWithoutRolesInput
     upsert?: CompaniesUpsertWithoutRolesInput
     connect?: CompaniesWhereUniqueInput
-    update?: XOR<CompaniesUpdateWithoutRolesInput, CompaniesUncheckedUpdateWithoutRolesInput>
+    update?: XOR<XOR<CompaniesUpdateToOneWithWhereWithoutRolesInput, CompaniesUpdateWithoutRolesInput>, CompaniesUncheckedUpdateWithoutRolesInput>
   }
 
   export type SentRolesUpdateOneWithoutRoleNestedInput = {
     create?: XOR<SentRolesCreateWithoutRoleInput, SentRolesUncheckedCreateWithoutRoleInput>
     connectOrCreate?: SentRolesCreateOrConnectWithoutRoleInput
     upsert?: SentRolesUpsertWithoutRoleInput
-    disconnect?: boolean
-    delete?: boolean
+    disconnect?: SentRolesWhereInput | boolean
+    delete?: SentRolesWhereInput | boolean
     connect?: SentRolesWhereUniqueInput
-    update?: XOR<SentRolesUpdateWithoutRoleInput, SentRolesUncheckedUpdateWithoutRoleInput>
+    update?: XOR<XOR<SentRolesUpdateToOneWithWhereWithoutRoleInput, SentRolesUpdateWithoutRoleInput>, SentRolesUncheckedUpdateWithoutRoleInput>
   }
 
   export type RolesCreateNestedOneWithoutSentRolesInput = {
@@ -8923,10 +9102,10 @@ export namespace Prisma {
     create?: XOR<RolesCreateWithoutSentRolesInput, RolesUncheckedCreateWithoutSentRolesInput>
     connectOrCreate?: RolesCreateOrConnectWithoutSentRolesInput
     upsert?: RolesUpsertWithoutSentRolesInput
-    disconnect?: boolean
-    delete?: boolean
+    disconnect?: RolesWhereInput | boolean
+    delete?: RolesWhereInput | boolean
     connect?: RolesWhereUniqueInput
-    update?: XOR<RolesUpdateWithoutSentRolesInput, RolesUncheckedUpdateWithoutSentRolesInput>
+    update?: XOR<XOR<RolesUpdateToOneWithWhereWithoutSentRolesInput, RolesUpdateWithoutSentRolesInput>, RolesUncheckedUpdateWithoutSentRolesInput>
   }
 
   export type SubscribersUpdateManyWithoutSentRolesNestedInput = {
@@ -8946,10 +9125,10 @@ export namespace Prisma {
     create?: XOR<RolesCreateWithoutSentRolesInput, RolesUncheckedCreateWithoutSentRolesInput>
     connectOrCreate?: RolesCreateOrConnectWithoutSentRolesInput
     upsert?: RolesUpsertWithoutSentRolesInput
-    disconnect?: boolean
-    delete?: boolean
+    disconnect?: RolesWhereInput | boolean
+    delete?: RolesWhereInput | boolean
     connect?: RolesWhereUniqueInput
-    update?: XOR<RolesUpdateWithoutSentRolesInput, RolesUncheckedUpdateWithoutSentRolesInput>
+    update?: XOR<XOR<RolesUpdateToOneWithWhereWithoutSentRolesInput, RolesUpdateWithoutSentRolesInput>, RolesUncheckedUpdateWithoutSentRolesInput>
   }
 
   export type SubscribersUncheckedUpdateManyWithoutSentRolesNestedInput = {
@@ -8982,7 +9161,7 @@ export namespace Prisma {
     connectOrCreate?: SubscribersCreateOrConnectWithoutSubscriberTopicsInput
     upsert?: SubscribersUpsertWithoutSubscriberTopicsInput
     connect?: SubscribersWhereUniqueInput
-    update?: XOR<SubscribersUpdateWithoutSubscriberTopicsInput, SubscribersUncheckedUpdateWithoutSubscriberTopicsInput>
+    update?: XOR<XOR<SubscribersUpdateToOneWithWhereWithoutSubscriberTopicsInput, SubscribersUpdateWithoutSubscriberTopicsInput>, SubscribersUncheckedUpdateWithoutSubscriberTopicsInput>
   }
 
   export type TopicsUpdateOneRequiredWithoutSubscribersNestedInput = {
@@ -8990,7 +9169,7 @@ export namespace Prisma {
     connectOrCreate?: TopicsCreateOrConnectWithoutSubscribersInput
     upsert?: TopicsUpsertWithoutSubscribersInput
     connect?: TopicsWhereUniqueInput
-    update?: XOR<TopicsUpdateWithoutSubscribersInput, TopicsUncheckedUpdateWithoutSubscribersInput>
+    update?: XOR<XOR<TopicsUpdateToOneWithWhereWithoutSubscribersInput, TopicsUpdateWithoutSubscribersInput>, TopicsUncheckedUpdateWithoutSubscribersInput>
   }
 
   export type IntFieldUpdateOperationsInput = {
@@ -9085,242 +9264,242 @@ export namespace Prisma {
     deleteMany?: RolesScalarWhereInput | RolesScalarWhereInput[]
   }
 
-  export type NestedUuidFilter = {
-    equals?: string
-    in?: string[] | string
-    notIn?: string[] | string
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    not?: NestedUuidFilter | string
+  export type NestedUuidFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidFilter<$PrismaModel> | string
   }
 
-  export type NestedStringFilter = {
-    equals?: string
-    in?: string[] | string
-    notIn?: string[] | string
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringFilter | string
+  export type NestedStringFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringFilter<$PrismaModel> | string
   }
 
-  export type NestedStringNullableFilter = {
-    equals?: string | null
-    in?: string[] | string | null
-    notIn?: string[] | string | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringNullableFilter | string | null
+  export type NestedStringNullableFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableFilter<$PrismaModel> | string | null
   }
 
-  export type NestedDateTimeNullableFilter = {
-    equals?: Date | string | null
-    in?: Date[] | string[] | Date | string | null
-    notIn?: Date[] | string[] | Date | string | null
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeNullableFilter | Date | string | null
+  export type NestedDateTimeNullableFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
 
-  export type NestedEnumEnglishLevelNullableFilter = {
-    equals?: EnglishLevel | null
-    in?: EnglishLevel[] | EnglishLevel | null
-    notIn?: EnglishLevel[] | EnglishLevel | null
-    not?: NestedEnumEnglishLevelNullableFilter | EnglishLevel | null
+  export type NestedEnumEnglishLevelNullableFilter<$PrismaModel = never> = {
+    equals?: EnglishLevel | EnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    in?: EnglishLevel[] | ListEnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    notIn?: EnglishLevel[] | ListEnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumEnglishLevelNullableFilter<$PrismaModel> | EnglishLevel | null
   }
 
-  export type NestedBoolFilter = {
-    equals?: boolean
-    not?: NestedBoolFilter | boolean
+  export type NestedBoolFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolFilter<$PrismaModel> | boolean
   }
 
-  export type NestedDateTimeFilter = {
-    equals?: Date | string
-    in?: Date[] | string[] | Date | string
-    notIn?: Date[] | string[] | Date | string
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeFilter | Date | string
+  export type NestedDateTimeFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
-  export type NestedUuidWithAggregatesFilter = {
-    equals?: string
-    in?: string[] | string
-    notIn?: string[] | string
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    not?: NestedUuidWithAggregatesFilter | string
-    _count?: NestedIntFilter
-    _min?: NestedStringFilter
-    _max?: NestedStringFilter
+  export type NestedUuidWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedUuidWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedIntFilter = {
-    equals?: number
-    in?: number[] | number
-    notIn?: number[] | number
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntFilter | number
+  export type NestedIntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type NestedStringWithAggregatesFilter = {
-    equals?: string
-    in?: string[] | string
-    notIn?: string[] | string
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringWithAggregatesFilter | string
-    _count?: NestedIntFilter
-    _min?: NestedStringFilter
-    _max?: NestedStringFilter
+  export type NestedStringWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel>
+    in?: string[] | ListStringFieldRefInput<$PrismaModel>
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel>
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringWithAggregatesFilter<$PrismaModel> | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedStringFilter<$PrismaModel>
+    _max?: NestedStringFilter<$PrismaModel>
   }
 
-  export type NestedStringNullableWithAggregatesFilter = {
-    equals?: string | null
-    in?: string[] | string | null
-    notIn?: string[] | string | null
-    lt?: string
-    lte?: string
-    gt?: string
-    gte?: string
-    contains?: string
-    startsWith?: string
-    endsWith?: string
-    not?: NestedStringNullableWithAggregatesFilter | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedStringNullableFilter
-    _max?: NestedStringNullableFilter
+  export type NestedStringNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: string | StringFieldRefInput<$PrismaModel> | null
+    in?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    notIn?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    lt?: string | StringFieldRefInput<$PrismaModel>
+    lte?: string | StringFieldRefInput<$PrismaModel>
+    gt?: string | StringFieldRefInput<$PrismaModel>
+    gte?: string | StringFieldRefInput<$PrismaModel>
+    contains?: string | StringFieldRefInput<$PrismaModel>
+    startsWith?: string | StringFieldRefInput<$PrismaModel>
+    endsWith?: string | StringFieldRefInput<$PrismaModel>
+    not?: NestedStringNullableWithAggregatesFilter<$PrismaModel> | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedStringNullableFilter<$PrismaModel>
+    _max?: NestedStringNullableFilter<$PrismaModel>
   }
 
-  export type NestedIntNullableFilter = {
-    equals?: number | null
-    in?: number[] | number | null
-    notIn?: number[] | number | null
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntNullableFilter | number | null
+  export type NestedIntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
-  export type NestedDateTimeNullableWithAggregatesFilter = {
-    equals?: Date | string | null
-    in?: Date[] | string[] | Date | string | null
-    notIn?: Date[] | string[] | Date | string | null
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeNullableWithAggregatesFilter | Date | string | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedDateTimeNullableFilter
-    _max?: NestedDateTimeNullableFilter
+  export type NestedDateTimeNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel> | null
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel> | null
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeNullableWithAggregatesFilter<$PrismaModel> | Date | string | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedDateTimeNullableFilter<$PrismaModel>
+    _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
-  export type NestedJsonNullableFilter = 
+  export type NestedJsonNullableFilter<$PrismaModel = never> = 
     | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase>, Exclude<keyof Required<NestedJsonNullableFilterBase>, 'path'>>,
-        Required<NestedJsonNullableFilterBase>
+        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
+        Required<NestedJsonNullableFilterBase<$PrismaModel>>
       >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase>, 'path'>>
+    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
 
-  export type NestedJsonNullableFilterBase = {
-    equals?: InputJsonValue | JsonNullValueFilter
+  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
+    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
     path?: string[]
-    string_contains?: string
-    string_starts_with?: string
-    string_ends_with?: string
-    array_contains?: InputJsonValue | null
-    array_starts_with?: InputJsonValue | null
-    array_ends_with?: InputJsonValue | null
-    lt?: InputJsonValue
-    lte?: InputJsonValue
-    gt?: InputJsonValue
-    gte?: InputJsonValue
-    not?: InputJsonValue | JsonNullValueFilter
+    string_contains?: string | StringFieldRefInput<$PrismaModel>
+    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
+    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
+    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
+    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
+    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
   }
 
-  export type NestedEnumEnglishLevelNullableWithAggregatesFilter = {
-    equals?: EnglishLevel | null
-    in?: EnglishLevel[] | EnglishLevel | null
-    notIn?: EnglishLevel[] | EnglishLevel | null
-    not?: NestedEnumEnglishLevelNullableWithAggregatesFilter | EnglishLevel | null
-    _count?: NestedIntNullableFilter
-    _min?: NestedEnumEnglishLevelNullableFilter
-    _max?: NestedEnumEnglishLevelNullableFilter
+  export type NestedEnumEnglishLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: EnglishLevel | EnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    in?: EnglishLevel[] | ListEnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    notIn?: EnglishLevel[] | ListEnumEnglishLevelFieldRefInput<$PrismaModel> | null
+    not?: NestedEnumEnglishLevelNullableWithAggregatesFilter<$PrismaModel> | EnglishLevel | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedEnumEnglishLevelNullableFilter<$PrismaModel>
+    _max?: NestedEnumEnglishLevelNullableFilter<$PrismaModel>
   }
 
-  export type NestedBoolWithAggregatesFilter = {
-    equals?: boolean
-    not?: NestedBoolWithAggregatesFilter | boolean
-    _count?: NestedIntFilter
-    _min?: NestedBoolFilter
-    _max?: NestedBoolFilter
+  export type NestedBoolWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: boolean | BooleanFieldRefInput<$PrismaModel>
+    not?: NestedBoolWithAggregatesFilter<$PrismaModel> | boolean
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBoolFilter<$PrismaModel>
+    _max?: NestedBoolFilter<$PrismaModel>
   }
 
-  export type NestedDateTimeWithAggregatesFilter = {
-    equals?: Date | string
-    in?: Date[] | string[] | Date | string
-    notIn?: Date[] | string[] | Date | string
-    lt?: Date | string
-    lte?: Date | string
-    gt?: Date | string
-    gte?: Date | string
-    not?: NestedDateTimeWithAggregatesFilter | Date | string
-    _count?: NestedIntFilter
-    _min?: NestedDateTimeFilter
-    _max?: NestedDateTimeFilter
+  export type NestedDateTimeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    in?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    notIn?: Date[] | string[] | ListDateTimeFieldRefInput<$PrismaModel>
+    lt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    lte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gt?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
+    not?: NestedDateTimeWithAggregatesFilter<$PrismaModel> | Date | string
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedDateTimeFilter<$PrismaModel>
+    _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
-  export type NestedIntWithAggregatesFilter = {
-    equals?: number
-    in?: number[] | number
-    notIn?: number[] | number
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedIntWithAggregatesFilter | number
-    _count?: NestedIntFilter
-    _avg?: NestedFloatFilter
-    _sum?: NestedIntFilter
-    _min?: NestedIntFilter
-    _max?: NestedIntFilter
+  export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
-  export type NestedFloatFilter = {
-    equals?: number
-    in?: number[] | number
-    notIn?: number[] | number
-    lt?: number
-    lte?: number
-    gt?: number
-    gte?: number
-    not?: NestedFloatFilter | number
+  export type NestedFloatFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel>
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel>
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatFilter<$PrismaModel> | number
   }
 
   export type SentRolesCreateWithoutSubscribersInput = {
@@ -9378,18 +9557,18 @@ export namespace Prisma {
 
   export type SentRolesUpdateManyWithWhereWithoutSubscribersInput = {
     where: SentRolesScalarWhereInput
-    data: XOR<SentRolesUpdateManyMutationInput, SentRolesUncheckedUpdateManyWithoutSentRolesInput>
+    data: XOR<SentRolesUpdateManyMutationInput, SentRolesUncheckedUpdateManyWithoutSubscribersInput>
   }
 
   export type SentRolesScalarWhereInput = {
     AND?: SentRolesScalarWhereInput | SentRolesScalarWhereInput[]
     OR?: SentRolesScalarWhereInput[]
     NOT?: SentRolesScalarWhereInput | SentRolesScalarWhereInput[]
-    id?: StringFilter | string
-    sentAt?: DateTimeNullableFilter | Date | string | null
-    roleId?: StringFilter | string
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
+    id?: StringFilter<"SentRoles"> | string
+    sentAt?: DateTimeNullableFilter<"SentRoles"> | Date | string | null
+    roleId?: StringFilter<"SentRoles"> | string
+    createdAt?: DateTimeFilter<"SentRoles"> | Date | string
+    updatedAt?: DateTimeFilter<"SentRoles"> | Date | string
   }
 
   export type SubscriberTopicsUpsertWithWhereUniqueWithoutSubscriberInput = {
@@ -9405,16 +9584,16 @@ export namespace Prisma {
 
   export type SubscriberTopicsUpdateManyWithWhereWithoutSubscriberInput = {
     where: SubscriberTopicsScalarWhereInput
-    data: XOR<SubscriberTopicsUpdateManyMutationInput, SubscriberTopicsUncheckedUpdateManyWithoutSubscriberTopicsInput>
+    data: XOR<SubscriberTopicsUpdateManyMutationInput, SubscriberTopicsUncheckedUpdateManyWithoutSubscriberInput>
   }
 
   export type SubscriberTopicsScalarWhereInput = {
     AND?: SubscriberTopicsScalarWhereInput | SubscriberTopicsScalarWhereInput[]
     OR?: SubscriberTopicsScalarWhereInput[]
     NOT?: SubscriberTopicsScalarWhereInput | SubscriberTopicsScalarWhereInput[]
-    id?: IntFilter | number
-    subscriberId?: UuidFilter | string
-    topicId?: IntFilter | number
+    id?: IntFilter<"SubscriberTopics"> | number
+    subscriberId?: UuidFilter<"SubscriberTopics"> | string
+    topicId?: IntFilter<"SubscriberTopics"> | number
   }
 
   export type CompaniesCreateWithoutRolesInput = {
@@ -9468,6 +9647,12 @@ export namespace Prisma {
   export type CompaniesUpsertWithoutRolesInput = {
     update: XOR<CompaniesUpdateWithoutRolesInput, CompaniesUncheckedUpdateWithoutRolesInput>
     create: XOR<CompaniesCreateWithoutRolesInput, CompaniesUncheckedCreateWithoutRolesInput>
+    where?: CompaniesWhereInput
+  }
+
+  export type CompaniesUpdateToOneWithWhereWithoutRolesInput = {
+    where?: CompaniesWhereInput
+    data: XOR<CompaniesUpdateWithoutRolesInput, CompaniesUncheckedUpdateWithoutRolesInput>
   }
 
   export type CompaniesUpdateWithoutRolesInput = {
@@ -9493,6 +9678,12 @@ export namespace Prisma {
   export type SentRolesUpsertWithoutRoleInput = {
     update: XOR<SentRolesUpdateWithoutRoleInput, SentRolesUncheckedUpdateWithoutRoleInput>
     create: XOR<SentRolesCreateWithoutRoleInput, SentRolesUncheckedCreateWithoutRoleInput>
+    where?: SentRolesWhereInput
+  }
+
+  export type SentRolesUpdateToOneWithWhereWithoutRoleInput = {
+    where?: SentRolesWhereInput
+    data: XOR<SentRolesUpdateWithoutRoleInput, SentRolesUncheckedUpdateWithoutRoleInput>
   }
 
   export type SentRolesUpdateWithoutRoleInput = {
@@ -9586,6 +9777,12 @@ export namespace Prisma {
   export type RolesUpsertWithoutSentRolesInput = {
     update: XOR<RolesUpdateWithoutSentRolesInput, RolesUncheckedUpdateWithoutSentRolesInput>
     create: XOR<RolesCreateWithoutSentRolesInput, RolesUncheckedCreateWithoutSentRolesInput>
+    where?: RolesWhereInput
+  }
+
+  export type RolesUpdateToOneWithWhereWithoutSentRolesInput = {
+    where?: RolesWhereInput
+    data: XOR<RolesUpdateWithoutSentRolesInput, RolesUncheckedUpdateWithoutSentRolesInput>
   }
 
   export type RolesUpdateWithoutSentRolesInput = {
@@ -9629,25 +9826,25 @@ export namespace Prisma {
 
   export type SubscribersUpdateManyWithWhereWithoutSentRolesInput = {
     where: SubscribersScalarWhereInput
-    data: XOR<SubscribersUpdateManyMutationInput, SubscribersUncheckedUpdateManyWithoutSubscribersInput>
+    data: XOR<SubscribersUpdateManyMutationInput, SubscribersUncheckedUpdateManyWithoutSentRolesInput>
   }
 
   export type SubscribersScalarWhereInput = {
     AND?: SubscribersScalarWhereInput | SubscribersScalarWhereInput[]
     OR?: SubscribersScalarWhereInput[]
     NOT?: SubscribersScalarWhereInput | SubscribersScalarWhereInput[]
-    id?: UuidFilter | string
-    email?: StringFilter | string
-    name?: StringNullableFilter | string | null
-    linkedInUrl?: StringNullableFilter | string | null
-    gitHub?: StringNullableFilter | string | null
-    startedWorkingAt?: DateTimeNullableFilter | Date | string | null
-    skills?: JsonNullableFilter
-    englishLevel?: EnumEnglishLevelNullableFilter | EnglishLevel | null
-    isConfirmed?: BoolFilter | boolean
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeNullableFilter | Date | string | null
-    optOut?: BoolFilter | boolean
+    id?: UuidFilter<"Subscribers"> | string
+    email?: StringFilter<"Subscribers"> | string
+    name?: StringNullableFilter<"Subscribers"> | string | null
+    linkedInUrl?: StringNullableFilter<"Subscribers"> | string | null
+    gitHub?: StringNullableFilter<"Subscribers"> | string | null
+    startedWorkingAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
+    skills?: JsonNullableFilter<"Subscribers">
+    englishLevel?: EnumEnglishLevelNullableFilter<"Subscribers"> | EnglishLevel | null
+    isConfirmed?: BoolFilter<"Subscribers"> | boolean
+    createdAt?: DateTimeFilter<"Subscribers"> | Date | string
+    updatedAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
+    optOut?: BoolFilter<"Subscribers"> | boolean
   }
 
   export type SubscribersCreateWithoutSubscriberTopicsInput = {
@@ -9704,6 +9901,12 @@ export namespace Prisma {
   export type SubscribersUpsertWithoutSubscriberTopicsInput = {
     update: XOR<SubscribersUpdateWithoutSubscriberTopicsInput, SubscribersUncheckedUpdateWithoutSubscriberTopicsInput>
     create: XOR<SubscribersCreateWithoutSubscriberTopicsInput, SubscribersUncheckedCreateWithoutSubscriberTopicsInput>
+    where?: SubscribersWhereInput
+  }
+
+  export type SubscribersUpdateToOneWithWhereWithoutSubscriberTopicsInput = {
+    where?: SubscribersWhereInput
+    data: XOR<SubscribersUpdateWithoutSubscriberTopicsInput, SubscribersUncheckedUpdateWithoutSubscriberTopicsInput>
   }
 
   export type SubscribersUpdateWithoutSubscriberTopicsInput = {
@@ -9741,6 +9944,12 @@ export namespace Prisma {
   export type TopicsUpsertWithoutSubscribersInput = {
     update: XOR<TopicsUpdateWithoutSubscribersInput, TopicsUncheckedUpdateWithoutSubscribersInput>
     create: XOR<TopicsCreateWithoutSubscribersInput, TopicsUncheckedCreateWithoutSubscribersInput>
+    where?: TopicsWhereInput
+  }
+
+  export type TopicsUpdateToOneWithWhereWithoutSubscribersInput = {
+    where?: TopicsWhereInput
+    data: XOR<TopicsUpdateWithoutSubscribersInput, TopicsUncheckedUpdateWithoutSubscribersInput>
   }
 
   export type TopicsUpdateWithoutSubscribersInput = {
@@ -9784,7 +9993,7 @@ export namespace Prisma {
 
   export type SubscriberTopicsUpdateManyWithWhereWithoutTopicInput = {
     where: SubscriberTopicsScalarWhereInput
-    data: XOR<SubscriberTopicsUpdateManyMutationInput, SubscriberTopicsUncheckedUpdateManyWithoutSubscribersInput>
+    data: XOR<SubscriberTopicsUpdateManyMutationInput, SubscriberTopicsUncheckedUpdateManyWithoutTopicInput>
   }
 
   export type RolesCreateWithoutCompanyInput = {
@@ -9838,25 +10047,25 @@ export namespace Prisma {
 
   export type RolesUpdateManyWithWhereWithoutCompanyInput = {
     where: RolesScalarWhereInput
-    data: XOR<RolesUpdateManyMutationInput, RolesUncheckedUpdateManyWithoutRolesInput>
+    data: XOR<RolesUpdateManyMutationInput, RolesUncheckedUpdateManyWithoutCompanyInput>
   }
 
   export type RolesScalarWhereInput = {
     AND?: RolesScalarWhereInput | RolesScalarWhereInput[]
     OR?: RolesScalarWhereInput[]
     NOT?: RolesScalarWhereInput | RolesScalarWhereInput[]
-    id?: StringFilter | string
-    companyId?: StringFilter | string
-    title?: StringFilter | string
-    description?: StringFilter | string
-    country?: StringFilter | string
-    language?: StringFilter | string
-    currency?: StringNullableFilter | string | null
-    salary?: StringNullableFilter | string | null
-    skills?: JsonNullableFilter
-    createdAt?: DateTimeFilter | Date | string
-    updatedAt?: DateTimeFilter | Date | string
-    sentRolesId?: StringNullableFilter | string | null
+    id?: StringFilter<"Roles"> | string
+    companyId?: StringFilter<"Roles"> | string
+    title?: StringFilter<"Roles"> | string
+    description?: StringFilter<"Roles"> | string
+    country?: StringFilter<"Roles"> | string
+    language?: StringFilter<"Roles"> | string
+    currency?: StringNullableFilter<"Roles"> | string | null
+    salary?: StringNullableFilter<"Roles"> | string | null
+    skills?: JsonNullableFilter<"Roles">
+    createdAt?: DateTimeFilter<"Roles"> | Date | string
+    updatedAt?: DateTimeFilter<"Roles"> | Date | string
+    sentRolesId?: StringNullableFilter<"Roles"> | string | null
   }
 
   export type SubscriberTopicsCreateManySubscriberInput = {
@@ -9882,7 +10091,7 @@ export namespace Prisma {
     role?: RolesUncheckedUpdateOneWithoutSentRolesNestedInput
   }
 
-  export type SentRolesUncheckedUpdateManyWithoutSentRolesInput = {
+  export type SentRolesUncheckedUpdateManyWithoutSubscribersInput = {
     id?: StringFieldUpdateOperationsInput | string
     sentAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     roleId?: StringFieldUpdateOperationsInput | string
@@ -9899,7 +10108,7 @@ export namespace Prisma {
     topicId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type SubscriberTopicsUncheckedUpdateManyWithoutSubscriberTopicsInput = {
+  export type SubscriberTopicsUncheckedUpdateManyWithoutSubscriberInput = {
     id?: IntFieldUpdateOperationsInput | number
     topicId?: IntFieldUpdateOperationsInput | number
   }
@@ -9936,7 +10145,7 @@ export namespace Prisma {
     subscriberTopics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
   }
 
-  export type SubscribersUncheckedUpdateManyWithoutSubscribersInput = {
+  export type SubscribersUncheckedUpdateManyWithoutSentRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
     name?: NullableStringFieldUpdateOperationsInput | string | null
@@ -9965,7 +10174,7 @@ export namespace Prisma {
     subscriberId?: StringFieldUpdateOperationsInput | string
   }
 
-  export type SubscriberTopicsUncheckedUpdateManyWithoutSubscribersInput = {
+  export type SubscriberTopicsUncheckedUpdateManyWithoutTopicInput = {
     id?: IntFieldUpdateOperationsInput | number
     subscriberId?: StringFieldUpdateOperationsInput | string
   }
@@ -10012,7 +10221,7 @@ export namespace Prisma {
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type RolesUncheckedUpdateManyWithoutRolesInput = {
+  export type RolesUncheckedUpdateManyWithoutCompanyInput = {
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string

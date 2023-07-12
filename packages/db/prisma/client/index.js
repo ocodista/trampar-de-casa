@@ -30,11 +30,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 5.0.0
- * Query Engine version: 4bc8b6e1b66cb932731fb1bdbbc550d1e010de81
+ * Query Engine version: 6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
  */
 Prisma.prismaVersion = {
   client: "5.0.0",
-  engine: "4bc8b6e1b66cb932731fb1bdbbc550d1e010de81"
+  engine: "6b0aef69b7cdfc787f822ecd7cdc76d5f1991584"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -197,7 +197,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/joao/FOSS/trampar-de-casa/packages/db/prisma/client",
+      "value": "/home/caio/personal/trampar-de-casa/packages/db/prisma/client",
       "fromEnvVar": null
     },
     "config": {
@@ -214,17 +214,18 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": null
+    "rootEnvPath": "../../.env",
+    "schemaEnvPath": "../../.env"
   },
   "relativePath": "..",
   "clientVersion": "5.0.0",
-  "engineVersion": "4bc8b6e1b66cb932731fb1bdbbc550d1e010de81",
+  "engineVersion": "6b0aef69b7cdfc787f822ecd7cdc76d5f1991584",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
   "dataProxy": false,
-  "postinstall": false
+  "postinstall": true
 }
 
 const fs = require('fs')
