@@ -6,7 +6,7 @@ import { getSubscriber } from '../getSubscriber'
 import { getSubscriberTopics } from '../getSubscriberTopics'
 import { getTopics } from '../getTopics'
 
-export const revalidate = 1
+export const revalidate = 0
 const ProfilePage = async ({ params }: { params: { id: string } }) => {
   const decryptedIdResponse = await fetch(
     `${getAbsoluteUrl()}/api/decrypt/${params.id}`
