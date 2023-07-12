@@ -1,4 +1,4 @@
-import { getDecryptedId } from 'app/api/getDecryptedId'
+import { getId } from 'app/api/getId'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
@@ -8,13 +8,6 @@ import {
 } from '../../../subscriber/profile/profileSchema'
 import { logError } from '../../logError'
 import { getById, updateSubscriber } from '../db'
-
-const getId = (request: Request): string => {
-  const { url } = request
-  const hashedId = url.split('/').reverse()[0]
-  const id = getDecryptedId(hashedId)
-  return id
-}
 
 export async function GET(request: Request) {
   return await getById(getId(request))

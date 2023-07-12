@@ -1,4 +1,5 @@
 export enum Entities {
   Subcribers = 'Subscribers',
-  DescriptionTopics = 'descriptionTopics',
+  SubscriberTopics = 'SubscriberTopics',
+  Topics = 'Topics',
 }

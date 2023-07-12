@@ -1,33 +1,29 @@
-import { getDecryptedId } from 'app/api/getDecryptedId'
-import { PrismaClient } from 'db'
+import { getAbsoluteUrl } from 'app/utils/vercel'
 import { EnglishLevel } from 'global/EnglishLevel'
 import { notFound } from 'next/navigation'
 import { SubscriberForm } from '../components/SubscriberForm'
+import { getSubscriber } from '../getSubscriber'
+import { getSubscriberTopics } from '../getSubscriberTopics'
+import { getTopics } from '../getTopics'
 
-const promisedGetDecryptedId = (id: string): Promise<string> =>
-  new Promise((r) => r(getDecryptedId(id)))
-
+export const revalidate = 1
 const ProfilePage = async ({ params }: { params: { id: string } }) => {
-  const prisma = new PrismaClient()
-  const decryptedId = await promisedGetDecryptedId(params.id).catch((e) => {
-    console.log(e)
-    notFound()
-  })
-  const subscriber = await prisma.subscribers
-    .findUniqueOrThrow({
-      where: { id: decryptedId },
-      include: { subscriberTopics: true },
-    })
-    .catch((e) => {
-      console.error(e)
-      notFound()
-    })
-  const topics = await prisma.topics.findMany()
+  const decryptedIdResponse = await fetch(
+    `${getAbsoluteUrl()}/api/decrypt/${params.id}`
+  )
+  if (!decryptedIdResponse.ok) notFound()
+  const decryptedId = (await decryptedIdResponse.json()) as { id: string }
+  const subscriberId = decryptedId.id
+
+  const subscriber = await getSubscriber(subscriberId)
+  const subscriberTopics = await getSubscriberTopics(subscriberId)
+  const topics = await getTopics().catch(() => notFound())
+
   return (
     <SubscriberForm
       descriptionTopics={topics}
       profileInfos={{
-        receiveEmailConfig: subscriber.subscriberTopics.map(({ topicId }) =>
+        receiveEmailConfig: subscriberTopics.map(({ topicId }) =>
           String(topicId)
         ),
         englishLevel: subscriber.englishLevel as EnglishLevel,

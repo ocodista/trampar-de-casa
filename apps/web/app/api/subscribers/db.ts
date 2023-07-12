@@ -1,4 +1,3 @@
-import { prisma } from 'app/db/getPrismaClient'
 import { EnglishLevel } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
@@ -8,16 +7,8 @@ import { ProfileSchema } from '../../subscriber/profile/profileSchema'
 
 const supabaseClient = getSupabaseClient()
 const table = Entities.Subcribers
-const PUBLIC_FIELDS_KEYS =
+export const PUBLIC_FIELDS_KEYS =
   'name, linkedInUrl, gitHub, startedWorkingAt, skills, englishLevel'
-const PUBLIC_FIELDS = {
-  name: true,
-  linkedInUrl: true,
-  gitHub: true,
-  startedWorkingAt: true,
-  skills: true,
-  englishLevel: true,
-}
 const errorResponse = new NextResponse(null, {
   status: StatusCodes.INTERNAL_SERVER_ERROR,
 })
@@ -48,14 +39,36 @@ export async function insertSubscriber(email: string) {
   return { data, error }
 }
 
+const updateSubscriberTopics = async (
+  subscriberId: string,
+  topicIds: string[]
+) => {
+  await supabaseClient
+    .from(Entities.SubscriberTopics)
+    .delete()
+    .eq('subscriberId', subscriberId)
+  Promise.all(
+    topicIds.map(async (topicId) => {
+      const { error } = await supabaseClient
+        .from(Entities.SubscriberTopics)
+        .insert({
+          subscriberId: subscriberId,
+          topicId,
+        })
+      if (error) {
+        console.error(error)
+      }
+    })
+  )
+}
+
 export async function updateSubscriber(
   id: string,
   { receiveEmailConfig, ...body }: ProfileSchema
 ) {
-  const topicIds = receiveEmailConfig.map((id) => ({ id: Number(id) }))
-  const data = await prisma.subscribers.update({
-    where: { id },
-    data: {
+  const { data, error } = await supabaseClient
+    .from(Entities.Subcribers)
+    .update({
       ...body,
       name: body.name,
       linkedInUrl: body.linkedInUrl,
@@ -63,12 +76,10 @@ export async function updateSubscriber(
       startedWorkingAt: body.startedWorkingAt,
       skills: body.skills,
       englishLevel: EnglishLevel[body.englishLevel],
-      subscriberTopics: {
-        deleteMany: {},
-        create: topicIds.map(({ id }) => ({ topic: { connect: { id } } })),
-      },
-    },
-    select: PUBLIC_FIELDS,
-  })
-  return { data }
+    })
+    .eq('id', id)
+    .select()
+  await updateSubscriberTopics(id, receiveEmailConfig)
+
+  return { data, error }
 }

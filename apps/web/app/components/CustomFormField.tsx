@@ -1,6 +1,7 @@
 'use client'
+import { ProfileSchemaEnum } from 'app/subscriber/profile/profileSchema'
 import { format } from 'date-fns'
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   ControllerRenderProps,
   FieldValues,
@@ -80,17 +81,26 @@ export const TextInput = ({ field, placeholder, isSubmitting }) => {
   )
 }
 
-export const BaseDateInput = ({ field, placeholder, isSubmitting }) => {
+export const StarWorkAtInput = ({ field, placeholder, isSubmitting }) => {
+  const form = useFormContext()
   const extractMonth = (dateString: string) => {
     const [year, month] = format(new Date(dateString), 'yyyy-MM').split('-')
-    const sanitizedMouth = String(Number(month) + 1).padStart(2, '0')
-    const sanitizedDate = `${year}-${sanitizedMouth}`
-
+    const sanitizedMonth = String(Number(month)).padStart(2, '0')
+    const sanitizedDate = `${year}-${sanitizedMonth}`
     return sanitizedDate
   }
-  const fieldProps: ControllerRenderProps = {
-    ...(field as ControllerRenderProps),
-    value: extractMonth(field.value),
+  useEffect(() => {
+    form.setValue(ProfileSchemaEnum.StartedWorkingAt, extractMonth(field.value))
+  }, [])
+
+  const fieldProps = {
+    defaultValue: form.watch(ProfileSchemaEnum.StartedWorkingAt),
+    onChange: (event: { target: HTMLInputElement }) => {
+      form.setValue(
+        ProfileSchemaEnum.StartedWorkingAt,
+        event.target.valueAsDate
+      )
+    },
   }
   return (
     <BaseInput

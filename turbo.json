@@ -12,5 +12,6 @@
       "persistent": true
     },
     "test": {}
-  }
+  },
+  "globalEnv": ["VERCEL_URL", "VERCEL_ENV"]
 }
