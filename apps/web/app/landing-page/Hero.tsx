@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import { useState } from 'react'
 import { useQuery } from 'react-query'
 import { useForm } from 'react-hook-form'
 import { zodResolver } from '@hookform/resolvers/zod'
@@ -10,6 +11,7 @@ import { ApiRoutes } from 'shared/src/enums'
 import { useToast } from '../hooks/use-toast'
 import { useLoadingContext } from '../contexts/LoadingContext'
 import { PartnerCompanies } from '../components/PartnerCompanies'
+import { Copy, Check } from 'lucide-react'
 import fireworks from '../utils/confetti'
 
 const validationSchema = z.object({
@@ -20,6 +22,7 @@ type ValidationSchema = z.infer<typeof validationSchema>
 
 export const Hero = () => {
   const { isLoading, withLoading } = useLoadingContext()
+  const [isCopied, setIsCopied] = useState(false)
 
   const methods = useForm<ValidationSchema>({
     resolver: zodResolver(validationSchema),
@@ -88,18 +91,35 @@ export const Hero = () => {
     <>
       <div className="text-center">
         <div
-          className="p-2 bg-[#4f46e5] items-center text-indigo-100 leading-none lg:rounded-full flex lg:inline-flex"
+          className="px-4 py-2 max-md:py-3 bg-indigo-600 text-indigo-100 leading-none flex items-center justify-center gap-1 max-md:flex-col max-md:gap-2"
           role="alert"
         >
-          <span className="flex rounded-full bg-indigo-500 uppercase px-2 py-1 text-xs font-bold mr-3">
-            20% de desconto
+          <span className="font-medium mr-2 leading-tight max-md:text-lg">
+            <span className="font-bold">20% de desconto</span> no maior evento
+            de <i>Front-end</i> da América Latina.
           </span>
-          <span className="font-semibold mr-2 text-left flex-auto">
-            No maior evento de <i>front</i> da América Latina com o cupom{' '}
-            <strong>TRAMPARDECASA</strong>
+
+          <span
+            className="px-3 py-1 mr-[6px] flex items-center gap-2 rounded-full uppercase text-xs max-md:text-sm font-bold max-md:font-semibold bg-indigo-500 hover:bg-indigo-700 transition-colors cursor-pointer"
+            onClick={async () => {
+              await navigator.clipboard
+                .writeText('TRAMPARDECASA')
+                .then(() => setIsCopied(true))
+
+              setTimeout(() => {
+                setIsCopied(false)
+                window.open(
+                  'https://www.eventbrite.com.br/e/frontin-sampa-2023-code-in-the-dark-tickets-574922567877',
+                  '_blank'
+                )
+              }, 300)
+            }}
+          >
+            TRAMPARDECASA {isCopied ? <Check size={14} /> : <Copy size={14} />}
           </span>
         </div>
       </div>
+
       <div className="pt-6 pb-28">
         <div className="container mx-auto">
           <div className="flex flex-wrap items-center -m-8">
