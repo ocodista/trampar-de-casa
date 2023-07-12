@@ -6,10 +6,7 @@
     "dev": "next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ./app --fix",
-    "db-start": "npx prisma generate && npx supabase start",
-    "db-seed": "npx prisma db seed",
-    "db-stop": "npx supabase stop --backup"
+    "lint": "eslint ./app --fix"
   },
   "dependencies": {
     "db": "*",
@@ -55,10 +52,6 @@
     "tailwindcss-animate": "^1.0.6",
     "vercel-email": "^0.0.6",
     "zod": "^3.21.4"
-  },
-  "prisma": {
-    "schema": "prisma/schema.prisma",
-    "seed": "npx ts-node prisma/seed.ts"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
