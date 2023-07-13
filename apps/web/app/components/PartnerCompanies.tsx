@@ -26,7 +26,7 @@ const companies: Company[] = [
     url: 'https://frontinsampa.com.br/pt-br',
     description:
       'Empresa especializada em produção de eventos e conteúdo de tecnologia.',
-    imagePath: '/images/companies/frontin.svg',
+    imagePath: '/images/companies/frontin.webp',
   },
 ]
 
@@ -46,7 +46,7 @@ const CompanySection = ({ name, imagePath, url, description }: Company) => (
 export const PartnerCompanies = () => {
   return (
     <section>
-      <p className="mb-4 text-sm text-gray-500 font-semibold">
+      <p className="text-sm text-gray-500 font-semibold">
         EMPRESAS QUE APOIAM O TRABALHO REMOTO
       </p>
       <div className="flex flex-wrap items-center gap-10 max-lg:justify-around">

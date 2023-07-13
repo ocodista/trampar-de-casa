@@ -5,7 +5,7 @@ export const Values = () => (
         <h2 className="mb-9 text-6xl md:text-8xl xl:text-10xl text-white font-bold tracking-px-n leading-none max-xs:text-4xl">
           Apoiamos a liberdade do trabalho remoto.
         </h2>
-        <p className="mb-16 text-gray-200 leading-relaxed">
+        <p className="mb-16 text-xl text-gray-200 leading-relaxed">
           Como profissionais dedicados da área de tecnologia, sabemos que é
           perfeitamente viável desfrutar de uma vida com menos trânsito,
           aproveitando mais o conforto e a tranquilidade residencial.&nbsp; Tudo
