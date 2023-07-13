@@ -1,9 +1,8 @@
-import { NextResponse } from 'next/server'
-import { createClient } from '@supabase/supabase-js'
 import { StatusCodes } from 'http-status-codes'
-import { getSupabaseClient } from '../../db/getSupabaseClient'
-import { Entities, SupabaseCodes } from 'shared/src/enums'
+import { NextResponse } from 'next/server'
 import { sendConfirmationEmail } from 'shared/src/email'
+import { Entities, SupabaseCodes } from 'shared/src/enums'
+import { getSupabaseClient } from '../../db/getSupabaseClient'
 
 interface EmailRequest {
   email: string
@@ -44,19 +43,5 @@ export async function POST(request: Request) {
 
   // eslint-disable-next-line no-console
   console.error(error)
-  return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
-}
-
-export async function GET() {
-  const supabase = createClient(
-    process.env['SUPABASE_URL'],
-    process.env['SUPABASE_SERVICE_ROLE']
-  )
-
-  const { count, error } = await supabase
-    .from(Entities.Subcribers)
-    .select('*', { count: 'exact' })
-  if (!error) return NextResponse.json(count)
-
   return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
 }
