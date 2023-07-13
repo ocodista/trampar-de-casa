@@ -8,9 +8,11 @@ import { getTopics } from '../getTopics'
 export const revalidate = 0
 const ProfilePage = async ({ params }: { params: { id: string } }) => {
   const subscriberId = getDecryptedId(params.id)
-  const subscriber = await getSubscriber(subscriberId)
-  const subscriberTopics = await getSubscriberTopics(subscriberId)
-  const topics = await getTopics()
+  const [subscriber, subscriberTopics, topics] = await Promise.all([
+    getSubscriber(subscriberId),
+    getSubscriberTopics(subscriberId),
+    getTopics(),
+  ])
 
   return (
     <SubscriberForm
