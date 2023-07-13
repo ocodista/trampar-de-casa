@@ -1,6 +1,7 @@
-import { useEffect, useState } from 'react'
-import { ChevronUpIcon } from 'lucide-react'
+'use client'
 import clsx from 'clsx'
+import { ChevronUpIcon } from 'lucide-react'
+import { useEffect, useState } from 'react'
 
 export default function ScrollToTopButton() {
   const [backToTop, setBackToTop] = useState(false)

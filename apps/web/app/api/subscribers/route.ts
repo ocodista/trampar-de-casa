@@ -1,9 +1,9 @@
-import { NextResponse } from 'next/server'
 import { StatusCodes } from 'http-status-codes'
-import { SupabaseCodes } from 'shared/src/enums'
+import { NextResponse } from 'next/server'
 import { sendConfirmationEmail } from 'shared/src/email'
-import { insertSubscriber, getCount } from './db'
+import { SupabaseCodes } from 'shared/src/enums'
 import { logError } from '../logError'
+import { insertSubscriber } from './db'
 
 interface EmailRequest {
   email: string
@@ -37,8 +37,4 @@ export async function POST(request: Request) {
   }
 
   return NextResponse.json(data)
-}
-
-export async function GET() {
-  return await getCount()
 }
