@@ -28,7 +28,7 @@ export const LoadingOverlay = ({ className }) => {
   return (
     <div
       className={cn(
-        'h-screen w-screen bg-opacity-70 fixed z-50 bg-black  items-center justify-center',
+        'h-screen w-screen bg-opacity-70 fixed top-0 z-50 bg-black  items-center justify-center',
         className
       )}
     >

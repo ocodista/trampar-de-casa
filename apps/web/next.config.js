@@ -1,7 +1,9 @@
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+
 module.exports = {
-  reactStrictMode: true,
-  transpilePackages: ["ui", "eslint-config-custom", "shared"],
   experimental: {
-    serverActions: true,
-  }
-};
+    serverActions: true
+  },
+  reactStrictMode: true,
+  transpilePackages: ["ui", "eslint-config-custom", "shared", "db"],
+}

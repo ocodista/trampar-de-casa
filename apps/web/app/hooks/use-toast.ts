@@ -136,9 +136,9 @@ function dispatch(action: Action) {
   })
 }
 
-type Toast = Omit<ToasterToast, 'id'>
+export type ToastComponentProps = Omit<ToasterToast, 'id'>
 
-function toast({ ...props }: Toast) {
+function toast({ ...props }: ToastComponentProps) {
   const id = genId()
 
   const update = (props: ToasterToast) =>

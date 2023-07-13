@@ -11,6 +11,10 @@
       "cache": false,
       "persistent": true
     },
-    "test": {}
-  }
+    "test": {},
+    "db-start": {},
+    "db-seed": {},
+    "db-stop": {}
+  },
+  "globalEnv": ["VERCEL_URL", "VERCEL_ENV"]
 }
