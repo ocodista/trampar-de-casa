@@ -21,14 +21,21 @@ const companies: Company[] = [
       'Plataforma OpenSource para construção de sistemas web, mobile e desktop com JavaScript ou TypeScript.',
     imagePath: '/images/companies/meteor.webp',
   },
+  {
+    name: 'FrontIn',
+    url: 'https://frontinsampa.com.br/pt-br',
+    description:
+      'Empresa especializada em produção de eventos e conteúdo de tecnologia.',
+    imagePath: '/images/companies/frontin.svg',
+  },
 ]
 
 const CompanySection = ({ name, imagePath, url, description }: Company) => (
-  <a href={url} target="_blank" className="w-auto p-3 px-4">
+  <a href={url} target="_blank" className="w-auto">
     <Image
       src={imagePath}
       alt={`Logo da empresa ${name}`}
-      className="cursor-pointer"
+      className="cursor-pointer aspect-video object-contain"
       title={description}
       width={128}
       height={28}
@@ -42,7 +49,7 @@ export const PartnerCompanies = () => {
       <p className="mb-4 text-sm text-gray-500 font-semibold">
         EMPRESAS QUE APOIAM O TRABALHO REMOTO
       </p>
-      <div className="flex flex-wrap items-center -m-3">
+      <div className="flex flex-wrap items-center gap-10 max-lg:justify-around">
         {companies.map((company) => (
           <CompanySection key={company.name} {...company} />
         ))}
