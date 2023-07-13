@@ -42,8 +42,8 @@ export const FAQ = () => (
                 3. Quantos e-mails receberei?
               </h3>
               <p className="font-sans text-gray-600 leading-relaxed">
-                Apenas um e-mail por&nbsp; semana, nas quartas-feiras às 11h,
-                com vagas que fizerem sentido para você. Todas são 100% remotas.
+                Apenas um e-mail por semana, nas quartas-feiras às 11h, com
+                vagas que fizerem sentido para você. Todas são 100% remotas.
               </p>
             </div>
           </div>
