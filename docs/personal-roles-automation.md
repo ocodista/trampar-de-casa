@@ -6,11 +6,11 @@ We should incorporate profiling into each worker, allowing us to track improveme
 
 Implementing RabbitMQ queues is advisable when scaling any step of our process becomes necessary. This strategy will enable us to establish Node+TS workers to consume these queues and manage their tasks concurrently. We could even have multiple workers operational simultaneously, if needed.
 
-CloudAMQP, an IaaS RabbitMQ service, offers a highly beneficial free tier and is a viable option to consider for our purposes.
+We should use CloudAMQP, it's an IaaS RabbitMQ service, it offers a great free tier.
 
 ## Services
 
-Employing Docker and Docker Compose for the workers will simplify manual scaling.
+Using Docker and Docker Compose for the workers will simplify manual scaling.
 
 ### Role Render
 
@@ -28,14 +28,15 @@ My suggestion is to append all userEmails to a queue. Then, within a consumer, f
 
 ### Email Prerender
 
-The prerender's function is to meld all the static data of an email (header and footer) with the dynamic, non-static roles.
+The prerender's function is to combine all the static data of an email (header and footer) with the dynamic, non-static roles.
 
 These roles need to be dynamic as they may become inactive by 11am on the following Wednesday.
 ![image](https://github.com/ocodista/trampar-de-casa/assets/19851187/5e92f9ea-aaf5-4297-8e13-65a1f1db55dc)
 
 ### Email Renderer
 
-Ideally, this should operate close to the send date, possibly starting at 9am on Wednesday, to be safe. We should measure the execution time in the future to ensure it operates closer to the **Email Sender**.
+Ideally, this should operate close to the send date, possibly starting at 9am on Wednesday, to be safe.  
+We should measure the execution time in the future to ensure it operates closer to the **Email Sender**.
 
 For each email, it will:
 
@@ -47,7 +48,7 @@ For each email, it will:
 
 ### Email Sender
 
-The sender must adhere to the rate limit, currently set at 25 emails/second.
+The sender must respect to the rate limit, currently set at 25 emails/second.
 
 My initial plan includes:
 
