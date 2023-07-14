@@ -16,7 +16,6 @@ dotenv.config()
 const confirmedSubscribers = async () => {
   const SUPABASE_URL = process.env['SUPABASE_URL'] || ''
   const SUPABASE_KEY = process.env['SUPABASE_KEY'] || ''
-  console.log('URL', SUPABASE_URL)
   const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY)
   const { data, error } = await supabaseClient
     .from(Entities.Subcribers)
