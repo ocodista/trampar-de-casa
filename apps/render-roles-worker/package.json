@@ -4,7 +4,8 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test:watch": "vitest watch",
+    "test": "vitest run",
     "build": "parcel build src/index.ts",
     "start": "pm2 start dist/index.js --watch --name render-roles-worker"
   },
