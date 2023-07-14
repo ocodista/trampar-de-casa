@@ -1,4 +1,4 @@
-import { SupabaseClient, createClient } from '@supabase/supabase-js'
+import { SupabaseClient, createClient } from 'db'
 
 export const getSupabaseClient = (): SupabaseClient => {
   const client = createClient(

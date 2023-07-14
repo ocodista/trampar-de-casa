@@ -1,13 +1,19 @@
 import { Metadata } from 'next'
-import './global.css'
 import Script from 'next/script'
-import { LoadingProvider } from './contexts/LoadingContext'
+import { Header } from './components/Header'
 import { Toaster } from './components/ui/toaster'
+import './global.css'
+import { Providers } from './providers'
+
+const title = 'Vagas 100% remotas'
+const description =
+  'Receba oportunidades de tecnologia no seu e-mail, todas às quartas-feiras.'
 
 export const metadata: Metadata = {
-  title: 'Vagas 100% remotas',
-  description:
-    'Descubra as melhores oportunidades de trabalho remoto e mude para um estilo de vida mais flexível e equilibrado. Conectamos profissionais a empresas globais que valorizam a liberdade e a eficácia do trabalho remoto.',
+  title,
+  description,
+  twitter: { title, description },
+  openGraph: { title, description },
   keywords:
     'trabalho remoto, emprego remoto, vagas remotas, trabalho em casa, empregos de tecnologia remotos, carreira remota, trabalho flexível, oportunidades de trabalho remoto, empresas remotas',
   robots: 'index, follow',
@@ -22,10 +28,13 @@ export default function RootLayout({ children }) {
         src="https://plausible.io/js/script.js"
       />
       <body>
-        <LoadingProvider>
-          {children}
+        <Providers>
           <Toaster />
-        </LoadingProvider>
+          <nav>
+            <Header />
+          </nav>
+          <main>{children}</main>
+        </Providers>
       </body>
     </html>
   )

@@ -2,19 +2,19 @@ import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { getSupabaseClient } from '../../../db/getSupabaseClient'
 import { Entities } from 'shared/src/enums'
-import { decrypt } from 'shared/src/security'
+import { getDecryptedId } from '../../getDecryptedId'
 
 export async function POST(request: Request) {
   const body = await request.json()
   if (!body.id)
     return new NextResponse(null, { status: StatusCodes.BAD_REQUEST })
 
-  const realId = decrypt(process.env['CRYPT_SECRET'], body.id)
+  const id = getDecryptedId(body.id)
   const supabase = getSupabaseClient()
   const { data, error } = await supabase
     .from(Entities.Subcribers)
     .update({ isConfirmed: true })
-    .eq('id', realId)
+    .eq('id', id)
     .select()
 
   if (!error) return NextResponse.json(data)
