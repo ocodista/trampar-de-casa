@@ -33,6 +33,11 @@ export const paragraph = {
   textAlign: 'left' as const,
 }
 
+export const footer = {
+  ...paragraph,
+  fontSize: '8px',
+}
+
 export const h1 = {
   fontSize: '24px',
 }
