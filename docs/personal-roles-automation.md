@@ -4,13 +4,13 @@ We should incorporate profiling into each worker, allowing us to track improveme
 
 ## Queue
 
-Implementing RabbitMQ queues is advisable when scaling any step of our process becomes necessary. This strategy will enable us to establish Node+TS workers to consume these queues and manage their tasks concurrently. We could even have multiple workers operational simultaneously, if needed.
+We can use RabbitMQ queues to scale any step of the process. We can use Node+TS workers to consume these queues and work on their tasks concurrently. We could even have multiple workers operational simultaneously, if needed.
 
 We should use CloudAMQP, it's an IaaS RabbitMQ service, it offers a great free tier.
 
 ## Services
 
-Using Docker and Docker Compose for the workers will simplify manual scaling.
+Using Docker and Docker Compose for the workers will simplify _manual_ scaling.
 
 ### Role Render
 
