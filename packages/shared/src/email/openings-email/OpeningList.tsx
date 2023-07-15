@@ -1,4 +1,4 @@
-import { Row, Column, Heading } from '@react-email/components'
+import { Column, Heading, Row } from '@react-email/components'
 import React from 'react'
 import { Opening } from './Opening'
 

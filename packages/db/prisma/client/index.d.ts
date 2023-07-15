@@ -59,6 +59,8 @@ export type RolesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultA
     createdAt: Date
     updatedAt: Date
     sentRolesId: string | null
+    ready: boolean
+    url: string | null
   }, ExtArgs["result"]["roles"]>
   composites: {}
 }
@@ -2596,6 +2598,8 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     sentRolesId: string | null
+    ready: boolean | null
+    url: string | null
   }
 
   export type RolesMaxAggregateOutputType = {
@@ -2610,6 +2614,8 @@ export namespace Prisma {
     createdAt: Date | null
     updatedAt: Date | null
     sentRolesId: string | null
+    ready: boolean | null
+    url: string | null
   }
 
   export type RolesCountAggregateOutputType = {
@@ -2625,6 +2631,8 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     sentRolesId: number
+    ready: number
+    url: number
     _all: number
   }
 
@@ -2641,6 +2649,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     sentRolesId?: true
+    ready?: true
+    url?: true
   }
 
   export type RolesMaxAggregateInputType = {
@@ -2655,6 +2665,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     sentRolesId?: true
+    ready?: true
+    url?: true
   }
 
   export type RolesCountAggregateInputType = {
@@ -2670,6 +2682,8 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     sentRolesId?: true
+    ready?: true
+    url?: true
     _all?: true
   }
 
@@ -2759,6 +2773,8 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date
     sentRolesId: string | null
+    ready: boolean
+    url: string | null
     _count: RolesCountAggregateOutputType | null
     _min: RolesMinAggregateOutputType | null
     _max: RolesMaxAggregateOutputType | null
@@ -2791,6 +2807,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     sentRolesId?: boolean
+    ready?: boolean
+    url?: boolean
     company?: boolean | CompaniesArgs<ExtArgs>
     sentRoles?: boolean | Roles$sentRolesArgs<ExtArgs>
   }, ExtArgs["result"]["roles"]>
@@ -2808,6 +2826,8 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     sentRolesId?: boolean
+    ready?: boolean
+    url?: boolean
   }
 
   export type RolesInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -3233,6 +3253,8 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Roles", 'DateTime'>
     readonly updatedAt: FieldRef<"Roles", 'DateTime'>
     readonly sentRolesId: FieldRef<"Roles", 'String'>
+    readonly ready: FieldRef<"Roles", 'Boolean'>
+    readonly url: FieldRef<"Roles", 'String'>
   }
     
 
@@ -7423,7 +7445,9 @@ export namespace Prisma {
     skills: 'skills',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    sentRolesId: 'sentRolesId'
+    sentRolesId: 'sentRolesId',
+    ready: 'ready',
+    url: 'url'
   };
 
   export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
@@ -7712,6 +7736,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Roles"> | Date | string
     updatedAt?: DateTimeFilter<"Roles"> | Date | string
     sentRolesId?: StringNullableFilter<"Roles"> | string | null
+    ready?: BoolFilter<"Roles"> | boolean
+    url?: StringNullableFilter<"Roles"> | string | null
     company?: XOR<CompaniesRelationFilter, CompaniesWhereInput>
     sentRoles?: XOR<SentRolesNullableRelationFilter, SentRolesWhereInput> | null
   }
@@ -7729,6 +7755,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sentRolesId?: SortOrderInput | SortOrder
+    ready?: SortOrder
+    url?: SortOrderInput | SortOrder
     company?: CompaniesOrderByWithRelationInput
     sentRoles?: SentRolesOrderByWithRelationInput
   }
@@ -7749,6 +7777,8 @@ export namespace Prisma {
     skills?: JsonNullableFilter<"Roles">
     createdAt?: DateTimeFilter<"Roles"> | Date | string
     updatedAt?: DateTimeFilter<"Roles"> | Date | string
+    ready?: BoolFilter<"Roles"> | boolean
+    url?: StringNullableFilter<"Roles"> | string | null
     company?: XOR<CompaniesRelationFilter, CompaniesWhereInput>
     sentRoles?: XOR<SentRolesNullableRelationFilter, SentRolesWhereInput> | null
   }, "id" | "sentRolesId">
@@ -7766,6 +7796,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sentRolesId?: SortOrderInput | SortOrder
+    ready?: SortOrder
+    url?: SortOrderInput | SortOrder
     _count?: RolesCountOrderByAggregateInput
     _max?: RolesMaxOrderByAggregateInput
     _min?: RolesMinOrderByAggregateInput
@@ -7787,6 +7819,8 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Roles"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Roles"> | Date | string
     sentRolesId?: StringNullableWithAggregatesFilter<"Roles"> | string | null
+    ready?: BoolWithAggregatesFilter<"Roles"> | boolean
+    url?: StringNullableWithAggregatesFilter<"Roles"> | string | null
   }
 
   export type SentRolesWhereInput = {
@@ -8128,6 +8162,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    ready?: boolean
+    url?: string | null
     company: CompaniesCreateNestedOneWithoutRolesInput
     sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
   }
@@ -8145,6 +8181,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sentRolesId?: string | null
+    ready?: boolean
+    url?: string | null
   }
 
   export type RolesUpdateInput = {
@@ -8158,6 +8196,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    url?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
     sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
   }
@@ -8175,6 +8215,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RolesCreateManyInput = {
@@ -8190,6 +8232,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sentRolesId?: string | null
+    ready?: boolean
+    url?: string | null
   }
 
   export type RolesUpdateManyMutationInput = {
@@ -8203,6 +8247,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RolesUncheckedUpdateManyInput = {
@@ -8218,6 +8264,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SentRolesCreateInput = {
@@ -8743,6 +8791,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sentRolesId?: SortOrder
+    ready?: SortOrder
+    url?: SortOrder
   }
 
   export type RolesMaxOrderByAggregateInput = {
@@ -8757,6 +8807,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sentRolesId?: SortOrder
+    ready?: SortOrder
+    url?: SortOrder
   }
 
   export type RolesMinOrderByAggregateInput = {
@@ -8771,6 +8823,8 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sentRolesId?: SortOrder
+    ready?: SortOrder
+    url?: SortOrder
   }
 
   export type RolesNullableRelationFilter = {
@@ -9715,6 +9769,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    ready?: boolean
+    url?: string | null
     company: CompaniesCreateNestedOneWithoutRolesInput
   }
 
@@ -9730,6 +9786,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    ready?: boolean
+    url?: string | null
   }
 
   export type RolesCreateOrConnectWithoutSentRolesInput = {
@@ -9796,6 +9854,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    url?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
   }
 
@@ -9811,6 +9871,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SubscribersUpsertWithWhereUniqueWithoutSentRolesInput = {
@@ -10007,6 +10069,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: Date | string
     updatedAt?: Date | string
+    ready?: boolean
+    url?: string | null
     sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
   }
 
@@ -10022,6 +10086,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sentRolesId?: string | null
+    ready?: boolean
+    url?: string | null
   }
 
   export type RolesCreateOrConnectWithoutCompanyInput = {
@@ -10066,6 +10132,8 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Roles"> | Date | string
     updatedAt?: DateTimeFilter<"Roles"> | Date | string
     sentRolesId?: StringNullableFilter<"Roles"> | string | null
+    ready?: BoolFilter<"Roles"> | boolean
+    url?: StringNullableFilter<"Roles"> | string | null
   }
 
   export type SubscriberTopicsCreateManySubscriberInput = {
@@ -10191,6 +10259,8 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     sentRolesId?: string | null
+    ready?: boolean
+    url?: string | null
   }
 
   export type RolesUpdateWithoutCompanyInput = {
@@ -10204,6 +10274,8 @@ export namespace Prisma {
     skills?: NullableJsonNullValueInput | InputJsonValue
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    url?: NullableStringFieldUpdateOperationsInput | string | null
     sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
   }
 
@@ -10219,6 +10291,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RolesUncheckedUpdateManyWithoutCompanyInput = {
@@ -10233,6 +10307,8 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

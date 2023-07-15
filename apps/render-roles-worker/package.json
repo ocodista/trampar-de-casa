@@ -1,0 +1,29 @@
+{
+  "name": "render-roles-worker",
+  "version": "1.0.0",
+  "description": "",
+  "main": "dist/index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "parcel build src/index.ts",
+    "start": "pm2 start dist/index.js --watch --name render-roles-worker"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@react-email/render": "0.0.7",
+    "db": "*",
+    "dotenv": "^16.3.1",
+    "react": "^18.2.0",
+    "react-email": "^1.9.4",
+    "redis": "^4.6.7",
+    "shared": "*"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@types/react": "^18.2.15",
+    "typescript": "^5.1.6",
+    "vitest": "^0.33.0"
+  }
+}

@@ -45,6 +45,8 @@ model Roles {
   updatedAt   DateTime   @updatedAt
   sentRolesId String?    @unique
   sentRoles   SentRoles? @relation(fields: [sentRolesId], references: [id])
+  ready       Boolean    @default(false)
+  url         String?
 
   @@map("Roles")
 }

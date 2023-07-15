@@ -132,7 +132,9 @@ exports.Prisma.RolesScalarFieldEnum = {
   skills: 'skills',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  sentRolesId: 'sentRolesId'
+  sentRolesId: 'sentRolesId',
+  ready: 'ready',
+  url: 'url'
 };
 
 exports.Prisma.SentRolesScalarFieldEnum = {
