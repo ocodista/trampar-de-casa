@@ -1,4 +1,4 @@
-import { getSupabaseClient } from './getSupabaseClient'
+import { getSupabaseClient } from 'db'
 import { RedisClientType, createClient as createRedisClient } from 'redis'
 import { getRolesInBatches } from './getRoles'
 import { parseAndStoreRole } from './parseAndStoreRole'
