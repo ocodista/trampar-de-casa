@@ -1,7 +1,7 @@
 'use client'
+import Image from 'next/image'
 import { useState } from 'react'
 import { LandingPageRoutes } from '../landing-page/landingPageRoutes'
-import Image from 'next/image'
 
 export const Header = () => {
   const [isMobileMenuOpen, setMobileMenuVisibility] = useState(false)
@@ -77,9 +77,11 @@ export const Header = () => {
                 <div className="flex items-center justify-between -m-2">
                   <div className="w-auto p-2">
                     <a className="inline-block" href="/">
-                      <img
-                        src="images/casa.png"
-                        alt="Logo da Trampar de Casa"
+                      <Image
+                        src="/images/logo.svg"
+                        width={70}
+                        height={70}
+                        alt="Logotipo da Trampar De Casa"
                       />
                     </a>
                   </div>
