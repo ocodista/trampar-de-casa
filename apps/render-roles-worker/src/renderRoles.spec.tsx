@@ -1,24 +1,32 @@
-import { vi, it, describe, expect } from 'vitest'
+import { faker } from '@faker-js/faker'
 import { SupabaseClient } from '@supabase/supabase-js'
-import { Roles } from 'db'
-import { getRolesInBatches } from './getRoles'
-import { htmlStartingDoctype, parseHTML } from './parseHTML'
+import { Prisma, Roles } from 'db'
 import { RedisClientType } from 'redis'
+import { describe, expect, it, vi } from 'vitest'
+import { getRolesInBatches } from './getRoles'
 import { parseAndStoreRole } from './parseAndStoreRole'
+import { htmlStartingDoctype, parseHTML } from './parseHTML'
 
-const mockRoles: Roles[] = [
-  {
-    id: '1',
-  } as Roles,
-]
+const roleFactory = (length = 1) =>
+  Array.from(
+    { length },
+    () =>
+      ({
+        id: faker.string.uuid(),
+        companyId: faker.string.uuid(),
+        country: '',
+        skills: [] as Prisma.JsonValue,
+      } as Roles)
+  )
+const mockRoles = roleFactory(20)
 const mockSupabaseClient: SupabaseClient = {
   from: () => ({
     select: () => ({
       eq: () => ({
-        range: (start: number, _end: number) => ({
+        range: (start: number, end: number) => ({
           order: () =>
             Promise.resolve({
-              data: start < mockRoles.length ? mockRoles : [],
+              data: mockRoles.slice(start, end + 1),
               error: null,
             }),
         }),
@@ -40,10 +48,8 @@ it('getRolesInBatches', async ({ expect }) => {
   for await (const batch of roleBatches) {
     batchedRoles.push(batch)
   }
-  expect(batchedRoles).toEqual([
-    mockRoles.slice(0, 10),
-    mockRoles.slice(10, 20),
-  ])
+  const expectedResult = [mockRoles.slice(0, 10), mockRoles.slice(10, 20)]
+  expect(batchedRoles).toEqual(expectedResult)
 })
 
 describe('parseHTML', () => {
