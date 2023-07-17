@@ -8,8 +8,8 @@ import { openingsEmailHTML } from 'shared/src/email/openings-email/OpeningsEmail
 import { OpeningsEmail, emailPropsByDate } from './Emails'
 import { getSelectedDate } from '../utils'
 import { sendEmail } from '../emailSender'
-import { Subscribers } from '../../../web/prisma/client/index'
 import { Resend } from 'resend'
+import { Subscribers } from '../../../../packages/db/prisma/client/index'
 
 dotenv.config()
 
