@@ -3,6 +3,7 @@ import { Prisma, Roles, Subscribers, SupabaseClient } from 'db'
 import { RedisClientType } from 'redis'
 import { describe, it } from 'vitest'
 
+/*** TODO: Remove mocks and factories from this file ***/
 const subscribersFactory = (length = 1) =>
   Array.from(
     { length },
@@ -64,56 +65,14 @@ const mockRedisClient: RedisClientType = {
 } as unknown as RedisClientType
 
 describe('Email Grouper', () => {
-  // Goal is to link roles to users
-  // 1st way:
-  // iterate through the roles and find all users to that specific role
-
-  // 2nd way (Choosed for now):
-  // iterate through the users and find all roles to that specific user
   it.todo("get the subscribers that haven't been matchmaked yet")
-  describe('iterates through the subscribers by batch of 100', () => {
-    // For Each user
+  describe('for each user', () => {
     it.todo('find the best roles for user')
     it.todo('create emailProps with { user: { email, id }, roleIds }')
     it.todo(
       'send emailProps { user: { email, id }, roleIds } to emailRendererQueue at RabbitMQ'
     )
   })
-
-  /*
-  it('getUsersInBatches', async () => {
-    const roleBatches = getSubscribersInBatches(mockSupabaseClient, 10)
-    const batchedRoles = []
-    for await (const batch of roleBatches) {
-      batchedRoles.push(batch)
-    }
-    const expectedResult = [mockSubscribers.slice(0, 5), mockSubscribers.slice(5, 10)]
-    expect(batchedRoles).toEqual(expectedResult)
-  })
-  describe.todo('matchSubscriberWithRoles', () => {
-    it('Return roles based on subscriber skills', () => {
-      const roles = matchSubscriberWithRole({id: faker.string.uuid(), skills: [ "Java" ]} as Subscribers)
-      expect(roles).toEqual(mockRoles.map(({ id }) => id))
-    })
-    it.todo('Verify if role is activated')
-  })
-  function matchSubscriberWithRole(subscriber: Subscribers): string[] {
-    throw new Error('Function not implemented.')
-  }
-
-  describe.only('storeSubscriberProps', () => {
-    it('Store props in subscriber:{id} key at redis', async () => {
-      const subscriberId = faker.string.uuid()
-      const setSpy = vi.spyOn(mockRedisClient, 'set')
-      await storeSubscriberProps(subscriberId, mockRoles, mockRedisClient)
-
-      expect(setSpy).toHaveBeenCalledWith(
-        `subscriber:${subscriberId}`,
-        JSON.stringify({ globalOpenings: mockRoles, localOpenings: mockRoles })
-      )
-    })
-})
-*/
 })
 
 describe('Roles validator', () => {
@@ -166,7 +125,7 @@ describe('Email Sender', () => {
 
   // Complex version
   describe.todo('Complex version', () => {
-    it.todo('uses broker with 25/s rate')
+    it.todo('uses broker with 25 messages/s rate')
     it.todo('renders footer and header only once and store it to redis')
     it.todo('consumes footer/header from redis on each instance')
     it.todo('can run multiple instances')
