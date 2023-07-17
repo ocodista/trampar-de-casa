@@ -30,6 +30,7 @@ async function matchWithRolesAndSave(
   const getRolesBasedOnSkill = supabase
     .from(Entities.Roles)
     .select()
+    .eq('ready', true)
     .in('skills', ['Java'])
 
   console.log(await getRolesBasedOnSkill)
