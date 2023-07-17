@@ -1,8 +1,10 @@
-# Render roles worker
+# Render Roles Worker - Readme Documentation
 
-This worker render each roles activated on DB, and save on redis database. The all roles key has a default prefix: [`role:`](./src/parseAndStoreRole.ts)
+The Render Roles Worker is a software component that renders and saves each activated role from the database into Redis. The default prefix for all role keys is [`role:`](./src/parseAndStoreRole.ts).
 
-Actually, the worker flux is:
+## Worker Flow
+
+The worker follows the following sequence:
 
 ```mermaid
 sequenceDiagram
@@ -13,23 +15,28 @@ participant supabase
 participant redis
 
 loop routine
-mainFunction->>+getRolesInBatches: get roles
-getRolesInBatches->>+supabase: get activated roles
+mainFunction->>+getRolesInBatches: Get roles
+getRolesInBatches->>+supabase: Query activated roles
 supabase-->>-getRolesInBatches: Roles[]
 getRolesInBatches-->>-mainFunction: Roles[]
-mainFunction->>+parseAndStoreRole: render each roles
-parseAndStoreRole-->>-mainFunction: return id and HTML
-mainFunction->>+redis: Save rendered html
+mainFunction->>+parseAndStoreRole: Render each role
+parseAndStoreRole-->>-mainFunction: Return id and HTML
+mainFunction->>+redis: Save rendered HTML
 end
 ```
 
-The [`mainFunction`](./src/renderRoles.tsx#6) is responsible to initiate supabase and redis. after this,
-execute [`getRolesInBatches`](#getrolesinbatches), and while get getRolesInBatches returns, we parser HTML and save on redis the result with [`parseAndStoreRole`](#parseandstorerolerole)
+- **Main Function**
 
-## getRolesInBatches()
+  - Responsible for initializing Supabase and Redis.
+  - Executes `getRolesInBatches` to retrieve roles in batches.
+  - While `getRolesInBatches` is in progress, it parses roles into HTML and saves them in Redis using `parseAndStoreRole`.
 
-This function is a [AsyncGenerator](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/AsyncGenerator) and makes a query to supabase with simple pagination. After this, we receives roles in little [batches](https://www.talend.com/resources/batch-processing/) and return.
+- **getRolesInBatches()**
 
-## parseAndStoreRole(Role[])
+  - An `AsyncGenerator` function that queries Supabase with simple pagination.
+  - Queries roles in small batches and returns them.
 
-This function receives an array of roles and uses role info to render static HTML and save the result on an in-memory database. In this case, redis.
+- **parseAndStoreRole**
+  - Extracts the `id` from the `role` object.
+  - Parses the role information into static HTML using the `parseHTML` function.
+  - Saves the rendered HTML in the Redis database with the key format `role:${id}`.

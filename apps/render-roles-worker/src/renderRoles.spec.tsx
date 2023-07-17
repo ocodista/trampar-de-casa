@@ -42,24 +42,22 @@ const mockRedisClient: RedisClientType = {
   },
 } as unknown as RedisClientType
 
-it('getRolesInBatches', async ({ expect }) => {
-  const roleBatches = getRolesInBatches(mockSupabaseClient, 10)
-  const batchedRoles = []
-  for await (const batch of roleBatches) {
-    batchedRoles.push(batch)
-  }
-  const expectedResult = [mockRoles.slice(0, 10), mockRoles.slice(10, 20)]
-  expect(batchedRoles).toEqual(expectedResult)
-})
+describe('Roles Renderer', () => {
+  it('get roles in batches', async ({ expect }) => {
+    const roleBatches = getRolesInBatches(mockSupabaseClient, 10)
+    const batchedRoles = []
+    for await (const batch of roleBatches) {
+      batchedRoles.push(batch)
+    }
+    const expectedResult = [mockRoles.slice(0, 10), mockRoles.slice(10, 20)]
+    expect(batchedRoles).toEqual(expectedResult)
+  })
 
-describe('parseHTML', () => {
   it('parses component and return html without the doctype', () => {
     const parsed = parseHTML(mockRoles[0])
     expect(parsed).not.toContain(htmlStartingDoctype)
   })
-})
 
-describe('parseAndStoreRole', () => {
   it('parses and stores html in roles:{id} key at Redis', async () => {
     const setSpy = vi.spyOn(mockRedisClient, 'set')
     await parseAndStoreRole(mockRedisClient, mockRoles[0])
