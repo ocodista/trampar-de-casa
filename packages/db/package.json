@@ -9,6 +9,7 @@
     "dev": "BROWSER=none prisma studio",
     "db-start": "npx prisma generate && npx supabase start",
     "db-seed": "npx prisma db seed",
+    "db-migrate-dev": "npx prisma migrate dev --name init",
     "db-stop": "npx supabase stop --backup"
   },
   "keywords": [],
