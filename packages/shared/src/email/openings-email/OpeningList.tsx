@@ -49,9 +49,10 @@ export const OpeningCard = ({
           <Heading className="text-sm">{title}</Heading>
         </Row>
         <section className="flex flex-wrap gap-x-2">
-          {firstSkills.map((skill: string) => (
-            <Skill key={skill} name={skill} />
-          ))}
+          {firstSkills.map((skill: string | undefined) => {
+            if (!skill) return null
+            return <Skill key={skill} name={skill} />
+          })}
         </section>
         <Row className="text-gray-400 mt-2">
           <Column align="left" className="flex items-center text-xs">
