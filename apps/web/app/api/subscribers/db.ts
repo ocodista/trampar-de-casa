@@ -36,6 +36,7 @@ export async function insertSubscriber(email: string) {
     .from(Entities.Subcribers)
     .insert({ email })
     .select()
+
   return { data, error }
 }
 
