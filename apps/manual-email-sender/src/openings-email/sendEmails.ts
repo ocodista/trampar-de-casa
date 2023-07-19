@@ -1,21 +1,21 @@
 /* eslint-disable no-console */
 import { createClient } from '@supabase/supabase-js'
+import { Subscribers } from 'db'
 import dotenv from 'dotenv'
-import { Entities, UiRoutes, encrypt } from 'shared'
-import path from 'path'
 import { readFileSync } from 'fs'
-import { openingsEmailHTML } from 'shared/src/email/openings-email/OpeningsEmail'
-import { OpeningsEmail, emailPropsByDate } from './Emails'
-import { getSelectedDate } from '../utils'
-import { sendEmail } from '../emailSender'
+import path from 'path'
 import { Resend } from 'resend'
-import { Subscribers } from '../../../../packages/db/prisma/client/index'
+import { Entities, UiRoutes, encrypt } from 'shared'
+import { openingsEmailHTML } from 'shared/src/email/openings-email/OpeningsEmail'
+import { sendEmail } from '../emailSender'
+import { getSelectedDate } from '../utils'
+import { OpeningsEmail, emailPropsByDate } from './Emails'
 
 dotenv.config()
 
 const confirmedSubscribers = async () => {
   const SUPABASE_URL = process.env['SUPABASE_URL'] || ''
-  const SUPABASE_KEY = process.env['SUPABASE_KEY'] || ''
+  const SUPABASE_KEY = process.env['SUPABASE_SERVICE_ROLE'] || ''
   const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY)
   const { data, error } = await supabaseClient
     .from(Entities.Subcribers)
@@ -35,8 +35,9 @@ function chunkArray<T>(array: T[], size: number): T[][] {
     array.slice(index * size, index * size + size)
   )
 }
-
-const emailHTML = (
+const createUnsubscribeLink = (secretKey: string, id: string) =>
+  `https://trampardecasa.com.br${UiRoutes.OptOut}/?id=${encrypt(secretKey, id)}`
+const emailHTML = async (
   secretKey: string,
   id: string,
   emailProps: OpeningsEmail
@@ -44,13 +45,12 @@ const emailHTML = (
   const {
     openings: { localOpenings, globalOpenings },
   } = emailProps
-  return openingsEmailHTML({
+  return await openingsEmailHTML({
+    id,
     globalOpenings,
     localOpenings,
     feedbackFormUrl: emailProps.feedbackForm,
-    unsubscribeUrl: `https://trampardecasa.com.br${
-      UiRoutes.OptOut
-    }/?id=${encrypt(secretKey, id)}`,
+    unsubscribeUrl: createUnsubscribeLink(secretKey, id),
   })
 }
 
@@ -82,20 +82,21 @@ async function main() {
     globalOpenings.length + localOpenings.length
   } vagas para você Trampar de Casa`
 
-  const secretKey = process.env['CRYPT_SECRET'] as string
+  const secretKey = process.env['SECRET_KEY'] as string
   if (!secretKey) throw new Error('Secret is needed!')
 
   const resendClient = new Resend(process.env['RESEND_KEY'])
 
   for (const [index, chunk] of chunks.entries()) {
-    const promises = chunk.map((subscriber) =>
+    const promises = chunk.map(async (subscriber) => {
       sendEmail({
         to: subscriber.email,
         resendClient,
-        html: emailHTML(secretKey, subscriber.id, emailProps),
         subject,
+        html: await emailHTML(secretKey, subscriber.id, emailProps),
+        unsubscribeLink: createUnsubscribeLink(secretKey, subscriber.id),
       })
-    )
+    })
     console.log(`\nWaiting for ${index + 1}/${chunks.length} chunk...`)
     await Promise.all(promises)
     console.log('\n\n')

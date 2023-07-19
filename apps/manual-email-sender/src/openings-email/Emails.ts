@@ -30,7 +30,7 @@ export const emailPropsByDate: Record<string, OpeningsEmail> = {
     openings: openings20230712,
   },
   [EmailDate['2023-07-19']]: {
-    feedbackForm: 'https://forms.gle/Q6d15U5JzfNaah7b8',
+    feedbackForm: 'https://forms.gle/mBeW8w2kf1fEsiSS9',
     openings: openings20230719,
   },
 }

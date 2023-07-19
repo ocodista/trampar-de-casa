@@ -1,30 +1,30 @@
 import {
-  Tailwind,
-  Html,
-  Head,
-  Preview,
   Body,
   Container,
-  Section,
+  Head,
   Heading,
   Hr,
-  Link,
-  Text,
+  Html,
   Img,
+  Link,
+  Preview,
+  Section,
+  Tailwind,
+  Text,
 } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
-import OpeningList from './OpeningList'
 import { Opening } from './Opening'
+import OpeningList from './OpeningList'
 import {
-  main,
-  container,
+  anchor,
   box,
+  container,
+  footer,
   h1,
   hr,
+  main,
   paragraph,
-  anchor,
-  footer,
 } from './style'
 
 interface OpeningsEmail {
@@ -41,7 +41,7 @@ export const OpeningsEmail = ({
   unsubscribeUrl,
 }: OpeningsEmail) => {
   const rolesCount = globalOpenings.length + localOpenings.length
-  const previewText = `${rolesCount} vagas para você Trampar de Casa 🔥`
+  const previewText = 'Cupom de 30% no FrontInSampa!'
   return (
     <Tailwind>
       <Html>
@@ -58,19 +58,24 @@ export const OpeningsEmail = ({
                   alt="Logo da Trampar De Casa"
                 />
               </Container>
-              <Heading style={h1}>{previewText}</Heading>
+              <Heading
+                style={h1}
+              >{`🔥 ${rolesCount} vagas para você Trampar de Casa`}</Heading>
               <Hr style={hr} />
+              <Text style={paragraph}>Olá, admirador do trabalho remoto!</Text>
               <Text style={paragraph}>
-                Bom dia, amantes do trabalho remoto!{' '}
+                Temos uma grande novidade: fechamos uma parceria com o
+                FrontInSampa, o maior evento de Front-end da América Latina!
               </Text>
               <Text style={paragraph}>
-                Temos uma grande novidade para compartilhar com vocês: fechamos
-                uma parceria com a renomada plataforma de desenvolvimento
-                FullStack JS e TS{' '}
-                <Link style={anchor} href="https://www.meteor.com/">
-                  Meteor
+                Aproveite nosso cupom exclusivo de 30% de desconto (código:
+                <Link
+                  style={anchor}
+                  href="https://www.eventbrite.com.br/e/frontin-sampa-2023-code-in-the-dark-tickets-574922567877"
+                >
+                  TRAMPARDECASA30
                 </Link>
-                {' - que também é open-source!'}
+                )
               </Text>
               <Text style={paragraph}>
                 O seu feedback nos ajuda <strong>demais</strong>, clique{' '}
@@ -114,5 +119,9 @@ export const OpeningsEmail = ({
   )
 }
 
-export const openingsEmailHTML = (props: OpeningsEmail): string =>
-  render(OpeningsEmail(props))
+export const openingsEmailHTML = async (
+  props: OpeningsEmail & { id: string }
+) => {
+  const renderedHtml = render(OpeningsEmail(props))
+  return renderedHtml
+}
