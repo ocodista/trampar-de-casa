@@ -1,7 +1,6 @@
 export interface Opening {
   company: string
   title: string
-  description?: string
   location: string
   language: string
   currency: string

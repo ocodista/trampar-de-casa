@@ -8,7 +8,8 @@
     "skipLibCheck": true,
     "noEmit": true,
     "strict": true,
-    "jsx": "react"
+    "jsx": "react",
+    "target": "ES2020"
   },
   "exclude": ["node_modules"]
 }
