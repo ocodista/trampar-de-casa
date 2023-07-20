@@ -35,7 +35,7 @@ const CompanySection = ({ name, imagePath, url, description }: Company) => (
     <Image
       src={imagePath}
       alt={`Logo da empresa ${name}`}
-      className="cursor-pointer aspect-video object-contain min-w-[128px]"
+      className="cursor-pointer aspect-video object-contain min-w-[128px] animate-scroll-x  group-hover:paused"
       title={description}
       width={128}
       height={28}
@@ -50,7 +50,7 @@ export const PartnerCompanies = () => {
         EMPRESAS QUE APOIAM O TRABALHO REMOTO
       </p>
       <div className="overflow-hidden">
-        <span className="flex gap-10 animate-scroll-x hover:paused items-center max-lg:justify-around max-lg:w-1/4">
+        <span className="flex gap-10 items-center max-lg:w-1/4 group">
           {companies.map((company) => (
             <CompanySection key={company.name} {...company} />
           ))}
