@@ -44,11 +44,6 @@ const CompanySection = ({ name, imagePath, url, description }: Company) => (
 )
 
 export const PartnerCompanies = () => {
-  const LOGO_WIDTH = 128
-  const GAP_SIZE = 40
-  const SCROLL_WIDTH =
-    2 * companies?.length * (LOGO_WIDTH + 2 * GAP_SIZE) - GAP_SIZE
-
   return (
     <section>
       <p className="text-sm text-gray-500 font-semibold">
