@@ -35,7 +35,7 @@ const CompanySection = ({ name, imagePath, url, description }: Company) => (
     <Image
       src={imagePath}
       alt={`Logo da empresa ${name}`}
-      className="cursor-pointer aspect-video object-contain min-w-[128px] animate-scroll-x  group-hover:paused"
+      className="cursor-pointer aspect-video object-contain min-w-[128px] mx-10"
       title={description}
       width={128}
       height={28}
@@ -44,19 +44,37 @@ const CompanySection = ({ name, imagePath, url, description }: Company) => (
 )
 
 export const PartnerCompanies = () => {
+  const LOGO_WIDTH = 128
+  const GAP_SIZE = 40
+  const SCROLL_WIDTH =
+    2 * companies?.length * (LOGO_WIDTH + 2 * GAP_SIZE) - GAP_SIZE
+
   return (
     <section>
       <p className="text-sm text-gray-500 font-semibold">
         EMPRESAS QUE APOIAM O TRABALHO REMOTO
       </p>
-      <div className="overflow-hidden">
-        <span className="flex gap-10 items-center max-lg:w-1/4 group">
-          {companies.map((company) => (
-            <CompanySection key={company.name} {...company} />
-          ))}
-          {companies.map((company) => (
-            <CompanySection key={company.name} {...company} />
-          ))}
+      <div className="overflow-hidden w-full">
+        <span
+          className={`flex justify-start items-center w-full group max-lg:w-1/4`}
+        >
+          <span className="flex gap-10 animate-scroll-left group-hover:paused">
+            {companies.map((company) => (
+              <CompanySection key={company.name} {...company} />
+            ))}
+          </span>
+          <span
+            className="flex gap-10 animate-scroll-left group-hover:paused"
+            style={{ transform: 'translateX(100%)' }}
+          >
+            {companies.map((company) => (
+              <CompanySection
+                key={company.name}
+                {...company}
+                aria-hidden={true}
+              />
+            ))}
+          </span>
         </span>
       </div>
     </section>
