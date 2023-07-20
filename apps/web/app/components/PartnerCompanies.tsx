@@ -49,7 +49,7 @@ export const PartnerCompanies = () => {
       <p className="text-sm text-gray-500 font-semibold">
         EMPRESAS QUE APOIAM O TRABALHO REMOTO
       </p>
-      <div className="flex flex-wrap items-center gap-10 max-lg:justify-around">
+      <div className="flex items-center gap-10 max-lg:justify-around overflow-hidden animate-scroll-x">
         {companies.map((company) => (
           <CompanySection key={company.name} {...company} />
         ))}
