@@ -69,7 +69,7 @@ module.exports = {
         },
         'scroll-x': {
           '0%': { transform: 'translateX(0)' },
-          '100%': { transform: 'translateX(-500px)' },
+          '100%': { transform: 'translateX(-100%)' },
         },
       },
       animation: {

@@ -31,7 +31,7 @@ const companies: Company[] = [
 ]
 
 const CompanySection = ({ name, imagePath, url, description }: Company) => (
-  <a href={url} target="_blank" className="w-auto">
+  <a href={url} target="_blank">
     <Image
       src={imagePath}
       alt={`Logo da empresa ${name}`}
@@ -49,11 +49,14 @@ export const PartnerCompanies = () => {
       <p className="text-sm text-gray-500 font-semibold">
         EMPRESAS QUE APOIAM O TRABALHO REMOTO
       </p>
-      <div className="flex items-center gap-10 max-lg:justify-around overflow-hidden animate-scroll-x">
+      <span className="flex gap-x-10 max-lg:justify-around animate-scroll-x hover:paused items-center overflow-hidden">
         {companies.map((company) => (
           <CompanySection key={company.name} {...company} />
         ))}
-      </div>
+        {companies.map((company) => (
+          <CompanySection key={company.name} {...company} />
+        ))}
+      </span>
     </section>
   )
 }
