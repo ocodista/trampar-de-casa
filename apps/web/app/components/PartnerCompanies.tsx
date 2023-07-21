@@ -31,11 +31,11 @@ const companies: Company[] = [
 ]
 
 const CompanySection = ({ name, imagePath, url, description }: Company) => (
-  <a href={url} target="_blank" className="w-auto">
+  <a href={url} target="_blank">
     <Image
       src={imagePath}
       alt={`Logo da empresa ${name}`}
-      className="cursor-pointer aspect-video object-contain"
+      className="cursor-pointer aspect-video object-contain min-w-[128px] mx-10"
       title={description}
       width={128}
       height={28}
@@ -49,10 +49,28 @@ export const PartnerCompanies = () => {
       <p className="text-sm text-gray-500 font-semibold">
         EMPRESAS QUE APOIAM O TRABALHO REMOTO
       </p>
-      <div className="flex flex-wrap items-center gap-10 max-lg:justify-around">
-        {companies.map((company) => (
-          <CompanySection key={company.name} {...company} />
-        ))}
+      <div className="overflow-hidden w-full">
+        <span
+          className={`flex justify-start items-center w-full group max-lg:w-1/4`}
+        >
+          <span className="flex gap-10 animate-scroll-left group-hover:paused">
+            {companies.map((company) => (
+              <CompanySection key={company.name} {...company} />
+            ))}
+          </span>
+          <span
+            className="flex gap-10 animate-scroll-left group-hover:paused"
+            style={{ transform: 'translateX(100%)' }}
+          >
+            {companies.map((company) => (
+              <CompanySection
+                key={company.name}
+                {...company}
+                aria-hidden={true}
+              />
+            ))}
+          </span>
+        </span>
       </div>
     </section>
   )
