@@ -16,7 +16,7 @@ export const HowItWorks = () => (
           </figure>
         </div>
         <div className="w-full lg:w-1/2 p-8">
-          <h2 className="mb-16 text-6xl md:text-7xl font-bold font-heading tracking-px-n leading-tight max-xs:text-4xl">
+          <h2 className="mb-16 text-6xl md:text-7xl font-bold font-heading tracking-tight leading-tight max-xs:text-4xl">
             Como Funciona
           </h2>
           <div className="flex flex-wrap -m-1.5">
