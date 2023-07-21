@@ -1,11 +1,11 @@
 export const Values = () => (
-  <section id="valores" className="pt-32 pb-36 bg-indigo-600 overflow-hidden">
-    <div className="container px-8 lg:px-4 mx-auto">
+  <section id="valores" className="overflow-hidden bg-indigo-600 pb-36 pt-32">
+    <div className="container mx-auto px-8 lg:px-4">
       <div>
         <h2 className="mb-9 text-6xl md:text-8xl xl:text-10xl text-white font-bold tracking-tight leading-none max-xs:text-4xl">
           Apoiamos a liberdade do trabalho remoto
         </h2>
-        <p className="mb-16 text-xl text-gray-200 leading-relaxed">
+        <p className="mb-16 text-xl leading-relaxed text-gray-200">
           Como profissionais dedicados da área de tecnologia, sabemos que é
           perfeitamente viável desfrutar de uma vida com menos trânsito,
           aproveitando mais o conforto e a tranquilidade residencial. Tudo isso
@@ -50,9 +50,9 @@ export const Values = () => (
           <a
             href="https://github.com/ocodista/trampar-de-casa"
             target="_blank"
-            className="h-full p-7 block bg-white border border-gray-900 rounded-3xl hover:text-gray-700 transition-all group"
+            className="group block h-full rounded-3xl border border-gray-900 bg-white p-7 transition-all hover:text-gray-700"
           >
-            <div className="flex flex-wrap flex-col gap-3">
+            <div className="flex flex-col flex-wrap gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-9">
                   <svg

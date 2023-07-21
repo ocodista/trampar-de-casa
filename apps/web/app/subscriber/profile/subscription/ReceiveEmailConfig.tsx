@@ -29,7 +29,7 @@ export const ReceiveEmailConfig = ({
   }, [selectOptions])
   return (
     <div className="flex flex-col gap-2">
-      <label className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70 mb-2">
+      <label className="mb-2 text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
         Quero receber
       </label>
       {descriptionTopics.map(({ name, id }) => (

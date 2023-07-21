@@ -7,16 +7,16 @@ export function FrontinCoupon() {
   return (
     <div className="text-center">
       <div
-        className="px-4 py-2 max-md:py-3 bg-indigo-600 text-indigo-100 leading-none flex items-center justify-center gap-1 max-md:flex-col max-md:gap-2"
+        className="flex items-center justify-center gap-1 bg-indigo-600 px-4 py-2 leading-none text-indigo-100 max-md:flex-col max-md:gap-2 max-md:py-3"
         role="alert"
       >
-        <span className="font-medium mr-2 leading-tight max-md:text-lg">
+        <span className="mr-2 font-medium leading-tight max-md:text-lg">
           <span className="font-bold">20% de desconto</span> no maior evento de{' '}
           <i>Front-end</i> da América Latina.
         </span>
 
         <span
-          className="px-3 py-1 mr-[6px] flex items-center gap-2 rounded-full uppercase text-xs max-md:text-sm font-bold max-md:font-semibold bg-indigo-500 hover:bg-indigo-700 transition-colors cursor-pointer"
+          className="mr-[6px] flex cursor-pointer items-center gap-2 rounded-full bg-indigo-500 px-3 py-1 text-xs font-bold uppercase transition-colors hover:bg-indigo-700 max-md:text-sm max-md:font-semibold"
           onClick={async () => {
             await navigator.clipboard
               .writeText('TRAMPARDECASA')

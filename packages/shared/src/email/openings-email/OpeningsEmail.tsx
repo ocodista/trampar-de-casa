@@ -50,7 +50,7 @@ export const OpeningsEmail = ({
         <Body style={main}>
           <Container style={container}>
             <Section style={box}>
-              <Container className="flex justify-center items-center">
+              <Container className="flex items-center justify-center">
                 <Img
                   src="https://trampardecasa.com.br/images/logo.png"
                   height={70}

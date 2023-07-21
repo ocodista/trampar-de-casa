@@ -52,7 +52,7 @@ const getRoles = (companies: Companies[]): Prisma.RolesCreateInput[] => [
 
 const getDescriptionTopics = (): Prisma.TopicsCreateInput[] => [
   { name: 'Vagas internacionais' },
-  { name: 'Vagas nacionais' }
+  { name: 'Vagas nacionais' },
 ]
 
 void (async function () {
