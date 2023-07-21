@@ -70,7 +70,7 @@ export function SubscriberForm() {
 
   return (
     <>
-      <div className="p-1.5 xl:pl-7 inline-block w-full border-2 border-black rounded-xl focus-within:ring focus-within:ring-indigo-300 -my-2.5 lg:-m-2.5">
+      <div className="-my-2.5 inline-block w-full rounded-xl border-2 border-black p-1.5 focus-within:ring focus-within:ring-indigo-300 lg:-m-2.5 xl:pl-7">
         <form
           onSubmit={async (e) => {
             e.preventDefault()
@@ -80,7 +80,7 @@ export function SubscriberForm() {
           <div className="flex flex-wrap items-center">
             <div className="w-full xl:flex-1">
               <input
-                className="p-3 xl:p-0 xl:pr-7 w-full text-gray-600 placeholder-gray-600 outline-none"
+                className="w-full p-3 text-gray-600 placeholder-gray-600 outline-none xl:p-0 xl:pr-7"
                 id="email"
                 type="email"
                 disabled={isLoading}
@@ -93,8 +93,8 @@ export function SubscriberForm() {
                 <button
                   type="submit"
                   disabled={!isValid || isLoading}
-                  className="py-4 px-7 w-full text-white font-semibold rounded-xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200 pointer 
-                      disabled:opacity-50 cursor-pointer disabled:cursor-default"
+                  className="pointer w-full cursor-pointer rounded-xl bg-indigo-600 px-7 py-4 font-semibold text-white transition duration-200 ease-in-out hover:bg-indigo-700 focus:ring 
+                      focus:ring-indigo-300 disabled:cursor-default disabled:opacity-50"
                 >
                   Quero participar
                 </button>
@@ -103,7 +103,7 @@ export function SubscriberForm() {
           </div>
         </form>
       </div>
-      <section className="text-red-600 my-4 mb-16 min-h-[30px] text-sm">
+      <section className="my-4 mb-16 min-h-[30px] text-sm text-red-600">
         <ErrorMessage
           name="email"
           errors={errors}

@@ -81,7 +81,7 @@ export const EmailForm = () => {
   return (
     <>
       {isConfettiVisible && (
-        <div className="absolute top-0 left-0">
+        <div className="absolute left-0 top-0">
           <Confetti width={window.innerWidth - PADDING_X} />
         </div>
       )}
@@ -95,7 +95,7 @@ export const EmailForm = () => {
         <div className="flex flex-wrap items-center">
           <div className="w-full xl:flex-1">
             <input
-              className="p-3 xl:p-0 xl:pr-7 w-full text-gray-600 placeholder-gray-600 outline-none"
+              className="w-full p-3 text-gray-600 placeholder-gray-600 outline-none xl:p-0 xl:pr-7"
               id="email"
               type="email"
               placeholder="Digite seu melhor e-mail"
@@ -107,7 +107,7 @@ export const EmailForm = () => {
               <button
                 type="submit"
                 disabled={!isValid || isLoading}
-                className="py-4 px-7 w-full text-white font-semibold rounded-xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition ease-in-out duration-200 pointer disabled:opacity-50 cursor-pointer disabled:cursor-default"
+                className="pointer w-full cursor-pointer rounded-xl bg-indigo-600 px-7 py-4 font-semibold text-white transition duration-200 ease-in-out hover:bg-indigo-700 focus:ring focus:ring-indigo-300 disabled:cursor-default disabled:opacity-50"
               >
                 Quero participar
               </button>

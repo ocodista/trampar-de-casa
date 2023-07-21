@@ -54,12 +54,12 @@ export function AutoComplete({
             </Combobox.Button>
           </div>
           {selectedOptions.length > 0 && (
-            <ul className="flex flex-wrap gap-2 mt-2">
+            <ul className="mt-2 flex flex-wrap gap-2">
               {selectedOptions.map((option) => (
                 <li key={option.value}>
                   <button
                     disabled={disabled}
-                    className="cursor-pointer rounded-2xl border text-sm font-semibold px-2 py-1 border-s-gray-300"
+                    className="cursor-pointer rounded-2xl border border-s-gray-300 px-2 py-1 text-sm font-semibold"
                     onClick={() =>
                       onSelectChange(
                         selectedOptions.filter(
@@ -84,7 +84,7 @@ export function AutoComplete({
           >
             <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
               {filteredOptions.length === 0 && query !== '' ? (
-                <div className="relative cursor-default select-none py-2 px-4 text-gray-700">
+                <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
                   Nenhum resultado encontrado.
                 </div>
               ) : (

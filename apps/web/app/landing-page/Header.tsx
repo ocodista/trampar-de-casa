@@ -7,10 +7,10 @@ export function Header() {
 
   return (
     <header className="container mx-auto overflow-hidden">
-      <div className="relative flex items-center justify-between lg:px-4 py-5 bg-transparent">
+      <div className="relative flex items-center justify-between bg-transparent py-5 lg:px-4">
         <div className="w-auto">
           <div className="flex flex-wrap items-center">
-            <div className="w-auto mr-14">
+            <div className="mr-14 w-auto">
               <a href="#">
                 <Image
                   width={70}
@@ -20,8 +20,8 @@ export function Header() {
                 />
               </a>
             </div>
-            <nav className="w-auto hidden lg:block">
-              <ul className="flex items-center mr-16">
+            <nav className="hidden w-auto lg:block">
+              <ul className="mr-16 flex items-center">
                 <li className="mr-9 font-medium hover:text-gray-700">
                   <a href="#valores">Nossos Valores</a>
                 </li>
@@ -66,15 +66,15 @@ export function Header() {
       </div>
       {isMobileNavVisible && (
         <div
-          className="lg:hidden navbar-menu fixed top-0 left-0 bottom-0 w-4/6 sm:max-w-xs z-50"
+          className="navbar-menu fixed bottom-0 left-0 top-0 z-50 w-4/6 sm:max-w-xs lg:hidden"
           role="dialog"
           aria-modal={isMobileNavVisible}
         >
           <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80" />
-          <nav className="relative px-9 pt-8 bg-white h-full overflow-y-auto">
-            <div className="flex flex-wrap justify-between h-full">
+          <nav className="relative h-full overflow-y-auto bg-white px-9 pt-8">
+            <div className="flex h-full flex-wrap justify-between">
               <div className="w-full">
-                <div className="flex items-center justify-between -m-2">
+                <div className="-m-2 flex items-center justify-between">
                   <div className="w-auto p-2">
                     <a className="inline-block" href="#">
                       <Image
@@ -110,7 +110,7 @@ export function Header() {
                   </div>
                 </div>
               </div>
-              <div className="flex flex-col justify-center py-16 w-full">
+              <div className="flex w-full flex-col justify-center py-16">
                 <ul>
                   <li className="mb-12">
                     <a
