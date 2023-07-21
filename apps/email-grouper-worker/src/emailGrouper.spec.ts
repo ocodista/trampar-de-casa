@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker'
-import { Prisma, Roles, Subscribers, SupabaseClient } from 'db'
-import { RedisClientType } from 'redis'
-import { describe, it } from 'vitest'
+import { EnglishLevel, Prisma, Roles, Subscribers, SupabaseClient } from 'db'
+import { Entities } from 'shared'
+import { describe, expect, it, vi } from 'vitest'
+import { subscriberFactory } from './tests/mocks/factories/subscribers'
 
 /*** TODO: Remove mocks and factories from this file ***/
 const subscribersFactory = (length = 1) =>
@@ -37,43 +38,99 @@ const roleFactory = (length = 1) =>
   )
 const mockRoles = roleFactory(20)
 
-const mockSubscribers = subscribersFactory(10)
-const mockSupabaseClient: SupabaseClient = {
-  from: () => ({
-    select: () => ({
-      in: () => ({
-        data: mockRoles,
-        error: null,
-      }),
-      eq: () => ({
-        range: (start: number, end: number) => ({
-          order: () =>
-            Promise.resolve({
-              data: mockSubscribers.slice(start, end + 1),
-              error: null,
+describe('Email Grouper', () => {
+  describe('get subscribers', () => {
+    const rangeMock = vi.fn()
+    const runGetSubscribers = async (
+      supabaseClient: SupabaseClient,
+      batchSize: number
+    ) => {
+      const subscribersBatch = getSubscribers(supabaseClient, batchSize)
+      for await (const subscribers of subscribersBatch) {
+        undefined
+      }
+    }
+    const eqMock = vi.fn()
+    const supabaseClient: SupabaseClient = {
+      from: () => ({
+        select: () => ({
+          in: () => ({
+            data: mockRoles,
+            error: null,
+          }),
+          eq: (...args: unknown[]) => ({
+            ...eqMock(...args),
+            range: (...args: unknown[]) => ({
+              ...rangeMock(...args),
+              data: null,
             }),
+          }),
         }),
       }),
-    }),
-  }),
-} as unknown as SupabaseClient
-const mockRedisClient: RedisClientType = {
-  set: (key: string, value: string, callback: (_a: any, _b: any) => void) => {
-    callback && callback(null, 'OK')
-    return true
-  },
-} as unknown as RedisClientType
+    } as unknown as SupabaseClient
 
-describe('Email Grouper', () => {
-  it.todo("get the subscribers that haven't been matchmaked yet")
+    it('fetches subscribers table in batches of 100 rows', async () => {
+      const batchSize = 100
+
+      await runGetSubscribers(supabaseClient, batchSize)
+
+      expect(rangeMock).toBeCalledWith(0, batchSize)
+    })
+    it('filter by confirmed users', async () => {
+      const batchSize = 100
+
+      runGetSubscribers(supabaseClient, batchSize)
+
+      expect(eqMock).toBeCalledWith(isConfirmedField, true)
+    })
+  })
+
   describe('for each user', () => {
-    it.todo('find the best roles for user')
+    describe('find the best roles for user', () => {
+      const eqMock = vi.fn()
+      const supabaseClient: SupabaseClient = {
+        from: () => ({
+          select: () => ({
+            eq: (...args: unknown[]) => ({
+              ...eqMock(...args),
+              eq: (...args: unknown[]) => ({
+                eq: eqMock(...args),
+              }),
+            }),
+          }),
+        }),
+      } as unknown as SupabaseClient
+      it('get only roles that are ready', async () => {
+        await rolesMatchmaking(supabaseClient, subscriberFactory())
+
+        expect(eqMock).toBeCalledWith('ready', true)
+      })
+      // how make a query fopr seach in json fields?
+      it.todo('get roles from db based on subscriber skills')
+      it.only('get roles from db based on english level', async () => {
+        await rolesMatchmaking(
+          supabaseClient,
+          subscriberFactory({ englishLevel: EnglishLevel.Advanced })
+        )
+
+        expect(eqMock).toBeCalledWith('language', 'English')
+      })
+    })
     it.todo('create emailProps with { user: { email, id }, roleIds }')
     it.todo(
       'send emailProps { user: { email, id }, roleIds } to emailRendererQueue at RabbitMQ'
     )
   })
 })
+const rolesMatchmaking = async (
+  supabaseClient: SupabaseClient,
+  subscriber: Subscribers
+) => {
+  // supabaseClient.from()
+  const language =
+    subscriber.englishLevel === EnglishLevel.Advanced ? 'English' : 'Portuguese'
+  supabaseClient.from('').select('*').eq('ready', true).eq('language', language)
+}
 
 describe('Roles validator', () => {
   it.todo('must run on the day of the send and before the emailRenderer')
@@ -131,3 +188,19 @@ describe('Email Sender', () => {
     it.todo('can run multiple instances')
   })
 })
+
+const isConfirmedField = 'isConfirmed'
+async function* getSubscribers(supabase: SupabaseClient, batchSize: number) {
+  let start = 0
+  while (true) {
+    const { data } = await supabase
+      .from(Entities.Subcribers)
+      .select('*')
+      .eq(isConfirmedField, true)
+      .range(start, start + batchSize)
+    if (data === null) break
+
+    yield data
+    start += batchSize
+  }
+}
