@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { Roles, Prisma } from 'db'
 
-export const getRole = (overridableProps: Partial<Roles>): Roles => ({
+export const getRoleMock = (overridableProps?: Partial<Roles>): Roles => ({
   id: faker.string.uuid(),
   companyId: faker.string.uuid(),
   country: faker.location.country(),
@@ -16,5 +16,5 @@ export const getRole = (overridableProps: Partial<Roles>): Roles => ({
   title: faker.company.buzzNoun(),
   updatedAt: new Date('2023-07-11 14:11:57.386'),
   url: '',
-  ...overridableProps,
+  ...(overridableProps || {}),
 })

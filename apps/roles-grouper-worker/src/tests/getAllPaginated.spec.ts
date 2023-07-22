@@ -1,5 +1,5 @@
-import { getAllPaginated } from './getAllPaginated'
-import * as getAllPaginatedFile from './getAllPaginated'
+import { getAllPaginated } from '../getAllPaginated'
+import * as getAllPaginatedFile from '../getAllPaginated'
 import * as dbFile from 'db'
 import { Roles } from 'db'
 import { Entities } from 'shared'

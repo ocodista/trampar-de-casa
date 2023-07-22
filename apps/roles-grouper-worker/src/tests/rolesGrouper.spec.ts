@@ -1,16 +1,16 @@
 import { SupabaseClient } from 'db'
 import { Entities } from 'shared'
-import { Mock, describe, expect, it, vi } from 'vitest'
-import { getRole } from './roleFactory'
-import { main } from './rolesGrouper'
-import { getSubscriberMock } from './tests/mocks/factories/subscribers'
-import { mockAsyncGenerator, mockGetAllPaginated } from './mockHelper'
+import { describe, expect, it, vi } from 'vitest'
+import { getRoleMock } from '../roleFactory'
+import { main } from '../rolesGrouper'
+import { getSubscriberMock } from './mocks/factories/subscribers'
+import { mockGetAllPaginated } from '../mockHelper'
 import * as dbFile from 'db'
-import * as getSubscriberRolesFile from './getSubscriberRoles'
+import * as getSubscriberRolesFile from '../getSubscriberRoles'
 import * as redisFile from 'redis'
 
-const readyRole = getRole({ ready: true })
-const notReadyRole = getRole({ ready: false })
+const readyRole = getRoleMock({ ready: true })
+const notReadyRole = getRoleMock({ ready: false })
 const supabaseClientMock: SupabaseClient = {
   from: vi.fn(),
 } as unknown as SupabaseClient
@@ -37,7 +37,8 @@ describe('Roles Grouper', () => {
   })
 
   describe('for each subscriber', () => {
-    const getSubscribersRoleSpy = vi.fn()
+    const rolesMock = [readyRole, notReadyRole]
+    const getSubscribersRoleSpy = vi.fn().mockReturnValue(rolesMock)
     const subscribersBatchMock: dbFile.Subscribers[] = [
       getSubscriberMock(),
       getSubscriberMock(),
@@ -62,7 +63,6 @@ describe('Roles Grouper', () => {
       expect(getSubscribersRoleSpy).toBeCalledTimes(subscribersBatchMock.length)
     })
 
-    it.todo('create emailProps with { user: { email, id }, roleIds }')
     it.todo(
       'send emailProps { user: { email, id }, roleIds } to emailRendererQueue at RabbitMQ'
     )
