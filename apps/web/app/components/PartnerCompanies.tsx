@@ -35,7 +35,7 @@ const CompanySection = ({ name, imagePath, url, description }: Company) => (
     <Image
       src={imagePath}
       alt={`Logo da empresa ${name}`}
-      className="cursor-pointer aspect-video object-contain min-w-[128px] mx-10"
+      className="mx-10 aspect-video min-w-[128px] cursor-pointer object-contain"
       title={description}
       width={128}
       height={28}
@@ -46,20 +46,20 @@ const CompanySection = ({ name, imagePath, url, description }: Company) => (
 export const PartnerCompanies = () => {
   return (
     <section>
-      <p className="text-sm text-gray-500 font-semibold">
+      <p className="text-sm font-semibold text-gray-500">
         EMPRESAS QUE APOIAM O TRABALHO REMOTO
       </p>
-      <div className="overflow-hidden w-full">
+      <div className="w-full overflow-hidden">
         <span
-          className={`flex justify-start items-center w-full group max-lg:w-1/4`}
+          className={`group flex w-full items-center justify-start max-lg:w-1/4`}
         >
-          <span className="flex gap-10 animate-scroll-left group-hover:paused">
+          <span className="animate-scroll-left group-hover:paused flex gap-10">
             {companies.map((company) => (
               <CompanySection key={company.name} {...company} />
             ))}
           </span>
           <span
-            className="flex gap-10 animate-scroll-left group-hover:paused"
+            className="animate-scroll-left group-hover:paused flex gap-10"
             style={{ transform: 'translateX(100%)' }}
           >
             {companies.map((company) => (

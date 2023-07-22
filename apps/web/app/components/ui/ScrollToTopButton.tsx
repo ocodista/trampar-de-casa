@@ -32,7 +32,7 @@ export default function ScrollToTopButton() {
       aria-label="Go to Top"
       role="button"
       className={clsx(
-        'fixed right-6 p-2 text-5xl focus:ring focus:ring-indigo-300 bg-indigo-600 hover:bg-indigo-700 transition-all duration-300 rounded-lg shadow text-slate-100 border-slate-100 border',
+        'fixed right-6 rounded-lg border border-slate-100 bg-indigo-600 p-2 text-5xl text-slate-100 shadow transition-all duration-300 hover:bg-indigo-700 focus:ring focus:ring-indigo-300',
         [
           { 'bottom-6 opacity-80': backToTop },
           { '-bottom-20 opacity-0': !backToTop },

@@ -62,14 +62,14 @@ export function SubscriberForm({
       <FormProvider {...form}>
         <form
           onSubmit={form.handleSubmit(onSubmit)}
-          className="container px-8 mx-auto space-y-6 pb-16 block"
+          className="container mx-auto block space-y-6 px-8 pb-16"
         >
           <header className="space-y-0.5">
             <h1 className="text-2xl font-bold tracking-tight">{title}</h1>
             <p className="text-muted-foreground">{description}</p>
           </header>
           <Separator className="my-6" />
-          <main className="grid grid-cols-1 md:grid-cols-2  gap-6 md:gap-14">
+          <main className="grid grid-cols-1 gap-6  md:grid-cols-2 md:gap-14">
             <PersonalInfoForm />
             <SubscriptionForm descriptionTopics={descriptionTopics} />
           </main>

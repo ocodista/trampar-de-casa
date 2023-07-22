@@ -1,47 +1,46 @@
 'use client'
 import Image from 'next/image'
 import { useState } from 'react'
-import { LandingPageRoutes } from '../landing-page/landingPageRoutes'
 
-export const Header = () => {
-  const [isMobileMenuOpen, setMobileMenuVisibility] = useState(false)
+export function Header() {
+  const [isMobileNavVisible, setMobileNavVisibility] = useState(false)
 
   return (
-    <div className="container mx-auto overflow-hidden">
-      <div className="relative flex items-center justify-between bg-transparent px-4 py-5">
+    <header className="container mx-auto overflow-hidden">
+      <div className="relative flex items-center justify-between bg-transparent py-5 lg:px-4">
         <div className="w-auto">
           <div className="flex flex-wrap items-center">
             <div className="mr-14 w-auto">
-              <a href="/">
+              <a href="#">
                 <Image
-                  src="/images/logo.svg"
                   width={70}
                   height={70}
+                  src="images/logo.svg"
                   alt="Logotipo da Trampar De Casa"
                 />
               </a>
             </div>
-            <div className="hidden w-auto lg:block">
+            <nav className="hidden w-auto lg:block">
               <ul className="mr-16 flex items-center">
                 <li className="mr-9 font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.Values}>Nossos Valores</a>
+                  <a href="#valores">Nossos Valores</a>
                 </li>
                 <li className="mr-9 font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.HowItWorks}>Como Funciona</a>
+                  <a href="#como-funciona">Como Funciona</a>
                 </li>
                 <li className="mr-9 font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.FAQ}>Perguntas Frequentes</a>
+                  <a href="#perguntas-frequentes">Perguntas Frequentes</a>
                 </li>
               </ul>
-            </div>
+            </nav>
           </div>
         </div>
         <div className="w-auto">
           <div className="flex flex-wrap items-center">
             <div className="w-auto lg:hidden">
               <button
-                type="button"
-                onClick={() => setMobileMenuVisibility(!isMobileMenuOpen)}
+                onClick={() => setMobileNavVisibility(true)}
+                aria-label="Abrir menu lateral"
               >
                 <svg
                   className="navbar-burger text-indigo-600"
@@ -65,31 +64,32 @@ export const Header = () => {
           </div>
         </div>
       </div>
-      {isMobileMenuOpen && (
-        <div className="navbar-menu fixed bottom-0 left-0 top-0 z-50 w-4/6 sm:max-w-xs">
-          <div
-            className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80"
-            onClick={() => setMobileMenuVisibility(false)}
-          />
+      {isMobileNavVisible && (
+        <div
+          className="navbar-menu fixed bottom-0 left-0 top-0 z-50 w-4/6 sm:max-w-xs lg:hidden"
+          role="dialog"
+          aria-modal={isMobileNavVisible}
+        >
+          <div className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80" />
           <nav className="relative h-full overflow-y-auto bg-white px-9 pt-8">
             <div className="flex h-full flex-wrap justify-between">
               <div className="w-full">
                 <div className="-m-2 flex items-center justify-between">
                   <div className="w-auto p-2">
-                    <a className="inline-block" href="/">
+                    <a className="inline-block" href="#">
                       <Image
-                        src="/images/logo.svg"
                         width={70}
                         height={70}
+                        src="images/logo.svg"
                         alt="Logotipo da Trampar De Casa"
                       />
                     </a>
                   </div>
                   <div className="w-auto p-2">
                     <button
-                      type="button"
                       className="navbar-burger"
-                      onClick={() => setMobileMenuVisibility(false)}
+                      onClick={() => setMobileNavVisibility(false)}
+                      aria-label="Fechar menu lateral"
                     >
                       <svg
                         width={24}
@@ -115,8 +115,8 @@ export const Header = () => {
                   <li className="mb-12">
                     <a
                       className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.Values}
-                      onClick={() => setMobileMenuVisibility(false)}
+                      href="#valores"
+                      onClick={() => setMobileNavVisibility(false)}
                     >
                       Nossos Valores
                     </a>
@@ -124,8 +124,8 @@ export const Header = () => {
                   <li className="mb-12">
                     <a
                       className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.HowItWorks}
-                      onClick={() => setMobileMenuVisibility(false)}
+                      href="#como-funciona"
+                      onClick={() => setMobileNavVisibility(false)}
                     >
                       Como Funciona
                     </a>
@@ -133,8 +133,8 @@ export const Header = () => {
                   <li>
                     <a
                       className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.FAQ}
-                      onClick={() => setMobileMenuVisibility(false)}
+                      href="#perguntas-frequentes"
+                      onClick={() => setMobileNavVisibility(false)}
                     >
                       Perguntas Frequentes
                     </a>
@@ -145,6 +145,6 @@ export const Header = () => {
           </nav>
         </div>
       )}
-    </div>
+    </header>
   )
 }

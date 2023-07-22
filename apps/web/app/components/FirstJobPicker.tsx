@@ -16,17 +16,17 @@ export function DOBPicker({
   const maxDate = new Date()
 
   return (
-    <div className="w-full border border-gray-200 bg-white border-solid rounded-sm">
+    <div className="w-full rounded-sm border border-solid border-gray-200 bg-white">
       <Popover>
         <PopoverTrigger asChild>
           <Button
             variant={'default'}
             className={cn(
-              'w-full justify-start font-mono text-left font-normal',
+              'w-full justify-start text-left font-mono font-normal',
               !dob && 'text-muted-foreground'
             )}
           >
-            <svg className="w-4 h-4 mr-2" fill="none" viewBox="0 0 24 24">
+            <svg className="mr-2 h-4 w-4" fill="none" viewBox="0 0 24 24">
               <path
                 stroke="currentColor"
                 strokeLinecap="round"
@@ -64,7 +64,7 @@ export function DOBPicker({
             )}
           </Button>
         </PopoverTrigger>
-        <PopoverContent className="w-full p-0 font-mono text-black border">
+        <PopoverContent className="w-full border p-0 font-mono text-black">
           <Calendar
             classNames={{
               cell: 'text-center text-sm p-0 relative first:[&:has([aria-selected])]:rounded-l-md last:[&:has([aria-selected])]:rounded-r-md focus-within:relative focus-within:z-20',
@@ -93,7 +93,7 @@ export function DOBPicker({
             }
             required
             initialFocus
-            className="border rounded-md border-white/10"
+            className="rounded-md border border-white/10"
           />
         </PopoverContent>
       </Popover>
