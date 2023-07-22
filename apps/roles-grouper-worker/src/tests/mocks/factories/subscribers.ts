@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { EnglishLevel, Subscribers } from 'db'
 
-export const subscriberFactory = (subscribers: Partial<Subscribers> = {}) =>
+export const getSubscriberMock = (subscribers: Partial<Subscribers> = {}) =>
   ({
     email: faker.internet.email(),
     createdAt: faker.date.past(),
@@ -19,5 +19,5 @@ export const subscriberFactory = (subscribers: Partial<Subscribers> = {}) =>
   } as Subscribers)
 
 export const subscribersFactory = (length = 1) => {
-  return Array.from({ length }, () => subscriberFactory())
+  return Array.from({ length }, () => getSubscriberMock())
 }

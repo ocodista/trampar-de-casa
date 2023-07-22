@@ -8,8 +8,8 @@ async function main() {
   const redisClient: RedisClientType = createRedisClient()
   await redisClient.connect()
 
-  const batchSize = 100
-  const roleBatches = getRolesInBatches(supabaseClient, batchSize)
+  const BATCH_SIZE = 100
+  const roleBatches = getRolesInBatches(supabaseClient, BATCH_SIZE)
   for await (const roles of roleBatches) {
     if (!roles?.length) continue
     await Promise.all(roles.map((role) => parseAndStoreRole(redisClient, role)))
