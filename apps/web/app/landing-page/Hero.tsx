@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import { PartnerCompanies } from '../components/PartnerCompanies'
+import { PartnerCompanies } from './PartnerCompanies'
 import { FrontinCoupon } from './FrontinCoupon'
 import { SubscriberForm } from './SubscriberForm'
 import SubscribersCount from './SubscribersCount'
