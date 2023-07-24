@@ -28,13 +28,19 @@ const companies: Company[] = [
       'Empresa especializada em produção de eventos e conteúdo de tecnologia.',
     imagePath: '/images/companies/frontin.webp',
   },
+  {
+    name: 'Rock n code',
+    url: 'https://anchor.fm/curtinhasdoed',
+    description: 'Podcast de tecnologia',
+    imagePath: '/images/companies/rock_n_code.webp',
+  },
 ]
 
 const CompanySection = ({ name, imagePath, url, description }: Company) => (
   <a href={url} target="_blank">
     <Image
       src={imagePath}
-      alt={`Logo da empresa ${name}`}
+      alt={`Logo da ${name}`}
       className="mx-10 aspect-video min-w-[128px] cursor-pointer object-contain"
       title={description}
       width={128}
