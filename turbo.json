@@ -12,6 +12,7 @@
       "persistent": true
     },
     "test": {},
+    "start": {},
     "db-start": {},
     "db-seed": {},
     "db-stop": {}

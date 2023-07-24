@@ -1,13 +1,13 @@
-import { SupabaseClient } from 'db'
-import { Entities } from 'shared'
-import { describe, expect, it, vi } from 'vitest'
-import { getRoleMock } from '../roleFactory'
-import { main } from '../rolesGrouper'
-import { getSubscriberMock } from './mocks/factories/subscribers'
-import { mockGetAllPaginated } from '../mockHelper'
 import * as dbFile from 'db'
-import * as getSubscriberRolesFile from '../getSubscriberRoles'
+import { SupabaseClient } from 'db'
 import * as redisFile from 'redis'
+import { Entities } from 'shared'
+import { vi } from 'vitest'
+import * as getSubscriberRolesFile from '../getSubscriberRoles'
+import { main } from '../rolesGrouper'
+import { getRoleMock } from './mocks/factories/roleFactory'
+import { getSubscriberMock } from './mocks/factories/subscriberFactory'
+import { getAllPaginatedStub } from './mocks/mockHelper'
 
 const readyRole = getRoleMock({ ready: true })
 const notReadyRole = getRoleMock({ ready: false })
@@ -27,7 +27,7 @@ describe('Roles Grouper', () => {
   })
 
   it('get subscribers in batches of 100 rows', async () => {
-    const getAllPaginatedSpy = mockGetAllPaginated([])
+    const getAllPaginatedSpy = getAllPaginatedStub([])
     await main()
     expect(getAllPaginatedSpy).toBeCalledWith({
       supabase: supabaseClientMock,
@@ -47,7 +47,7 @@ describe('Roles Grouper', () => {
       vi.spyOn(getSubscriberRolesFile, 'getSubscriberRoles').mockImplementation(
         getSubscribersRoleSpy
       )
-      mockGetAllPaginated([subscribersBatchMock])
+      getAllPaginatedStub([subscribersBatchMock])
     })
 
     it('get personalized roles', async () => {

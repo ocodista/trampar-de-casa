@@ -199,7 +199,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/caio/personal/trampar-de-casa/packages/db/prisma/client",
+      "value": "/home/joao/FOSS/trampar-de-casa/packages/db/prisma/client",
       "fromEnvVar": null
     },
     "config": {
@@ -233,7 +233,7 @@ const fs = require('fs')
 
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
-  config.dirname = path.join(process.cwd(), "../../packages/db/prisma/client")
+  config.dirname = path.join(process.cwd(), "packages/db/prisma/client")
   config.isBundled = true
 }
 
@@ -256,6 +256,6 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
-path.join(process.cwd(), "../../packages/db/prisma/client/libquery_engine-debian-openssl-3.0.x.so.node")
+path.join(process.cwd(), "packages/db/prisma/client/libquery_engine-debian-openssl-3.0.x.so.node")
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "../../packages/db/prisma/client/schema.prisma")
+path.join(process.cwd(), "packages/db/prisma/client/schema.prisma")

@@ -1,9 +1,11 @@
 {
-  "name": "roles-grouper-worker",
+  "name": "roles-assigner",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "private": true,
   "scripts": {
+    "start": "ts-node src/index.ts",
     "test": "vitest run"
   },
   "keywords": [],

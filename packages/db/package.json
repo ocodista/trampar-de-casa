@@ -6,7 +6,6 @@
   "types": "index.ts",
   "private": true,
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "BROWSER=none prisma studio",
     "db-start": "npx prisma generate && npx supabase start",
     "db-seed": "npx prisma db seed",
