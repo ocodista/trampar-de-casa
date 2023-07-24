@@ -112,7 +112,6 @@ exports.Prisma.SubscribersScalarFieldEnum = {
   linkedInUrl: 'linkedInUrl',
   gitHub: 'gitHub',
   startedWorkingAt: 'startedWorkingAt',
-  skills: 'skills',
   englishLevel: 'englishLevel',
   isConfirmed: 'isConfirmed',
   createdAt: 'createdAt',
@@ -121,6 +120,7 @@ exports.Prisma.SubscribersScalarFieldEnum = {
 };
 
 exports.Prisma.RolesScalarFieldEnum = {
+  minimumYears: 'minimumYears',
   id: 'id',
   companyId: 'companyId',
   title: 'title',
@@ -129,12 +129,29 @@ exports.Prisma.RolesScalarFieldEnum = {
   language: 'language',
   currency: 'currency',
   salary: 'salary',
-  skills: 'skills',
+  skillsId: 'skillsId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   sentRolesId: 'sentRolesId',
   ready: 'ready',
   url: 'url'
+};
+
+exports.Prisma.SkillsScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
+};
+
+exports.Prisma.RoleSkillsScalarFieldEnum = {
+  id: 'id',
+  roleId: 'roleId',
+  skillId: 'skillId'
+};
+
+exports.Prisma.SubscribersSkillsScalarFieldEnum = {
+  id: 'id',
+  subscriberId: 'subscriberId',
+  skillId: 'skillId'
 };
 
 exports.Prisma.SentRolesScalarFieldEnum = {
@@ -171,20 +188,9 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull
-};
-
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
-};
-
-exports.Prisma.JsonNullValueFilter = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull,
-  AnyNull: Prisma.AnyNull
 };
 
 exports.Prisma.NullsOrder = {
@@ -198,9 +204,17 @@ exports.EnglishLevel = {
   Fluent: 'Fluent'
 };
 
+exports.RoleLanguage = {
+  English: 'English',
+  Portuguese: 'Portuguese'
+};
+
 exports.Prisma.ModelName = {
   Subscribers: 'Subscribers',
   Roles: 'Roles',
+  Skills: 'Skills',
+  RoleSkills: 'RoleSkills',
+  SubscribersSkills: 'SubscribersSkills',
   SentRoles: 'SentRoles',
   SubscriberTopics: 'SubscriberTopics',
   Topics: 'Topics',

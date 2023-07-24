@@ -15,6 +15,7 @@ export type PrismaPromise<T> = $Public.PrismaPromise<T>
 export type SubscribersPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
   name: "Subscribers"
   objects: {
+    subscriberSkills: SubscribersSkillsPayload<ExtArgs>[]
     sentRoles: SentRolesPayload<ExtArgs>[]
     subscriberTopics: SubscriberTopicsPayload<ExtArgs>[]
   }
@@ -25,7 +26,6 @@ export type SubscribersPayload<ExtArgs extends $Extensions.Args = $Extensions.De
     linkedInUrl: string | null
     gitHub: string | null
     startedWorkingAt: Date | null
-    skills: Prisma.JsonValue | null
     englishLevel: EnglishLevel | null
     isConfirmed: boolean
     createdAt: Date
@@ -45,17 +45,19 @@ export type RolesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultA
   objects: {
     company: CompaniesPayload<ExtArgs>
     sentRoles: SentRolesPayload<ExtArgs> | null
+    roleSkills: RoleSkillsPayload<ExtArgs>[]
   }
   scalars: $Extensions.GetResult<{
+    minimumYears: number | null
     id: string
     companyId: string
     title: string
     description: string
     country: string
-    language: string
+    language: RoleLanguage
     currency: string | null
     salary: string | null
-    skills: Prisma.JsonValue | null
+    skillsId: string[]
     createdAt: Date
     updatedAt: Date
     sentRolesId: string | null
@@ -70,6 +72,62 @@ export type RolesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultA
  * 
  */
 export type Roles = runtime.Types.DefaultSelection<RolesPayload>
+export type SkillsPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  name: "Skills"
+  objects: {
+    rolesSkills: RoleSkillsPayload<ExtArgs>[]
+    subscribersSkills: SubscribersSkillsPayload<ExtArgs>[]
+  }
+  scalars: $Extensions.GetResult<{
+    id: number
+    name: string
+  }, ExtArgs["result"]["skills"]>
+  composites: {}
+}
+
+/**
+ * Model Skills
+ * 
+ */
+export type Skills = runtime.Types.DefaultSelection<SkillsPayload>
+export type RoleSkillsPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  name: "RoleSkills"
+  objects: {
+    roles: RolesPayload<ExtArgs>
+    skills: SkillsPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    id: number
+    roleId: string
+    skillId: number
+  }, ExtArgs["result"]["roleSkills"]>
+  composites: {}
+}
+
+/**
+ * Model RoleSkills
+ * 
+ */
+export type RoleSkills = runtime.Types.DefaultSelection<RoleSkillsPayload>
+export type SubscribersSkillsPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  name: "SubscribersSkills"
+  objects: {
+    subscribers: SubscribersPayload<ExtArgs>
+    skills: SkillsPayload<ExtArgs>
+  }
+  scalars: $Extensions.GetResult<{
+    id: number
+    subscriberId: string
+    skillId: number
+  }, ExtArgs["result"]["subscribersSkills"]>
+  composites: {}
+}
+
+/**
+ * Model SubscribersSkills
+ * 
+ */
+export type SubscribersSkills = runtime.Types.DefaultSelection<SubscribersSkillsPayload>
 export type SentRolesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
   name: "SentRoles"
   objects: {
@@ -162,6 +220,14 @@ export const EnglishLevel: {
 };
 
 export type EnglishLevel = (typeof EnglishLevel)[keyof typeof EnglishLevel]
+
+
+export const RoleLanguage: {
+  English: 'English',
+  Portuguese: 'Portuguese'
+};
+
+export type RoleLanguage = (typeof RoleLanguage)[keyof typeof RoleLanguage]
 
 
 /**
@@ -305,6 +371,36 @@ export class PrismaClient<
     * ```
     */
   get roles(): Prisma.RolesDelegate<ExtArgs>;
+
+  /**
+   * `prisma.skills`: Exposes CRUD operations for the **Skills** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Skills
+    * const skills = await prisma.skills.findMany()
+    * ```
+    */
+  get skills(): Prisma.SkillsDelegate<ExtArgs>;
+
+  /**
+   * `prisma.roleSkills`: Exposes CRUD operations for the **RoleSkills** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RoleSkills
+    * const roleSkills = await prisma.roleSkills.findMany()
+    * ```
+    */
+  get roleSkills(): Prisma.RoleSkillsDelegate<ExtArgs>;
+
+  /**
+   * `prisma.subscribersSkills`: Exposes CRUD operations for the **SubscribersSkills** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more SubscribersSkills
+    * const subscribersSkills = await prisma.subscribersSkills.findMany()
+    * ```
+    */
+  get subscribersSkills(): Prisma.SubscribersSkillsDelegate<ExtArgs>;
 
   /**
    * `prisma.sentRoles`: Exposes CRUD operations for the **SentRoles** model.
@@ -830,6 +926,9 @@ export namespace Prisma {
   export const ModelName: {
     Subscribers: 'Subscribers',
     Roles: 'Roles',
+    Skills: 'Skills',
+    RoleSkills: 'RoleSkills',
+    SubscribersSkills: 'SubscribersSkills',
     SentRoles: 'SentRoles',
     SubscriberTopics: 'SubscriberTopics',
     Topics: 'Topics',
@@ -850,7 +949,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'subscribers' | 'roles' | 'sentRoles' | 'subscriberTopics' | 'topics' | 'companies'
+      modelProps: 'subscribers' | 'roles' | 'skills' | 'roleSkills' | 'subscribersSkills' | 'sentRoles' | 'subscriberTopics' | 'topics' | 'companies'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -983,6 +1082,204 @@ export namespace Prisma {
           count: {
             args: Prisma.RolesCountArgs<ExtArgs>,
             result: $Utils.Optional<RolesCountAggregateOutputType> | number
+          }
+        }
+      }
+      Skills: {
+        payload: SkillsPayload<ExtArgs>
+        fields: Prisma.SkillsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SkillsFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SkillsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SkillsFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SkillsPayload>
+          }
+          findFirst: {
+            args: Prisma.SkillsFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SkillsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SkillsFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SkillsPayload>
+          }
+          findMany: {
+            args: Prisma.SkillsFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SkillsPayload>[]
+          }
+          create: {
+            args: Prisma.SkillsCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SkillsPayload>
+          }
+          createMany: {
+            args: Prisma.SkillsCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.SkillsDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SkillsPayload>
+          }
+          update: {
+            args: Prisma.SkillsUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SkillsPayload>
+          }
+          deleteMany: {
+            args: Prisma.SkillsDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SkillsUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.SkillsUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SkillsPayload>
+          }
+          aggregate: {
+            args: Prisma.SkillsAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateSkills>
+          }
+          groupBy: {
+            args: Prisma.SkillsGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<SkillsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SkillsCountArgs<ExtArgs>,
+            result: $Utils.Optional<SkillsCountAggregateOutputType> | number
+          }
+        }
+      }
+      RoleSkills: {
+        payload: RoleSkillsPayload<ExtArgs>
+        fields: Prisma.RoleSkillsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.RoleSkillsFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoleSkillsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.RoleSkillsFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoleSkillsPayload>
+          }
+          findFirst: {
+            args: Prisma.RoleSkillsFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoleSkillsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.RoleSkillsFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoleSkillsPayload>
+          }
+          findMany: {
+            args: Prisma.RoleSkillsFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoleSkillsPayload>[]
+          }
+          create: {
+            args: Prisma.RoleSkillsCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoleSkillsPayload>
+          }
+          createMany: {
+            args: Prisma.RoleSkillsCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.RoleSkillsDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoleSkillsPayload>
+          }
+          update: {
+            args: Prisma.RoleSkillsUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoleSkillsPayload>
+          }
+          deleteMany: {
+            args: Prisma.RoleSkillsDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.RoleSkillsUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.RoleSkillsUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<RoleSkillsPayload>
+          }
+          aggregate: {
+            args: Prisma.RoleSkillsAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateRoleSkills>
+          }
+          groupBy: {
+            args: Prisma.RoleSkillsGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<RoleSkillsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.RoleSkillsCountArgs<ExtArgs>,
+            result: $Utils.Optional<RoleSkillsCountAggregateOutputType> | number
+          }
+        }
+      }
+      SubscribersSkills: {
+        payload: SubscribersSkillsPayload<ExtArgs>
+        fields: Prisma.SubscribersSkillsFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.SubscribersSkillsFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubscribersSkillsPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.SubscribersSkillsFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubscribersSkillsPayload>
+          }
+          findFirst: {
+            args: Prisma.SubscribersSkillsFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubscribersSkillsPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.SubscribersSkillsFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubscribersSkillsPayload>
+          }
+          findMany: {
+            args: Prisma.SubscribersSkillsFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubscribersSkillsPayload>[]
+          }
+          create: {
+            args: Prisma.SubscribersSkillsCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubscribersSkillsPayload>
+          }
+          createMany: {
+            args: Prisma.SubscribersSkillsCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.SubscribersSkillsDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubscribersSkillsPayload>
+          }
+          update: {
+            args: Prisma.SubscribersSkillsUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubscribersSkillsPayload>
+          }
+          deleteMany: {
+            args: Prisma.SubscribersSkillsDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.SubscribersSkillsUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.SubscribersSkillsUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<SubscribersSkillsPayload>
+          }
+          aggregate: {
+            args: Prisma.SubscribersSkillsAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateSubscribersSkills>
+          }
+          groupBy: {
+            args: Prisma.SubscribersSkillsGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<SubscribersSkillsGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.SubscribersSkillsCountArgs<ExtArgs>,
+            result: $Utils.Optional<SubscribersSkillsCountAggregateOutputType> | number
           }
         }
       }
@@ -1396,11 +1693,13 @@ export namespace Prisma {
 
 
   export type SubscribersCountOutputType = {
+    subscriberSkills: number
     sentRoles: number
     subscriberTopics: number
   }
 
   export type SubscribersCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    subscriberSkills?: boolean | SubscribersCountOutputTypeCountSubscriberSkillsArgs
     sentRoles?: boolean | SubscribersCountOutputTypeCountSentRolesArgs
     subscriberTopics?: boolean | SubscribersCountOutputTypeCountSubscriberTopicsArgs
   }
@@ -1421,6 +1720,14 @@ export namespace Prisma {
   /**
    * SubscribersCountOutputType without action
    */
+  export type SubscribersCountOutputTypeCountSubscriberSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: SubscribersSkillsWhereInput
+  }
+
+
+  /**
+   * SubscribersCountOutputType without action
+   */
   export type SubscribersCountOutputTypeCountSentRolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: SentRolesWhereInput
   }
@@ -1431,6 +1738,86 @@ export namespace Prisma {
    */
   export type SubscribersCountOutputTypeCountSubscriberTopicsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: SubscriberTopicsWhereInput
+  }
+
+
+
+  /**
+   * Count Type RolesCountOutputType
+   */
+
+
+  export type RolesCountOutputType = {
+    roleSkills: number
+  }
+
+  export type RolesCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    roleSkills?: boolean | RolesCountOutputTypeCountRoleSkillsArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * RolesCountOutputType without action
+   */
+  export type RolesCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RolesCountOutputType
+     */
+    select?: RolesCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * RolesCountOutputType without action
+   */
+  export type RolesCountOutputTypeCountRoleSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: RoleSkillsWhereInput
+  }
+
+
+
+  /**
+   * Count Type SkillsCountOutputType
+   */
+
+
+  export type SkillsCountOutputType = {
+    rolesSkills: number
+    subscribersSkills: number
+  }
+
+  export type SkillsCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    rolesSkills?: boolean | SkillsCountOutputTypeCountRolesSkillsArgs
+    subscribersSkills?: boolean | SkillsCountOutputTypeCountSubscribersSkillsArgs
+  }
+
+  // Custom InputTypes
+
+  /**
+   * SkillsCountOutputType without action
+   */
+  export type SkillsCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SkillsCountOutputType
+     */
+    select?: SkillsCountOutputTypeSelect<ExtArgs> | null
+  }
+
+
+  /**
+   * SkillsCountOutputType without action
+   */
+  export type SkillsCountOutputTypeCountRolesSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: RoleSkillsWhereInput
+  }
+
+
+  /**
+   * SkillsCountOutputType without action
+   */
+  export type SkillsCountOutputTypeCountSubscribersSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: SubscribersSkillsWhereInput
   }
 
 
@@ -1590,7 +1977,6 @@ export namespace Prisma {
     linkedInUrl: number
     gitHub: number
     startedWorkingAt: number
-    skills: number
     englishLevel: number
     isConfirmed: number
     createdAt: number
@@ -1635,7 +2021,6 @@ export namespace Prisma {
     linkedInUrl?: true
     gitHub?: true
     startedWorkingAt?: true
-    skills?: true
     englishLevel?: true
     isConfirmed?: true
     createdAt?: true
@@ -1724,7 +2109,6 @@ export namespace Prisma {
     linkedInUrl: string | null
     gitHub: string | null
     startedWorkingAt: Date | null
-    skills: JsonValue | null
     englishLevel: EnglishLevel | null
     isConfirmed: boolean
     createdAt: Date
@@ -1756,12 +2140,12 @@ export namespace Prisma {
     linkedInUrl?: boolean
     gitHub?: boolean
     startedWorkingAt?: boolean
-    skills?: boolean
     englishLevel?: boolean
     isConfirmed?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     optOut?: boolean
+    subscriberSkills?: boolean | Subscribers$subscriberSkillsArgs<ExtArgs>
     sentRoles?: boolean | Subscribers$sentRolesArgs<ExtArgs>
     subscriberTopics?: boolean | Subscribers$subscriberTopicsArgs<ExtArgs>
     _count?: boolean | SubscribersCountOutputTypeArgs<ExtArgs>
@@ -1774,7 +2158,6 @@ export namespace Prisma {
     linkedInUrl?: boolean
     gitHub?: boolean
     startedWorkingAt?: boolean
-    skills?: boolean
     englishLevel?: boolean
     isConfirmed?: boolean
     createdAt?: boolean
@@ -1783,6 +2166,7 @@ export namespace Prisma {
   }
 
   export type SubscribersInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    subscriberSkills?: boolean | Subscribers$subscriberSkillsArgs<ExtArgs>
     sentRoles?: boolean | Subscribers$sentRolesArgs<ExtArgs>
     subscriberTopics?: boolean | Subscribers$subscriberTopicsArgs<ExtArgs>
     _count?: boolean | SubscribersCountOutputTypeArgs<ExtArgs>
@@ -2161,6 +2545,8 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
+    subscriberSkills<T extends Subscribers$subscriberSkillsArgs<ExtArgs> = {}>(args?: Subset<T, Subscribers$subscriberSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'findMany'>| Null>;
+
     sentRoles<T extends Subscribers$sentRolesArgs<ExtArgs> = {}>(args?: Subset<T, Subscribers$sentRolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findMany'>| Null>;
 
     subscriberTopics<T extends Subscribers$subscriberTopicsArgs<ExtArgs> = {}>(args?: Subset<T, Subscribers$subscriberTopicsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SubscriberTopicsPayload<ExtArgs>, T, 'findMany'>| Null>;
@@ -2200,7 +2586,6 @@ export namespace Prisma {
     readonly linkedInUrl: FieldRef<"Subscribers", 'String'>
     readonly gitHub: FieldRef<"Subscribers", 'String'>
     readonly startedWorkingAt: FieldRef<"Subscribers", 'DateTime'>
-    readonly skills: FieldRef<"Subscribers", 'Json'>
     readonly englishLevel: FieldRef<"Subscribers", 'EnglishLevel'>
     readonly isConfirmed: FieldRef<"Subscribers", 'Boolean'>
     readonly createdAt: FieldRef<"Subscribers", 'DateTime'>
@@ -2518,6 +2903,27 @@ export namespace Prisma {
 
 
   /**
+   * Subscribers.subscriberSkills
+   */
+  export type Subscribers$subscriberSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
+    where?: SubscribersSkillsWhereInput
+    orderBy?: SubscribersSkillsOrderByWithRelationInput | SubscribersSkillsOrderByWithRelationInput[]
+    cursor?: SubscribersSkillsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubscribersSkillsScalarFieldEnum | SubscribersSkillsScalarFieldEnum[]
+  }
+
+
+  /**
    * Subscribers.sentRoles
    */
   export type Subscribers$sentRolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -2582,17 +2988,28 @@ export namespace Prisma {
 
   export type AggregateRoles = {
     _count: RolesCountAggregateOutputType | null
+    _avg: RolesAvgAggregateOutputType | null
+    _sum: RolesSumAggregateOutputType | null
     _min: RolesMinAggregateOutputType | null
     _max: RolesMaxAggregateOutputType | null
   }
 
+  export type RolesAvgAggregateOutputType = {
+    minimumYears: number | null
+  }
+
+  export type RolesSumAggregateOutputType = {
+    minimumYears: number | null
+  }
+
   export type RolesMinAggregateOutputType = {
+    minimumYears: number | null
     id: string | null
     companyId: string | null
     title: string | null
     description: string | null
     country: string | null
-    language: string | null
+    language: RoleLanguage | null
     currency: string | null
     salary: string | null
     createdAt: Date | null
@@ -2603,12 +3020,13 @@ export namespace Prisma {
   }
 
   export type RolesMaxAggregateOutputType = {
+    minimumYears: number | null
     id: string | null
     companyId: string | null
     title: string | null
     description: string | null
     country: string | null
-    language: string | null
+    language: RoleLanguage | null
     currency: string | null
     salary: string | null
     createdAt: Date | null
@@ -2619,6 +3037,7 @@ export namespace Prisma {
   }
 
   export type RolesCountAggregateOutputType = {
+    minimumYears: number
     id: number
     companyId: number
     title: number
@@ -2627,7 +3046,7 @@ export namespace Prisma {
     language: number
     currency: number
     salary: number
-    skills: number
+    skillsId: number
     createdAt: number
     updatedAt: number
     sentRolesId: number
@@ -2637,7 +3056,16 @@ export namespace Prisma {
   }
 
 
+  export type RolesAvgAggregateInputType = {
+    minimumYears?: true
+  }
+
+  export type RolesSumAggregateInputType = {
+    minimumYears?: true
+  }
+
   export type RolesMinAggregateInputType = {
+    minimumYears?: true
     id?: true
     companyId?: true
     title?: true
@@ -2654,6 +3082,7 @@ export namespace Prisma {
   }
 
   export type RolesMaxAggregateInputType = {
+    minimumYears?: true
     id?: true
     companyId?: true
     title?: true
@@ -2670,6 +3099,7 @@ export namespace Prisma {
   }
 
   export type RolesCountAggregateInputType = {
+    minimumYears?: true
     id?: true
     companyId?: true
     title?: true
@@ -2678,7 +3108,7 @@ export namespace Prisma {
     language?: true
     currency?: true
     salary?: true
-    skills?: true
+    skillsId?: true
     createdAt?: true
     updatedAt?: true
     sentRolesId?: true
@@ -2725,6 +3155,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: RolesAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RolesSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: RolesMinAggregateInputType
@@ -2755,27 +3197,32 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: RolesCountAggregateInputType | true
+    _avg?: RolesAvgAggregateInputType
+    _sum?: RolesSumAggregateInputType
     _min?: RolesMinAggregateInputType
     _max?: RolesMaxAggregateInputType
   }
 
 
   export type RolesGroupByOutputType = {
+    minimumYears: number | null
     id: string
     companyId: string
     title: string
     description: string
     country: string
-    language: string
+    language: RoleLanguage
     currency: string | null
     salary: string | null
-    skills: JsonValue | null
+    skillsId: string[]
     createdAt: Date
     updatedAt: Date
     sentRolesId: string | null
     ready: boolean
     url: string | null
     _count: RolesCountAggregateOutputType | null
+    _avg: RolesAvgAggregateOutputType | null
+    _sum: RolesSumAggregateOutputType | null
     _min: RolesMinAggregateOutputType | null
     _max: RolesMaxAggregateOutputType | null
   }
@@ -2795,6 +3242,7 @@ export namespace Prisma {
 
 
   export type RolesSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    minimumYears?: boolean
     id?: boolean
     companyId?: boolean
     title?: boolean
@@ -2803,7 +3251,7 @@ export namespace Prisma {
     language?: boolean
     currency?: boolean
     salary?: boolean
-    skills?: boolean
+    skillsId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     sentRolesId?: boolean
@@ -2811,9 +3259,12 @@ export namespace Prisma {
     url?: boolean
     company?: boolean | CompaniesArgs<ExtArgs>
     sentRoles?: boolean | Roles$sentRolesArgs<ExtArgs>
+    roleSkills?: boolean | Roles$roleSkillsArgs<ExtArgs>
+    _count?: boolean | RolesCountOutputTypeArgs<ExtArgs>
   }, ExtArgs["result"]["roles"]>
 
   export type RolesSelectScalar = {
+    minimumYears?: boolean
     id?: boolean
     companyId?: boolean
     title?: boolean
@@ -2822,7 +3273,7 @@ export namespace Prisma {
     language?: boolean
     currency?: boolean
     salary?: boolean
-    skills?: boolean
+    skillsId?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     sentRolesId?: boolean
@@ -2833,6 +3284,8 @@ export namespace Prisma {
   export type RolesInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     company?: boolean | CompaniesArgs<ExtArgs>
     sentRoles?: boolean | Roles$sentRolesArgs<ExtArgs>
+    roleSkills?: boolean | Roles$roleSkillsArgs<ExtArgs>
+    _count?: boolean | RolesCountOutputTypeArgs<ExtArgs>
   }
 
 
@@ -2923,8 +3376,8 @@ export namespace Prisma {
      * // Get first 10 Roles
      * const roles = await prisma.roles.findMany({ take: 10 })
      * 
-     * // Only select the `id`
-     * const rolesWithIdOnly = await prisma.roles.findMany({ select: { id: true } })
+     * // Only select the `minimumYears`
+     * const rolesWithMinimumYearsOnly = await prisma.roles.findMany({ select: { minimumYears: true } })
      * 
     **/
     findMany<T extends RolesFindManyArgs<ExtArgs>>(
@@ -3212,6 +3665,8 @@ export namespace Prisma {
 
     sentRoles<T extends Roles$sentRolesArgs<ExtArgs> = {}>(args?: Subset<T, Roles$sentRolesArgs<ExtArgs>>): Prisma__SentRolesClient<$Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
 
+    roleSkills<T extends Roles$roleSkillsArgs<ExtArgs> = {}>(args?: Subset<T, Roles$roleSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findMany'>| Null>;
+
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -3241,15 +3696,16 @@ export namespace Prisma {
    * Fields of the Roles model
    */ 
   interface RolesFieldRefs {
+    readonly minimumYears: FieldRef<"Roles", 'Int'>
     readonly id: FieldRef<"Roles", 'String'>
     readonly companyId: FieldRef<"Roles", 'String'>
     readonly title: FieldRef<"Roles", 'String'>
     readonly description: FieldRef<"Roles", 'String'>
     readonly country: FieldRef<"Roles", 'String'>
-    readonly language: FieldRef<"Roles", 'String'>
+    readonly language: FieldRef<"Roles", 'RoleLanguage'>
     readonly currency: FieldRef<"Roles", 'String'>
     readonly salary: FieldRef<"Roles", 'String'>
-    readonly skills: FieldRef<"Roles", 'Json'>
+    readonly skillsId: FieldRef<"Roles", 'String[]'>
     readonly createdAt: FieldRef<"Roles", 'DateTime'>
     readonly updatedAt: FieldRef<"Roles", 'DateTime'>
     readonly sentRolesId: FieldRef<"Roles", 'String'>
@@ -3583,6 +4039,27 @@ export namespace Prisma {
 
 
   /**
+   * Roles.roleSkills
+   */
+  export type Roles$roleSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+    where?: RoleSkillsWhereInput
+    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
+    cursor?: RoleSkillsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoleSkillsScalarFieldEnum | RoleSkillsScalarFieldEnum[]
+  }
+
+
+  /**
    * Roles without action
    */
   export type RolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -3594,6 +4071,2853 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: RolesInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model Skills
+   */
+
+
+  export type AggregateSkills = {
+    _count: SkillsCountAggregateOutputType | null
+    _avg: SkillsAvgAggregateOutputType | null
+    _sum: SkillsSumAggregateOutputType | null
+    _min: SkillsMinAggregateOutputType | null
+    _max: SkillsMaxAggregateOutputType | null
+  }
+
+  export type SkillsAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type SkillsSumAggregateOutputType = {
+    id: number | null
+  }
+
+  export type SkillsMinAggregateOutputType = {
+    id: number | null
+    name: string | null
+  }
+
+  export type SkillsMaxAggregateOutputType = {
+    id: number | null
+    name: string | null
+  }
+
+  export type SkillsCountAggregateOutputType = {
+    id: number
+    name: number
+    _all: number
+  }
+
+
+  export type SkillsAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type SkillsSumAggregateInputType = {
+    id?: true
+  }
+
+  export type SkillsMinAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type SkillsMaxAggregateInputType = {
+    id?: true
+    name?: true
+  }
+
+  export type SkillsCountAggregateInputType = {
+    id?: true
+    name?: true
+    _all?: true
+  }
+
+  export type SkillsAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Skills to aggregate.
+     */
+    where?: SkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Skills to fetch.
+     */
+    orderBy?: SkillsOrderByWithRelationInput | SkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Skills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Skills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Skills
+    **/
+    _count?: true | SkillsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SkillsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SkillsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SkillsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SkillsMaxAggregateInputType
+  }
+
+  export type GetSkillsAggregateType<T extends SkillsAggregateArgs> = {
+        [P in keyof T & keyof AggregateSkills]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSkills[P]>
+      : GetScalarType<T[P], AggregateSkills[P]>
+  }
+
+
+
+
+  export type SkillsGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: SkillsWhereInput
+    orderBy?: SkillsOrderByWithAggregationInput | SkillsOrderByWithAggregationInput[]
+    by: SkillsScalarFieldEnum[] | SkillsScalarFieldEnum
+    having?: SkillsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SkillsCountAggregateInputType | true
+    _avg?: SkillsAvgAggregateInputType
+    _sum?: SkillsSumAggregateInputType
+    _min?: SkillsMinAggregateInputType
+    _max?: SkillsMaxAggregateInputType
+  }
+
+
+  export type SkillsGroupByOutputType = {
+    id: number
+    name: string
+    _count: SkillsCountAggregateOutputType | null
+    _avg: SkillsAvgAggregateOutputType | null
+    _sum: SkillsSumAggregateOutputType | null
+    _min: SkillsMinAggregateOutputType | null
+    _max: SkillsMaxAggregateOutputType | null
+  }
+
+  type GetSkillsGroupByPayload<T extends SkillsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SkillsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SkillsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SkillsGroupByOutputType[P]>
+            : GetScalarType<T[P], SkillsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SkillsSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    name?: boolean
+    rolesSkills?: boolean | Skills$rolesSkillsArgs<ExtArgs>
+    subscribersSkills?: boolean | Skills$subscribersSkillsArgs<ExtArgs>
+    _count?: boolean | SkillsCountOutputTypeArgs<ExtArgs>
+  }, ExtArgs["result"]["skills"]>
+
+  export type SkillsSelectScalar = {
+    id?: boolean
+    name?: boolean
+  }
+
+  export type SkillsInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    rolesSkills?: boolean | Skills$rolesSkillsArgs<ExtArgs>
+    subscribersSkills?: boolean | Skills$subscribersSkillsArgs<ExtArgs>
+    _count?: boolean | SkillsCountOutputTypeArgs<ExtArgs>
+  }
+
+
+  type SkillsGetPayload<S extends boolean | null | undefined | SkillsArgs> = $Types.GetResult<SkillsPayload, S>
+
+  type SkillsCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
+    Omit<SkillsFindManyArgs, 'select' | 'include'> & {
+      select?: SkillsCountAggregateInputType | true
+    }
+
+  export interface SkillsDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Skills'], meta: { name: 'Skills' } }
+    /**
+     * Find zero or one Skills that matches the filter.
+     * @param {SkillsFindUniqueArgs} args - Arguments to find a Skills
+     * @example
+     * // Get one Skills
+     * const skills = await prisma.skills.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends SkillsFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, SkillsFindUniqueArgs<ExtArgs>>
+    ): Prisma__SkillsClient<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one Skills that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {SkillsFindUniqueOrThrowArgs} args - Arguments to find a Skills
+     * @example
+     * // Get one Skills
+     * const skills = await prisma.skills.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SkillsFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SkillsFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__SkillsClient<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first Skills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillsFindFirstArgs} args - Arguments to find a Skills
+     * @example
+     * // Get one Skills
+     * const skills = await prisma.skills.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends SkillsFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, SkillsFindFirstArgs<ExtArgs>>
+    ): Prisma__SkillsClient<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first Skills that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillsFindFirstOrThrowArgs} args - Arguments to find a Skills
+     * @example
+     * // Get one Skills
+     * const skills = await prisma.skills.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SkillsFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SkillsFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__SkillsClient<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more Skills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Skills
+     * const skills = await prisma.skills.findMany()
+     * 
+     * // Get first 10 Skills
+     * const skills = await prisma.skills.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const skillsWithIdOnly = await prisma.skills.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends SkillsFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SkillsFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a Skills.
+     * @param {SkillsCreateArgs} args - Arguments to create a Skills.
+     * @example
+     * // Create one Skills
+     * const Skills = await prisma.skills.create({
+     *   data: {
+     *     // ... data to create a Skills
+     *   }
+     * })
+     * 
+    **/
+    create<T extends SkillsCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, SkillsCreateArgs<ExtArgs>>
+    ): Prisma__SkillsClient<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many Skills.
+     *     @param {SkillsCreateManyArgs} args - Arguments to create many Skills.
+     *     @example
+     *     // Create many Skills
+     *     const skills = await prisma.skills.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends SkillsCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SkillsCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a Skills.
+     * @param {SkillsDeleteArgs} args - Arguments to delete one Skills.
+     * @example
+     * // Delete one Skills
+     * const Skills = await prisma.skills.delete({
+     *   where: {
+     *     // ... filter to delete one Skills
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends SkillsDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, SkillsDeleteArgs<ExtArgs>>
+    ): Prisma__SkillsClient<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one Skills.
+     * @param {SkillsUpdateArgs} args - Arguments to update one Skills.
+     * @example
+     * // Update one Skills
+     * const skills = await prisma.skills.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends SkillsUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, SkillsUpdateArgs<ExtArgs>>
+    ): Prisma__SkillsClient<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more Skills.
+     * @param {SkillsDeleteManyArgs} args - Arguments to filter Skills to delete.
+     * @example
+     * // Delete a few Skills
+     * const { count } = await prisma.skills.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends SkillsDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SkillsDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Skills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Skills
+     * const skills = await prisma.skills.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends SkillsUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, SkillsUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one Skills.
+     * @param {SkillsUpsertArgs} args - Arguments to update or create a Skills.
+     * @example
+     * // Update or create a Skills
+     * const skills = await prisma.skills.upsert({
+     *   create: {
+     *     // ... data to create a Skills
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Skills we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends SkillsUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, SkillsUpsertArgs<ExtArgs>>
+    ): Prisma__SkillsClient<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of Skills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillsCountArgs} args - Arguments to filter Skills to count.
+     * @example
+     * // Count the number of Skills
+     * const count = await prisma.skills.count({
+     *   where: {
+     *     // ... the filter for the Skills we want to count
+     *   }
+     * })
+    **/
+    count<T extends SkillsCountArgs>(
+      args?: Subset<T, SkillsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SkillsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Skills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SkillsAggregateArgs>(args: Subset<T, SkillsAggregateArgs>): Prisma.PrismaPromise<GetSkillsAggregateType<T>>
+
+    /**
+     * Group by Skills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SkillsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SkillsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SkillsGroupByArgs['orderBy'] }
+        : { orderBy?: SkillsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SkillsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSkillsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Skills model
+   */
+  readonly fields: SkillsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Skills.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__SkillsClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    rolesSkills<T extends Skills$rolesSkillsArgs<ExtArgs> = {}>(args?: Subset<T, Skills$rolesSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findMany'>| Null>;
+
+    subscribersSkills<T extends Skills$subscribersSkillsArgs<ExtArgs> = {}>(args?: Subset<T, Skills$subscribersSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'findMany'>| Null>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  /**
+   * Fields of the Skills model
+   */ 
+  interface SkillsFieldRefs {
+    readonly id: FieldRef<"Skills", 'Int'>
+    readonly name: FieldRef<"Skills", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * Skills findUnique
+   */
+  export type SkillsFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Skills
+     */
+    select?: SkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which Skills to fetch.
+     */
+    where: SkillsWhereUniqueInput
+  }
+
+
+  /**
+   * Skills findUniqueOrThrow
+   */
+  export type SkillsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Skills
+     */
+    select?: SkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which Skills to fetch.
+     */
+    where: SkillsWhereUniqueInput
+  }
+
+
+  /**
+   * Skills findFirst
+   */
+  export type SkillsFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Skills
+     */
+    select?: SkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which Skills to fetch.
+     */
+    where?: SkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Skills to fetch.
+     */
+    orderBy?: SkillsOrderByWithRelationInput | SkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Skills.
+     */
+    cursor?: SkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Skills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Skills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Skills.
+     */
+    distinct?: SkillsScalarFieldEnum | SkillsScalarFieldEnum[]
+  }
+
+
+  /**
+   * Skills findFirstOrThrow
+   */
+  export type SkillsFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Skills
+     */
+    select?: SkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which Skills to fetch.
+     */
+    where?: SkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Skills to fetch.
+     */
+    orderBy?: SkillsOrderByWithRelationInput | SkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Skills.
+     */
+    cursor?: SkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Skills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Skills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Skills.
+     */
+    distinct?: SkillsScalarFieldEnum | SkillsScalarFieldEnum[]
+  }
+
+
+  /**
+   * Skills findMany
+   */
+  export type SkillsFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Skills
+     */
+    select?: SkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which Skills to fetch.
+     */
+    where?: SkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Skills to fetch.
+     */
+    orderBy?: SkillsOrderByWithRelationInput | SkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Skills.
+     */
+    cursor?: SkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Skills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Skills.
+     */
+    skip?: number
+    distinct?: SkillsScalarFieldEnum | SkillsScalarFieldEnum[]
+  }
+
+
+  /**
+   * Skills create
+   */
+  export type SkillsCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Skills
+     */
+    select?: SkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SkillsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Skills.
+     */
+    data: XOR<SkillsCreateInput, SkillsUncheckedCreateInput>
+  }
+
+
+  /**
+   * Skills createMany
+   */
+  export type SkillsCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Skills.
+     */
+    data: SkillsCreateManyInput | SkillsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * Skills update
+   */
+  export type SkillsUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Skills
+     */
+    select?: SkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SkillsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Skills.
+     */
+    data: XOR<SkillsUpdateInput, SkillsUncheckedUpdateInput>
+    /**
+     * Choose, which Skills to update.
+     */
+    where: SkillsWhereUniqueInput
+  }
+
+
+  /**
+   * Skills updateMany
+   */
+  export type SkillsUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Skills.
+     */
+    data: XOR<SkillsUpdateManyMutationInput, SkillsUncheckedUpdateManyInput>
+    /**
+     * Filter which Skills to update
+     */
+    where?: SkillsWhereInput
+  }
+
+
+  /**
+   * Skills upsert
+   */
+  export type SkillsUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Skills
+     */
+    select?: SkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SkillsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Skills to update in case it exists.
+     */
+    where: SkillsWhereUniqueInput
+    /**
+     * In case the Skills found by the `where` argument doesn't exist, create a new Skills with this data.
+     */
+    create: XOR<SkillsCreateInput, SkillsUncheckedCreateInput>
+    /**
+     * In case the Skills was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SkillsUpdateInput, SkillsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * Skills delete
+   */
+  export type SkillsDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Skills
+     */
+    select?: SkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SkillsInclude<ExtArgs> | null
+    /**
+     * Filter which Skills to delete.
+     */
+    where: SkillsWhereUniqueInput
+  }
+
+
+  /**
+   * Skills deleteMany
+   */
+  export type SkillsDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Skills to delete
+     */
+    where?: SkillsWhereInput
+  }
+
+
+  /**
+   * Skills.rolesSkills
+   */
+  export type Skills$rolesSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+    where?: RoleSkillsWhereInput
+    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
+    cursor?: RoleSkillsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: RoleSkillsScalarFieldEnum | RoleSkillsScalarFieldEnum[]
+  }
+
+
+  /**
+   * Skills.subscribersSkills
+   */
+  export type Skills$subscribersSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
+    where?: SubscribersSkillsWhereInput
+    orderBy?: SubscribersSkillsOrderByWithRelationInput | SubscribersSkillsOrderByWithRelationInput[]
+    cursor?: SubscribersSkillsWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: SubscribersSkillsScalarFieldEnum | SubscribersSkillsScalarFieldEnum[]
+  }
+
+
+  /**
+   * Skills without action
+   */
+  export type SkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Skills
+     */
+    select?: SkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SkillsInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model RoleSkills
+   */
+
+
+  export type AggregateRoleSkills = {
+    _count: RoleSkillsCountAggregateOutputType | null
+    _avg: RoleSkillsAvgAggregateOutputType | null
+    _sum: RoleSkillsSumAggregateOutputType | null
+    _min: RoleSkillsMinAggregateOutputType | null
+    _max: RoleSkillsMaxAggregateOutputType | null
+  }
+
+  export type RoleSkillsAvgAggregateOutputType = {
+    id: number | null
+    skillId: number | null
+  }
+
+  export type RoleSkillsSumAggregateOutputType = {
+    id: number | null
+    skillId: number | null
+  }
+
+  export type RoleSkillsMinAggregateOutputType = {
+    id: number | null
+    roleId: string | null
+    skillId: number | null
+  }
+
+  export type RoleSkillsMaxAggregateOutputType = {
+    id: number | null
+    roleId: string | null
+    skillId: number | null
+  }
+
+  export type RoleSkillsCountAggregateOutputType = {
+    id: number
+    roleId: number
+    skillId: number
+    _all: number
+  }
+
+
+  export type RoleSkillsAvgAggregateInputType = {
+    id?: true
+    skillId?: true
+  }
+
+  export type RoleSkillsSumAggregateInputType = {
+    id?: true
+    skillId?: true
+  }
+
+  export type RoleSkillsMinAggregateInputType = {
+    id?: true
+    roleId?: true
+    skillId?: true
+  }
+
+  export type RoleSkillsMaxAggregateInputType = {
+    id?: true
+    roleId?: true
+    skillId?: true
+  }
+
+  export type RoleSkillsCountAggregateInputType = {
+    id?: true
+    roleId?: true
+    skillId?: true
+    _all?: true
+  }
+
+  export type RoleSkillsAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoleSkills to aggregate.
+     */
+    where?: RoleSkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoleSkills to fetch.
+     */
+    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: RoleSkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoleSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoleSkills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned RoleSkills
+    **/
+    _count?: true | RoleSkillsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: RoleSkillsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: RoleSkillsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RoleSkillsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RoleSkillsMaxAggregateInputType
+  }
+
+  export type GetRoleSkillsAggregateType<T extends RoleSkillsAggregateArgs> = {
+        [P in keyof T & keyof AggregateRoleSkills]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRoleSkills[P]>
+      : GetScalarType<T[P], AggregateRoleSkills[P]>
+  }
+
+
+
+
+  export type RoleSkillsGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: RoleSkillsWhereInput
+    orderBy?: RoleSkillsOrderByWithAggregationInput | RoleSkillsOrderByWithAggregationInput[]
+    by: RoleSkillsScalarFieldEnum[] | RoleSkillsScalarFieldEnum
+    having?: RoleSkillsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RoleSkillsCountAggregateInputType | true
+    _avg?: RoleSkillsAvgAggregateInputType
+    _sum?: RoleSkillsSumAggregateInputType
+    _min?: RoleSkillsMinAggregateInputType
+    _max?: RoleSkillsMaxAggregateInputType
+  }
+
+
+  export type RoleSkillsGroupByOutputType = {
+    id: number
+    roleId: string
+    skillId: number
+    _count: RoleSkillsCountAggregateOutputType | null
+    _avg: RoleSkillsAvgAggregateOutputType | null
+    _sum: RoleSkillsSumAggregateOutputType | null
+    _min: RoleSkillsMinAggregateOutputType | null
+    _max: RoleSkillsMaxAggregateOutputType | null
+  }
+
+  type GetRoleSkillsGroupByPayload<T extends RoleSkillsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RoleSkillsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RoleSkillsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RoleSkillsGroupByOutputType[P]>
+            : GetScalarType<T[P], RoleSkillsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type RoleSkillsSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    roleId?: boolean
+    skillId?: boolean
+    roles?: boolean | RolesArgs<ExtArgs>
+    skills?: boolean | SkillsArgs<ExtArgs>
+  }, ExtArgs["result"]["roleSkills"]>
+
+  export type RoleSkillsSelectScalar = {
+    id?: boolean
+    roleId?: boolean
+    skillId?: boolean
+  }
+
+  export type RoleSkillsInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    roles?: boolean | RolesArgs<ExtArgs>
+    skills?: boolean | SkillsArgs<ExtArgs>
+  }
+
+
+  type RoleSkillsGetPayload<S extends boolean | null | undefined | RoleSkillsArgs> = $Types.GetResult<RoleSkillsPayload, S>
+
+  type RoleSkillsCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
+    Omit<RoleSkillsFindManyArgs, 'select' | 'include'> & {
+      select?: RoleSkillsCountAggregateInputType | true
+    }
+
+  export interface RoleSkillsDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RoleSkills'], meta: { name: 'RoleSkills' } }
+    /**
+     * Find zero or one RoleSkills that matches the filter.
+     * @param {RoleSkillsFindUniqueArgs} args - Arguments to find a RoleSkills
+     * @example
+     * // Get one RoleSkills
+     * const roleSkills = await prisma.roleSkills.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends RoleSkillsFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, RoleSkillsFindUniqueArgs<ExtArgs>>
+    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one RoleSkills that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {RoleSkillsFindUniqueOrThrowArgs} args - Arguments to find a RoleSkills
+     * @example
+     * // Get one RoleSkills
+     * const roleSkills = await prisma.roleSkills.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends RoleSkillsFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, RoleSkillsFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first RoleSkills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoleSkillsFindFirstArgs} args - Arguments to find a RoleSkills
+     * @example
+     * // Get one RoleSkills
+     * const roleSkills = await prisma.roleSkills.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends RoleSkillsFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, RoleSkillsFindFirstArgs<ExtArgs>>
+    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first RoleSkills that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoleSkillsFindFirstOrThrowArgs} args - Arguments to find a RoleSkills
+     * @example
+     * // Get one RoleSkills
+     * const roleSkills = await prisma.roleSkills.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends RoleSkillsFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, RoleSkillsFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more RoleSkills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoleSkillsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RoleSkills
+     * const roleSkills = await prisma.roleSkills.findMany()
+     * 
+     * // Get first 10 RoleSkills
+     * const roleSkills = await prisma.roleSkills.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const roleSkillsWithIdOnly = await prisma.roleSkills.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends RoleSkillsFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RoleSkillsFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a RoleSkills.
+     * @param {RoleSkillsCreateArgs} args - Arguments to create a RoleSkills.
+     * @example
+     * // Create one RoleSkills
+     * const RoleSkills = await prisma.roleSkills.create({
+     *   data: {
+     *     // ... data to create a RoleSkills
+     *   }
+     * })
+     * 
+    **/
+    create<T extends RoleSkillsCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, RoleSkillsCreateArgs<ExtArgs>>
+    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many RoleSkills.
+     *     @param {RoleSkillsCreateManyArgs} args - Arguments to create many RoleSkills.
+     *     @example
+     *     // Create many RoleSkills
+     *     const roleSkills = await prisma.roleSkills.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends RoleSkillsCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RoleSkillsCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a RoleSkills.
+     * @param {RoleSkillsDeleteArgs} args - Arguments to delete one RoleSkills.
+     * @example
+     * // Delete one RoleSkills
+     * const RoleSkills = await prisma.roleSkills.delete({
+     *   where: {
+     *     // ... filter to delete one RoleSkills
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends RoleSkillsDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, RoleSkillsDeleteArgs<ExtArgs>>
+    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one RoleSkills.
+     * @param {RoleSkillsUpdateArgs} args - Arguments to update one RoleSkills.
+     * @example
+     * // Update one RoleSkills
+     * const roleSkills = await prisma.roleSkills.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends RoleSkillsUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, RoleSkillsUpdateArgs<ExtArgs>>
+    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more RoleSkills.
+     * @param {RoleSkillsDeleteManyArgs} args - Arguments to filter RoleSkills to delete.
+     * @example
+     * // Delete a few RoleSkills
+     * const { count } = await prisma.roleSkills.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends RoleSkillsDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, RoleSkillsDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RoleSkills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoleSkillsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RoleSkills
+     * const roleSkills = await prisma.roleSkills.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends RoleSkillsUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, RoleSkillsUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RoleSkills.
+     * @param {RoleSkillsUpsertArgs} args - Arguments to update or create a RoleSkills.
+     * @example
+     * // Update or create a RoleSkills
+     * const roleSkills = await prisma.roleSkills.upsert({
+     *   create: {
+     *     // ... data to create a RoleSkills
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RoleSkills we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends RoleSkillsUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, RoleSkillsUpsertArgs<ExtArgs>>
+    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of RoleSkills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoleSkillsCountArgs} args - Arguments to filter RoleSkills to count.
+     * @example
+     * // Count the number of RoleSkills
+     * const count = await prisma.roleSkills.count({
+     *   where: {
+     *     // ... the filter for the RoleSkills we want to count
+     *   }
+     * })
+    **/
+    count<T extends RoleSkillsCountArgs>(
+      args?: Subset<T, RoleSkillsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RoleSkillsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RoleSkills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoleSkillsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RoleSkillsAggregateArgs>(args: Subset<T, RoleSkillsAggregateArgs>): Prisma.PrismaPromise<GetRoleSkillsAggregateType<T>>
+
+    /**
+     * Group by RoleSkills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RoleSkillsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends RoleSkillsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: RoleSkillsGroupByArgs['orderBy'] }
+        : { orderBy?: RoleSkillsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, RoleSkillsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoleSkillsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the RoleSkills model
+   */
+  readonly fields: RoleSkillsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for RoleSkills.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__RoleSkillsClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    roles<T extends RolesArgs<ExtArgs> = {}>(args?: Subset<T, RolesArgs<ExtArgs>>): Prisma__RolesClient<$Types.GetResult<RolesPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
+
+    skills<T extends SkillsArgs<ExtArgs> = {}>(args?: Subset<T, SkillsArgs<ExtArgs>>): Prisma__SkillsClient<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  /**
+   * Fields of the RoleSkills model
+   */ 
+  interface RoleSkillsFieldRefs {
+    readonly id: FieldRef<"RoleSkills", 'Int'>
+    readonly roleId: FieldRef<"RoleSkills", 'String'>
+    readonly skillId: FieldRef<"RoleSkills", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * RoleSkills findUnique
+   */
+  export type RoleSkillsFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which RoleSkills to fetch.
+     */
+    where: RoleSkillsWhereUniqueInput
+  }
+
+
+  /**
+   * RoleSkills findUniqueOrThrow
+   */
+  export type RoleSkillsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which RoleSkills to fetch.
+     */
+    where: RoleSkillsWhereUniqueInput
+  }
+
+
+  /**
+   * RoleSkills findFirst
+   */
+  export type RoleSkillsFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which RoleSkills to fetch.
+     */
+    where?: RoleSkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoleSkills to fetch.
+     */
+    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoleSkills.
+     */
+    cursor?: RoleSkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoleSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoleSkills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoleSkills.
+     */
+    distinct?: RoleSkillsScalarFieldEnum | RoleSkillsScalarFieldEnum[]
+  }
+
+
+  /**
+   * RoleSkills findFirstOrThrow
+   */
+  export type RoleSkillsFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which RoleSkills to fetch.
+     */
+    where?: RoleSkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoleSkills to fetch.
+     */
+    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for RoleSkills.
+     */
+    cursor?: RoleSkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoleSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoleSkills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of RoleSkills.
+     */
+    distinct?: RoleSkillsScalarFieldEnum | RoleSkillsScalarFieldEnum[]
+  }
+
+
+  /**
+   * RoleSkills findMany
+   */
+  export type RoleSkillsFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which RoleSkills to fetch.
+     */
+    where?: RoleSkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of RoleSkills to fetch.
+     */
+    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing RoleSkills.
+     */
+    cursor?: RoleSkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` RoleSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` RoleSkills.
+     */
+    skip?: number
+    distinct?: RoleSkillsScalarFieldEnum | RoleSkillsScalarFieldEnum[]
+  }
+
+
+  /**
+   * RoleSkills create
+   */
+  export type RoleSkillsCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a RoleSkills.
+     */
+    data: XOR<RoleSkillsCreateInput, RoleSkillsUncheckedCreateInput>
+  }
+
+
+  /**
+   * RoleSkills createMany
+   */
+  export type RoleSkillsCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many RoleSkills.
+     */
+    data: RoleSkillsCreateManyInput | RoleSkillsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * RoleSkills update
+   */
+  export type RoleSkillsUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a RoleSkills.
+     */
+    data: XOR<RoleSkillsUpdateInput, RoleSkillsUncheckedUpdateInput>
+    /**
+     * Choose, which RoleSkills to update.
+     */
+    where: RoleSkillsWhereUniqueInput
+  }
+
+
+  /**
+   * RoleSkills updateMany
+   */
+  export type RoleSkillsUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update RoleSkills.
+     */
+    data: XOR<RoleSkillsUpdateManyMutationInput, RoleSkillsUncheckedUpdateManyInput>
+    /**
+     * Filter which RoleSkills to update
+     */
+    where?: RoleSkillsWhereInput
+  }
+
+
+  /**
+   * RoleSkills upsert
+   */
+  export type RoleSkillsUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the RoleSkills to update in case it exists.
+     */
+    where: RoleSkillsWhereUniqueInput
+    /**
+     * In case the RoleSkills found by the `where` argument doesn't exist, create a new RoleSkills with this data.
+     */
+    create: XOR<RoleSkillsCreateInput, RoleSkillsUncheckedCreateInput>
+    /**
+     * In case the RoleSkills was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<RoleSkillsUpdateInput, RoleSkillsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * RoleSkills delete
+   */
+  export type RoleSkillsDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+    /**
+     * Filter which RoleSkills to delete.
+     */
+    where: RoleSkillsWhereUniqueInput
+  }
+
+
+  /**
+   * RoleSkills deleteMany
+   */
+  export type RoleSkillsDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which RoleSkills to delete
+     */
+    where?: RoleSkillsWhereInput
+  }
+
+
+  /**
+   * RoleSkills without action
+   */
+  export type RoleSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the RoleSkills
+     */
+    select?: RoleSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: RoleSkillsInclude<ExtArgs> | null
+  }
+
+
+
+  /**
+   * Model SubscribersSkills
+   */
+
+
+  export type AggregateSubscribersSkills = {
+    _count: SubscribersSkillsCountAggregateOutputType | null
+    _avg: SubscribersSkillsAvgAggregateOutputType | null
+    _sum: SubscribersSkillsSumAggregateOutputType | null
+    _min: SubscribersSkillsMinAggregateOutputType | null
+    _max: SubscribersSkillsMaxAggregateOutputType | null
+  }
+
+  export type SubscribersSkillsAvgAggregateOutputType = {
+    id: number | null
+    skillId: number | null
+  }
+
+  export type SubscribersSkillsSumAggregateOutputType = {
+    id: number | null
+    skillId: number | null
+  }
+
+  export type SubscribersSkillsMinAggregateOutputType = {
+    id: number | null
+    subscriberId: string | null
+    skillId: number | null
+  }
+
+  export type SubscribersSkillsMaxAggregateOutputType = {
+    id: number | null
+    subscriberId: string | null
+    skillId: number | null
+  }
+
+  export type SubscribersSkillsCountAggregateOutputType = {
+    id: number
+    subscriberId: number
+    skillId: number
+    _all: number
+  }
+
+
+  export type SubscribersSkillsAvgAggregateInputType = {
+    id?: true
+    skillId?: true
+  }
+
+  export type SubscribersSkillsSumAggregateInputType = {
+    id?: true
+    skillId?: true
+  }
+
+  export type SubscribersSkillsMinAggregateInputType = {
+    id?: true
+    subscriberId?: true
+    skillId?: true
+  }
+
+  export type SubscribersSkillsMaxAggregateInputType = {
+    id?: true
+    subscriberId?: true
+    skillId?: true
+  }
+
+  export type SubscribersSkillsCountAggregateInputType = {
+    id?: true
+    subscriberId?: true
+    skillId?: true
+    _all?: true
+  }
+
+  export type SubscribersSkillsAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubscribersSkills to aggregate.
+     */
+    where?: SubscribersSkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscribersSkills to fetch.
+     */
+    orderBy?: SubscribersSkillsOrderByWithRelationInput | SubscribersSkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: SubscribersSkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscribersSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscribersSkills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned SubscribersSkills
+    **/
+    _count?: true | SubscribersSkillsCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: SubscribersSkillsAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: SubscribersSkillsSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: SubscribersSkillsMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: SubscribersSkillsMaxAggregateInputType
+  }
+
+  export type GetSubscribersSkillsAggregateType<T extends SubscribersSkillsAggregateArgs> = {
+        [P in keyof T & keyof AggregateSubscribersSkills]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateSubscribersSkills[P]>
+      : GetScalarType<T[P], AggregateSubscribersSkills[P]>
+  }
+
+
+
+
+  export type SubscribersSkillsGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: SubscribersSkillsWhereInput
+    orderBy?: SubscribersSkillsOrderByWithAggregationInput | SubscribersSkillsOrderByWithAggregationInput[]
+    by: SubscribersSkillsScalarFieldEnum[] | SubscribersSkillsScalarFieldEnum
+    having?: SubscribersSkillsScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: SubscribersSkillsCountAggregateInputType | true
+    _avg?: SubscribersSkillsAvgAggregateInputType
+    _sum?: SubscribersSkillsSumAggregateInputType
+    _min?: SubscribersSkillsMinAggregateInputType
+    _max?: SubscribersSkillsMaxAggregateInputType
+  }
+
+
+  export type SubscribersSkillsGroupByOutputType = {
+    id: number
+    subscriberId: string
+    skillId: number
+    _count: SubscribersSkillsCountAggregateOutputType | null
+    _avg: SubscribersSkillsAvgAggregateOutputType | null
+    _sum: SubscribersSkillsSumAggregateOutputType | null
+    _min: SubscribersSkillsMinAggregateOutputType | null
+    _max: SubscribersSkillsMaxAggregateOutputType | null
+  }
+
+  type GetSubscribersSkillsGroupByPayload<T extends SubscribersSkillsGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<SubscribersSkillsGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof SubscribersSkillsGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], SubscribersSkillsGroupByOutputType[P]>
+            : GetScalarType<T[P], SubscribersSkillsGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type SubscribersSkillsSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    subscriberId?: boolean
+    skillId?: boolean
+    subscribers?: boolean | SubscribersArgs<ExtArgs>
+    skills?: boolean | SkillsArgs<ExtArgs>
+  }, ExtArgs["result"]["subscribersSkills"]>
+
+  export type SubscribersSkillsSelectScalar = {
+    id?: boolean
+    subscriberId?: boolean
+    skillId?: boolean
+  }
+
+  export type SubscribersSkillsInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    subscribers?: boolean | SubscribersArgs<ExtArgs>
+    skills?: boolean | SkillsArgs<ExtArgs>
+  }
+
+
+  type SubscribersSkillsGetPayload<S extends boolean | null | undefined | SubscribersSkillsArgs> = $Types.GetResult<SubscribersSkillsPayload, S>
+
+  type SubscribersSkillsCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
+    Omit<SubscribersSkillsFindManyArgs, 'select' | 'include'> & {
+      select?: SubscribersSkillsCountAggregateInputType | true
+    }
+
+  export interface SubscribersSkillsDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['SubscribersSkills'], meta: { name: 'SubscribersSkills' } }
+    /**
+     * Find zero or one SubscribersSkills that matches the filter.
+     * @param {SubscribersSkillsFindUniqueArgs} args - Arguments to find a SubscribersSkills
+     * @example
+     * // Get one SubscribersSkills
+     * const subscribersSkills = await prisma.subscribersSkills.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends SubscribersSkillsFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscribersSkillsFindUniqueArgs<ExtArgs>>
+    ): Prisma__SubscribersSkillsClient<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one SubscribersSkills that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {SubscribersSkillsFindUniqueOrThrowArgs} args - Arguments to find a SubscribersSkills
+     * @example
+     * // Get one SubscribersSkills
+     * const subscribersSkills = await prisma.subscribersSkills.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends SubscribersSkillsFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscribersSkillsFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__SubscribersSkillsClient<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first SubscribersSkills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscribersSkillsFindFirstArgs} args - Arguments to find a SubscribersSkills
+     * @example
+     * // Get one SubscribersSkills
+     * const subscribersSkills = await prisma.subscribersSkills.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends SubscribersSkillsFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscribersSkillsFindFirstArgs<ExtArgs>>
+    ): Prisma__SubscribersSkillsClient<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first SubscribersSkills that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscribersSkillsFindFirstOrThrowArgs} args - Arguments to find a SubscribersSkills
+     * @example
+     * // Get one SubscribersSkills
+     * const subscribersSkills = await prisma.subscribersSkills.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends SubscribersSkillsFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscribersSkillsFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__SubscribersSkillsClient<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more SubscribersSkills that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscribersSkillsFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all SubscribersSkills
+     * const subscribersSkills = await prisma.subscribersSkills.findMany()
+     * 
+     * // Get first 10 SubscribersSkills
+     * const subscribersSkills = await prisma.subscribersSkills.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const subscribersSkillsWithIdOnly = await prisma.subscribersSkills.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends SubscribersSkillsFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscribersSkillsFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a SubscribersSkills.
+     * @param {SubscribersSkillsCreateArgs} args - Arguments to create a SubscribersSkills.
+     * @example
+     * // Create one SubscribersSkills
+     * const SubscribersSkills = await prisma.subscribersSkills.create({
+     *   data: {
+     *     // ... data to create a SubscribersSkills
+     *   }
+     * })
+     * 
+    **/
+    create<T extends SubscribersSkillsCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscribersSkillsCreateArgs<ExtArgs>>
+    ): Prisma__SubscribersSkillsClient<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many SubscribersSkills.
+     *     @param {SubscribersSkillsCreateManyArgs} args - Arguments to create many SubscribersSkills.
+     *     @example
+     *     // Create many SubscribersSkills
+     *     const subscribersSkills = await prisma.subscribersSkills.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends SubscribersSkillsCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscribersSkillsCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a SubscribersSkills.
+     * @param {SubscribersSkillsDeleteArgs} args - Arguments to delete one SubscribersSkills.
+     * @example
+     * // Delete one SubscribersSkills
+     * const SubscribersSkills = await prisma.subscribersSkills.delete({
+     *   where: {
+     *     // ... filter to delete one SubscribersSkills
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends SubscribersSkillsDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscribersSkillsDeleteArgs<ExtArgs>>
+    ): Prisma__SubscribersSkillsClient<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one SubscribersSkills.
+     * @param {SubscribersSkillsUpdateArgs} args - Arguments to update one SubscribersSkills.
+     * @example
+     * // Update one SubscribersSkills
+     * const subscribersSkills = await prisma.subscribersSkills.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends SubscribersSkillsUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscribersSkillsUpdateArgs<ExtArgs>>
+    ): Prisma__SubscribersSkillsClient<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more SubscribersSkills.
+     * @param {SubscribersSkillsDeleteManyArgs} args - Arguments to filter SubscribersSkills to delete.
+     * @example
+     * // Delete a few SubscribersSkills
+     * const { count } = await prisma.subscribersSkills.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends SubscribersSkillsDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, SubscribersSkillsDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more SubscribersSkills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscribersSkillsUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many SubscribersSkills
+     * const subscribersSkills = await prisma.subscribersSkills.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends SubscribersSkillsUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscribersSkillsUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one SubscribersSkills.
+     * @param {SubscribersSkillsUpsertArgs} args - Arguments to update or create a SubscribersSkills.
+     * @example
+     * // Update or create a SubscribersSkills
+     * const subscribersSkills = await prisma.subscribersSkills.upsert({
+     *   create: {
+     *     // ... data to create a SubscribersSkills
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the SubscribersSkills we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends SubscribersSkillsUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, SubscribersSkillsUpsertArgs<ExtArgs>>
+    ): Prisma__SubscribersSkillsClient<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of SubscribersSkills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscribersSkillsCountArgs} args - Arguments to filter SubscribersSkills to count.
+     * @example
+     * // Count the number of SubscribersSkills
+     * const count = await prisma.subscribersSkills.count({
+     *   where: {
+     *     // ... the filter for the SubscribersSkills we want to count
+     *   }
+     * })
+    **/
+    count<T extends SubscribersSkillsCountArgs>(
+      args?: Subset<T, SubscribersSkillsCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], SubscribersSkillsCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a SubscribersSkills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscribersSkillsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends SubscribersSkillsAggregateArgs>(args: Subset<T, SubscribersSkillsAggregateArgs>): Prisma.PrismaPromise<GetSubscribersSkillsAggregateType<T>>
+
+    /**
+     * Group by SubscribersSkills.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {SubscribersSkillsGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends SubscribersSkillsGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: SubscribersSkillsGroupByArgs['orderBy'] }
+        : { orderBy?: SubscribersSkillsGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, SubscribersSkillsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetSubscribersSkillsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the SubscribersSkills model
+   */
+  readonly fields: SubscribersSkillsFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for SubscribersSkills.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__SubscribersSkillsClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+    subscribers<T extends SubscribersArgs<ExtArgs> = {}>(args?: Subset<T, SubscribersArgs<ExtArgs>>): Prisma__SubscribersClient<$Types.GetResult<SubscribersPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
+
+    skills<T extends SkillsArgs<ExtArgs> = {}>(args?: Subset<T, SkillsArgs<ExtArgs>>): Prisma__SkillsClient<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  /**
+   * Fields of the SubscribersSkills model
+   */ 
+  interface SubscribersSkillsFieldRefs {
+    readonly id: FieldRef<"SubscribersSkills", 'Int'>
+    readonly subscriberId: FieldRef<"SubscribersSkills", 'String'>
+    readonly skillId: FieldRef<"SubscribersSkills", 'Int'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * SubscribersSkills findUnique
+   */
+  export type SubscribersSkillsFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscribersSkills to fetch.
+     */
+    where: SubscribersSkillsWhereUniqueInput
+  }
+
+
+  /**
+   * SubscribersSkills findUniqueOrThrow
+   */
+  export type SubscribersSkillsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscribersSkills to fetch.
+     */
+    where: SubscribersSkillsWhereUniqueInput
+  }
+
+
+  /**
+   * SubscribersSkills findFirst
+   */
+  export type SubscribersSkillsFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscribersSkills to fetch.
+     */
+    where?: SubscribersSkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscribersSkills to fetch.
+     */
+    orderBy?: SubscribersSkillsOrderByWithRelationInput | SubscribersSkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubscribersSkills.
+     */
+    cursor?: SubscribersSkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscribersSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscribersSkills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubscribersSkills.
+     */
+    distinct?: SubscribersSkillsScalarFieldEnum | SubscribersSkillsScalarFieldEnum[]
+  }
+
+
+  /**
+   * SubscribersSkills findFirstOrThrow
+   */
+  export type SubscribersSkillsFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscribersSkills to fetch.
+     */
+    where?: SubscribersSkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscribersSkills to fetch.
+     */
+    orderBy?: SubscribersSkillsOrderByWithRelationInput | SubscribersSkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for SubscribersSkills.
+     */
+    cursor?: SubscribersSkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscribersSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscribersSkills.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of SubscribersSkills.
+     */
+    distinct?: SubscribersSkillsScalarFieldEnum | SubscribersSkillsScalarFieldEnum[]
+  }
+
+
+  /**
+   * SubscribersSkills findMany
+   */
+  export type SubscribersSkillsFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
+    /**
+     * Filter, which SubscribersSkills to fetch.
+     */
+    where?: SubscribersSkillsWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of SubscribersSkills to fetch.
+     */
+    orderBy?: SubscribersSkillsOrderByWithRelationInput | SubscribersSkillsOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing SubscribersSkills.
+     */
+    cursor?: SubscribersSkillsWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` SubscribersSkills from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` SubscribersSkills.
+     */
+    skip?: number
+    distinct?: SubscribersSkillsScalarFieldEnum | SubscribersSkillsScalarFieldEnum[]
+  }
+
+
+  /**
+   * SubscribersSkills create
+   */
+  export type SubscribersSkillsCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
+    /**
+     * The data needed to create a SubscribersSkills.
+     */
+    data: XOR<SubscribersSkillsCreateInput, SubscribersSkillsUncheckedCreateInput>
+  }
+
+
+  /**
+   * SubscribersSkills createMany
+   */
+  export type SubscribersSkillsCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many SubscribersSkills.
+     */
+    data: SubscribersSkillsCreateManyInput | SubscribersSkillsCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * SubscribersSkills update
+   */
+  export type SubscribersSkillsUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
+    /**
+     * The data needed to update a SubscribersSkills.
+     */
+    data: XOR<SubscribersSkillsUpdateInput, SubscribersSkillsUncheckedUpdateInput>
+    /**
+     * Choose, which SubscribersSkills to update.
+     */
+    where: SubscribersSkillsWhereUniqueInput
+  }
+
+
+  /**
+   * SubscribersSkills updateMany
+   */
+  export type SubscribersSkillsUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update SubscribersSkills.
+     */
+    data: XOR<SubscribersSkillsUpdateManyMutationInput, SubscribersSkillsUncheckedUpdateManyInput>
+    /**
+     * Filter which SubscribersSkills to update
+     */
+    where?: SubscribersSkillsWhereInput
+  }
+
+
+  /**
+   * SubscribersSkills upsert
+   */
+  export type SubscribersSkillsUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
+    /**
+     * The filter to search for the SubscribersSkills to update in case it exists.
+     */
+    where: SubscribersSkillsWhereUniqueInput
+    /**
+     * In case the SubscribersSkills found by the `where` argument doesn't exist, create a new SubscribersSkills with this data.
+     */
+    create: XOR<SubscribersSkillsCreateInput, SubscribersSkillsUncheckedCreateInput>
+    /**
+     * In case the SubscribersSkills was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<SubscribersSkillsUpdateInput, SubscribersSkillsUncheckedUpdateInput>
+  }
+
+
+  /**
+   * SubscribersSkills delete
+   */
+  export type SubscribersSkillsDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
+    /**
+     * Filter which SubscribersSkills to delete.
+     */
+    where: SubscribersSkillsWhereUniqueInput
+  }
+
+
+  /**
+   * SubscribersSkills deleteMany
+   */
+  export type SubscribersSkillsDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which SubscribersSkills to delete
+     */
+    where?: SubscribersSkillsWhereInput
+  }
+
+
+  /**
+   * SubscribersSkills without action
+   */
+  export type SubscribersSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the SubscribersSkills
+     */
+    select?: SubscribersSkillsSelect<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well.
+     */
+    include?: SubscribersSkillsInclude<ExtArgs> | null
   }
 
 
@@ -7422,7 +10746,6 @@ export namespace Prisma {
     linkedInUrl: 'linkedInUrl',
     gitHub: 'gitHub',
     startedWorkingAt: 'startedWorkingAt',
-    skills: 'skills',
     englishLevel: 'englishLevel',
     isConfirmed: 'isConfirmed',
     createdAt: 'createdAt',
@@ -7434,6 +10757,7 @@ export namespace Prisma {
 
 
   export const RolesScalarFieldEnum: {
+    minimumYears: 'minimumYears',
     id: 'id',
     companyId: 'companyId',
     title: 'title',
@@ -7442,7 +10766,7 @@ export namespace Prisma {
     language: 'language',
     currency: 'currency',
     salary: 'salary',
-    skills: 'skills',
+    skillsId: 'skillsId',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     sentRolesId: 'sentRolesId',
@@ -7451,6 +10775,32 @@ export namespace Prisma {
   };
 
   export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
+
+
+  export const SkillsScalarFieldEnum: {
+    id: 'id',
+    name: 'name'
+  };
+
+  export type SkillsScalarFieldEnum = (typeof SkillsScalarFieldEnum)[keyof typeof SkillsScalarFieldEnum]
+
+
+  export const RoleSkillsScalarFieldEnum: {
+    id: 'id',
+    roleId: 'roleId',
+    skillId: 'skillId'
+  };
+
+  export type RoleSkillsScalarFieldEnum = (typeof RoleSkillsScalarFieldEnum)[keyof typeof RoleSkillsScalarFieldEnum]
+
+
+  export const SubscribersSkillsScalarFieldEnum: {
+    id: 'id',
+    subscriberId: 'subscriberId',
+    skillId: 'skillId'
+  };
+
+  export type SubscribersSkillsScalarFieldEnum = (typeof SubscribersSkillsScalarFieldEnum)[keyof typeof SubscribersSkillsScalarFieldEnum]
 
 
   export const SentRolesScalarFieldEnum: {
@@ -7502,29 +10852,12 @@ export namespace Prisma {
   export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
 
 
-  export const NullableJsonNullValueInput: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull
-  };
-
-  export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
-
-
   export const QueryMode: {
     default: 'default',
     insensitive: 'insensitive'
   };
 
   export type QueryMode = (typeof QueryMode)[keyof typeof QueryMode]
-
-
-  export const JsonNullValueFilter: {
-    DbNull: typeof DbNull,
-    JsonNull: typeof JsonNull,
-    AnyNull: typeof AnyNull
-  };
-
-  export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 
 
   export const NullsOrder: {
@@ -7569,13 +10902,6 @@ export namespace Prisma {
 
 
   /**
-   * Reference to a field of type 'Json'
-   */
-  export type JsonFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Json'>
-    
-
-
-  /**
    * Reference to a field of type 'EnglishLevel'
    */
   export type EnumEnglishLevelFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'EnglishLevel'>
@@ -7611,6 +10937,20 @@ export namespace Prisma {
 
 
   /**
+   * Reference to a field of type 'RoleLanguage'
+   */
+  export type EnumRoleLanguageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoleLanguage'>
+    
+
+
+  /**
+   * Reference to a field of type 'RoleLanguage[]'
+   */
+  export type ListEnumRoleLanguageFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'RoleLanguage[]'>
+    
+
+
+  /**
    * Reference to a field of type 'Float'
    */
   export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
@@ -7637,12 +10977,12 @@ export namespace Prisma {
     linkedInUrl?: StringNullableFilter<"Subscribers"> | string | null
     gitHub?: StringNullableFilter<"Subscribers"> | string | null
     startedWorkingAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
-    skills?: JsonNullableFilter<"Subscribers">
     englishLevel?: EnumEnglishLevelNullableFilter<"Subscribers"> | EnglishLevel | null
     isConfirmed?: BoolFilter<"Subscribers"> | boolean
     createdAt?: DateTimeFilter<"Subscribers"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
     optOut?: BoolFilter<"Subscribers"> | boolean
+    subscriberSkills?: SubscribersSkillsListRelationFilter
     sentRoles?: SentRolesListRelationFilter
     subscriberTopics?: SubscriberTopicsListRelationFilter
   }
@@ -7654,12 +10994,12 @@ export namespace Prisma {
     linkedInUrl?: SortOrderInput | SortOrder
     gitHub?: SortOrderInput | SortOrder
     startedWorkingAt?: SortOrderInput | SortOrder
-    skills?: SortOrderInput | SortOrder
     englishLevel?: SortOrderInput | SortOrder
     isConfirmed?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     optOut?: SortOrder
+    subscriberSkills?: SubscribersSkillsOrderByRelationAggregateInput
     sentRoles?: SentRolesOrderByRelationAggregateInput
     subscriberTopics?: SubscriberTopicsOrderByRelationAggregateInput
   }
@@ -7674,12 +11014,12 @@ export namespace Prisma {
     linkedInUrl?: StringNullableFilter<"Subscribers"> | string | null
     gitHub?: StringNullableFilter<"Subscribers"> | string | null
     startedWorkingAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
-    skills?: JsonNullableFilter<"Subscribers">
     englishLevel?: EnumEnglishLevelNullableFilter<"Subscribers"> | EnglishLevel | null
     isConfirmed?: BoolFilter<"Subscribers"> | boolean
     createdAt?: DateTimeFilter<"Subscribers"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
     optOut?: BoolFilter<"Subscribers"> | boolean
+    subscriberSkills?: SubscribersSkillsListRelationFilter
     sentRoles?: SentRolesListRelationFilter
     subscriberTopics?: SubscriberTopicsListRelationFilter
   }, "id" | "email">
@@ -7691,7 +11031,6 @@ export namespace Prisma {
     linkedInUrl?: SortOrderInput | SortOrder
     gitHub?: SortOrderInput | SortOrder
     startedWorkingAt?: SortOrderInput | SortOrder
-    skills?: SortOrderInput | SortOrder
     englishLevel?: SortOrderInput | SortOrder
     isConfirmed?: SortOrder
     createdAt?: SortOrder
@@ -7712,7 +11051,6 @@ export namespace Prisma {
     linkedInUrl?: StringNullableWithAggregatesFilter<"Subscribers"> | string | null
     gitHub?: StringNullableWithAggregatesFilter<"Subscribers"> | string | null
     startedWorkingAt?: DateTimeNullableWithAggregatesFilter<"Subscribers"> | Date | string | null
-    skills?: JsonNullableWithAggregatesFilter<"Subscribers">
     englishLevel?: EnumEnglishLevelNullableWithAggregatesFilter<"Subscribers"> | EnglishLevel | null
     isConfirmed?: BoolWithAggregatesFilter<"Subscribers"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Subscribers"> | Date | string
@@ -7724,15 +11062,16 @@ export namespace Prisma {
     AND?: RolesWhereInput | RolesWhereInput[]
     OR?: RolesWhereInput[]
     NOT?: RolesWhereInput | RolesWhereInput[]
+    minimumYears?: IntNullableFilter<"Roles"> | number | null
     id?: StringFilter<"Roles"> | string
     companyId?: StringFilter<"Roles"> | string
     title?: StringFilter<"Roles"> | string
     description?: StringFilter<"Roles"> | string
     country?: StringFilter<"Roles"> | string
-    language?: StringFilter<"Roles"> | string
+    language?: EnumRoleLanguageFilter<"Roles"> | RoleLanguage
     currency?: StringNullableFilter<"Roles"> | string | null
     salary?: StringNullableFilter<"Roles"> | string | null
-    skills?: JsonNullableFilter<"Roles">
+    skillsId?: StringNullableListFilter<"Roles">
     createdAt?: DateTimeFilter<"Roles"> | Date | string
     updatedAt?: DateTimeFilter<"Roles"> | Date | string
     sentRolesId?: StringNullableFilter<"Roles"> | string | null
@@ -7740,9 +11079,11 @@ export namespace Prisma {
     url?: StringNullableFilter<"Roles"> | string | null
     company?: XOR<CompaniesRelationFilter, CompaniesWhereInput>
     sentRoles?: XOR<SentRolesNullableRelationFilter, SentRolesWhereInput> | null
+    roleSkills?: RoleSkillsListRelationFilter
   }
 
   export type RolesOrderByWithRelationInput = {
+    minimumYears?: SortOrderInput | SortOrder
     id?: SortOrder
     companyId?: SortOrder
     title?: SortOrder
@@ -7751,7 +11092,7 @@ export namespace Prisma {
     language?: SortOrder
     currency?: SortOrderInput | SortOrder
     salary?: SortOrderInput | SortOrder
-    skills?: SortOrderInput | SortOrder
+    skillsId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sentRolesId?: SortOrderInput | SortOrder
@@ -7759,6 +11100,7 @@ export namespace Prisma {
     url?: SortOrderInput | SortOrder
     company?: CompaniesOrderByWithRelationInput
     sentRoles?: SentRolesOrderByWithRelationInput
+    roleSkills?: RoleSkillsOrderByRelationAggregateInput
   }
 
   export type RolesWhereUniqueInput = Prisma.AtLeast<{
@@ -7767,23 +11109,26 @@ export namespace Prisma {
     AND?: RolesWhereInput | RolesWhereInput[]
     OR?: RolesWhereInput[]
     NOT?: RolesWhereInput | RolesWhereInput[]
+    minimumYears?: IntNullableFilter<"Roles"> | number | null
     companyId?: StringFilter<"Roles"> | string
     title?: StringFilter<"Roles"> | string
     description?: StringFilter<"Roles"> | string
     country?: StringFilter<"Roles"> | string
-    language?: StringFilter<"Roles"> | string
+    language?: EnumRoleLanguageFilter<"Roles"> | RoleLanguage
     currency?: StringNullableFilter<"Roles"> | string | null
     salary?: StringNullableFilter<"Roles"> | string | null
-    skills?: JsonNullableFilter<"Roles">
+    skillsId?: StringNullableListFilter<"Roles">
     createdAt?: DateTimeFilter<"Roles"> | Date | string
     updatedAt?: DateTimeFilter<"Roles"> | Date | string
     ready?: BoolFilter<"Roles"> | boolean
     url?: StringNullableFilter<"Roles"> | string | null
     company?: XOR<CompaniesRelationFilter, CompaniesWhereInput>
     sentRoles?: XOR<SentRolesNullableRelationFilter, SentRolesWhereInput> | null
+    roleSkills?: RoleSkillsListRelationFilter
   }, "id" | "sentRolesId">
 
   export type RolesOrderByWithAggregationInput = {
+    minimumYears?: SortOrderInput | SortOrder
     id?: SortOrder
     companyId?: SortOrder
     title?: SortOrder
@@ -7792,35 +11137,183 @@ export namespace Prisma {
     language?: SortOrder
     currency?: SortOrderInput | SortOrder
     salary?: SortOrderInput | SortOrder
-    skills?: SortOrderInput | SortOrder
+    skillsId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sentRolesId?: SortOrderInput | SortOrder
     ready?: SortOrder
     url?: SortOrderInput | SortOrder
     _count?: RolesCountOrderByAggregateInput
+    _avg?: RolesAvgOrderByAggregateInput
     _max?: RolesMaxOrderByAggregateInput
     _min?: RolesMinOrderByAggregateInput
+    _sum?: RolesSumOrderByAggregateInput
   }
 
   export type RolesScalarWhereWithAggregatesInput = {
     AND?: RolesScalarWhereWithAggregatesInput | RolesScalarWhereWithAggregatesInput[]
     OR?: RolesScalarWhereWithAggregatesInput[]
     NOT?: RolesScalarWhereWithAggregatesInput | RolesScalarWhereWithAggregatesInput[]
+    minimumYears?: IntNullableWithAggregatesFilter<"Roles"> | number | null
     id?: StringWithAggregatesFilter<"Roles"> | string
     companyId?: StringWithAggregatesFilter<"Roles"> | string
     title?: StringWithAggregatesFilter<"Roles"> | string
     description?: StringWithAggregatesFilter<"Roles"> | string
     country?: StringWithAggregatesFilter<"Roles"> | string
-    language?: StringWithAggregatesFilter<"Roles"> | string
+    language?: EnumRoleLanguageWithAggregatesFilter<"Roles"> | RoleLanguage
     currency?: StringNullableWithAggregatesFilter<"Roles"> | string | null
     salary?: StringNullableWithAggregatesFilter<"Roles"> | string | null
-    skills?: JsonNullableWithAggregatesFilter<"Roles">
+    skillsId?: StringNullableListFilter<"Roles">
     createdAt?: DateTimeWithAggregatesFilter<"Roles"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Roles"> | Date | string
     sentRolesId?: StringNullableWithAggregatesFilter<"Roles"> | string | null
     ready?: BoolWithAggregatesFilter<"Roles"> | boolean
     url?: StringNullableWithAggregatesFilter<"Roles"> | string | null
+  }
+
+  export type SkillsWhereInput = {
+    AND?: SkillsWhereInput | SkillsWhereInput[]
+    OR?: SkillsWhereInput[]
+    NOT?: SkillsWhereInput | SkillsWhereInput[]
+    id?: IntFilter<"Skills"> | number
+    name?: StringFilter<"Skills"> | string
+    rolesSkills?: RoleSkillsListRelationFilter
+    subscribersSkills?: SubscribersSkillsListRelationFilter
+  }
+
+  export type SkillsOrderByWithRelationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    rolesSkills?: RoleSkillsOrderByRelationAggregateInput
+    subscribersSkills?: SubscribersSkillsOrderByRelationAggregateInput
+  }
+
+  export type SkillsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SkillsWhereInput | SkillsWhereInput[]
+    OR?: SkillsWhereInput[]
+    NOT?: SkillsWhereInput | SkillsWhereInput[]
+    name?: StringFilter<"Skills"> | string
+    rolesSkills?: RoleSkillsListRelationFilter
+    subscribersSkills?: SubscribersSkillsListRelationFilter
+  }, "id">
+
+  export type SkillsOrderByWithAggregationInput = {
+    id?: SortOrder
+    name?: SortOrder
+    _count?: SkillsCountOrderByAggregateInput
+    _avg?: SkillsAvgOrderByAggregateInput
+    _max?: SkillsMaxOrderByAggregateInput
+    _min?: SkillsMinOrderByAggregateInput
+    _sum?: SkillsSumOrderByAggregateInput
+  }
+
+  export type SkillsScalarWhereWithAggregatesInput = {
+    AND?: SkillsScalarWhereWithAggregatesInput | SkillsScalarWhereWithAggregatesInput[]
+    OR?: SkillsScalarWhereWithAggregatesInput[]
+    NOT?: SkillsScalarWhereWithAggregatesInput | SkillsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"Skills"> | number
+    name?: StringWithAggregatesFilter<"Skills"> | string
+  }
+
+  export type RoleSkillsWhereInput = {
+    AND?: RoleSkillsWhereInput | RoleSkillsWhereInput[]
+    OR?: RoleSkillsWhereInput[]
+    NOT?: RoleSkillsWhereInput | RoleSkillsWhereInput[]
+    id?: IntFilter<"RoleSkills"> | number
+    roleId?: StringFilter<"RoleSkills"> | string
+    skillId?: IntFilter<"RoleSkills"> | number
+    roles?: XOR<RolesRelationFilter, RolesWhereInput>
+    skills?: XOR<SkillsRelationFilter, SkillsWhereInput>
+  }
+
+  export type RoleSkillsOrderByWithRelationInput = {
+    id?: SortOrder
+    roleId?: SortOrder
+    skillId?: SortOrder
+    roles?: RolesOrderByWithRelationInput
+    skills?: SkillsOrderByWithRelationInput
+  }
+
+  export type RoleSkillsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: RoleSkillsWhereInput | RoleSkillsWhereInput[]
+    OR?: RoleSkillsWhereInput[]
+    NOT?: RoleSkillsWhereInput | RoleSkillsWhereInput[]
+    roleId?: StringFilter<"RoleSkills"> | string
+    skillId?: IntFilter<"RoleSkills"> | number
+    roles?: XOR<RolesRelationFilter, RolesWhereInput>
+    skills?: XOR<SkillsRelationFilter, SkillsWhereInput>
+  }, "id">
+
+  export type RoleSkillsOrderByWithAggregationInput = {
+    id?: SortOrder
+    roleId?: SortOrder
+    skillId?: SortOrder
+    _count?: RoleSkillsCountOrderByAggregateInput
+    _avg?: RoleSkillsAvgOrderByAggregateInput
+    _max?: RoleSkillsMaxOrderByAggregateInput
+    _min?: RoleSkillsMinOrderByAggregateInput
+    _sum?: RoleSkillsSumOrderByAggregateInput
+  }
+
+  export type RoleSkillsScalarWhereWithAggregatesInput = {
+    AND?: RoleSkillsScalarWhereWithAggregatesInput | RoleSkillsScalarWhereWithAggregatesInput[]
+    OR?: RoleSkillsScalarWhereWithAggregatesInput[]
+    NOT?: RoleSkillsScalarWhereWithAggregatesInput | RoleSkillsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"RoleSkills"> | number
+    roleId?: StringWithAggregatesFilter<"RoleSkills"> | string
+    skillId?: IntWithAggregatesFilter<"RoleSkills"> | number
+  }
+
+  export type SubscribersSkillsWhereInput = {
+    AND?: SubscribersSkillsWhereInput | SubscribersSkillsWhereInput[]
+    OR?: SubscribersSkillsWhereInput[]
+    NOT?: SubscribersSkillsWhereInput | SubscribersSkillsWhereInput[]
+    id?: IntFilter<"SubscribersSkills"> | number
+    subscriberId?: UuidFilter<"SubscribersSkills"> | string
+    skillId?: IntFilter<"SubscribersSkills"> | number
+    subscribers?: XOR<SubscribersRelationFilter, SubscribersWhereInput>
+    skills?: XOR<SkillsRelationFilter, SkillsWhereInput>
+  }
+
+  export type SubscribersSkillsOrderByWithRelationInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    skillId?: SortOrder
+    subscribers?: SubscribersOrderByWithRelationInput
+    skills?: SkillsOrderByWithRelationInput
+  }
+
+  export type SubscribersSkillsWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
+    AND?: SubscribersSkillsWhereInput | SubscribersSkillsWhereInput[]
+    OR?: SubscribersSkillsWhereInput[]
+    NOT?: SubscribersSkillsWhereInput | SubscribersSkillsWhereInput[]
+    subscriberId?: UuidFilter<"SubscribersSkills"> | string
+    skillId?: IntFilter<"SubscribersSkills"> | number
+    subscribers?: XOR<SubscribersRelationFilter, SubscribersWhereInput>
+    skills?: XOR<SkillsRelationFilter, SkillsWhereInput>
+  }, "id">
+
+  export type SubscribersSkillsOrderByWithAggregationInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    skillId?: SortOrder
+    _count?: SubscribersSkillsCountOrderByAggregateInput
+    _avg?: SubscribersSkillsAvgOrderByAggregateInput
+    _max?: SubscribersSkillsMaxOrderByAggregateInput
+    _min?: SubscribersSkillsMinOrderByAggregateInput
+    _sum?: SubscribersSkillsSumOrderByAggregateInput
+  }
+
+  export type SubscribersSkillsScalarWhereWithAggregatesInput = {
+    AND?: SubscribersSkillsScalarWhereWithAggregatesInput | SubscribersSkillsScalarWhereWithAggregatesInput[]
+    OR?: SubscribersSkillsScalarWhereWithAggregatesInput[]
+    NOT?: SubscribersSkillsScalarWhereWithAggregatesInput | SubscribersSkillsScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"SubscribersSkills"> | number
+    subscriberId?: UuidWithAggregatesFilter<"SubscribersSkills"> | string
+    skillId?: IntWithAggregatesFilter<"SubscribersSkills"> | number
   }
 
   export type SentRolesWhereInput = {
@@ -8045,12 +11538,12 @@ export namespace Prisma {
     linkedInUrl?: string | null
     gitHub?: string | null
     startedWorkingAt?: Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    subscriberSkills?: SubscribersSkillsCreateNestedManyWithoutSubscribersInput
     sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
     subscriberTopics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
   }
@@ -8062,12 +11555,12 @@ export namespace Prisma {
     linkedInUrl?: string | null
     gitHub?: string | null
     startedWorkingAt?: Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    subscriberSkills?: SubscribersSkillsUncheckedCreateNestedManyWithoutSubscribersInput
     sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
     subscriberTopics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
   }
@@ -8079,12 +11572,12 @@ export namespace Prisma {
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
     startedWorkingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    subscriberSkills?: SubscribersSkillsUpdateManyWithoutSubscribersNestedInput
     sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
     subscriberTopics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
   }
@@ -8096,12 +11589,12 @@ export namespace Prisma {
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
     startedWorkingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    subscriberSkills?: SubscribersSkillsUncheckedUpdateManyWithoutSubscribersNestedInput
     sentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
     subscriberTopics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
   }
@@ -8113,7 +11606,6 @@ export namespace Prisma {
     linkedInUrl?: string | null
     gitHub?: string | null
     startedWorkingAt?: Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
@@ -8128,7 +11620,6 @@ export namespace Prisma {
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
     startedWorkingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8143,7 +11634,6 @@ export namespace Prisma {
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
     startedWorkingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8152,83 +11642,92 @@ export namespace Prisma {
   }
 
   export type RolesCreateInput = {
+    minimumYears?: number | null
     id?: string
     title: string
     description: string
     country: string
-    language: string
+    language: RoleLanguage
     currency?: string | null
     salary?: string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesCreateskillsIdInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
     ready?: boolean
     url?: string | null
     company: CompaniesCreateNestedOneWithoutRolesInput
     sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
+    roleSkills?: RoleSkillsCreateNestedManyWithoutRolesInput
   }
 
   export type RolesUncheckedCreateInput = {
+    minimumYears?: number | null
     id?: string
     companyId: string
     title: string
     description: string
     country: string
-    language: string
+    language: RoleLanguage
     currency?: string | null
     salary?: string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesCreateskillsIdInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sentRolesId?: string | null
     ready?: boolean
     url?: string | null
+    roleSkills?: RoleSkillsUncheckedCreateNestedManyWithoutRolesInput
   }
 
   export type RolesUpdateInput = {
+    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesUpdateskillsIdInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
     sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
+    roleSkills?: RoleSkillsUpdateManyWithoutRolesNestedInput
   }
 
   export type RolesUncheckedUpdateInput = {
+    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesUpdateskillsIdInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
+    roleSkills?: RoleSkillsUncheckedUpdateManyWithoutRolesNestedInput
   }
 
   export type RolesCreateManyInput = {
+    minimumYears?: number | null
     id?: string
     companyId: string
     title: string
     description: string
     country: string
-    language: string
+    language: RoleLanguage
     currency?: string | null
     salary?: string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesCreateskillsIdInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sentRolesId?: string | null
@@ -8237,14 +11736,15 @@ export namespace Prisma {
   }
 
   export type RolesUpdateManyMutationInput = {
+    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesUpdateskillsIdInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ready?: BoolFieldUpdateOperationsInput | boolean
@@ -8252,20 +11752,144 @@ export namespace Prisma {
   }
 
   export type RolesUncheckedUpdateManyInput = {
+    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesUpdateskillsIdInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SkillsCreateInput = {
+    id: number
+    name: string
+    rolesSkills?: RoleSkillsCreateNestedManyWithoutSkillsInput
+    subscribersSkills?: SubscribersSkillsCreateNestedManyWithoutSkillsInput
+  }
+
+  export type SkillsUncheckedCreateInput = {
+    id: number
+    name: string
+    rolesSkills?: RoleSkillsUncheckedCreateNestedManyWithoutSkillsInput
+    subscribersSkills?: SubscribersSkillsUncheckedCreateNestedManyWithoutSkillsInput
+  }
+
+  export type SkillsUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    rolesSkills?: RoleSkillsUpdateManyWithoutSkillsNestedInput
+    subscribersSkills?: SubscribersSkillsUpdateManyWithoutSkillsNestedInput
+  }
+
+  export type SkillsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    rolesSkills?: RoleSkillsUncheckedUpdateManyWithoutSkillsNestedInput
+    subscribersSkills?: SubscribersSkillsUncheckedUpdateManyWithoutSkillsNestedInput
+  }
+
+  export type SkillsCreateManyInput = {
+    id: number
+    name: string
+  }
+
+  export type SkillsUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SkillsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RoleSkillsCreateInput = {
+    id: number
+    roles: RolesCreateNestedOneWithoutRoleSkillsInput
+    skills: SkillsCreateNestedOneWithoutRolesSkillsInput
+  }
+
+  export type RoleSkillsUncheckedCreateInput = {
+    id: number
+    roleId: string
+    skillId: number
+  }
+
+  export type RoleSkillsUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    roles?: RolesUpdateOneRequiredWithoutRoleSkillsNestedInput
+    skills?: SkillsUpdateOneRequiredWithoutRolesSkillsNestedInput
+  }
+
+  export type RoleSkillsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    roleId?: StringFieldUpdateOperationsInput | string
+    skillId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RoleSkillsCreateManyInput = {
+    id: number
+    roleId: string
+    skillId: number
+  }
+
+  export type RoleSkillsUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RoleSkillsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    roleId?: StringFieldUpdateOperationsInput | string
+    skillId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SubscribersSkillsCreateInput = {
+    id: number
+    subscribers: SubscribersCreateNestedOneWithoutSubscriberSkillsInput
+    skills: SkillsCreateNestedOneWithoutSubscribersSkillsInput
+  }
+
+  export type SubscribersSkillsUncheckedCreateInput = {
+    id: number
+    subscriberId: string
+    skillId: number
+  }
+
+  export type SubscribersSkillsUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    subscribers?: SubscribersUpdateOneRequiredWithoutSubscriberSkillsNestedInput
+    skills?: SkillsUpdateOneRequiredWithoutSubscribersSkillsNestedInput
+  }
+
+  export type SubscribersSkillsUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    subscriberId?: StringFieldUpdateOperationsInput | string
+    skillId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SubscribersSkillsCreateManyInput = {
+    id: number
+    subscriberId: string
+    skillId: number
+  }
+
+  export type SubscribersSkillsUpdateManyMutationInput = {
+    id?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SubscribersSkillsUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    subscriberId?: StringFieldUpdateOperationsInput | string
+    skillId?: IntFieldUpdateOperationsInput | number
   }
 
   export type SentRolesCreateInput = {
@@ -8532,28 +12156,6 @@ export namespace Prisma {
     gte?: Date | string | DateTimeFieldRefInput<$PrismaModel>
     not?: NestedDateTimeNullableFilter<$PrismaModel> | Date | string | null
   }
-  export type JsonNullableFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type EnumEnglishLevelNullableFilter<$PrismaModel = never> = {
     equals?: EnglishLevel | EnumEnglishLevelFieldRefInput<$PrismaModel> | null
@@ -8578,6 +12180,12 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type SubscribersSkillsListRelationFilter = {
+    every?: SubscribersSkillsWhereInput
+    some?: SubscribersSkillsWhereInput
+    none?: SubscribersSkillsWhereInput
+  }
+
   export type SentRolesListRelationFilter = {
     every?: SentRolesWhereInput
     some?: SentRolesWhereInput
@@ -8595,6 +12203,10 @@ export namespace Prisma {
     nulls?: NullsOrder
   }
 
+  export type SubscribersSkillsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type SentRolesOrderByRelationAggregateInput = {
     _count?: SortOrder
   }
@@ -8610,7 +12222,6 @@ export namespace Prisma {
     linkedInUrl?: SortOrder
     gitHub?: SortOrder
     startedWorkingAt?: SortOrder
-    skills?: SortOrder
     englishLevel?: SortOrder
     isConfirmed?: SortOrder
     createdAt?: SortOrder
@@ -8710,31 +12321,6 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
-  export type JsonNullableWithAggregatesFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, Exclude<keyof Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>,
-        Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<JsonNullableWithAggregatesFilterBase<$PrismaModel>>, 'path'>>
-
-  export type JsonNullableWithAggregatesFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    _count?: NestedIntNullableFilter<$PrismaModel>
-    _min?: NestedJsonNullableFilter<$PrismaModel>
-    _max?: NestedJsonNullableFilter<$PrismaModel>
-  }
 
   export type EnumEnglishLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: EnglishLevel | EnumEnglishLevelFieldRefInput<$PrismaModel> | null
@@ -8768,6 +12354,32 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type IntNullableFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type EnumRoleLanguageFilter<$PrismaModel = never> = {
+    equals?: RoleLanguage | EnumRoleLanguageFieldRefInput<$PrismaModel>
+    in?: RoleLanguage[] | ListEnumRoleLanguageFieldRefInput<$PrismaModel>
+    notIn?: RoleLanguage[] | ListEnumRoleLanguageFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleLanguageFilter<$PrismaModel> | RoleLanguage
+  }
+
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type CompaniesRelationFilter = {
     is?: CompaniesWhereInput
     isNot?: CompaniesWhereInput
@@ -8778,7 +12390,18 @@ export namespace Prisma {
     isNot?: SentRolesWhereInput | null
   }
 
+  export type RoleSkillsListRelationFilter = {
+    every?: RoleSkillsWhereInput
+    some?: RoleSkillsWhereInput
+    none?: RoleSkillsWhereInput
+  }
+
+  export type RoleSkillsOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type RolesCountOrderByAggregateInput = {
+    minimumYears?: SortOrder
     id?: SortOrder
     companyId?: SortOrder
     title?: SortOrder
@@ -8787,7 +12410,7 @@ export namespace Prisma {
     language?: SortOrder
     currency?: SortOrder
     salary?: SortOrder
-    skills?: SortOrder
+    skillsId?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     sentRolesId?: SortOrder
@@ -8795,7 +12418,12 @@ export namespace Prisma {
     url?: SortOrder
   }
 
+  export type RolesAvgOrderByAggregateInput = {
+    minimumYears?: SortOrder
+  }
+
   export type RolesMaxOrderByAggregateInput = {
+    minimumYears?: SortOrder
     id?: SortOrder
     companyId?: SortOrder
     title?: SortOrder
@@ -8812,6 +12440,7 @@ export namespace Prisma {
   }
 
   export type RolesMinOrderByAggregateInput = {
+    minimumYears?: SortOrder
     id?: SortOrder
     companyId?: SortOrder
     title?: SortOrder
@@ -8825,6 +12454,157 @@ export namespace Prisma {
     sentRolesId?: SortOrder
     ready?: SortOrder
     url?: SortOrder
+  }
+
+  export type RolesSumOrderByAggregateInput = {
+    minimumYears?: SortOrder
+  }
+
+  export type IntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type EnumRoleLanguageWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: RoleLanguage | EnumRoleLanguageFieldRefInput<$PrismaModel>
+    in?: RoleLanguage[] | ListEnumRoleLanguageFieldRefInput<$PrismaModel>
+    notIn?: RoleLanguage[] | ListEnumRoleLanguageFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleLanguageWithAggregatesFilter<$PrismaModel> | RoleLanguage
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleLanguageFilter<$PrismaModel>
+    _max?: NestedEnumRoleLanguageFilter<$PrismaModel>
+  }
+
+  export type IntFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntFilter<$PrismaModel> | number
+  }
+
+  export type SkillsCountOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type SkillsAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type SkillsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type SkillsMinOrderByAggregateInput = {
+    id?: SortOrder
+    name?: SortOrder
+  }
+
+  export type SkillsSumOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
+  }
+
+  export type RolesRelationFilter = {
+    is?: RolesWhereInput
+    isNot?: RolesWhereInput
+  }
+
+  export type SkillsRelationFilter = {
+    is?: SkillsWhereInput
+    isNot?: SkillsWhereInput
+  }
+
+  export type RoleSkillsCountOrderByAggregateInput = {
+    id?: SortOrder
+    roleId?: SortOrder
+    skillId?: SortOrder
+  }
+
+  export type RoleSkillsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    skillId?: SortOrder
+  }
+
+  export type RoleSkillsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    roleId?: SortOrder
+    skillId?: SortOrder
+  }
+
+  export type RoleSkillsMinOrderByAggregateInput = {
+    id?: SortOrder
+    roleId?: SortOrder
+    skillId?: SortOrder
+  }
+
+  export type RoleSkillsSumOrderByAggregateInput = {
+    id?: SortOrder
+    skillId?: SortOrder
+  }
+
+  export type SubscribersRelationFilter = {
+    is?: SubscribersWhereInput
+    isNot?: SubscribersWhereInput
+  }
+
+  export type SubscribersSkillsCountOrderByAggregateInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    skillId?: SortOrder
+  }
+
+  export type SubscribersSkillsAvgOrderByAggregateInput = {
+    id?: SortOrder
+    skillId?: SortOrder
+  }
+
+  export type SubscribersSkillsMaxOrderByAggregateInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    skillId?: SortOrder
+  }
+
+  export type SubscribersSkillsMinOrderByAggregateInput = {
+    id?: SortOrder
+    subscriberId?: SortOrder
+    skillId?: SortOrder
+  }
+
+  export type SubscribersSkillsSumOrderByAggregateInput = {
+    id?: SortOrder
+    skillId?: SortOrder
   }
 
   export type RolesNullableRelationFilter = {
@@ -8866,22 +12646,6 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
-  export type IntFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntFilter<$PrismaModel> | number
-  }
-
-  export type SubscribersRelationFilter = {
-    is?: SubscribersWhereInput
-    isNot?: SubscribersWhereInput
-  }
-
   export type TopicsRelationFilter = {
     is?: TopicsWhereInput
     isNot?: TopicsWhereInput
@@ -8913,22 +12677,6 @@ export namespace Prisma {
   export type SubscriberTopicsSumOrderByAggregateInput = {
     id?: SortOrder
     topicId?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type TopicsCountOrderByAggregateInput = {
@@ -8994,6 +12742,13 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type SubscribersSkillsCreateNestedManyWithoutSubscribersInput = {
+    create?: XOR<SubscribersSkillsCreateWithoutSubscribersInput, SubscribersSkillsUncheckedCreateWithoutSubscribersInput> | SubscribersSkillsCreateWithoutSubscribersInput[] | SubscribersSkillsUncheckedCreateWithoutSubscribersInput[]
+    connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSubscribersInput | SubscribersSkillsCreateOrConnectWithoutSubscribersInput[]
+    createMany?: SubscribersSkillsCreateManySubscribersInputEnvelope
+    connect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+  }
+
   export type SentRolesCreateNestedManyWithoutSubscribersInput = {
     create?: XOR<SentRolesCreateWithoutSubscribersInput, SentRolesUncheckedCreateWithoutSubscribersInput> | SentRolesCreateWithoutSubscribersInput[] | SentRolesUncheckedCreateWithoutSubscribersInput[]
     connectOrCreate?: SentRolesCreateOrConnectWithoutSubscribersInput | SentRolesCreateOrConnectWithoutSubscribersInput[]
@@ -9005,6 +12760,13 @@ export namespace Prisma {
     connectOrCreate?: SubscriberTopicsCreateOrConnectWithoutSubscriberInput | SubscriberTopicsCreateOrConnectWithoutSubscriberInput[]
     createMany?: SubscriberTopicsCreateManySubscriberInputEnvelope
     connect?: SubscriberTopicsWhereUniqueInput | SubscriberTopicsWhereUniqueInput[]
+  }
+
+  export type SubscribersSkillsUncheckedCreateNestedManyWithoutSubscribersInput = {
+    create?: XOR<SubscribersSkillsCreateWithoutSubscribersInput, SubscribersSkillsUncheckedCreateWithoutSubscribersInput> | SubscribersSkillsCreateWithoutSubscribersInput[] | SubscribersSkillsUncheckedCreateWithoutSubscribersInput[]
+    connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSubscribersInput | SubscribersSkillsCreateOrConnectWithoutSubscribersInput[]
+    createMany?: SubscribersSkillsCreateManySubscribersInputEnvelope
+    connect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
   }
 
   export type SentRolesUncheckedCreateNestedManyWithoutSubscribersInput = {
@@ -9044,6 +12806,20 @@ export namespace Prisma {
     set?: Date | string
   }
 
+  export type SubscribersSkillsUpdateManyWithoutSubscribersNestedInput = {
+    create?: XOR<SubscribersSkillsCreateWithoutSubscribersInput, SubscribersSkillsUncheckedCreateWithoutSubscribersInput> | SubscribersSkillsCreateWithoutSubscribersInput[] | SubscribersSkillsUncheckedCreateWithoutSubscribersInput[]
+    connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSubscribersInput | SubscribersSkillsCreateOrConnectWithoutSubscribersInput[]
+    upsert?: SubscribersSkillsUpsertWithWhereUniqueWithoutSubscribersInput | SubscribersSkillsUpsertWithWhereUniqueWithoutSubscribersInput[]
+    createMany?: SubscribersSkillsCreateManySubscribersInputEnvelope
+    set?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    disconnect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    delete?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    connect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    update?: SubscribersSkillsUpdateWithWhereUniqueWithoutSubscribersInput | SubscribersSkillsUpdateWithWhereUniqueWithoutSubscribersInput[]
+    updateMany?: SubscribersSkillsUpdateManyWithWhereWithoutSubscribersInput | SubscribersSkillsUpdateManyWithWhereWithoutSubscribersInput[]
+    deleteMany?: SubscribersSkillsScalarWhereInput | SubscribersSkillsScalarWhereInput[]
+  }
+
   export type SentRolesUpdateManyWithoutSubscribersNestedInput = {
     create?: XOR<SentRolesCreateWithoutSubscribersInput, SentRolesUncheckedCreateWithoutSubscribersInput> | SentRolesCreateWithoutSubscribersInput[] | SentRolesUncheckedCreateWithoutSubscribersInput[]
     connectOrCreate?: SentRolesCreateOrConnectWithoutSubscribersInput | SentRolesCreateOrConnectWithoutSubscribersInput[]
@@ -9069,6 +12845,20 @@ export namespace Prisma {
     update?: SubscriberTopicsUpdateWithWhereUniqueWithoutSubscriberInput | SubscriberTopicsUpdateWithWhereUniqueWithoutSubscriberInput[]
     updateMany?: SubscriberTopicsUpdateManyWithWhereWithoutSubscriberInput | SubscriberTopicsUpdateManyWithWhereWithoutSubscriberInput[]
     deleteMany?: SubscriberTopicsScalarWhereInput | SubscriberTopicsScalarWhereInput[]
+  }
+
+  export type SubscribersSkillsUncheckedUpdateManyWithoutSubscribersNestedInput = {
+    create?: XOR<SubscribersSkillsCreateWithoutSubscribersInput, SubscribersSkillsUncheckedCreateWithoutSubscribersInput> | SubscribersSkillsCreateWithoutSubscribersInput[] | SubscribersSkillsUncheckedCreateWithoutSubscribersInput[]
+    connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSubscribersInput | SubscribersSkillsCreateOrConnectWithoutSubscribersInput[]
+    upsert?: SubscribersSkillsUpsertWithWhereUniqueWithoutSubscribersInput | SubscribersSkillsUpsertWithWhereUniqueWithoutSubscribersInput[]
+    createMany?: SubscribersSkillsCreateManySubscribersInputEnvelope
+    set?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    disconnect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    delete?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    connect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    update?: SubscribersSkillsUpdateWithWhereUniqueWithoutSubscribersInput | SubscribersSkillsUpdateWithWhereUniqueWithoutSubscribersInput[]
+    updateMany?: SubscribersSkillsUpdateManyWithWhereWithoutSubscribersInput | SubscribersSkillsUpdateManyWithWhereWithoutSubscribersInput[]
+    deleteMany?: SubscribersSkillsScalarWhereInput | SubscribersSkillsScalarWhereInput[]
   }
 
   export type SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput = {
@@ -9098,6 +12888,10 @@ export namespace Prisma {
     deleteMany?: SubscriberTopicsScalarWhereInput | SubscriberTopicsScalarWhereInput[]
   }
 
+  export type RolesCreateskillsIdInput = {
+    set: string[]
+  }
+
   export type CompaniesCreateNestedOneWithoutRolesInput = {
     create?: XOR<CompaniesCreateWithoutRolesInput, CompaniesUncheckedCreateWithoutRolesInput>
     connectOrCreate?: CompaniesCreateOrConnectWithoutRolesInput
@@ -9108,6 +12902,37 @@ export namespace Prisma {
     create?: XOR<SentRolesCreateWithoutRoleInput, SentRolesUncheckedCreateWithoutRoleInput>
     connectOrCreate?: SentRolesCreateOrConnectWithoutRoleInput
     connect?: SentRolesWhereUniqueInput
+  }
+
+  export type RoleSkillsCreateNestedManyWithoutRolesInput = {
+    create?: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput> | RoleSkillsCreateWithoutRolesInput[] | RoleSkillsUncheckedCreateWithoutRolesInput[]
+    connectOrCreate?: RoleSkillsCreateOrConnectWithoutRolesInput | RoleSkillsCreateOrConnectWithoutRolesInput[]
+    createMany?: RoleSkillsCreateManyRolesInputEnvelope
+    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+  }
+
+  export type RoleSkillsUncheckedCreateNestedManyWithoutRolesInput = {
+    create?: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput> | RoleSkillsCreateWithoutRolesInput[] | RoleSkillsUncheckedCreateWithoutRolesInput[]
+    connectOrCreate?: RoleSkillsCreateOrConnectWithoutRolesInput | RoleSkillsCreateOrConnectWithoutRolesInput[]
+    createMany?: RoleSkillsCreateManyRolesInputEnvelope
+    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+  }
+
+  export type NullableIntFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type EnumRoleLanguageFieldUpdateOperationsInput = {
+    set?: RoleLanguage
+  }
+
+  export type RolesUpdateskillsIdInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type CompaniesUpdateOneRequiredWithoutRolesNestedInput = {
@@ -9126,6 +12951,182 @@ export namespace Prisma {
     delete?: SentRolesWhereInput | boolean
     connect?: SentRolesWhereUniqueInput
     update?: XOR<XOR<SentRolesUpdateToOneWithWhereWithoutRoleInput, SentRolesUpdateWithoutRoleInput>, SentRolesUncheckedUpdateWithoutRoleInput>
+  }
+
+  export type RoleSkillsUpdateManyWithoutRolesNestedInput = {
+    create?: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput> | RoleSkillsCreateWithoutRolesInput[] | RoleSkillsUncheckedCreateWithoutRolesInput[]
+    connectOrCreate?: RoleSkillsCreateOrConnectWithoutRolesInput | RoleSkillsCreateOrConnectWithoutRolesInput[]
+    upsert?: RoleSkillsUpsertWithWhereUniqueWithoutRolesInput | RoleSkillsUpsertWithWhereUniqueWithoutRolesInput[]
+    createMany?: RoleSkillsCreateManyRolesInputEnvelope
+    set?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    disconnect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    delete?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    update?: RoleSkillsUpdateWithWhereUniqueWithoutRolesInput | RoleSkillsUpdateWithWhereUniqueWithoutRolesInput[]
+    updateMany?: RoleSkillsUpdateManyWithWhereWithoutRolesInput | RoleSkillsUpdateManyWithWhereWithoutRolesInput[]
+    deleteMany?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
+  }
+
+  export type RoleSkillsUncheckedUpdateManyWithoutRolesNestedInput = {
+    create?: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput> | RoleSkillsCreateWithoutRolesInput[] | RoleSkillsUncheckedCreateWithoutRolesInput[]
+    connectOrCreate?: RoleSkillsCreateOrConnectWithoutRolesInput | RoleSkillsCreateOrConnectWithoutRolesInput[]
+    upsert?: RoleSkillsUpsertWithWhereUniqueWithoutRolesInput | RoleSkillsUpsertWithWhereUniqueWithoutRolesInput[]
+    createMany?: RoleSkillsCreateManyRolesInputEnvelope
+    set?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    disconnect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    delete?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    update?: RoleSkillsUpdateWithWhereUniqueWithoutRolesInput | RoleSkillsUpdateWithWhereUniqueWithoutRolesInput[]
+    updateMany?: RoleSkillsUpdateManyWithWhereWithoutRolesInput | RoleSkillsUpdateManyWithWhereWithoutRolesInput[]
+    deleteMany?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
+  }
+
+  export type RoleSkillsCreateNestedManyWithoutSkillsInput = {
+    create?: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput> | RoleSkillsCreateWithoutSkillsInput[] | RoleSkillsUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: RoleSkillsCreateOrConnectWithoutSkillsInput | RoleSkillsCreateOrConnectWithoutSkillsInput[]
+    createMany?: RoleSkillsCreateManySkillsInputEnvelope
+    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+  }
+
+  export type SubscribersSkillsCreateNestedManyWithoutSkillsInput = {
+    create?: XOR<SubscribersSkillsCreateWithoutSkillsInput, SubscribersSkillsUncheckedCreateWithoutSkillsInput> | SubscribersSkillsCreateWithoutSkillsInput[] | SubscribersSkillsUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSkillsInput | SubscribersSkillsCreateOrConnectWithoutSkillsInput[]
+    createMany?: SubscribersSkillsCreateManySkillsInputEnvelope
+    connect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+  }
+
+  export type RoleSkillsUncheckedCreateNestedManyWithoutSkillsInput = {
+    create?: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput> | RoleSkillsCreateWithoutSkillsInput[] | RoleSkillsUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: RoleSkillsCreateOrConnectWithoutSkillsInput | RoleSkillsCreateOrConnectWithoutSkillsInput[]
+    createMany?: RoleSkillsCreateManySkillsInputEnvelope
+    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+  }
+
+  export type SubscribersSkillsUncheckedCreateNestedManyWithoutSkillsInput = {
+    create?: XOR<SubscribersSkillsCreateWithoutSkillsInput, SubscribersSkillsUncheckedCreateWithoutSkillsInput> | SubscribersSkillsCreateWithoutSkillsInput[] | SubscribersSkillsUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSkillsInput | SubscribersSkillsCreateOrConnectWithoutSkillsInput[]
+    createMany?: SubscribersSkillsCreateManySkillsInputEnvelope
+    connect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type RoleSkillsUpdateManyWithoutSkillsNestedInput = {
+    create?: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput> | RoleSkillsCreateWithoutSkillsInput[] | RoleSkillsUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: RoleSkillsCreateOrConnectWithoutSkillsInput | RoleSkillsCreateOrConnectWithoutSkillsInput[]
+    upsert?: RoleSkillsUpsertWithWhereUniqueWithoutSkillsInput | RoleSkillsUpsertWithWhereUniqueWithoutSkillsInput[]
+    createMany?: RoleSkillsCreateManySkillsInputEnvelope
+    set?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    disconnect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    delete?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    update?: RoleSkillsUpdateWithWhereUniqueWithoutSkillsInput | RoleSkillsUpdateWithWhereUniqueWithoutSkillsInput[]
+    updateMany?: RoleSkillsUpdateManyWithWhereWithoutSkillsInput | RoleSkillsUpdateManyWithWhereWithoutSkillsInput[]
+    deleteMany?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
+  }
+
+  export type SubscribersSkillsUpdateManyWithoutSkillsNestedInput = {
+    create?: XOR<SubscribersSkillsCreateWithoutSkillsInput, SubscribersSkillsUncheckedCreateWithoutSkillsInput> | SubscribersSkillsCreateWithoutSkillsInput[] | SubscribersSkillsUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSkillsInput | SubscribersSkillsCreateOrConnectWithoutSkillsInput[]
+    upsert?: SubscribersSkillsUpsertWithWhereUniqueWithoutSkillsInput | SubscribersSkillsUpsertWithWhereUniqueWithoutSkillsInput[]
+    createMany?: SubscribersSkillsCreateManySkillsInputEnvelope
+    set?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    disconnect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    delete?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    connect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    update?: SubscribersSkillsUpdateWithWhereUniqueWithoutSkillsInput | SubscribersSkillsUpdateWithWhereUniqueWithoutSkillsInput[]
+    updateMany?: SubscribersSkillsUpdateManyWithWhereWithoutSkillsInput | SubscribersSkillsUpdateManyWithWhereWithoutSkillsInput[]
+    deleteMany?: SubscribersSkillsScalarWhereInput | SubscribersSkillsScalarWhereInput[]
+  }
+
+  export type RoleSkillsUncheckedUpdateManyWithoutSkillsNestedInput = {
+    create?: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput> | RoleSkillsCreateWithoutSkillsInput[] | RoleSkillsUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: RoleSkillsCreateOrConnectWithoutSkillsInput | RoleSkillsCreateOrConnectWithoutSkillsInput[]
+    upsert?: RoleSkillsUpsertWithWhereUniqueWithoutSkillsInput | RoleSkillsUpsertWithWhereUniqueWithoutSkillsInput[]
+    createMany?: RoleSkillsCreateManySkillsInputEnvelope
+    set?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    disconnect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    delete?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
+    update?: RoleSkillsUpdateWithWhereUniqueWithoutSkillsInput | RoleSkillsUpdateWithWhereUniqueWithoutSkillsInput[]
+    updateMany?: RoleSkillsUpdateManyWithWhereWithoutSkillsInput | RoleSkillsUpdateManyWithWhereWithoutSkillsInput[]
+    deleteMany?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
+  }
+
+  export type SubscribersSkillsUncheckedUpdateManyWithoutSkillsNestedInput = {
+    create?: XOR<SubscribersSkillsCreateWithoutSkillsInput, SubscribersSkillsUncheckedCreateWithoutSkillsInput> | SubscribersSkillsCreateWithoutSkillsInput[] | SubscribersSkillsUncheckedCreateWithoutSkillsInput[]
+    connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSkillsInput | SubscribersSkillsCreateOrConnectWithoutSkillsInput[]
+    upsert?: SubscribersSkillsUpsertWithWhereUniqueWithoutSkillsInput | SubscribersSkillsUpsertWithWhereUniqueWithoutSkillsInput[]
+    createMany?: SubscribersSkillsCreateManySkillsInputEnvelope
+    set?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    disconnect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    delete?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    connect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
+    update?: SubscribersSkillsUpdateWithWhereUniqueWithoutSkillsInput | SubscribersSkillsUpdateWithWhereUniqueWithoutSkillsInput[]
+    updateMany?: SubscribersSkillsUpdateManyWithWhereWithoutSkillsInput | SubscribersSkillsUpdateManyWithWhereWithoutSkillsInput[]
+    deleteMany?: SubscribersSkillsScalarWhereInput | SubscribersSkillsScalarWhereInput[]
+  }
+
+  export type RolesCreateNestedOneWithoutRoleSkillsInput = {
+    create?: XOR<RolesCreateWithoutRoleSkillsInput, RolesUncheckedCreateWithoutRoleSkillsInput>
+    connectOrCreate?: RolesCreateOrConnectWithoutRoleSkillsInput
+    connect?: RolesWhereUniqueInput
+  }
+
+  export type SkillsCreateNestedOneWithoutRolesSkillsInput = {
+    create?: XOR<SkillsCreateWithoutRolesSkillsInput, SkillsUncheckedCreateWithoutRolesSkillsInput>
+    connectOrCreate?: SkillsCreateOrConnectWithoutRolesSkillsInput
+    connect?: SkillsWhereUniqueInput
+  }
+
+  export type RolesUpdateOneRequiredWithoutRoleSkillsNestedInput = {
+    create?: XOR<RolesCreateWithoutRoleSkillsInput, RolesUncheckedCreateWithoutRoleSkillsInput>
+    connectOrCreate?: RolesCreateOrConnectWithoutRoleSkillsInput
+    upsert?: RolesUpsertWithoutRoleSkillsInput
+    connect?: RolesWhereUniqueInput
+    update?: XOR<XOR<RolesUpdateToOneWithWhereWithoutRoleSkillsInput, RolesUpdateWithoutRoleSkillsInput>, RolesUncheckedUpdateWithoutRoleSkillsInput>
+  }
+
+  export type SkillsUpdateOneRequiredWithoutRolesSkillsNestedInput = {
+    create?: XOR<SkillsCreateWithoutRolesSkillsInput, SkillsUncheckedCreateWithoutRolesSkillsInput>
+    connectOrCreate?: SkillsCreateOrConnectWithoutRolesSkillsInput
+    upsert?: SkillsUpsertWithoutRolesSkillsInput
+    connect?: SkillsWhereUniqueInput
+    update?: XOR<XOR<SkillsUpdateToOneWithWhereWithoutRolesSkillsInput, SkillsUpdateWithoutRolesSkillsInput>, SkillsUncheckedUpdateWithoutRolesSkillsInput>
+  }
+
+  export type SubscribersCreateNestedOneWithoutSubscriberSkillsInput = {
+    create?: XOR<SubscribersCreateWithoutSubscriberSkillsInput, SubscribersUncheckedCreateWithoutSubscriberSkillsInput>
+    connectOrCreate?: SubscribersCreateOrConnectWithoutSubscriberSkillsInput
+    connect?: SubscribersWhereUniqueInput
+  }
+
+  export type SkillsCreateNestedOneWithoutSubscribersSkillsInput = {
+    create?: XOR<SkillsCreateWithoutSubscribersSkillsInput, SkillsUncheckedCreateWithoutSubscribersSkillsInput>
+    connectOrCreate?: SkillsCreateOrConnectWithoutSubscribersSkillsInput
+    connect?: SkillsWhereUniqueInput
+  }
+
+  export type SubscribersUpdateOneRequiredWithoutSubscriberSkillsNestedInput = {
+    create?: XOR<SubscribersCreateWithoutSubscriberSkillsInput, SubscribersUncheckedCreateWithoutSubscriberSkillsInput>
+    connectOrCreate?: SubscribersCreateOrConnectWithoutSubscriberSkillsInput
+    upsert?: SubscribersUpsertWithoutSubscriberSkillsInput
+    connect?: SubscribersWhereUniqueInput
+    update?: XOR<XOR<SubscribersUpdateToOneWithWhereWithoutSubscriberSkillsInput, SubscribersUpdateWithoutSubscriberSkillsInput>, SubscribersUncheckedUpdateWithoutSubscriberSkillsInput>
+  }
+
+  export type SkillsUpdateOneRequiredWithoutSubscribersSkillsNestedInput = {
+    create?: XOR<SkillsCreateWithoutSubscribersSkillsInput, SkillsUncheckedCreateWithoutSubscribersSkillsInput>
+    connectOrCreate?: SkillsCreateOrConnectWithoutSubscribersSkillsInput
+    upsert?: SkillsUpsertWithoutSubscribersSkillsInput
+    connect?: SkillsWhereUniqueInput
+    update?: XOR<XOR<SkillsUpdateToOneWithWhereWithoutSubscribersSkillsInput, SkillsUpdateWithoutSubscribersSkillsInput>, SkillsUncheckedUpdateWithoutSubscribersSkillsInput>
   }
 
   export type RolesCreateNestedOneWithoutSentRolesInput = {
@@ -9224,14 +13225,6 @@ export namespace Prisma {
     upsert?: TopicsUpsertWithoutSubscribersInput
     connect?: TopicsWhereUniqueInput
     update?: XOR<XOR<TopicsUpdateToOneWithWhereWithoutSubscribersInput, TopicsUpdateWithoutSubscribersInput>, TopicsUncheckedUpdateWithoutSubscribersInput>
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
   }
 
   export type SubscriberTopicsCreateNestedManyWithoutTopicInput = {
@@ -9474,28 +13467,6 @@ export namespace Prisma {
     _min?: NestedDateTimeNullableFilter<$PrismaModel>
     _max?: NestedDateTimeNullableFilter<$PrismaModel>
   }
-  export type NestedJsonNullableFilter<$PrismaModel = never> = 
-    | PatchUndefined<
-        Either<Required<NestedJsonNullableFilterBase<$PrismaModel>>, Exclude<keyof Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>,
-        Required<NestedJsonNullableFilterBase<$PrismaModel>>
-      >
-    | OptionalFlat<Omit<Required<NestedJsonNullableFilterBase<$PrismaModel>>, 'path'>>
-
-  export type NestedJsonNullableFilterBase<$PrismaModel = never> = {
-    equals?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-    path?: string[]
-    string_contains?: string | StringFieldRefInput<$PrismaModel>
-    string_starts_with?: string | StringFieldRefInput<$PrismaModel>
-    string_ends_with?: string | StringFieldRefInput<$PrismaModel>
-    array_contains?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_starts_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    array_ends_with?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | null
-    lt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    lte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
-    not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
-  }
 
   export type NestedEnumEnglishLevelNullableWithAggregatesFilter<$PrismaModel = never> = {
     equals?: EnglishLevel | EnumEnglishLevelFieldRefInput<$PrismaModel> | null
@@ -9529,6 +13500,50 @@ export namespace Prisma {
     _max?: NestedDateTimeFilter<$PrismaModel>
   }
 
+  export type NestedEnumRoleLanguageFilter<$PrismaModel = never> = {
+    equals?: RoleLanguage | EnumRoleLanguageFieldRefInput<$PrismaModel>
+    in?: RoleLanguage[] | ListEnumRoleLanguageFieldRefInput<$PrismaModel>
+    notIn?: RoleLanguage[] | ListEnumRoleLanguageFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleLanguageFilter<$PrismaModel> | RoleLanguage
+  }
+
+  export type NestedIntNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel> | null
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedIntNullableFilter<$PrismaModel>
+    _min?: NestedIntNullableFilter<$PrismaModel>
+    _max?: NestedIntNullableFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumRoleLanguageWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: RoleLanguage | EnumRoleLanguageFieldRefInput<$PrismaModel>
+    in?: RoleLanguage[] | ListEnumRoleLanguageFieldRefInput<$PrismaModel>
+    notIn?: RoleLanguage[] | ListEnumRoleLanguageFieldRefInput<$PrismaModel>
+    not?: NestedEnumRoleLanguageWithAggregatesFilter<$PrismaModel> | RoleLanguage
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumRoleLanguageFilter<$PrismaModel>
+    _max?: NestedEnumRoleLanguageFilter<$PrismaModel>
+  }
+
   export type NestedIntWithAggregatesFilter<$PrismaModel = never> = {
     equals?: number | IntFieldRefInput<$PrismaModel>
     in?: number[] | ListIntFieldRefInput<$PrismaModel>
@@ -9554,6 +13569,26 @@ export namespace Prisma {
     gt?: number | FloatFieldRefInput<$PrismaModel>
     gte?: number | FloatFieldRefInput<$PrismaModel>
     not?: NestedFloatFilter<$PrismaModel> | number
+  }
+
+  export type SubscribersSkillsCreateWithoutSubscribersInput = {
+    id: number
+    skills: SkillsCreateNestedOneWithoutSubscribersSkillsInput
+  }
+
+  export type SubscribersSkillsUncheckedCreateWithoutSubscribersInput = {
+    id: number
+    skillId: number
+  }
+
+  export type SubscribersSkillsCreateOrConnectWithoutSubscribersInput = {
+    where: SubscribersSkillsWhereUniqueInput
+    create: XOR<SubscribersSkillsCreateWithoutSubscribersInput, SubscribersSkillsUncheckedCreateWithoutSubscribersInput>
+  }
+
+  export type SubscribersSkillsCreateManySubscribersInputEnvelope = {
+    data: SubscribersSkillsCreateManySubscribersInput | SubscribersSkillsCreateManySubscribersInput[]
+    skipDuplicates?: boolean
   }
 
   export type SentRolesCreateWithoutSubscribersInput = {
@@ -9596,6 +13631,31 @@ export namespace Prisma {
   export type SubscriberTopicsCreateManySubscriberInputEnvelope = {
     data: SubscriberTopicsCreateManySubscriberInput | SubscriberTopicsCreateManySubscriberInput[]
     skipDuplicates?: boolean
+  }
+
+  export type SubscribersSkillsUpsertWithWhereUniqueWithoutSubscribersInput = {
+    where: SubscribersSkillsWhereUniqueInput
+    update: XOR<SubscribersSkillsUpdateWithoutSubscribersInput, SubscribersSkillsUncheckedUpdateWithoutSubscribersInput>
+    create: XOR<SubscribersSkillsCreateWithoutSubscribersInput, SubscribersSkillsUncheckedCreateWithoutSubscribersInput>
+  }
+
+  export type SubscribersSkillsUpdateWithWhereUniqueWithoutSubscribersInput = {
+    where: SubscribersSkillsWhereUniqueInput
+    data: XOR<SubscribersSkillsUpdateWithoutSubscribersInput, SubscribersSkillsUncheckedUpdateWithoutSubscribersInput>
+  }
+
+  export type SubscribersSkillsUpdateManyWithWhereWithoutSubscribersInput = {
+    where: SubscribersSkillsScalarWhereInput
+    data: XOR<SubscribersSkillsUpdateManyMutationInput, SubscribersSkillsUncheckedUpdateManyWithoutSubscribersInput>
+  }
+
+  export type SubscribersSkillsScalarWhereInput = {
+    AND?: SubscribersSkillsScalarWhereInput | SubscribersSkillsScalarWhereInput[]
+    OR?: SubscribersSkillsScalarWhereInput[]
+    NOT?: SubscribersSkillsScalarWhereInput | SubscribersSkillsScalarWhereInput[]
+    id?: IntFilter<"SubscribersSkills"> | number
+    subscriberId?: UuidFilter<"SubscribersSkills"> | string
+    skillId?: IntFilter<"SubscribersSkills"> | number
   }
 
   export type SentRolesUpsertWithWhereUniqueWithoutSubscribersInput = {
@@ -9698,6 +13758,26 @@ export namespace Prisma {
     create: XOR<SentRolesCreateWithoutRoleInput, SentRolesUncheckedCreateWithoutRoleInput>
   }
 
+  export type RoleSkillsCreateWithoutRolesInput = {
+    id: number
+    skills: SkillsCreateNestedOneWithoutRolesSkillsInput
+  }
+
+  export type RoleSkillsUncheckedCreateWithoutRolesInput = {
+    id: number
+    skillId: number
+  }
+
+  export type RoleSkillsCreateOrConnectWithoutRolesInput = {
+    where: RoleSkillsWhereUniqueInput
+    create: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput>
+  }
+
+  export type RoleSkillsCreateManyRolesInputEnvelope = {
+    data: RoleSkillsCreateManyRolesInput | RoleSkillsCreateManyRolesInput[]
+    skipDuplicates?: boolean
+  }
+
   export type CompaniesUpsertWithoutRolesInput = {
     update: XOR<CompaniesUpdateWithoutRolesInput, CompaniesUncheckedUpdateWithoutRolesInput>
     create: XOR<CompaniesCreateWithoutRolesInput, CompaniesUncheckedCreateWithoutRolesInput>
@@ -9758,36 +13838,385 @@ export namespace Prisma {
     subscribers?: SubscribersUncheckedUpdateManyWithoutSentRolesNestedInput
   }
 
-  export type RolesCreateWithoutSentRolesInput = {
+  export type RoleSkillsUpsertWithWhereUniqueWithoutRolesInput = {
+    where: RoleSkillsWhereUniqueInput
+    update: XOR<RoleSkillsUpdateWithoutRolesInput, RoleSkillsUncheckedUpdateWithoutRolesInput>
+    create: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput>
+  }
+
+  export type RoleSkillsUpdateWithWhereUniqueWithoutRolesInput = {
+    where: RoleSkillsWhereUniqueInput
+    data: XOR<RoleSkillsUpdateWithoutRolesInput, RoleSkillsUncheckedUpdateWithoutRolesInput>
+  }
+
+  export type RoleSkillsUpdateManyWithWhereWithoutRolesInput = {
+    where: RoleSkillsScalarWhereInput
+    data: XOR<RoleSkillsUpdateManyMutationInput, RoleSkillsUncheckedUpdateManyWithoutRolesInput>
+  }
+
+  export type RoleSkillsScalarWhereInput = {
+    AND?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
+    OR?: RoleSkillsScalarWhereInput[]
+    NOT?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
+    id?: IntFilter<"RoleSkills"> | number
+    roleId?: StringFilter<"RoleSkills"> | string
+    skillId?: IntFilter<"RoleSkills"> | number
+  }
+
+  export type RoleSkillsCreateWithoutSkillsInput = {
+    id: number
+    roles: RolesCreateNestedOneWithoutRoleSkillsInput
+  }
+
+  export type RoleSkillsUncheckedCreateWithoutSkillsInput = {
+    id: number
+    roleId: string
+  }
+
+  export type RoleSkillsCreateOrConnectWithoutSkillsInput = {
+    where: RoleSkillsWhereUniqueInput
+    create: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput>
+  }
+
+  export type RoleSkillsCreateManySkillsInputEnvelope = {
+    data: RoleSkillsCreateManySkillsInput | RoleSkillsCreateManySkillsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type SubscribersSkillsCreateWithoutSkillsInput = {
+    id: number
+    subscribers: SubscribersCreateNestedOneWithoutSubscriberSkillsInput
+  }
+
+  export type SubscribersSkillsUncheckedCreateWithoutSkillsInput = {
+    id: number
+    subscriberId: string
+  }
+
+  export type SubscribersSkillsCreateOrConnectWithoutSkillsInput = {
+    where: SubscribersSkillsWhereUniqueInput
+    create: XOR<SubscribersSkillsCreateWithoutSkillsInput, SubscribersSkillsUncheckedCreateWithoutSkillsInput>
+  }
+
+  export type SubscribersSkillsCreateManySkillsInputEnvelope = {
+    data: SubscribersSkillsCreateManySkillsInput | SubscribersSkillsCreateManySkillsInput[]
+    skipDuplicates?: boolean
+  }
+
+  export type RoleSkillsUpsertWithWhereUniqueWithoutSkillsInput = {
+    where: RoleSkillsWhereUniqueInput
+    update: XOR<RoleSkillsUpdateWithoutSkillsInput, RoleSkillsUncheckedUpdateWithoutSkillsInput>
+    create: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput>
+  }
+
+  export type RoleSkillsUpdateWithWhereUniqueWithoutSkillsInput = {
+    where: RoleSkillsWhereUniqueInput
+    data: XOR<RoleSkillsUpdateWithoutSkillsInput, RoleSkillsUncheckedUpdateWithoutSkillsInput>
+  }
+
+  export type RoleSkillsUpdateManyWithWhereWithoutSkillsInput = {
+    where: RoleSkillsScalarWhereInput
+    data: XOR<RoleSkillsUpdateManyMutationInput, RoleSkillsUncheckedUpdateManyWithoutSkillsInput>
+  }
+
+  export type SubscribersSkillsUpsertWithWhereUniqueWithoutSkillsInput = {
+    where: SubscribersSkillsWhereUniqueInput
+    update: XOR<SubscribersSkillsUpdateWithoutSkillsInput, SubscribersSkillsUncheckedUpdateWithoutSkillsInput>
+    create: XOR<SubscribersSkillsCreateWithoutSkillsInput, SubscribersSkillsUncheckedCreateWithoutSkillsInput>
+  }
+
+  export type SubscribersSkillsUpdateWithWhereUniqueWithoutSkillsInput = {
+    where: SubscribersSkillsWhereUniqueInput
+    data: XOR<SubscribersSkillsUpdateWithoutSkillsInput, SubscribersSkillsUncheckedUpdateWithoutSkillsInput>
+  }
+
+  export type SubscribersSkillsUpdateManyWithWhereWithoutSkillsInput = {
+    where: SubscribersSkillsScalarWhereInput
+    data: XOR<SubscribersSkillsUpdateManyMutationInput, SubscribersSkillsUncheckedUpdateManyWithoutSkillsInput>
+  }
+
+  export type RolesCreateWithoutRoleSkillsInput = {
+    minimumYears?: number | null
     id?: string
     title: string
     description: string
     country: string
-    language: string
+    language: RoleLanguage
     currency?: string | null
     salary?: string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesCreateskillsIdInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
     ready?: boolean
     url?: string | null
     company: CompaniesCreateNestedOneWithoutRolesInput
+    sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
   }
 
-  export type RolesUncheckedCreateWithoutSentRolesInput = {
+  export type RolesUncheckedCreateWithoutRoleSkillsInput = {
+    minimumYears?: number | null
     id?: string
     companyId: string
     title: string
     description: string
     country: string
-    language: string
+    language: RoleLanguage
     currency?: string | null
     salary?: string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesCreateskillsIdInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    sentRolesId?: string | null
+    ready?: boolean
+    url?: string | null
+  }
+
+  export type RolesCreateOrConnectWithoutRoleSkillsInput = {
+    where: RolesWhereUniqueInput
+    create: XOR<RolesCreateWithoutRoleSkillsInput, RolesUncheckedCreateWithoutRoleSkillsInput>
+  }
+
+  export type SkillsCreateWithoutRolesSkillsInput = {
+    id: number
+    name: string
+    subscribersSkills?: SubscribersSkillsCreateNestedManyWithoutSkillsInput
+  }
+
+  export type SkillsUncheckedCreateWithoutRolesSkillsInput = {
+    id: number
+    name: string
+    subscribersSkills?: SubscribersSkillsUncheckedCreateNestedManyWithoutSkillsInput
+  }
+
+  export type SkillsCreateOrConnectWithoutRolesSkillsInput = {
+    where: SkillsWhereUniqueInput
+    create: XOR<SkillsCreateWithoutRolesSkillsInput, SkillsUncheckedCreateWithoutRolesSkillsInput>
+  }
+
+  export type RolesUpsertWithoutRoleSkillsInput = {
+    update: XOR<RolesUpdateWithoutRoleSkillsInput, RolesUncheckedUpdateWithoutRoleSkillsInput>
+    create: XOR<RolesCreateWithoutRoleSkillsInput, RolesUncheckedCreateWithoutRoleSkillsInput>
+    where?: RolesWhereInput
+  }
+
+  export type RolesUpdateToOneWithWhereWithoutRoleSkillsInput = {
+    where?: RolesWhereInput
+    data: XOR<RolesUpdateWithoutRoleSkillsInput, RolesUncheckedUpdateWithoutRoleSkillsInput>
+  }
+
+  export type RolesUpdateWithoutRoleSkillsInput = {
+    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
+    id?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    skillsId?: RolesUpdateskillsIdInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
+    sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
+  }
+
+  export type RolesUncheckedUpdateWithoutRoleSkillsInput = {
+    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
+    id?: StringFieldUpdateOperationsInput | string
+    companyId?: StringFieldUpdateOperationsInput | string
+    title?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
+    currency?: NullableStringFieldUpdateOperationsInput | string | null
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    skillsId?: RolesUpdateskillsIdInput | string[]
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type SkillsUpsertWithoutRolesSkillsInput = {
+    update: XOR<SkillsUpdateWithoutRolesSkillsInput, SkillsUncheckedUpdateWithoutRolesSkillsInput>
+    create: XOR<SkillsCreateWithoutRolesSkillsInput, SkillsUncheckedCreateWithoutRolesSkillsInput>
+    where?: SkillsWhereInput
+  }
+
+  export type SkillsUpdateToOneWithWhereWithoutRolesSkillsInput = {
+    where?: SkillsWhereInput
+    data: XOR<SkillsUpdateWithoutRolesSkillsInput, SkillsUncheckedUpdateWithoutRolesSkillsInput>
+  }
+
+  export type SkillsUpdateWithoutRolesSkillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    subscribersSkills?: SubscribersSkillsUpdateManyWithoutSkillsNestedInput
+  }
+
+  export type SkillsUncheckedUpdateWithoutRolesSkillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    subscribersSkills?: SubscribersSkillsUncheckedUpdateManyWithoutSkillsNestedInput
+  }
+
+  export type SubscribersCreateWithoutSubscriberSkillsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    linkedInUrl?: string | null
+    gitHub?: string | null
+    startedWorkingAt?: Date | string | null
+    englishLevel?: EnglishLevel | null
+    isConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    optOut?: boolean
+    sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
+    subscriberTopics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
+  }
+
+  export type SubscribersUncheckedCreateWithoutSubscriberSkillsInput = {
+    id?: string
+    email: string
+    name?: string | null
+    linkedInUrl?: string | null
+    gitHub?: string | null
+    startedWorkingAt?: Date | string | null
+    englishLevel?: EnglishLevel | null
+    isConfirmed?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string | null
+    optOut?: boolean
+    sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
+    subscriberTopics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
+  }
+
+  export type SubscribersCreateOrConnectWithoutSubscriberSkillsInput = {
+    where: SubscribersWhereUniqueInput
+    create: XOR<SubscribersCreateWithoutSubscriberSkillsInput, SubscribersUncheckedCreateWithoutSubscriberSkillsInput>
+  }
+
+  export type SkillsCreateWithoutSubscribersSkillsInput = {
+    id: number
+    name: string
+    rolesSkills?: RoleSkillsCreateNestedManyWithoutSkillsInput
+  }
+
+  export type SkillsUncheckedCreateWithoutSubscribersSkillsInput = {
+    id: number
+    name: string
+    rolesSkills?: RoleSkillsUncheckedCreateNestedManyWithoutSkillsInput
+  }
+
+  export type SkillsCreateOrConnectWithoutSubscribersSkillsInput = {
+    where: SkillsWhereUniqueInput
+    create: XOR<SkillsCreateWithoutSubscribersSkillsInput, SkillsUncheckedCreateWithoutSubscribersSkillsInput>
+  }
+
+  export type SubscribersUpsertWithoutSubscriberSkillsInput = {
+    update: XOR<SubscribersUpdateWithoutSubscriberSkillsInput, SubscribersUncheckedUpdateWithoutSubscriberSkillsInput>
+    create: XOR<SubscribersCreateWithoutSubscriberSkillsInput, SubscribersUncheckedCreateWithoutSubscriberSkillsInput>
+    where?: SubscribersWhereInput
+  }
+
+  export type SubscribersUpdateToOneWithWhereWithoutSubscriberSkillsInput = {
+    where?: SubscribersWhereInput
+    data: XOR<SubscribersUpdateWithoutSubscriberSkillsInput, SubscribersUncheckedUpdateWithoutSubscriberSkillsInput>
+  }
+
+  export type SubscribersUpdateWithoutSubscriberSkillsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitHub?: NullableStringFieldUpdateOperationsInput | string | null
+    startedWorkingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
+    isConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    optOut?: BoolFieldUpdateOperationsInput | boolean
+    sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
+    subscriberTopics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
+  }
+
+  export type SubscribersUncheckedUpdateWithoutSubscriberSkillsInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    email?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
+    gitHub?: NullableStringFieldUpdateOperationsInput | string | null
+    startedWorkingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
+    isConfirmed?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    optOut?: BoolFieldUpdateOperationsInput | boolean
+    sentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
+    subscriberTopics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
+  }
+
+  export type SkillsUpsertWithoutSubscribersSkillsInput = {
+    update: XOR<SkillsUpdateWithoutSubscribersSkillsInput, SkillsUncheckedUpdateWithoutSubscribersSkillsInput>
+    create: XOR<SkillsCreateWithoutSubscribersSkillsInput, SkillsUncheckedCreateWithoutSubscribersSkillsInput>
+    where?: SkillsWhereInput
+  }
+
+  export type SkillsUpdateToOneWithWhereWithoutSubscribersSkillsInput = {
+    where?: SkillsWhereInput
+    data: XOR<SkillsUpdateWithoutSubscribersSkillsInput, SkillsUncheckedUpdateWithoutSubscribersSkillsInput>
+  }
+
+  export type SkillsUpdateWithoutSubscribersSkillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    rolesSkills?: RoleSkillsUpdateManyWithoutSkillsNestedInput
+  }
+
+  export type SkillsUncheckedUpdateWithoutSubscribersSkillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    name?: StringFieldUpdateOperationsInput | string
+    rolesSkills?: RoleSkillsUncheckedUpdateManyWithoutSkillsNestedInput
+  }
+
+  export type RolesCreateWithoutSentRolesInput = {
+    minimumYears?: number | null
+    id?: string
+    title: string
+    description: string
+    country: string
+    language: RoleLanguage
+    currency?: string | null
+    salary?: string | null
+    skillsId?: RolesCreateskillsIdInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
     ready?: boolean
     url?: string | null
+    company: CompaniesCreateNestedOneWithoutRolesInput
+    roleSkills?: RoleSkillsCreateNestedManyWithoutRolesInput
+  }
+
+  export type RolesUncheckedCreateWithoutSentRolesInput = {
+    minimumYears?: number | null
+    id?: string
+    companyId: string
+    title: string
+    description: string
+    country: string
+    language: RoleLanguage
+    currency?: string | null
+    salary?: string | null
+    skillsId?: RolesCreateskillsIdInput | string[]
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    ready?: boolean
+    url?: string | null
+    roleSkills?: RoleSkillsUncheckedCreateNestedManyWithoutRolesInput
   }
 
   export type RolesCreateOrConnectWithoutSentRolesInput = {
@@ -9802,12 +14231,12 @@ export namespace Prisma {
     linkedInUrl?: string | null
     gitHub?: string | null
     startedWorkingAt?: Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    subscriberSkills?: SubscribersSkillsCreateNestedManyWithoutSubscribersInput
     subscriberTopics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
   }
 
@@ -9818,12 +14247,12 @@ export namespace Prisma {
     linkedInUrl?: string | null
     gitHub?: string | null
     startedWorkingAt?: Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    subscriberSkills?: SubscribersSkillsUncheckedCreateNestedManyWithoutSubscribersInput
     subscriberTopics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
   }
 
@@ -9844,35 +14273,39 @@ export namespace Prisma {
   }
 
   export type RolesUpdateWithoutSentRolesInput = {
+    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesUpdateskillsIdInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
     company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
+    roleSkills?: RoleSkillsUpdateManyWithoutRolesNestedInput
   }
 
   export type RolesUncheckedUpdateWithoutSentRolesInput = {
+    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
     companyId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesUpdateskillsIdInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
+    roleSkills?: RoleSkillsUncheckedUpdateManyWithoutRolesNestedInput
   }
 
   export type SubscribersUpsertWithWhereUniqueWithoutSentRolesInput = {
@@ -9901,7 +14334,6 @@ export namespace Prisma {
     linkedInUrl?: StringNullableFilter<"Subscribers"> | string | null
     gitHub?: StringNullableFilter<"Subscribers"> | string | null
     startedWorkingAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
-    skills?: JsonNullableFilter<"Subscribers">
     englishLevel?: EnumEnglishLevelNullableFilter<"Subscribers"> | EnglishLevel | null
     isConfirmed?: BoolFilter<"Subscribers"> | boolean
     createdAt?: DateTimeFilter<"Subscribers"> | Date | string
@@ -9916,12 +14348,12 @@ export namespace Prisma {
     linkedInUrl?: string | null
     gitHub?: string | null
     startedWorkingAt?: Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    subscriberSkills?: SubscribersSkillsCreateNestedManyWithoutSubscribersInput
     sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
   }
 
@@ -9932,12 +14364,12 @@ export namespace Prisma {
     linkedInUrl?: string | null
     gitHub?: string | null
     startedWorkingAt?: Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: EnglishLevel | null
     isConfirmed?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    subscriberSkills?: SubscribersSkillsUncheckedCreateNestedManyWithoutSubscribersInput
     sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
   }
 
@@ -9978,12 +14410,12 @@ export namespace Prisma {
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
     startedWorkingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    subscriberSkills?: SubscribersSkillsUpdateManyWithoutSubscribersNestedInput
     sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
   }
 
@@ -9994,12 +14426,12 @@ export namespace Prisma {
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
     startedWorkingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    subscriberSkills?: SubscribersSkillsUncheckedUpdateManyWithoutSubscribersNestedInput
     sentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
   }
 
@@ -10059,35 +14491,39 @@ export namespace Prisma {
   }
 
   export type RolesCreateWithoutCompanyInput = {
+    minimumYears?: number | null
     id?: string
     title: string
     description: string
     country: string
-    language: string
+    language: RoleLanguage
     currency?: string | null
     salary?: string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesCreateskillsIdInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
     ready?: boolean
     url?: string | null
     sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
+    roleSkills?: RoleSkillsCreateNestedManyWithoutRolesInput
   }
 
   export type RolesUncheckedCreateWithoutCompanyInput = {
+    minimumYears?: number | null
     id?: string
     title: string
     description: string
     country: string
-    language: string
+    language: RoleLanguage
     currency?: string | null
     salary?: string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesCreateskillsIdInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sentRolesId?: string | null
     ready?: boolean
     url?: string | null
+    roleSkills?: RoleSkillsUncheckedCreateNestedManyWithoutRolesInput
   }
 
   export type RolesCreateOrConnectWithoutCompanyInput = {
@@ -10120,15 +14556,16 @@ export namespace Prisma {
     AND?: RolesScalarWhereInput | RolesScalarWhereInput[]
     OR?: RolesScalarWhereInput[]
     NOT?: RolesScalarWhereInput | RolesScalarWhereInput[]
+    minimumYears?: IntNullableFilter<"Roles"> | number | null
     id?: StringFilter<"Roles"> | string
     companyId?: StringFilter<"Roles"> | string
     title?: StringFilter<"Roles"> | string
     description?: StringFilter<"Roles"> | string
     country?: StringFilter<"Roles"> | string
-    language?: StringFilter<"Roles"> | string
+    language?: EnumRoleLanguageFilter<"Roles"> | RoleLanguage
     currency?: StringNullableFilter<"Roles"> | string | null
     salary?: StringNullableFilter<"Roles"> | string | null
-    skills?: JsonNullableFilter<"Roles">
+    skillsId?: StringNullableListFilter<"Roles">
     createdAt?: DateTimeFilter<"Roles"> | Date | string
     updatedAt?: DateTimeFilter<"Roles"> | Date | string
     sentRolesId?: StringNullableFilter<"Roles"> | string | null
@@ -10136,9 +14573,29 @@ export namespace Prisma {
     url?: StringNullableFilter<"Roles"> | string | null
   }
 
+  export type SubscribersSkillsCreateManySubscribersInput = {
+    id: number
+    skillId: number
+  }
+
   export type SubscriberTopicsCreateManySubscriberInput = {
     id?: number
     topicId: number
+  }
+
+  export type SubscribersSkillsUpdateWithoutSubscribersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    skills?: SkillsUpdateOneRequiredWithoutSubscribersSkillsNestedInput
+  }
+
+  export type SubscribersSkillsUncheckedUpdateWithoutSubscribersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    skillId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type SubscribersSkillsUncheckedUpdateManyWithoutSubscribersInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    skillId?: IntFieldUpdateOperationsInput | number
   }
 
   export type SentRolesUpdateWithoutSubscribersInput = {
@@ -10181,6 +14638,66 @@ export namespace Prisma {
     topicId?: IntFieldUpdateOperationsInput | number
   }
 
+  export type RoleSkillsCreateManyRolesInput = {
+    id: number
+    skillId: number
+  }
+
+  export type RoleSkillsUpdateWithoutRolesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    skills?: SkillsUpdateOneRequiredWithoutRolesSkillsNestedInput
+  }
+
+  export type RoleSkillsUncheckedUpdateWithoutRolesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    skillId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RoleSkillsUncheckedUpdateManyWithoutRolesInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    skillId?: IntFieldUpdateOperationsInput | number
+  }
+
+  export type RoleSkillsCreateManySkillsInput = {
+    id: number
+    roleId: string
+  }
+
+  export type SubscribersSkillsCreateManySkillsInput = {
+    id: number
+    subscriberId: string
+  }
+
+  export type RoleSkillsUpdateWithoutSkillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    roles?: RolesUpdateOneRequiredWithoutRoleSkillsNestedInput
+  }
+
+  export type RoleSkillsUncheckedUpdateWithoutSkillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    roleId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type RoleSkillsUncheckedUpdateManyWithoutSkillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    roleId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SubscribersSkillsUpdateWithoutSkillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    subscribers?: SubscribersUpdateOneRequiredWithoutSubscriberSkillsNestedInput
+  }
+
+  export type SubscribersSkillsUncheckedUpdateWithoutSkillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    subscriberId?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type SubscribersSkillsUncheckedUpdateManyWithoutSkillsInput = {
+    id?: IntFieldUpdateOperationsInput | number
+    subscriberId?: StringFieldUpdateOperationsInput | string
+  }
+
   export type SubscribersUpdateWithoutSentRolesInput = {
     id?: StringFieldUpdateOperationsInput | string
     email?: StringFieldUpdateOperationsInput | string
@@ -10188,12 +14705,12 @@ export namespace Prisma {
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
     startedWorkingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    subscriberSkills?: SubscribersSkillsUpdateManyWithoutSubscribersNestedInput
     subscriberTopics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
   }
 
@@ -10204,12 +14721,12 @@ export namespace Prisma {
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
     startedWorkingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    subscriberSkills?: SubscribersSkillsUncheckedUpdateManyWithoutSubscribersNestedInput
     subscriberTopics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
   }
 
@@ -10220,7 +14737,6 @@ export namespace Prisma {
     linkedInUrl?: NullableStringFieldUpdateOperationsInput | string | null
     gitHub?: NullableStringFieldUpdateOperationsInput | string | null
     startedWorkingAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
     englishLevel?: NullableEnumEnglishLevelFieldUpdateOperationsInput | EnglishLevel | null
     isConfirmed?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -10248,14 +14764,15 @@ export namespace Prisma {
   }
 
   export type RolesCreateManyCompanyInput = {
+    minimumYears?: number | null
     id?: string
     title: string
     description: string
     country: string
-    language: string
+    language: RoleLanguage
     currency?: string | null
     salary?: string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesCreateskillsIdInput | string[]
     createdAt?: Date | string
     updatedAt?: Date | string
     sentRolesId?: string | null
@@ -10264,46 +14781,51 @@ export namespace Prisma {
   }
 
   export type RolesUpdateWithoutCompanyInput = {
+    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesUpdateskillsIdInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
     sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
+    roleSkills?: RoleSkillsUpdateManyWithoutRolesNestedInput
   }
 
   export type RolesUncheckedUpdateWithoutCompanyInput = {
+    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesUpdateskillsIdInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
+    roleSkills?: RoleSkillsUncheckedUpdateManyWithoutRolesNestedInput
   }
 
   export type RolesUncheckedUpdateManyWithoutCompanyInput = {
+    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
-    language?: StringFieldUpdateOperationsInput | string
+    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
     currency?: NullableStringFieldUpdateOperationsInput | string | null
     salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skills?: NullableJsonNullValueInput | InputJsonValue
+    skillsId?: RolesUpdateskillsIdInput | string[]
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null

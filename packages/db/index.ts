@@ -1,4 +1,4 @@
-export { SupabaseClient, createClient } from '@supabase/supabase-js';
+export * from '@supabase/supabase-js';
 export * from './prisma/client';
 import { createClient } from 'db';
 import dotenv from 'dotenv';

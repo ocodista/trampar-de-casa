@@ -12,43 +12,73 @@ datasource db {
 }
 
 model Subscribers {
-  id               String             @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  email            String             @unique
+  id               String              @id @default(uuid()) @db.Uuid
+  email            String              @unique
   name             String?
   linkedInUrl      String?
   gitHub           String?
   startedWorkingAt DateTime?
-  skills           Json?
+  subscriberSkills SubscribersSkills[]
   englishLevel     EnglishLevel?
-  sentRoles        SentRoles[]        @relation(name: "SentRoles")
+  sentRoles        SentRoles[]         @relation(name: "SentRoles")
   subscriberTopics SubscriberTopics[]
-  isConfirmed      Boolean            @default(false)
-  createdAt        DateTime           @default(now())
-  updatedAt        DateTime?          @updatedAt
-  optOut           Boolean            @default(false)
+  isConfirmed      Boolean             @default(false)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime?           @updatedAt
+  optOut           Boolean             @default(false)
 
   @@map("Subscribers")
 }
 
 model Roles {
-  id          String     @id @default(uuid())
-  companyId   String
-  company     Companies  @relation(fields: [companyId], references: [id])
-  title       String
-  description String
-  country     String
-  language    String
-  currency    String?
-  salary      String?
-  skills      Json?
-  createdAt   DateTime   @default(now())
-  updatedAt   DateTime   @updatedAt
-  sentRolesId String?    @unique
-  sentRoles   SentRoles? @relation(fields: [sentRolesId], references: [id])
-  ready       Boolean    @default(false)
-  url         String?
+  minimumYears Int?
+  id           String       @id @default(uuid())
+  companyId    String
+  company      Companies    @relation(fields: [companyId], references: [id])
+  title        String
+  description  String
+  country      String
+  language     RoleLanguage
+  currency     String?
+  salary       String?
+  skillsId     String[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  sentRolesId  String?      @unique
+  sentRoles    SentRoles?   @relation(fields: [sentRolesId], references: [id])
+  ready        Boolean      @default(false)
+  url          String?
+
+  roleSkills RoleSkills[]
 
   @@map("Roles")
+}
+
+model Skills {
+  id                Int                 @id
+  name              String
+  rolesSkills       RoleSkills[]
+  subscribersSkills SubscribersSkills[]
+}
+
+model RoleSkills {
+  id Int @id
+
+  roleId String
+  roles  Roles  @relation(fields: [roleId], references: [id])
+
+  skillId Int
+  skills  Skills @relation(fields: [skillId], references: [id])
+}
+
+model SubscribersSkills {
+  id Int @id
+
+  subscriberId String      @db.Uuid
+  subscribers  Subscribers @relation(fields: [subscriberId], references: [id])
+
+  skillId Int
+  skills  Skills @relation(fields: [skillId], references: [id])
 }
 
 model SentRoles {
@@ -98,4 +128,9 @@ enum EnglishLevel {
   Intermediary
   Advanced
   Fluent
+}
+
+enum RoleLanguage {
+  English
+  Portuguese
 }

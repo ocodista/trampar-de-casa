@@ -17,7 +17,7 @@ export const getRowsBlock = async ({
   const { data, error } = await supabase
     .from(entity)
     .select('*')
-    .eq('ready', true)
+    // .eq('ready', true)
     .range(start, end)
     .order('createdAt', { ascending: false })
   if (error) throw error
