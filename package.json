@@ -21,7 +21,9 @@
   },
   "packageManager": "yarn@1.22.19",
   "workspaces": [
-    "apps/*",
+    "apps/web",
+    "apps/manual-email-sender",
+    "apps/workers/*",
     "packages/*"
   ],
   "lint-staged": {
