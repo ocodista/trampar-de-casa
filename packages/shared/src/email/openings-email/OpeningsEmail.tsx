@@ -64,8 +64,10 @@ export const OpeningsEmail = ({
               <Hr style={hr} />
               <Text style={paragraph}>Olá, admirador do trabalho remoto!</Text>
               <Text style={paragraph}>
-                Temos uma grande novidade: fechamos uma parceria com o
-                FrontInSampa, o maior evento de Front-end da América Latina!
+                Anote em sua agenda: no sábado, 29 de julho de 2023, reserve o
+                dia para participar do FrontInSampa! O evento acontecerá das
+                09:00 às 22:00 (BRT) no Gazeta Theatre, localizado na 900
+                Avenida Paulista, Bela Vista, SP 01310-100, Brasil.
               </Text>
               <Text style={paragraph}>
                 Aproveite nosso cupom exclusivo de 30% de desconto (código:

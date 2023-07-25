@@ -19,17 +19,7 @@ export const globalOpenings: Opening[] = [
     'Senior Back-end Engineer - Node.js, TypeScript',
     4,
     'https://www.onstrider.com/jobs/senior-back-end-engineer-nodejs-typescript-fc7792db',
-    [
-      'Node.js',
-      'TypeScript',
-      'Azure',
-      'Redis',
-      'Event Driven',
-      'Cloud Functions',
-      'Auth0',
-      'Azure Service Bus',
-      'Azure Functions',
-    ]
+    ['Node.js', 'TypeScript', 'Azure', 'Redis', 'Auth0']
   ),
   striderOpening(
     'Senior Data Engineer - Microsoft SQL Server',
