@@ -2,27 +2,27 @@ import { Subscribers, getSupabaseClient } from 'db'
 import { Entities } from 'shared'
 import { getAllPaginated } from './getAllPaginated'
 import { getSubscriberRoles } from './getSubscriberRoles'
+import { getEmailProps } from './getEmailProps'
+import { saveSubscriberRoles } from './saveSubscriberRoles'
+import { RedisClientType, createClient as createRedisClient } from 'redis'
 
 export async function main() {
   const supabaseClient = getSupabaseClient()
-  // const redisClient: RedisClientType = createRedisClient()
-  // await redisClient.connect()
+  const redisClient: RedisClientType = createRedisClient()
+  await redisClient.connect()
 
   const batchSize = 100
-  for await (const subscribersBatch of getAllPaginated({
+  for await (const subscribersBatch of getAllPaginated<Subscribers>({
     supabase: supabaseClient,
     entity: Entities.Subcribers,
     batchSize,
   })) {
     if (!subscribersBatch?.length) break
 
-    const matchRolesPromises = (
-      subscribersBatch as unknown as Subscribers[]
-    ).map(async (subscriber) => {
+    const matchRolesPromises = subscribersBatch.map(async (subscriber) => {
       const roles = await getSubscriberRoles(subscriber, supabaseClient)
-      console.log(roles, subscriber)
-      // const emailProps = getEmailProps(subscriber, roles)
-      // TODO: Persist redis
+      const emailProps = getEmailProps(subscriber, roles)
+      await saveSubscriberRoles(redisClient, emailProps)
     })
     await Promise.all(matchRolesPromises)
   }

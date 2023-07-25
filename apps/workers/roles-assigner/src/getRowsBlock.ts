@@ -1,4 +1,4 @@
-import { Roles, SupabaseClient } from 'db'
+import { SupabaseClient } from 'db'
 import { Entities } from 'shared'
 
 interface GetRowsBlock {
@@ -8,12 +8,12 @@ interface GetRowsBlock {
   end: number
 }
 
-export const getRowsBlock = async ({
+export const getRowsBlock = async <Entity>({
   supabase,
   entity,
   start,
   end,
-}: GetRowsBlock): Promise<Roles[]> => {
+}: GetRowsBlock): Promise<Entity[]> => {
   const { data, error } = await supabase
     .from(entity)
     .select('*')
@@ -21,5 +21,5 @@ export const getRowsBlock = async ({
     .range(start, end)
     .order('createdAt', { ascending: false })
   if (error) throw error
-  return data as Roles[]
+  return data as Entity[]
 }

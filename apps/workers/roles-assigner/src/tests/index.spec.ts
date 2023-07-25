@@ -16,7 +16,10 @@ const supabaseClientMock: SupabaseClient = {
 } as unknown as SupabaseClient
 const getSupabaseClientMock = vi.fn().mockReturnValue(supabaseClientMock)
 const redisConnectMock = vi.fn()
-const redisMock = vi.fn().mockReturnValue({ connect: redisConnectMock })
+const redisSetMock = vi.fn()
+const redisMock = vi
+  .fn()
+  .mockReturnValue({ connect: redisConnectMock, set: redisSetMock })
 
 describe('Roles Assigner', () => {
   beforeEach(() => {
