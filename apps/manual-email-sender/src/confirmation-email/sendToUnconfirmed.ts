@@ -68,7 +68,7 @@ async function main() {
   for (const user of unconfirmedUsers) {
     console.log(`[${i++}/${unconfirmedUsers.length}]`)
     promises.push(sendEmail(user.id, user.email))
-    if (i % 10 === 0) {
+    if (i % 25 === 0) {
       console.log('Esperando pelo envio de emails...')
       await Promise.all(promises)
       console.log('Esperando 1s...\n\n')
