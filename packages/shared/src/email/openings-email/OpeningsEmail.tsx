@@ -64,9 +64,8 @@ export const OpeningsEmail = ({
               <Hr style={hr} />
               <Text style={paragraph}>Olá, admirador do trabalho remoto!</Text>
               <Text style={paragraph}>
-                Anote em sua agenda: no sábado, 29 de julho de 2023, reserve o
-                dia para participar do FrontInSampa! O evento acontecerá das
-                09:00 às 22:00 (BRT) no Gazeta Theatre, localizado na 900
+                Sábado, 29 de julho de 2023, participe do FrontInSampa! O evento
+                ocorrerá das 09:00 às 22:00 (BRT) no Gazeta Theatre, na 900
                 Avenida Paulista, Bela Vista, SP 01310-100, Brasil.
               </Text>
               <Text style={paragraph}>
@@ -86,8 +85,7 @@ export const OpeningsEmail = ({
                 </Link>
               </Text>
               <Text style={paragraph}>
-                Agora, é hora de você aproveitar as oportunidades de vagas.
-                Esperamos que goste!
+                Agora, aproveite as vagas desta semana!
               </Text>
               <Heading style={h1}>
                 🌎 {globalOpenings.length} Vagas internacionais
