@@ -27,4 +27,6 @@ export async function main() {
     await Promise.all(matchRolesPromises)
   }
 }
-main().catch((e) => console.log(e))
+
+// eslint-disable-next-line no-console
+main().catch((e) => console.error(e))

@@ -4,7 +4,7 @@ import * as redisFile from 'redis'
 import { Entities } from 'shared'
 import { vi } from 'vitest'
 import * as getSubscriberRolesFile from '../getSubscriberRoles'
-import { main } from '../rolesGrouper'
+import { main } from '..'
 import { getRoleMock } from './mocks/factories/roleFactory'
 import { getSubscriberMock } from './mocks/factories/subscriberFactory'
 import { getAllPaginatedStub } from './mocks/mockHelper'
@@ -18,7 +18,7 @@ const getSupabaseClientMock = vi.fn().mockReturnValue(supabaseClientMock)
 const redisConnectMock = vi.fn()
 const redisMock = vi.fn().mockReturnValue({ connect: redisConnectMock })
 
-describe('Roles Grouper', () => {
+describe('Roles Assigner', () => {
   beforeEach(() => {
     vi.spyOn(dbFile, 'getSupabaseClient').mockImplementation(
       getSupabaseClientMock
