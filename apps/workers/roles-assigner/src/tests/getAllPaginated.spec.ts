@@ -1,8 +1,9 @@
 import { Roles } from 'db'
 import { Entities } from 'shared'
 import { getAllPaginated } from 'src/getAllPaginated'
-import { getRoleMock } from './mocks/factories/roleFactory'
-import { getRowsBlockStub, supabaseClientMock } from './mocks/mockHelper'
+import { getRoleMock } from './factories/roleFactory'
+import { getRowsBlockStub } from './helpers/stubs'
+import { supabaseClientMock } from './helpers/mocks'
 
 let entity: Entities
 let batchSize: number
@@ -14,7 +15,7 @@ it('should yield all the data correctly', async () => {
   const getRowsBlockSpy = getRowsBlockStub(rolesMock)
 
   const rolesReturned: Roles[] = []
-  for await (const roles of getAllPaginated({
+  for await (const roles of getAllPaginated<Roles>({
     supabase: supabaseClientMock,
     entity,
     batchSize,

@@ -1,23 +1,9 @@
-import { Roles, SupabaseClient } from 'db'
+import { Roles } from 'db'
 import { Mock, vi } from 'vitest'
+import { supabaseClientMock } from './mocks'
+import { mockAsyncGenerator } from './mockAsyncGeneratorFunction'
 import * as getAllPaginatedFile from '../../getAllPaginated'
 import * as getRowsBlockFile from '../../getRowsBlock'
-
-export function mockAsyncGenerator<Data = any>(batches: Data[][]) {
-  let i = 0
-  return {
-    [Symbol.asyncIterator]() {
-      return this
-    },
-    next() {
-      if (i < batches.length) {
-        return Promise.resolve({ value: batches[i++], done: false })
-      } else {
-        return Promise.resolve({ done: true })
-      }
-    },
-  }
-}
 
 export const getAllPaginatedStub = <Data>(batches: Data[][]): Mock => {
   const getAllPaginatedSpy = vi
@@ -38,14 +24,12 @@ export const getRowsBlockStub = (roles: Roles[]): Mock => {
   return getRowsBlockSpy
 }
 
-export const supabaseClientMock: SupabaseClient = {
-  from: () => ({
-    select: () => ({
-      eq: () => ({
-        range: () => ({
-          order: () => ({ data: [] }),
-        }),
-      }),
-    }),
-  }),
-} as unknown as SupabaseClient
+const redisConnectStub = vi.fn()
+const redisSetStub = vi.fn()
+export const redisStub = vi.fn().mockReturnValue({
+  connect: redisConnectStub,
+  set: redisSetStub,
+  disconnect: vi.fn(),
+})
+
+export const getSupabaseClientStub = vi.fn().mockReturnValue(supabaseClientMock)

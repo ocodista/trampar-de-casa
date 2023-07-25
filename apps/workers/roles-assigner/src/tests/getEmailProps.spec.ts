@@ -1,6 +1,6 @@
 import { getEmailProps } from '../getEmailProps'
-import { getRoleMock } from './mocks/factories/roleFactory'
-import { getSubscriberMock } from './mocks/factories/subscriberFactory'
+import { getRoleMock } from './factories/roleFactory'
+import { getSubscriberMock } from './factories/subscriberFactory'
 
 describe('Get Email Props', () => {
   it('converts subscriber and roles into { user: { email, id }, roleIds: [] } object', () => {

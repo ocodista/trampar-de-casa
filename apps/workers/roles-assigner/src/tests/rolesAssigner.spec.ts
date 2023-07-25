@@ -1,26 +1,21 @@
 import * as dbFile from 'db'
-import { SupabaseClient } from 'db'
 import * as redisFile from 'redis'
 import { Entities } from 'shared'
 import { vi } from 'vitest'
 import * as getSubscriberRolesFile from '../getSubscriberRoles'
-import { main } from '..'
-import { getRoleMock } from './mocks/factories/roleFactory'
-import { getSubscriberMock } from './mocks/factories/subscriberFactory'
-import { getAllPaginatedStub } from './mocks/mockHelper'
+import { getRoleMock } from './factories/roleFactory'
+import { getSubscriberMock } from './factories/subscriberFactory'
 import * as saveSubscriberRolesFiles from '../saveSubscriberRoles'
+import { assignRoles } from '../rolesAssigner'
+import { supabaseClientMock } from './helpers/mocks'
+import {
+  getSupabaseClientStub,
+  redisStub,
+  getAllPaginatedStub,
+} from './helpers/stubs'
 
 const readyRole = getRoleMock({ ready: true })
 const notReadyRole = getRoleMock({ ready: false })
-const supabaseClientMock: SupabaseClient = {
-  from: vi.fn(),
-} as unknown as SupabaseClient
-const getSupabaseClientStub = vi.fn().mockReturnValue(supabaseClientMock)
-const redisConnectStub = vi.fn()
-const redisSetStub = vi.fn()
-const redisStub = vi
-  .fn()
-  .mockReturnValue({ connect: redisConnectStub, set: redisSetStub })
 
 describe('Roles Assigner', () => {
   beforeEach(() => {
@@ -32,7 +27,7 @@ describe('Roles Assigner', () => {
 
   it('get subscribers in batches of 100 rows', async () => {
     const getAllPaginatedSpy = getAllPaginatedStub([])
-    await main()
+    await assignRoles()
     expect(getAllPaginatedSpy).toBeCalledWith({
       supabase: supabaseClientMock,
       entity: Entities.Subcribers,
@@ -55,7 +50,7 @@ describe('Roles Assigner', () => {
     })
 
     it('get personalized roles', async () => {
-      await main()
+      await assignRoles()
       expect(getSubscribersRoleSpy).toBeCalledWith(
         subscribersBatchMock[0],
         supabaseClientMock
@@ -69,7 +64,7 @@ describe('Roles Assigner', () => {
 
     it('send emailProps { user: { email, id }, roleIds } to emailRendererQueue at RabbitMQ', async () => {
       const redisSpy = vi.spyOn(saveSubscriberRolesFiles, 'saveSubscriberRoles')
-      await main()
+      await assignRoles()
       expect(redisSpy).toHaveBeenCalled()
     })
   })
