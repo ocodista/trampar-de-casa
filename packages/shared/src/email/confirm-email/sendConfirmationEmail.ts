@@ -18,7 +18,7 @@ export const sendConfirmationEmail = async ({
   const resend = new Resend(resendKey)
   const emailHTML = confirmationEmailHTML({ subscriberId, secretKey })
   const response = await resend.emails.send({
-    from: 'comece@trampardecasa.com.br <Trampar de Casa>',
+    from: 'Trampar de Casa <comece@trampardecasa.com.br>',
     to,
     subject: '🚀 Ative sua Conta - Confirmação de Email Necessária',
     html: emailHTML,
