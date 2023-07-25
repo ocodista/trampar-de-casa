@@ -8,25 +8,26 @@ import { main } from '..'
 import { getRoleMock } from './mocks/factories/roleFactory'
 import { getSubscriberMock } from './mocks/factories/subscriberFactory'
 import { getAllPaginatedStub } from './mocks/mockHelper'
+import * as saveSubscriberRolesFiles from '../saveSubscriberRoles'
 
 const readyRole = getRoleMock({ ready: true })
 const notReadyRole = getRoleMock({ ready: false })
 const supabaseClientMock: SupabaseClient = {
   from: vi.fn(),
 } as unknown as SupabaseClient
-const getSupabaseClientMock = vi.fn().mockReturnValue(supabaseClientMock)
-const redisConnectMock = vi.fn()
-const redisSetMock = vi.fn()
-const redisMock = vi
+const getSupabaseClientStub = vi.fn().mockReturnValue(supabaseClientMock)
+const redisConnectStub = vi.fn()
+const redisSetStub = vi.fn()
+const redisStub = vi
   .fn()
-  .mockReturnValue({ connect: redisConnectMock, set: redisSetMock })
+  .mockReturnValue({ connect: redisConnectStub, set: redisSetStub })
 
 describe('Roles Assigner', () => {
   beforeEach(() => {
     vi.spyOn(dbFile, 'getSupabaseClient').mockImplementation(
-      getSupabaseClientMock
+      getSupabaseClientStub
     )
-    vi.spyOn(redisFile, 'createClient').mockImplementation(redisMock)
+    vi.spyOn(redisFile, 'createClient').mockImplementation(redisStub)
   })
 
   it('get subscribers in batches of 100 rows', async () => {
@@ -66,9 +67,11 @@ describe('Roles Assigner', () => {
       expect(getSubscribersRoleSpy).toBeCalledTimes(subscribersBatchMock.length)
     })
 
-    it.todo(
-      'send emailProps { user: { email, id }, roleIds } to emailRendererQueue at RabbitMQ'
-    )
+    it('send emailProps { user: { email, id }, roleIds } to emailRendererQueue at RabbitMQ', async () => {
+      const redisSpy = vi.spyOn(saveSubscriberRolesFiles, 'saveSubscriberRoles')
+      await main()
+      expect(redisSpy).toHaveBeenCalled()
+    })
   })
 })
 
