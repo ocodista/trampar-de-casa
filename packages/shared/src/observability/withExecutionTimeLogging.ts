@@ -11,11 +11,14 @@ export const withExecutionTimeLogging = <T extends (...args: any[]) => any>(
   const { seconds } = timeSpan()
   const logProfilingResult = () => {
     const execution = seconds()
-    console.log(
-      `✨ Function "${
-        func.name || props.name
-      }" executed in ${execution} seconds. ✨`
-    )
+    // eslint-disable-next-line turbo/no-undeclared-env-vars
+    if (process?.env?.NODE_ENV !== 'test') {
+      console.log(
+        `✨ Function "${
+          func.name || props.name
+        }" executed in ${execution} seconds. ✨`
+      )
+    }
   }
   return ((...args: Parameters<T>): ReturnType<T> => {
     const isAsync = isAsyncFunction(func)
