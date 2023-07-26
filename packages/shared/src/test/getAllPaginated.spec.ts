@@ -1,7 +1,7 @@
 import { Roles } from 'db'
 import { Entities } from 'shared'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
-import { getAllPaginated } from 'src/getAllPaginated'
+import { getAllPaginated } from '../services/getAllPaginated'
 import { getRoleMock } from './factories/roleFactory'
 import { getRowsBlockStub } from './helpers/stubs'
 
