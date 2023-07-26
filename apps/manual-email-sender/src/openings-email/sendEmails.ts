@@ -88,8 +88,9 @@ async function main() {
   const resendClient = new Resend(process.env['RESEND_KEY'])
 
   for (const [index, chunk] of chunks.entries()) {
+    console.time('batch')
     const promises = chunk.map(async (subscriber) => {
-      sendEmail({
+      await sendEmail({
         to: subscriber.email,
         resendClient,
         subject,
@@ -100,6 +101,7 @@ async function main() {
     console.log(`\nWaiting for ${index + 1}/${chunks.length} chunk...`)
     await Promise.all(promises)
     console.log('\n\n')
+    console.timeEnd('batch')
   }
   console.log('Finished sending all emails!')
 }
