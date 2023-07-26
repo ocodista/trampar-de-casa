@@ -1,17 +1,17 @@
 import * as dbFile from 'db'
 import * as redisFile from 'redis'
 import { Entities } from 'shared'
+import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { vi } from 'vitest'
 import * as getSubscriberRolesFile from '../getSubscriberRoles'
+import { assignRoles } from '../rolesAssigner'
+import * as saveSubscriberRolesFiles from '../saveSubscriberRoles'
 import { getRoleMock } from './factories/roleFactory'
 import { getSubscriberMock } from './factories/subscriberFactory'
-import * as saveSubscriberRolesFiles from '../saveSubscriberRoles'
-import { assignRoles } from '../rolesAssigner'
-import { supabaseClientMock } from './helpers/mocks'
 import {
+  getAllPaginatedStub,
   getSupabaseClientStub,
   redisStub,
-  getAllPaginatedStub,
 } from './helpers/stubs'
 
 const readyRole = getRoleMock({ ready: true })
@@ -62,7 +62,7 @@ describe('Roles Assigner', () => {
       expect(getSubscribersRoleSpy).toBeCalledTimes(subscribersBatchMock.length)
     })
 
-    it('send emailProps { user: { email, id }, roleIds } to emailRendererQueue at RabbitMQ', async () => {
+    it('send emailProps { user: { email, id }, roleIds } to emailRendererQueue at Redis', async () => {
       const redisSpy = vi.spyOn(saveSubscriberRolesFiles, 'saveSubscriberRoles')
       await assignRoles()
       expect(redisSpy).toHaveBeenCalled()
