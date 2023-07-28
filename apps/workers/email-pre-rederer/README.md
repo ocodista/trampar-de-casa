@@ -1,3 +1,14 @@
+# Email Pre Renderer Feature Documentation
+
+## Table of Contents
+
+- [Introduction](#introduction)
+- [Prerequisites](#prerequisites)
+- [Functionality](#functionality)
+- [Flow Diagram](#flow-diagram)
+- [Sequence Diagram](#sequence-diagram)
+- [Key concepts](#key-concepts)
+
 ## Introduction
 
 - Utilizes Redis and Supabase for seamless data retrieval.
@@ -18,7 +29,7 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
 [Supabase](https://supabase.io/) and
 [RabbitMQ](https://www.rabbitmq.com/monitoring.html) for installation guides.
 
-# Functionality
+## Functionality
 
 - Establishing connections to the Redis client and RabbitMQ queue.
 - Retrieving subscribers in batches from Supabase.
