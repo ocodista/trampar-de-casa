@@ -41,6 +41,8 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
 
 ## Flow Diagram
 
+**The diagram will be recreated soon**
+
 ```mermaid
 graph TD;
   A[Start] --> B[Establish Connections]
@@ -60,6 +62,8 @@ graph TD;
 ```
 
 ## Sequence Diagram
+
+**The diagram will be recreated soon**
 
 ```mermaid
 sequenceDiagram
