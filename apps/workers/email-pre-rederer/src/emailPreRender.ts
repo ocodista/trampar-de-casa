@@ -3,15 +3,18 @@ import { RedisClientType, createClient as createRedisClient } from 'redis'
 import { Entities } from 'shared'
 import { RedisPrefix } from 'shared/src/enums/redis'
 import { getAllPaginated } from 'shared/src/services/getAllPaginated'
+import { CONFIG } from './config'
 import { connectToQueue } from './connectOnQueue'
 import { renderFooter } from './renderFooter'
 import { renderHeader } from './renderHeader'
 import { sendToQueue } from './sendToQueue'
 
 export async function emailPreRender() {
+  const redisClient = createRedisClient() as RedisClientType
   const channel = await connectToQueue()
   const supabase = getSupabaseClient()
-  const redisClient = createRedisClient() as RedisClientType
+  await redisClient.connect()
+
   const batchSize = 100
   const subscribersChunk = getAllPaginated<Subscribers>({
     batchSize,
@@ -28,7 +31,7 @@ export async function emailPreRender() {
       const { rolesId } = JSON.parse(subscriber) as { rolesId: string[] }
       if (!subscriber) return
 
-      const footerHTML = renderFooter(id, 'url')
+      const footerHTML = renderFooter(id, CONFIG.URL_PREFIX)
       const headerHTML = renderHeader(rolesId)
 
       await sendToQueue(channel, {
@@ -40,7 +43,6 @@ export async function emailPreRender() {
       })
     })
   }
-
   await channel.close()
   await redisClient.disconnect()
 }

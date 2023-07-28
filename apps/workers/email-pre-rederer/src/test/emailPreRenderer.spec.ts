@@ -45,6 +45,7 @@ const configExternalServicesMocks = () => {
   vi.spyOn(redisFile, 'createClient').mockImplementation(() => ({
     get: redisGetStub,
     disconnect: vi.fn(),
+    connect: vi.fn(),
   }))
 
   vi.spyOn(connectToQueueFile, 'connectToQueue').mockImplementation(
@@ -105,6 +106,7 @@ describe('Email Pre Renderer', () => {
 
     it('calls render footer passing subscriber id and prefix url', async () => {
       await emailPreRender()
+
       expect(renderFooterStub).toHaveBeenCalledWith(subscriberMock.id, 'url')
     })
 

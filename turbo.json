@@ -6,7 +6,9 @@
       "dependsOn": ["^build"],
       "outputs": [".next/**", "!.next/cache/**"]
     },
-    "lint": {},
+    "lint": {
+      "env": ["URL_PREFIX"]
+    },
     "dev": {
       "cache": false,
       "persistent": true

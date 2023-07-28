@@ -6,7 +6,7 @@ export interface EmailProps {
     email: string
     id: string
   }
-  roleIds: string[]
+  rolesId: string[]
 }
 
 export const getEmailProps = withExecutionTimeLogging(
@@ -15,7 +15,7 @@ export const getEmailProps = withExecutionTimeLogging(
       email: subscriber.email,
       id: subscriber.id,
     },
-    roleIds: roles.map((role) => role.id),
+    rolesId: roles.map((role) => role.id),
   }),
   { name: 'getEmailProps' }
 )
