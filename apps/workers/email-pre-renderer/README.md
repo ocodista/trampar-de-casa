@@ -22,7 +22,7 @@ Before proceeding, you should have the following installed on your system:
 - Latest versions of Node.js
 - Redis
 - Supabase libraries
-- RabbitM
+- RabbitMQ
 
 Refer to the official documentation for [Node.js](https://nodejs.org/),
 [Redis](https://redis.io/),
