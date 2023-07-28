@@ -7,7 +7,7 @@ interface Skill {
 }
 
 const Skill = ({ name }: Skill) => (
-  <div className="px-4 py-1.5 whitespace-nowrap mb-1 border-2 border-solid bg-zinc-200 border-black text-xs rounded-2xl">
+  <div className="mb-1 whitespace-nowrap rounded-2xl border-2 border-solid border-black bg-zinc-200 px-4 py-1.5 text-xs">
     {name}
   </div>
 )
@@ -35,13 +35,13 @@ export const OpeningCard = ({
       rel="noreferrer"
     >
       <div
-        className={`p-4 my-4 text-sm border border-solid border-gray-300 rounded-md cursor-pointer`}
+        className={`my-4 cursor-pointer rounded-md border border-solid border-gray-300 p-4 text-sm`}
       >
         <Row>
-          <Column align="left" className="italic text-xs">
+          <Column align="left" className="text-xs italic">
             {company}
           </Column>
-          <Column align="right" className="italic text-xs">
+          <Column align="right" className="text-xs italic">
             {headerInfo}
           </Column>
         </Row>
@@ -53,7 +53,7 @@ export const OpeningCard = ({
             <Skill key={skill} name={skill} />
           ))}
         </section>
-        <Row className="text-gray-400 mt-2">
+        <Row className="mt-2 text-gray-400">
           <Column align="left" className="flex items-center text-xs">
             {location ? (
               <>

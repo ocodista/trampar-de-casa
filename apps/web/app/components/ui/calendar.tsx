@@ -56,12 +56,12 @@ function Calendar({
             <select
               autoFocus
               {...props}
-              className="w-full px-1 py-2 space-x-4 text-sm text-black transition-all duration-300 rounded-md outline-none focus-outline:none"
+              className="focus-outline:none w-full space-x-4 rounded-md px-1 py-2 text-sm text-black outline-none transition-all duration-300"
             />
           </div>
         ),
-        IconLeft: ({ ...props }) => <ChevronLeft className="w-4 h-4" />,
-        IconRight: ({ ...props }) => <ChevronRight className="w-4 h-4" />,
+        IconLeft: ({ ...props }) => <ChevronLeft className="h-4 w-4" />,
+        IconRight: ({ ...props }) => <ChevronRight className="h-4 w-4" />,
       }}
       {...props}
     />
