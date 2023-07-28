@@ -26,10 +26,12 @@ export const getRowsBlockStub = (roles: Roles[]): Mock => {
 
 const redisConnectStub = vi.fn()
 const redisSetStub = vi.fn()
+const redisGetStub = vi.fn()
 export const redisStub = vi.fn().mockReturnValue({
   connect: redisConnectStub,
   set: redisSetStub,
   disconnect: vi.fn(),
+  get: redisGetStub,
 })
 
 export const getSupabaseClientStub = vi.fn().mockReturnValue(supabaseClientMock)

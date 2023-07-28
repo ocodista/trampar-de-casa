@@ -5,6 +5,9 @@ import { vi } from 'vitest'
 export const supabaseClientMock: SupabaseClient = {
   from: () => ({
     select: () => ({
+      range: () => ({
+        order: () => ({ data: [] }),
+      }),
       eq: () => ({
         range: () => ({
           order: () => ({ data: [] }),
