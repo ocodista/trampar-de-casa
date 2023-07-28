@@ -40,26 +40,8 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
   - Sending the pre-rendered email template, including subscriber's email, roles, footer HTML, and header HTML, to the RabbitMQ queue.
 
 ## Flow Diagram
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/889f1c8f-9dc8-404a-86f6-06da7573017e)
 
-**The diagram will be recreated soon**
-
-```mermaid
-graph TD;
-  A[Start] --> B[Establish Connections]
-  B --> C[Retrieve Subscribers from Supabase]
-  C --> D{For each Subscriber}
-  D --> E[Retrieve User Information from Redis]
-  D --> F[Calculate Total Roles and Generate Header HTML]
-  D --> G[Create Footer HTML with Unsubscribe Link]
-  D --> H[Send Pre-rendered Email to RabbitMQ]
-  E --> D
-  F --> D
-  G --> D
-  H --> D
-  D --> I{All Subscribers Processed}
-  I --> J[Close RabbitMQ Channel and Disconnect Redis]
-  J --> K[End]
-```
 
 ## Sequence Diagram
 
