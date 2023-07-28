@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
           {/* @ts-ignore:next-line */}
           <img
             tw="w-full h-full flex rounded-tl-2xl rounded-bl-2xl border-r-4 border-black"
-            src={imageData}
+            src={imageData as unknown as string}
             alt=""
             style={{
               objectFit: 'cover',
