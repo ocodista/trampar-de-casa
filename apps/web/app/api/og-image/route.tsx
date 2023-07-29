@@ -4,9 +4,8 @@ import { NextRequest } from 'next/server'
 export const runtime = 'edge'
 
 export async function GET(request: NextRequest) {
-  const url = request.url.includes('localhost')
-    ? 'http://localhost:3000/'
-    : 'https://trampardecasa.com.br/'
+  const url = request.url.split('api/og-image')[0]
+
   const imageData = await fetch(new URL(`${url}images/HO-brasil.png`)).then(
     (res) => res.arrayBuffer()
   )
