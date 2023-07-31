@@ -1,17 +1,19 @@
 import { Subscribers, getSupabaseClient } from 'db'
 import { RedisClientType, createClient as createRedisClient } from 'redis'
-import { Entities } from 'shared'
+import { Entities, connectToQueue } from 'shared'
 import { RedisPrefix } from 'shared/src/enums/redis'
 import { getAllPaginated } from 'shared/src/services/getAllPaginated'
 import { CONFIG } from './config'
-import { connectToQueue } from './connectOnQueue'
 import { renderFooter } from './renderFooter'
 import { renderHeader } from './renderHeader'
 import { sendToQueue } from './sendToQueue'
 
 export async function emailPreRender() {
   const redisClient = createRedisClient() as RedisClientType
-  const channel = await connectToQueue()
+  const channel = await connectToQueue({
+    password: CONFIG.RABBITMQ_PASS,
+    user: CONFIG.RABBITMQ_USER,
+  })
   const supabase = getSupabaseClient()
   await redisClient.connect()
 

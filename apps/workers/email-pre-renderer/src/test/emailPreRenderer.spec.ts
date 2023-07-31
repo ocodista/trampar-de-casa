@@ -4,6 +4,7 @@ import * as redisFile from 'redis'
 import * as encryptFile from 'shared'
 import { Entities } from 'shared'
 import { RedisPrefix } from 'shared/src/enums/redis'
+import * as connectToQueueFile from 'shared/src/queue/connectToQueue'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import {
   getAllPaginatedStub,
@@ -11,7 +12,6 @@ import {
 } from 'shared/src/test/helpers/stubs'
 import { emailPreRender } from 'src/emailPreRender'
 import { vi } from 'vitest'
-import * as connectToQueueFile from '../connectOnQueue'
 import * as renderFooterFile from '../renderFooter'
 import * as renderHeaderFile from '../renderHeader'
 import * as sendToQueueFile from '../sendToQueue'
