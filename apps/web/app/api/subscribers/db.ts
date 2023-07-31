@@ -1,8 +1,7 @@
-import { EnglishLevel } from 'db'
+import { EnglishLevel, getSupabaseClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { Entities } from 'shared'
-import { getSupabaseClient } from '../../db/getSupabaseClient'
 import { ProfileSchema } from '../../subscriber/profile/profileSchema'
 
 const supabaseClient = getSupabaseClient()
