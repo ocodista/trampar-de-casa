@@ -72,10 +72,15 @@ const configRenderMocks = () => {
 }
 
 describe('Email Pre Renderer', () => {
+  const renderFooterReturnMock = faker.string.sample()
+  const renderHeaderReturnMock = faker.string.sample()
+  renderFooterStub.mockImplementation(() => renderFooterReturnMock)
+  renderHeaderStub.mockImplementation(() => renderHeaderReturnMock)
   beforeAll(() => {
     configExternalServicesMocks()
     configRenderMocks()
   })
+  afterAll(() => vi.clearAllMocks())
 
   it('connects with rabbitMQ queue', async () => {
     await emailPreRender()
@@ -116,11 +121,6 @@ describe('Email Pre Renderer', () => {
     })
 
     it('sends to rabbitMQ queue passing { [userEmail]: { roles, footerHTML, headerHTML } }', async () => {
-      const renderFooterReturnMock = faker.string.sample()
-      const renderHeaderReturnMock = faker.string.sample()
-      renderFooterStub.mockImplementation(() => renderFooterReturnMock)
-      renderHeaderStub.mockImplementation(() => renderHeaderReturnMock)
-
       await emailPreRender()
 
       expect(sendToQueueStub).toHaveBeenCalledWith(channelMock, {
