@@ -1,3 +1,6 @@
+import amqplibFile, { Connection } from 'amqplib'
+import { vi } from 'vitest'
+import { amqplibMock } from './helpers/rabbitMQ'
 // Import relevant functions and classes from your email renderer service here
 // import {
 //   getEmailSubscriberInfo,
@@ -8,6 +11,9 @@
 
 describe('Email Composer Service Tests', () => {
   beforeEach(() => {
+    vi.spyOn(amqplibFile, 'connect').mockResolvedValue(
+      amqplibMock as unknown as Connection
+    )
     // Add any setup logic if required before each test
   })
 
