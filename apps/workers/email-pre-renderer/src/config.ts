@@ -1,4 +1,6 @@
+import dotenv from 'dotenv'
 import { z } from 'zod'
+dotenv.config()
 
 const envVarsSchema = z.object({
   RABBITMQ_USER: z.string().min(1),
