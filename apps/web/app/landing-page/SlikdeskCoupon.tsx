@@ -11,10 +11,9 @@ export function SlikdeskCoupon() {
         role="alert"
       >
         <span className="mr-2 font-medium leading-tight max-md:text-lg">
-          Ganhe <span className="font-bold">R$130 de desconto</span> ao comprar
-          uma mesa Slikdesk!
+          Ganhe <span className="font-bold">R$130 de desconto</span> na compra
+          de uma Mesa com regulagem de altura Slikdesk!
         </span>
-
         <span
           className="mr-[6px] flex cursor-pointer items-center gap-2 rounded-full bg-indigo-500 px-3 py-1 text-xs font-bold uppercase transition-colors hover:bg-indigo-700 max-md:text-sm max-md:font-semibold"
           onClick={async () => {
