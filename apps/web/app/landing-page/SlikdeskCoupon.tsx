@@ -2,7 +2,7 @@
 import { Check, Copy } from 'lucide-react'
 import { useState } from 'react'
 
-export function FrontinCoupon() {
+export function SlikdeskCoupon() {
   const [isCopied, setIsCopied] = useState(false)
   return (
     <div className="text-center">
@@ -11,8 +11,8 @@ export function FrontinCoupon() {
         role="alert"
       >
         <span className="mr-2 font-medium leading-tight max-md:text-lg">
-          <span className="font-bold">20% de desconto</span> no maior evento de{' '}
-          <i>Front-end</i> da América Latina.
+          Ganhe <span className="font-bold">R$130 de desconto</span> ao comprar
+          uma mesa Slikdesk!
         </span>
 
         <span
@@ -24,10 +24,7 @@ export function FrontinCoupon() {
 
             setTimeout(() => {
               setIsCopied(false)
-              window.open(
-                'https://www.eventbrite.com.br/e/frontin-sampa-2023-code-in-the-dark-tickets-574922567877',
-                '_blank'
-              )
+              window.open('https://slik.com.br/trampardecasa', '_blank')
             }, 300)
           }}
         >

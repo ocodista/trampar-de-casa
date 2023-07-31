@@ -34,6 +34,13 @@ const companies: Company[] = [
     description: 'Podcast de tecnologia',
     imagePath: '/images/companies/rock_n_code.webp',
   },
+  {
+    name: 'Slikdesk',
+    url: 'https://slik.com.br/trampardecasa',
+    description:
+      'A empresa oferece mesas de trabalho com regulagem de altura, visando proporcionar maior conforto e produtividade aos usuários.',
+    imagePath: '/images/companies/slikdesk.webp',
+  },
 ]
 
 const CompanySection = ({ name, imagePath, url, description }: Company) => (
