@@ -3,7 +3,6 @@ import { RedisClientType, createClient as createRedisClient } from 'redis'
 import { Entities } from 'shared'
 import { RedisPrefix } from 'shared/src/enums/redis'
 import { getAllPaginated } from 'shared/src/services/getAllPaginated'
-import { promisify } from 'util'
 import { CONFIG } from './config'
 import { connectToQueue } from './connectOnQueue'
 import { renderFooter } from './renderFooter'
@@ -31,12 +30,15 @@ export async function emailPreRender() {
       if (!subscriber) return
       const { rolesId } = JSON.parse(subscriber) as { rolesId: string[] }
       if (!subscriber) return
-
-      const asyncRenderFooter = promisify<string, string, string>(renderFooter)
-      const asyncRenderHeader = promisify<string[], string>(renderHeader)
+      const promiseFooterHTML = new Promise<string>((resolve) =>
+        resolve(renderFooter(id, CONFIG.URL_PREFIX))
+      )
+      const promiseHeaderHTML = new Promise<string>((resolve) =>
+        resolve(renderHeader(rolesId))
+      )
       const [footerHTML, headerHTML] = await Promise.all([
-        asyncRenderFooter(id, CONFIG.URL_PREFIX),
-        asyncRenderHeader(rolesId),
+        promiseFooterHTML,
+        promiseHeaderHTML,
       ])
 
       await sendToQueue(channel, {
