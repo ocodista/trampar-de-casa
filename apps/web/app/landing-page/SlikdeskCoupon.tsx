@@ -11,8 +11,8 @@ export function SlikdeskCoupon() {
         role="alert"
       >
         <span className="mr-2 font-medium leading-tight max-md:text-lg">
-          Ganhe <span className="font-bold">R$130 de desconto</span> em qualquer
-          compra no site da Slikdesk!
+          Ganhe <span className="font-bold">R$130 de desconto</span> ao comprar
+          uma mesa Slikdesk!
         </span>
 
         <span
