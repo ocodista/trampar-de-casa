@@ -1,4 +1,4 @@
-import { getSupabaseClient } from 'app/db/getSupabaseClient'
+import { getSupabaseClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { Entities } from 'shared/src/enums'
