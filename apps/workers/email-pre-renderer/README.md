@@ -40,8 +40,8 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
   - Sending the pre-rendered email template, including subscriber's email, roles, footer HTML, and header HTML, to the RabbitMQ queue.
 
 ## Flow Diagram
-![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/889f1c8f-9dc8-404a-86f6-06da7573017e)
 
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/889f1c8f-9dc8-404a-86f6-06da7573017e)
 
 ## Sequence Diagram
 
@@ -49,30 +49,21 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
 
 ```mermaid
 sequenceDiagram
-  participant A as Start
-  participant B as Establish Connections
-  participant C as Retrieve Subscribers
-  participant D as For each Subscriber
-  participant E as Retrieve User Information
-  participant F as Calculate Total Roles and Generate Header HTML
-  participant G as Create Footer HTML with Unsubscribe Link
-  participant H as Send Pre-rendered Email to RabbitMQ
-  participant I as All Subscribers Processed
-  participant J as Close RabbitMQ Channel and Disconnect Redis
-  participant K as End
+  participant S as Supabase
+  participant E as EmailPreRenderer
+  participant RF as RenderFooter
+  participant RH as RenderHeader
+  participant R as Redis
+  Participant RMQ as RabbitMQ
 
-  A ->> B: Establish Connections
-  B ->> C: Retrieve Subscribers from Supabase
+  S ->> E: subscribers chunk
   loop For each Subscriber
-    C ->> D: Subscriber Data
-    D ->> E: Retrieve User Information from Redis
-    D ->> F: Calculate Total Roles and Generate Header HTML
-    D ->> G: Create Footer HTML with Unsubscribe Link
-    D ->> H: Send Pre-rendered Email to RabbitMQ
+    E ->> R: Get subscriber info
+    R ->> E: { user: { email, id }, rolesId }
+    E ->> RF: Render footer subscriber HTML
+    E ->> RH: Render header subscriber HTML
+    E ->> RQM: { [userEmail]: { roles, footerHTML, headerHTML } }
   end
-  D ->> I: All Subscribers Processed
-  I ->> J: Close RabbitMQ Channel and Disconnect Redis
-  J ->> K: End
 
 ```
 
