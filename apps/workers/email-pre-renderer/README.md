@@ -60,8 +60,10 @@ sequenceDiagram
   loop For each Subscriber
     E ->> R: Get subscriber info
     R ->> E: { user: { email, id }, rolesId }
-    E ->> RF: Render footer subscriber HTML
-    E ->> RH: Render header subscriber HTML
+    par HTML rendering
+      E ->> RF: Render footer subscriber HTML
+      E ->> RH: Render header subscriber HTML
+    end
     E ->> RQM: { [userEmail]: { roles, footerHTML, headerHTML } }
   end
 
