@@ -21,6 +21,7 @@ const confirmedSubscribers = async () => {
     .from(Entities.Subcribers)
     .select('*')
     .eq('isConfirmed', 'TRUE')
+    .eq('optOut', false)
   if (error) throw error
   return data as Subscribers[]
 }
