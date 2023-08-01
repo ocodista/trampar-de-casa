@@ -17,7 +17,13 @@ describe('Roles Validator', () => {
   afterEach(() => {
     vi.clearAllMocks()
   })
+  it('getRoles array', async () => {
+    getRolesStub.mockResolvedValue([])
 
+    await rolesValidator()
+
+    expect(getRolesStub).toBeCalled()
+  })
   describe('each roles', () => {
     it('removes roles from Redis that are not ready in the database', async () => {
       const id = faker.string.uuid()
