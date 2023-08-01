@@ -6,7 +6,8 @@
   "private": true,
   "scripts": {
     "start": "ts-node src/index.ts",
-    "test": "vitest run"
+    "test": "vitest run",
+    "roles-validator:start": "ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",

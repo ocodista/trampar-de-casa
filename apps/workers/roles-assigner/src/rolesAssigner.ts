@@ -1,4 +1,5 @@
 import { Subscribers, getSupabaseClient } from 'db'
+import dotenv from 'dotenv'
 import { RedisClientType, createClient as createRedisClient } from 'redis'
 import { Entities } from 'shared'
 import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
@@ -6,6 +7,8 @@ import { getAllPaginated } from './getAllPaginated'
 import { getEmailProps } from './getEmailProps'
 import { getSubscriberRoles } from './getSubscriberRoles'
 import { saveSubscriberRoles } from './saveSubscriberRoles'
+
+dotenv.config()
 
 export const assignRoles = withExecutionTimeLogging(
   async () => {

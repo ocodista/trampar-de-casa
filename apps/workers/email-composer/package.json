@@ -6,6 +6,7 @@
   "private": true,
   "scripts": {
     "start": "ts-node src/index.ts",
+    "email-composer:start": "ts-node src/index.ts",
     "test": "vitest run"
   },
   "keywords": [],
