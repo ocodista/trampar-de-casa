@@ -54,13 +54,6 @@ model Roles {
   @@map("Roles")
 }
 
-model Skills {
-  id                Int                 @id
-  name              String
-  rolesSkills       RoleSkills[]
-  subscribersSkills SubscribersSkills[]
-}
-
 model RoleSkills {
   id Int @id
 
@@ -70,7 +63,6 @@ model RoleSkills {
   skillId Int
   skills  Skills @relation(fields: [skillId], references: [id])
 }
-
 model SubscribersSkills {
   id Int @id
 
@@ -79,6 +71,14 @@ model SubscribersSkills {
 
   skillId Int
   skills  Skills @relation(fields: [skillId], references: [id])
+}
+
+
+model Skills {
+  id                Int                 @id
+  name              String
+  rolesSkills       RoleSkills[]
+  subscribersSkills SubscribersSkills[]
 }
 
 model SentRoles {
