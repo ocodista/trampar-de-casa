@@ -13,10 +13,15 @@ export async function rolesValidator() {
 
   for (let index = 0; index < roles.length; index++) {
     const { id, url, title } = roles[index]
+    let isValid = false
     if (!url) return
-    const isValid = await isValidRole(url, title)
-    if (isValid) return
 
+    try {
+      isValid = await isValidRole(url, title)
+    } catch {
+      isValid = false
+    }
+    if (isValid) return
     await redisClient.del(`${RedisPrefix.RolesRenderer}${id}`)
   }
 

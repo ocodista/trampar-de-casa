@@ -35,8 +35,8 @@ describe('Roles Validator', () => {
 
     expect(getRolesStub).toBeCalled()
   })
-  describe('each roles', () => {
-    it('removes roles from Redis that are not valid on site', async () => {
+  describe('each role', () => {
+    it('remove role from Redis that are not valid on site', async () => {
       const roleDataMock = roleDataReturnFactory()
       getRolesStub.mockResolvedValue(roleDataMock)
       isValidRoleStub.mockResolvedValue(false)
@@ -47,7 +47,20 @@ describe('Roles Validator', () => {
       expect(redisDelStub).toBeCalledWith(expectedDeletedKey)
     })
 
-    it('keeps roles in Redis that are valid on site', async () => {
+    it('remove role from redis when URL is not valid', async () => {
+      const roleDataMock = roleDataReturnFactory()
+      getRolesStub.mockResolvedValue(roleDataMock)
+      isValidRoleStub.mockImplementation(() => {
+        throw new Error(faker.string.sample())
+      })
+      const expectedDeletedKey = `${RedisPrefix.RolesRenderer}${roleDataMock[0].id}`
+
+      await rolesValidator()
+
+      expect(redisDelStub).toBeCalledWith(expectedDeletedKey)
+    })
+
+    it('keep role in Redis that are valid on site', async () => {
       const roleDataMock = roleDataReturnFactory()
       getRolesStub.mockResolvedValue(roleDataMock)
       isValidRoleStub.mockResolvedValue(true)
