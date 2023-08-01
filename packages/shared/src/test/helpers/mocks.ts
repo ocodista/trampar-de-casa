@@ -2,9 +2,12 @@ import { SupabaseClient } from 'db'
 import { RedisClientType } from 'redis'
 import { vi } from 'vitest'
 
+export const selectStub = vi.fn()
+
 export const supabaseClientMock: SupabaseClient = {
   from: () => ({
-    select: () => ({
+    select: (...args: unknown[]) => ({
+      ...selectStub(...args),
       range: () => ({
         order: () => ({ data: [] }),
       }),
