@@ -35,7 +35,7 @@ describe('Roles Validator', () => {
 
     expect(getRolesStub).toBeCalled()
   })
-  describe('each role', () => {
+  describe('for each role', () => {
     it('remove role from Redis that are not valid on site', async () => {
       const roleDataMock = roleDataReturnFactory()
       getRolesStub.mockResolvedValue(roleDataMock)
