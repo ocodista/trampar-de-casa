@@ -1,7 +1,10 @@
+import dotenv from 'dotenv'
 import { createClient } from 'redis'
 import { RedisPrefix } from 'shared/src/enums/redis'
 import { getRoles } from './getRoles'
 import { isValidRole } from './isValidRole'
+
+dotenv.config()
 
 export async function rolesValidator() {
   const redisClient = createClient()
@@ -9,7 +12,6 @@ export async function rolesValidator() {
 
   for (let index = 0; index < roles.length; index++) {
     const { id, url, title } = roles[index]
-
     if (!url) return
     const isValid = await isValidRole(url, title)
     if (isValid) return
