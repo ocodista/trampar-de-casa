@@ -17,7 +17,7 @@ describe('Roles Validator', () => {
   afterEach(() => {
     vi.clearAllMocks()
   })
-  it('getRoles array', async () => {
+  it('call getRoles', async () => {
     getRolesStub.mockResolvedValue([])
 
     await rolesValidator()
