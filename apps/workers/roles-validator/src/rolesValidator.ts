@@ -8,6 +8,7 @@ dotenv.config()
 
 export async function rolesValidator() {
   const redisClient = createClient()
+  await redisClient.connect()
   const roles = await getRoles()
 
   for (let index = 0; index < roles.length; index++) {
@@ -18,4 +19,6 @@ export async function rolesValidator() {
 
     await redisClient.del(`${RedisPrefix.RolesRenderer}${id}`)
   }
+
+  await redisClient.disconnect()
 }
