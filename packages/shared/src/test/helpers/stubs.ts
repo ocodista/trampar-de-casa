@@ -24,13 +24,14 @@ export const getRowsBlockStub = (roles: Roles[]): Mock => {
   return getRowsBlockSpy
 }
 
-const redisConnectStub = vi.fn()
-const redisSetStub = vi.fn()
-const redisGetStub = vi.fn()
+export const redisConnectStub = vi.fn()
+export const redisSetStub = vi.fn()
+export const redisGetStub = vi.fn()
+export const redisDisconnectStub = vi.fn()
 export const redisStub = vi.fn().mockReturnValue({
   connect: redisConnectStub,
   set: redisSetStub,
-  disconnect: vi.fn(),
+  disconnect: redisDisconnectStub,
   get: redisGetStub,
 })
 

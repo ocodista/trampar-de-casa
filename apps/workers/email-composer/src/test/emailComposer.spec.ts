@@ -1,6 +1,8 @@
-import amqplibFile, { Connection } from 'amqplib'
+import { EmailQueues } from 'shared/src/enums/emailQueues'
+import * as connectToQueueFile from 'shared/src/queue/connectToQueue'
+import { emailComposer } from 'src/emailComposer'
 import { vi } from 'vitest'
-import { amqplibMock } from './helpers/rabbitMQ'
+import { assertQueueStub, channelMock } from './helpers/rabbitMQ'
 // Import relevant functions and classes from your email renderer service here
 // import {
 //   getEmailSubscriberInfo,
@@ -9,16 +11,26 @@ import { amqplibMock } from './helpers/rabbitMQ'
 //   sendHtmlToQueue,
 // } from './email-renderer-service';
 
+const connectToQueueStub = vi.fn()
+
 describe('Email Composer Service Tests', () => {
   beforeEach(() => {
-    vi.spyOn(amqplibFile, 'connect').mockResolvedValue(
-      amqplibMock as unknown as Connection
+    vi.spyOn(connectToQueueFile, 'connectToQueue').mockImplementation(
+      connectToQueueStub
     )
+    connectToQueueStub.mockResolvedValue(channelMock)
     // Add any setup logic if required before each test
   })
 
-  it('Gets subscriber information from the "email-pre-renderer" queue', () => {
-    // Implement test to verify if subscriber information is properly received from the queue
+  it('establish connection with rabbitMQ', async () => {
+    await emailComposer()
+
+    expect(connectToQueueStub).toBeCalled()
+  })
+  it(`Gets subscriber information from the ${EmailQueues.EmailPreRenderer} queue`, async () => {
+    await emailComposer()
+
+    expect(assertQueueStub).toBeCalledWith(EmailQueues.EmailPreRenderer)
   })
 
   it('Verifies roles validity based on Supabase search', () => {

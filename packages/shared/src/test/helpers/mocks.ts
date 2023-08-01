@@ -12,6 +12,7 @@ export const supabaseClientMock: SupabaseClient = {
         range: () => ({
           order: () => ({ data: [] }),
         }),
+        eq: () => [],
       }),
     }),
   }),
