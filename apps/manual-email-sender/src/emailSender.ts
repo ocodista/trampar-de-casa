@@ -37,10 +37,6 @@ export const sendEmail = async ({
       to: to,
       subject,
       html,
-      headers: {
-        'List-Unsubscribe': unsubscribeLink,
-        'X-Entity-Ref-ID': String(Date.now()),
-      },
     })
     if (!response) {
       handleError('Response is null')

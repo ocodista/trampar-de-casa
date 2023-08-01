@@ -14,6 +14,7 @@ import {
 } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
+import { createClient } from 'redis'
 import { Opening } from './Opening'
 import OpeningList from './OpeningList'
 import {
@@ -26,7 +27,6 @@ import {
   main,
   paragraph,
 } from './style'
-
 interface OpeningsEmail {
   globalOpenings: Opening[]
   localOpenings: Opening[]
@@ -41,7 +41,7 @@ export const OpeningsEmail = ({
   unsubscribeUrl,
 }: OpeningsEmail) => {
   const rolesCount = globalOpenings.length + localOpenings.length
-  const previewText = 'Cupom de 30% no FrontInSampa!'
+  const previewText = 'R$130 de desconto na compra de uma Mesa Slikdesk!'
   return (
     <Tailwind>
       <Html>
@@ -50,7 +50,7 @@ export const OpeningsEmail = ({
         <Body style={main}>
           <Container style={container}>
             <Section style={box}>
-              <Container className="flex justify-center items-center">
+              <Container className="flex items-center justify-center">
                 <Img
                   src="https://trampardecasa.com.br/images/logo.png"
                   height={70}
@@ -62,22 +62,29 @@ export const OpeningsEmail = ({
                 style={h1}
               >{`🔥 ${rolesCount} vagas para você Trampar de Casa`}</Heading>
               <Hr style={hr} />
-              <Text style={paragraph}>Olá, admirador do trabalho remoto!</Text>
-              <Text style={paragraph}>
-                Sábado, 29 de julho de 2023, participe do FrontInSampa! O evento
-                ocorrerá das 09:00 às 22:00 (BRT) no Gazeta Theatre, na 900
-                Avenida Paulista, Bela Vista, SP 01310-100, Brasil.
+              <Text style={paragraph}>Olá, defensor do trabalho remoto!</Text>
+              <Text style={{ ...paragraph, color: '#000' }}>
+                <b>Bora Trampar de Casa com a Slikdesk!</b>
               </Text>
-              <Text style={paragraph}>
-                Aproveite nosso cupom exclusivo de 30% de desconto (código:
-                <Link
-                  style={anchor}
-                  href="https://www.eventbrite.com.br/e/frontin-sampa-2023-code-in-the-dark-tickets-574922567877"
-                >
-                  TRAMPARDECASA30
-                </Link>
-                )
+              <Text>
+                Trampar de Casa combina com{' '}
+                <b>praticidade, conforto, ergonomia e tecnologia</b>. A nossa
+                nova parceira, Slikdesk, oferece tudo isso e muito mais,{' '}
+                elevando sua saúde e dando um upgrade no setup. São diversos
+                modelos de mesas com regulagem de altura (manual ou elétrica),
+                bases com regulagem, cadeira e acessórios indispensáveis para
+                qualquer dev.
               </Text>
+              <Text>
+                E tem presente para você: R$130 de desconto nas standing desks!
+                <br />
+                Acesse a{' '}
+                <Link href="https://slik.com.br/trampardecasa">
+                  slik.com.br/trampardecasa
+                </Link>{' '}
+                e use o cupom <b>TRAMPARDECASA</b>
+              </Text>
+
               <Text style={paragraph}>
                 O seu feedback nos ajuda <strong>demais</strong>, clique{' '}
                 <Link style={anchor} href={feedbackFormUrl}>
@@ -118,10 +125,19 @@ export const OpeningsEmail = ({
     </Tailwind>
   )
 }
-
 export const openingsEmailHTML = async (
   props: OpeningsEmail & { id: string }
 ) => {
+  const client = createClient()
+  await client.connect()
+  const renderedHtmlPersisted = await client.get(`OPENING_HTML:${props.id}`)
+
+  if (renderedHtmlPersisted) {
+    return renderedHtmlPersisted
+  }
+
   const renderedHtml = render(OpeningsEmail(props))
+  await client.set(`OPENING_HTML:${props.id}`, renderedHtml)
+  await client.disconnect()
   return renderedHtml
 }
