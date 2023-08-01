@@ -7,7 +7,7 @@ import { setViewport } from './setViewport'
 export const isValidRole = async (url: string, role: string) => {
   const { page, browser } = await launchBrowserAndNavigateToPage(url)
   // Set screen size
-  setViewport(page)
+  await setViewport(page)
 
   // Locate the full title with a unique string
   const isValidRole = await isValidRoleOnSite(page, role)
