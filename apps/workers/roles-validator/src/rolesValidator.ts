@@ -7,23 +7,33 @@ import { isValidRole } from './isValidRole'
 dotenv.config()
 
 export async function rolesValidator() {
-  const redisClient = createClient()
+  const redisClient = createClient({
+    socket: {
+      keepAlive: false,
+    },
+  })
   await redisClient.connect()
   const roles = await getRoles()
 
+  const deleteFromRedis = async (id: string) =>
+    await redisClient.del(`${RedisPrefix.RolesRenderer}${id}`)
+
   for (let index = 0; index < roles.length; index++) {
     const { id, url, title } = roles[index]
-    let isValid = false
-    if (!url) return
+    if (!url) {
+      await deleteFromRedis(id)
+      return
+    }
 
     try {
-      isValid = await isValidRole(url, title)
-    } catch {
-      isValid = false
-    }
-    if (isValid) return
-    await redisClient.del(`${RedisPrefix.RolesRenderer}${id}`)
-  }
+      const isValid = await isValidRole(url, title)
+      if (isValid) return
 
-  await redisClient.disconnect()
+      await deleteFromRedis(id)
+      await redisClient.disconnect()
+    } catch (e) {
+      await deleteFromRedis(id)
+      await redisClient.disconnect()
+    }
+  }
 }
