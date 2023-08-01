@@ -2,12 +2,13 @@ import amqplibFile, { Connection } from 'amqplib'
 import { vi } from 'vitest'
 
 export const assertQueueStub = vi.fn()
-export const consumeStub = vi.fn()
+export const consumerStub = vi.fn()
+export const ackStub = vi.fn()
 
 export const channelMock = {
-  ack: vi.fn(),
+  ack: ackStub,
   assertQueue: assertQueueStub,
-  consume: consumeStub,
+  consume: consumerStub,
 } as unknown as amqplibFile.Channel
 
 const connectionReturnMock: Connection = {
