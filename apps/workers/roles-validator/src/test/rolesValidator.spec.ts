@@ -5,15 +5,26 @@ import { redisDelStub, redisStub } from 'shared/src/test/helpers/stubs'
 import { rolesValidator } from 'src/rolesValidator'
 import { vi } from 'vitest'
 import * as getRolesFile from '../getRoles'
+import * as isValidRoleFile from '../isValidRole'
 
+const isValidRoleStub = vi.fn()
 const getRolesStub = vi.fn()
+const testSetup = () => {
+  vi.spyOn(isValidRoleFile, 'isValidRole').mockImplementation(isValidRoleStub)
+  vi.spyOn(redisFile, 'createClient').mockImplementation(redisStub)
+  vi.spyOn(getRolesFile, 'getRoles').mockImplementation(getRolesStub)
+}
+
+const roleDataReturnFactory = () => [
+  {
+    id: faker.string.uuid(),
+    url: faker.internet.url(),
+    title: faker.person.jobTitle(),
+  },
+]
 
 describe('Roles Validator', () => {
-  beforeAll(() => {
-    vi.spyOn(redisFile, 'createClient').mockImplementation(redisStub)
-
-    vi.spyOn(getRolesFile, 'getRoles').mockImplementation(getRolesStub)
-  })
+  beforeAll(testSetup)
   afterEach(() => {
     vi.clearAllMocks()
   })
@@ -25,18 +36,21 @@ describe('Roles Validator', () => {
     expect(getRolesStub).toBeCalled()
   })
   describe('each roles', () => {
-    it('removes roles from Redis that are not ready in the database', async () => {
-      const id = faker.string.uuid()
-      getRolesStub.mockResolvedValue([{ id, ready: false }])
+    it('removes roles from Redis that are not valid on site', async () => {
+      const roleDataMock = roleDataReturnFactory()
+      getRolesStub.mockResolvedValue(roleDataMock)
+      isValidRoleStub.mockResolvedValue(false)
+      const expectedDeletedKey = `${RedisPrefix.RolesRenderer}${roleDataMock[0].id}`
 
       await rolesValidator()
 
-      expect(redisDelStub).toBeCalledWith(`${RedisPrefix.RolesRenderer}${id}`)
+      expect(redisDelStub).toBeCalledWith(expectedDeletedKey)
     })
 
-    it('keeps roles in Redis that are ready in the database', async () => {
-      const id = faker.string.uuid()
-      getRolesStub.mockResolvedValue([{ id, ready: true }])
+    it('keeps roles in Redis that are valid on site', async () => {
+      const roleDataMock = roleDataReturnFactory()
+      getRolesStub.mockResolvedValue(roleDataMock)
+      isValidRoleStub.mockResolvedValue(true)
 
       await rolesValidator()
 
