@@ -5,5 +5,7 @@ export const launchBrowserAndNavigateToPage = async (url: string) => {
   const page = await browser.newPage()
 
   await page.goto(url)
+  await page.waitForNavigation()
+
   return { page, browser }
 }
