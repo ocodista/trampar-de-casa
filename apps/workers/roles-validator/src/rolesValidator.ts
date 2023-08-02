@@ -1,18 +1,12 @@
 import dotenv from 'dotenv'
-import { createClient } from 'redis'
+import { RedisClientType } from 'redis'
 import { RedisPrefix } from 'shared/src/enums/redis'
 import { getRoles } from './getRoles'
 import { isValidRole } from './isValidRole'
 
 dotenv.config()
 
-export async function rolesValidator() {
-  const redisClient = createClient({
-    socket: {
-      keepAlive: false,
-    },
-  })
-  await redisClient.connect()
+export async function rolesValidator(redisClient: RedisClientType) {
   const roles = await getRoles()
 
   const deleteFromRedis = async (id: string) =>
@@ -30,10 +24,8 @@ export async function rolesValidator() {
       if (isValid) return
 
       await deleteFromRedis(id)
-      await redisClient.disconnect()
     } catch (e) {
       await deleteFromRedis(id)
-      await redisClient.disconnect()
     }
   }
 }

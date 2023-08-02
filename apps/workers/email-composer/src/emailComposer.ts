@@ -28,5 +28,5 @@ export const emailComposer = async () => {
     channel.ack(msg)
   })
 
-  return null
+  return process.exit(0)
 }
