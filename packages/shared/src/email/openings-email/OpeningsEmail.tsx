@@ -14,7 +14,7 @@ import {
 } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
-import { createClient } from 'redis'
+import { RedisClientType } from 'redis'
 import { Opening } from './Opening'
 import OpeningList from './OpeningList'
 import {
@@ -125,19 +125,16 @@ export const OpeningsEmail = ({
     </Tailwind>
   )
 }
-export const openingsEmailHTML = async (
-  props: OpeningsEmail & { id: string }
-) => {
-  const client = createClient()
-  await client.connect()
-  const renderedHtmlPersisted = await client.get(`OPENING_HTML:${props.id}`)
+export const openingsEmailHTML = async ({
+  redis,
+  ...props
+}: OpeningsEmail & { id: string; redis: RedisClientType }) => {
+  const renderedHtmlPersisted = await redis.get(`OPENING_HTML:${props.id}`)
 
   if (renderedHtmlPersisted) {
     return renderedHtmlPersisted
   }
-
   const renderedHtml = render(OpeningsEmail(props))
-  await client.set(`OPENING_HTML:${props.id}`, renderedHtml)
-  await client.disconnect()
+  await redis.set(`OPENING_HTML:${props.id}`, renderedHtml)
   return renderedHtml
 }
