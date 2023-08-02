@@ -12,7 +12,7 @@ export const loadSubscribersHtml = async (
   await client.connect()
 
   const emailsHTML: Record<string, string> = {}
-  console.time('load htmls')
+  console.time('load email htmls')
   let count = 0
   for (const subscriber of subscribers) {
     count++
@@ -23,7 +23,7 @@ export const loadSubscribersHtml = async (
       emailProps
     )
   }
-  console.timeEnd('load htmls')
+  console.timeEnd('load email htmls')
   console.log(`Loaded ${count} html emails to memory`)
 
   await client.disconnect()
