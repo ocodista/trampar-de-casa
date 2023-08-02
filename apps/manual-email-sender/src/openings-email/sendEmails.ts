@@ -29,7 +29,7 @@ async function main() {
   const chunks = chunkArray(subscribers, 10)
   const subject = generateSubjectEmail(emailProps)
 
-  const secretKey = process.env['SECRET_KEY'] as string
+  const secretKey = process.env['CRYPT_SECRET'] as string
   if (!secretKey) throw new Error('Secret is needed!')
 
   const resendClient = new Resend(process.env['RESEND_KEY'])
