@@ -53,7 +53,7 @@ const localOpenings: Opening[] = [
     currency: 'R$',
   },
   {
-    title: 'Desenvolvedor Pleno (Node.js)',
+    title: 'Desenvolvedor(a) Pleno (Node.js)',
     company: 'BairesDev',
     location: 'Brasil',
     language: 'Português',
@@ -63,7 +63,7 @@ const localOpenings: Opening[] = [
     currency: 'R$',
   },
   {
-    title: 'Desenvolvedor Pleno (Python)',
+    title: 'Desenvolvedor(a) Pleno (Python)',
     company: 'Oowlish',
     location: 'Brasil',
     language: 'Inglês',
@@ -165,7 +165,7 @@ const localOpenings: Opening[] = [
     currency: 'R$',
   },
   {
-    title: 'Desenvolvedor Sênior Backend (Java e .Net)',
+    title: 'Desenvolvedor(a) Sênior Backend (Java e .Net)',
     company: 'Oowlish',
     location: 'Brasil',
     language: 'Inglês',
@@ -186,7 +186,7 @@ const localOpenings: Opening[] = [
   },
   {
     company: 'Dbccompany',
-    title: 'esenvolvedor(a) Sênior (PHP)',
+    title: 'Desenvolvedor(a) Sênior (PHP)',
     location: 'Brasil',
     language: 'Português',
     currency: 'R$',
@@ -268,6 +268,16 @@ const globalOpenings: Opening[] = [
     skills: ['React.js', 'Python', 'Django', 'Pandas', 'SQL'],
   },
   {
+    title: 'Desenvolvedor(a) Backend Sênior (Node.js e TypeScript)',
+    company: 'Strider',
+    location: 'Estados Unidos',
+    language: 'Inglês',
+    currency: 'U$',
+    headerInfo: 'Mínimo de 4 anos de XP',
+    url: 'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLWJhY2stZW5kLWVuZ2luZWVyLW5vZGVqcy10eXBlc2NyaXB0LWZjNzc5MmRiP3JlZmVycmFsPXRyYW1wYXJfZGVfY2FzYQ==',
+    skills: ['Node.js', 'TypeScript', 'Redis', 'Cloud', 'Azure'],
+  },
+  {
     title: 'Lead Front-end Engineer (React.js)',
     company: 'Strider',
     location: 'Estados Unidos',
@@ -286,17 +296,6 @@ const globalOpenings: Opening[] = [
     headerInfo: 'Mínimo de 6 anos de XP',
     url: 'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLWRldm9wcy1lbmdpbmVlci1iODZkOWZmNj9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
     skills: ['DevOps', 'MLOps', 'AWS', 'CI/CD', 'DataScience'],
-  },
-
-  {
-    title: 'Desenvolvedor(a) Backend Sênior (Node.js e TypeScript)',
-    company: 'Strider',
-    location: 'Estados Unidos',
-    language: 'Inglês',
-    currency: 'U$',
-    headerInfo: 'Mínimo de 4 anos de XP',
-    url: 'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLWJhY2stZW5kLWVuZ2luZWVyLW5vZGVqcy10eXBlc2NyaXB0LWZjNzc5MmRiP3JlZmVycmFsPXRyYW1wYXJfZGVfY2FzYQ==',
-    skills: ['Node.js', 'TypeScript', 'Redis', 'Cloud', 'Azure'],
   },
   {
     title: 'Desenvolvedor(a) Backend (SDK/Plugin)',
