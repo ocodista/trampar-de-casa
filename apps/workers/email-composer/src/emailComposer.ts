@@ -24,9 +24,8 @@ export const emailComposer = async () => {
     const [, props] = Object.entries(emailPreRender)[0]
 
     const sanitizedRoles = await filterRoles(props.roles)
-
     channel.ack(msg)
   })
 
-  return process.exit(0)
+  return
 }
