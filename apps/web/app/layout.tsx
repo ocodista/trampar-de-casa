@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Script from 'next/script'
 import { Header } from './components/Header'
 import { Toaster } from './components/ui/toaster'
 import './global.css'
@@ -22,11 +21,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }) {
   return (
     <html className="scroll-smooth" lang="pt-BR">
-      <Script
-        strategy="afterInteractive"
-        data-domain="trampardecasa.com.br"
-        src="https://plausible.io/js/script.js"
-      />
       <body>
         <Providers>
           <Toaster />

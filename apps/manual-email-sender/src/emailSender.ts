@@ -34,7 +34,7 @@ export const sendEmail = async ({
     console.log(`Sending to ${to}...`)
     const response = await resendClient.emails.send({
       from: 'Trampar de Casa <comece@trampardecasa.com.br>',
-      to: to,
+      to,
       subject,
       html,
     })

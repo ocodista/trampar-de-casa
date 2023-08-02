@@ -5,7 +5,7 @@ const Spinner = () => {
     <div role={'status w-fit'}>
       <svg
         aria-hidden="true"
-        className="w-12 h-12 text-gray-200 animate-spin dark:text-gray-600 fill-indigo-600"
+        className="h-12 w-12 animate-spin fill-indigo-600 text-gray-200 dark:text-gray-600"
         viewBox="0 0 100 101"
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
@@ -28,7 +28,7 @@ export const LoadingOverlay = ({ className }) => {
   return (
     <div
       className={cn(
-        'h-screen w-screen bg-opacity-70 fixed top-0 z-50 bg-black  items-center justify-center',
+        'fixed top-0 z-50 h-screen w-screen items-center justify-center  bg-black bg-opacity-70',
         className
       )}
     >
