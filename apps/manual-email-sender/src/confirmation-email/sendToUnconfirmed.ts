@@ -1,10 +1,9 @@
 /* eslint-disable no-console */
-import { readFileSync } from 'fs'
 import { createClient } from '@supabase/supabase-js'
-import path from 'path'
 import dotenv from 'dotenv'
+import fs, { readFileSync } from 'fs'
+import path from 'path'
 import { Entities } from 'shared'
-import fs from 'fs'
 import { sendConfirmationEmail } from 'shared/src/email'
 
 dotenv.config()
@@ -41,7 +40,7 @@ async function sendEmail(id: string, email: string) {
   try {
     const response = await sendConfirmationEmail({
       resendKey: process.env['RESEND_KEY'] || '',
-      secretKey: process.env['SECRET_KEY'] || '',
+      secretKey: process.env['CRYPT_SECRET'] || '',
       to: email,
       subscriberId: id,
     })

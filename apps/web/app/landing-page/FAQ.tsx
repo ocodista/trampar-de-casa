@@ -7,7 +7,7 @@ export const FAQ = () => (
       <p className="tracking-px mb-5 text-sm font-semibold uppercase text-indigo-600">
         ALGUMA DÚVIDA?
       </p>
-      <h2 className="mb-16 text-6xl md:text-8xl xl:text-10xl font-bold font-heading tracking-tight leading-none max-xs:hyphens-auto max-xs:text-4xl">
+      <h2 className="xl:text-10xl font-heading max-xs:hyphens-auto max-xs:text-4xl mb-16 text-6xl font-bold leading-none tracking-tight md:text-8xl">
         Perguntas Frequentes
       </h2>
       <div className="mb-8">
