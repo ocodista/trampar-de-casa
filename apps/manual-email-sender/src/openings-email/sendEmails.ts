@@ -17,10 +17,6 @@ async function confirmedSubscribersToSend(emailsSent: string[]) {
   return result.filter((subscriber) => !emailsSent.includes(subscriber.email))
 }
 
-// Leia isso aqui \/
-// TODO: Render OpeningsEmail once, passing static props (globalOpenings, localOpenings, feedbackFormUrl)
-// TODO: Generate subscriberHTMLS, should be a Record<id, html>, replacing {{ UNSUBSCRIBE_ID }} param with optout + encrypted id
-// TODO: Use subscriberHTMLS to send emails
 async function main() {
   const selectedDate = getSelectedDate()
   console.log(`Searching email props for ${selectedDate}...`)
