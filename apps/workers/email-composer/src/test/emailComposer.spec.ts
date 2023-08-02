@@ -35,9 +35,10 @@ describe('Email Composer Service Tests', () => {
 
   describe('each queue message', () => {
     it('Verifies roles validity based on Supabase search', async () => {
+      const queueMock = emailPreRendererItem()
       consumerStub.mockImplementationOnce((_, onMessage) => {
         onMessage({
-          content: Buffer.from(JSON.stringify(emailPreRendererItem())),
+          content: Buffer.from(JSON.stringify(queueMock)),
         })
       })
 
