@@ -1,3 +1,4 @@
+import { faker } from '@faker-js/faker'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import * as connectToQueueFile from 'shared/src/queue/connectToQueue'
 import { emailComposer } from 'src/emailComposer'
@@ -9,11 +10,19 @@ import {
   assertQueueStub,
   channelMock,
   consumerStub,
+  sendToQueueStub,
 } from './helpers/rabbitMQ'
 
 const connectToQueueStub = vi.fn()
 const filterRolesStub = vi.fn()
 describe('Email Composer Service Tests', () => {
+  const sendToConsumer = (obj: unknown) => {
+    consumerStub.mockImplementationOnce((_, onMessage) => {
+      onMessage({
+        content: Buffer.from(JSON.stringify(obj)),
+      })
+    })
+  }
   beforeEach(() => {
     vi.spyOn(connectToQueueFile, 'connectToQueue').mockImplementation(
       connectToQueueStub
@@ -36,11 +45,7 @@ describe('Email Composer Service Tests', () => {
   describe('each queue message', () => {
     it('Verifies roles validity based on Supabase search', async () => {
       const queueMock = emailPreRendererItem()
-      consumerStub.mockImplementationOnce((_, onMessage) => {
-        onMessage({
-          content: Buffer.from(JSON.stringify(queueMock)),
-        })
-      })
+      sendToConsumer(queueMock)
 
       await emailComposer()
 
@@ -48,19 +53,31 @@ describe('Email Composer Service Tests', () => {
     })
 
     it('process messages and acknowledge RabbitMQ queue', async () => {
-      consumerStub.mockImplementationOnce((_, onMessage) => {
-        onMessage({
-          content: Buffer.from(JSON.stringify(emailPreRendererItem())),
-        })
-      })
+      sendToConsumer(emailPreRendererItem())
 
       await emailComposer()
 
       expect(ackStub).toBeCalled()
     })
-    describe.skip('Mount HTML', () => {
-      it('Correctly mounts HTML with subscriber information', () => {
-        // Implement test to verify if the static HTML is correctly mounted with subscriber information
+    describe('Mount HTML', () => {
+      it.skip('Correctly mounts HTML with subscriber information', async () => {
+        const queueMock = emailPreRendererItem()
+        sendToConsumer(queueMock)
+        const [email, { footerHTML, headerHTML }] = Object.entries(queueMock)[0]
+        const filterRolesReturnMock = faker.string.sample()
+        filterRolesStub.mockResolvedValue(filterRolesReturnMock)
+
+        await emailComposer()
+
+        //sendToQueueStub.mockImplementation((...args: unknown[]) => console.log('aa', args))
+        expect(sendToQueueStub).toBeCalledWith(
+          EmailQueues.EmailComposer,
+          Buffer.from(
+            JSON.stringify({
+              [email]: `${headerHTML}${filterRolesReturnMock}${footerHTML}`,
+            })
+          )
+        )
       })
     })
 

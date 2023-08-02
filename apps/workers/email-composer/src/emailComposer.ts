@@ -9,22 +9,36 @@ type EmailPreRenderer = Record<
 >
 
 export const emailComposer = async () => {
-  const channel = await connectToQueue({
+  const channelToConsume = await connectToQueue({
     password: CONFIG.RABBITMQ_PASS,
     user: CONFIG.RABBITMQ_USER,
   })
+  const channelToSend = await connectToQueue({
+    password: CONFIG.RABBITMQ_PASS,
+    user: CONFIG.RABBITMQ_USER,
+  })
+  await Promise.all([
+    channelToConsume.assertQueue(EmailQueues.EmailPreRenderer),
+    channelToSend.assertQueue(EmailQueues.EmailComposer),
+  ])
 
-  await channel.assertQueue(EmailQueues.EmailPreRenderer)
-
-  channel.consume(EmailQueues.EmailPreRenderer, async (msg) => {
+  await channelToConsume.consume(EmailQueues.EmailPreRenderer, async (msg) => {
     if (!msg) return
     const emailPreRender = JSON.parse(
       msg.content.toString()
     ) as EmailPreRenderer
-    const [, props] = Object.entries(emailPreRender)[0]
+    const [email, { footerHTML, headerHTML, roles }] =
+      Object.entries(emailPreRender)[0]
 
-    const sanitizedRoles = await filterRoles(props.roles)
-    channel.ack(msg)
+    const rolesHTML = await filterRoles(roles)
+    channelToSend.sendToQueue(
+      EmailQueues.EmailComposer,
+      Buffer.from(
+        JSON.stringify({ [email]: `${headerHTML}${rolesHTML}${footerHTML}` })
+      )
+    )
+
+    channelToConsume.ack(msg)
   })
 
   return
