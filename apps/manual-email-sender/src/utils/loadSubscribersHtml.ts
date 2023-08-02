@@ -24,7 +24,8 @@ export const loadSubscribersHtml = async (
     )
   }
   console.timeEnd('load htmls')
+  console.log(`Loaded ${count} html emails to memory`)
 
   await client.disconnect()
-  return { emailsHTML, count }
+  return emailsHTML
 }

@@ -38,12 +38,11 @@ async function main() {
 
   const resendClient = new Resend(process.env['RESEND_KEY'])
 
-  const { emailsHTML, count } = await loadSubscribersHtml(
+  const emailsHTML = await loadSubscribersHtml(
     secretKey,
     subscribers,
     emailProps
   )
-  console.log(`Loaded ${count} html emails to memory`)
 
   for (const [index, chunk] of chunks.entries()) {
     console.time('batch')
