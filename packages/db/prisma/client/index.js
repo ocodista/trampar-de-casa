@@ -213,7 +213,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/joao/FOSS/trampar-de-casa/packages/db/prisma/client",
+      "value": "C:\\Users\\mateus.lima\\Documents\\personal\\dev\\JavaScript\\trampar-de-casa-weekly\\packages\\db\\prisma\\client",
       "fromEnvVar": null
     },
     "config": {
@@ -222,7 +222,7 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "debian-openssl-3.0.x",
+        "value": "windows",
         "native": true
       }
     ],
@@ -230,8 +230,7 @@ const config = {
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
-    "rootEnvPath": "../../.env",
-    "schemaEnvPath": "../../.env"
+    "rootEnvPath": null
   },
   "relativePath": "..",
   "clientVersion": "5.0.0",
@@ -248,7 +247,7 @@ const fs = require('fs')
 
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
-  config.dirname = path.join(process.cwd(), "prisma/client")
+  config.dirname = path.join(process.cwd(), "packages/db/prisma/client")
   config.isBundled = true
 }
 
@@ -270,7 +269,7 @@ const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
-path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
-path.join(process.cwd(), "prisma/client/libquery_engine-debian-openssl-3.0.x.so.node")
+path.join(__dirname, "query_engine-windows.dll.node");
+path.join(process.cwd(), "packages/db/prisma/client/query_engine-windows.dll.node")
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "prisma/client/schema.prisma")
+path.join(process.cwd(), "packages/db/prisma/client/schema.prisma")

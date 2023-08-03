@@ -26,7 +26,7 @@ export const hr = {
 }
 
 export const paragraph = {
-  color: '#525f7f',
+  color: '#000', //'#525f7f',
 
   fontSize: '16px',
   lineHeight: '24px',

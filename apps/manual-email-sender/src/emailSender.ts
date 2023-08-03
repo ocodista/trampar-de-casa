@@ -1,13 +1,14 @@
-import { Resend } from 'resend'
-import { getSelectedDate } from './utils'
 import fs from 'fs'
 import path from 'path'
+import { Resend } from 'resend'
+import { getSelectedDate } from './utils'
 
 export interface SendEmail {
   resendClient: Resend
   to: string
   html: string
   subject: string
+  unsubscribeLink: string
 }
 
 export const sendEmail = async ({
@@ -15,6 +16,7 @@ export const sendEmail = async ({
   to,
   html,
   subject,
+  unsubscribeLink,
 }: SendEmail) => {
   const selectedDate = getSelectedDate()
   const handleError = (err: unknown) => {
