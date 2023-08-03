@@ -32,10 +32,6 @@ export function SubscriberForm() {
       if (response.ok) {
         setIsContributeDialogOpen(true)
         fireworks()
-        toast({
-          title: 'Tudo certo 🥳',
-          description: 'Enviamos uma confirmação para o seu e-mail!',
-        })
         return
       }
 

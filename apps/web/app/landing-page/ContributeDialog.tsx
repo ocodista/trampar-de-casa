@@ -15,18 +15,26 @@ type ContributeDialogProps = {
 export function ContributeDialog({ onClose, open }: ContributeDialogProps) {
   return (
     <Dialog open={open}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>Contribua com nosso projeto!</DialogTitle>
+      <DialogContent className="max-w-[20%]">
+        <DialogHeader className="space-y-4">
+          <DialogTitle>Obrigado por se cadastrar!</DialogTitle>
           <DialogDescription>
-            Mostre seu apoio ao trabalho remoto, dê uma estrela (⭐) no nosso
-            repositório do GitHub!
+            <b>Verifique seu e-mail</b> para confirmar sua conta e receber vagas
+            de trabalho remoto.
+          </DialogDescription>
+          <DialogDescription>
+            Apoie o projeto deixando uma estrela no repositório do
+            TramparDeCasa.
           </DialogDescription>
           <Link
             onClick={onClose}
             target="__blank"
             href={'https://github.com/ocodista/trampar-de-casa'}
-            className={cn('px-11', buttonVariants())}
+            className={cn(
+              'px-11',
+              buttonVariants({ size: 'lg' }),
+              'font-semibold'
+            )}
           >
             <svg
               viewBox="0 0 24 24"
