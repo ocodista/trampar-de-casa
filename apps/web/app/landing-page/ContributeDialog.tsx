@@ -15,7 +15,7 @@ type ContributeDialogProps = {
 export function ContributeDialog({ onClose, open }: ContributeDialogProps) {
   return (
     <Dialog open={open}>
-      <DialogContent className="max-w-[20%]">
+      <DialogContent>
         <DialogHeader className="space-y-4">
           <DialogTitle>Obrigado por se cadastrar!</DialogTitle>
           <DialogDescription>
