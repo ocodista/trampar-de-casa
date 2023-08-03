@@ -4,10 +4,12 @@ import { zodResolver } from '@hookform/resolvers/zod'
 import { useLoadingContext } from 'app/contexts/LoadingContext'
 import { useToast } from 'app/hooks/use-toast'
 import { StatusCodes } from 'http-status-codes'
+import { useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { ApiRoutes } from 'shared/src/enums/apiRoutes'
 import { z } from 'zod'
 import fireworks from '../utils/confetti'
+import { ContributeDialog } from './ContributeDialog'
 
 const validationSchema = z.object({
   email: z.string().email('Insira um e-mail válido!'),
@@ -17,6 +19,7 @@ type ValidationSchema = z.infer<typeof validationSchema>
 export function SubscriberForm() {
   const { isLoading, withLoading } = useLoadingContext()
   const { toast } = useToast()
+  const [isContributeDialogOpen, setIsContributeDialogOpen] = useState(false)
 
   const saveSubscriber = async () => {
     const email = getValues().email
@@ -27,6 +30,7 @@ export function SubscriberForm() {
       })
 
       if (response.ok) {
+        setIsContributeDialogOpen(true)
         fireworks()
         toast({
           title: 'Tudo certo 🥳',
@@ -71,6 +75,10 @@ export function SubscriberForm() {
   return (
     <>
       <div className="-my-2.5 inline-block w-full rounded-xl border-2 border-black p-1.5 focus-within:ring focus-within:ring-indigo-300 lg:-m-2.5 xl:pl-7">
+        <ContributeDialog
+          open={isContributeDialogOpen}
+          onClose={() => setIsContributeDialogOpen(false)}
+        />
         <form
           onSubmit={async (e) => {
             e.preventDefault()
