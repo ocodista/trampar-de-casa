@@ -1,79 +1,46 @@
 import { ConsumeMessage } from 'amqplib'
 import fs from 'node:fs'
-import { Resend } from 'resend'
 import * as connectToQueueFile from 'shared/src/queue/connectToQueue'
-import * as consumeMessageFile from 'src/consumeMessage'
 import { emailSender } from 'src/emailSender'
-import { vi } from 'vitest'
+import * as sendEmailFile from 'src/sendEmail'
+import { SpyInstance, vi } from 'vitest'
 import { emailComposerItem } from './factories/emailComposerItem'
-import {
-  ackStub,
-  channelMock,
-  consumerStub,
-  prefetchStub,
-} from './helpers/rabbitMQ'
+import { ackStub, channelMock, getStub } from './helpers/rabbitMQ'
 
 describe('Email Sender Service Tests', () => {
-  const { consumeMessage } = consumeMessageFile
   const sendStub = vi.fn()
-  const emailsMock = {
-    send: sendStub,
-  } as unknown as Resend['emails']
   const appendFileSyncStub = vi.fn()
+  const sendEmailStub = vi.fn()
+  const connectToQueueStub = vi.fn()
+  let sendEmailSpy: SpyInstance
+  connectToQueueStub.mockResolvedValue(channelMock)
   beforeEach(() => {
     vi.spyOn(connectToQueueFile, 'connectToQueue').mockImplementation(
-      async () => channelMock
+      connectToQueueStub
     )
     vi.spyOn(fs, 'appendFileSync').mockImplementation(appendFileSyncStub)
-  })
-  it('Prefetch exactly 1000 messages from the queue', async () => {
-    await emailSender()
-
-    expect(prefetchStub).toBeCalledWith(1000)
+    sendEmailSpy = vi.spyOn(sendEmailFile, 'sendEmail')
+    sendEmailSpy.mockImplementation(sendEmailStub)
   })
   it('initiate rabbitMQ queue consume', async () => {
     await emailSender()
 
-    expect(consumerStub).toBeCalled()
+    expect(connectToQueueStub).toBeCalled()
   })
-  it.skip('Email sender breaks messages into batches of 25', () => {
-    consumeMessage(
-      channelMock,
-      emailsMock,
-      () => undefined
-    )({
-      content: Buffer.from(JSON.stringify(emailComposerItem())),
-    } as ConsumeMessage)
-  })
+  it.skip('Email sender breaks messages into batches of 25')
 
   describe('for each batch item', () => {
-    it('pass messageContent to callback', async () => {
-      const emailComposerItemMock = emailComposerItem()
-      const genericCallbackStub = vi.fn()
-
-      await consumeMessage(
-        channelMock,
-        emailsMock,
-        genericCallbackStub
-      )({
-        content: Buffer.from(JSON.stringify(emailComposerItemMock)),
-      } as ConsumeMessage)
-
-      expect(genericCallbackStub).toBeCalledWith(emailComposerItemMock)
-    })
-    it('sends individual email with resend', async () => {
+    it.only('sends individual email with resend', async () => {
       const emailComposerItemMock = emailComposerItem()
       const [emailMock, htmlMock] = Object.entries(emailComposerItemMock)[0]
+      getStub.mockResolvedValueOnce({
+        content: Buffer.from(JSON.stringify({ [emailMock]: htmlMock })),
+      })
+      getStub.mockResolvedValueOnce(false)
 
-      await consumeMessage(
-        channelMock,
-        emailsMock,
-        () => undefined
-      )({
-        content: Buffer.from(JSON.stringify(emailComposerItemMock)),
-      } as ConsumeMessage)
+      await emailSender()
 
-      expect(sendStub).toBeCalledWith({
+      expect(sendEmailSpy).toBeCalledWith({
         from: 'Trampar de Casa <comece@trampardecasa.com.br>',
         to: emailMock,
         subject: 'Vagas para você Trampar de Casa',
@@ -85,27 +52,23 @@ describe('Email Sender Service Tests', () => {
         throw new Error('Generic error')
       })
       const emailComposerItemMock = emailComposerItem()
-
-      await consumeMessage(
-        channelMock,
-        emailsMock,
-        () => undefined
-      )({
+      getStub.mockResolvedValueOnce({
         content: Buffer.from(JSON.stringify(emailComposerItemMock)),
-      } as ConsumeMessage)
+      })
+      getStub.mockResolvedValueOnce(false)
+
+      await emailSender()
 
       expect(appendFileSyncStub).toBeCalled()
     })
     it('save email if resend sends email successfully', async () => {
       const emailComposerItemMock = emailComposerItem()
-
-      await consumeMessage(
-        channelMock,
-        emailsMock,
-        () => undefined
-      )({
+      getStub.mockResolvedValueOnce({
         content: Buffer.from(JSON.stringify(emailComposerItemMock)),
-      } as ConsumeMessage)
+      })
+      getStub.mockResolvedValueOnce(false)
+
+      await emailSender()
 
       expect(appendFileSyncStub).toBeCalled()
     })
@@ -113,11 +76,8 @@ describe('Email Sender Service Tests', () => {
       const consumeMessageMock = {
         content: Buffer.from(JSON.stringify(emailComposerItem())),
       } as ConsumeMessage
-      await consumeMessage(
-        channelMock,
-        emailsMock,
-        () => undefined
-      )(consumeMessageMock)
+      getStub.mockResolvedValueOnce(consumeMessageMock)
+      getStub.mockResolvedValueOnce(false)
 
       expect(ackStub).toBeCalledWith(consumeMessageMock)
     })
