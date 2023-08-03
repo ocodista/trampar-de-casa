@@ -39,20 +39,36 @@ describe('Email Sender Service Tests', () => {
   it.skip('Email sender breaks messages into batches of 25', () => {
     consumeMessage(
       channelMock,
-      emailsMock
+      emailsMock,
+      () => undefined
     )({
       content: Buffer.from(JSON.stringify(emailComposerItem())),
     } as ConsumeMessage)
   })
 
   describe('for each batch item', () => {
+    it('pass messageContent to callback', async () => {
+      const emailComposerItemMock = emailComposerItem()
+      const genericCallbackStub = vi.fn()
+
+      await consumeMessage(
+        channelMock,
+        emailsMock,
+        genericCallbackStub
+      )({
+        content: Buffer.from(JSON.stringify(emailComposerItemMock)),
+      } as ConsumeMessage)
+
+      expect(genericCallbackStub).toBeCalledWith(emailComposerItemMock)
+    })
     it('sends individual email with resend', async () => {
       const emailComposerItemMock = emailComposerItem()
       const [emailMock, htmlMock] = Object.entries(emailComposerItemMock)[0]
 
       await consumeMessage(
         channelMock,
-        emailsMock
+        emailsMock,
+        () => undefined
       )({
         content: Buffer.from(JSON.stringify(emailComposerItemMock)),
       } as ConsumeMessage)
@@ -72,7 +88,8 @@ describe('Email Sender Service Tests', () => {
 
       await consumeMessage(
         channelMock,
-        emailsMock
+        emailsMock,
+        () => undefined
       )({
         content: Buffer.from(JSON.stringify(emailComposerItemMock)),
       } as ConsumeMessage)
@@ -84,7 +101,8 @@ describe('Email Sender Service Tests', () => {
 
       await consumeMessage(
         channelMock,
-        emailsMock
+        emailsMock,
+        () => undefined
       )({
         content: Buffer.from(JSON.stringify(emailComposerItemMock)),
       } as ConsumeMessage)
@@ -95,7 +113,11 @@ describe('Email Sender Service Tests', () => {
       const consumeMessageMock = {
         content: Buffer.from(JSON.stringify(emailComposerItem())),
       } as ConsumeMessage
-      await consumeMessage(channelMock, emailsMock)(consumeMessageMock)
+      await consumeMessage(
+        channelMock,
+        emailsMock,
+        () => undefined
+      )(consumeMessageMock)
 
       expect(ackStub).toBeCalledWith(consumeMessageMock)
     })
