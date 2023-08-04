@@ -21,9 +21,9 @@ export async function emailPreRender() {
     id: string
   }[] = []
   const data = await getAllSubscribers()
-
   if (!data) return
-  for await (const subscribers of data) {
+
+  for (const subscribers of data) {
     const { id, email } = subscribers
     const subscriber = await redisClient.get(
       `${RedisPrefix.RolesAssigner}${id}`
@@ -32,7 +32,6 @@ export async function emailPreRender() {
     const rolesAssignerInfos = JSON.parse(subscriber) as { rolesId: string[] }
     subscriberRolesAndEmail.push({ ...rolesAssignerInfos, email, id })
   }
-
   subscriberRolesAndEmail.forEach(async ({ email, rolesId, id }) => {
     const promiseFooterHTML = new Promise<string>((resolve) =>
       resolve(renderFooter(id, CONFIG.URL_PREFIX))
