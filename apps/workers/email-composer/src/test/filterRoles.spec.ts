@@ -6,7 +6,7 @@ import {
   redisGetStub,
   redisStub,
 } from 'shared/src/test/helpers/stubs'
-import { filterRoles } from 'src/filterRoles'
+import { getHtmlRoles } from 'src/getHtmlRoles'
 import { expect, vi } from 'vitest'
 
 describe('filter roles', () => {
@@ -14,12 +14,12 @@ describe('filter roles', () => {
     vi.spyOn(redisFile, 'createClient').mockImplementation(redisStub)
   })
   it('establish connection with redis', async () => {
-    await filterRoles([faker.string.sample()])
+    await getHtmlRoles([faker.string.sample()])
 
     expect(redisConnectStub).toBeCalled()
   })
   it('break connection with redis', async () => {
-    await filterRoles([faker.string.sample()])
+    await getHtmlRoles([faker.string.sample()])
 
     expect(redisDisconnectStub).toBeCalled()
   })
@@ -30,7 +30,7 @@ describe('filter roles', () => {
     redisGetStub.mockResolvedValueOnce(firstRoleHTML)
     redisGetStub.mockResolvedValueOnce(twoRoleHTML)
 
-    const concatenatedRoles = await filterRoles(rolesIdArray)
+    const concatenatedRoles = await getHtmlRoles(rolesIdArray)
 
     expect(concatenatedRoles).toStrictEqual(`${firstRoleHTML}${twoRoleHTML}`)
   })

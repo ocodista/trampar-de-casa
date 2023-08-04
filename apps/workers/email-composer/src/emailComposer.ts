@@ -1,12 +1,15 @@
-import { ConsumeMessage } from 'amqplib'
+import { Message } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import { createRabbitMqChannel } from 'shared/src/queue/createRabbitMqChannel'
 import { CONFIG } from '../config'
-import { consumeMessage } from './consumeMessage'
+import { ConsumeMessageReturn, consumeMessage } from './consumeMessage'
+import { getHtmlRoles } from './getHtmlRoles'
+
 const rabbitMqCredentials = {
   password: CONFIG.RABBITMQ_PASS,
   user: CONFIG.RABBITMQ_USER,
 }
+
 export const emailComposer = async () => {
   const emailPreRendererChannel = await createRabbitMqChannel(
     rabbitMqCredentials
@@ -20,16 +23,27 @@ export const emailComposer = async () => {
     }),
   ])
 
-  const messageConsumeHandler = consumeMessage(
-    emailComposerChannel,
-    emailPreRendererChannel
-  )
+  const sendToEmailComposerQueue = async (props: Record<string, string>) => {
+    emailComposerChannel.sendToQueue(
+      EmailQueues.EmailComposer,
+      Buffer.from(JSON.stringify(props))
+    )
+  }
+
   let emailPreRendererMessage = await emailPreRendererChannel.get(
     EmailQueues.EmailPreRenderer
   )
   do {
-    if (!emailPreRendererMessage) break
-    messageConsumeHandler(emailPreRendererMessage as unknown as ConsumeMessage)
+    const sanitizedMessage = await consumeMessage(emailPreRendererMessage)
+    if (!sanitizedMessage) break
+    const { email, footerHTML, headerHTML, roles } =
+      sanitizedMessage as ConsumeMessageReturn
+    const rolesHTML = await getHtmlRoles(roles)
+
+    sendToEmailComposerQueue({
+      [email]: `${headerHTML}${rolesHTML}${footerHTML}`,
+    })
+    emailPreRendererChannel.ack(emailPreRendererMessage as Message)
 
     emailPreRendererMessage = await emailPreRendererChannel.get(
       EmailQueues.EmailPreRenderer

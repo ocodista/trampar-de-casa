@@ -1,7 +1,7 @@
 import { createClient } from 'redis'
 import { RedisPrefix } from 'shared/src/enums/redis'
 
-export const filterRoles = async (rolesId: string[]) => {
+export const getHtmlRoles = async (rolesId: string[]) => {
   let concatenatedHtmlRoles = ''
   const redisClient = createClient()
   await redisClient.connect()

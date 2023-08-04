@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker'
-import { ConsumeMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
 import {
@@ -8,25 +7,35 @@ import {
   channelMock,
   sendToQueueStub,
 } from 'shared/src/test/helpers/rabbitMQ'
-import { consumeMessage } from 'src/consumeMessage'
 import { emailComposer } from 'src/emailComposer'
 import { vi } from 'vitest'
-import * as filterRolesFile from '../filterRoles'
+import * as consumeMessageFile from '../consumeMessage'
+import * as getHtmlRolesFile from '../getHtmlRoles'
 import { emailPreRendererItem } from './factories/emailPreRendererQueueItem'
 
 const createRabbitMqChannelStub = vi.fn()
 const filterRolesStub = vi.fn()
+const rabbitMqConfig = () => {
+  vi.spyOn(
+    createRabbitMqChannelFile,
+    'createRabbitMqChannel'
+  ).mockImplementation(createRabbitMqChannelStub)
+  createRabbitMqChannelStub.mockResolvedValue(channelMock)
+}
+
 describe('Email Composer Service Tests', () => {
+  const consumeMessageStub = vi.fn()
   beforeEach(() => {
-    vi.spyOn(
-      createRabbitMqChannelFile,
-      'createRabbitMqChannel'
-    ).mockImplementation(createRabbitMqChannelStub)
-    vi.spyOn(filterRolesFile, 'filterRoles').mockImplementation(filterRolesStub)
-    createRabbitMqChannelStub.mockResolvedValue(channelMock)
+    rabbitMqConfig()
+    vi.spyOn(getHtmlRolesFile, 'getHtmlRoles').mockImplementation(
+      filterRolesStub
+    )
+    vi.spyOn(consumeMessageFile, 'consumeMessage').mockImplementation(
+      consumeMessageStub
+    )
   })
 
-  it('establish connection with rabbitMQ', async () => {
+  it('Establish connection with rabbitMQ', async () => {
     await emailComposer()
 
     expect(createRabbitMqChannelStub).toBeCalled()
@@ -37,27 +46,36 @@ describe('Email Composer Service Tests', () => {
     expect(assertQueueStub).toBeCalledWith(EmailQueues.EmailPreRenderer)
   })
 
-  describe('each queue message', () => {
-    it('Verifies roles validity based on Supabase search', async () => {
+  describe('Each queue message', () => {
+    it('Get concatenated roles html', async () => {
       const queueMock = emailPreRendererItem()
+      const [email, { footerHTML, headerHTML, roles }] =
+        Object.entries(queueMock)[0]
 
-      await consumeMessage(
-        channelMock,
-        channelMock
-      )({
-        content: Buffer.from(JSON.stringify(queueMock)),
-      } as ConsumeMessage)
+      consumeMessageStub.mockResolvedValue({
+        footerHTML,
+        headerHTML,
+        roles,
+        email,
+      })
+
+      await emailComposer()
 
       expect(filterRolesStub).toBeCalled()
     })
 
-    it('process messages and acknowledge RabbitMQ queue', async () => {
-      await consumeMessage(
-        channelMock,
-        channelMock
-      )({
-        content: Buffer.from(JSON.stringify(emailPreRendererItem())),
-      } as ConsumeMessage)
+    it('Process messages and acknowledge RabbitMQ queue', async () => {
+      const [email, { footerHTML, headerHTML, roles }] = Object.entries(
+        emailPreRendererItem()
+      )[0]
+      consumeMessageStub.mockResolvedValue({
+        email,
+        headerHTML,
+        footerHTML,
+        roles,
+      })
+
+      await emailComposer()
 
       expect(ackStub).toBeCalled()
     })
@@ -66,13 +84,14 @@ describe('Email Composer Service Tests', () => {
       const [email, { footerHTML, headerHTML }] = Object.entries(queueMock)[0]
       const filterRolesReturnMock = faker.string.sample()
       filterRolesStub.mockResolvedValue(filterRolesReturnMock)
+      consumeMessageStub.mockResolvedValue({
+        email,
+        footerHTML,
+        headerHTML,
+        roles: [],
+      })
 
-      await consumeMessage(
-        channelMock,
-        channelMock
-      )({
-        content: Buffer.from(JSON.stringify(queueMock)),
-      } as ConsumeMessage)
+      await emailComposer()
 
       expect(sendToQueueStub).toBeCalledWith(
         EmailQueues.EmailComposer,
