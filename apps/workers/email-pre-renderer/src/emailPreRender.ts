@@ -22,9 +22,7 @@ export async function emailPreRender() {
   }[] = []
   const data = await getAllSubscribers()
   if (!data) return
-
-  for (const subscribers of data) {
-    const { id, email } = subscribers
+  for (const { email, id } of data) {
     const subscriber = await redisClient.get(
       `${RedisPrefix.RolesAssigner}${id}`
     )
