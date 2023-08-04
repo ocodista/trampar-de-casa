@@ -1,14 +1,20 @@
 version: '3'
 services:
   rabbitmq:
-    image: rabbitmq:3-management
+    # image: rabbitmq:3-management
+    build: 
+      dockerfile: ./Dockerfile_rabbitmq
     hostname: rabbitmq
     ports:
       - 5672:5672   # RabbitMQ
       - 15672:15672 # Management console
+    expose:
+      - 5672
+      - 15672
     environment:
       RABBITMQ_DEFAULT_USER: trampar
       RABBITMQ_DEFAULT_PASS: trampar-de-casa
+    # command: 
   redis:
     image: redislabs/redismod
     ports:
