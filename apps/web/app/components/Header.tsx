@@ -23,15 +23,22 @@ export const Header = () => {
             </div>
             <div className="hidden w-auto lg:block">
               <ul className="mr-16 flex items-center">
-                <li className="mr-9 font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.Values}>Nossos Valores</a>
-                </li>
-                <li className="mr-9 font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.HowItWorks}>Como Funciona</a>
-                </li>
-                <li className="mr-9 font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.FAQ}>Perguntas Frequentes</a>
-                </li>
+                {Object.keys(LandingPageRoutes).map((route) => (
+                  <li
+                    className="mr-9 font-medium hover:text-gray-700"
+                    key={`desktop-${route}`}
+                  >
+                    <a
+                      href={
+                        LandingPageRoutes[
+                          route as keyof typeof LandingPageRoutes
+                        ]
+                      }
+                    >
+                      {route.replace('-', ' ')}
+                    </a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
@@ -112,33 +119,21 @@ export const Header = () => {
               </div>
               <div className="flex w-full flex-col justify-center py-16">
                 <ul>
-                  <li className="mb-12">
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.Values}
-                      onClick={() => setMobileMenuVisibility(false)}
-                    >
-                      Nossos Valores
-                    </a>
-                  </li>
-                  <li className="mb-12">
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.HowItWorks}
-                      onClick={() => setMobileMenuVisibility(false)}
-                    >
-                      Como Funciona
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.FAQ}
-                      onClick={() => setMobileMenuVisibility(false)}
-                    >
-                      Perguntas Frequentes
-                    </a>
-                  </li>
+                  {Object.keys(LandingPageRoutes).map((route) => (
+                    <li key={`mobile-${route}`}>
+                      <a
+                        className="font-medium hover:text-gray-700"
+                        href={
+                          LandingPageRoutes[
+                            route as keyof typeof LandingPageRoutes
+                          ]
+                        }
+                        onClick={() => setMobileMenuVisibility(false)}
+                      >
+                        {route.replace('-', ' ')}
+                      </a>
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>
