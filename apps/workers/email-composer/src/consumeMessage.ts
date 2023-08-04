@@ -17,8 +17,9 @@ export const consumeMessage = async (
 ): Promise<ConsumeMessageReturn | undefined> => {
   if (!msg) return
   const emailPreRender = JSON.parse(msg.content.toString()) as EmailPreRenderer
-  const [email, { footerHTML, headerHTML, roles }] =
-    Object.entries(emailPreRender)[0]
+  const [email] = Object.keys(emailPreRender)
+  const { footerHTML, headerHTML, roles } = emailPreRender[email]
+  Object.entries(emailPreRender)[0]
 
   return { email, footerHTML, headerHTML, roles }
 }
