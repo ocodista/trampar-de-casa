@@ -7,18 +7,24 @@ import { getRolesInBatches } from './getRoles'
 import { parseAndStoreRole } from './parseAndStoreRole'
 import { htmlStartingDoctype, parseHTML } from './parseHTML'
 
-const roleFactory = (length = 1) =>
-  Array.from(
-    { length },
-    () =>
-      ({
-        id: faker.string.uuid(),
-        companyId: faker.string.uuid(),
-        country: '',
-        skills: [] as Prisma.JsonValue,
-      } as Roles)
-  )
-const mockRoles = roleFactory(20)
+const getRoleMock = (): Roles =>
+  ({
+    id: faker.string.uuid(),
+    companyId: faker.string.uuid(),
+    country: '',
+    ready: faker.datatype.boolean(),
+    title: faker.internet.userName(),
+    skillsId: [],
+    description: faker.internet.domainName(),
+    createdAt: faker.date.anytime(),
+    updatedAt: faker.date.anytime(),
+    language: 'Portuguese',
+  } as unknown as Roles)
+
+const getRoleMocks = (count: number): Roles[] =>
+  new Array(count).fill().map(() => getRoleMock())
+
+const mockRoles = getRoleMocks(20)
 const mockSupabaseClient: SupabaseClient = {
   from: () => ({
     select: () => ({
