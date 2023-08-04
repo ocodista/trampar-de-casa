@@ -12,7 +12,7 @@ datasource db {
 }
 
 model Subscribers {
-  id               String              @id @default(uuid()) @db.Uuid
+  id String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email            String              @unique
   name             String?
   linkedInUrl      String?

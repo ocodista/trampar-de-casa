@@ -12,7 +12,7 @@ datasource db {
 }
 
 model Subscribers {
-  id               String              @id @default(uuid()) @db.Uuid
+  id               String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   email            String              @unique
   name             String?
   linkedInUrl      String?
@@ -63,6 +63,7 @@ model RoleSkills {
   skillId Int
   skills  Skills @relation(fields: [skillId], references: [id])
 }
+
 model SubscribersSkills {
   id Int @id
 
@@ -72,7 +73,6 @@ model SubscribersSkills {
   skillId Int
   skills  Skills @relation(fields: [skillId], references: [id])
 }
-
 
 model Skills {
   id                Int                 @id
