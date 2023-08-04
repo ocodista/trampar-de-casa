@@ -37,7 +37,6 @@ export const emailSender = async () => {
     const promises = chunk.map(
       async (emailComposerItem: EmailComposerContent) => {
         const [email, html] = Object.entries(emailComposerItem)[0]
-
         return await sendEmail(resend.emails, email, html)
       }
     )

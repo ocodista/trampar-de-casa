@@ -14,7 +14,7 @@ export const emailComposer = async () => {
   })
   await Promise.all([
     channelToConsume.assertQueue(EmailQueues.EmailPreRenderer),
-    channelToSend.assertQueue(EmailQueues.EmailComposer),
+    channelToSend.assertQueue(EmailQueues.EmailComposer, { durable: false }),
   ])
   const messageConsumeHandler = consumeMessage(channelToSend, channelToConsume)
 

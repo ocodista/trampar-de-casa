@@ -1,4 +1,4 @@
-import { SupabaseClient, Roles } from 'db'
+import { Roles, SupabaseClient } from 'db'
 import { Entities } from 'shared'
 
 export const getRolesBlock = async (
@@ -23,6 +23,7 @@ export async function* getRolesInBatches(
   let start = 0
   while (true) {
     const roles = await getRolesBlock(supabase, start, start + batchSize - 1)
+    console.log(roles)
     if (roles?.length === 0) break
     yield roles
     start += batchSize

@@ -1,9 +1,12 @@
 import { getSupabaseClient } from 'db'
+import dotenv from 'dotenv'
 import { RedisClientType, createClient as createRedisClient } from 'redis'
 import { getRolesInBatches } from './getRoles'
 import { parseAndStoreRole } from './parseAndStoreRole'
 
-async function main() {
+dotenv.config()
+
+export async function rolesRenderer() {
   const supabaseClient = getSupabaseClient()
   const redisClient: RedisClientType = createRedisClient()
   await redisClient.connect()
@@ -16,4 +19,3 @@ async function main() {
   }
   await redisClient.disconnect()
 }
-main()
