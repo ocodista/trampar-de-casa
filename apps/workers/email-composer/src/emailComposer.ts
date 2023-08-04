@@ -21,7 +21,7 @@ export const emailComposer = async () => {
     }),
   ])
 
-  const sendToEmailComposerQueue = async (props: Record<string, string>) => {
+  const sendToEmailComposerQueue = (props: Record<string, string>) => {
     emailComposerChannel.sendToQueue(
       EmailQueues.EmailComposer,
       Buffer.from(JSON.stringify(props))
