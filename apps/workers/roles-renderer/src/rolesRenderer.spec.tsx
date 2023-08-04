@@ -22,7 +22,7 @@ const getRoleMock = (): Roles =>
   } as unknown as Roles)
 
 const getRoleMocks = (count: number): Roles[] =>
-  new Array(count).fill().map(() => getRoleMock())
+  new Array(count).fill(0).map(() => getRoleMock())
 
 const mockRoles = getRoleMocks(20)
 const mockSupabaseClient: SupabaseClient = {
