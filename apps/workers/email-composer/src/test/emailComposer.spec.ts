@@ -2,17 +2,17 @@ import { faker } from '@faker-js/faker'
 import { ConsumeMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import * as connectToQueueFile from 'shared/src/queue/connectToQueue'
-import { consumeMessage } from 'src/consumeMessage'
-import { emailComposer } from 'src/emailComposer'
-import { vi } from 'vitest'
-import * as filterRolesFile from '../filterRoles'
-import { emailPreRendererItem } from './factories/emailPreRendererQueueItem'
 import {
   ackStub,
   assertQueueStub,
   channelMock,
   sendToQueueStub,
-} from './helpers/rabbitMQ'
+} from 'shared/src/test/helpers/rabbitMQ'
+import { consumeMessage } from 'src/consumeMessage'
+import { emailComposer } from 'src/emailComposer'
+import { vi } from 'vitest'
+import * as filterRolesFile from '../filterRoles'
+import { emailPreRendererItem } from './factories/emailPreRendererQueueItem'
 
 const connectToQueueStub = vi.fn()
 const filterRolesStub = vi.fn()

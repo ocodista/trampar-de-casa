@@ -1,3 +1,4 @@
+import { ConsumeMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import { connectToQueue } from 'shared/src/queue/connectToQueue'
 import { CONFIG } from '../config'
@@ -16,12 +17,20 @@ export const emailComposer = async () => {
     channelToConsume.assertQueue(EmailQueues.EmailPreRenderer),
     channelToSend.assertQueue(EmailQueues.EmailComposer, { durable: false }),
   ])
-  const messageConsumeHandler = consumeMessage(channelToSend, channelToConsume)
 
-  await channelToConsume.consume(
-    EmailQueues.EmailPreRenderer,
-    messageConsumeHandler
-  )
+  const messageConsumeHandler = consumeMessage(channelToSend, channelToConsume)
+  let message = await channelToConsume.get(EmailQueues.EmailPreRenderer)
+  while (message) {
+    if (!message) break
+    messageConsumeHandler(message as unknown as ConsumeMessage)
+
+    message = await channelToConsume.get(EmailQueues.EmailPreRenderer)
+  }
+
+  // await channelToConsume.consume(
+  //   EmailQueues.EmailPreRenderer,
+  //   messageConsumeHandler
+  // )
 
   return
 }

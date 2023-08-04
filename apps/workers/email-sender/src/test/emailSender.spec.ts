@@ -1,12 +1,12 @@
 import { ConsumeMessage } from 'amqplib'
 import { emailsObjectMock } from 'setEnvVars'
 import * as connectToQueueFile from 'shared/src/queue/connectToQueue'
+import { ackStub, channelMock, getStub } from 'shared/src/test/helpers/rabbitMQ'
 import { emailSender } from 'src/emailSender'
 import { vi } from 'vitest'
 import * as chunkArrayFile from '../chunkArray'
 import * as sendEmailFile from '../sendEmail'
 import { emailComposerItem } from './factories/emailComposerItem'
-import { ackStub, channelMock, getStub } from './helpers/rabbitMQ'
 
 describe('Email Sender Service Tests', () => {
   const sendEmailStub = vi.fn()
