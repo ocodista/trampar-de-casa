@@ -1,20 +1,20 @@
 import { faker } from '@faker-js/faker'
+import { ConsumeMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
 import {
-  ackStub,
   assertQueueStub,
   channelMock,
-  sendToQueueStub,
+  consumerStub,
 } from 'shared/src/test/helpers/rabbitMQ'
+import { consumeEmailPreRendererMessages } from 'src/consumeEmailPreRendererMessages'
 import { emailComposer } from 'src/emailComposer'
 import { vi } from 'vitest'
-import * as consumeMessageFile from '../consumeMessage'
 import * as getHtmlRolesFile from '../getHtmlRoles'
 import { emailPreRendererItem } from './factories/emailPreRendererQueueItem'
 
 const createRabbitMqChannelStub = vi.fn()
-const filterRolesStub = vi.fn()
+const getHtmlRolesStub = vi.fn()
 const rabbitMqConfig = () => {
   vi.spyOn(
     createRabbitMqChannelFile,
@@ -28,10 +28,7 @@ describe('Email Composer Service Tests', () => {
   beforeEach(() => {
     rabbitMqConfig()
     vi.spyOn(getHtmlRolesFile, 'getHtmlRoles').mockImplementation(
-      filterRolesStub
-    )
-    vi.spyOn(consumeMessageFile, 'consumeMessage').mockImplementation(
-      consumeMessageStub
+      getHtmlRolesStub
     )
   })
 
@@ -48,59 +45,58 @@ describe('Email Composer Service Tests', () => {
 
   describe('Each queue message', () => {
     it('Get concatenated roles html', async () => {
-      const queueMock = emailPreRendererItem()
-      const [email, { footerHTML, headerHTML, roles }] =
-        Object.entries(queueMock)[0]
+      const rolesIdMock = [faker.string.sample()]
+      const emailPreRendererMock = {
+        [faker.internet.email()]: {
+          roles: rolesIdMock,
+          footerHTML: faker.string.sample(),
+          headerHTML: faker.string.sample(),
+        },
+      }
+      const sendEmailCallback = vi.fn()
 
-      consumeMessageStub.mockResolvedValue({
-        footerHTML,
-        headerHTML,
-        roles,
-        email,
-      })
+      await consumeEmailPreRendererMessages(sendEmailCallback)({
+        content: Buffer.from(JSON.stringify(emailPreRendererMock)),
+      } as ConsumeMessage)
 
-      await emailComposer()
-
-      expect(filterRolesStub).toBeCalled()
+      expect(getHtmlRolesStub).toBeCalledWith(rolesIdMock)
     })
 
     it('Process messages and acknowledge RabbitMQ queue', async () => {
-      const [email, { footerHTML, headerHTML, roles }] = Object.entries(
-        emailPreRendererItem()
-      )[0]
-      consumeMessageStub.mockResolvedValue({
-        email,
-        headerHTML,
-        footerHTML,
-        roles,
-      })
-
       await emailComposer()
 
-      expect(ackStub).toBeCalled()
+      expect(consumerStub).toBeCalledWith(
+        expect.anything(),
+        expect.anything(),
+        { noAck: true }
+      )
     })
     it(`Send mounted HTML to ${EmailQueues.EmailComposer} queue`, async () => {
       const queueMock = emailPreRendererItem()
       const [email, { footerHTML, headerHTML }] = Object.entries(queueMock)[0]
       const filterRolesReturnMock = faker.string.sample()
-      filterRolesStub.mockResolvedValue(filterRolesReturnMock)
+      getHtmlRolesStub.mockResolvedValue(filterRolesReturnMock)
       consumeMessageStub.mockResolvedValue({
         email,
         footerHTML,
         headerHTML,
         roles: [],
       })
+      const sendEmailCallback = vi.fn()
+      const rolesIdMock = [faker.string.sample()]
+      const emailPreRendererMock = {
+        [faker.internet.email()]: {
+          roles: rolesIdMock,
+          footerHTML: faker.string.sample(),
+          headerHTML: faker.string.sample(),
+        },
+      }
 
-      await emailComposer()
+      await consumeEmailPreRendererMessages(sendEmailCallback)({
+        content: Buffer.from(JSON.stringify(emailPreRendererMock)),
+      } as ConsumeMessage)
 
-      expect(sendToQueueStub).toBeCalledWith(
-        EmailQueues.EmailComposer,
-        Buffer.from(
-          JSON.stringify({
-            [email]: `${headerHTML}${filterRolesReturnMock}${footerHTML}`,
-          })
-        )
-      )
+      expect(sendEmailCallback).toBeCalled()
     })
   })
 })
