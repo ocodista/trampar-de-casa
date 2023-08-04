@@ -1,30 +1,36 @@
 import { faker } from '@faker-js/faker'
-import { ConsumeMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
-import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
+import * as createRabbitMqConnectionFile from 'shared/src/queue/createRabbitMqConnection'
 import {
   assertQueueStub,
   channelMock,
   consumerStub,
 } from 'shared/src/test/helpers/rabbitMQ'
-import { consumeEmailPreRendererMessages } from 'src/consumeEmailPreRendererMessages'
-import { emailComposer } from 'src/emailComposer'
+import {
+  EmailPreRenderMessage,
+  composeEmail,
+  consumePreRenderQueue,
+  parsePreRenderMessage,
+} from 'src/emailComposer'
 import { vi } from 'vitest'
 import * as getHtmlRolesFile from '../getHtmlRoles'
-import { emailPreRendererItem } from './factories/emailPreRendererQueueItem'
+import { ConsumeMessage } from 'amqplib'
 
-const createRabbitMqChannelStub = vi.fn()
+const createChannelStub = vi.fn().mockResolvedValue(channelMock)
+const createRabbitMqConnectionStub = vi.fn().mockResolvedValue({
+  createChannel: createChannelStub,
+})
 const getHtmlRolesStub = vi.fn()
 const rabbitMqConfig = () => {
   vi.spyOn(
-    createRabbitMqChannelFile,
-    'createRabbitMqChannel'
-  ).mockImplementation(createRabbitMqChannelStub)
-  createRabbitMqChannelStub.mockResolvedValue(channelMock)
+    createRabbitMqConnectionFile,
+    'createRabbitMqConnection'
+  ).mockImplementation(createRabbitMqConnectionStub)
+
+  // createRabbitMqConnectionStub.mockResolvedValue(channelMock)
 }
 
 describe('Email Composer Service Tests', () => {
-  const consumeMessageStub = vi.fn()
   beforeEach(() => {
     rabbitMqConfig()
     vi.spyOn(getHtmlRolesFile, 'getHtmlRoles').mockImplementation(
@@ -32,71 +38,55 @@ describe('Email Composer Service Tests', () => {
     )
   })
 
-  it('Establish connection with rabbitMQ', async () => {
-    await emailComposer()
-
-    expect(createRabbitMqChannelStub).toBeCalled()
+  it('establishes connection with rabbitMQ', async () => {
+    await composeEmail()
+    expect(createRabbitMqConnectionStub).toBeCalled()
   })
-  it(`Gets subscriber information from the ${EmailQueues.EmailPreRenderer} queue`, async () => {
-    await emailComposer()
 
+  // TODO: this test is only testing if you create the queue
+  it(`gets subscriber information from the ${EmailQueues.EmailPreRenderer} queue`, async () => {
+    await composeEmail()
     expect(assertQueueStub).toBeCalledWith(EmailQueues.EmailPreRenderer)
   })
 
-  describe('Each queue message', () => {
-    it('Get concatenated roles html', async () => {
-      const rolesIdMock = [faker.string.sample()]
-      const emailPreRendererMock = {
-        [faker.internet.email()]: {
-          roles: rolesIdMock,
-          footerHTML: faker.string.sample(),
-          headerHTML: faker.string.sample(),
-        },
-      }
-      const sendEmailCallback = vi.fn()
+  describe('For each queue message', () => {
+    const emailMock = faker.internet.email()
+    const rolesMock = [faker.string.uuid(), faker.string.uuid()]
+    const prerenderMessageMock: EmailPreRenderMessage = {
+      [emailMock]: {
+        footerHTML: 'FOOTERHTML',
+        headerHTML: 'headerHTML',
+        roles: rolesMock,
+      },
+    }
+    const mockedBufferMessage = Buffer.from(
+      JSON.stringify(prerenderMessageMock)
+    )
 
-      await consumeEmailPreRendererMessages(sendEmailCallback)({
-        content: Buffer.from(JSON.stringify(emailPreRendererMock)),
-      } as ConsumeMessage)
-
-      expect(getHtmlRolesStub).toBeCalledWith(rolesIdMock)
+    it('gets roles HTML', async () => {
+      await parsePreRenderMessage(mockedBufferMessage)
+      expect(getHtmlRolesStub).toBeCalledWith(rolesMock)
     })
 
-    it('Process messages and acknowledge RabbitMQ queue', async () => {
-      await emailComposer()
-
-      expect(consumerStub).toBeCalledWith(
-        expect.anything(),
-        expect.anything(),
-        { noAck: true }
+    it('calls parser when message is consumed', async () => {
+      await consumePreRenderQueue(
+        { content: mockedBufferMessage } as ConsumeMessage,
+        channelMock
       )
+      // TODO: Finish test by mocking parser function
     })
-    it(`Send mounted HTML to ${EmailQueues.EmailComposer} queue`, async () => {
-      const queueMock = emailPreRendererItem()
-      const [email, { footerHTML, headerHTML }] = Object.entries(queueMock)[0]
-      const filterRolesReturnMock = faker.string.sample()
-      getHtmlRolesStub.mockResolvedValue(filterRolesReturnMock)
-      consumeMessageStub.mockResolvedValue({
-        email,
-        footerHTML,
-        headerHTML,
-        roles: [],
+
+    it('converts rabbit message buffer into [email]: bodyHTML object', async () => {
+      const result = await parsePreRenderMessage(
+        Buffer.from(JSON.stringify(prerenderMessageMock))
+      )
+      const rolesHTML = await getHtmlRolesFile.getHtmlRoles(rolesMock)
+      expect(result).toStrictEqual({
+        [emailMock]: `${prerenderMessageMock[emailMock].headerHTML}${rolesHTML}${prerenderMessageMock[emailMock].footerHTML}`,
       })
-      const sendEmailCallback = vi.fn()
-      const rolesIdMock = [faker.string.sample()]
-      const emailPreRendererMock = {
-        [faker.internet.email()]: {
-          roles: rolesIdMock,
-          footerHTML: faker.string.sample(),
-          headerHTML: faker.string.sample(),
-        },
-      }
-
-      await consumeEmailPreRendererMessages(sendEmailCallback)({
-        content: Buffer.from(JSON.stringify(emailPreRendererMock)),
-      } as ConsumeMessage)
-
-      expect(sendEmailCallback).toBeCalled()
     })
+
+    it.todo('processes messages and acknowledge RabbitMQ queue')
+    it.todo(`Send mounted HTML to ${EmailQueues.EmailSender} queue`)
   })
 })

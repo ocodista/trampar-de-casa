@@ -1,7 +1,7 @@
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
 import { CONFIG } from '../config'
-import { Connection, ConsumeMessage, GetMessage } from 'amqplib'
+import { Channel, Connection, ConsumeMessage, GetMessage } from 'amqplib'
 import { getHtmlRoles } from './getHtmlRoles'
 
 const rabbitMqCredentials = {
@@ -15,7 +15,7 @@ const connectToQueue = async (connection: Connection, queue: string) => {
   return channel
 }
 
-type EmailPreRenderMessage = Record<
+export type EmailPreRenderMessage = Record<
   string,
   {
     footerHTML: string
@@ -24,7 +24,7 @@ type EmailPreRenderMessage = Record<
   }
 >
 
-const parsePreRenderMessage = async (
+export const parsePreRenderMessage = async (
   msgContent: GetMessage['content']
 ): Promise<Record<string, string>> => {
   const emailPreRender = JSON.parse(
@@ -37,26 +37,31 @@ const parsePreRenderMessage = async (
   return { [email]: bodyHTML }
 }
 
+export const consumePreRenderQueue = async (
+  message: ConsumeMessage | null,
+  emailComposerChannel: Channel
+) => {
+  if (!message) return
+  const emailHtml = await parsePreRenderMessage(message.content)
+  // There is no point in send to the EmailComposerQueue, we are already at the EmailComposer, need to change the name of the queue
+  emailComposerChannel.sendToQueue(
+    EmailQueues.EmailSender,
+    Buffer.from(JSON.stringify(emailHtml))
+  )
+}
+
 export const composeEmail = async () => {
   // TODO: Change name of the queue to be EmailSenderQueue
   const rabbitConnection = await createRabbitMqConnection(rabbitMqCredentials)
 
-  const [emailPreRendererChannel, emailComposerChannel] = await Promise.all([
+  const [emailPreRendererChannel, emailSenderChannel] = await Promise.all([
     connectToQueue(rabbitConnection, EmailQueues.EmailPreRenderer),
-    connectToQueue(rabbitConnection, EmailQueues.EmailComposer),
+    connectToQueue(rabbitConnection, EmailQueues.EmailSender),
   ])
 
   emailPreRendererChannel.consume(
     EmailQueues.EmailPreRenderer,
-    async (message: ConsumeMessage | null) => {
-      if (!message) return
-      const emailHtml = await parsePreRenderMessage(message.content)
-      // There is no point in send to the EmailComposerQueue, we are already at the EmailComposer
-      emailComposerChannel.sendToQueue(
-        EmailQueues.EmailComposer,
-        Buffer.from(JSON.stringify(emailHtml))
-      )
-    },
+    (message) => consumePreRenderQueue(message, emailSenderChannel),
     { noAck: true }
   )
 }
