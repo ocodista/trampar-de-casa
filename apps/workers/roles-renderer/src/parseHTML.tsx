@@ -13,7 +13,7 @@ export const parseHTML = (role: Roles): string => {
       currency={(role.currency as OpeningCurrency) || 'R$'}
       language={role.language}
       location={role.country}
-      skills={['test', 'test']}
+      skills={role.skillsId}
       title={role.title}
       url={role.url || ''}
     />

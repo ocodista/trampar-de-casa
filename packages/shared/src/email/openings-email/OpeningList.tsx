@@ -20,7 +20,7 @@ export const OpeningCard = ({
   location,
   skills,
   language,
-}: Opening) => {
+}: Omit<Opening, 'skills'> & { skills: string[] }) => {
   const firstSkills = skills.slice(0, 4)
 
   return (
@@ -73,7 +73,11 @@ export const OpeningCard = ({
   )
 }
 
-const OpeningList = ({ openings: openings }: { openings: Opening[] }) => {
+const OpeningList = ({
+  openings: openings,
+}: {
+  openings: (Opening & { skills: string[] })[]
+}) => {
   return openings.map((opening) => (
     <OpeningCard key={`${opening.title}-${opening.company}`} {...opening} />
   ))
