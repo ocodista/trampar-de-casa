@@ -1,76 +1,19 @@
 import { faker } from '@faker-js/faker'
-import * as dbFile from 'db'
-import * as redisFile from 'redis'
-import * as encryptFile from 'shared'
-import { Entities } from 'shared'
 import { RedisPrefix } from 'shared/src/enums/redis'
-import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
-import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
-import {
-  getAllPaginatedStub,
-  getSupabaseClientStub,
-} from 'shared/src/test/helpers/stubs'
 import { emailPreRender } from 'src/emailPreRender'
 import { vi } from 'vitest'
-import * as renderFooterFile from '../renderFooter'
-import * as renderHeaderFile from '../renderHeader'
-import * as sendToQueueFile from '../sendToQueue'
-import { getSubscriberMock } from './factories/subscriberFactory'
-
-const subscriberMock = getSubscriberMock()
-const rolesMock = { rolesId: [faker.string.uuid()] }
-const ENCRYPTED_VALUE_MOCK = faker.string.hexadecimal({ length: 32 })
-
-const redisGetStub = vi.fn()
-const renderHeaderStub = vi.fn()
-const createRabbitMqChannelStub = vi.fn()
-const channelMock = {
-  close: vi.fn(),
-}
-createRabbitMqChannelStub.mockReturnValue(channelMock)
-const sendToQueueStub = vi.fn()
-const renderFooterStub = vi.fn()
-vi.mock('amqplib', () => {
-  return {
-    default: () => ({
-      close: vi.fn(),
-    }),
-  }
-})
-
-const configExternalServicesMocks = () => {
-  redisGetStub.mockResolvedValue(JSON.stringify(rolesMock))
-  // eslint-disable-next-line @typescript-eslint/ban-ts-comment
-  // @ts-ignore
-  vi.spyOn(redisFile, 'createClient').mockImplementation(() => ({
-    get: redisGetStub,
-    disconnect: vi.fn(),
-    connect: vi.fn(),
-  }))
-
-  vi.spyOn(
-    createRabbitMqChannelFile,
-    'createRabbitMqChannel'
-  ).mockImplementation(createRabbitMqChannelStub)
-
-  vi.spyOn(dbFile, 'getSupabaseClient').mockImplementation(
-    getSupabaseClientStub
-  )
-
-  vi.spyOn(sendToQueueFile, 'sendToQueue').mockImplementation(sendToQueueStub)
-}
-
-const configRenderMocks = () => {
-  vi.spyOn(encryptFile, 'encrypt').mockImplementation(
-    () => ENCRYPTED_VALUE_MOCK
-  )
-  vi.spyOn(renderFooterFile, 'renderFooter').mockImplementation(
-    renderFooterStub
-  )
-  vi.spyOn(renderHeaderFile, 'renderHeader').mockImplementation(
-    renderHeaderStub
-  )
-}
+import {
+  channelMock,
+  configExternalServicesMocks,
+  configRenderMocks,
+  createRabbitMqChannelStub,
+  getAllSubscribersStub,
+  mockSupabaseAndRedis,
+  redisGetStub,
+  renderFooterStub,
+  renderHeaderStub,
+  sendToQueueStub,
+} from './helpers'
 
 describe('Email Pre Renderer', () => {
   const renderFooterReturnMock = faker.string.sample()
@@ -83,26 +26,22 @@ describe('Email Pre Renderer', () => {
   })
   afterAll(() => vi.clearAllMocks())
 
-  it('connects with rabbitMQ queue', async () => {
+  it('Connects with rabbitMQ queue', async () => {
     await emailPreRender()
 
     expect(createRabbitMqChannelStub).toHaveBeenCalled()
   })
 
-  it('getSubscribers in batches of 100 units', async () => {
-    const getAllPaginatedSpy = getAllPaginatedStub([[subscriberMock]])
-
+  it('Get all subscribers', async () => {
     await emailPreRender()
 
-    expect(getAllPaginatedSpy).toBeCalledWith({
-      supabase: supabaseClientMock,
-      entity: Entities.Subcribers,
-      batchSize: 100,
-    })
+    expect(getAllSubscribersStub).toBeCalledWith()
   })
 
   describe('For each subscriber', () => {
-    it('get persisted user info from redis', async () => {
+    it('Get persisted user info from redis', async () => {
+      const { subscriberMock } = mockSupabaseAndRedis()
+
       await emailPreRender()
 
       expect(redisGetStub).toHaveBeenCalledWith(
@@ -110,25 +49,32 @@ describe('Email Pre Renderer', () => {
       )
     })
 
-    it('calls render footer passing subscriber id and prefix url', async () => {
+    it('Calls render footer passing subscriber id and prefix url', async () => {
+      const { subscriberMock } = mockSupabaseAndRedis()
+
       await emailPreRender()
 
       expect(renderFooterStub).toHaveBeenCalledWith(subscriberMock.id, 'url')
     })
 
-    it('calls render header passing rolesID', async () => {
+    it('Calls render header passing rolesID', async () => {
+      const { redisRolesIdMock } = mockSupabaseAndRedis()
+
       await emailPreRender()
-      expect(renderHeaderStub).toHaveBeenCalledWith(rolesMock.rolesId)
+
+      expect(renderHeaderStub).toHaveBeenCalledWith(redisRolesIdMock.rolesId)
     })
 
-    it('sends to rabbitMQ queue passing { [userEmail]: { roles, footerHTML, headerHTML } }', async () => {
+    it('Sends to rabbitMQ queue passing { [userEmail]: { roles, footerHTML, headerHTML } }', async () => {
+      const { redisRolesIdMock, subscriberMock } = mockSupabaseAndRedis()
+
       await emailPreRender()
 
       expect(sendToQueueStub).toHaveBeenCalledWith(channelMock, {
         [subscriberMock.email]: {
           footerHTML: renderFooterReturnMock,
           headerHTML: renderHeaderReturnMock,
-          roles: rolesMock.rolesId,
+          roles: redisRolesIdMock.rolesId,
         },
       })
     })
