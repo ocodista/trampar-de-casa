@@ -27,6 +27,7 @@ export const assignRoles = withExecutionTimeLogging(
         if (!subscribersBatch?.length) break
 
         const matchRolesPromises = subscribersBatch.map(async (subscriber) => {
+          if (!subscriber.isConfirmed) return
           const roles = await getSubscriberRoles(subscriber, supabaseClient)
           const emailProps = getEmailProps(subscriber, roles)
           await saveSubscriberRoles(redisClient as RedisClientType, emailProps)
