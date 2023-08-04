@@ -1,36 +1,40 @@
 import { ConsumeMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
-import { connectToQueue } from 'shared/src/queue/connectToQueue'
+import { createRabbitMqChannel } from 'shared/src/queue/createRabbitMqChannel'
 import { CONFIG } from '../config'
 import { consumeMessage } from './consumeMessage'
-
+const rabbitMqCredentials = {
+  password: CONFIG.RABBITMQ_PASS,
+  user: CONFIG.RABBITMQ_USER,
+}
 export const emailComposer = async () => {
-  const channelToConsume = await connectToQueue({
-    password: CONFIG.RABBITMQ_PASS,
-    user: CONFIG.RABBITMQ_USER,
-  })
-  const channelToSend = await connectToQueue({
-    password: CONFIG.RABBITMQ_PASS,
-    user: CONFIG.RABBITMQ_USER,
-  })
+  const emailPreRendererChannel = await createRabbitMqChannel(
+    rabbitMqCredentials
+  )
+  const emailComposerChannel = await createRabbitMqChannel(rabbitMqCredentials)
+
   await Promise.all([
-    channelToConsume.assertQueue(EmailQueues.EmailPreRenderer),
-    channelToSend.assertQueue(EmailQueues.EmailComposer, { durable: false }),
+    emailPreRendererChannel.assertQueue(EmailQueues.EmailPreRenderer),
+    emailComposerChannel.assertQueue(EmailQueues.EmailComposer, {
+      durable: false,
+    }),
   ])
 
-  const messageConsumeHandler = consumeMessage(channelToSend, channelToConsume)
-  let message = await channelToConsume.get(EmailQueues.EmailPreRenderer)
-  while (message) {
-    if (!message) break
-    messageConsumeHandler(message as unknown as ConsumeMessage)
+  const messageConsumeHandler = consumeMessage(
+    emailComposerChannel,
+    emailPreRendererChannel
+  )
+  let emailPreRendererMessage = await emailPreRendererChannel.get(
+    EmailQueues.EmailPreRenderer
+  )
+  do {
+    if (!emailPreRendererMessage) break
+    messageConsumeHandler(emailPreRendererMessage as unknown as ConsumeMessage)
 
-    message = await channelToConsume.get(EmailQueues.EmailPreRenderer)
-  }
-
-  // await channelToConsume.consume(
-  //   EmailQueues.EmailPreRenderer,
-  //   messageConsumeHandler
-  // )
+    emailPreRendererMessage = await emailPreRendererChannel.get(
+      EmailQueues.EmailPreRenderer
+    )
+  } while (emailPreRendererMessage)
 
   return
 }

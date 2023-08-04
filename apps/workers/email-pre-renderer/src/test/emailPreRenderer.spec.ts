@@ -4,7 +4,7 @@ import * as redisFile from 'redis'
 import * as encryptFile from 'shared'
 import { Entities } from 'shared'
 import { RedisPrefix } from 'shared/src/enums/redis'
-import * as connectToQueueFile from 'shared/src/queue/connectToQueue'
+import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import {
   getAllPaginatedStub,
@@ -23,11 +23,11 @@ const ENCRYPTED_VALUE_MOCK = faker.string.hexadecimal({ length: 32 })
 
 const redisGetStub = vi.fn()
 const renderHeaderStub = vi.fn()
-const connectToQueueStub = vi.fn()
+const createRabbitMqChannelStub = vi.fn()
 const channelMock = {
   close: vi.fn(),
 }
-connectToQueueStub.mockReturnValue(channelMock)
+createRabbitMqChannelStub.mockReturnValue(channelMock)
 const sendToQueueStub = vi.fn()
 const renderFooterStub = vi.fn()
 vi.mock('amqplib', () => {
@@ -48,9 +48,10 @@ const configExternalServicesMocks = () => {
     connect: vi.fn(),
   }))
 
-  vi.spyOn(connectToQueueFile, 'connectToQueue').mockImplementation(
-    connectToQueueStub
-  )
+  vi.spyOn(
+    createRabbitMqChannelFile,
+    'createRabbitMqChannel'
+  ).mockImplementation(createRabbitMqChannelStub)
 
   vi.spyOn(dbFile, 'getSupabaseClient').mockImplementation(
     getSupabaseClientStub
@@ -85,7 +86,7 @@ describe('Email Pre Renderer', () => {
   it('connects with rabbitMQ queue', async () => {
     await emailPreRender()
 
-    expect(connectToQueueStub).toHaveBeenCalled()
+    expect(createRabbitMqChannelStub).toHaveBeenCalled()
   })
 
   it('getSubscribers in batches of 100 units', async () => {

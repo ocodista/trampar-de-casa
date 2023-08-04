@@ -1,7 +1,7 @@
 import amqplib from 'amqplib'
 
 // ? This function is a black box?
-export async function connectToQueue({
+export async function createRabbitMqChannel({
   password,
   user,
 }: {

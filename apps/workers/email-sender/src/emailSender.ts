@@ -1,7 +1,7 @@
 import { GetMessage } from 'amqplib'
 import { Resend } from 'resend'
 import { EmailQueues } from 'shared'
-import { connectToQueue } from 'shared/src/queue/connectToQueue'
+import { createRabbitMqChannel } from 'shared/src/queue/createRabbitMqChannel'
 import { CONFIG } from '../config'
 import { chunkArray } from './chunkArray'
 import { sendEmail } from './sendEmail'
@@ -9,7 +9,7 @@ import { sendEmail } from './sendEmail'
 export type EmailComposerContent = Record<string, string>
 
 export const emailSender = async () => {
-  const channelToConsume = await connectToQueue({
+  const channelToConsume = await createRabbitMqChannel({
     password: CONFIG.RABBITMQ_PASS,
     user: CONFIG.RABBITMQ_USER,
   })

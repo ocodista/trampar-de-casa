@@ -1,6 +1,6 @@
 import { ConsumeMessage } from 'amqplib'
 import { emailsObjectMock } from 'setEnvVars'
-import * as connectToQueueFile from 'shared/src/queue/connectToQueue'
+import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
 import { ackStub, channelMock, getStub } from 'shared/src/test/helpers/rabbitMQ'
 import { emailSender } from 'src/emailSender'
 import { vi } from 'vitest'
@@ -10,13 +10,14 @@ import { emailComposerItem } from './factories/emailComposerItem'
 
 describe('Email Sender Service Tests', () => {
   const sendEmailStub = vi.fn()
-  const connectToQueueStub = vi.fn()
-  connectToQueueStub.mockResolvedValue(channelMock)
+  const createRabbitMqChannelStub = vi.fn()
+  createRabbitMqChannelStub.mockResolvedValue(channelMock)
 
   beforeEach(() => {
-    vi.spyOn(connectToQueueFile, 'connectToQueue').mockImplementation(
-      connectToQueueStub
-    )
+    vi.spyOn(
+      createRabbitMqChannelFile,
+      'createRabbitMqChannel'
+    ).mockImplementation(createRabbitMqChannelStub)
     vi.spyOn(sendEmailFile, 'sendEmail').mockImplementation(sendEmailStub)
   })
 

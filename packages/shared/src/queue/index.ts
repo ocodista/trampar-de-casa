@@ -1,2 +1,2 @@
-import { connectToQueue } from './connectToQueue'
-export { connectToQueue }
+import { createRabbitMqChannel } from './createRabbitMqChannel'
+export { createRabbitMqChannel }

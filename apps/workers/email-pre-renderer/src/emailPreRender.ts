@@ -1,6 +1,6 @@
 import { Subscribers, getSupabaseClient } from 'db'
 import { RedisClientType, createClient as createRedisClient } from 'redis'
-import { Entities, connectToQueue } from 'shared'
+import { Entities, createRabbitMqChannel } from 'shared'
 import { RedisPrefix } from 'shared/src/enums/redis'
 import { getAllPaginated } from 'shared/src/services/getAllPaginated'
 import { CONFIG } from './config'
@@ -10,7 +10,7 @@ import { sendToQueue } from './sendToQueue'
 
 export async function emailPreRender() {
   const redisClient = createRedisClient() as RedisClientType
-  const channel = await connectToQueue({
+  const channel = await createRabbitMqChannel({
     password: CONFIG.RABBITMQ_PASS,
     user: CONFIG.RABBITMQ_USER,
   })

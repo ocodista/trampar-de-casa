@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
 import { ConsumeMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
-import * as connectToQueueFile from 'shared/src/queue/connectToQueue'
+import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
 import {
   ackStub,
   assertQueueStub,
@@ -14,21 +14,22 @@ import { vi } from 'vitest'
 import * as filterRolesFile from '../filterRoles'
 import { emailPreRendererItem } from './factories/emailPreRendererQueueItem'
 
-const connectToQueueStub = vi.fn()
+const createRabbitMqChannelStub = vi.fn()
 const filterRolesStub = vi.fn()
 describe('Email Composer Service Tests', () => {
   beforeEach(() => {
-    vi.spyOn(connectToQueueFile, 'connectToQueue').mockImplementation(
-      connectToQueueStub
-    )
+    vi.spyOn(
+      createRabbitMqChannelFile,
+      'createRabbitMqChannel'
+    ).mockImplementation(createRabbitMqChannelStub)
     vi.spyOn(filterRolesFile, 'filterRoles').mockImplementation(filterRolesStub)
-    connectToQueueStub.mockResolvedValue(channelMock)
+    createRabbitMqChannelStub.mockResolvedValue(channelMock)
   })
 
   it('establish connection with rabbitMQ', async () => {
     await emailComposer()
 
-    expect(connectToQueueStub).toBeCalled()
+    expect(createRabbitMqChannelStub).toBeCalled()
   })
   it(`Gets subscriber information from the ${EmailQueues.EmailPreRenderer} queue`, async () => {
     await emailComposer()
