@@ -1,10 +1,12 @@
 import { Opening } from './Opening'
 
+type OpeningSalary = Opening['skills']
+
 export const striderOpening = (
   title: string,
   minimumXP: number,
   url: string,
-  skills: string[],
+  skills: OpeningSalary,
   salary?: string
 ): Opening => ({
   company: 'Strider',

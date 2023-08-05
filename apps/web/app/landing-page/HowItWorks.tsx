@@ -15,8 +15,8 @@ export const HowItWorks = () => (
             />
           </figure>
         </div>
-        <div className="w-full lg:w-1/2 p-8">
-          <h2 className="mb-16 text-6xl md:text-7xl font-bold font-heading tracking-tight leading-tight max-xs:text-4xl">
+        <div className="w-full p-8 lg:w-1/2">
+          <h2 className="font-heading max-xs:text-4xl mb-16 text-6xl font-bold leading-tight tracking-tight md:text-7xl">
             Como Funciona
           </h2>
           <div className="-m-1.5 flex flex-wrap">

@@ -9,3 +9,9 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: trampar
       RABBITMQ_DEFAULT_PASS: trampar-de-casa
+  redis:
+    image: redislabs/redismod
+    ports:
+      - '6379:6379'
+    expose:
+      - 6379
