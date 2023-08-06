@@ -1,9 +1,9 @@
-import { emailComposer } from './emailComposer'
+import { composeEmail } from './emailComposer'
 
-emailComposer()
-  .catch((error) => {
-    console.log('Email composer service error', error)
-  })
-  .finally(() => {
-    process.exit(0)
-  })
+;(async () => {
+  try {
+    await composeEmail()
+  } catch (error) {
+    console.log('Error composing email!', error)
+  }
+})()

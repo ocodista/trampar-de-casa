@@ -3,6 +3,7 @@ import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnect
 import { CONFIG } from '../config'
 import { Channel, Connection, ConsumeMessage, GetMessage } from 'amqplib'
 import { getHtmlRoles } from './getHtmlRoles'
+import { parsePreRenderMessage } from './parsePreRenderMessage'
 
 const rabbitMqCredentials = {
   password: CONFIG.RABBITMQ_PASS,
@@ -24,26 +25,12 @@ export type EmailPreRenderMessage = Record<
   }
 >
 
-export const parsePreRenderMessage = async (
-  msgContent: GetMessage['content']
-): Promise<Record<string, string>> => {
-  const emailPreRender = JSON.parse(
-    msgContent.toString()
-  ) as EmailPreRenderMessage
-  const [email] = Object.keys(emailPreRender)
-  const { footerHTML, headerHTML, roles } = emailPreRender[email]
-  const rolesHTML = await getHtmlRoles(roles)
-  const bodyHTML = `${headerHTML}${rolesHTML}${footerHTML}`
-  return { [email]: bodyHTML }
-}
-
 export const consumePreRenderQueue = async (
   message: ConsumeMessage | null,
   emailComposerChannel: Channel
 ) => {
   if (!message) return
   const emailHtml = await parsePreRenderMessage(message.content)
-  // There is no point in send to the EmailComposerQueue, we are already at the EmailComposer, need to change the name of the queue
   emailComposerChannel.sendToQueue(
     EmailQueues.EmailSender,
     Buffer.from(JSON.stringify(emailHtml))
@@ -51,7 +38,6 @@ export const consumePreRenderQueue = async (
 }
 
 export const composeEmail = async () => {
-  // TODO: Change name of the queue to be EmailSenderQueue
   const rabbitConnection = await createRabbitMqConnection(rabbitMqCredentials)
 
   const [emailPreRendererChannel, emailSenderChannel] = await Promise.all([
