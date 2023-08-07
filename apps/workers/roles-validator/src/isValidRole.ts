@@ -10,7 +10,6 @@ export const isValidRole = async (url: string, role: string) => {
 
   const isValidRole = await isValidRoleOnSite(page, role)
 
-  console.log('closing browser...')
   await browser.close()
   return isValidRole
 }

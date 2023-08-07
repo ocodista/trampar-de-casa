@@ -25,7 +25,7 @@ export async function rolesValidator(redisClient: RedisClientType) {
 
       await deleteFromRedis(id)
     } catch (e) {
-      console.log(e)
+      console.error(e)
       await deleteFromRedis(id)
     }
   }

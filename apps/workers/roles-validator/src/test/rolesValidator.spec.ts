@@ -11,8 +11,8 @@ const isValidRoleStub = vi.fn()
 const getRolesStub = vi.fn()
 const testSetup = () => {
   vi.spyOn(isValidRoleFile, 'isValidRole').mockImplementation(isValidRoleStub)
-  // vi.spyOn(redisFile, 'createClient').mockImplementation(redisStub)
   vi.spyOn(getRolesFile, 'getRoles').mockImplementation(getRolesStub)
+  vi.spyOn(console, 'error').mockImplementation(() => vi.fn())
 }
 
 const roleDataReturnFactory = () => [
@@ -53,6 +53,7 @@ describe('Roles Validator', () => {
     it('remove role from redis when URL is not valid', async () => {
       const roleDataMock = roleDataReturnFactory()
       getRolesStub.mockResolvedValue(roleDataMock)
+
       isValidRoleStub.mockImplementation(() => {
         throw new Error(faker.string.sample())
       })
