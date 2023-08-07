@@ -8,7 +8,7 @@ describe('Get Email Props', () => {
     const rolesMock = [getRoleMock(), getRoleMock()]
     expect(getEmailProps(subscriberMock, rolesMock)).toStrictEqual({
       user: { email: subscriberMock.email, id: subscriberMock.id },
-      roleIds: rolesMock.map((role) => role.id),
+      rolesId: rolesMock.map((role) => role.id),
     })
   })
 })
