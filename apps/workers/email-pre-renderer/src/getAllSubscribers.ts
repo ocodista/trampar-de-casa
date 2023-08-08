@@ -6,7 +6,7 @@ export const getAllSubscribers = async () => {
   const { data, error } = await supabase
     .from(Entities.Subcribers)
     .select('id, email')
-    .eq('ready', true)
+    .eq('isConfirmed', true)
 
   return data
 }
