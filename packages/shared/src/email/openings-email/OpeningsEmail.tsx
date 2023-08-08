@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import {
   Body,
   Container,
@@ -64,25 +65,24 @@ export const OpeningsEmail = ({
               <Hr style={hr} />
               <Text style={paragraph}>Olá, defensor do trabalho remoto!</Text>
               <Text style={{ ...paragraph, color: '#000' }}>
-                <b>Bora Trampar de Casa com a Slikdesk!</b>
+                Você ficou perdido com essa história de “standing desks" e
+                "trabalhar em pé" no e-mail anterior? Calma que eu te explico.
               </Text>
-              <Text>
-                Trampar de Casa combina com{' '}
-                <b>praticidade, conforto, ergonomia e tecnologia</b>. A nossa
-                nova parceira, Slikdesk, oferece tudo isso e muito mais,{' '}
-                elevando sua saúde e dando um upgrade no setup. São diversos
-                modelos de mesas com regulagem de altura (manual ou elétrica),
-                bases com regulagem, cadeira e acessórios indispensáveis para
-                qualquer dev.
+              <Text style={{ ...paragraph, color: '#000' }}>
+                Ao utilizar uma mesa com regulagem de altura durante sua rotina,
+                você pode alternar momentos de trabalho sentado e em pé, que
+                trazem diversos benefícios para sua saúde e bem-estar, melhoram
+                sua produtividade e eliminam aquelas dores do home office.
               </Text>
-              <Text>
-                E tem presente para você: R$130 de desconto nas standing desks!
-                <br />
-                Acesse a{' '}
+              <Text style={{ ...paragraph, color: '#000' }}>
+                A nossa parceira Slikdesk disponibilizou um desconto de R$ 130
+                para você adquirir a sua standing desk. <br />
+                Acesse{' '}
                 <Link href="https://slik.com.br/trampardecasa">
                   slik.com.br/trampardecasa
                 </Link>{' '}
-                e use o cupom <b>TRAMPARDECASA</b>
+                e utilize o cupom <br />
+                <b>🎫TRAMPARDECASA</b>
               </Text>
 
               <Text style={paragraph}>
