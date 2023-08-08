@@ -9,7 +9,7 @@ const localOpenings: Opening[] = [
     language: 'Português',
     currency: 'R$',
     skills: ['Kotlin', 'SpringBoot', 'Postgresql', 'JUnit5', 'ReactJS'],
-    headerInfo: 'Júnior',
+    headerInfo: 'Júnior', // nao achei tempo minimo
     url: 'https://db1group.pinpointhq.com/pt-BR/postings/3bfac84e-f557-4a4b-b5fb-f70d4ae9d4c2',
   },
   {
@@ -33,6 +33,16 @@ const localOpenings: Opening[] = [
     url: 'https://programathor.com.br/jobs/29137-dev-games-unity-pleno-100-remoto',
   },
   {
+    company: 'Impulso',
+    title: 'Desenvolvedor Fullstack Pleno (Ruby on Rails)',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['RubyOnRails', 'Golang', 'JavaScript', 'Node.js', 'DevOps'],
+    headerInfo: 'Pleno (R$12,000 até R$12,800)',
+    url: 'https://impulso.team/en/profissionais/oportunidade/1915-pleno-fullstack-ruby-on-rails',
+  },
+  {
     company: 'Telavita',
     title: 'Desenvolvedor(a) Backend Pleno (Python)',
     location: 'Brasil',
@@ -41,6 +51,16 @@ const localOpenings: Opening[] = [
     skills: ['Python', 'Flask', 'FastAPI', 'MySQL', 'Postgres'],
     headerInfo: 'Pleno (até R$12,000)',
     url: 'https://programathor.com.br/jobs/29145-desenvolvedor-a-backend-python',
+  },
+  {
+    company: 'Impulso',
+    title: 'Desenvolvedor Fullstack Pleno (Typescript)',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Node.js', 'React', 'AWS', 'ReactNative', 'Typescript'],
+    headerInfo: 'Pleno (R$11,200 até R$12,000)',
+    url: 'https://impulso.team/en/profissionais/oportunidade/1916-pleno-senior-nodejs-react',
   },
   {
     company: 'I9 Atividades de Internet',
@@ -119,7 +139,7 @@ const localOpenings: Opening[] = [
     language: 'Inglês',
     currency: 'R$',
     skills: ['PHP', 'Laravel', 'Vue.js', 'React.js'],
-    headerInfo: 'Pleno',
+    headerInfo: 'Mínimo de 3 anos de XP',
     url: 'https://jobs.lever.co/fullstacklabs/dd16443c-1ae5-47eb-bc0e-dc5ab3fb1e97',
   },
   {
@@ -167,7 +187,7 @@ const localOpenings: Opening[] = [
     location: 'Brasil',
     language: 'Inglês',
     skills: ['Javascript', 'React', 'Gatsby', 'Webpack'],
-    headerInfo: 'Pleno',
+    headerInfo: 'Mínimo de 3 anos de XP',
     url: 'https://jobs.lever.co/oowlish/dc8dce8d-732f-4d80-a0a8-547681081aa1?source=6',
     company: 'Oowlish',
     currency: 'R$',
@@ -181,6 +201,16 @@ const localOpenings: Opening[] = [
     skills: ['Python', 'Go', 'Testes', 'CI/CD', 'Containers'],
     headerInfo: 'Pleno',
     url: 'https://jobs.smartrecruiters.com/OLXBrasil/743999910857843-pessoa-desenvolvedora-de-software-backend-pleno',
+  },
+  {
+    company: 'Impulso',
+    title: 'Desenvolvedor Fullstack Sênior',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['C#', '.NetCore', 'Angular', 'Typescript', 'CI/CD'],
+    headerInfo: 'Sênior (R$13,760 até R$14,400)',
+    url: 'https://impulso.team/pt/profissionais/oportunidade/1918',
   },
   {
     company: 'Visie Padrões Web',
@@ -288,22 +318,6 @@ const globalOpenings: Opening[] = [
     url: 'https://dynamitejobs.com/company/generallyintelligent/remote-job/machine-learning-engineer-1',
   },
   {
-    company: 'Stealth',
-    title: 'Full Stack Developer (Javascript)',
-    location: 'Ireland',
-    language: 'Inglês',
-    currency: 'U$',
-    skills: [
-      'ApolloGraphQL',
-      'JavaScript',
-      'Microservices',
-      'Nest.js',
-      'PostgreSQL',
-    ],
-    headerInfo: 'Pleno',
-    url: 'https://dynamitejobs.com/company/stealth/remote-job/full-stack-developer-cyber-security-startup-ireland',
-  },
-  {
     company: 'MailerLite',
     title: 'Site Reliability Engineer (Database)',
     location: 'Estados Unidos',
@@ -372,6 +386,22 @@ const globalOpenings: Opening[] = [
     skills: ['Frontend', 'UX/UI', 'APIs', 'JavaScript', 'JQuery'],
     headerInfo: 'Mínimo de 4 anos de XP',
     url: 'https://remotive.com/remote-jobs/software-dev/frontend-developer-1749489',
+  },
+  {
+    company: 'Stealth',
+    title: 'Full Stack Developer (Javascript)',
+    location: 'Ireland',
+    language: 'Inglês',
+    currency: 'U$',
+    skills: [
+      'ApolloGraphQL',
+      'JavaScript',
+      'Microservices',
+      'Nest.js',
+      'PostgreSQL',
+    ],
+    headerInfo: 'Mínimo de 5 anos de XP',
+    url: 'https://dynamitejobs.com/company/stealth/remote-job/full-stack-developer-cyber-security-startup-ireland',
   },
 ]
 
