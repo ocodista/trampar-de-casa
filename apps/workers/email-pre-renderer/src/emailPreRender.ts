@@ -26,7 +26,7 @@ export async function emailPreRender() {
     const subscriber = await redisClient.get(
       `${RedisPrefix.RolesAssigner}${id}`
     )
-    if (!subscriber) return
+    if (!subscriber) break
     const rolesAssignerInfos = JSON.parse(subscriber) as { rolesId: string[] }
     subscriberRolesAndEmail.push({ ...rolesAssignerInfos, email, id })
   }
@@ -51,6 +51,6 @@ export async function emailPreRender() {
     })
   })
 
-  await channel.close()
+  // await channel.close()
   await redisClient.disconnect()
 }
