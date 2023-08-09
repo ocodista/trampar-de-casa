@@ -15,11 +15,11 @@ export const emailSender = async () => {
   })
   const resend = new Resend(CONFIG.RESEND_KEY)
   const emailComposerItems: EmailComposerContent[] = []
-  await channelToConsume.assertQueue(EmailQueues.EmailComposer, {
-    durable: false,
+  await channelToConsume.assertQueue(EmailQueues.EmailSender, {
+    durable: true,
   })
 
-  let message = await channelToConsume.get(EmailQueues.EmailComposer)
+  let message = await channelToConsume.get(EmailQueues.EmailSender)
   while (message) {
     if (!message) break
     const messageContent = JSON.parse(
@@ -29,7 +29,7 @@ export const emailSender = async () => {
     if (message) {
       channelToConsume.ack(message as GetMessage)
     }
-    message = await channelToConsume.get(EmailQueues.EmailComposer)
+    message = await channelToConsume.get(EmailQueues.EmailSender)
   }
 
   const chunks = chunkArray(emailComposerItems, 25)
