@@ -1,4 +1,5 @@
 import { GetMessage } from 'amqplib'
+import { createEmailHtml } from './createEmailHtml'
 import { EmailPreRenderMessage } from './emailComposer'
 import { getHtmlRoles } from './getHtmlRoles'
 
@@ -12,5 +13,5 @@ export const parsePreRenderMessage = async (
   const { footerHTML, headerHTML, roles } = emailPreRender[email]
   const rolesHTML = await getHtmlRoles(roles)
   const bodyHTML = `${headerHTML}${rolesHTML}${footerHTML}`
-  return { [email]: bodyHTML }
+  return { [email]: await createEmailHtml(bodyHTML) }
 }

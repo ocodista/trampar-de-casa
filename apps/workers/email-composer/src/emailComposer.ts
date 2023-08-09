@@ -1,8 +1,7 @@
+import { Channel, Connection, ConsumeMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
 import { CONFIG } from '../config'
-import { Channel, Connection, ConsumeMessage, GetMessage } from 'amqplib'
-import { getHtmlRoles } from './getHtmlRoles'
 import { parsePreRenderMessage } from './parsePreRenderMessage'
 
 const rabbitMqCredentials = {
