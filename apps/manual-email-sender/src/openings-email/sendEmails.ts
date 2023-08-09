@@ -26,7 +26,7 @@ async function main() {
   const emailsSent = getEmailsSent(selectedDate)
   const subscribers = await confirmedSubscribersToSend(emailsSent)
 
-  const chunks = chunkArray(subscribers, 10)
+  const chunks = chunkArray(subscribers, 25)
   const subject = generateSubjectEmail(emailProps)
 
   const secretKey = process.env['CRYPT_SECRET'] as string
