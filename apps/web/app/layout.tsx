@@ -12,7 +12,11 @@ export const metadata: Metadata = {
   title,
   description,
   twitter: { title, description },
-  openGraph: { title, description },
+  openGraph: {
+    title,
+    description,
+    images: ['/api/og-image'],
+  },
   keywords:
     'trabalho remoto, emprego remoto, vagas remotas, trabalho em casa, empregos de tecnologia remotos, carreira remota, trabalho flexível, oportunidades de trabalho remoto, empresas remotas',
   robots: 'index, follow',
