@@ -44,6 +44,25 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
 
 ## Sequence Diagram
 
+```mermaid
+sequenceDiagram
+participant emailSender
+participant sendEmail
+participant logFailure
+participant logSuccessfully
+participant rabbitMQ
+
+emailSender->>rabbitMQ:consumes emailSender Queue
+loop For each queue message
+  emailSender->>sendEmail: send email based on message content
+  alt send email failed
+    sendEmail->>logFailure:Save failed email
+  else
+    sendEmail->>logSuccessfully: Save successfully sent email
+  end
+end
+```
+
 ## Key Concepts
 
 ### Efficient Chunk Processing
