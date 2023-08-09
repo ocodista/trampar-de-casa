@@ -1,7 +1,7 @@
 'use client'
 
 import { useState } from 'react'
-import { openings20230802 } from '../../../manual-email-sender/src/openings-email/2023-08-02/openings'
+import { openings20230809 as Openings } from '../../../manual-email-sender/src/openings-email/2023-08-09/openings'
 import { Input } from 'app/components/ui/input'
 import { Button } from 'app/components/ui/button'
 import JobArticle, { JobArticleProps } from 'app/components/ui/JobArticle'
@@ -23,7 +23,7 @@ export default function Page() {
   const [selectedLanguages, setSelectedLanguages] = useState<string[]>([])
   const [selectedSkills, setSelectedSkills] = useState<string[]>([])
 
-  const { localOpenings, globalOpenings } = openings20230802
+  const { localOpenings, globalOpenings } = Openings
 
   const jobList = localOpenings.concat(globalOpenings) as JobArticleProps[]
 
