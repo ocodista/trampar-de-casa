@@ -1,13 +1,13 @@
-import { Roles, SupabaseClient } from 'db'
-import { Entities } from 'shared'
+import { SupabaseClient, rolesSkillsView } from 'db'
+import { Views } from 'shared'
 
 export const getRolesBlock = async (
   supabase: SupabaseClient,
   start: number,
   end: number
-): Promise<Roles[] | undefined> => {
+): Promise<rolesSkillsView[] | undefined> => {
   const { data, error } = await supabase
-    .from(Entities.Roles)
+    .from(Views.RoleSkillsView)
     .select('*')
     .eq('ready', true)
     .range(start, end)

@@ -207,6 +207,31 @@ export type CompaniesPayload<ExtArgs extends $Extensions.Args = $Extensions.Defa
  * 
  */
 export type Companies = runtime.Types.DefaultSelection<CompaniesPayload>
+export type rolesSkillsViewPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+  name: "rolesSkillsView"
+  objects: {}
+  scalars: $Extensions.GetResult<{
+    id: string
+    country: string
+    currency: string
+    description: string
+    language: string
+    salary: string | null
+    title: string
+    url: string | null
+    createdAt: Date
+    skillNames: string[]
+    ready: boolean
+    companyName: string
+  }, ExtArgs["result"]["rolesSkillsView"]>
+  composites: {}
+}
+
+/**
+ * Model rolesSkillsView
+ * 
+ */
+export type rolesSkillsView = runtime.Types.DefaultSelection<rolesSkillsViewPayload>
 
 /**
  * Enums
@@ -441,6 +466,16 @@ export class PrismaClient<
     * ```
     */
   get companies(): Prisma.CompaniesDelegate<ExtArgs>;
+
+  /**
+   * `prisma.rolesSkillsView`: Exposes CRUD operations for the **rolesSkillsView** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more RolesSkillsViews
+    * const rolesSkillsViews = await prisma.rolesSkillsView.findMany()
+    * ```
+    */
+  get rolesSkillsView(): Prisma.rolesSkillsViewDelegate<ExtArgs>;
 }
 
 export namespace Prisma {
@@ -499,7 +534,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 5.0.0
-   * Query Engine version: 6a3747c37ff169c90047725a05a6ef02e32ac97e
+   * Query Engine version: 6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
    */
   export type PrismaVersion = {
     client: string
@@ -932,7 +967,8 @@ export namespace Prisma {
     SentRoles: 'SentRoles',
     SubscriberTopics: 'SubscriberTopics',
     Topics: 'Topics',
-    Companies: 'Companies'
+    Companies: 'Companies',
+    rolesSkillsView: 'rolesSkillsView'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -949,7 +985,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'subscribers' | 'roles' | 'roleSkills' | 'subscribersSkills' | 'skills' | 'sentRoles' | 'subscriberTopics' | 'topics' | 'companies'
+      modelProps: 'subscribers' | 'roles' | 'roleSkills' | 'subscribersSkills' | 'skills' | 'sentRoles' | 'subscriberTopics' | 'topics' | 'companies' | 'rolesSkillsView'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1544,6 +1580,72 @@ export namespace Prisma {
           count: {
             args: Prisma.CompaniesCountArgs<ExtArgs>,
             result: $Utils.Optional<CompaniesCountAggregateOutputType> | number
+          }
+        }
+      }
+      rolesSkillsView: {
+        payload: rolesSkillsViewPayload<ExtArgs>
+        fields: Prisma.rolesSkillsViewFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.rolesSkillsViewFindUniqueArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<rolesSkillsViewPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.rolesSkillsViewFindUniqueOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<rolesSkillsViewPayload>
+          }
+          findFirst: {
+            args: Prisma.rolesSkillsViewFindFirstArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<rolesSkillsViewPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.rolesSkillsViewFindFirstOrThrowArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<rolesSkillsViewPayload>
+          }
+          findMany: {
+            args: Prisma.rolesSkillsViewFindManyArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<rolesSkillsViewPayload>[]
+          }
+          create: {
+            args: Prisma.rolesSkillsViewCreateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<rolesSkillsViewPayload>
+          }
+          createMany: {
+            args: Prisma.rolesSkillsViewCreateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          delete: {
+            args: Prisma.rolesSkillsViewDeleteArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<rolesSkillsViewPayload>
+          }
+          update: {
+            args: Prisma.rolesSkillsViewUpdateArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<rolesSkillsViewPayload>
+          }
+          deleteMany: {
+            args: Prisma.rolesSkillsViewDeleteManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          updateMany: {
+            args: Prisma.rolesSkillsViewUpdateManyArgs<ExtArgs>,
+            result: Prisma.BatchPayload
+          }
+          upsert: {
+            args: Prisma.rolesSkillsViewUpsertArgs<ExtArgs>,
+            result: $Utils.PayloadToResult<rolesSkillsViewPayload>
+          }
+          aggregate: {
+            args: Prisma.RolesSkillsViewAggregateArgs<ExtArgs>,
+            result: $Utils.Optional<AggregateRolesSkillsView>
+          }
+          groupBy: {
+            args: Prisma.rolesSkillsViewGroupByArgs<ExtArgs>,
+            result: $Utils.Optional<RolesSkillsViewGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.rolesSkillsViewCountArgs<ExtArgs>,
+            result: $Utils.Optional<RolesSkillsViewCountAggregateOutputType> | number
           }
         }
       }
@@ -10726,6 +10828,943 @@ export namespace Prisma {
 
 
   /**
+   * Model rolesSkillsView
+   */
+
+
+  export type AggregateRolesSkillsView = {
+    _count: RolesSkillsViewCountAggregateOutputType | null
+    _min: RolesSkillsViewMinAggregateOutputType | null
+    _max: RolesSkillsViewMaxAggregateOutputType | null
+  }
+
+  export type RolesSkillsViewMinAggregateOutputType = {
+    id: string | null
+    country: string | null
+    currency: string | null
+    description: string | null
+    language: string | null
+    salary: string | null
+    title: string | null
+    url: string | null
+    createdAt: Date | null
+    ready: boolean | null
+    companyName: string | null
+  }
+
+  export type RolesSkillsViewMaxAggregateOutputType = {
+    id: string | null
+    country: string | null
+    currency: string | null
+    description: string | null
+    language: string | null
+    salary: string | null
+    title: string | null
+    url: string | null
+    createdAt: Date | null
+    ready: boolean | null
+    companyName: string | null
+  }
+
+  export type RolesSkillsViewCountAggregateOutputType = {
+    id: number
+    country: number
+    currency: number
+    description: number
+    language: number
+    salary: number
+    title: number
+    url: number
+    createdAt: number
+    skillNames: number
+    ready: number
+    companyName: number
+    _all: number
+  }
+
+
+  export type RolesSkillsViewMinAggregateInputType = {
+    id?: true
+    country?: true
+    currency?: true
+    description?: true
+    language?: true
+    salary?: true
+    title?: true
+    url?: true
+    createdAt?: true
+    ready?: true
+    companyName?: true
+  }
+
+  export type RolesSkillsViewMaxAggregateInputType = {
+    id?: true
+    country?: true
+    currency?: true
+    description?: true
+    language?: true
+    salary?: true
+    title?: true
+    url?: true
+    createdAt?: true
+    ready?: true
+    companyName?: true
+  }
+
+  export type RolesSkillsViewCountAggregateInputType = {
+    id?: true
+    country?: true
+    currency?: true
+    description?: true
+    language?: true
+    salary?: true
+    title?: true
+    url?: true
+    createdAt?: true
+    skillNames?: true
+    ready?: true
+    companyName?: true
+    _all?: true
+  }
+
+  export type RolesSkillsViewAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which rolesSkillsView to aggregate.
+     */
+    where?: rolesSkillsViewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of rolesSkillsViews to fetch.
+     */
+    orderBy?: rolesSkillsViewOrderByWithRelationInput | rolesSkillsViewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: rolesSkillsViewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` rolesSkillsViews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` rolesSkillsViews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned rolesSkillsViews
+    **/
+    _count?: true | RolesSkillsViewCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: RolesSkillsViewMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: RolesSkillsViewMaxAggregateInputType
+  }
+
+  export type GetRolesSkillsViewAggregateType<T extends RolesSkillsViewAggregateArgs> = {
+        [P in keyof T & keyof AggregateRolesSkillsView]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateRolesSkillsView[P]>
+      : GetScalarType<T[P], AggregateRolesSkillsView[P]>
+  }
+
+
+
+
+  export type rolesSkillsViewGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    where?: rolesSkillsViewWhereInput
+    orderBy?: rolesSkillsViewOrderByWithAggregationInput | rolesSkillsViewOrderByWithAggregationInput[]
+    by: RolesSkillsViewScalarFieldEnum[] | RolesSkillsViewScalarFieldEnum
+    having?: rolesSkillsViewScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: RolesSkillsViewCountAggregateInputType | true
+    _min?: RolesSkillsViewMinAggregateInputType
+    _max?: RolesSkillsViewMaxAggregateInputType
+  }
+
+
+  export type RolesSkillsViewGroupByOutputType = {
+    id: string
+    country: string
+    currency: string
+    description: string
+    language: string
+    salary: string | null
+    title: string
+    url: string | null
+    createdAt: Date
+    skillNames: string[]
+    ready: boolean
+    companyName: string
+    _count: RolesSkillsViewCountAggregateOutputType | null
+    _min: RolesSkillsViewMinAggregateOutputType | null
+    _max: RolesSkillsViewMaxAggregateOutputType | null
+  }
+
+  type GetRolesSkillsViewGroupByPayload<T extends rolesSkillsViewGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<RolesSkillsViewGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof RolesSkillsViewGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], RolesSkillsViewGroupByOutputType[P]>
+            : GetScalarType<T[P], RolesSkillsViewGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type rolesSkillsViewSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    country?: boolean
+    currency?: boolean
+    description?: boolean
+    language?: boolean
+    salary?: boolean
+    title?: boolean
+    url?: boolean
+    createdAt?: boolean
+    skillNames?: boolean
+    ready?: boolean
+    companyName?: boolean
+  }, ExtArgs["result"]["rolesSkillsView"]>
+
+  export type rolesSkillsViewSelectScalar = {
+    id?: boolean
+    country?: boolean
+    currency?: boolean
+    description?: boolean
+    language?: boolean
+    salary?: boolean
+    title?: boolean
+    url?: boolean
+    createdAt?: boolean
+    skillNames?: boolean
+    ready?: boolean
+    companyName?: boolean
+  }
+
+
+  type rolesSkillsViewGetPayload<S extends boolean | null | undefined | rolesSkillsViewArgs> = $Types.GetResult<rolesSkillsViewPayload, S>
+
+  type rolesSkillsViewCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
+    Omit<rolesSkillsViewFindManyArgs, 'select' | 'include'> & {
+      select?: RolesSkillsViewCountAggregateInputType | true
+    }
+
+  export interface rolesSkillsViewDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['rolesSkillsView'], meta: { name: 'rolesSkillsView' } }
+    /**
+     * Find zero or one RolesSkillsView that matches the filter.
+     * @param {rolesSkillsViewFindUniqueArgs} args - Arguments to find a RolesSkillsView
+     * @example
+     * // Get one RolesSkillsView
+     * const rolesSkillsView = await prisma.rolesSkillsView.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUnique<T extends rolesSkillsViewFindUniqueArgs<ExtArgs>>(
+      args: SelectSubset<T, rolesSkillsViewFindUniqueArgs<ExtArgs>>
+    ): Prisma__rolesSkillsViewClient<$Types.GetResult<rolesSkillsViewPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
+
+    /**
+     * Find one RolesSkillsView that matches the filter or throw an error  with `error.code='P2025'` 
+     *     if no matches were found.
+     * @param {rolesSkillsViewFindUniqueOrThrowArgs} args - Arguments to find a RolesSkillsView
+     * @example
+     * // Get one RolesSkillsView
+     * const rolesSkillsView = await prisma.rolesSkillsView.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findUniqueOrThrow<T extends rolesSkillsViewFindUniqueOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, rolesSkillsViewFindUniqueOrThrowArgs<ExtArgs>>
+    ): Prisma__rolesSkillsViewClient<$Types.GetResult<rolesSkillsViewPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find the first RolesSkillsView that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {rolesSkillsViewFindFirstArgs} args - Arguments to find a RolesSkillsView
+     * @example
+     * // Get one RolesSkillsView
+     * const rolesSkillsView = await prisma.rolesSkillsView.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirst<T extends rolesSkillsViewFindFirstArgs<ExtArgs>>(
+      args?: SelectSubset<T, rolesSkillsViewFindFirstArgs<ExtArgs>>
+    ): Prisma__rolesSkillsViewClient<$Types.GetResult<rolesSkillsViewPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
+
+    /**
+     * Find the first RolesSkillsView that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {rolesSkillsViewFindFirstOrThrowArgs} args - Arguments to find a RolesSkillsView
+     * @example
+     * // Get one RolesSkillsView
+     * const rolesSkillsView = await prisma.rolesSkillsView.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+    **/
+    findFirstOrThrow<T extends rolesSkillsViewFindFirstOrThrowArgs<ExtArgs>>(
+      args?: SelectSubset<T, rolesSkillsViewFindFirstOrThrowArgs<ExtArgs>>
+    ): Prisma__rolesSkillsViewClient<$Types.GetResult<rolesSkillsViewPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
+
+    /**
+     * Find zero or more RolesSkillsViews that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {rolesSkillsViewFindManyArgs=} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all RolesSkillsViews
+     * const rolesSkillsViews = await prisma.rolesSkillsView.findMany()
+     * 
+     * // Get first 10 RolesSkillsViews
+     * const rolesSkillsViews = await prisma.rolesSkillsView.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const rolesSkillsViewWithIdOnly = await prisma.rolesSkillsView.findMany({ select: { id: true } })
+     * 
+    **/
+    findMany<T extends rolesSkillsViewFindManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, rolesSkillsViewFindManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<$Types.GetResult<rolesSkillsViewPayload<ExtArgs>, T, 'findMany'>>
+
+    /**
+     * Create a RolesSkillsView.
+     * @param {rolesSkillsViewCreateArgs} args - Arguments to create a RolesSkillsView.
+     * @example
+     * // Create one RolesSkillsView
+     * const RolesSkillsView = await prisma.rolesSkillsView.create({
+     *   data: {
+     *     // ... data to create a RolesSkillsView
+     *   }
+     * })
+     * 
+    **/
+    create<T extends rolesSkillsViewCreateArgs<ExtArgs>>(
+      args: SelectSubset<T, rolesSkillsViewCreateArgs<ExtArgs>>
+    ): Prisma__rolesSkillsViewClient<$Types.GetResult<rolesSkillsViewPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
+
+    /**
+     * Create many RolesSkillsViews.
+     *     @param {rolesSkillsViewCreateManyArgs} args - Arguments to create many RolesSkillsViews.
+     *     @example
+     *     // Create many RolesSkillsViews
+     *     const rolesSkillsView = await prisma.rolesSkillsView.createMany({
+     *       data: {
+     *         // ... provide data here
+     *       }
+     *     })
+     *     
+    **/
+    createMany<T extends rolesSkillsViewCreateManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, rolesSkillsViewCreateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Delete a RolesSkillsView.
+     * @param {rolesSkillsViewDeleteArgs} args - Arguments to delete one RolesSkillsView.
+     * @example
+     * // Delete one RolesSkillsView
+     * const RolesSkillsView = await prisma.rolesSkillsView.delete({
+     *   where: {
+     *     // ... filter to delete one RolesSkillsView
+     *   }
+     * })
+     * 
+    **/
+    delete<T extends rolesSkillsViewDeleteArgs<ExtArgs>>(
+      args: SelectSubset<T, rolesSkillsViewDeleteArgs<ExtArgs>>
+    ): Prisma__rolesSkillsViewClient<$Types.GetResult<rolesSkillsViewPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
+
+    /**
+     * Update one RolesSkillsView.
+     * @param {rolesSkillsViewUpdateArgs} args - Arguments to update one RolesSkillsView.
+     * @example
+     * // Update one RolesSkillsView
+     * const rolesSkillsView = await prisma.rolesSkillsView.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    update<T extends rolesSkillsViewUpdateArgs<ExtArgs>>(
+      args: SelectSubset<T, rolesSkillsViewUpdateArgs<ExtArgs>>
+    ): Prisma__rolesSkillsViewClient<$Types.GetResult<rolesSkillsViewPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
+
+    /**
+     * Delete zero or more RolesSkillsViews.
+     * @param {rolesSkillsViewDeleteManyArgs} args - Arguments to filter RolesSkillsViews to delete.
+     * @example
+     * // Delete a few RolesSkillsViews
+     * const { count } = await prisma.rolesSkillsView.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+    **/
+    deleteMany<T extends rolesSkillsViewDeleteManyArgs<ExtArgs>>(
+      args?: SelectSubset<T, rolesSkillsViewDeleteManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more RolesSkillsViews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {rolesSkillsViewUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many RolesSkillsViews
+     * const rolesSkillsView = await prisma.rolesSkillsView.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+    **/
+    updateMany<T extends rolesSkillsViewUpdateManyArgs<ExtArgs>>(
+      args: SelectSubset<T, rolesSkillsViewUpdateManyArgs<ExtArgs>>
+    ): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create or update one RolesSkillsView.
+     * @param {rolesSkillsViewUpsertArgs} args - Arguments to update or create a RolesSkillsView.
+     * @example
+     * // Update or create a RolesSkillsView
+     * const rolesSkillsView = await prisma.rolesSkillsView.upsert({
+     *   create: {
+     *     // ... data to create a RolesSkillsView
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the RolesSkillsView we want to update
+     *   }
+     * })
+    **/
+    upsert<T extends rolesSkillsViewUpsertArgs<ExtArgs>>(
+      args: SelectSubset<T, rolesSkillsViewUpsertArgs<ExtArgs>>
+    ): Prisma__rolesSkillsViewClient<$Types.GetResult<rolesSkillsViewPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
+
+    /**
+     * Count the number of RolesSkillsViews.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {rolesSkillsViewCountArgs} args - Arguments to filter RolesSkillsViews to count.
+     * @example
+     * // Count the number of RolesSkillsViews
+     * const count = await prisma.rolesSkillsView.count({
+     *   where: {
+     *     // ... the filter for the RolesSkillsViews we want to count
+     *   }
+     * })
+    **/
+    count<T extends rolesSkillsViewCountArgs>(
+      args?: Subset<T, rolesSkillsViewCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], RolesSkillsViewCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a RolesSkillsView.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {RolesSkillsViewAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends RolesSkillsViewAggregateArgs>(args: Subset<T, RolesSkillsViewAggregateArgs>): Prisma.PrismaPromise<GetRolesSkillsViewAggregateType<T>>
+
+    /**
+     * Group by RolesSkillsView.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {rolesSkillsViewGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends rolesSkillsViewGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: rolesSkillsViewGroupByArgs['orderBy'] }
+        : { orderBy?: rolesSkillsViewGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, rolesSkillsViewGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRolesSkillsViewGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the rolesSkillsView model
+   */
+  readonly fields: rolesSkillsViewFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for rolesSkillsView.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export class Prisma__rolesSkillsViewClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
+    private readonly _dmmf;
+    private readonly _queryType;
+    private readonly _rootField;
+    private readonly _clientMethod;
+    private readonly _args;
+    private readonly _dataPath;
+    private readonly _errorFormat;
+    private readonly _measurePerformance?;
+    private _isList;
+    private _callsite;
+    private _requestPromise?;
+    readonly [Symbol.toStringTag]: 'PrismaPromise';
+    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
+
+
+    private get _document();
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
+  }
+
+
+
+  /**
+   * Fields of the rolesSkillsView model
+   */ 
+  interface rolesSkillsViewFieldRefs {
+    readonly id: FieldRef<"rolesSkillsView", 'String'>
+    readonly country: FieldRef<"rolesSkillsView", 'String'>
+    readonly currency: FieldRef<"rolesSkillsView", 'String'>
+    readonly description: FieldRef<"rolesSkillsView", 'String'>
+    readonly language: FieldRef<"rolesSkillsView", 'String'>
+    readonly salary: FieldRef<"rolesSkillsView", 'String'>
+    readonly title: FieldRef<"rolesSkillsView", 'String'>
+    readonly url: FieldRef<"rolesSkillsView", 'String'>
+    readonly createdAt: FieldRef<"rolesSkillsView", 'DateTime'>
+    readonly skillNames: FieldRef<"rolesSkillsView", 'String[]'>
+    readonly ready: FieldRef<"rolesSkillsView", 'Boolean'>
+    readonly companyName: FieldRef<"rolesSkillsView", 'String'>
+  }
+    
+
+  // Custom InputTypes
+
+  /**
+   * rolesSkillsView findUnique
+   */
+  export type rolesSkillsViewFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the rolesSkillsView
+     */
+    select?: rolesSkillsViewSelect<ExtArgs> | null
+    /**
+     * Filter, which rolesSkillsView to fetch.
+     */
+    where: rolesSkillsViewWhereUniqueInput
+  }
+
+
+  /**
+   * rolesSkillsView findUniqueOrThrow
+   */
+  export type rolesSkillsViewFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the rolesSkillsView
+     */
+    select?: rolesSkillsViewSelect<ExtArgs> | null
+    /**
+     * Filter, which rolesSkillsView to fetch.
+     */
+    where: rolesSkillsViewWhereUniqueInput
+  }
+
+
+  /**
+   * rolesSkillsView findFirst
+   */
+  export type rolesSkillsViewFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the rolesSkillsView
+     */
+    select?: rolesSkillsViewSelect<ExtArgs> | null
+    /**
+     * Filter, which rolesSkillsView to fetch.
+     */
+    where?: rolesSkillsViewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of rolesSkillsViews to fetch.
+     */
+    orderBy?: rolesSkillsViewOrderByWithRelationInput | rolesSkillsViewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for rolesSkillsViews.
+     */
+    cursor?: rolesSkillsViewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` rolesSkillsViews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` rolesSkillsViews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of rolesSkillsViews.
+     */
+    distinct?: RolesSkillsViewScalarFieldEnum | RolesSkillsViewScalarFieldEnum[]
+  }
+
+
+  /**
+   * rolesSkillsView findFirstOrThrow
+   */
+  export type rolesSkillsViewFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the rolesSkillsView
+     */
+    select?: rolesSkillsViewSelect<ExtArgs> | null
+    /**
+     * Filter, which rolesSkillsView to fetch.
+     */
+    where?: rolesSkillsViewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of rolesSkillsViews to fetch.
+     */
+    orderBy?: rolesSkillsViewOrderByWithRelationInput | rolesSkillsViewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for rolesSkillsViews.
+     */
+    cursor?: rolesSkillsViewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` rolesSkillsViews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` rolesSkillsViews.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of rolesSkillsViews.
+     */
+    distinct?: RolesSkillsViewScalarFieldEnum | RolesSkillsViewScalarFieldEnum[]
+  }
+
+
+  /**
+   * rolesSkillsView findMany
+   */
+  export type rolesSkillsViewFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the rolesSkillsView
+     */
+    select?: rolesSkillsViewSelect<ExtArgs> | null
+    /**
+     * Filter, which rolesSkillsViews to fetch.
+     */
+    where?: rolesSkillsViewWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of rolesSkillsViews to fetch.
+     */
+    orderBy?: rolesSkillsViewOrderByWithRelationInput | rolesSkillsViewOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing rolesSkillsViews.
+     */
+    cursor?: rolesSkillsViewWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` rolesSkillsViews from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` rolesSkillsViews.
+     */
+    skip?: number
+    distinct?: RolesSkillsViewScalarFieldEnum | RolesSkillsViewScalarFieldEnum[]
+  }
+
+
+  /**
+   * rolesSkillsView create
+   */
+  export type rolesSkillsViewCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the rolesSkillsView
+     */
+    select?: rolesSkillsViewSelect<ExtArgs> | null
+    /**
+     * The data needed to create a rolesSkillsView.
+     */
+    data: XOR<rolesSkillsViewCreateInput, rolesSkillsViewUncheckedCreateInput>
+  }
+
+
+  /**
+   * rolesSkillsView createMany
+   */
+  export type rolesSkillsViewCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many rolesSkillsViews.
+     */
+    data: rolesSkillsViewCreateManyInput | rolesSkillsViewCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+
+  /**
+   * rolesSkillsView update
+   */
+  export type rolesSkillsViewUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the rolesSkillsView
+     */
+    select?: rolesSkillsViewSelect<ExtArgs> | null
+    /**
+     * The data needed to update a rolesSkillsView.
+     */
+    data: XOR<rolesSkillsViewUpdateInput, rolesSkillsViewUncheckedUpdateInput>
+    /**
+     * Choose, which rolesSkillsView to update.
+     */
+    where: rolesSkillsViewWhereUniqueInput
+  }
+
+
+  /**
+   * rolesSkillsView updateMany
+   */
+  export type rolesSkillsViewUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update rolesSkillsViews.
+     */
+    data: XOR<rolesSkillsViewUpdateManyMutationInput, rolesSkillsViewUncheckedUpdateManyInput>
+    /**
+     * Filter which rolesSkillsViews to update
+     */
+    where?: rolesSkillsViewWhereInput
+  }
+
+
+  /**
+   * rolesSkillsView upsert
+   */
+  export type rolesSkillsViewUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the rolesSkillsView
+     */
+    select?: rolesSkillsViewSelect<ExtArgs> | null
+    /**
+     * The filter to search for the rolesSkillsView to update in case it exists.
+     */
+    where: rolesSkillsViewWhereUniqueInput
+    /**
+     * In case the rolesSkillsView found by the `where` argument doesn't exist, create a new rolesSkillsView with this data.
+     */
+    create: XOR<rolesSkillsViewCreateInput, rolesSkillsViewUncheckedCreateInput>
+    /**
+     * In case the rolesSkillsView was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<rolesSkillsViewUpdateInput, rolesSkillsViewUncheckedUpdateInput>
+  }
+
+
+  /**
+   * rolesSkillsView delete
+   */
+  export type rolesSkillsViewDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the rolesSkillsView
+     */
+    select?: rolesSkillsViewSelect<ExtArgs> | null
+    /**
+     * Filter which rolesSkillsView to delete.
+     */
+    where: rolesSkillsViewWhereUniqueInput
+  }
+
+
+  /**
+   * rolesSkillsView deleteMany
+   */
+  export type rolesSkillsViewDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which rolesSkillsViews to delete
+     */
+    where?: rolesSkillsViewWhereInput
+  }
+
+
+  /**
+   * rolesSkillsView without action
+   */
+  export type rolesSkillsViewArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the rolesSkillsView
+     */
+    select?: rolesSkillsViewSelect<ExtArgs> | null
+  }
+
+
+
+  /**
    * Enums
    */
 
@@ -10842,6 +11881,24 @@ export namespace Prisma {
   };
 
   export type CompaniesScalarFieldEnum = (typeof CompaniesScalarFieldEnum)[keyof typeof CompaniesScalarFieldEnum]
+
+
+  export const RolesSkillsViewScalarFieldEnum: {
+    id: 'id',
+    country: 'country',
+    currency: 'currency',
+    description: 'description',
+    language: 'language',
+    salary: 'salary',
+    title: 'title',
+    url: 'url',
+    createdAt: 'createdAt',
+    skillNames: 'skillNames',
+    ready: 'ready',
+    companyName: 'companyName'
+  };
+
+  export type RolesSkillsViewScalarFieldEnum = (typeof RolesSkillsViewScalarFieldEnum)[keyof typeof RolesSkillsViewScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -11531,6 +12588,93 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"Companies"> | Date | string
   }
 
+  export type rolesSkillsViewWhereInput = {
+    AND?: rolesSkillsViewWhereInput | rolesSkillsViewWhereInput[]
+    OR?: rolesSkillsViewWhereInput[]
+    NOT?: rolesSkillsViewWhereInput | rolesSkillsViewWhereInput[]
+    id?: StringFilter<"rolesSkillsView"> | string
+    country?: StringFilter<"rolesSkillsView"> | string
+    currency?: StringFilter<"rolesSkillsView"> | string
+    description?: StringFilter<"rolesSkillsView"> | string
+    language?: StringFilter<"rolesSkillsView"> | string
+    salary?: StringNullableFilter<"rolesSkillsView"> | string | null
+    title?: StringFilter<"rolesSkillsView"> | string
+    url?: StringNullableFilter<"rolesSkillsView"> | string | null
+    createdAt?: DateTimeFilter<"rolesSkillsView"> | Date | string
+    skillNames?: StringNullableListFilter<"rolesSkillsView">
+    ready?: BoolFilter<"rolesSkillsView"> | boolean
+    companyName?: StringFilter<"rolesSkillsView"> | string
+  }
+
+  export type rolesSkillsViewOrderByWithRelationInput = {
+    id?: SortOrder
+    country?: SortOrder
+    currency?: SortOrder
+    description?: SortOrder
+    language?: SortOrder
+    salary?: SortOrderInput | SortOrder
+    title?: SortOrder
+    url?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    skillNames?: SortOrder
+    ready?: SortOrder
+    companyName?: SortOrder
+  }
+
+  export type rolesSkillsViewWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: rolesSkillsViewWhereInput | rolesSkillsViewWhereInput[]
+    OR?: rolesSkillsViewWhereInput[]
+    NOT?: rolesSkillsViewWhereInput | rolesSkillsViewWhereInput[]
+    country?: StringFilter<"rolesSkillsView"> | string
+    currency?: StringFilter<"rolesSkillsView"> | string
+    description?: StringFilter<"rolesSkillsView"> | string
+    language?: StringFilter<"rolesSkillsView"> | string
+    salary?: StringNullableFilter<"rolesSkillsView"> | string | null
+    title?: StringFilter<"rolesSkillsView"> | string
+    url?: StringNullableFilter<"rolesSkillsView"> | string | null
+    createdAt?: DateTimeFilter<"rolesSkillsView"> | Date | string
+    skillNames?: StringNullableListFilter<"rolesSkillsView">
+    ready?: BoolFilter<"rolesSkillsView"> | boolean
+    companyName?: StringFilter<"rolesSkillsView"> | string
+  }, "id">
+
+  export type rolesSkillsViewOrderByWithAggregationInput = {
+    id?: SortOrder
+    country?: SortOrder
+    currency?: SortOrder
+    description?: SortOrder
+    language?: SortOrder
+    salary?: SortOrderInput | SortOrder
+    title?: SortOrder
+    url?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    skillNames?: SortOrder
+    ready?: SortOrder
+    companyName?: SortOrder
+    _count?: rolesSkillsViewCountOrderByAggregateInput
+    _max?: rolesSkillsViewMaxOrderByAggregateInput
+    _min?: rolesSkillsViewMinOrderByAggregateInput
+  }
+
+  export type rolesSkillsViewScalarWhereWithAggregatesInput = {
+    AND?: rolesSkillsViewScalarWhereWithAggregatesInput | rolesSkillsViewScalarWhereWithAggregatesInput[]
+    OR?: rolesSkillsViewScalarWhereWithAggregatesInput[]
+    NOT?: rolesSkillsViewScalarWhereWithAggregatesInput | rolesSkillsViewScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"rolesSkillsView"> | string
+    country?: StringWithAggregatesFilter<"rolesSkillsView"> | string
+    currency?: StringWithAggregatesFilter<"rolesSkillsView"> | string
+    description?: StringWithAggregatesFilter<"rolesSkillsView"> | string
+    language?: StringWithAggregatesFilter<"rolesSkillsView"> | string
+    salary?: StringNullableWithAggregatesFilter<"rolesSkillsView"> | string | null
+    title?: StringWithAggregatesFilter<"rolesSkillsView"> | string
+    url?: StringNullableWithAggregatesFilter<"rolesSkillsView"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"rolesSkillsView"> | Date | string
+    skillNames?: StringNullableListFilter<"rolesSkillsView">
+    ready?: BoolWithAggregatesFilter<"rolesSkillsView"> | boolean
+    companyName?: StringWithAggregatesFilter<"rolesSkillsView"> | string
+  }
+
   export type SubscribersCreateInput = {
     id?: string
     email: string
@@ -12102,6 +13246,111 @@ export namespace Prisma {
     countryIcon?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type rolesSkillsViewCreateInput = {
+    id: string
+    country: string
+    currency: string
+    description: string
+    language: string
+    salary?: string | null
+    title: string
+    url?: string | null
+    createdAt: Date | string
+    skillNames?: rolesSkillsViewCreateskillNamesInput | string[]
+    ready: boolean
+    companyName: string
+  }
+
+  export type rolesSkillsViewUncheckedCreateInput = {
+    id: string
+    country: string
+    currency: string
+    description: string
+    language: string
+    salary?: string | null
+    title: string
+    url?: string | null
+    createdAt: Date | string
+    skillNames?: rolesSkillsViewCreateskillNamesInput | string[]
+    ready: boolean
+    companyName: string
+  }
+
+  export type rolesSkillsViewUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skillNames?: rolesSkillsViewUpdateskillNamesInput | string[]
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    companyName?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type rolesSkillsViewUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skillNames?: rolesSkillsViewUpdateskillNamesInput | string[]
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    companyName?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type rolesSkillsViewCreateManyInput = {
+    id: string
+    country: string
+    currency: string
+    description: string
+    language: string
+    salary?: string | null
+    title: string
+    url?: string | null
+    createdAt: Date | string
+    skillNames?: rolesSkillsViewCreateskillNamesInput | string[]
+    ready: boolean
+    companyName: string
+  }
+
+  export type rolesSkillsViewUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skillNames?: rolesSkillsViewUpdateskillNamesInput | string[]
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    companyName?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type rolesSkillsViewUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    currency?: StringFieldUpdateOperationsInput | string
+    description?: StringFieldUpdateOperationsInput | string
+    language?: StringFieldUpdateOperationsInput | string
+    salary?: NullableStringFieldUpdateOperationsInput | string | null
+    title?: StringFieldUpdateOperationsInput | string
+    url?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    skillNames?: rolesSkillsViewUpdateskillNamesInput | string[]
+    ready?: BoolFieldUpdateOperationsInput | boolean
+    companyName?: StringFieldUpdateOperationsInput | string
   }
 
   export type UuidFilter<$PrismaModel = never> = {
@@ -12742,6 +13991,49 @@ export namespace Prisma {
     updatedAt?: SortOrder
   }
 
+  export type rolesSkillsViewCountOrderByAggregateInput = {
+    id?: SortOrder
+    country?: SortOrder
+    currency?: SortOrder
+    description?: SortOrder
+    language?: SortOrder
+    salary?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+    skillNames?: SortOrder
+    ready?: SortOrder
+    companyName?: SortOrder
+  }
+
+  export type rolesSkillsViewMaxOrderByAggregateInput = {
+    id?: SortOrder
+    country?: SortOrder
+    currency?: SortOrder
+    description?: SortOrder
+    language?: SortOrder
+    salary?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+    ready?: SortOrder
+    companyName?: SortOrder
+  }
+
+  export type rolesSkillsViewMinOrderByAggregateInput = {
+    id?: SortOrder
+    country?: SortOrder
+    currency?: SortOrder
+    description?: SortOrder
+    language?: SortOrder
+    salary?: SortOrder
+    title?: SortOrder
+    url?: SortOrder
+    createdAt?: SortOrder
+    ready?: SortOrder
+    companyName?: SortOrder
+  }
+
   export type SubscribersSkillsCreateNestedManyWithoutSubscribersInput = {
     create?: XOR<SubscribersSkillsCreateWithoutSubscribersInput, SubscribersSkillsUncheckedCreateWithoutSubscribersInput> | SubscribersSkillsCreateWithoutSubscribersInput[] | SubscribersSkillsUncheckedCreateWithoutSubscribersInput[]
     connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSubscribersInput | SubscribersSkillsCreateOrConnectWithoutSubscribersInput[]
@@ -13309,6 +14601,15 @@ export namespace Prisma {
     update?: RolesUpdateWithWhereUniqueWithoutCompanyInput | RolesUpdateWithWhereUniqueWithoutCompanyInput[]
     updateMany?: RolesUpdateManyWithWhereWithoutCompanyInput | RolesUpdateManyWithWhereWithoutCompanyInput[]
     deleteMany?: RolesScalarWhereInput | RolesScalarWhereInput[]
+  }
+
+  export type rolesSkillsViewCreateskillNamesInput = {
+    set: string[]
+  }
+
+  export type rolesSkillsViewUpdateskillNamesInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type NestedUuidFilter<$PrismaModel = never> = {

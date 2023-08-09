@@ -15,11 +15,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 5.0.0
- * Query Engine version: 6a3747c37ff169c90047725a05a6ef02e32ac97e
+ * Query Engine version: 6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
  */
 Prisma.prismaVersion = {
   client: "5.0.0",
-  engine: "6a3747c37ff169c90047725a05a6ef02e32ac97e"
+  engine: "6b0aef69b7cdfc787f822ecd7cdc76d5f1991584"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -183,6 +183,21 @@ exports.Prisma.CompaniesScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.RolesSkillsViewScalarFieldEnum = {
+  id: 'id',
+  country: 'country',
+  currency: 'currency',
+  description: 'description',
+  language: 'language',
+  salary: 'salary',
+  title: 'title',
+  url: 'url',
+  createdAt: 'createdAt',
+  skillNames: 'skillNames',
+  ready: 'ready',
+  companyName: 'companyName'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -218,7 +233,8 @@ exports.Prisma.ModelName = {
   SentRoles: 'SentRoles',
   SubscriberTopics: 'SubscriberTopics',
   Topics: 'Topics',
-  Companies: 'Companies'
+  Companies: 'Companies',
+  rolesSkillsView: 'rolesSkillsView'
 };
 
 /**

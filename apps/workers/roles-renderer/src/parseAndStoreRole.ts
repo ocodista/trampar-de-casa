@@ -1,11 +1,11 @@
-import { Roles } from 'db'
+import { rolesSkillsView } from 'db'
 import { RedisClientType } from 'redis'
 import { RedisPrefix } from 'shared/src/enums/redis'
 import { parseHTML } from './parseHTML'
 
 export const parseAndStoreRole = async (
   redisClient: RedisClientType,
-  role: Roles
+  role: rolesSkillsView
 ) => {
   const { id } = role
   const html = parseHTML(role)

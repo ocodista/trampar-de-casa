@@ -2,8 +2,9 @@
 // learn more about it in the docs: https://pris.ly/d/prisma-schema
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "./client"
+  provider        = "prisma-client-js"
+  output          = "./client"
+  previewFeatures = ["views"]
 }
 
 datasource db {
@@ -121,6 +122,21 @@ model Companies {
   updatedAt   DateTime @updatedAt
 
   @@map("Companies")
+}
+
+view rolesSkillsView {
+  id          String   @id
+  country     String
+  currency    String
+  description String
+  language    String
+  salary      String?
+  title       String
+  url         String?
+  createdAt   DateTime
+  skillNames  String[]
+  ready       Boolean
+  companyName String
 }
 
 enum EnglishLevel {

@@ -1,30 +1,32 @@
 import { faker } from '@faker-js/faker'
 import { SupabaseClient } from '@supabase/supabase-js'
-import { Prisma, Roles } from 'db'
+import { rolesSkillsView } from 'db'
 import { RedisClientType } from 'redis'
 import { describe, expect, it, vi } from 'vitest'
 import { getRolesInBatches } from './getRoles'
 import { parseAndStoreRole } from './parseAndStoreRole'
 import { htmlStartingDoctype, parseHTML } from './parseHTML'
 
-const getRoleMock = (): Roles =>
+const getRolesSkillsMock = (): rolesSkillsView =>
   ({
     id: faker.string.uuid(),
-    companyId: faker.string.uuid(),
-    country: '',
+    companyName: faker.company.name(),
+    country: faker.location.country(),
+    createdAt: faker.date.past(),
+    currency: 'USD',
+    description: faker.string.sample(),
+    language: '',
     ready: faker.datatype.boolean(),
-    title: faker.internet.userName(),
-    skillsId: [],
-    description: faker.internet.domainName(),
-    createdAt: faker.date.anytime(),
-    updatedAt: faker.date.anytime(),
-    language: 'Portuguese',
-  } as unknown as Roles)
+    salary: '',
+    skillNames: [],
+    title: faker.person.jobTitle(),
+    url: '',
+  } as unknown as rolesSkillsView)
 
-const getRoleMocks = (count: number): Roles[] =>
-  new Array(count).fill(0).map(() => getRoleMock())
+const getRolesSkillsMocks = (count: number): rolesSkillsView[] =>
+  new Array(count).fill(0).map(() => getRolesSkillsMock())
 
-const mockRoles = getRoleMocks(20)
+const mockRoles = getRolesSkillsMocks(20)
 const mockSupabaseClient: SupabaseClient = {
   from: () => ({
     select: () => ({
