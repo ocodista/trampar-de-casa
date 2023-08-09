@@ -22,6 +22,19 @@ loop for each role
 end
 ```
 
+## Flow Diagram
+
+```mermaid
+flowchart LR
+    A[rolesValidator] --> B[GetRoles]
+    subgraph For each role
+      B-- Empty URL --> G[Delete from redis]
+      B-->C[isValid]
+      C-->D{is valid?}
+      D-- NO -->F[Delete from redis]
+    end
+```
+
 ### **RolesValidator**
 
 This function is like the conductor of the role-checking orchestra. It relies on Redis and does some nifty web scraping to handle roles.
