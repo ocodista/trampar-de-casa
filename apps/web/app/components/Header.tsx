@@ -8,7 +8,7 @@ export const Header = () => {
 
   return (
     <div className="container mx-auto overflow-hidden">
-      <div className="relative flex items-center justify-between bg-transparent px-4 py-5">
+      <div className="relative flex items-center justify-between bg-transparent py-5 lg:px-4">
         <div className="w-auto">
           <div className="flex flex-wrap items-center">
             <div className="mr-14 w-auto">
@@ -118,11 +118,11 @@ export const Header = () => {
                 </div>
               </div>
               <div className="flex w-full flex-col justify-center py-16">
-                <ul>
+                <ul className="flex flex-col gap-10">
                   {Object.keys(LandingPageRoutes).map((route) => (
                     <li key={`mobile-${route}`}>
                       <a
-                        className="font-medium hover:text-gray-700"
+                        className="text-lg font-medium hover:text-gray-700"
                         href={
                           LandingPageRoutes[
                             route as keyof typeof LandingPageRoutes

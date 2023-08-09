@@ -7,5 +7,5 @@ export enum LandingPageRoutes {
   'Nossos-Valores' = '/#valores',
   'Como-Funciona' = '/#como-funciona',
   'Perguntas-Frequentes' = '/#perguntas-frequentes',
-  'Vagas' = '/vagas',
+  'Últimas-Vagas' = '/vagas',
 }
