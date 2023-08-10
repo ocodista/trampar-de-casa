@@ -50,13 +50,14 @@ Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas 
 ## Como subir o banco de dados localmente
 
 1. Certifique-se de ter o [docker](https://www.docker.com/) instalado na sua máquina.
-2. Navegue até a pasta `apps/web`.
-3. Execute o comando `npm install` para instalar as dependências do projeto.
-4. Execute o comando `npm run db-start` para gerar a pasta `prisma/client` e subir uma instância local do Supabase.
-5. Você verá informações no terminal sobre as credenciais da sua instância local do Supabase.
-6. Adicione as credenciais no arquivo `.env`.
+2. Adicione as variáveis de ambiente listadas nos arquivos `.env.example` aos seus respectivos arquivos `.env`. (As variáveis que foram deixadas de exemplo já devem ser suficientes para subir o banco).
+3. Na raíz do projeto, execute o comando `yarn run db:up`. Isso irá subir uma instância local do [supabase](https://supabase.com/docs).
+4. Navegue até a pasta `packages/db`.
+5. Execute o comando `yarn run db-start` para gerar a pasta `prisma/client.
+6. Execute o comando `yarn run db-migrate` para criar as tabelas no seu banco de dados.
 7. Execute o comando `npm run db-seed` caso queira popular sua base de dados.
-8. Caso tenha alguma dúvida consulta a [documentação oficial do supabase](https://supabase.com/docs/guides/getting-started/local-development) e a [documentação oficial do prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
+8. Se você utilizou as mesmas variáveis de ambiente que estão nos arquivos `.env.example`, você pode abrir a url [http://localhost:54323/](http://localhost:54323/) para visualizar o Supabase Studio.
+9. Caso tenha alguma dúvida consulta a [documentação oficial do supabase](https://supabase.com/docs/guides/getting-started/local-development) e a [documentação oficial do prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
 
 ## Contribuidores ✨
 

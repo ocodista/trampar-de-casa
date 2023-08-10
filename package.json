@@ -10,7 +10,8 @@
     "lint-format": "yarn format && eslint --fix",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "db:up": "docker-compose -f docker/docker-compose-supabase.yml up"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
