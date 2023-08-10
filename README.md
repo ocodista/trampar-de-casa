@@ -54,10 +54,9 @@ Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas 
 3. Execute o comando `npm install` para instalar as dependências do projeto.
 4. Execute o comando `npm run db-start` para gerar a pasta `prisma/client` e subir uma instância local do Supabase.
 5. Você verá informações no terminal sobre as credenciais da sua instância local do Supabase.
-6. Adicine as credenciais no arquivo `.env`.
-7. Execute o comando `npm run db-migrate-dev` para criar as tabelas no banco de dados.
-8. Execute o comando `npm run db-seed` caso queira popular sua base de dados.
-9. Caso tenha alguma dúvida consulta a [documentação oficial do supabase](https://supabase.com/docs/guides/getting-started/local-development) e a [documentação oficial do prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
+6. Adicione as credenciais no arquivo `.env`.
+7. Execute o comando `npm run db-seed` caso queira popular sua base de dados.
+8. Caso tenha alguma dúvida consulta a [documentação oficial do supabase](https://supabase.com/docs/guides/getting-started/local-development) e a [documentação oficial do prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
 
 ## Contribuidores ✨
 

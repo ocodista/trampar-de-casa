@@ -3,9 +3,9 @@ export interface Opening {
   title: string
   location: string
   language: string
-  currency: string
-  salary?: string
-  skills: string[]
+  currency: 'U$' | 'R$' | 'EUR'
+  skills: [string, string?, string?, string?, string?]
   headerInfo?: string
+  salary?: string
   url: string
 }

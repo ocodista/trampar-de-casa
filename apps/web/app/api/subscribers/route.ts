@@ -4,6 +4,7 @@ import { sendConfirmationEmail } from 'shared/src/email'
 import { SupabaseCodes } from 'shared/src/enums'
 import { logError } from '../logError'
 import { insertSubscriber } from './db'
+import { Tracker, Events } from 'analytics'
 
 interface EmailRequest {
   email: string
@@ -26,11 +27,15 @@ export async function POST(request: Request) {
   }
 
   try {
+    const [subscriber] = data
     await sendConfirmationEmail({
       secretKey: process.env['CRYPT_SECRET'],
       to: email,
       resendKey: process.env['RESEND_KEY'],
-      subscriberId: data[0].id,
+      subscriberId: subscriber.id,
+    })
+    new Tracker(process.env['MIXPANEL_KEY']).track(Events.NewSubscriber, {
+      distinct_id: subscriber.id,
     })
   } catch (err) {
     await logError(err)

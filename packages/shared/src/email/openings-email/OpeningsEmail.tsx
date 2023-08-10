@@ -1,32 +1,33 @@
+/* eslint-disable react/no-unescaped-entities */
 import {
-  Tailwind,
-  Html,
-  Head,
-  Preview,
   Body,
   Container,
-  Section,
+  Head,
   Heading,
   Hr,
-  Link,
-  Text,
+  Html,
   Img,
+  Link,
+  Preview,
+  Section,
+  Tailwind,
+  Text,
 } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
-import OpeningList from './OpeningList'
+import { RedisClientType } from 'redis'
 import { Opening } from './Opening'
+import OpeningList from './OpeningList'
 import {
-  main,
-  container,
+  anchor,
   box,
+  container,
+  footer,
   h1,
   hr,
+  main,
   paragraph,
-  anchor,
-  footer,
 } from './style'
-
 interface OpeningsEmail {
   globalOpenings: Opening[]
   localOpenings: Opening[]
@@ -41,7 +42,7 @@ export const OpeningsEmail = ({
   unsubscribeUrl,
 }: OpeningsEmail) => {
   const rolesCount = globalOpenings.length + localOpenings.length
-  const previewText = `${rolesCount} vagas para você Trampar de Casa 🔥`
+  const previewText = 'R$130 de desconto na compra de uma Mesa Slikdesk!'
   return (
     <Tailwind>
       <Html>
@@ -50,7 +51,7 @@ export const OpeningsEmail = ({
         <Body style={main}>
           <Container style={container}>
             <Section style={box}>
-              <Container className="flex justify-center items-center">
+              <Container className="flex items-center justify-center">
                 <Img
                   src="https://trampardecasa.com.br/images/logo.png"
                   height={70}
@@ -58,20 +59,32 @@ export const OpeningsEmail = ({
                   alt="Logo da Trampar De Casa"
                 />
               </Container>
-              <Heading style={h1}>{previewText}</Heading>
+              <Heading
+                style={h1}
+              >{`🔥 ${rolesCount} vagas para você Trampar de Casa`}</Heading>
               <Hr style={hr} />
-              <Text style={paragraph}>
-                Bom dia, amantes do trabalho remoto!{' '}
+              <Text style={paragraph}>Olá, defensor do trabalho remoto!</Text>
+              <Text style={{ ...paragraph, color: '#000' }}>
+                Você ficou perdido com essa história de “standing desks" e
+                "trabalhar em pé" no e-mail anterior? Calma que eu te explico.
               </Text>
-              <Text style={paragraph}>
-                Temos uma grande novidade para compartilhar com vocês: fechamos
-                uma parceria com a renomada plataforma de desenvolvimento
-                FullStack JS e TS{' '}
-                <Link style={anchor} href="https://www.meteor.com/">
-                  Meteor
-                </Link>
-                {' - que também é open-source!'}
+              <Text style={{ ...paragraph, color: '#000' }}>
+                Ao utilizar uma mesa com regulagem de altura durante sua rotina,
+                você pode alternar momentos de trabalho sentado e em pé, que
+                trazem diversos benefícios para sua saúde e bem-estar, melhoram
+                sua produtividade e eliminam aquelas dores do home office.
               </Text>
+              <Text style={{ ...paragraph, color: '#000' }}>
+                A nossa parceira Slikdesk disponibilizou um desconto de R$ 130
+                para você adquirir a sua standing desk. <br />
+                Acesse{' '}
+                <Link href="https://slik.com.br/trampardecasa">
+                  slik.com.br/trampardecasa
+                </Link>{' '}
+                e utilize o cupom <br />
+                <b>🎫TRAMPARDECASA</b>
+              </Text>
+
               <Text style={paragraph}>
                 O seu feedback nos ajuda <strong>demais</strong>, clique{' '}
                 <Link style={anchor} href={feedbackFormUrl}>
@@ -79,8 +92,7 @@ export const OpeningsEmail = ({
                 </Link>
               </Text>
               <Text style={paragraph}>
-                Agora, é hora de você aproveitar as oportunidades de vagas.
-                Esperamos que goste!
+                Agora, aproveite as vagas desta semana!
               </Text>
               <Heading style={h1}>
                 🌎 {globalOpenings.length} Vagas internacionais
@@ -113,6 +125,16 @@ export const OpeningsEmail = ({
     </Tailwind>
   )
 }
+export const openingsEmailHTML = async ({
+  redis,
+  ...props
+}: OpeningsEmail & { id: string; redis: RedisClientType }) => {
+  const renderedHtmlPersisted = await redis.get(`OPENING_HTML:${props.id}`)
 
-export const openingsEmailHTML = (props: OpeningsEmail): string =>
-  render(OpeningsEmail(props))
+  if (renderedHtmlPersisted) {
+    return renderedHtmlPersisted
+  }
+  const renderedHtml = render(OpeningsEmail(props))
+  await redis.set(`OPENING_HTML:${props.id}`, renderedHtml)
+  return renderedHtml
+}

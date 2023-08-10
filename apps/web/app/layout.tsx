@@ -1,5 +1,4 @@
 import { Metadata } from 'next'
-import Script from 'next/script'
 import { Header } from './components/Header'
 import { Toaster } from './components/ui/toaster'
 import './global.css'
@@ -13,7 +12,11 @@ export const metadata: Metadata = {
   title,
   description,
   twitter: { title, description },
-  openGraph: { title, description },
+  openGraph: {
+    title,
+    description,
+    images: ['/api/og-image'],
+  },
   keywords:
     'trabalho remoto, emprego remoto, vagas remotas, trabalho em casa, empregos de tecnologia remotos, carreira remota, trabalho flexível, oportunidades de trabalho remoto, empresas remotas',
   robots: 'index, follow',
@@ -22,11 +25,6 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }) {
   return (
     <html className="scroll-smooth" lang="pt-BR">
-      <Script
-        strategy="afterInteractive"
-        data-domain="trampardecasa.com.br"
-        src="https://plausible.io/js/script.js"
-      />
       <body>
         <Providers>
           <Toaster />
