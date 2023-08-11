@@ -34,8 +34,8 @@ export default function JobArticle({
 
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap gap-2 lg:justify-end">
-            {skills.map((skill) => (
-              <Chip key={`${url}-${skill}`} title={skill} />
+            {skills.map((skill, i) => (
+              <Chip key={`${skill}${i}`} title={skill} />
             ))}
           </div>
 

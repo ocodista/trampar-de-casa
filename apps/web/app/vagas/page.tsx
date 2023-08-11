@@ -27,52 +27,47 @@ export default function Page() {
 
   const jobList = localOpenings.concat(globalOpenings) as JobArticleProps[]
 
-  const availableLocations = [
-    ...new Set(jobList.map((job) => job.location).flat()),
-  ]
-  const availableLanguages = [
-    ...new Set(jobList.map((job) => job.language).flat()),
-  ]
-  const availableSkills = [...new Set(jobList.map((job) => job.skills).flat())]
+  const available = {
+    locations: new Set<string>(),
+    languages: new Set<string>(),
+    skills: new Set<string>(),
+  }
 
-  const filteredList = jobList.filter((job) => {
-    const locations = availableLocations.filter((location) => {
-      if (selectedLocations.length) {
-        return selectedLocations.includes(location)
-      }
-
-      return true
-    })
-
-    const languages = availableLanguages.filter((language) => {
-      if (selectedLanguages.length) {
-        return selectedLanguages.includes(language)
-      }
-
-      return true
-    })
-
-    const skills = availableSkills.filter((skill) => {
-      if (selectedSkills.length) {
-        return selectedSkills.includes(skill)
-      }
-
-      return true
-    })
-
-    const searchByTitle = searchText
-      ? job.title.toLowerCase().includes(searchText.toLowerCase())
-      : true
-
-    return (
-      searchByTitle &&
-      locations.includes(job.location) &&
-      languages.includes(job.language) &&
-      job.skills
-        .map((skill) => skills.includes(skill))
-        .filter((item) => item)[0]
-    )
+  jobList.map((job) => {
+    available.languages.add(job.language)
+    available.locations.add(job.location)
+    job.skills.map((skill) => available.skills.add(skill))
   })
+
+  const filterCondition =
+    selectedLocations.length ||
+    selectedLanguages.length ||
+    selectedSkills.length ||
+    searchText
+
+  const filteredList = filterCondition
+    ? jobList.filter((job) => {
+        const location = selectedLocations.length
+          ? selectedLocations.includes(job.location)
+          : true
+
+        const language = selectedLanguages.length
+          ? selectedLanguages.includes(job.language)
+          : true
+
+        const skills = selectedSkills.length
+          ? job.skills
+              .map((skill) => selectedSkills.includes(skill))
+              .find((skill) => skill === true)
+          : true
+
+        const searchByTitle = searchText
+          ? job.title.toLowerCase().includes(searchText.toLowerCase())
+          : true
+
+        return searchByTitle && location && language && skills
+      })
+    : jobList
 
   function resetFilter() {
     setSelectedLocations([])
@@ -135,7 +130,7 @@ export default function Page() {
                   value={selectedLanguages}
                   onValueChange={(value) => setSelectedLanguages(value)}
                 >
-                  {availableLanguages.map((item) => (
+                  {[...available.languages].map((item) => (
                     <ToogleGroupItem key={item} value={item}>
                       {item}
                     </ToogleGroupItem>
@@ -152,7 +147,7 @@ export default function Page() {
                   value={selectedLocations}
                   onValueChange={(value) => setSelectedLocations(value)}
                 >
-                  {availableLocations.map((item) => (
+                  {[...available.locations].map((item) => (
                     <ToogleGroupItem key={item} value={item}>
                       {item}
                     </ToogleGroupItem>
@@ -169,7 +164,7 @@ export default function Page() {
                   value={selectedSkills}
                   onValueChange={(value) => setSelectedSkills(value)}
                 >
-                  {availableSkills.map((item) => (
+                  {[...available.skills].map((item) => (
                     <ToogleGroupItem key={item} value={item}>
                       {item}
                     </ToogleGroupItem>
