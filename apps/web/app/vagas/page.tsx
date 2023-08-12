@@ -33,7 +33,7 @@ export default function Page() {
     skills: new Set<string>(),
   }
 
-  jobList.map((job) => {
+  jobList.forEach((job) => {
     available.languages.add(job.language)
     available.locations.add(job.location)
     job.skills.map((skill) => available.skills.add(skill))
