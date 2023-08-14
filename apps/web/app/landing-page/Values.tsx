@@ -1,3 +1,5 @@
+import { ChevronRight } from 'lucide-react'
+
 export const Values = () => (
   <section id="valores" className="overflow-hidden bg-indigo-600 pb-36 pt-32">
     <div className="container mx-auto px-8 lg:px-4">
@@ -13,9 +15,12 @@ export const Values = () => (
         </p>
       </div>
       <div className="-m-3 flex flex-wrap">
-        <div className="w-full p-3 md:w-1/2">
-          <div className="h-full rounded-3xl border border-gray-900 bg-white p-7">
-            <div className="flex flex-col flex-wrap gap-3">
+        <div className="flex w-full p-3 md:w-1/2">
+          <a
+            href="/vagas"
+            className="group flex flex-1 rounded-2xl border border-gray-900 bg-white p-5 transition-all hover:text-gray-700"
+          >
+            <div className="flex flex-1 flex-col flex-wrap gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-9">
                   <svg
@@ -37,22 +42,26 @@ export const Values = () => (
                 <h3 className="text-xl font-semibold">Um mundo melhor</h3>
               </div>
 
-              <p className="font-medium leading-relaxed text-gray-600">
-                Com o avanço constante das tecnologias e automações, é crucial
-                questionar a falta de mudanças no modelo de trabalho. Defendemos
-                uma melhor qualidade de vida.
+              <p className="flex-1 leading-relaxed text-gray-600">
+                Com o avanço tecnológico, é essencial repensar o modelo de
+                trabalho para melhor qualidade de vida.
               </p>
+
+              <div className="flex items-center font-medium group-hover:underline">
+                Veja +30 vagas remotas
+                <ChevronRight size={24} />
+              </div>
             </div>
-          </div>
+          </a>
         </div>
 
-        <div className="w-full p-3 md:w-1/2">
+        <div className="flex w-full p-3 md:w-1/2">
           <a
             href="https://github.com/ocodista/trampar-de-casa"
             target="_blank"
-            className="group block h-full rounded-3xl border border-gray-900 bg-white p-7 transition-all hover:text-gray-700"
+            className="group flex flex-1 rounded-2xl border border-gray-900 bg-white p-5 transition-all hover:text-gray-700"
           >
-            <div className="flex flex-col flex-wrap gap-3">
+            <div className="flex flex-1 flex-col flex-wrap gap-3">
               <div className="flex items-center gap-3">
                 <div className="w-9">
                   <svg
@@ -71,16 +80,15 @@ export const Values = () => (
                 <h3 className="text-xl font-semibold">Software Livre</h3>
               </div>
 
-              <p className="font-medium leading-relaxed text-gray-600">
-                Todo o código deste projeto é público e está disponível no{' '}
-                <span className="text-indigo-600 group-hover:brightness-110">
-                  GitHub
-                </span>
-                . Se você simpatiza com o modelo de trabalho remoto,{' '}
-                <span className="text-indigo-600 group-hover:brightness-110">
-                  contribua com nosso projeto!
-                </span>
+              <p className="flex-1 leading-relaxed text-gray-600">
+                Todo o código deste projeto é público e está disponível no
+                GitHub. Se você apoia o trabalho remoto, participe do projeto.
               </p>
+
+              <div className="flex items-center font-medium group-hover:underline">
+                Contribua com nosso projeto
+                <ChevronRight size={24} />
+              </div>
             </div>
           </a>
         </div>
