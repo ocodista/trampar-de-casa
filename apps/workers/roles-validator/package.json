@@ -18,7 +18,7 @@
     "amqplib": "^0.10.3",
     "db": "*",
     "dotenv": "^16.3.1",
-    "puppeteer": "^20.9.0",
+    "puppeteer": "^21.0.3",
     "redis": "^4.6.7",
     "shared": "*",
     "typescript": "^5.1.6",
