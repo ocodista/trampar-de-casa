@@ -65,24 +65,20 @@ export const OpeningsEmail = ({
               <Hr style={hr} />
               <Text style={paragraph}>Olá, defensor do trabalho remoto!</Text>
               <Text style={{ ...paragraph, color: '#000' }}>
-                Você ficou perdido com essa história de “standing desks" e
-                "trabalhar em pé" no e-mail anterior? Calma que eu te explico.
+                Nossos parceiros da Slikdesk estenderam mais uma vez o cupom
+                para a comunidade Trampar de Casa. Você que ficou com os olhos
+                brilhando 🤩 para ter uma standing desk para chamar de sua, tem
+                mais essa chance.
               </Text>
+
               <Text style={{ ...paragraph, color: '#000' }}>
-                Ao utilizar uma mesa com regulagem de altura durante sua rotina,
-                você pode alternar momentos de trabalho sentado e em pé, que
-                trazem diversos benefícios para sua saúde e bem-estar, melhoram
-                sua produtividade e eliminam aquelas dores do home office.
-              </Text>
-              <Text style={{ ...paragraph, color: '#000' }}>
-                A nossa parceira Slikdesk disponibilizou um desconto de R$ 130
-                para você adquirir a sua standing desk. <br />
                 Acesse{' '}
                 <Link href="https://slik.com.br/trampardecasa">
                   slik.com.br/trampardecasa
                 </Link>{' '}
-                e utilize o cupom <br />
-                <b>🎫TRAMPARDECASA</b>
+                confira o modelo que mais combina com o seu home office e
+                utilize o cupom <b>TRAMPARDECASA</b> para ter R$ 130 de
+                desconto.
               </Text>
 
               <Text style={paragraph}>
