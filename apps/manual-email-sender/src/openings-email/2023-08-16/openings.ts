@@ -99,6 +99,16 @@ const localOpenings: Opening[] = [
     url: 'https://dynamitejobs.com/company/smg01/remote-job/backend-software-engineer',
   },
   {
+    title: 'Front End Developer',
+    company: 'Coalition Technologies',
+    location: 'Global',
+    headerInfo: 'Pleno ($2,600 até $6,066)',
+    currency: 'U$',
+    language: 'Inglês',
+    url: 'https://app.testedrecruits.com/posting/11758',
+    skills: ['HTML5', 'CSS3', 'jQuery', 'Responsive Design', 'Bootstrap'],
+  },
+  {
     title: 'React.js Developer',
     company: 'Rep AI',
     location: 'Global',
@@ -119,16 +129,6 @@ const localOpenings: Opening[] = [
     url: 'https://apply.workable.com/subscript/j/E58599B066/',
   },
   {
-    title: 'Sr. Backend Engineer-Python',
-    company: 'Foxbox Digital',
-    location: 'LATAM',
-    language: 'Inglês',
-    currency: 'U$',
-    headerInfo: 'Mínimo de 7 anos de XP',
-    skills: ['Python', 'JavaScript', 'jQuery', 'Bootstrap', 'PostgreSQL'],
-    url: 'https://apply.workable.com/foxbox-digital/j/184075BAC6/',
-  },
-  {
     title: 'Senior Web Developer',
     company: 'Flatirons Development',
     location: 'LATAM',
@@ -139,16 +139,6 @@ const localOpenings: Opening[] = [
     url: 'https://jobs.lever.co/FlatironsDevelopment/7969166a-87d9-4da2-a75b-99807a250674',
   },
   {
-    title: 'Front End Developer',
-    company: 'Coalition Technologies',
-    location: 'Global',
-    headerInfo: 'Pleno ($31,200 até $72,800)',
-    currency: 'U$',
-    language: 'Inglês',
-    url: 'https://app.testedrecruits.com/posting/11758',
-    skills: ['HTML5', 'CSS3', 'jQuery', 'Responsive Design', 'Bootstrap'],
-  },
-  {
     title: 'Sr. Frontend Engineer (Vue.js)',
     company: 'Flylance',
     location: 'Estados Unidos',
@@ -157,6 +147,16 @@ const localOpenings: Opening[] = [
     skills: ['JavaScript', 'Vue.js', 'JSON', 'REST'],
     headerInfo: 'Mínimo de 5 anos de XP',
     url: 'https://www.flylance.com/role?id=rec1agBSh1RRZSzfu',
+  },
+  {
+    title: 'Sr. Backend Engineer-Python',
+    company: 'Foxbox Digital',
+    location: 'LATAM',
+    language: 'Inglês',
+    currency: 'U$',
+    headerInfo: 'Mínimo de 7 anos de XP',
+    skills: ['Python', 'JavaScript', 'jQuery', 'Bootstrap', 'PostgreSQL'],
+    url: 'https://apply.workable.com/foxbox-digital/j/184075BAC6/',
   },
 ]
 const globalOpenings: Opening[] = []
