@@ -1,7 +1,9 @@
 import { Opening } from 'shared/src/email/openings-email/Opening'
 import { Openings } from '../Openings'
 
-const localOpenings: Opening[] = [
+const localOpenings: Opening[] = []
+
+const globalOpenings: Opening[] = [
   {
     company: 'Meteor Software',
     title: 'DevOps Engineer',
@@ -159,7 +161,6 @@ const localOpenings: Opening[] = [
     url: 'https://apply.workable.com/foxbox-digital/j/184075BAC6/',
   },
 ]
-const globalOpenings: Opening[] = []
 
 export const openings20230816: Openings = {
   localOpenings,
