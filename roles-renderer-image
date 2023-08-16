@@ -20,7 +20,7 @@ COPY .gitignore .gitignore
 COPY --from=builder /app/out/full/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
 
-RUN yarn install
+RUN yarn install --prod
 RUN yarn global add turbo
 
 CMD [ "turbo", "run", "roles-renderer:start" ] 
