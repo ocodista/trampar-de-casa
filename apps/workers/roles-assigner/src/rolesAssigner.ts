@@ -15,7 +15,11 @@ export const assignRoles = withExecutionTimeLogging(
     let redisClient: RedisClientType | undefined = undefined
     try {
       const supabaseClient = getSupabaseClient()
-      redisClient = createRedisClient()
+      redisClient = createRedisClient({
+        socket: {
+          host: 'redis',
+        },
+      })
       await redisClient.connect()
 
       const batchSize = 100

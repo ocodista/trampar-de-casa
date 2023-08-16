@@ -3,6 +3,7 @@ import { rolesValidator } from './rolesValidator'
 const redisClient = createClient({
   socket: {
     keepAlive: false,
+    host: 'redis',
   },
 })
 ;(async () => {

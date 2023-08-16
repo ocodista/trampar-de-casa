@@ -8,7 +8,11 @@ dotenv.config()
 
 export async function rolesRenderer() {
   const supabaseClient = getSupabaseClient()
-  const redisClient: RedisClientType = createRedisClient()
+  const redisClient: RedisClientType = createRedisClient({
+    socket: {
+      host: 'redis',
+    },
+  })
   await redisClient.connect()
 
   const BATCH_SIZE = 100
