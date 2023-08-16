@@ -43,6 +43,16 @@ const localOpenings: Opening[] = [
     url: 'https://app.demarco.com.br/rh-demarco-vaga-dmpeople-assistente-de-ui-designer-junior',
   },
   {
+    company: 'THE CODE',
+    title: 'Dev Flutter + Node Pleno',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Firebase', 'Flutter', 'MariaDB', 'MySQL', 'Node.js'],
+    headerInfo: 'Pleno (até R$15,000)',
+    url: 'https://programathor.com.br/jobs/29208-dev-flutter-node-pleno-100-remoto',
+  },
+  {
     company: 'YouX Group',
     title: 'Pessoa Desenvolvedora - Pleno',
     location: 'Brasil',
@@ -87,16 +97,6 @@ const localOpenings: Opening[] = [
     skills: ['VueJs', 'NodeJS', 'NestJs', 'MongoDB'],
     headerInfo: 'Pleno',
     url: 'https://app.demarco.com.br/rh-demarco-vaga-pagina-base-vaga-interna-e-externa-dmpeople-desenvolvedor-full-stack-vuejs-nodejs',
-  },
-  {
-    company: 'THE CODE',
-    title: 'Dev Flutter + Node Pleno',
-    location: 'Brasil',
-    language: 'Português',
-    currency: 'R$',
-    skills: ['Firebase', 'Flutter', 'MariaDB', 'MySQL', 'Node.js'],
-    headerInfo: 'Pleno (até R$15,000)',
-    url: 'https://programathor.com.br/jobs/29208-dev-flutter-node-pleno-100-remoto',
   },
   {
     company: 'Uds',
