@@ -8,7 +8,7 @@ export async function createRabbitMqConnection({
   password: string
 }) {
   const connection = await amqplib.connect(
-    `amqp://${user}:${password}@localhost`
+    `amqp://${user}:${password}@rabbitmq`
   )
   return connection
 }

@@ -8,7 +8,9 @@ import { renderHeader } from './renderHeader'
 import { sendToQueue } from './sendToQueue'
 
 export async function emailPreRender() {
-  const redisClient = createRedisClient() as RedisClientType
+  const redisClient = createRedisClient({
+    socket: { host: 'redis' },
+  }) as RedisClientType
   await redisClient.connect()
   const channel = await createRabbitMqChannel({
     password: CONFIG.RABBITMQ_PASS,

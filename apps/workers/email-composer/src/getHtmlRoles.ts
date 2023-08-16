@@ -3,7 +3,11 @@ import { RedisPrefix } from 'shared/src/enums/redis'
 
 export const getHtmlRoles = async (rolesId: string[]) => {
   let concatenatedHtmlRoles = ''
-  const redisClient = createClient()
+  const redisClient = createClient({
+    socket: {
+      host: 'redis',
+    },
+  })
   await redisClient.connect()
 
   for (let index = 0; index < rolesId.length; index++) {

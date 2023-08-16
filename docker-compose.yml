@@ -44,3 +44,26 @@ services:
       - redis
       - roles-validator
       - rabbitmq
+  email-pre-renderer:
+    build: 
+      dockerfile: ./email-pre-renderer-image
+    env_file:
+      - apps/workers/email-pre-renderer/.env
+    depends_on:
+      - redis
+      - rabbitmq
+  email-composer:
+    build: 
+      dockerfile: ./email-composer-image
+    env_file:
+      - apps/workers/email-composer/.env
+    depends_on:
+      - redis
+      - rabbitmq
+  email-sender:
+    build: 
+      dockerfile: ./email-sender-image
+    env_file:
+      - apps/workers/email-sender/.env
+    depends_on:
+      - rabbitmq

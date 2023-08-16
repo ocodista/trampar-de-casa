@@ -12,7 +12,6 @@ RUN turbo prune --scope=roles-validator --docker
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
 RUN apk add --no-cache libc6-compat
-RUN apk update
 
 ENV CHROME_BIN=/usr/bin/chromium-browser
 RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories && \
@@ -28,7 +27,7 @@ COPY .gitignore .gitignore
 COPY --from=builder /app/out/full/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
 
-RUN yarn install --prod
+RUN yarn install
 RUN yarn global add turbo
 
 CMD [ "turbo", "run", "roles-validator:start" ] 

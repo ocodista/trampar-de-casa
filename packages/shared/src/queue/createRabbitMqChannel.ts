@@ -8,7 +8,7 @@ export async function createRabbitMqChannel({
   password: string
 }) {
   const connection = await amqplib.connect(
-    `amqp://${user}:${password}@localhost`
+    `amqp://${user}:${password}@rabbitmq`
   )
   return await connection.createChannel()
 }
