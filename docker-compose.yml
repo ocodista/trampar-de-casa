@@ -21,3 +21,26 @@ services:
       - '6379:6379'
     expose:
       - 6379
+  roles-validator:
+    build: 
+      dockerfile: ./roles-validator-image
+    env_file:
+      - apps/workers/roles-validator/.env
+    depends_on:
+      - redis
+  roles-renderer:
+    build: 
+      dockerfile: ./roles-renderer-image
+    env_file:
+      - apps/workers/roles-renderer/.env
+    depends_on:
+      - redis
+  roles-assigner:
+    build: 
+      dockerfile: ./roles-assigner-image
+    env_file:
+      - apps/workers/roles-assigner/.env
+    depends_on:
+      - redis
+      - roles-validator
+      - rabbitmq
