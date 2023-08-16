@@ -13,6 +13,14 @@ RUN turbo prune --scope=roles-validator --docker
 FROM base AS installer
 RUN apk add --no-cache libc6-compat
 RUN apk update
+
+ENV CHROME_BIN=/usr/bin/chromium-browser
+RUN echo @edge http://nl.alpinelinux.org/alpine/edge/community >> /etc/apk/repositories && \
+    echo @edge http://nl.alpinelinux.org/alpine/edge/main >> /etc/apk/repositories && \
+    apk add --no-cache \
+      chromium@edge \
+      nss@edge
+
 WORKDIR /app
 
 # First install the dependencies (as they change less often)
