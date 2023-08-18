@@ -1,20 +1,18 @@
 version: '3'
 services:
   rabbitmq:
-    # image: rabbitmq:3-management
     build: 
       dockerfile: ./Dockerfile_rabbitmq
     hostname: rabbitmq
     ports:
-      - 5672:5672   # RabbitMQ
-      - 15672:15672 # Management console
+      - 5672:5672
+      - 15672:15672
     expose:
       - 5672
       - 15672
     environment:
       RABBITMQ_DEFAULT_USER: trampar
       RABBITMQ_DEFAULT_PASS: trampar-de-casa
-    # command: 
   redis:
     image: redislabs/redismod
     ports:
@@ -42,7 +40,6 @@ services:
       - apps/workers/roles-assigner/.env
     depends_on:
       - redis
-      - roles-validator
       - rabbitmq
   email-pre-renderer:
     build: 
@@ -58,8 +55,12 @@ services:
     env_file:
       - apps/workers/email-composer/.env
     depends_on:
-      - redis
-      - rabbitmq
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+      roles-validator:
+        condition: service_completed_successfully
   email-sender:
     build: 
       dockerfile: ./email-sender-image
