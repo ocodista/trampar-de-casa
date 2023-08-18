@@ -10,11 +10,11 @@ The Roles Renderer microservice is responsible for rendering roles or permission
 
 ### Roles Validator
 
-The Roles Validator microservice validates the assigned roles or permissions before sending emails. It performs checks to ensure that the roles assigned to users are accurate and compliant with the defined business rules.
+The Roles Validator microservice validates the assigned roles or permissions before sending emails. It performs checks to ensure that the roles continue valid.
 
 ### Roles Assigner
 
-The Roles Assigner microservice manages the assignment of roles to users. It provides functionality to assign specific roles or permissions to users based on certain criteria or business logic.
+The Roles Assigner microservice manages the assignment of roles to users. It provides functionality to assign specific roles to users based on certain criteria or business logic.
 
 ### Email Composer
 
