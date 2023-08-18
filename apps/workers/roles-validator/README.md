@@ -23,17 +23,8 @@ end
 ```
 
 ## Flow Diagram
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/a51b8394-51fd-4906-96ff-09a40aeb22a2)
 
-```mermaid
-flowchart LR
-    A[rolesValidator] --> B[GetRoles]
-    subgraph For each role
-      B-- Empty URL --> G[Delete from redis]
-      B-->C[isValid]
-      C-->D{is valid?}
-      D-- NO -->F[Delete from redis]
-    end
-```
 
 ### **RolesValidator**
 
