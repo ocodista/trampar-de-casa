@@ -7,10 +7,7 @@ This documentation provides an overview of the Email Composer and Pre-Render fea
 - [Introduction](#introduction)
 - [Prerequisites](#prerequisites)
 - [Flow Diagram](#flow-diagram)
-- [Email Composer](#email-composer)
-- [Parsing Pre-Rendered Messages](#parsing-pre-rendered-messages)
-- [Get HTML Roles](#get-html-roles)
-- [Creating Email HTML](#creating-email-html)
+- [Workflow](#workflow)
 
 ## Introduction
 
@@ -31,9 +28,10 @@ Refer to the official documentation for [Node.js](https://nodejs.org/) and
 - Establishing connections to the EmailPreRenderer and EmailSender RabbitMQ queue.
 - For each message on EmailPreRenderer queue
   - Parse message
-  - Use footer, header and roles to compose email
+  - Use footer, header, and roles to compose email
   - Send to EmailSender queue
 
 ## Flow Diagram
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/8c6d71de-06f0-41cc-9d6b-83fbb64f061c)
 
-### Workflow
+## Workflow
