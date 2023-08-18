@@ -40,8 +40,8 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
   - Failed email deliveries are logged, along with the affected emails, in the "failed-emails.txt" file.
 
 ## Flow Diagram
-![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/52b41ef4-6660-49cc-93b1-e2e8b86ae4c8)
 
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/52b41ef4-6660-49cc-93b1-e2e8b86ae4c8)
 
 ## Sequence Diagram
 

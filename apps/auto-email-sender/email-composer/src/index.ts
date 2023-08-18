@@ -1,5 +1,4 @@
 import { composeEmail } from './emailComposer'
-
 ;(async () => {
   try {
     await composeEmail()

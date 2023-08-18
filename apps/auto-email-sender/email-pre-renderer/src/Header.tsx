@@ -16,7 +16,7 @@ export function Header({ rolesCount }: { rolesCount: number }) {
   const paragraph = 'text-[#525f7f] text-[16px] leading-[24px] text-left'
   return (
     <Tailwind>
-      <Container className="flex justify-center items-center">
+      <Container className="flex items-center justify-center">
         <Img
           src="https://trampardecasa.com.br/images/logo.png"
           height={70}

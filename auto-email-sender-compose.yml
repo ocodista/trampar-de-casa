@@ -1,8 +1,9 @@
 version: '3'
+
 services:
   rabbitmq:
     build: 
-      dockerfile: ./Dockerfile_rabbitmq
+      dockerfile: ./Dockerfile_rabbitmq.dockerfile
     hostname: rabbitmq
     ports:
       - 5672:5672
@@ -21,39 +22,44 @@ services:
       - 6379
   roles-validator:
     build: 
-      dockerfile: ./roles-validator-image
+      context: .
+      dockerfile: apps/auto-email-sender/roles-validator-image.dockerfile
     env_file:
-      - apps/workers/roles-validator/.env
+      - apps/auto-email-sender/roles-validator/.env
     depends_on:
       - redis
   roles-renderer:
     build: 
-      dockerfile: ./roles-renderer-image
+      context: .
+      dockerfile: apps/auto-email-sender/roles-renderer-image.dockerfile
     env_file:
-      - apps/workers/roles-renderer/.env
+      - apps/auto-email-sender/roles-renderer/.env
     depends_on:
       - redis
   roles-assigner:
     build: 
-      dockerfile: ./roles-assigner-image
+      context: .
+      dockerfile: apps/auto-email-sender/roles-assigner-image.dockerfile
     env_file:
-      - apps/workers/roles-assigner/.env
+      - apps/auto-email-sender/roles-assigner/.env
     depends_on:
       - redis
       - rabbitmq
   email-pre-renderer:
     build: 
-      dockerfile: ./email-pre-renderer-image
+      context: .
+      dockerfile: apps/auto-email-sender/email-pre-renderer-image.dockerfile
     env_file:
-      - apps/workers/email-pre-renderer/.env
+      - apps/auto-email-sender/email-pre-renderer/.env
     depends_on:
       - redis
       - rabbitmq
   email-composer:
     build: 
-      dockerfile: ./email-composer-image
+      context: .
+      dockerfile: apps/auto-email-sender/email-composer-image.dockerfile
     env_file:
-      - apps/workers/email-composer/.env
+      - apps/auto-email-sender/email-composer/.env
     depends_on:
       redis:
         condition: service_started
@@ -63,8 +69,9 @@ services:
         condition: service_completed_successfully
   email-sender:
     build: 
-      dockerfile: ./email-sender-image
+      context: .
+      dockerfile: apps/auto-email-sender/email-sender-image.dockerfile
     env_file:
-      - apps/workers/email-sender/.env
+      - apps/auto-email-sender/email-sender/.env
     depends_on:
       - rabbitmq

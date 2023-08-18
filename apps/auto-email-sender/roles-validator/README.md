@@ -23,8 +23,8 @@ end
 ```
 
 ## Flow Diagram
-![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/a51b8394-51fd-4906-96ff-09a40aeb22a2)
 
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/a51b8394-51fd-4906-96ff-09a40aeb22a2)
 
 ### **RolesValidator**
 

@@ -5,6 +5,7 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 RUN yarn global add turbo
+
 COPY . .
 
 RUN turbo prune --scope=email-sender --docker

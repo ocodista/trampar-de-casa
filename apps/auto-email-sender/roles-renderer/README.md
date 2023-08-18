@@ -3,6 +3,7 @@
 The Render Roles Worker is a software component that renders and saves each activated role from the database into Redis. The default prefix for all role keys is [`role:`](./src/parseAndStoreRole.ts).
 
 ## Flow Diagram
+
 ![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/1c4ae6b4-b1ab-41d6-9f09-d62a3d5b4e90)
 
 ## Worker Flow
