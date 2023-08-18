@@ -38,9 +38,10 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
   - sendEmail function is invoked to send individual emails.
   - Successful email deliveries are logged, and the corresponding emails are recorded as sent.
   - Failed email deliveries are logged, along with the affected emails, in the "failed-emails.txt" file.
-  <!-- TODO: Create diagrams on obsidian -->
 
 ## Flow Diagram
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/52b41ef4-6660-49cc-93b1-e2e8b86ae4c8)
+
 
 ## Sequence Diagram
 
