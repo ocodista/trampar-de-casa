@@ -65,28 +65,25 @@ export const OpeningsEmail = ({
               <Hr style={hr} />
               <Text style={paragraph}>Olá, defensor do trabalho remoto!</Text>
               <Text style={{ ...paragraph, color: '#000' }}>
-                Nossos parceiros da Slikdesk estenderam mais uma vez o cupom
-                para a comunidade Trampar de Casa. Você que ficou com os olhos
-                brilhando 🤩 para ter uma standing desk para chamar de sua, tem
-                mais essa chance.
-              </Text>
-
-              <Text style={{ ...paragraph, color: '#000' }}>
-                Acesse{' '}
-                <Link href="https://slik.com.br/trampardecasa">
-                  slik.com.br/trampardecasa
-                </Link>{' '}
-                confira o modelo que mais combina com o seu home office e
-                utilize o cupom <b>TRAMPARDECASA</b> para ter R$ 130 de
-                desconto.
+                Hoje tenho o prazer de apresentar o <b>Layerform</b>, uma
+                ferramenta open-source brasileira desenvolvida para capacitar
+                cada programador a criar seu próprio ambiente de staging
+                utilizando apenas arquivos Terraform.
               </Text>
 
               <Text style={paragraph}>
-                O seu feedback nos ajuda <strong>demais</strong>, clique{' '}
-                <Link style={anchor} href={feedbackFormUrl}>
-                  aqui.
-                </Link>
+                Queremos que você conheça mais sobre o{' '}
+                <Link href="https://github.com/ergomake/layerform">
+                  Layerform
+                </Link>{' '}
+                e, se gostar da ideia, ficaríamos muito agradecidos se deixasse
+                sua ⭐ no{' '}
+                <Link href="https://github.com/ergomake/layerform">
+                  repositório
+                </Link>{' '}
+                do Layerform no GitHub.
               </Text>
+
               <Text style={paragraph}>
                 Agora, aproveite as vagas desta semana!
               </Text>
