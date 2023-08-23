@@ -1,5 +1,3 @@
-// import puppeteer from "puppeteer";
-
 import { isValidRoleOnSite } from './isValidRoleOnSite'
 import { launchBrowserAndNavigateToPage } from './launchBrowserAndNavigateTo'
 import { setViewport } from './setViewport'

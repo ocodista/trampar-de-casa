@@ -6,9 +6,10 @@ import { isValidRole } from './isValidRole'
 
 dotenv.config()
 
+const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
+
 export async function rolesValidator(redisClient: RedisClientType) {
   const roles = await getRoles()
-
   const deleteFromRedis = async (id: string) =>
     await redisClient.del(`${RedisPrefix.RolesRenderer}${id}`)
 
@@ -16,14 +17,13 @@ export async function rolesValidator(redisClient: RedisClientType) {
     const { id, url, title } = roles[index]
     if (!url) {
       await deleteFromRedis(id)
-      return
+      break
     }
-
     try {
       const isValid = await isValidRole(url, title)
-      if (isValid) return
+      console.log(url, title, isValid)
 
-      await deleteFromRedis(id)
+      if (!isValid) await deleteFromRedis(id)
     } catch (e) {
       console.error(e)
       await deleteFromRedis(id)
