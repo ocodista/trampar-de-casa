@@ -6,8 +6,6 @@ import { isValidRole } from './isValidRole'
 
 dotenv.config()
 
-const sleep = (ms: number) => new Promise((r) => setTimeout(r, ms))
-
 export async function rolesValidator(redisClient: RedisClientType) {
   const roles = await getRoles()
   const deleteFromRedis = async (id: string) =>
