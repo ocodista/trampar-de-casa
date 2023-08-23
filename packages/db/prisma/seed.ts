@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import { skillArray } from 'shared'
 import { Companies, Prisma, PrismaClient } from './client'
 
 const prisma = new PrismaClient()
@@ -9,14 +10,14 @@ const getSubscribers = (): Prisma.SubscribersCreateInput[] => [
     englishLevel: 'Advanced',
     name: 'Foo',
     startedWorkingAt: new Date(),
-    skills: ['JavaScript', 'NodeJS', 'React'],
+    skillsId: [],
   },
   {
     email: 'bar@gmail.com',
     englishLevel: 'Beginner',
     name: 'Bar',
     startedWorkingAt: new Date(),
-    skills: ['Java', 'Spring Boot'],
+    skillsId: [],
   },
 ]
 
@@ -37,7 +38,7 @@ const getRoles = (companies: Companies[]): Prisma.RolesCreateInput[] => [
     language: 'English',
     title: 'Software Engineer',
     currency: 'USD',
-    skills: ['JavaScript', 'React', 'NodeJS'],
+    skillsId: []
   },
   {
     company: { connect: { id: companies[0].id } },
@@ -46,7 +47,7 @@ const getRoles = (companies: Companies[]): Prisma.RolesCreateInput[] => [
     language: 'English',
     title: 'Software Developer Jr',
     currency: 'BRL',
-    skills: ['Java', 'Spring Boot'],
+    skillsId: []
   },
 ]
 
@@ -59,7 +60,13 @@ void (async function () {
   try {
     await Promise.all(
       getDescriptionTopics().map(async (descriptionTopic) => {
-        await prisma.topics.create({ data: descriptionTopic })
+        await prisma.topics.upsert({ 
+          where: {
+            name: descriptionTopic.name
+          },
+          create: descriptionTopic,
+          update: {} 
+        })
       })
     )
     const subscribers = await Promise.all(
@@ -75,6 +82,23 @@ void (async function () {
     const roles = await Promise.all(
       getRoles(companies).map((role) => prisma.roles.create({ data: role }))
     )
+    skillArray.forEach(async (skill, index) => {
+      try {
+        await prisma.skills.create({
+          data: {
+            id: index,
+            name: skill
+          },
+        })
+      } catch {
+        console.log(
+          {
+            id: index,
+            name: skill
+          }
+        )
+      }
+    })
   } catch (err) {
     console.error(err)
     await prisma.$disconnect()
