@@ -4,8 +4,7 @@ import { Hero } from './landing-page/Hero'
 import { HowItWorks } from './landing-page/HowItWorks'
 import { Values } from './landing-page/Values'
 
-const FIFTEEN_MINUTES = 60 * 15
-export const revalidate = FIFTEEN_MINUTES
+export const revalidate = 0
 
 export default async function Page() {
   return (
