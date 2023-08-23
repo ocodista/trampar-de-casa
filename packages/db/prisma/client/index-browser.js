@@ -15,11 +15,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 5.0.0
- * Query Engine version: 6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
+ * Query Engine version: 6a3747c37ff169c90047725a05a6ef02e32ac97e
  */
 Prisma.prismaVersion = {
   client: "5.0.0",
-  engine: "6b0aef69b7cdfc787f822ecd7cdc76d5f1991584"
+  engine: "6a3747c37ff169c90047725a05a6ef02e32ac97e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -116,7 +116,8 @@ exports.Prisma.SubscribersScalarFieldEnum = {
   isConfirmed: 'isConfirmed',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  optOut: 'optOut'
+  optOut: 'optOut',
+  skillsId: 'skillsId'
 };
 
 exports.Prisma.RolesScalarFieldEnum = {

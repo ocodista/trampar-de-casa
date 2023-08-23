@@ -31,6 +31,7 @@ export type SubscribersPayload<ExtArgs extends $Extensions.Args = $Extensions.De
     createdAt: Date
     updatedAt: Date | null
     optOut: boolean
+    skillsId: string[]
   }, ExtArgs["result"]["subscribers"]>
   composites: {}
 }
@@ -534,7 +535,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 5.0.0
-   * Query Engine version: 6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
+   * Query Engine version: 6a3747c37ff169c90047725a05a6ef02e32ac97e
    */
   export type PrismaVersion = {
     client: string
@@ -2084,6 +2085,7 @@ export namespace Prisma {
     createdAt: number
     updatedAt: number
     optOut: number
+    skillsId: number
     _all: number
   }
 
@@ -2128,6 +2130,7 @@ export namespace Prisma {
     createdAt?: true
     updatedAt?: true
     optOut?: true
+    skillsId?: true
     _all?: true
   }
 
@@ -2216,6 +2219,7 @@ export namespace Prisma {
     createdAt: Date
     updatedAt: Date | null
     optOut: boolean
+    skillsId: string[]
     _count: SubscribersCountAggregateOutputType | null
     _min: SubscribersMinAggregateOutputType | null
     _max: SubscribersMaxAggregateOutputType | null
@@ -2247,6 +2251,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     optOut?: boolean
+    skillsId?: boolean
     subscriberSkills?: boolean | Subscribers$subscriberSkillsArgs<ExtArgs>
     sentRoles?: boolean | Subscribers$sentRolesArgs<ExtArgs>
     subscriberTopics?: boolean | Subscribers$subscriberTopicsArgs<ExtArgs>
@@ -2265,6 +2270,7 @@ export namespace Prisma {
     createdAt?: boolean
     updatedAt?: boolean
     optOut?: boolean
+    skillsId?: boolean
   }
 
   export type SubscribersInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -2693,6 +2699,7 @@ export namespace Prisma {
     readonly createdAt: FieldRef<"Subscribers", 'DateTime'>
     readonly updatedAt: FieldRef<"Subscribers", 'DateTime'>
     readonly optOut: FieldRef<"Subscribers", 'Boolean'>
+    readonly skillsId: FieldRef<"Subscribers", 'String[]'>
   }
     
 
@@ -11789,7 +11796,8 @@ export namespace Prisma {
     isConfirmed: 'isConfirmed',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
-    optOut: 'optOut'
+    optOut: 'optOut',
+    skillsId: 'skillsId'
   };
 
   export type SubscribersScalarFieldEnum = (typeof SubscribersScalarFieldEnum)[keyof typeof SubscribersScalarFieldEnum]
@@ -12039,6 +12047,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Subscribers"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
     optOut?: BoolFilter<"Subscribers"> | boolean
+    skillsId?: StringNullableListFilter<"Subscribers">
     subscriberSkills?: SubscribersSkillsListRelationFilter
     sentRoles?: SentRolesListRelationFilter
     subscriberTopics?: SubscriberTopicsListRelationFilter
@@ -12056,6 +12065,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     optOut?: SortOrder
+    skillsId?: SortOrder
     subscriberSkills?: SubscribersSkillsOrderByRelationAggregateInput
     sentRoles?: SentRolesOrderByRelationAggregateInput
     subscriberTopics?: SubscriberTopicsOrderByRelationAggregateInput
@@ -12076,6 +12086,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Subscribers"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
     optOut?: BoolFilter<"Subscribers"> | boolean
+    skillsId?: StringNullableListFilter<"Subscribers">
     subscriberSkills?: SubscribersSkillsListRelationFilter
     sentRoles?: SentRolesListRelationFilter
     subscriberTopics?: SubscriberTopicsListRelationFilter
@@ -12093,6 +12104,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrderInput | SortOrder
     optOut?: SortOrder
+    skillsId?: SortOrder
     _count?: SubscribersCountOrderByAggregateInput
     _max?: SubscribersMaxOrderByAggregateInput
     _min?: SubscribersMinOrderByAggregateInput
@@ -12113,6 +12125,7 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Subscribers"> | Date | string
     updatedAt?: DateTimeNullableWithAggregatesFilter<"Subscribers"> | Date | string | null
     optOut?: BoolWithAggregatesFilter<"Subscribers"> | boolean
+    skillsId?: StringNullableListFilter<"Subscribers">
   }
 
   export type RolesWhereInput = {
@@ -12687,6 +12700,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    skillsId?: SubscribersCreateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsCreateNestedManyWithoutSubscribersInput
     sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
     subscriberTopics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
@@ -12704,6 +12718,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    skillsId?: SubscribersCreateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsUncheckedCreateNestedManyWithoutSubscribersInput
     sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
     subscriberTopics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
@@ -12721,6 +12736,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    skillsId?: SubscribersUpdateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsUpdateManyWithoutSubscribersNestedInput
     sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
     subscriberTopics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
@@ -12738,6 +12754,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    skillsId?: SubscribersUpdateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsUncheckedUpdateManyWithoutSubscribersNestedInput
     sentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
     subscriberTopics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
@@ -12755,6 +12772,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    skillsId?: SubscribersCreateskillsIdInput | string[]
   }
 
   export type SubscribersUpdateManyMutationInput = {
@@ -12769,6 +12787,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    skillsId?: SubscribersUpdateskillsIdInput | string[]
   }
 
   export type SubscribersUncheckedUpdateManyInput = {
@@ -12783,6 +12802,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    skillsId?: SubscribersUpdateskillsIdInput | string[]
   }
 
   export type RolesCreateInput = {
@@ -13429,6 +13449,14 @@ export namespace Prisma {
     not?: NestedDateTimeFilter<$PrismaModel> | Date | string
   }
 
+  export type StringNullableListFilter<$PrismaModel = never> = {
+    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
+    has?: string | StringFieldRefInput<$PrismaModel> | null
+    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
+    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
+    isEmpty?: boolean
+  }
+
   export type SubscribersSkillsListRelationFilter = {
     every?: SubscribersSkillsWhereInput
     some?: SubscribersSkillsWhereInput
@@ -13476,6 +13504,7 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     optOut?: SortOrder
+    skillsId?: SortOrder
   }
 
   export type SubscribersMaxOrderByAggregateInput = {
@@ -13619,14 +13648,6 @@ export namespace Prisma {
     in?: RoleLanguage[] | ListEnumRoleLanguageFieldRefInput<$PrismaModel>
     notIn?: RoleLanguage[] | ListEnumRoleLanguageFieldRefInput<$PrismaModel>
     not?: NestedEnumRoleLanguageFilter<$PrismaModel> | RoleLanguage
-  }
-
-  export type StringNullableListFilter<$PrismaModel = never> = {
-    equals?: string[] | ListStringFieldRefInput<$PrismaModel> | null
-    has?: string | StringFieldRefInput<$PrismaModel> | null
-    hasEvery?: string[] | ListStringFieldRefInput<$PrismaModel>
-    hasSome?: string[] | ListStringFieldRefInput<$PrismaModel>
-    isEmpty?: boolean
   }
 
   export type CompaniesRelationFilter = {
@@ -14034,6 +14055,10 @@ export namespace Prisma {
     companyName?: SortOrder
   }
 
+  export type SubscribersCreateskillsIdInput = {
+    set: string[]
+  }
+
   export type SubscribersSkillsCreateNestedManyWithoutSubscribersInput = {
     create?: XOR<SubscribersSkillsCreateWithoutSubscribersInput, SubscribersSkillsUncheckedCreateWithoutSubscribersInput> | SubscribersSkillsCreateWithoutSubscribersInput[] | SubscribersSkillsUncheckedCreateWithoutSubscribersInput[]
     connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSubscribersInput | SubscribersSkillsCreateOrConnectWithoutSubscribersInput[]
@@ -14096,6 +14121,11 @@ export namespace Prisma {
 
   export type DateTimeFieldUpdateOperationsInput = {
     set?: Date | string
+  }
+
+  export type SubscribersUpdateskillsIdInput = {
+    set?: string[]
+    push?: string | string[]
   }
 
   export type SubscribersSkillsUpdateManyWithoutSubscribersNestedInput = {
@@ -15304,6 +15334,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    skillsId?: SubscribersCreateskillsIdInput | string[]
     sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
     subscriberTopics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
   }
@@ -15320,6 +15351,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    skillsId?: SubscribersCreateskillsIdInput | string[]
     sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
     subscriberTopics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
   }
@@ -15369,6 +15401,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    skillsId?: SubscribersUpdateskillsIdInput | string[]
     sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
     subscriberTopics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
   }
@@ -15385,6 +15418,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    skillsId?: SubscribersUpdateskillsIdInput | string[]
     sentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
     subscriberTopics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
   }
@@ -15537,6 +15571,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    skillsId?: SubscribersCreateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsCreateNestedManyWithoutSubscribersInput
     subscriberTopics?: SubscriberTopicsCreateNestedManyWithoutSubscriberInput
   }
@@ -15553,6 +15588,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    skillsId?: SubscribersCreateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsUncheckedCreateNestedManyWithoutSubscribersInput
     subscriberTopics?: SubscriberTopicsUncheckedCreateNestedManyWithoutSubscriberInput
   }
@@ -15640,6 +15676,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Subscribers"> | Date | string
     updatedAt?: DateTimeNullableFilter<"Subscribers"> | Date | string | null
     optOut?: BoolFilter<"Subscribers"> | boolean
+    skillsId?: StringNullableListFilter<"Subscribers">
   }
 
   export type SubscribersCreateWithoutSubscriberTopicsInput = {
@@ -15654,6 +15691,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    skillsId?: SubscribersCreateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsCreateNestedManyWithoutSubscribersInput
     sentRoles?: SentRolesCreateNestedManyWithoutSubscribersInput
   }
@@ -15670,6 +15708,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string | null
     optOut?: boolean
+    skillsId?: SubscribersCreateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsUncheckedCreateNestedManyWithoutSubscribersInput
     sentRoles?: SentRolesUncheckedCreateNestedManyWithoutSubscribersInput
   }
@@ -15716,6 +15755,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    skillsId?: SubscribersUpdateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsUpdateManyWithoutSubscribersNestedInput
     sentRoles?: SentRolesUpdateManyWithoutSubscribersNestedInput
   }
@@ -15732,6 +15772,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    skillsId?: SubscribersUpdateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsUncheckedUpdateManyWithoutSubscribersNestedInput
     sentRoles?: SentRolesUncheckedUpdateManyWithoutSubscribersNestedInput
   }
@@ -16011,6 +16052,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    skillsId?: SubscribersUpdateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsUpdateManyWithoutSubscribersNestedInput
     subscriberTopics?: SubscriberTopicsUpdateManyWithoutSubscriberNestedInput
   }
@@ -16027,6 +16069,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    skillsId?: SubscribersUpdateskillsIdInput | string[]
     subscriberSkills?: SubscribersSkillsUncheckedUpdateManyWithoutSubscribersNestedInput
     subscriberTopics?: SubscriberTopicsUncheckedUpdateManyWithoutSubscriberNestedInput
   }
@@ -16043,6 +16086,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     optOut?: BoolFieldUpdateOperationsInput | boolean
+    skillsId?: SubscribersUpdateskillsIdInput | string[]
   }
 
   export type SubscriberTopicsCreateManyTopicInput = {

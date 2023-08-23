@@ -27,6 +27,7 @@ model Subscribers {
   createdAt        DateTime            @default(now())
   updatedAt        DateTime?           @updatedAt
   optOut           Boolean             @default(false)
+  skillsId         String[]
 
   @@map("Subscribers")
 }
