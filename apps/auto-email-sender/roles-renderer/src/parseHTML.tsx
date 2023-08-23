@@ -12,6 +12,7 @@ export const parseHTML = (role: rolesSkillsView): string => {
       company={role.companyName}
       currency={(role.currency as OpeningCurrency) || 'R$'}
       language={role.language}
+      headerInfo={role.description}
       location={role.country}
       skills={role.skillNames}
       title={role.title}
