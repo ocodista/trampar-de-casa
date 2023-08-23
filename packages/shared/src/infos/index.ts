@@ -143,4 +143,6 @@ export const skillArray = [
   'WordPress',
   'YouTube Marketing',
   'iOS Development',
+  'Frontend',
+  'Backend',
 ]

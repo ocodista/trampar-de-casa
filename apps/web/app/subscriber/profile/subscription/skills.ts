@@ -1,7 +1,8 @@
-import { skillArray } from 'shared'
+'use client'
+import { skillArray } from 'shared/src/infos'
 import { ListOption } from '../../../components/ListOption'
 
-export const skills: ListOption[] = skillArray.map((skill) => ({
+export const skills: ListOption[] = skillArray.map((skill, index) => ({
   label: skill,
-  value: skill,
+  value: index.toString(),
 }))
