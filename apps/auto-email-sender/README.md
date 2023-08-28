@@ -31,11 +31,11 @@ The Auto Email Sender project is a collection of microservices to send opening e
 
 The Roles Assigner microservice manages the assignment of roles to users. It provides functionality to assign specific roles to users based on experience time, skills and English level.
 
-On assign roles, we send to Redis.
+On assigning roles, we send them to Redis.
 
 ### [Email Pre-Renderer](./email-pre-renderer/README.md)
 
-- The Email Pre-Renderer access the SUpabase to get all confirmed subscribers.
+- The Email Pre-Renderer accesses the SUpabase to get all confirmed subscribers.
 - Based on subscriber Id, get redis infos created by [roles-assigner](./roles-assigner/README.md)
 - Render footer component
 - Render Header component
@@ -44,8 +44,8 @@ On assign roles, we send to Redis.
 
 ### [Email Composer](./email-composer/README.md)
 
-The Email Composer microservice is responsible to concatenate Footer, Header and
-roles html and send to other rabbitMQ queue
+The Email Composer microservice is responsible for concatenating the Footer, Header and
+roles html and send to another rabbitMQ queue
 
 - Consume `email-pre-render` queue
 - Concatenate inline html of header, footer and roles
@@ -66,16 +66,17 @@ Here we will delve into the practical aspects of orchestrating a group of micros
 ### Flux
 
 The `auto-email-sender` is a group of microservices focused on sending opening emails. Some services in this group require other services to have been run before, as exemplified below:
-![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/20a8287e-b6e2-4811-843f-657da3e2ffae)
 
-The order is based on time of run
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/7ecef00d-429b-4739-9c55-4c59e8434623)
+> The order is based on the execution time. The slowest is executed first. This order is more effective for schedule sendings but is not mandatory
 
+Now I will show some dependencies between services:
 - `roles-validator` requires `roles-renderer`.
 - `email-pre-render` requires `roles-assigner`.
 - `email-composer` requires both `roles-validator` and `email-pre-render`.
 - `email-sender` requires `email-composer`.
 
-You can initiate these services by running `roles-assigner`:
+For example: You can initiate these services by running `roles-assigner`:
 
 ```sh
 docker-compose -f auto-email-sender-compose.yml up -d roles-assigner
@@ -100,10 +101,6 @@ Finally, after completing the previous steps, you can send the emails using the 
 ```sh
 docker-compose -f auto-email-sender-compose.yml up -d email-sender
 ```
-
-#### Observations
-
-The **Blue** card is collateral service for run the main service(**Green**). I explain better [here](#flux).
 
 ### Prerequisites:
 
