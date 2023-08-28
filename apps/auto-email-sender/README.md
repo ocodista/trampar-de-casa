@@ -40,7 +40,42 @@ Supabase: Supabase is utilized for managing user information, roles, and permiss
 
 ## How use
 
-Certainly, let's focus on the prerequisites and steps to run the services in the specified order:
+Here we will delve into the practical aspects of orchestrating a group of microservices
+
+### Flux
+
+The `auto-email-sender` is a group of microservices focused on sending opening emails. Some services in this group require other services to have been run before, as exemplified below:
+
+- `roles-validator` requires `roles-renderer`.
+- `email-pre-render` requires `roles-assigner`.
+- `email-composer` requires both `roles-validator` and `email-pre-render`.
+- `email-sender` requires `email-composer`.
+
+You can initiate these services by running `roles-assigner`:
+
+```sh
+docker-compose -f auto-email-sender-compose.yml up -d roles-assigner
+```
+
+After this, you can run `email-pre-renderer`:
+
+```sh
+docker-compose -f auto-email-sender-compose.yml up -d email-pre-renderer
+```
+
+Next, you should run the `email-composer`:
+
+```sh
+docker-compose -f auto-email-sender-compose.yml up -d roles-renderer &&
+docker-compose -f auto-email-sender-compose.yml up -d roles-validator &&
+docker-compose -f auto-email-sender-compose.yml up -d email-composer
+```
+
+Finally, after completing the previous steps, you can send the emails using the `email-sender` service:
+
+```sh
+docker-compose -f auto-email-sender-compose.yml up -d email-sender
+```
 
 ### Prerequisites:
 
