@@ -2,8 +2,7 @@ version: '3'
 
 services:
   rabbitmq:
-    build: 
-      dockerfile: ./Dockerfile_rabbitmq.dockerfile
+    image: rabbitmq:3-management
     hostname: rabbitmq
     ports:
       - 5672:5672
