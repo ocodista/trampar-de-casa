@@ -41,7 +41,7 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
 
 ## Flow Diagram
 
-![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/889f1c8f-9dc8-404a-86f6-06da7573017e)
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/4c5e0b49-44d1-496b-86bc-aca87a13f1e6)
 
 ## Sequence Diagram
 
