@@ -77,9 +77,12 @@ Finally, after completing the previous steps, you can send the emails using the 
 docker-compose -f auto-email-sender-compose.yml up -d email-sender
 ```
 
-The visual flux is this
+The visual flux is this:
 ![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/20a8287e-b6e2-4811-843f-657da3e2ffae)
 
+#### Observations
+
+The **Blue** card is collateral service for run the main service(**Green**). I explain better [here](#flux).
 
 ### Prerequisites:
 
