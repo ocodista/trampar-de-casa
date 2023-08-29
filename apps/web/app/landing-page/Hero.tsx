@@ -1,13 +1,11 @@
 import Image from 'next/image'
 import { PartnerCompanies } from './PartnerCompanies'
-import { SlikdeskCoupon } from './SlikdeskCoupon'
 import { SubscriberForm } from './SubscriberForm'
 import SubscribersCount from './SubscribersCount'
 
 export const Hero = () => {
   return (
     <>
-      <SlikdeskCoupon />
       <div className="pb-28 pt-6">
         <div className="container mx-auto">
           <div className="-m-8 flex flex-wrap items-center">
