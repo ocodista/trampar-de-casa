@@ -1,7 +1,216 @@
+import { Roles, createClient } from 'db'
+import { Entities } from 'shared'
 import { Opening } from 'shared/src/email/openings-email/Opening'
 import { Openings } from '../Openings'
 
-const localOpenings: Opening[] = []
+const localOpenings: Opening[] = [
+  {
+    company: 'Pier',
+    title: 'Jr Product Manager',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: [
+      'Gerenciamento',
+      'Dados',
+      'Comunicação',
+      'Estratégia',
+      'Criatividade',
+    ],
+    headerInfo: 'Júnior (Vaga Afirmativa para Diversidade)',
+    url: 'https://jobs.lever.co/pier/0181d568-7231-4dc3-bae2-a34dbecf465a',
+  },
+  {
+    company: 'Always Fit',
+    title: 'Desenvolvedor(a) Full-Stack - Node.Js + Vue.js - Júnior',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Git', 'Node.js', 'Testes unitários', 'TypeScript', 'Vue.js'],
+    headerInfo: 'Júnior (até R$2,500)',
+    url: 'https://programathor.com.br/jobs/29229-desenvolvedor-a-full-stack-node-js-vue-js-junior',
+  },
+  {
+    company: 'Adalov',
+    title: 'Pessoa Desenvolvedora - PHP Júnior',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Git', 'Laravel', 'MySQL', 'PHP'],
+    headerInfo: 'Júnior',
+    url: 'https://programathor.com.br/jobs/29246-pessoa-desenvolvedora-php-junior',
+  },
+  {
+    company: 'Impulso',
+    title: 'Pleno QA (Quality Analyst)',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['QA', 'Testes', 'Pipelines', 'Automação'],
+    headerInfo: 'Pleno (R$10,400 até R$11,200)',
+    url: 'https://impulso.team/pt/profissionais/oportunidade/1928-pleno-qa-quality-analyst-',
+  },
+  {
+    company: 'Impulso',
+    title: 'Pleno Angular',
+    language: 'Português',
+    location: 'Brasil',
+    currency: 'R$',
+    skills: ['Angular', 'Typescript', 'Azure', 'CleanCode', 'Testes'],
+    headerInfo: 'Pleno (R$9,600 até R$10,400)',
+    url: 'https://impulso.team/pt/profissionais/oportunidade/1927-pleno-angular',
+  },
+  {
+    company: 'Gesuas',
+    title: 'Desenvolvedor(a) Front-end Pleno',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['CSS', 'Docker', 'HTML', 'JavaScript', 'Vue.js'],
+    headerInfo: 'Pleno (Até R$5,000)',
+    url: 'https://programathor.com.br/jobs/29263-desenvolvedor-a-front-end-pleno',
+  },
+  {
+    company: 'Portus Digital',
+    title: 'Gestor de Tráfego',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['GoogleAds', 'MetaAds', 'Funil', 'Excel'],
+    headerInfo: 'Pleno (R$3,500)',
+    url: 'https://zinrecbr.intervieweb.it/portusdigital/jobs/gestor-de-trafego-2528/br/',
+  },
+  {
+    company: 'Log Manager',
+    title: 'Desenvolvedor(a) Full Stack Pleno',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['CSS', 'Laravel', 'MySQL', 'PHP', 'JavaScript'],
+    headerInfo: 'Pleno',
+    url: 'https://programathor.com.br/jobs/29210-desenvolvedor-a-full-stack-pleno',
+  },
+  {
+    company: 'Adalov',
+    title: 'Pessoa Desenvolvedora - PHP Pleno',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Git', 'Laravel', 'MySQL', 'PHP'],
+    headerInfo: 'Pleno',
+    url: 'https://programathor.com.br/jobs/29247-pessoa-desenvolvedora-php-pleno',
+  },
+  {
+    company: 'KingHost',
+    title: 'UI Designer III',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Design System', 'Teste', 'A/B', 'DesignThinking'],
+    headerInfo: 'Pleno',
+    url: 'https://jobs.recrutei.com.br/kinghost/vacancy/46073-ui-designer-iii',
+  },
+  {
+    company: 'Deeploy',
+    title: 'UX Designer',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['UX', 'Prototipação', 'Acessibilidade'],
+    headerInfo: 'Pleno',
+    url: 'https://www.member.deeploy.me/jobs/ux-designer-pleno-remoto-1675276588025',
+  },
+  {
+    company: 'Pier',
+    title: 'Engenheiro(a) de Software Pleno',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['RubyOnRails', 'AWS', 'Docker', 'Kubernetes'],
+    headerInfo: 'Pleno',
+    url: 'https://jobs.lever.co/pier/eeca37a8-6969-4cab-adcd-f8713ab88909',
+  },
+  {
+    company: 'CI&T',
+    title: 'Mid-level Java Developer',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Java', 'MySQL', 'MongoDB', 'DDD', 'Solid'],
+    headerInfo: 'Pleno',
+    url: 'https://jobs.lever.co/ciandt/315cda1b-6dc7-42fc-8188-0fae4793cf49',
+  },
+  {
+    company: 'Impulso',
+    title: 'Pleno/Sênior Angular | C# | .NET',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Angular', 'Azure', '.NET', 'Typescript', 'CleanCode'],
+    headerInfo: 'Sênior (R$12,800 até R$13,600)',
+    url: 'https://impulso.team/pt/profissionais/oportunidade/1925',
+  },
+  {
+    company: 'Inmetrics S/A',
+    title: 'Pessoa Desenvolvedora Fullstack',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Java', 'JavaScript', 'Node.js', 'ReactJS', 'TDD'],
+    headerInfo: 'Sênior (Até R$10,000)',
+    url: 'https://programathor.com.br/jobs/29249-pessoa-desenvolvedora-fullstack-senior-react-e-node',
+  },
+  {
+    company: 'Inmetrics S/A',
+    title: 'Pessoa Desenvolvedora React Native',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Jest', 'Objective-C', 'React Native', 'Redux', 'TypeScript'],
+    headerInfo: 'Sênior (Até R$10,000)',
+    url: 'https://programathor.com.br/jobs/29250-pessoa-desenvolvedora-react-native-senior-home-office',
+  },
+  {
+    company: 'Deeploy',
+    title: 'Product Designer',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Flexibilidade', 'Prototipagem'],
+    headerInfo: 'Sênior (R$5,000 até R$7,000)',
+    url: 'https://www.member.deeploy.me/jobs/product-designer-senior-remoto-1675276886874',
+  },
+  {
+    company: 'Bukly',
+    title: 'Desenvolvedor(a) PHP / Sênior',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['CakePHP', 'Git', 'MySQL', 'Laravel'],
+    headerInfo: 'Sênior (até R$$7,000)',
+    url: 'https://programathor.com.br/jobs/29265-desenvolvedor-a-php-senior-remoto',
+  },
+  {
+    company: 'Deeploy',
+    title: 'UX Writer',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['UX'],
+    headerInfo: 'Sênior (R$5,000 até R$6,200)',
+    url: 'https://www.member.deeploy.me/jobs/ux-writer-senior-remoto',
+  },
+  {
+    company: 'CI&T',
+    title: 'Senior Data Engineer',
+    location: 'Brasil',
+    language: 'Português',
+    currency: 'R$',
+    skills: ['Cloud', 'ETL/ELT', 'DevOps'],
+    headerInfo: 'Sênior',
+    url: 'https://jobs.lever.co/ciandt/bb184eee-a7d9-4040-b3d3-18384e6f1b35',
+  },
+]
 
 const globalOpenings: Opening[] = [
   {
@@ -37,7 +246,7 @@ const globalOpenings: Opening[] = [
     language: 'Inglês',
     currency: 'U$',
     skills: ['SQLServer', 'ETL', 'DataAnalytics'],
-    headerInfo: 'Mínimo de 4 anos de experiência em desenvolvimento',
+    headerInfo: 'Mínimo de 4 anos de XP',
     url: 'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLWRiYS1tc3NxbC04NjM3MThkMz9yZWZlcnJhbD10cmFtcGFyX2RlX2Nhc2E=',
   },
   {
@@ -81,16 +290,6 @@ const globalOpenings: Opening[] = [
     url: 'app.onstrider.com/r/trampar_de_casa?job=c2VuaW9yLWRhdGEtZW5naW5lZXItNWM0YzQ2YjQ/cmVmZXJyYWw9dHJhbXBhcl9kZV9jYXNh',
   },
   {
-    company: 'Flylance',
-    title: 'Sr. Full Stack Engineer',
-    location: 'Estados Unidos',
-    language: 'Inglês',
-    currency: 'U$',
-    skills: ['Vue', 'React', 'Angular2', 'C#'],
-    headerInfo: 'Mínimo de 5 anos de XP',
-    url: 'https://www.flylance.com/role?id=rec8xi6wP4LwEW2A8',
-  },
-  {
     company: 'moveBuddha.com',
     title: 'Frontend Developer',
     location: 'Global',
@@ -109,6 +308,16 @@ const globalOpenings: Opening[] = [
     skills: ['Oracle', 'AR', 'GL', 'AP', 'INV'],
     headerInfo: 'Sênior',
     url: 'https://boards.greenhouse.io/moovx/jobs/4006578005',
+  },
+  {
+    company: 'Flylance',
+    title: 'Sr. Full Stack Engineer',
+    location: 'Estados Unidos',
+    language: 'Inglês',
+    currency: 'U$',
+    skills: ['Vue', 'React', 'Angular2', 'C#'],
+    headerInfo: 'Mínimo de 5 anos de XP',
+    url: 'https://www.flylance.com/role?id=rec8xi6wP4LwEW2A8',
   },
   {
     company: 'Moovx',
@@ -166,3 +375,29 @@ export const openings20230830: Openings = {
   localOpenings,
   globalOpenings,
 }
+
+const injectRoles = async (openings: Opening[]) => {
+  const SUPABASE_URL = 'https://ddmczrcuuvggedglpigt.supabase.co' //process.env['SUPABASE_URL'] || ''
+  const SUPABASE_KEY =
+    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkbWN6cmN1dXZnZ2VkZ2xwaWd0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5MDIyMDY2NCwiZXhwIjoyMDA1Nzk2NjY0fQ.Tz46O-ZmT71q-F4VpdQ9Hlomflv3IQq0zcVVCHruCqk' //process.env['SUPABASE_SERVICE_ROLE'] || ''
+  const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY)
+  for (let index = 0; index < openings.length; index++) {
+    const { language, location, currency, title, url, headerInfo } =
+      openings[index]
+
+    const { error, status } = await supabaseClient.from(Entities.Roles).insert({
+      language: language === 'Português' ? 'Portuguese' : 'English',
+      country: location,
+      currency,
+      description: headerInfo,
+      title,
+      url,
+      createdAt: new Date(),
+      updatedAt: new Date(),
+      companyId: 'b556f3e6-83c6-4fa2-8274-673a0be34de3',
+    } as Roles & { url: string; description: string; updatedAt: Date })
+    console.log(error, status)
+  }
+}
+
+injectRoles([...localOpenings, ...globalOpenings])
