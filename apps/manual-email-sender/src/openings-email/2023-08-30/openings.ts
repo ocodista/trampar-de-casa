@@ -399,5 +399,3 @@ const injectRoles = async (openings: Opening[]) => {
     console.log(error, status)
   }
 }
-
-injectRoles([...localOpenings, ...globalOpenings])
