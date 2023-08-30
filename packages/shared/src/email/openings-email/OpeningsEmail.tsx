@@ -42,7 +42,7 @@ export const OpeningsEmail = ({
   unsubscribeUrl,
 }: OpeningsEmail) => {
   const rolesCount = globalOpenings.length + localOpenings.length
-  const previewText = 'R$130 de desconto na compra de uma Mesa Slikdesk!'
+  const previewText = ''
   return (
     <Tailwind>
       <Html>
