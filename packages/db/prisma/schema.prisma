@@ -34,7 +34,7 @@ model Subscribers {
 
 model Roles {
   minimumYears Int?
-  id           String       @id @default(uuid())
+  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
   title        String
   description  String
   country      String

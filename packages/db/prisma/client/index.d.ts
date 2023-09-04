@@ -9878,7 +9878,7 @@ export namespace Prisma {
     OR?: RolesWhereInput[]
     NOT?: RolesWhereInput | RolesWhereInput[]
     minimumYears?: IntNullableFilter<"Roles"> | number | null
-    id?: StringFilter<"Roles"> | string
+    id?: UuidFilter<"Roles"> | string
     title?: StringFilter<"Roles"> | string
     description?: StringFilter<"Roles"> | string
     country?: StringFilter<"Roles"> | string
@@ -9964,7 +9964,7 @@ export namespace Prisma {
     OR?: RolesScalarWhereWithAggregatesInput[]
     NOT?: RolesScalarWhereWithAggregatesInput | RolesScalarWhereWithAggregatesInput[]
     minimumYears?: IntNullableWithAggregatesFilter<"Roles"> | number | null
-    id?: StringWithAggregatesFilter<"Roles"> | string
+    id?: UuidWithAggregatesFilter<"Roles"> | string
     title?: StringWithAggregatesFilter<"Roles"> | string
     description?: StringWithAggregatesFilter<"Roles"> | string
     country?: StringWithAggregatesFilter<"Roles"> | string
