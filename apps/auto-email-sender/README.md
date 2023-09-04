@@ -16,27 +16,29 @@ The Auto Email Sender project is a collection of microservices to send opening e
 
 ### [Roles Renderer](./roles-renderer/README.md)
 
-- Get role on supabase
+- Get roles on Supabase
 - Render inline HTML of roles
 - Save on Redis
 
 ### [Roles Validator](./roles-validator/README.md)
 
 - Get roles on Supabase
-- Acess role URL
+- Access role URL
 - Verify if the role is open
 - If not, delete the role of Redis
 
 ### [Roles Assigner](./roles-assigner/README.md)
 
-The Roles Assigner microservice manages the assignment of roles to users. It provides functionality to assign specific roles to users based on experience time, skills and English level.
-
-On assigning roles, we send them to Redis.
+The Roles Assigner microservice manages the assignment of roles to users. It provides functionality to assign specific roles to users based on experience time, skills and English level. 
+When assigning roles, we send them to Redis.
+- Get subscribers on supabase
+- Calculate roles for each subscriber based on Skills, Experience, and English level
+- Send results to Redis
 
 ### [Email Pre-Renderer](./email-pre-renderer/README.md)
 
 - The Email Pre-Renderer accesses the SUpabase to get all confirmed subscribers.
-- Based on subscriber Id, get redis infos created by [roles-assigner](./roles-assigner/README.md)
+- Based on subscriber ID, get Redis infos created by [roles-assigner](./roles-assigner/README.md)
 - Render footer component
 - Render Header component
 - Render Assigned roles components
@@ -48,7 +50,7 @@ The Email Composer microservice is responsible for concatenating the Footer, Hea
 roles html and send to another rabbitMQ queue
 
 - Consume `email-pre-render` queue
-- Concatenate inline html of header, footer and roles
+- Concatenate inline HTML of header, footer, and roles
 - Send to 'email-sender' queue
 
 ### [Email Sender](./email-sender/README.md)
