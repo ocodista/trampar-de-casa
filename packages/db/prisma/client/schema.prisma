@@ -35,8 +35,6 @@ model Subscribers {
 model Roles {
   minimumYears Int?
   id           String       @id @default(uuid())
-  companyId    String
-  company      Companies    @relation(fields: [companyId], references: [id])
   title        String
   description  String
   country      String
@@ -50,6 +48,7 @@ model Roles {
   sentRoles    SentRoles?   @relation(fields: [sentRolesId], references: [id])
   ready        Boolean      @default(false)
   url          String?
+  company      String?
 
   roleSkills RoleSkills[]
 
@@ -110,19 +109,6 @@ model Topics {
   subscribers SubscriberTopics[]
 
   @@map("Topics")
-}
-
-model Companies {
-  id          String   @id @default(uuid())
-  name        String
-  url         String
-  logoUrl     String?
-  countryIcon String
-  roles       Roles[]
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-
-  @@map("Companies")
 }
 
 view rolesSkillsView {

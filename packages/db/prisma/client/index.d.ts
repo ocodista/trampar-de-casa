@@ -44,14 +44,12 @@ export type Subscribers = runtime.Types.DefaultSelection<SubscribersPayload>
 export type RolesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
   name: "Roles"
   objects: {
-    company: CompaniesPayload<ExtArgs>
     sentRoles: SentRolesPayload<ExtArgs> | null
     roleSkills: RoleSkillsPayload<ExtArgs>[]
   }
   scalars: $Extensions.GetResult<{
     minimumYears: number | null
     id: string
-    companyId: string
     title: string
     description: string
     country: string
@@ -64,6 +62,7 @@ export type RolesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultA
     sentRolesId: string | null
     ready: boolean
     url: string | null
+    company: string | null
   }, ExtArgs["result"]["roles"]>
   composites: {}
 }
@@ -186,28 +185,6 @@ export type TopicsPayload<ExtArgs extends $Extensions.Args = $Extensions.Default
  * 
  */
 export type Topics = runtime.Types.DefaultSelection<TopicsPayload>
-export type CompaniesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-  name: "Companies"
-  objects: {
-    roles: RolesPayload<ExtArgs>[]
-  }
-  scalars: $Extensions.GetResult<{
-    id: string
-    name: string
-    url: string
-    logoUrl: string | null
-    countryIcon: string
-    createdAt: Date
-    updatedAt: Date
-  }, ExtArgs["result"]["companies"]>
-  composites: {}
-}
-
-/**
- * Model Companies
- * 
- */
-export type Companies = runtime.Types.DefaultSelection<CompaniesPayload>
 export type rolesSkillsViewPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
   name: "rolesSkillsView"
   objects: {}
@@ -459,16 +436,6 @@ export class PrismaClient<
   get topics(): Prisma.TopicsDelegate<ExtArgs>;
 
   /**
-   * `prisma.companies`: Exposes CRUD operations for the **Companies** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more Companies
-    * const companies = await prisma.companies.findMany()
-    * ```
-    */
-  get companies(): Prisma.CompaniesDelegate<ExtArgs>;
-
-  /**
    * `prisma.rolesSkillsView`: Exposes CRUD operations for the **rolesSkillsView** model.
     * Example usage:
     * ```ts
@@ -535,7 +502,7 @@ export namespace Prisma {
 
   /**
    * Prisma Client JS version: 5.0.0
-   * Query Engine version: 6a3747c37ff169c90047725a05a6ef02e32ac97e
+   * Query Engine version: 2804dc98259d2ea960602aca6b8e7fdc03c1758f
    */
   export type PrismaVersion = {
     client: string
@@ -968,7 +935,6 @@ export namespace Prisma {
     SentRoles: 'SentRoles',
     SubscriberTopics: 'SubscriberTopics',
     Topics: 'Topics',
-    Companies: 'Companies',
     rolesSkillsView: 'rolesSkillsView'
   };
 
@@ -986,7 +952,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'subscribers' | 'roles' | 'roleSkills' | 'subscribersSkills' | 'skills' | 'sentRoles' | 'subscriberTopics' | 'topics' | 'companies' | 'rolesSkillsView'
+      modelProps: 'subscribers' | 'roles' | 'roleSkills' | 'subscribersSkills' | 'skills' | 'sentRoles' | 'subscriberTopics' | 'topics' | 'rolesSkillsView'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1518,72 +1484,6 @@ export namespace Prisma {
           }
         }
       }
-      Companies: {
-        payload: CompaniesPayload<ExtArgs>
-        fields: Prisma.CompaniesFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.CompaniesFindUniqueArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<CompaniesPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.CompaniesFindUniqueOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<CompaniesPayload>
-          }
-          findFirst: {
-            args: Prisma.CompaniesFindFirstArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<CompaniesPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.CompaniesFindFirstOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<CompaniesPayload>
-          }
-          findMany: {
-            args: Prisma.CompaniesFindManyArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<CompaniesPayload>[]
-          }
-          create: {
-            args: Prisma.CompaniesCreateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<CompaniesPayload>
-          }
-          createMany: {
-            args: Prisma.CompaniesCreateManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          delete: {
-            args: Prisma.CompaniesDeleteArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<CompaniesPayload>
-          }
-          update: {
-            args: Prisma.CompaniesUpdateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<CompaniesPayload>
-          }
-          deleteMany: {
-            args: Prisma.CompaniesDeleteManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          updateMany: {
-            args: Prisma.CompaniesUpdateManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          upsert: {
-            args: Prisma.CompaniesUpsertArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<CompaniesPayload>
-          }
-          aggregate: {
-            args: Prisma.CompaniesAggregateArgs<ExtArgs>,
-            result: $Utils.Optional<AggregateCompanies>
-          }
-          groupBy: {
-            args: Prisma.CompaniesGroupByArgs<ExtArgs>,
-            result: $Utils.Optional<CompaniesGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.CompaniesCountArgs<ExtArgs>,
-            result: $Utils.Optional<CompaniesCountAggregateOutputType> | number
-          }
-        }
-      }
       rolesSkillsView: {
         payload: rolesSkillsViewPayload<ExtArgs>
         fields: Prisma.rolesSkillsViewFieldRefs
@@ -1991,41 +1891,6 @@ export namespace Prisma {
    */
   export type TopicsCountOutputTypeCountSubscribersArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     where?: SubscriberTopicsWhereInput
-  }
-
-
-
-  /**
-   * Count Type CompaniesCountOutputType
-   */
-
-
-  export type CompaniesCountOutputType = {
-    roles: number
-  }
-
-  export type CompaniesCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    roles?: boolean | CompaniesCountOutputTypeCountRolesArgs
-  }
-
-  // Custom InputTypes
-
-  /**
-   * CompaniesCountOutputType without action
-   */
-  export type CompaniesCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the CompaniesCountOutputType
-     */
-    select?: CompaniesCountOutputTypeSelect<ExtArgs> | null
-  }
-
-
-  /**
-   * CompaniesCountOutputType without action
-   */
-  export type CompaniesCountOutputTypeCountRolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    where?: RolesWhereInput
   }
 
 
@@ -3114,7 +2979,6 @@ export namespace Prisma {
   export type RolesMinAggregateOutputType = {
     minimumYears: number | null
     id: string | null
-    companyId: string | null
     title: string | null
     description: string | null
     country: string | null
@@ -3126,12 +2990,12 @@ export namespace Prisma {
     sentRolesId: string | null
     ready: boolean | null
     url: string | null
+    company: string | null
   }
 
   export type RolesMaxAggregateOutputType = {
     minimumYears: number | null
     id: string | null
-    companyId: string | null
     title: string | null
     description: string | null
     country: string | null
@@ -3143,12 +3007,12 @@ export namespace Prisma {
     sentRolesId: string | null
     ready: boolean | null
     url: string | null
+    company: string | null
   }
 
   export type RolesCountAggregateOutputType = {
     minimumYears: number
     id: number
-    companyId: number
     title: number
     description: number
     country: number
@@ -3161,6 +3025,7 @@ export namespace Prisma {
     sentRolesId: number
     ready: number
     url: number
+    company: number
     _all: number
   }
 
@@ -3176,7 +3041,6 @@ export namespace Prisma {
   export type RolesMinAggregateInputType = {
     minimumYears?: true
     id?: true
-    companyId?: true
     title?: true
     description?: true
     country?: true
@@ -3188,12 +3052,12 @@ export namespace Prisma {
     sentRolesId?: true
     ready?: true
     url?: true
+    company?: true
   }
 
   export type RolesMaxAggregateInputType = {
     minimumYears?: true
     id?: true
-    companyId?: true
     title?: true
     description?: true
     country?: true
@@ -3205,12 +3069,12 @@ export namespace Prisma {
     sentRolesId?: true
     ready?: true
     url?: true
+    company?: true
   }
 
   export type RolesCountAggregateInputType = {
     minimumYears?: true
     id?: true
-    companyId?: true
     title?: true
     description?: true
     country?: true
@@ -3223,6 +3087,7 @@ export namespace Prisma {
     sentRolesId?: true
     ready?: true
     url?: true
+    company?: true
     _all?: true
   }
 
@@ -3316,7 +3181,6 @@ export namespace Prisma {
   export type RolesGroupByOutputType = {
     minimumYears: number | null
     id: string
-    companyId: string
     title: string
     description: string
     country: string
@@ -3329,6 +3193,7 @@ export namespace Prisma {
     sentRolesId: string | null
     ready: boolean
     url: string | null
+    company: string | null
     _count: RolesCountAggregateOutputType | null
     _avg: RolesAvgAggregateOutputType | null
     _sum: RolesSumAggregateOutputType | null
@@ -3353,7 +3218,6 @@ export namespace Prisma {
   export type RolesSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     minimumYears?: boolean
     id?: boolean
-    companyId?: boolean
     title?: boolean
     description?: boolean
     country?: boolean
@@ -3366,7 +3230,7 @@ export namespace Prisma {
     sentRolesId?: boolean
     ready?: boolean
     url?: boolean
-    company?: boolean | CompaniesArgs<ExtArgs>
+    company?: boolean
     sentRoles?: boolean | Roles$sentRolesArgs<ExtArgs>
     roleSkills?: boolean | Roles$roleSkillsArgs<ExtArgs>
     _count?: boolean | RolesCountOutputTypeArgs<ExtArgs>
@@ -3375,7 +3239,6 @@ export namespace Prisma {
   export type RolesSelectScalar = {
     minimumYears?: boolean
     id?: boolean
-    companyId?: boolean
     title?: boolean
     description?: boolean
     country?: boolean
@@ -3388,10 +3251,10 @@ export namespace Prisma {
     sentRolesId?: boolean
     ready?: boolean
     url?: boolean
+    company?: boolean
   }
 
   export type RolesInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    company?: boolean | CompaniesArgs<ExtArgs>
     sentRoles?: boolean | Roles$sentRolesArgs<ExtArgs>
     roleSkills?: boolean | Roles$roleSkillsArgs<ExtArgs>
     _count?: boolean | RolesCountOutputTypeArgs<ExtArgs>
@@ -3770,8 +3633,6 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    company<T extends CompaniesArgs<ExtArgs> = {}>(args?: Subset<T, CompaniesArgs<ExtArgs>>): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
-
     sentRoles<T extends Roles$sentRolesArgs<ExtArgs> = {}>(args?: Subset<T, Roles$sentRolesArgs<ExtArgs>>): Prisma__SentRolesClient<$Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
 
     roleSkills<T extends Roles$roleSkillsArgs<ExtArgs> = {}>(args?: Subset<T, Roles$roleSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findMany'>| Null>;
@@ -3807,7 +3668,6 @@ export namespace Prisma {
   interface RolesFieldRefs {
     readonly minimumYears: FieldRef<"Roles", 'Int'>
     readonly id: FieldRef<"Roles", 'String'>
-    readonly companyId: FieldRef<"Roles", 'String'>
     readonly title: FieldRef<"Roles", 'String'>
     readonly description: FieldRef<"Roles", 'String'>
     readonly country: FieldRef<"Roles", 'String'>
@@ -3820,6 +3680,7 @@ export namespace Prisma {
     readonly sentRolesId: FieldRef<"Roles", 'String'>
     readonly ready: FieldRef<"Roles", 'Boolean'>
     readonly url: FieldRef<"Roles", 'String'>
+    readonly company: FieldRef<"Roles", 'String'>
   }
     
 
@@ -9875,966 +9736,6 @@ export namespace Prisma {
 
 
   /**
-   * Model Companies
-   */
-
-
-  export type AggregateCompanies = {
-    _count: CompaniesCountAggregateOutputType | null
-    _min: CompaniesMinAggregateOutputType | null
-    _max: CompaniesMaxAggregateOutputType | null
-  }
-
-  export type CompaniesMinAggregateOutputType = {
-    id: string | null
-    name: string | null
-    url: string | null
-    logoUrl: string | null
-    countryIcon: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type CompaniesMaxAggregateOutputType = {
-    id: string | null
-    name: string | null
-    url: string | null
-    logoUrl: string | null
-    countryIcon: string | null
-    createdAt: Date | null
-    updatedAt: Date | null
-  }
-
-  export type CompaniesCountAggregateOutputType = {
-    id: number
-    name: number
-    url: number
-    logoUrl: number
-    countryIcon: number
-    createdAt: number
-    updatedAt: number
-    _all: number
-  }
-
-
-  export type CompaniesMinAggregateInputType = {
-    id?: true
-    name?: true
-    url?: true
-    logoUrl?: true
-    countryIcon?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type CompaniesMaxAggregateInputType = {
-    id?: true
-    name?: true
-    url?: true
-    logoUrl?: true
-    countryIcon?: true
-    createdAt?: true
-    updatedAt?: true
-  }
-
-  export type CompaniesCountAggregateInputType = {
-    id?: true
-    name?: true
-    url?: true
-    logoUrl?: true
-    countryIcon?: true
-    createdAt?: true
-    updatedAt?: true
-    _all?: true
-  }
-
-  export type CompaniesAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Companies to aggregate.
-     */
-    where?: CompaniesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Companies to fetch.
-     */
-    orderBy?: CompaniesOrderByWithRelationInput | CompaniesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: CompaniesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Companies from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Companies.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned Companies
-    **/
-    _count?: true | CompaniesCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: CompaniesMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: CompaniesMaxAggregateInputType
-  }
-
-  export type GetCompaniesAggregateType<T extends CompaniesAggregateArgs> = {
-        [P in keyof T & keyof AggregateCompanies]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateCompanies[P]>
-      : GetScalarType<T[P], AggregateCompanies[P]>
-  }
-
-
-
-
-  export type CompaniesGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    where?: CompaniesWhereInput
-    orderBy?: CompaniesOrderByWithAggregationInput | CompaniesOrderByWithAggregationInput[]
-    by: CompaniesScalarFieldEnum[] | CompaniesScalarFieldEnum
-    having?: CompaniesScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: CompaniesCountAggregateInputType | true
-    _min?: CompaniesMinAggregateInputType
-    _max?: CompaniesMaxAggregateInputType
-  }
-
-
-  export type CompaniesGroupByOutputType = {
-    id: string
-    name: string
-    url: string
-    logoUrl: string | null
-    countryIcon: string
-    createdAt: Date
-    updatedAt: Date
-    _count: CompaniesCountAggregateOutputType | null
-    _min: CompaniesMinAggregateOutputType | null
-    _max: CompaniesMaxAggregateOutputType | null
-  }
-
-  type GetCompaniesGroupByPayload<T extends CompaniesGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<CompaniesGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof CompaniesGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], CompaniesGroupByOutputType[P]>
-            : GetScalarType<T[P], CompaniesGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type CompaniesSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    name?: boolean
-    url?: boolean
-    logoUrl?: boolean
-    countryIcon?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-    roles?: boolean | Companies$rolesArgs<ExtArgs>
-    _count?: boolean | CompaniesCountOutputTypeArgs<ExtArgs>
-  }, ExtArgs["result"]["companies"]>
-
-  export type CompaniesSelectScalar = {
-    id?: boolean
-    name?: boolean
-    url?: boolean
-    logoUrl?: boolean
-    countryIcon?: boolean
-    createdAt?: boolean
-    updatedAt?: boolean
-  }
-
-  export type CompaniesInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    roles?: boolean | Companies$rolesArgs<ExtArgs>
-    _count?: boolean | CompaniesCountOutputTypeArgs<ExtArgs>
-  }
-
-
-  type CompaniesGetPayload<S extends boolean | null | undefined | CompaniesArgs> = $Types.GetResult<CompaniesPayload, S>
-
-  type CompaniesCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
-    Omit<CompaniesFindManyArgs, 'select' | 'include'> & {
-      select?: CompaniesCountAggregateInputType | true
-    }
-
-  export interface CompaniesDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Companies'], meta: { name: 'Companies' } }
-    /**
-     * Find zero or one Companies that matches the filter.
-     * @param {CompaniesFindUniqueArgs} args - Arguments to find a Companies
-     * @example
-     * // Get one Companies
-     * const companies = await prisma.companies.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends CompaniesFindUniqueArgs<ExtArgs>>(
-      args: SelectSubset<T, CompaniesFindUniqueArgs<ExtArgs>>
-    ): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
-
-    /**
-     * Find one Companies that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {CompaniesFindUniqueOrThrowArgs} args - Arguments to find a Companies
-     * @example
-     * // Get one Companies
-     * const companies = await prisma.companies.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends CompaniesFindUniqueOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, CompaniesFindUniqueOrThrowArgs<ExtArgs>>
-    ): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
-
-    /**
-     * Find the first Companies that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CompaniesFindFirstArgs} args - Arguments to find a Companies
-     * @example
-     * // Get one Companies
-     * const companies = await prisma.companies.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends CompaniesFindFirstArgs<ExtArgs>>(
-      args?: SelectSubset<T, CompaniesFindFirstArgs<ExtArgs>>
-    ): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
-
-    /**
-     * Find the first Companies that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CompaniesFindFirstOrThrowArgs} args - Arguments to find a Companies
-     * @example
-     * // Get one Companies
-     * const companies = await prisma.companies.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends CompaniesFindFirstOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, CompaniesFindFirstOrThrowArgs<ExtArgs>>
-    ): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
-
-    /**
-     * Find zero or more Companies that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CompaniesFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all Companies
-     * const companies = await prisma.companies.findMany()
-     * 
-     * // Get first 10 Companies
-     * const companies = await prisma.companies.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const companiesWithIdOnly = await prisma.companies.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends CompaniesFindManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, CompaniesFindManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'findMany'>>
-
-    /**
-     * Create a Companies.
-     * @param {CompaniesCreateArgs} args - Arguments to create a Companies.
-     * @example
-     * // Create one Companies
-     * const Companies = await prisma.companies.create({
-     *   data: {
-     *     // ... data to create a Companies
-     *   }
-     * })
-     * 
-    **/
-    create<T extends CompaniesCreateArgs<ExtArgs>>(
-      args: SelectSubset<T, CompaniesCreateArgs<ExtArgs>>
-    ): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
-
-    /**
-     * Create many Companies.
-     *     @param {CompaniesCreateManyArgs} args - Arguments to create many Companies.
-     *     @example
-     *     // Create many Companies
-     *     const companies = await prisma.companies.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends CompaniesCreateManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, CompaniesCreateManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a Companies.
-     * @param {CompaniesDeleteArgs} args - Arguments to delete one Companies.
-     * @example
-     * // Delete one Companies
-     * const Companies = await prisma.companies.delete({
-     *   where: {
-     *     // ... filter to delete one Companies
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends CompaniesDeleteArgs<ExtArgs>>(
-      args: SelectSubset<T, CompaniesDeleteArgs<ExtArgs>>
-    ): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
-
-    /**
-     * Update one Companies.
-     * @param {CompaniesUpdateArgs} args - Arguments to update one Companies.
-     * @example
-     * // Update one Companies
-     * const companies = await prisma.companies.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends CompaniesUpdateArgs<ExtArgs>>(
-      args: SelectSubset<T, CompaniesUpdateArgs<ExtArgs>>
-    ): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
-
-    /**
-     * Delete zero or more Companies.
-     * @param {CompaniesDeleteManyArgs} args - Arguments to filter Companies to delete.
-     * @example
-     * // Delete a few Companies
-     * const { count } = await prisma.companies.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends CompaniesDeleteManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, CompaniesDeleteManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more Companies.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CompaniesUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many Companies
-     * const companies = await prisma.companies.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends CompaniesUpdateManyArgs<ExtArgs>>(
-      args: SelectSubset<T, CompaniesUpdateManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one Companies.
-     * @param {CompaniesUpsertArgs} args - Arguments to update or create a Companies.
-     * @example
-     * // Update or create a Companies
-     * const companies = await prisma.companies.upsert({
-     *   create: {
-     *     // ... data to create a Companies
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the Companies we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends CompaniesUpsertArgs<ExtArgs>>(
-      args: SelectSubset<T, CompaniesUpsertArgs<ExtArgs>>
-    ): Prisma__CompaniesClient<$Types.GetResult<CompaniesPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
-
-    /**
-     * Count the number of Companies.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CompaniesCountArgs} args - Arguments to filter Companies to count.
-     * @example
-     * // Count the number of Companies
-     * const count = await prisma.companies.count({
-     *   where: {
-     *     // ... the filter for the Companies we want to count
-     *   }
-     * })
-    **/
-    count<T extends CompaniesCountArgs>(
-      args?: Subset<T, CompaniesCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], CompaniesCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a Companies.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CompaniesAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends CompaniesAggregateArgs>(args: Subset<T, CompaniesAggregateArgs>): Prisma.PrismaPromise<GetCompaniesAggregateType<T>>
-
-    /**
-     * Group by Companies.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {CompaniesGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends CompaniesGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: CompaniesGroupByArgs['orderBy'] }
-        : { orderBy?: CompaniesGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, CompaniesGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetCompaniesGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the Companies model
-   */
-  readonly fields: CompaniesFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for Companies.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__CompaniesClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
-    private readonly _dmmf;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-
-    roles<T extends Companies$rolesArgs<ExtArgs> = {}>(args?: Subset<T, Companies$rolesArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<RolesPayload<ExtArgs>, T, 'findMany'>| Null>;
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-
-
-  /**
-   * Fields of the Companies model
-   */ 
-  interface CompaniesFieldRefs {
-    readonly id: FieldRef<"Companies", 'String'>
-    readonly name: FieldRef<"Companies", 'String'>
-    readonly url: FieldRef<"Companies", 'String'>
-    readonly logoUrl: FieldRef<"Companies", 'String'>
-    readonly countryIcon: FieldRef<"Companies", 'String'>
-    readonly createdAt: FieldRef<"Companies", 'DateTime'>
-    readonly updatedAt: FieldRef<"Companies", 'DateTime'>
-  }
-    
-
-  // Custom InputTypes
-
-  /**
-   * Companies findUnique
-   */
-  export type CompaniesFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Companies
-     */
-    select?: CompaniesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: CompaniesInclude<ExtArgs> | null
-    /**
-     * Filter, which Companies to fetch.
-     */
-    where: CompaniesWhereUniqueInput
-  }
-
-
-  /**
-   * Companies findUniqueOrThrow
-   */
-  export type CompaniesFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Companies
-     */
-    select?: CompaniesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: CompaniesInclude<ExtArgs> | null
-    /**
-     * Filter, which Companies to fetch.
-     */
-    where: CompaniesWhereUniqueInput
-  }
-
-
-  /**
-   * Companies findFirst
-   */
-  export type CompaniesFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Companies
-     */
-    select?: CompaniesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: CompaniesInclude<ExtArgs> | null
-    /**
-     * Filter, which Companies to fetch.
-     */
-    where?: CompaniesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Companies to fetch.
-     */
-    orderBy?: CompaniesOrderByWithRelationInput | CompaniesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Companies.
-     */
-    cursor?: CompaniesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Companies from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Companies.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Companies.
-     */
-    distinct?: CompaniesScalarFieldEnum | CompaniesScalarFieldEnum[]
-  }
-
-
-  /**
-   * Companies findFirstOrThrow
-   */
-  export type CompaniesFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Companies
-     */
-    select?: CompaniesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: CompaniesInclude<ExtArgs> | null
-    /**
-     * Filter, which Companies to fetch.
-     */
-    where?: CompaniesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Companies to fetch.
-     */
-    orderBy?: CompaniesOrderByWithRelationInput | CompaniesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for Companies.
-     */
-    cursor?: CompaniesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Companies from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Companies.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of Companies.
-     */
-    distinct?: CompaniesScalarFieldEnum | CompaniesScalarFieldEnum[]
-  }
-
-
-  /**
-   * Companies findMany
-   */
-  export type CompaniesFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Companies
-     */
-    select?: CompaniesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: CompaniesInclude<ExtArgs> | null
-    /**
-     * Filter, which Companies to fetch.
-     */
-    where?: CompaniesWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of Companies to fetch.
-     */
-    orderBy?: CompaniesOrderByWithRelationInput | CompaniesOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing Companies.
-     */
-    cursor?: CompaniesWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` Companies from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` Companies.
-     */
-    skip?: number
-    distinct?: CompaniesScalarFieldEnum | CompaniesScalarFieldEnum[]
-  }
-
-
-  /**
-   * Companies create
-   */
-  export type CompaniesCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Companies
-     */
-    select?: CompaniesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: CompaniesInclude<ExtArgs> | null
-    /**
-     * The data needed to create a Companies.
-     */
-    data: XOR<CompaniesCreateInput, CompaniesUncheckedCreateInput>
-  }
-
-
-  /**
-   * Companies createMany
-   */
-  export type CompaniesCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many Companies.
-     */
-    data: CompaniesCreateManyInput | CompaniesCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * Companies update
-   */
-  export type CompaniesUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Companies
-     */
-    select?: CompaniesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: CompaniesInclude<ExtArgs> | null
-    /**
-     * The data needed to update a Companies.
-     */
-    data: XOR<CompaniesUpdateInput, CompaniesUncheckedUpdateInput>
-    /**
-     * Choose, which Companies to update.
-     */
-    where: CompaniesWhereUniqueInput
-  }
-
-
-  /**
-   * Companies updateMany
-   */
-  export type CompaniesUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update Companies.
-     */
-    data: XOR<CompaniesUpdateManyMutationInput, CompaniesUncheckedUpdateManyInput>
-    /**
-     * Filter which Companies to update
-     */
-    where?: CompaniesWhereInput
-  }
-
-
-  /**
-   * Companies upsert
-   */
-  export type CompaniesUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Companies
-     */
-    select?: CompaniesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: CompaniesInclude<ExtArgs> | null
-    /**
-     * The filter to search for the Companies to update in case it exists.
-     */
-    where: CompaniesWhereUniqueInput
-    /**
-     * In case the Companies found by the `where` argument doesn't exist, create a new Companies with this data.
-     */
-    create: XOR<CompaniesCreateInput, CompaniesUncheckedCreateInput>
-    /**
-     * In case the Companies was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<CompaniesUpdateInput, CompaniesUncheckedUpdateInput>
-  }
-
-
-  /**
-   * Companies delete
-   */
-  export type CompaniesDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Companies
-     */
-    select?: CompaniesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: CompaniesInclude<ExtArgs> | null
-    /**
-     * Filter which Companies to delete.
-     */
-    where: CompaniesWhereUniqueInput
-  }
-
-
-  /**
-   * Companies deleteMany
-   */
-  export type CompaniesDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which Companies to delete
-     */
-    where?: CompaniesWhereInput
-  }
-
-
-  /**
-   * Companies.roles
-   */
-  export type Companies$rolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Roles
-     */
-    select?: RolesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RolesInclude<ExtArgs> | null
-    where?: RolesWhereInput
-    orderBy?: RolesOrderByWithRelationInput | RolesOrderByWithRelationInput[]
-    cursor?: RolesWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RolesScalarFieldEnum | RolesScalarFieldEnum[]
-  }
-
-
-  /**
-   * Companies without action
-   */
-  export type CompaniesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the Companies
-     */
-    select?: CompaniesSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: CompaniesInclude<ExtArgs> | null
-  }
-
-
-
-  /**
    * Model rolesSkillsView
    */
 
@@ -11806,7 +10707,6 @@ export namespace Prisma {
   export const RolesScalarFieldEnum: {
     minimumYears: 'minimumYears',
     id: 'id',
-    companyId: 'companyId',
     title: 'title',
     description: 'description',
     country: 'country',
@@ -11818,7 +10718,8 @@ export namespace Prisma {
     updatedAt: 'updatedAt',
     sentRolesId: 'sentRolesId',
     ready: 'ready',
-    url: 'url'
+    url: 'url',
+    company: 'company'
   };
 
   export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
@@ -11876,19 +10777,6 @@ export namespace Prisma {
   };
 
   export type TopicsScalarFieldEnum = (typeof TopicsScalarFieldEnum)[keyof typeof TopicsScalarFieldEnum]
-
-
-  export const CompaniesScalarFieldEnum: {
-    id: 'id',
-    name: 'name',
-    url: 'url',
-    logoUrl: 'logoUrl',
-    countryIcon: 'countryIcon',
-    createdAt: 'createdAt',
-    updatedAt: 'updatedAt'
-  };
-
-  export type CompaniesScalarFieldEnum = (typeof CompaniesScalarFieldEnum)[keyof typeof CompaniesScalarFieldEnum]
 
 
   export const RolesSkillsViewScalarFieldEnum: {
@@ -12134,7 +11022,6 @@ export namespace Prisma {
     NOT?: RolesWhereInput | RolesWhereInput[]
     minimumYears?: IntNullableFilter<"Roles"> | number | null
     id?: StringFilter<"Roles"> | string
-    companyId?: StringFilter<"Roles"> | string
     title?: StringFilter<"Roles"> | string
     description?: StringFilter<"Roles"> | string
     country?: StringFilter<"Roles"> | string
@@ -12147,7 +11034,7 @@ export namespace Prisma {
     sentRolesId?: StringNullableFilter<"Roles"> | string | null
     ready?: BoolFilter<"Roles"> | boolean
     url?: StringNullableFilter<"Roles"> | string | null
-    company?: XOR<CompaniesRelationFilter, CompaniesWhereInput>
+    company?: StringNullableFilter<"Roles"> | string | null
     sentRoles?: XOR<SentRolesNullableRelationFilter, SentRolesWhereInput> | null
     roleSkills?: RoleSkillsListRelationFilter
   }
@@ -12155,7 +11042,6 @@ export namespace Prisma {
   export type RolesOrderByWithRelationInput = {
     minimumYears?: SortOrderInput | SortOrder
     id?: SortOrder
-    companyId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     country?: SortOrder
@@ -12168,7 +11054,7 @@ export namespace Prisma {
     sentRolesId?: SortOrderInput | SortOrder
     ready?: SortOrder
     url?: SortOrderInput | SortOrder
-    company?: CompaniesOrderByWithRelationInput
+    company?: SortOrderInput | SortOrder
     sentRoles?: SentRolesOrderByWithRelationInput
     roleSkills?: RoleSkillsOrderByRelationAggregateInput
   }
@@ -12180,7 +11066,6 @@ export namespace Prisma {
     OR?: RolesWhereInput[]
     NOT?: RolesWhereInput | RolesWhereInput[]
     minimumYears?: IntNullableFilter<"Roles"> | number | null
-    companyId?: StringFilter<"Roles"> | string
     title?: StringFilter<"Roles"> | string
     description?: StringFilter<"Roles"> | string
     country?: StringFilter<"Roles"> | string
@@ -12192,7 +11077,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Roles"> | Date | string
     ready?: BoolFilter<"Roles"> | boolean
     url?: StringNullableFilter<"Roles"> | string | null
-    company?: XOR<CompaniesRelationFilter, CompaniesWhereInput>
+    company?: StringNullableFilter<"Roles"> | string | null
     sentRoles?: XOR<SentRolesNullableRelationFilter, SentRolesWhereInput> | null
     roleSkills?: RoleSkillsListRelationFilter
   }, "id" | "sentRolesId">
@@ -12200,7 +11085,6 @@ export namespace Prisma {
   export type RolesOrderByWithAggregationInput = {
     minimumYears?: SortOrderInput | SortOrder
     id?: SortOrder
-    companyId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     country?: SortOrder
@@ -12213,6 +11097,7 @@ export namespace Prisma {
     sentRolesId?: SortOrderInput | SortOrder
     ready?: SortOrder
     url?: SortOrderInput | SortOrder
+    company?: SortOrderInput | SortOrder
     _count?: RolesCountOrderByAggregateInput
     _avg?: RolesAvgOrderByAggregateInput
     _max?: RolesMaxOrderByAggregateInput
@@ -12226,7 +11111,6 @@ export namespace Prisma {
     NOT?: RolesScalarWhereWithAggregatesInput | RolesScalarWhereWithAggregatesInput[]
     minimumYears?: IntNullableWithAggregatesFilter<"Roles"> | number | null
     id?: StringWithAggregatesFilter<"Roles"> | string
-    companyId?: StringWithAggregatesFilter<"Roles"> | string
     title?: StringWithAggregatesFilter<"Roles"> | string
     description?: StringWithAggregatesFilter<"Roles"> | string
     country?: StringWithAggregatesFilter<"Roles"> | string
@@ -12239,6 +11123,7 @@ export namespace Prisma {
     sentRolesId?: StringNullableWithAggregatesFilter<"Roles"> | string | null
     ready?: BoolWithAggregatesFilter<"Roles"> | boolean
     url?: StringNullableWithAggregatesFilter<"Roles"> | string | null
+    company?: StringNullableWithAggregatesFilter<"Roles"> | string | null
   }
 
   export type RoleSkillsWhereInput = {
@@ -12536,71 +11421,6 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Topics"> | string
   }
 
-  export type CompaniesWhereInput = {
-    AND?: CompaniesWhereInput | CompaniesWhereInput[]
-    OR?: CompaniesWhereInput[]
-    NOT?: CompaniesWhereInput | CompaniesWhereInput[]
-    id?: StringFilter<"Companies"> | string
-    name?: StringFilter<"Companies"> | string
-    url?: StringFilter<"Companies"> | string
-    logoUrl?: StringNullableFilter<"Companies"> | string | null
-    countryIcon?: StringFilter<"Companies"> | string
-    createdAt?: DateTimeFilter<"Companies"> | Date | string
-    updatedAt?: DateTimeFilter<"Companies"> | Date | string
-    roles?: RolesListRelationFilter
-  }
-
-  export type CompaniesOrderByWithRelationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    url?: SortOrder
-    logoUrl?: SortOrderInput | SortOrder
-    countryIcon?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    roles?: RolesOrderByRelationAggregateInput
-  }
-
-  export type CompaniesWhereUniqueInput = Prisma.AtLeast<{
-    id?: string
-    AND?: CompaniesWhereInput | CompaniesWhereInput[]
-    OR?: CompaniesWhereInput[]
-    NOT?: CompaniesWhereInput | CompaniesWhereInput[]
-    name?: StringFilter<"Companies"> | string
-    url?: StringFilter<"Companies"> | string
-    logoUrl?: StringNullableFilter<"Companies"> | string | null
-    countryIcon?: StringFilter<"Companies"> | string
-    createdAt?: DateTimeFilter<"Companies"> | Date | string
-    updatedAt?: DateTimeFilter<"Companies"> | Date | string
-    roles?: RolesListRelationFilter
-  }, "id">
-
-  export type CompaniesOrderByWithAggregationInput = {
-    id?: SortOrder
-    name?: SortOrder
-    url?: SortOrder
-    logoUrl?: SortOrderInput | SortOrder
-    countryIcon?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-    _count?: CompaniesCountOrderByAggregateInput
-    _max?: CompaniesMaxOrderByAggregateInput
-    _min?: CompaniesMinOrderByAggregateInput
-  }
-
-  export type CompaniesScalarWhereWithAggregatesInput = {
-    AND?: CompaniesScalarWhereWithAggregatesInput | CompaniesScalarWhereWithAggregatesInput[]
-    OR?: CompaniesScalarWhereWithAggregatesInput[]
-    NOT?: CompaniesScalarWhereWithAggregatesInput | CompaniesScalarWhereWithAggregatesInput[]
-    id?: StringWithAggregatesFilter<"Companies"> | string
-    name?: StringWithAggregatesFilter<"Companies"> | string
-    url?: StringWithAggregatesFilter<"Companies"> | string
-    logoUrl?: StringNullableWithAggregatesFilter<"Companies"> | string | null
-    countryIcon?: StringWithAggregatesFilter<"Companies"> | string
-    createdAt?: DateTimeWithAggregatesFilter<"Companies"> | Date | string
-    updatedAt?: DateTimeWithAggregatesFilter<"Companies"> | Date | string
-  }
-
   export type rolesSkillsViewWhereInput = {
     AND?: rolesSkillsViewWhereInput | rolesSkillsViewWhereInput[]
     OR?: rolesSkillsViewWhereInput[]
@@ -12819,7 +11639,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     ready?: boolean
     url?: string | null
-    company: CompaniesCreateNestedOneWithoutRolesInput
+    company?: string | null
     sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
     roleSkills?: RoleSkillsCreateNestedManyWithoutRolesInput
   }
@@ -12827,7 +11647,6 @@ export namespace Prisma {
   export type RolesUncheckedCreateInput = {
     minimumYears?: number | null
     id?: string
-    companyId: string
     title: string
     description: string
     country: string
@@ -12840,6 +11659,7 @@ export namespace Prisma {
     sentRolesId?: string | null
     ready?: boolean
     url?: string | null
+    company?: string | null
     roleSkills?: RoleSkillsUncheckedCreateNestedManyWithoutRolesInput
   }
 
@@ -12857,7 +11677,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
-    company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
+    company?: NullableStringFieldUpdateOperationsInput | string | null
     sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
     roleSkills?: RoleSkillsUpdateManyWithoutRolesNestedInput
   }
@@ -12865,7 +11685,6 @@ export namespace Prisma {
   export type RolesUncheckedUpdateInput = {
     minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
-    companyId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
@@ -12878,13 +11697,13 @@ export namespace Prisma {
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
     roleSkills?: RoleSkillsUncheckedUpdateManyWithoutRolesNestedInput
   }
 
   export type RolesCreateManyInput = {
     minimumYears?: number | null
     id?: string
-    companyId: string
     title: string
     description: string
     country: string
@@ -12897,6 +11716,7 @@ export namespace Prisma {
     sentRolesId?: string | null
     ready?: boolean
     url?: string | null
+    company?: string | null
   }
 
   export type RolesUpdateManyMutationInput = {
@@ -12913,12 +11733,12 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RolesUncheckedUpdateManyInput = {
     minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
-    companyId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
@@ -12931,6 +11751,7 @@ export namespace Prisma {
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type RoleSkillsCreateInput = {
@@ -13192,80 +12013,6 @@ export namespace Prisma {
   export type TopicsUncheckedUpdateManyInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type CompaniesCreateInput = {
-    id?: string
-    name: string
-    url: string
-    logoUrl?: string | null
-    countryIcon: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    roles?: RolesCreateNestedManyWithoutCompanyInput
-  }
-
-  export type CompaniesUncheckedCreateInput = {
-    id?: string
-    name: string
-    url: string
-    logoUrl?: string | null
-    countryIcon: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    roles?: RolesUncheckedCreateNestedManyWithoutCompanyInput
-  }
-
-  export type CompaniesUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    roles?: RolesUpdateManyWithoutCompanyNestedInput
-  }
-
-  export type CompaniesUncheckedUpdateInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    roles?: RolesUncheckedUpdateManyWithoutCompanyNestedInput
-  }
-
-  export type CompaniesCreateManyInput = {
-    id?: string
-    name: string
-    url: string
-    logoUrl?: string | null
-    countryIcon: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type CompaniesUpdateManyMutationInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CompaniesUncheckedUpdateManyInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type rolesSkillsViewCreateInput = {
@@ -13650,11 +12397,6 @@ export namespace Prisma {
     not?: NestedEnumRoleLanguageFilter<$PrismaModel> | RoleLanguage
   }
 
-  export type CompaniesRelationFilter = {
-    is?: CompaniesWhereInput
-    isNot?: CompaniesWhereInput
-  }
-
   export type SentRolesNullableRelationFilter = {
     is?: SentRolesWhereInput | null
     isNot?: SentRolesWhereInput | null
@@ -13673,7 +12415,6 @@ export namespace Prisma {
   export type RolesCountOrderByAggregateInput = {
     minimumYears?: SortOrder
     id?: SortOrder
-    companyId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     country?: SortOrder
@@ -13686,6 +12427,7 @@ export namespace Prisma {
     sentRolesId?: SortOrder
     ready?: SortOrder
     url?: SortOrder
+    company?: SortOrder
   }
 
   export type RolesAvgOrderByAggregateInput = {
@@ -13695,7 +12437,6 @@ export namespace Prisma {
   export type RolesMaxOrderByAggregateInput = {
     minimumYears?: SortOrder
     id?: SortOrder
-    companyId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     country?: SortOrder
@@ -13707,12 +12448,12 @@ export namespace Prisma {
     sentRolesId?: SortOrder
     ready?: SortOrder
     url?: SortOrder
+    company?: SortOrder
   }
 
   export type RolesMinOrderByAggregateInput = {
     minimumYears?: SortOrder
     id?: SortOrder
-    companyId?: SortOrder
     title?: SortOrder
     description?: SortOrder
     country?: SortOrder
@@ -13724,6 +12465,7 @@ export namespace Prisma {
     sentRolesId?: SortOrder
     ready?: SortOrder
     url?: SortOrder
+    company?: SortOrder
   }
 
   export type RolesSumOrderByAggregateInput = {
@@ -13972,46 +12714,6 @@ export namespace Prisma {
     id?: SortOrder
   }
 
-  export type RolesListRelationFilter = {
-    every?: RolesWhereInput
-    some?: RolesWhereInput
-    none?: RolesWhereInput
-  }
-
-  export type RolesOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
-  export type CompaniesCountOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    url?: SortOrder
-    logoUrl?: SortOrder
-    countryIcon?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type CompaniesMaxOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    url?: SortOrder
-    logoUrl?: SortOrder
-    countryIcon?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
-  export type CompaniesMinOrderByAggregateInput = {
-    id?: SortOrder
-    name?: SortOrder
-    url?: SortOrder
-    logoUrl?: SortOrder
-    countryIcon?: SortOrder
-    createdAt?: SortOrder
-    updatedAt?: SortOrder
-  }
-
   export type rolesSkillsViewCountOrderByAggregateInput = {
     id?: SortOrder
     country?: SortOrder
@@ -14214,12 +12916,6 @@ export namespace Prisma {
     set: string[]
   }
 
-  export type CompaniesCreateNestedOneWithoutRolesInput = {
-    create?: XOR<CompaniesCreateWithoutRolesInput, CompaniesUncheckedCreateWithoutRolesInput>
-    connectOrCreate?: CompaniesCreateOrConnectWithoutRolesInput
-    connect?: CompaniesWhereUniqueInput
-  }
-
   export type SentRolesCreateNestedOneWithoutRoleInput = {
     create?: XOR<SentRolesCreateWithoutRoleInput, SentRolesUncheckedCreateWithoutRoleInput>
     connectOrCreate?: SentRolesCreateOrConnectWithoutRoleInput
@@ -14255,14 +12951,6 @@ export namespace Prisma {
   export type RolesUpdateskillsIdInput = {
     set?: string[]
     push?: string | string[]
-  }
-
-  export type CompaniesUpdateOneRequiredWithoutRolesNestedInput = {
-    create?: XOR<CompaniesCreateWithoutRolesInput, CompaniesUncheckedCreateWithoutRolesInput>
-    connectOrCreate?: CompaniesCreateOrConnectWithoutRolesInput
-    upsert?: CompaniesUpsertWithoutRolesInput
-    connect?: CompaniesWhereUniqueInput
-    update?: XOR<XOR<CompaniesUpdateToOneWithWhereWithoutRolesInput, CompaniesUpdateWithoutRolesInput>, CompaniesUncheckedUpdateWithoutRolesInput>
   }
 
   export type SentRolesUpdateOneWithoutRoleNestedInput = {
@@ -14589,48 +13277,6 @@ export namespace Prisma {
     update?: SubscriberTopicsUpdateWithWhereUniqueWithoutTopicInput | SubscriberTopicsUpdateWithWhereUniqueWithoutTopicInput[]
     updateMany?: SubscriberTopicsUpdateManyWithWhereWithoutTopicInput | SubscriberTopicsUpdateManyWithWhereWithoutTopicInput[]
     deleteMany?: SubscriberTopicsScalarWhereInput | SubscriberTopicsScalarWhereInput[]
-  }
-
-  export type RolesCreateNestedManyWithoutCompanyInput = {
-    create?: XOR<RolesCreateWithoutCompanyInput, RolesUncheckedCreateWithoutCompanyInput> | RolesCreateWithoutCompanyInput[] | RolesUncheckedCreateWithoutCompanyInput[]
-    connectOrCreate?: RolesCreateOrConnectWithoutCompanyInput | RolesCreateOrConnectWithoutCompanyInput[]
-    createMany?: RolesCreateManyCompanyInputEnvelope
-    connect?: RolesWhereUniqueInput | RolesWhereUniqueInput[]
-  }
-
-  export type RolesUncheckedCreateNestedManyWithoutCompanyInput = {
-    create?: XOR<RolesCreateWithoutCompanyInput, RolesUncheckedCreateWithoutCompanyInput> | RolesCreateWithoutCompanyInput[] | RolesUncheckedCreateWithoutCompanyInput[]
-    connectOrCreate?: RolesCreateOrConnectWithoutCompanyInput | RolesCreateOrConnectWithoutCompanyInput[]
-    createMany?: RolesCreateManyCompanyInputEnvelope
-    connect?: RolesWhereUniqueInput | RolesWhereUniqueInput[]
-  }
-
-  export type RolesUpdateManyWithoutCompanyNestedInput = {
-    create?: XOR<RolesCreateWithoutCompanyInput, RolesUncheckedCreateWithoutCompanyInput> | RolesCreateWithoutCompanyInput[] | RolesUncheckedCreateWithoutCompanyInput[]
-    connectOrCreate?: RolesCreateOrConnectWithoutCompanyInput | RolesCreateOrConnectWithoutCompanyInput[]
-    upsert?: RolesUpsertWithWhereUniqueWithoutCompanyInput | RolesUpsertWithWhereUniqueWithoutCompanyInput[]
-    createMany?: RolesCreateManyCompanyInputEnvelope
-    set?: RolesWhereUniqueInput | RolesWhereUniqueInput[]
-    disconnect?: RolesWhereUniqueInput | RolesWhereUniqueInput[]
-    delete?: RolesWhereUniqueInput | RolesWhereUniqueInput[]
-    connect?: RolesWhereUniqueInput | RolesWhereUniqueInput[]
-    update?: RolesUpdateWithWhereUniqueWithoutCompanyInput | RolesUpdateWithWhereUniqueWithoutCompanyInput[]
-    updateMany?: RolesUpdateManyWithWhereWithoutCompanyInput | RolesUpdateManyWithWhereWithoutCompanyInput[]
-    deleteMany?: RolesScalarWhereInput | RolesScalarWhereInput[]
-  }
-
-  export type RolesUncheckedUpdateManyWithoutCompanyNestedInput = {
-    create?: XOR<RolesCreateWithoutCompanyInput, RolesUncheckedCreateWithoutCompanyInput> | RolesCreateWithoutCompanyInput[] | RolesUncheckedCreateWithoutCompanyInput[]
-    connectOrCreate?: RolesCreateOrConnectWithoutCompanyInput | RolesCreateOrConnectWithoutCompanyInput[]
-    upsert?: RolesUpsertWithWhereUniqueWithoutCompanyInput | RolesUpsertWithWhereUniqueWithoutCompanyInput[]
-    createMany?: RolesCreateManyCompanyInputEnvelope
-    set?: RolesWhereUniqueInput | RolesWhereUniqueInput[]
-    disconnect?: RolesWhereUniqueInput | RolesWhereUniqueInput[]
-    delete?: RolesWhereUniqueInput | RolesWhereUniqueInput[]
-    connect?: RolesWhereUniqueInput | RolesWhereUniqueInput[]
-    update?: RolesUpdateWithWhereUniqueWithoutCompanyInput | RolesUpdateWithWhereUniqueWithoutCompanyInput[]
-    updateMany?: RolesUpdateManyWithWhereWithoutCompanyInput | RolesUpdateManyWithWhereWithoutCompanyInput[]
-    deleteMany?: RolesScalarWhereInput | RolesScalarWhereInput[]
   }
 
   export type rolesSkillsViewCreateskillNamesInput = {
@@ -15041,31 +13687,6 @@ export namespace Prisma {
     topicId?: IntFilter<"SubscriberTopics"> | number
   }
 
-  export type CompaniesCreateWithoutRolesInput = {
-    id?: string
-    name: string
-    url: string
-    logoUrl?: string | null
-    countryIcon: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type CompaniesUncheckedCreateWithoutRolesInput = {
-    id?: string
-    name: string
-    url: string
-    logoUrl?: string | null
-    countryIcon: string
-    createdAt?: Date | string
-    updatedAt?: Date | string
-  }
-
-  export type CompaniesCreateOrConnectWithoutRolesInput = {
-    where: CompaniesWhereUniqueInput
-    create: XOR<CompaniesCreateWithoutRolesInput, CompaniesUncheckedCreateWithoutRolesInput>
-  }
-
   export type SentRolesCreateWithoutRoleInput = {
     id?: string
     sentAt?: Date | string | null
@@ -15107,37 +13728,6 @@ export namespace Prisma {
   export type RoleSkillsCreateManyRolesInputEnvelope = {
     data: RoleSkillsCreateManyRolesInput | RoleSkillsCreateManyRolesInput[]
     skipDuplicates?: boolean
-  }
-
-  export type CompaniesUpsertWithoutRolesInput = {
-    update: XOR<CompaniesUpdateWithoutRolesInput, CompaniesUncheckedUpdateWithoutRolesInput>
-    create: XOR<CompaniesCreateWithoutRolesInput, CompaniesUncheckedCreateWithoutRolesInput>
-    where?: CompaniesWhereInput
-  }
-
-  export type CompaniesUpdateToOneWithWhereWithoutRolesInput = {
-    where?: CompaniesWhereInput
-    data: XOR<CompaniesUpdateWithoutRolesInput, CompaniesUncheckedUpdateWithoutRolesInput>
-  }
-
-  export type CompaniesUpdateWithoutRolesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-  }
-
-  export type CompaniesUncheckedUpdateWithoutRolesInput = {
-    id?: StringFieldUpdateOperationsInput | string
-    name?: StringFieldUpdateOperationsInput | string
-    url?: StringFieldUpdateOperationsInput | string
-    logoUrl?: NullableStringFieldUpdateOperationsInput | string | null
-    countryIcon?: StringFieldUpdateOperationsInput | string
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type SentRolesUpsertWithoutRoleInput = {
@@ -15208,14 +13798,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     ready?: boolean
     url?: string | null
-    company: CompaniesCreateNestedOneWithoutRolesInput
+    company?: string | null
     sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
   }
 
   export type RolesUncheckedCreateWithoutRoleSkillsInput = {
     minimumYears?: number | null
     id?: string
-    companyId: string
     title: string
     description: string
     country: string
@@ -15228,6 +13817,7 @@ export namespace Prisma {
     sentRolesId?: string | null
     ready?: boolean
     url?: string | null
+    company?: string | null
   }
 
   export type RolesCreateOrConnectWithoutRoleSkillsInput = {
@@ -15277,14 +13867,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
-    company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
+    company?: NullableStringFieldUpdateOperationsInput | string | null
     sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
   }
 
   export type RolesUncheckedUpdateWithoutRoleSkillsInput = {
     minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
-    companyId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
@@ -15297,6 +13886,7 @@ export namespace Prisma {
     sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type SkillsUpsertWithoutRolesSkillsInput = {
@@ -15532,14 +14122,13 @@ export namespace Prisma {
     updatedAt?: Date | string
     ready?: boolean
     url?: string | null
-    company: CompaniesCreateNestedOneWithoutRolesInput
+    company?: string | null
     roleSkills?: RoleSkillsCreateNestedManyWithoutRolesInput
   }
 
   export type RolesUncheckedCreateWithoutSentRolesInput = {
     minimumYears?: number | null
     id?: string
-    companyId: string
     title: string
     description: string
     country: string
@@ -15551,6 +14140,7 @@ export namespace Prisma {
     updatedAt?: Date | string
     ready?: boolean
     url?: string | null
+    company?: string | null
     roleSkills?: RoleSkillsUncheckedCreateNestedManyWithoutRolesInput
   }
 
@@ -15623,14 +14213,13 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
-    company?: CompaniesUpdateOneRequiredWithoutRolesNestedInput
+    company?: NullableStringFieldUpdateOperationsInput | string | null
     roleSkills?: RoleSkillsUpdateManyWithoutRolesNestedInput
   }
 
   export type RolesUncheckedUpdateWithoutSentRolesInput = {
     minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
     id?: StringFieldUpdateOperationsInput | string
-    companyId?: StringFieldUpdateOperationsInput | string
     title?: StringFieldUpdateOperationsInput | string
     description?: StringFieldUpdateOperationsInput | string
     country?: StringFieldUpdateOperationsInput | string
@@ -15642,6 +14231,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
+    company?: NullableStringFieldUpdateOperationsInput | string | null
     roleSkills?: RoleSkillsUncheckedUpdateManyWithoutRolesNestedInput
   }
 
@@ -15830,89 +14420,6 @@ export namespace Prisma {
   export type SubscriberTopicsUpdateManyWithWhereWithoutTopicInput = {
     where: SubscriberTopicsScalarWhereInput
     data: XOR<SubscriberTopicsUpdateManyMutationInput, SubscriberTopicsUncheckedUpdateManyWithoutTopicInput>
-  }
-
-  export type RolesCreateWithoutCompanyInput = {
-    minimumYears?: number | null
-    id?: string
-    title: string
-    description: string
-    country: string
-    language: RoleLanguage
-    currency?: string | null
-    salary?: string | null
-    skillsId?: RolesCreateskillsIdInput | string[]
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    ready?: boolean
-    url?: string | null
-    sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
-    roleSkills?: RoleSkillsCreateNestedManyWithoutRolesInput
-  }
-
-  export type RolesUncheckedCreateWithoutCompanyInput = {
-    minimumYears?: number | null
-    id?: string
-    title: string
-    description: string
-    country: string
-    language: RoleLanguage
-    currency?: string | null
-    salary?: string | null
-    skillsId?: RolesCreateskillsIdInput | string[]
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sentRolesId?: string | null
-    ready?: boolean
-    url?: string | null
-    roleSkills?: RoleSkillsUncheckedCreateNestedManyWithoutRolesInput
-  }
-
-  export type RolesCreateOrConnectWithoutCompanyInput = {
-    where: RolesWhereUniqueInput
-    create: XOR<RolesCreateWithoutCompanyInput, RolesUncheckedCreateWithoutCompanyInput>
-  }
-
-  export type RolesCreateManyCompanyInputEnvelope = {
-    data: RolesCreateManyCompanyInput | RolesCreateManyCompanyInput[]
-    skipDuplicates?: boolean
-  }
-
-  export type RolesUpsertWithWhereUniqueWithoutCompanyInput = {
-    where: RolesWhereUniqueInput
-    update: XOR<RolesUpdateWithoutCompanyInput, RolesUncheckedUpdateWithoutCompanyInput>
-    create: XOR<RolesCreateWithoutCompanyInput, RolesUncheckedCreateWithoutCompanyInput>
-  }
-
-  export type RolesUpdateWithWhereUniqueWithoutCompanyInput = {
-    where: RolesWhereUniqueInput
-    data: XOR<RolesUpdateWithoutCompanyInput, RolesUncheckedUpdateWithoutCompanyInput>
-  }
-
-  export type RolesUpdateManyWithWhereWithoutCompanyInput = {
-    where: RolesScalarWhereInput
-    data: XOR<RolesUpdateManyMutationInput, RolesUncheckedUpdateManyWithoutCompanyInput>
-  }
-
-  export type RolesScalarWhereInput = {
-    AND?: RolesScalarWhereInput | RolesScalarWhereInput[]
-    OR?: RolesScalarWhereInput[]
-    NOT?: RolesScalarWhereInput | RolesScalarWhereInput[]
-    minimumYears?: IntNullableFilter<"Roles"> | number | null
-    id?: StringFilter<"Roles"> | string
-    companyId?: StringFilter<"Roles"> | string
-    title?: StringFilter<"Roles"> | string
-    description?: StringFilter<"Roles"> | string
-    country?: StringFilter<"Roles"> | string
-    language?: EnumRoleLanguageFilter<"Roles"> | RoleLanguage
-    currency?: StringNullableFilter<"Roles"> | string | null
-    salary?: StringNullableFilter<"Roles"> | string | null
-    skillsId?: StringNullableListFilter<"Roles">
-    createdAt?: DateTimeFilter<"Roles"> | Date | string
-    updatedAt?: DateTimeFilter<"Roles"> | Date | string
-    sentRolesId?: StringNullableFilter<"Roles"> | string | null
-    ready?: BoolFilter<"Roles"> | boolean
-    url?: StringNullableFilter<"Roles"> | string | null
   }
 
   export type SubscribersSkillsCreateManySubscribersInput = {
@@ -16106,76 +14613,6 @@ export namespace Prisma {
   export type SubscriberTopicsUncheckedUpdateManyWithoutTopicInput = {
     id?: IntFieldUpdateOperationsInput | number
     subscriberId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RolesCreateManyCompanyInput = {
-    minimumYears?: number | null
-    id?: string
-    title: string
-    description: string
-    country: string
-    language: RoleLanguage
-    currency?: string | null
-    salary?: string | null
-    skillsId?: RolesCreateskillsIdInput | string[]
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sentRolesId?: string | null
-    ready?: boolean
-    url?: string | null
-  }
-
-  export type RolesUpdateWithoutCompanyInput = {
-    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    country?: StringFieldUpdateOperationsInput | string
-    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skillsId?: RolesUpdateskillsIdInput | string[]
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ready?: BoolFieldUpdateOperationsInput | boolean
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
-    roleSkills?: RoleSkillsUpdateManyWithoutRolesNestedInput
-  }
-
-  export type RolesUncheckedUpdateWithoutCompanyInput = {
-    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    country?: StringFieldUpdateOperationsInput | string
-    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skillsId?: RolesUpdateskillsIdInput | string[]
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
-    ready?: BoolFieldUpdateOperationsInput | boolean
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    roleSkills?: RoleSkillsUncheckedUpdateManyWithoutRolesNestedInput
-  }
-
-  export type RolesUncheckedUpdateManyWithoutCompanyInput = {
-    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    country?: StringFieldUpdateOperationsInput | string
-    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skillsId?: RolesUpdateskillsIdInput | string[]
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
-    ready?: BoolFieldUpdateOperationsInput | boolean
-    url?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 

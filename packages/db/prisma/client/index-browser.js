@@ -15,11 +15,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 5.0.0
- * Query Engine version: 6a3747c37ff169c90047725a05a6ef02e32ac97e
+ * Query Engine version: 2804dc98259d2ea960602aca6b8e7fdc03c1758f
  */
 Prisma.prismaVersion = {
   client: "5.0.0",
-  engine: "6a3747c37ff169c90047725a05a6ef02e32ac97e"
+  engine: "2804dc98259d2ea960602aca6b8e7fdc03c1758f"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -123,7 +123,6 @@ exports.Prisma.SubscribersScalarFieldEnum = {
 exports.Prisma.RolesScalarFieldEnum = {
   minimumYears: 'minimumYears',
   id: 'id',
-  companyId: 'companyId',
   title: 'title',
   description: 'description',
   country: 'country',
@@ -135,7 +134,8 @@ exports.Prisma.RolesScalarFieldEnum = {
   updatedAt: 'updatedAt',
   sentRolesId: 'sentRolesId',
   ready: 'ready',
-  url: 'url'
+  url: 'url',
+  company: 'company'
 };
 
 exports.Prisma.RoleSkillsScalarFieldEnum = {
@@ -172,16 +172,6 @@ exports.Prisma.SubscriberTopicsScalarFieldEnum = {
 exports.Prisma.TopicsScalarFieldEnum = {
   id: 'id',
   name: 'name'
-};
-
-exports.Prisma.CompaniesScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  url: 'url',
-  logoUrl: 'logoUrl',
-  countryIcon: 'countryIcon',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.RolesSkillsViewScalarFieldEnum = {
@@ -234,7 +224,6 @@ exports.Prisma.ModelName = {
   SentRoles: 'SentRoles',
   SubscriberTopics: 'SubscriberTopics',
   Topics: 'Topics',
-  Companies: 'Companies',
   rolesSkillsView: 'rolesSkillsView'
 };
 
