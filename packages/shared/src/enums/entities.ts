@@ -3,4 +3,5 @@ export enum Entities {
   SubscriberTopics = 'SubscriberTopics',
   Topics = 'Topics',
   Roles = 'Roles',
+  Skills = 'Skills',
 }
