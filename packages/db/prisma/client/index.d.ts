@@ -45,7 +45,6 @@ export type RolesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultA
   name: "Roles"
   objects: {
     sentRoles: SentRolesPayload<ExtArgs> | null
-    roleSkills: RoleSkillsPayload<ExtArgs>[]
   }
   scalars: $Extensions.GetResult<{
     minimumYears: number | null
@@ -72,25 +71,6 @@ export type RolesPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultA
  * 
  */
 export type Roles = runtime.Types.DefaultSelection<RolesPayload>
-export type RoleSkillsPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-  name: "RoleSkills"
-  objects: {
-    roles: RolesPayload<ExtArgs>
-    skills: SkillsPayload<ExtArgs>
-  }
-  scalars: $Extensions.GetResult<{
-    id: number
-    roleId: string
-    skillId: number
-  }, ExtArgs["result"]["roleSkills"]>
-  composites: {}
-}
-
-/**
- * Model RoleSkills
- * 
- */
-export type RoleSkills = runtime.Types.DefaultSelection<RoleSkillsPayload>
 export type SubscribersSkillsPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
   name: "SubscribersSkills"
   objects: {
@@ -113,7 +93,6 @@ export type SubscribersSkills = runtime.Types.DefaultSelection<SubscribersSkills
 export type SkillsPayload<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
   name: "Skills"
   objects: {
-    rolesSkills: RoleSkillsPayload<ExtArgs>[]
     subscribersSkills: SubscribersSkillsPayload<ExtArgs>[]
   }
   scalars: $Extensions.GetResult<{
@@ -374,16 +353,6 @@ export class PrismaClient<
     * ```
     */
   get roles(): Prisma.RolesDelegate<ExtArgs>;
-
-  /**
-   * `prisma.roleSkills`: Exposes CRUD operations for the **RoleSkills** model.
-    * Example usage:
-    * ```ts
-    * // Fetch zero or more RoleSkills
-    * const roleSkills = await prisma.roleSkills.findMany()
-    * ```
-    */
-  get roleSkills(): Prisma.RoleSkillsDelegate<ExtArgs>;
 
   /**
    * `prisma.subscribersSkills`: Exposes CRUD operations for the **SubscribersSkills** model.
@@ -929,7 +898,6 @@ export namespace Prisma {
   export const ModelName: {
     Subscribers: 'Subscribers',
     Roles: 'Roles',
-    RoleSkills: 'RoleSkills',
     SubscribersSkills: 'SubscribersSkills',
     Skills: 'Skills',
     SentRoles: 'SentRoles',
@@ -952,7 +920,7 @@ export namespace Prisma {
 
   export type TypeMap<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     meta: {
-      modelProps: 'subscribers' | 'roles' | 'roleSkills' | 'subscribersSkills' | 'skills' | 'sentRoles' | 'subscriberTopics' | 'topics' | 'rolesSkillsView'
+      modelProps: 'subscribers' | 'roles' | 'subscribersSkills' | 'skills' | 'sentRoles' | 'subscriberTopics' | 'topics' | 'rolesSkillsView'
       txIsolationLevel: Prisma.TransactionIsolationLevel
     },
     model: {
@@ -1085,72 +1053,6 @@ export namespace Prisma {
           count: {
             args: Prisma.RolesCountArgs<ExtArgs>,
             result: $Utils.Optional<RolesCountAggregateOutputType> | number
-          }
-        }
-      }
-      RoleSkills: {
-        payload: RoleSkillsPayload<ExtArgs>
-        fields: Prisma.RoleSkillsFieldRefs
-        operations: {
-          findUnique: {
-            args: Prisma.RoleSkillsFindUniqueArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<RoleSkillsPayload> | null
-          }
-          findUniqueOrThrow: {
-            args: Prisma.RoleSkillsFindUniqueOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<RoleSkillsPayload>
-          }
-          findFirst: {
-            args: Prisma.RoleSkillsFindFirstArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<RoleSkillsPayload> | null
-          }
-          findFirstOrThrow: {
-            args: Prisma.RoleSkillsFindFirstOrThrowArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<RoleSkillsPayload>
-          }
-          findMany: {
-            args: Prisma.RoleSkillsFindManyArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<RoleSkillsPayload>[]
-          }
-          create: {
-            args: Prisma.RoleSkillsCreateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<RoleSkillsPayload>
-          }
-          createMany: {
-            args: Prisma.RoleSkillsCreateManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          delete: {
-            args: Prisma.RoleSkillsDeleteArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<RoleSkillsPayload>
-          }
-          update: {
-            args: Prisma.RoleSkillsUpdateArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<RoleSkillsPayload>
-          }
-          deleteMany: {
-            args: Prisma.RoleSkillsDeleteManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          updateMany: {
-            args: Prisma.RoleSkillsUpdateManyArgs<ExtArgs>,
-            result: Prisma.BatchPayload
-          }
-          upsert: {
-            args: Prisma.RoleSkillsUpsertArgs<ExtArgs>,
-            result: $Utils.PayloadToResult<RoleSkillsPayload>
-          }
-          aggregate: {
-            args: Prisma.RoleSkillsAggregateArgs<ExtArgs>,
-            result: $Utils.Optional<AggregateRoleSkills>
-          }
-          groupBy: {
-            args: Prisma.RoleSkillsGroupByArgs<ExtArgs>,
-            result: $Utils.Optional<RoleSkillsGroupByOutputType>[]
-          }
-          count: {
-            args: Prisma.RoleSkillsCountArgs<ExtArgs>,
-            result: $Utils.Optional<RoleSkillsCountAggregateOutputType> | number
           }
         }
       }
@@ -1746,52 +1648,15 @@ export namespace Prisma {
 
 
   /**
-   * Count Type RolesCountOutputType
-   */
-
-
-  export type RolesCountOutputType = {
-    roleSkills: number
-  }
-
-  export type RolesCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    roleSkills?: boolean | RolesCountOutputTypeCountRoleSkillsArgs
-  }
-
-  // Custom InputTypes
-
-  /**
-   * RolesCountOutputType without action
-   */
-  export type RolesCountOutputTypeArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RolesCountOutputType
-     */
-    select?: RolesCountOutputTypeSelect<ExtArgs> | null
-  }
-
-
-  /**
-   * RolesCountOutputType without action
-   */
-  export type RolesCountOutputTypeCountRoleSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    where?: RoleSkillsWhereInput
-  }
-
-
-
-  /**
    * Count Type SkillsCountOutputType
    */
 
 
   export type SkillsCountOutputType = {
-    rolesSkills: number
     subscribersSkills: number
   }
 
   export type SkillsCountOutputTypeSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    rolesSkills?: boolean | SkillsCountOutputTypeCountRolesSkillsArgs
     subscribersSkills?: boolean | SkillsCountOutputTypeCountSubscribersSkillsArgs
   }
 
@@ -1805,14 +1670,6 @@ export namespace Prisma {
      * Select specific fields to fetch from the SkillsCountOutputType
      */
     select?: SkillsCountOutputTypeSelect<ExtArgs> | null
-  }
-
-
-  /**
-   * SkillsCountOutputType without action
-   */
-  export type SkillsCountOutputTypeCountRolesSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    where?: RoleSkillsWhereInput
   }
 
 
@@ -3232,8 +3089,6 @@ export namespace Prisma {
     url?: boolean
     company?: boolean
     sentRoles?: boolean | Roles$sentRolesArgs<ExtArgs>
-    roleSkills?: boolean | Roles$roleSkillsArgs<ExtArgs>
-    _count?: boolean | RolesCountOutputTypeArgs<ExtArgs>
   }, ExtArgs["result"]["roles"]>
 
   export type RolesSelectScalar = {
@@ -3256,8 +3111,6 @@ export namespace Prisma {
 
   export type RolesInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
     sentRoles?: boolean | Roles$sentRolesArgs<ExtArgs>
-    roleSkills?: boolean | Roles$roleSkillsArgs<ExtArgs>
-    _count?: boolean | RolesCountOutputTypeArgs<ExtArgs>
   }
 
 
@@ -3635,8 +3488,6 @@ export namespace Prisma {
 
     sentRoles<T extends Roles$sentRolesArgs<ExtArgs> = {}>(args?: Subset<T, Roles$sentRolesArgs<ExtArgs>>): Prisma__SentRolesClient<$Types.GetResult<SentRolesPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
 
-    roleSkills<T extends Roles$roleSkillsArgs<ExtArgs> = {}>(args?: Subset<T, Roles$roleSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findMany'>| Null>;
-
     private get _document();
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
@@ -4009,27 +3860,6 @@ export namespace Prisma {
 
 
   /**
-   * Roles.roleSkills
-   */
-  export type Roles$roleSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
-    where?: RoleSkillsWhereInput
-    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
-    cursor?: RoleSkillsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RoleSkillsScalarFieldEnum | RoleSkillsScalarFieldEnum[]
-  }
-
-
-  /**
    * Roles without action
    */
   export type RolesArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
@@ -4041,945 +3871,6 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well.
      */
     include?: RolesInclude<ExtArgs> | null
-  }
-
-
-
-  /**
-   * Model RoleSkills
-   */
-
-
-  export type AggregateRoleSkills = {
-    _count: RoleSkillsCountAggregateOutputType | null
-    _avg: RoleSkillsAvgAggregateOutputType | null
-    _sum: RoleSkillsSumAggregateOutputType | null
-    _min: RoleSkillsMinAggregateOutputType | null
-    _max: RoleSkillsMaxAggregateOutputType | null
-  }
-
-  export type RoleSkillsAvgAggregateOutputType = {
-    id: number | null
-    skillId: number | null
-  }
-
-  export type RoleSkillsSumAggregateOutputType = {
-    id: number | null
-    skillId: number | null
-  }
-
-  export type RoleSkillsMinAggregateOutputType = {
-    id: number | null
-    roleId: string | null
-    skillId: number | null
-  }
-
-  export type RoleSkillsMaxAggregateOutputType = {
-    id: number | null
-    roleId: string | null
-    skillId: number | null
-  }
-
-  export type RoleSkillsCountAggregateOutputType = {
-    id: number
-    roleId: number
-    skillId: number
-    _all: number
-  }
-
-
-  export type RoleSkillsAvgAggregateInputType = {
-    id?: true
-    skillId?: true
-  }
-
-  export type RoleSkillsSumAggregateInputType = {
-    id?: true
-    skillId?: true
-  }
-
-  export type RoleSkillsMinAggregateInputType = {
-    id?: true
-    roleId?: true
-    skillId?: true
-  }
-
-  export type RoleSkillsMaxAggregateInputType = {
-    id?: true
-    roleId?: true
-    skillId?: true
-  }
-
-  export type RoleSkillsCountAggregateInputType = {
-    id?: true
-    roleId?: true
-    skillId?: true
-    _all?: true
-  }
-
-  export type RoleSkillsAggregateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which RoleSkills to aggregate.
-     */
-    where?: RoleSkillsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RoleSkills to fetch.
-     */
-    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the start position
-     */
-    cursor?: RoleSkillsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RoleSkills from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RoleSkills.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Count returned RoleSkills
-    **/
-    _count?: true | RoleSkillsCountAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to average
-    **/
-    _avg?: RoleSkillsAvgAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to sum
-    **/
-    _sum?: RoleSkillsSumAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the minimum value
-    **/
-    _min?: RoleSkillsMinAggregateInputType
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
-     * 
-     * Select which fields to find the maximum value
-    **/
-    _max?: RoleSkillsMaxAggregateInputType
-  }
-
-  export type GetRoleSkillsAggregateType<T extends RoleSkillsAggregateArgs> = {
-        [P in keyof T & keyof AggregateRoleSkills]: P extends '_count' | 'count'
-      ? T[P] extends true
-        ? number
-        : GetScalarType<T[P], AggregateRoleSkills[P]>
-      : GetScalarType<T[P], AggregateRoleSkills[P]>
-  }
-
-
-
-
-  export type RoleSkillsGroupByArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    where?: RoleSkillsWhereInput
-    orderBy?: RoleSkillsOrderByWithAggregationInput | RoleSkillsOrderByWithAggregationInput[]
-    by: RoleSkillsScalarFieldEnum[] | RoleSkillsScalarFieldEnum
-    having?: RoleSkillsScalarWhereWithAggregatesInput
-    take?: number
-    skip?: number
-    _count?: RoleSkillsCountAggregateInputType | true
-    _avg?: RoleSkillsAvgAggregateInputType
-    _sum?: RoleSkillsSumAggregateInputType
-    _min?: RoleSkillsMinAggregateInputType
-    _max?: RoleSkillsMaxAggregateInputType
-  }
-
-
-  export type RoleSkillsGroupByOutputType = {
-    id: number
-    roleId: string
-    skillId: number
-    _count: RoleSkillsCountAggregateOutputType | null
-    _avg: RoleSkillsAvgAggregateOutputType | null
-    _sum: RoleSkillsSumAggregateOutputType | null
-    _min: RoleSkillsMinAggregateOutputType | null
-    _max: RoleSkillsMaxAggregateOutputType | null
-  }
-
-  type GetRoleSkillsGroupByPayload<T extends RoleSkillsGroupByArgs> = Prisma.PrismaPromise<
-    Array<
-      PickEnumerable<RoleSkillsGroupByOutputType, T['by']> &
-        {
-          [P in ((keyof T) & (keyof RoleSkillsGroupByOutputType))]: P extends '_count'
-            ? T[P] extends boolean
-              ? number
-              : GetScalarType<T[P], RoleSkillsGroupByOutputType[P]>
-            : GetScalarType<T[P], RoleSkillsGroupByOutputType[P]>
-        }
-      >
-    >
-
-
-  export type RoleSkillsSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
-    id?: boolean
-    roleId?: boolean
-    skillId?: boolean
-    roles?: boolean | RolesArgs<ExtArgs>
-    skills?: boolean | SkillsArgs<ExtArgs>
-  }, ExtArgs["result"]["roleSkills"]>
-
-  export type RoleSkillsSelectScalar = {
-    id?: boolean
-    roleId?: boolean
-    skillId?: boolean
-  }
-
-  export type RoleSkillsInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    roles?: boolean | RolesArgs<ExtArgs>
-    skills?: boolean | SkillsArgs<ExtArgs>
-  }
-
-
-  type RoleSkillsGetPayload<S extends boolean | null | undefined | RoleSkillsArgs> = $Types.GetResult<RoleSkillsPayload, S>
-
-  type RoleSkillsCountArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = 
-    Omit<RoleSkillsFindManyArgs, 'select' | 'include'> & {
-      select?: RoleSkillsCountAggregateInputType | true
-    }
-
-  export interface RoleSkillsDelegate<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> {
-    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['RoleSkills'], meta: { name: 'RoleSkills' } }
-    /**
-     * Find zero or one RoleSkills that matches the filter.
-     * @param {RoleSkillsFindUniqueArgs} args - Arguments to find a RoleSkills
-     * @example
-     * // Get one RoleSkills
-     * const roleSkills = await prisma.roleSkills.findUnique({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUnique<T extends RoleSkillsFindUniqueArgs<ExtArgs>>(
-      args: SelectSubset<T, RoleSkillsFindUniqueArgs<ExtArgs>>
-    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findUnique'> | null, null, ExtArgs>
-
-    /**
-     * Find one RoleSkills that matches the filter or throw an error  with `error.code='P2025'` 
-     *     if no matches were found.
-     * @param {RoleSkillsFindUniqueOrThrowArgs} args - Arguments to find a RoleSkills
-     * @example
-     * // Get one RoleSkills
-     * const roleSkills = await prisma.roleSkills.findUniqueOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findUniqueOrThrow<T extends RoleSkillsFindUniqueOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, RoleSkillsFindUniqueOrThrowArgs<ExtArgs>>
-    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findUniqueOrThrow'>, never, ExtArgs>
-
-    /**
-     * Find the first RoleSkills that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RoleSkillsFindFirstArgs} args - Arguments to find a RoleSkills
-     * @example
-     * // Get one RoleSkills
-     * const roleSkills = await prisma.roleSkills.findFirst({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirst<T extends RoleSkillsFindFirstArgs<ExtArgs>>(
-      args?: SelectSubset<T, RoleSkillsFindFirstArgs<ExtArgs>>
-    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findFirst'> | null, null, ExtArgs>
-
-    /**
-     * Find the first RoleSkills that matches the filter or
-     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RoleSkillsFindFirstOrThrowArgs} args - Arguments to find a RoleSkills
-     * @example
-     * // Get one RoleSkills
-     * const roleSkills = await prisma.roleSkills.findFirstOrThrow({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-    **/
-    findFirstOrThrow<T extends RoleSkillsFindFirstOrThrowArgs<ExtArgs>>(
-      args?: SelectSubset<T, RoleSkillsFindFirstOrThrowArgs<ExtArgs>>
-    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findFirstOrThrow'>, never, ExtArgs>
-
-    /**
-     * Find zero or more RoleSkills that matches the filter.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RoleSkillsFindManyArgs=} args - Arguments to filter and select certain fields only.
-     * @example
-     * // Get all RoleSkills
-     * const roleSkills = await prisma.roleSkills.findMany()
-     * 
-     * // Get first 10 RoleSkills
-     * const roleSkills = await prisma.roleSkills.findMany({ take: 10 })
-     * 
-     * // Only select the `id`
-     * const roleSkillsWithIdOnly = await prisma.roleSkills.findMany({ select: { id: true } })
-     * 
-    **/
-    findMany<T extends RoleSkillsFindManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, RoleSkillsFindManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findMany'>>
-
-    /**
-     * Create a RoleSkills.
-     * @param {RoleSkillsCreateArgs} args - Arguments to create a RoleSkills.
-     * @example
-     * // Create one RoleSkills
-     * const RoleSkills = await prisma.roleSkills.create({
-     *   data: {
-     *     // ... data to create a RoleSkills
-     *   }
-     * })
-     * 
-    **/
-    create<T extends RoleSkillsCreateArgs<ExtArgs>>(
-      args: SelectSubset<T, RoleSkillsCreateArgs<ExtArgs>>
-    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'create'>, never, ExtArgs>
-
-    /**
-     * Create many RoleSkills.
-     *     @param {RoleSkillsCreateManyArgs} args - Arguments to create many RoleSkills.
-     *     @example
-     *     // Create many RoleSkills
-     *     const roleSkills = await prisma.roleSkills.createMany({
-     *       data: {
-     *         // ... provide data here
-     *       }
-     *     })
-     *     
-    **/
-    createMany<T extends RoleSkillsCreateManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, RoleSkillsCreateManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Delete a RoleSkills.
-     * @param {RoleSkillsDeleteArgs} args - Arguments to delete one RoleSkills.
-     * @example
-     * // Delete one RoleSkills
-     * const RoleSkills = await prisma.roleSkills.delete({
-     *   where: {
-     *     // ... filter to delete one RoleSkills
-     *   }
-     * })
-     * 
-    **/
-    delete<T extends RoleSkillsDeleteArgs<ExtArgs>>(
-      args: SelectSubset<T, RoleSkillsDeleteArgs<ExtArgs>>
-    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'delete'>, never, ExtArgs>
-
-    /**
-     * Update one RoleSkills.
-     * @param {RoleSkillsUpdateArgs} args - Arguments to update one RoleSkills.
-     * @example
-     * // Update one RoleSkills
-     * const roleSkills = await prisma.roleSkills.update({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    update<T extends RoleSkillsUpdateArgs<ExtArgs>>(
-      args: SelectSubset<T, RoleSkillsUpdateArgs<ExtArgs>>
-    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'update'>, never, ExtArgs>
-
-    /**
-     * Delete zero or more RoleSkills.
-     * @param {RoleSkillsDeleteManyArgs} args - Arguments to filter RoleSkills to delete.
-     * @example
-     * // Delete a few RoleSkills
-     * const { count } = await prisma.roleSkills.deleteMany({
-     *   where: {
-     *     // ... provide filter here
-     *   }
-     * })
-     * 
-    **/
-    deleteMany<T extends RoleSkillsDeleteManyArgs<ExtArgs>>(
-      args?: SelectSubset<T, RoleSkillsDeleteManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Update zero or more RoleSkills.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RoleSkillsUpdateManyArgs} args - Arguments to update one or more rows.
-     * @example
-     * // Update many RoleSkills
-     * const roleSkills = await prisma.roleSkills.updateMany({
-     *   where: {
-     *     // ... provide filter here
-     *   },
-     *   data: {
-     *     // ... provide data here
-     *   }
-     * })
-     * 
-    **/
-    updateMany<T extends RoleSkillsUpdateManyArgs<ExtArgs>>(
-      args: SelectSubset<T, RoleSkillsUpdateManyArgs<ExtArgs>>
-    ): Prisma.PrismaPromise<BatchPayload>
-
-    /**
-     * Create or update one RoleSkills.
-     * @param {RoleSkillsUpsertArgs} args - Arguments to update or create a RoleSkills.
-     * @example
-     * // Update or create a RoleSkills
-     * const roleSkills = await prisma.roleSkills.upsert({
-     *   create: {
-     *     // ... data to create a RoleSkills
-     *   },
-     *   update: {
-     *     // ... in case it already exists, update
-     *   },
-     *   where: {
-     *     // ... the filter for the RoleSkills we want to update
-     *   }
-     * })
-    **/
-    upsert<T extends RoleSkillsUpsertArgs<ExtArgs>>(
-      args: SelectSubset<T, RoleSkillsUpsertArgs<ExtArgs>>
-    ): Prisma__RoleSkillsClient<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'upsert'>, never, ExtArgs>
-
-    /**
-     * Count the number of RoleSkills.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RoleSkillsCountArgs} args - Arguments to filter RoleSkills to count.
-     * @example
-     * // Count the number of RoleSkills
-     * const count = await prisma.roleSkills.count({
-     *   where: {
-     *     // ... the filter for the RoleSkills we want to count
-     *   }
-     * })
-    **/
-    count<T extends RoleSkillsCountArgs>(
-      args?: Subset<T, RoleSkillsCountArgs>,
-    ): Prisma.PrismaPromise<
-      T extends $Utils.Record<'select', any>
-        ? T['select'] extends true
-          ? number
-          : GetScalarType<T['select'], RoleSkillsCountAggregateOutputType>
-        : number
-    >
-
-    /**
-     * Allows you to perform aggregations operations on a RoleSkills.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RoleSkillsAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
-     * @example
-     * // Ordered by age ascending
-     * // Where email contains prisma.io
-     * // Limited to the 10 users
-     * const aggregations = await prisma.user.aggregate({
-     *   _avg: {
-     *     age: true,
-     *   },
-     *   where: {
-     *     email: {
-     *       contains: "prisma.io",
-     *     },
-     *   },
-     *   orderBy: {
-     *     age: "asc",
-     *   },
-     *   take: 10,
-     * })
-    **/
-    aggregate<T extends RoleSkillsAggregateArgs>(args: Subset<T, RoleSkillsAggregateArgs>): Prisma.PrismaPromise<GetRoleSkillsAggregateType<T>>
-
-    /**
-     * Group by RoleSkills.
-     * Note, that providing `undefined` is treated as the value not being there.
-     * Read more here: https://pris.ly/d/null-undefined
-     * @param {RoleSkillsGroupByArgs} args - Group by arguments.
-     * @example
-     * // Group by city, order by createdAt, get count
-     * const result = await prisma.user.groupBy({
-     *   by: ['city', 'createdAt'],
-     *   orderBy: {
-     *     createdAt: true
-     *   },
-     *   _count: {
-     *     _all: true
-     *   },
-     * })
-     * 
-    **/
-    groupBy<
-      T extends RoleSkillsGroupByArgs,
-      HasSelectOrTake extends Or<
-        Extends<'skip', Keys<T>>,
-        Extends<'take', Keys<T>>
-      >,
-      OrderByArg extends True extends HasSelectOrTake
-        ? { orderBy: RoleSkillsGroupByArgs['orderBy'] }
-        : { orderBy?: RoleSkillsGroupByArgs['orderBy'] },
-      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
-      ByFields extends MaybeTupleToUnion<T['by']>,
-      ByValid extends Has<ByFields, OrderFields>,
-      HavingFields extends GetHavingFields<T['having']>,
-      HavingValid extends Has<ByFields, HavingFields>,
-      ByEmpty extends T['by'] extends never[] ? True : False,
-      InputErrors extends ByEmpty extends True
-      ? `Error: "by" must not be empty.`
-      : HavingValid extends False
-      ? {
-          [P in HavingFields]: P extends ByFields
-            ? never
-            : P extends string
-            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
-            : [
-                Error,
-                'Field ',
-                P,
-                ` in "having" needs to be provided in "by"`,
-              ]
-        }[HavingFields]
-      : 'take' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "take", you also need to provide "orderBy"'
-      : 'skip' extends Keys<T>
-      ? 'orderBy' extends Keys<T>
-        ? ByValid extends True
-          ? {}
-          : {
-              [P in OrderFields]: P extends ByFields
-                ? never
-                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-            }[OrderFields]
-        : 'Error: If you provide "skip", you also need to provide "orderBy"'
-      : ByValid extends True
-      ? {}
-      : {
-          [P in OrderFields]: P extends ByFields
-            ? never
-            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
-        }[OrderFields]
-    >(args: SubsetIntersection<T, RoleSkillsGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetRoleSkillsGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
-  /**
-   * Fields of the RoleSkills model
-   */
-  readonly fields: RoleSkillsFieldRefs;
-  }
-
-  /**
-   * The delegate class that acts as a "Promise-like" for RoleSkills.
-   * Why is this prefixed with `Prisma__`?
-   * Because we want to prevent naming conflicts as mentioned in
-   * https://github.com/prisma/prisma-client-js/issues/707
-   */
-  export class Prisma__RoleSkillsClient<T, Null = never, ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> implements Prisma.PrismaPromise<T> {
-    private readonly _dmmf;
-    private readonly _queryType;
-    private readonly _rootField;
-    private readonly _clientMethod;
-    private readonly _args;
-    private readonly _dataPath;
-    private readonly _errorFormat;
-    private readonly _measurePerformance?;
-    private _isList;
-    private _callsite;
-    private _requestPromise?;
-    readonly [Symbol.toStringTag]: 'PrismaPromise';
-    constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
-
-    roles<T extends RolesArgs<ExtArgs> = {}>(args?: Subset<T, RolesArgs<ExtArgs>>): Prisma__RolesClient<$Types.GetResult<RolesPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
-
-    skills<T extends SkillsArgs<ExtArgs> = {}>(args?: Subset<T, SkillsArgs<ExtArgs>>): Prisma__SkillsClient<$Types.GetResult<SkillsPayload<ExtArgs>, T, 'findUnique'> | Null, never, ExtArgs>;
-
-    private get _document();
-    /**
-     * Attaches callbacks for the resolution and/or rejection of the Promise.
-     * @param onfulfilled The callback to execute when the Promise is resolved.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of which ever callback is executed.
-     */
-    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): Promise<TResult1 | TResult2>;
-    /**
-     * Attaches a callback for only the rejection of the Promise.
-     * @param onrejected The callback to execute when the Promise is rejected.
-     * @returns A Promise for the completion of the callback.
-     */
-    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): Promise<T | TResult>;
-    /**
-     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
-     * resolved value cannot be modified from the callback.
-     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
-     * @returns A Promise for the completion of the callback.
-     */
-    finally(onfinally?: (() => void) | undefined | null): Promise<T>;
-  }
-
-
-
-  /**
-   * Fields of the RoleSkills model
-   */ 
-  interface RoleSkillsFieldRefs {
-    readonly id: FieldRef<"RoleSkills", 'Int'>
-    readonly roleId: FieldRef<"RoleSkills", 'String'>
-    readonly skillId: FieldRef<"RoleSkills", 'Int'>
-  }
-    
-
-  // Custom InputTypes
-
-  /**
-   * RoleSkills findUnique
-   */
-  export type RoleSkillsFindUniqueArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
-    /**
-     * Filter, which RoleSkills to fetch.
-     */
-    where: RoleSkillsWhereUniqueInput
-  }
-
-
-  /**
-   * RoleSkills findUniqueOrThrow
-   */
-  export type RoleSkillsFindUniqueOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
-    /**
-     * Filter, which RoleSkills to fetch.
-     */
-    where: RoleSkillsWhereUniqueInput
-  }
-
-
-  /**
-   * RoleSkills findFirst
-   */
-  export type RoleSkillsFindFirstArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
-    /**
-     * Filter, which RoleSkills to fetch.
-     */
-    where?: RoleSkillsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RoleSkills to fetch.
-     */
-    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for RoleSkills.
-     */
-    cursor?: RoleSkillsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RoleSkills from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RoleSkills.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of RoleSkills.
-     */
-    distinct?: RoleSkillsScalarFieldEnum | RoleSkillsScalarFieldEnum[]
-  }
-
-
-  /**
-   * RoleSkills findFirstOrThrow
-   */
-  export type RoleSkillsFindFirstOrThrowArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
-    /**
-     * Filter, which RoleSkills to fetch.
-     */
-    where?: RoleSkillsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RoleSkills to fetch.
-     */
-    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for searching for RoleSkills.
-     */
-    cursor?: RoleSkillsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RoleSkills from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RoleSkills.
-     */
-    skip?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
-     * 
-     * Filter by unique combinations of RoleSkills.
-     */
-    distinct?: RoleSkillsScalarFieldEnum | RoleSkillsScalarFieldEnum[]
-  }
-
-
-  /**
-   * RoleSkills findMany
-   */
-  export type RoleSkillsFindManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
-    /**
-     * Filter, which RoleSkills to fetch.
-     */
-    where?: RoleSkillsWhereInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
-     * 
-     * Determine the order of RoleSkills to fetch.
-     */
-    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
-     * 
-     * Sets the position for listing RoleSkills.
-     */
-    cursor?: RoleSkillsWhereUniqueInput
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Take `±n` RoleSkills from the position of the cursor.
-     */
-    take?: number
-    /**
-     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
-     * 
-     * Skip the first `n` RoleSkills.
-     */
-    skip?: number
-    distinct?: RoleSkillsScalarFieldEnum | RoleSkillsScalarFieldEnum[]
-  }
-
-
-  /**
-   * RoleSkills create
-   */
-  export type RoleSkillsCreateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
-    /**
-     * The data needed to create a RoleSkills.
-     */
-    data: XOR<RoleSkillsCreateInput, RoleSkillsUncheckedCreateInput>
-  }
-
-
-  /**
-   * RoleSkills createMany
-   */
-  export type RoleSkillsCreateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to create many RoleSkills.
-     */
-    data: RoleSkillsCreateManyInput | RoleSkillsCreateManyInput[]
-    skipDuplicates?: boolean
-  }
-
-
-  /**
-   * RoleSkills update
-   */
-  export type RoleSkillsUpdateArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
-    /**
-     * The data needed to update a RoleSkills.
-     */
-    data: XOR<RoleSkillsUpdateInput, RoleSkillsUncheckedUpdateInput>
-    /**
-     * Choose, which RoleSkills to update.
-     */
-    where: RoleSkillsWhereUniqueInput
-  }
-
-
-  /**
-   * RoleSkills updateMany
-   */
-  export type RoleSkillsUpdateManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * The data used to update RoleSkills.
-     */
-    data: XOR<RoleSkillsUpdateManyMutationInput, RoleSkillsUncheckedUpdateManyInput>
-    /**
-     * Filter which RoleSkills to update
-     */
-    where?: RoleSkillsWhereInput
-  }
-
-
-  /**
-   * RoleSkills upsert
-   */
-  export type RoleSkillsUpsertArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
-    /**
-     * The filter to search for the RoleSkills to update in case it exists.
-     */
-    where: RoleSkillsWhereUniqueInput
-    /**
-     * In case the RoleSkills found by the `where` argument doesn't exist, create a new RoleSkills with this data.
-     */
-    create: XOR<RoleSkillsCreateInput, RoleSkillsUncheckedCreateInput>
-    /**
-     * In case the RoleSkills was found with the provided `where` argument, update it with this data.
-     */
-    update: XOR<RoleSkillsUpdateInput, RoleSkillsUncheckedUpdateInput>
-  }
-
-
-  /**
-   * RoleSkills delete
-   */
-  export type RoleSkillsDeleteArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
-    /**
-     * Filter which RoleSkills to delete.
-     */
-    where: RoleSkillsWhereUniqueInput
-  }
-
-
-  /**
-   * RoleSkills deleteMany
-   */
-  export type RoleSkillsDeleteManyArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Filter which RoleSkills to delete
-     */
-    where?: RoleSkillsWhereInput
-  }
-
-
-  /**
-   * RoleSkills without action
-   */
-  export type RoleSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
   }
 
 
@@ -6099,7 +4990,6 @@ export namespace Prisma {
   export type SkillsSelect<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
     name?: boolean
-    rolesSkills?: boolean | Skills$rolesSkillsArgs<ExtArgs>
     subscribersSkills?: boolean | Skills$subscribersSkillsArgs<ExtArgs>
     _count?: boolean | SkillsCountOutputTypeArgs<ExtArgs>
   }, ExtArgs["result"]["skills"]>
@@ -6110,7 +5000,6 @@ export namespace Prisma {
   }
 
   export type SkillsInclude<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    rolesSkills?: boolean | Skills$rolesSkillsArgs<ExtArgs>
     subscribersSkills?: boolean | Skills$subscribersSkillsArgs<ExtArgs>
     _count?: boolean | SkillsCountOutputTypeArgs<ExtArgs>
   }
@@ -6488,8 +5377,6 @@ export namespace Prisma {
     readonly [Symbol.toStringTag]: 'PrismaPromise';
     constructor(_dmmf: runtime.DMMFClass, _queryType: 'query' | 'mutation', _rootField: string, _clientMethod: string, _args: any, _dataPath: string[], _errorFormat: ErrorFormat, _measurePerformance?: boolean | undefined, _isList?: boolean);
 
-    rolesSkills<T extends Skills$rolesSkillsArgs<ExtArgs> = {}>(args?: Subset<T, Skills$rolesSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<RoleSkillsPayload<ExtArgs>, T, 'findMany'>| Null>;
-
     subscribersSkills<T extends Skills$subscribersSkillsArgs<ExtArgs> = {}>(args?: Subset<T, Skills$subscribersSkillsArgs<ExtArgs>>): Prisma.PrismaPromise<$Types.GetResult<SubscribersSkillsPayload<ExtArgs>, T, 'findMany'>| Null>;
 
     private get _document();
@@ -6831,27 +5718,6 @@ export namespace Prisma {
      * Filter which Skills to delete
      */
     where?: SkillsWhereInput
-  }
-
-
-  /**
-   * Skills.rolesSkills
-   */
-  export type Skills$rolesSkillsArgs<ExtArgs extends $Extensions.Args = $Extensions.DefaultArgs> = {
-    /**
-     * Select specific fields to fetch from the RoleSkills
-     */
-    select?: RoleSkillsSelect<ExtArgs> | null
-    /**
-     * Choose, which related nodes to fetch as well.
-     */
-    include?: RoleSkillsInclude<ExtArgs> | null
-    where?: RoleSkillsWhereInput
-    orderBy?: RoleSkillsOrderByWithRelationInput | RoleSkillsOrderByWithRelationInput[]
-    cursor?: RoleSkillsWhereUniqueInput
-    take?: number
-    skip?: number
-    distinct?: RoleSkillsScalarFieldEnum | RoleSkillsScalarFieldEnum[]
   }
 
 
@@ -10725,15 +9591,6 @@ export namespace Prisma {
   export type RolesScalarFieldEnum = (typeof RolesScalarFieldEnum)[keyof typeof RolesScalarFieldEnum]
 
 
-  export const RoleSkillsScalarFieldEnum: {
-    id: 'id',
-    roleId: 'roleId',
-    skillId: 'skillId'
-  };
-
-  export type RoleSkillsScalarFieldEnum = (typeof RoleSkillsScalarFieldEnum)[keyof typeof RoleSkillsScalarFieldEnum]
-
-
   export const SubscribersSkillsScalarFieldEnum: {
     id: 'id',
     subscriberId: 'subscriberId',
@@ -11036,7 +9893,6 @@ export namespace Prisma {
     url?: StringNullableFilter<"Roles"> | string | null
     company?: StringNullableFilter<"Roles"> | string | null
     sentRoles?: XOR<SentRolesNullableRelationFilter, SentRolesWhereInput> | null
-    roleSkills?: RoleSkillsListRelationFilter
   }
 
   export type RolesOrderByWithRelationInput = {
@@ -11056,7 +9912,6 @@ export namespace Prisma {
     url?: SortOrderInput | SortOrder
     company?: SortOrderInput | SortOrder
     sentRoles?: SentRolesOrderByWithRelationInput
-    roleSkills?: RoleSkillsOrderByRelationAggregateInput
   }
 
   export type RolesWhereUniqueInput = Prisma.AtLeast<{
@@ -11079,7 +9934,6 @@ export namespace Prisma {
     url?: StringNullableFilter<"Roles"> | string | null
     company?: StringNullableFilter<"Roles"> | string | null
     sentRoles?: XOR<SentRolesNullableRelationFilter, SentRolesWhereInput> | null
-    roleSkills?: RoleSkillsListRelationFilter
   }, "id" | "sentRolesId">
 
   export type RolesOrderByWithAggregationInput = {
@@ -11124,56 +9978,6 @@ export namespace Prisma {
     ready?: BoolWithAggregatesFilter<"Roles"> | boolean
     url?: StringNullableWithAggregatesFilter<"Roles"> | string | null
     company?: StringNullableWithAggregatesFilter<"Roles"> | string | null
-  }
-
-  export type RoleSkillsWhereInput = {
-    AND?: RoleSkillsWhereInput | RoleSkillsWhereInput[]
-    OR?: RoleSkillsWhereInput[]
-    NOT?: RoleSkillsWhereInput | RoleSkillsWhereInput[]
-    id?: IntFilter<"RoleSkills"> | number
-    roleId?: StringFilter<"RoleSkills"> | string
-    skillId?: IntFilter<"RoleSkills"> | number
-    roles?: XOR<RolesRelationFilter, RolesWhereInput>
-    skills?: XOR<SkillsRelationFilter, SkillsWhereInput>
-  }
-
-  export type RoleSkillsOrderByWithRelationInput = {
-    id?: SortOrder
-    roleId?: SortOrder
-    skillId?: SortOrder
-    roles?: RolesOrderByWithRelationInput
-    skills?: SkillsOrderByWithRelationInput
-  }
-
-  export type RoleSkillsWhereUniqueInput = Prisma.AtLeast<{
-    id?: number
-    AND?: RoleSkillsWhereInput | RoleSkillsWhereInput[]
-    OR?: RoleSkillsWhereInput[]
-    NOT?: RoleSkillsWhereInput | RoleSkillsWhereInput[]
-    roleId?: StringFilter<"RoleSkills"> | string
-    skillId?: IntFilter<"RoleSkills"> | number
-    roles?: XOR<RolesRelationFilter, RolesWhereInput>
-    skills?: XOR<SkillsRelationFilter, SkillsWhereInput>
-  }, "id">
-
-  export type RoleSkillsOrderByWithAggregationInput = {
-    id?: SortOrder
-    roleId?: SortOrder
-    skillId?: SortOrder
-    _count?: RoleSkillsCountOrderByAggregateInput
-    _avg?: RoleSkillsAvgOrderByAggregateInput
-    _max?: RoleSkillsMaxOrderByAggregateInput
-    _min?: RoleSkillsMinOrderByAggregateInput
-    _sum?: RoleSkillsSumOrderByAggregateInput
-  }
-
-  export type RoleSkillsScalarWhereWithAggregatesInput = {
-    AND?: RoleSkillsScalarWhereWithAggregatesInput | RoleSkillsScalarWhereWithAggregatesInput[]
-    OR?: RoleSkillsScalarWhereWithAggregatesInput[]
-    NOT?: RoleSkillsScalarWhereWithAggregatesInput | RoleSkillsScalarWhereWithAggregatesInput[]
-    id?: IntWithAggregatesFilter<"RoleSkills"> | number
-    roleId?: StringWithAggregatesFilter<"RoleSkills"> | string
-    skillId?: IntWithAggregatesFilter<"RoleSkills"> | number
   }
 
   export type SubscribersSkillsWhereInput = {
@@ -11232,14 +10036,12 @@ export namespace Prisma {
     NOT?: SkillsWhereInput | SkillsWhereInput[]
     id?: IntFilter<"Skills"> | number
     name?: StringFilter<"Skills"> | string
-    rolesSkills?: RoleSkillsListRelationFilter
     subscribersSkills?: SubscribersSkillsListRelationFilter
   }
 
   export type SkillsOrderByWithRelationInput = {
     id?: SortOrder
     name?: SortOrder
-    rolesSkills?: RoleSkillsOrderByRelationAggregateInput
     subscribersSkills?: SubscribersSkillsOrderByRelationAggregateInput
   }
 
@@ -11249,7 +10051,6 @@ export namespace Prisma {
     OR?: SkillsWhereInput[]
     NOT?: SkillsWhereInput | SkillsWhereInput[]
     name?: StringFilter<"Skills"> | string
-    rolesSkills?: RoleSkillsListRelationFilter
     subscribersSkills?: SubscribersSkillsListRelationFilter
   }, "id">
 
@@ -11641,7 +10442,6 @@ export namespace Prisma {
     url?: string | null
     company?: string | null
     sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
-    roleSkills?: RoleSkillsCreateNestedManyWithoutRolesInput
   }
 
   export type RolesUncheckedCreateInput = {
@@ -11660,7 +10460,6 @@ export namespace Prisma {
     ready?: boolean
     url?: string | null
     company?: string | null
-    roleSkills?: RoleSkillsUncheckedCreateNestedManyWithoutRolesInput
   }
 
   export type RolesUpdateInput = {
@@ -11679,7 +10478,6 @@ export namespace Prisma {
     url?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
     sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
-    roleSkills?: RoleSkillsUpdateManyWithoutRolesNestedInput
   }
 
   export type RolesUncheckedUpdateInput = {
@@ -11698,7 +10496,6 @@ export namespace Prisma {
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
-    roleSkills?: RoleSkillsUncheckedUpdateManyWithoutRolesNestedInput
   }
 
   export type RolesCreateManyInput = {
@@ -11754,46 +10551,6 @@ export namespace Prisma {
     company?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
-  export type RoleSkillsCreateInput = {
-    id: number
-    roles: RolesCreateNestedOneWithoutRoleSkillsInput
-    skills: SkillsCreateNestedOneWithoutRolesSkillsInput
-  }
-
-  export type RoleSkillsUncheckedCreateInput = {
-    id: number
-    roleId: string
-    skillId: number
-  }
-
-  export type RoleSkillsUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    roles?: RolesUpdateOneRequiredWithoutRoleSkillsNestedInput
-    skills?: SkillsUpdateOneRequiredWithoutRolesSkillsNestedInput
-  }
-
-  export type RoleSkillsUncheckedUpdateInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    roleId?: StringFieldUpdateOperationsInput | string
-    skillId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type RoleSkillsCreateManyInput = {
-    id: number
-    roleId: string
-    skillId: number
-  }
-
-  export type RoleSkillsUpdateManyMutationInput = {
-    id?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type RoleSkillsUncheckedUpdateManyInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    roleId?: StringFieldUpdateOperationsInput | string
-    skillId?: IntFieldUpdateOperationsInput | number
-  }
-
   export type SubscribersSkillsCreateInput = {
     id: number
     subscribers: SubscribersCreateNestedOneWithoutSubscriberSkillsInput
@@ -11837,28 +10594,24 @@ export namespace Prisma {
   export type SkillsCreateInput = {
     id: number
     name: string
-    rolesSkills?: RoleSkillsCreateNestedManyWithoutSkillsInput
     subscribersSkills?: SubscribersSkillsCreateNestedManyWithoutSkillsInput
   }
 
   export type SkillsUncheckedCreateInput = {
     id: number
     name: string
-    rolesSkills?: RoleSkillsUncheckedCreateNestedManyWithoutSkillsInput
     subscribersSkills?: SubscribersSkillsUncheckedCreateNestedManyWithoutSkillsInput
   }
 
   export type SkillsUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    rolesSkills?: RoleSkillsUpdateManyWithoutSkillsNestedInput
     subscribersSkills?: SubscribersSkillsUpdateManyWithoutSkillsNestedInput
   }
 
   export type SkillsUncheckedUpdateInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    rolesSkills?: RoleSkillsUncheckedUpdateManyWithoutSkillsNestedInput
     subscribersSkills?: SubscribersSkillsUncheckedUpdateManyWithoutSkillsNestedInput
   }
 
@@ -12402,16 +11155,6 @@ export namespace Prisma {
     isNot?: SentRolesWhereInput | null
   }
 
-  export type RoleSkillsListRelationFilter = {
-    every?: RoleSkillsWhereInput
-    some?: RoleSkillsWhereInput
-    none?: RoleSkillsWhereInput
-  }
-
-  export type RoleSkillsOrderByRelationAggregateInput = {
-    _count?: SortOrder
-  }
-
   export type RolesCountOrderByAggregateInput = {
     minimumYears?: SortOrder
     id?: SortOrder
@@ -12509,63 +11252,14 @@ export namespace Prisma {
     not?: NestedIntFilter<$PrismaModel> | number
   }
 
-  export type RolesRelationFilter = {
-    is?: RolesWhereInput
-    isNot?: RolesWhereInput
+  export type SubscribersRelationFilter = {
+    is?: SubscribersWhereInput
+    isNot?: SubscribersWhereInput
   }
 
   export type SkillsRelationFilter = {
     is?: SkillsWhereInput
     isNot?: SkillsWhereInput
-  }
-
-  export type RoleSkillsCountOrderByAggregateInput = {
-    id?: SortOrder
-    roleId?: SortOrder
-    skillId?: SortOrder
-  }
-
-  export type RoleSkillsAvgOrderByAggregateInput = {
-    id?: SortOrder
-    skillId?: SortOrder
-  }
-
-  export type RoleSkillsMaxOrderByAggregateInput = {
-    id?: SortOrder
-    roleId?: SortOrder
-    skillId?: SortOrder
-  }
-
-  export type RoleSkillsMinOrderByAggregateInput = {
-    id?: SortOrder
-    roleId?: SortOrder
-    skillId?: SortOrder
-  }
-
-  export type RoleSkillsSumOrderByAggregateInput = {
-    id?: SortOrder
-    skillId?: SortOrder
-  }
-
-  export type IntWithAggregatesFilter<$PrismaModel = never> = {
-    equals?: number | IntFieldRefInput<$PrismaModel>
-    in?: number[] | ListIntFieldRefInput<$PrismaModel>
-    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
-    lt?: number | IntFieldRefInput<$PrismaModel>
-    lte?: number | IntFieldRefInput<$PrismaModel>
-    gt?: number | IntFieldRefInput<$PrismaModel>
-    gte?: number | IntFieldRefInput<$PrismaModel>
-    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
-    _count?: NestedIntFilter<$PrismaModel>
-    _avg?: NestedFloatFilter<$PrismaModel>
-    _sum?: NestedIntFilter<$PrismaModel>
-    _min?: NestedIntFilter<$PrismaModel>
-    _max?: NestedIntFilter<$PrismaModel>
-  }
-
-  export type SubscribersRelationFilter = {
-    is?: SubscribersWhereInput
-    isNot?: SubscribersWhereInput
   }
 
   export type SubscribersSkillsCountOrderByAggregateInput = {
@@ -12594,6 +11288,22 @@ export namespace Prisma {
   export type SubscribersSkillsSumOrderByAggregateInput = {
     id?: SortOrder
     skillId?: SortOrder
+  }
+
+  export type IntWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | IntFieldRefInput<$PrismaModel>
+    in?: number[] | ListIntFieldRefInput<$PrismaModel>
+    notIn?: number[] | ListIntFieldRefInput<$PrismaModel>
+    lt?: number | IntFieldRefInput<$PrismaModel>
+    lte?: number | IntFieldRefInput<$PrismaModel>
+    gt?: number | IntFieldRefInput<$PrismaModel>
+    gte?: number | IntFieldRefInput<$PrismaModel>
+    not?: NestedIntWithAggregatesFilter<$PrismaModel> | number
+    _count?: NestedIntFilter<$PrismaModel>
+    _avg?: NestedFloatFilter<$PrismaModel>
+    _sum?: NestedIntFilter<$PrismaModel>
+    _min?: NestedIntFilter<$PrismaModel>
+    _max?: NestedIntFilter<$PrismaModel>
   }
 
   export type SkillsCountOrderByAggregateInput = {
@@ -12922,20 +11632,6 @@ export namespace Prisma {
     connect?: SentRolesWhereUniqueInput
   }
 
-  export type RoleSkillsCreateNestedManyWithoutRolesInput = {
-    create?: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput> | RoleSkillsCreateWithoutRolesInput[] | RoleSkillsUncheckedCreateWithoutRolesInput[]
-    connectOrCreate?: RoleSkillsCreateOrConnectWithoutRolesInput | RoleSkillsCreateOrConnectWithoutRolesInput[]
-    createMany?: RoleSkillsCreateManyRolesInputEnvelope
-    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-  }
-
-  export type RoleSkillsUncheckedCreateNestedManyWithoutRolesInput = {
-    create?: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput> | RoleSkillsCreateWithoutRolesInput[] | RoleSkillsUncheckedCreateWithoutRolesInput[]
-    connectOrCreate?: RoleSkillsCreateOrConnectWithoutRolesInput | RoleSkillsCreateOrConnectWithoutRolesInput[]
-    createMany?: RoleSkillsCreateManyRolesInputEnvelope
-    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-  }
-
   export type NullableIntFieldUpdateOperationsInput = {
     set?: number | null
     increment?: number
@@ -12963,70 +11659,6 @@ export namespace Prisma {
     update?: XOR<XOR<SentRolesUpdateToOneWithWhereWithoutRoleInput, SentRolesUpdateWithoutRoleInput>, SentRolesUncheckedUpdateWithoutRoleInput>
   }
 
-  export type RoleSkillsUpdateManyWithoutRolesNestedInput = {
-    create?: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput> | RoleSkillsCreateWithoutRolesInput[] | RoleSkillsUncheckedCreateWithoutRolesInput[]
-    connectOrCreate?: RoleSkillsCreateOrConnectWithoutRolesInput | RoleSkillsCreateOrConnectWithoutRolesInput[]
-    upsert?: RoleSkillsUpsertWithWhereUniqueWithoutRolesInput | RoleSkillsUpsertWithWhereUniqueWithoutRolesInput[]
-    createMany?: RoleSkillsCreateManyRolesInputEnvelope
-    set?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    disconnect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    delete?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    update?: RoleSkillsUpdateWithWhereUniqueWithoutRolesInput | RoleSkillsUpdateWithWhereUniqueWithoutRolesInput[]
-    updateMany?: RoleSkillsUpdateManyWithWhereWithoutRolesInput | RoleSkillsUpdateManyWithWhereWithoutRolesInput[]
-    deleteMany?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
-  }
-
-  export type RoleSkillsUncheckedUpdateManyWithoutRolesNestedInput = {
-    create?: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput> | RoleSkillsCreateWithoutRolesInput[] | RoleSkillsUncheckedCreateWithoutRolesInput[]
-    connectOrCreate?: RoleSkillsCreateOrConnectWithoutRolesInput | RoleSkillsCreateOrConnectWithoutRolesInput[]
-    upsert?: RoleSkillsUpsertWithWhereUniqueWithoutRolesInput | RoleSkillsUpsertWithWhereUniqueWithoutRolesInput[]
-    createMany?: RoleSkillsCreateManyRolesInputEnvelope
-    set?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    disconnect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    delete?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    update?: RoleSkillsUpdateWithWhereUniqueWithoutRolesInput | RoleSkillsUpdateWithWhereUniqueWithoutRolesInput[]
-    updateMany?: RoleSkillsUpdateManyWithWhereWithoutRolesInput | RoleSkillsUpdateManyWithWhereWithoutRolesInput[]
-    deleteMany?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
-  }
-
-  export type RolesCreateNestedOneWithoutRoleSkillsInput = {
-    create?: XOR<RolesCreateWithoutRoleSkillsInput, RolesUncheckedCreateWithoutRoleSkillsInput>
-    connectOrCreate?: RolesCreateOrConnectWithoutRoleSkillsInput
-    connect?: RolesWhereUniqueInput
-  }
-
-  export type SkillsCreateNestedOneWithoutRolesSkillsInput = {
-    create?: XOR<SkillsCreateWithoutRolesSkillsInput, SkillsUncheckedCreateWithoutRolesSkillsInput>
-    connectOrCreate?: SkillsCreateOrConnectWithoutRolesSkillsInput
-    connect?: SkillsWhereUniqueInput
-  }
-
-  export type IntFieldUpdateOperationsInput = {
-    set?: number
-    increment?: number
-    decrement?: number
-    multiply?: number
-    divide?: number
-  }
-
-  export type RolesUpdateOneRequiredWithoutRoleSkillsNestedInput = {
-    create?: XOR<RolesCreateWithoutRoleSkillsInput, RolesUncheckedCreateWithoutRoleSkillsInput>
-    connectOrCreate?: RolesCreateOrConnectWithoutRoleSkillsInput
-    upsert?: RolesUpsertWithoutRoleSkillsInput
-    connect?: RolesWhereUniqueInput
-    update?: XOR<XOR<RolesUpdateToOneWithWhereWithoutRoleSkillsInput, RolesUpdateWithoutRoleSkillsInput>, RolesUncheckedUpdateWithoutRoleSkillsInput>
-  }
-
-  export type SkillsUpdateOneRequiredWithoutRolesSkillsNestedInput = {
-    create?: XOR<SkillsCreateWithoutRolesSkillsInput, SkillsUncheckedCreateWithoutRolesSkillsInput>
-    connectOrCreate?: SkillsCreateOrConnectWithoutRolesSkillsInput
-    upsert?: SkillsUpsertWithoutRolesSkillsInput
-    connect?: SkillsWhereUniqueInput
-    update?: XOR<XOR<SkillsUpdateToOneWithWhereWithoutRolesSkillsInput, SkillsUpdateWithoutRolesSkillsInput>, SkillsUncheckedUpdateWithoutRolesSkillsInput>
-  }
-
   export type SubscribersCreateNestedOneWithoutSubscriberSkillsInput = {
     create?: XOR<SubscribersCreateWithoutSubscriberSkillsInput, SubscribersUncheckedCreateWithoutSubscriberSkillsInput>
     connectOrCreate?: SubscribersCreateOrConnectWithoutSubscriberSkillsInput
@@ -13037,6 +11669,14 @@ export namespace Prisma {
     create?: XOR<SkillsCreateWithoutSubscribersSkillsInput, SkillsUncheckedCreateWithoutSubscribersSkillsInput>
     connectOrCreate?: SkillsCreateOrConnectWithoutSubscribersSkillsInput
     connect?: SkillsWhereUniqueInput
+  }
+
+  export type IntFieldUpdateOperationsInput = {
+    set?: number
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
   }
 
   export type SubscribersUpdateOneRequiredWithoutSubscriberSkillsNestedInput = {
@@ -13055,13 +11695,6 @@ export namespace Prisma {
     update?: XOR<XOR<SkillsUpdateToOneWithWhereWithoutSubscribersSkillsInput, SkillsUpdateWithoutSubscribersSkillsInput>, SkillsUncheckedUpdateWithoutSubscribersSkillsInput>
   }
 
-  export type RoleSkillsCreateNestedManyWithoutSkillsInput = {
-    create?: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput> | RoleSkillsCreateWithoutSkillsInput[] | RoleSkillsUncheckedCreateWithoutSkillsInput[]
-    connectOrCreate?: RoleSkillsCreateOrConnectWithoutSkillsInput | RoleSkillsCreateOrConnectWithoutSkillsInput[]
-    createMany?: RoleSkillsCreateManySkillsInputEnvelope
-    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-  }
-
   export type SubscribersSkillsCreateNestedManyWithoutSkillsInput = {
     create?: XOR<SubscribersSkillsCreateWithoutSkillsInput, SubscribersSkillsUncheckedCreateWithoutSkillsInput> | SubscribersSkillsCreateWithoutSkillsInput[] | SubscribersSkillsUncheckedCreateWithoutSkillsInput[]
     connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSkillsInput | SubscribersSkillsCreateOrConnectWithoutSkillsInput[]
@@ -13069,32 +11702,11 @@ export namespace Prisma {
     connect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
   }
 
-  export type RoleSkillsUncheckedCreateNestedManyWithoutSkillsInput = {
-    create?: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput> | RoleSkillsCreateWithoutSkillsInput[] | RoleSkillsUncheckedCreateWithoutSkillsInput[]
-    connectOrCreate?: RoleSkillsCreateOrConnectWithoutSkillsInput | RoleSkillsCreateOrConnectWithoutSkillsInput[]
-    createMany?: RoleSkillsCreateManySkillsInputEnvelope
-    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-  }
-
   export type SubscribersSkillsUncheckedCreateNestedManyWithoutSkillsInput = {
     create?: XOR<SubscribersSkillsCreateWithoutSkillsInput, SubscribersSkillsUncheckedCreateWithoutSkillsInput> | SubscribersSkillsCreateWithoutSkillsInput[] | SubscribersSkillsUncheckedCreateWithoutSkillsInput[]
     connectOrCreate?: SubscribersSkillsCreateOrConnectWithoutSkillsInput | SubscribersSkillsCreateOrConnectWithoutSkillsInput[]
     createMany?: SubscribersSkillsCreateManySkillsInputEnvelope
     connect?: SubscribersSkillsWhereUniqueInput | SubscribersSkillsWhereUniqueInput[]
-  }
-
-  export type RoleSkillsUpdateManyWithoutSkillsNestedInput = {
-    create?: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput> | RoleSkillsCreateWithoutSkillsInput[] | RoleSkillsUncheckedCreateWithoutSkillsInput[]
-    connectOrCreate?: RoleSkillsCreateOrConnectWithoutSkillsInput | RoleSkillsCreateOrConnectWithoutSkillsInput[]
-    upsert?: RoleSkillsUpsertWithWhereUniqueWithoutSkillsInput | RoleSkillsUpsertWithWhereUniqueWithoutSkillsInput[]
-    createMany?: RoleSkillsCreateManySkillsInputEnvelope
-    set?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    disconnect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    delete?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    update?: RoleSkillsUpdateWithWhereUniqueWithoutSkillsInput | RoleSkillsUpdateWithWhereUniqueWithoutSkillsInput[]
-    updateMany?: RoleSkillsUpdateManyWithWhereWithoutSkillsInput | RoleSkillsUpdateManyWithWhereWithoutSkillsInput[]
-    deleteMany?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
   }
 
   export type SubscribersSkillsUpdateManyWithoutSkillsNestedInput = {
@@ -13109,20 +11721,6 @@ export namespace Prisma {
     update?: SubscribersSkillsUpdateWithWhereUniqueWithoutSkillsInput | SubscribersSkillsUpdateWithWhereUniqueWithoutSkillsInput[]
     updateMany?: SubscribersSkillsUpdateManyWithWhereWithoutSkillsInput | SubscribersSkillsUpdateManyWithWhereWithoutSkillsInput[]
     deleteMany?: SubscribersSkillsScalarWhereInput | SubscribersSkillsScalarWhereInput[]
-  }
-
-  export type RoleSkillsUncheckedUpdateManyWithoutSkillsNestedInput = {
-    create?: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput> | RoleSkillsCreateWithoutSkillsInput[] | RoleSkillsUncheckedCreateWithoutSkillsInput[]
-    connectOrCreate?: RoleSkillsCreateOrConnectWithoutSkillsInput | RoleSkillsCreateOrConnectWithoutSkillsInput[]
-    upsert?: RoleSkillsUpsertWithWhereUniqueWithoutSkillsInput | RoleSkillsUpsertWithWhereUniqueWithoutSkillsInput[]
-    createMany?: RoleSkillsCreateManySkillsInputEnvelope
-    set?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    disconnect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    delete?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    connect?: RoleSkillsWhereUniqueInput | RoleSkillsWhereUniqueInput[]
-    update?: RoleSkillsUpdateWithWhereUniqueWithoutSkillsInput | RoleSkillsUpdateWithWhereUniqueWithoutSkillsInput[]
-    updateMany?: RoleSkillsUpdateManyWithWhereWithoutSkillsInput | RoleSkillsUpdateManyWithWhereWithoutSkillsInput[]
-    deleteMany?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
   }
 
   export type SubscribersSkillsUncheckedUpdateManyWithoutSkillsNestedInput = {
@@ -13710,26 +12308,6 @@ export namespace Prisma {
     create: XOR<SentRolesCreateWithoutRoleInput, SentRolesUncheckedCreateWithoutRoleInput>
   }
 
-  export type RoleSkillsCreateWithoutRolesInput = {
-    id: number
-    skills: SkillsCreateNestedOneWithoutRolesSkillsInput
-  }
-
-  export type RoleSkillsUncheckedCreateWithoutRolesInput = {
-    id: number
-    skillId: number
-  }
-
-  export type RoleSkillsCreateOrConnectWithoutRolesInput = {
-    where: RoleSkillsWhereUniqueInput
-    create: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput>
-  }
-
-  export type RoleSkillsCreateManyRolesInputEnvelope = {
-    data: RoleSkillsCreateManyRolesInput | RoleSkillsCreateManyRolesInput[]
-    skipDuplicates?: boolean
-  }
-
   export type SentRolesUpsertWithoutRoleInput = {
     update: XOR<SentRolesUpdateWithoutRoleInput, SentRolesUncheckedUpdateWithoutRoleInput>
     create: XOR<SentRolesCreateWithoutRoleInput, SentRolesUncheckedCreateWithoutRoleInput>
@@ -13757,159 +12335,6 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     subscribers?: SubscribersUncheckedUpdateManyWithoutSentRolesNestedInput
-  }
-
-  export type RoleSkillsUpsertWithWhereUniqueWithoutRolesInput = {
-    where: RoleSkillsWhereUniqueInput
-    update: XOR<RoleSkillsUpdateWithoutRolesInput, RoleSkillsUncheckedUpdateWithoutRolesInput>
-    create: XOR<RoleSkillsCreateWithoutRolesInput, RoleSkillsUncheckedCreateWithoutRolesInput>
-  }
-
-  export type RoleSkillsUpdateWithWhereUniqueWithoutRolesInput = {
-    where: RoleSkillsWhereUniqueInput
-    data: XOR<RoleSkillsUpdateWithoutRolesInput, RoleSkillsUncheckedUpdateWithoutRolesInput>
-  }
-
-  export type RoleSkillsUpdateManyWithWhereWithoutRolesInput = {
-    where: RoleSkillsScalarWhereInput
-    data: XOR<RoleSkillsUpdateManyMutationInput, RoleSkillsUncheckedUpdateManyWithoutRolesInput>
-  }
-
-  export type RoleSkillsScalarWhereInput = {
-    AND?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
-    OR?: RoleSkillsScalarWhereInput[]
-    NOT?: RoleSkillsScalarWhereInput | RoleSkillsScalarWhereInput[]
-    id?: IntFilter<"RoleSkills"> | number
-    roleId?: StringFilter<"RoleSkills"> | string
-    skillId?: IntFilter<"RoleSkills"> | number
-  }
-
-  export type RolesCreateWithoutRoleSkillsInput = {
-    minimumYears?: number | null
-    id?: string
-    title: string
-    description: string
-    country: string
-    language: RoleLanguage
-    currency?: string | null
-    salary?: string | null
-    skillsId?: RolesCreateskillsIdInput | string[]
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    ready?: boolean
-    url?: string | null
-    company?: string | null
-    sentRoles?: SentRolesCreateNestedOneWithoutRoleInput
-  }
-
-  export type RolesUncheckedCreateWithoutRoleSkillsInput = {
-    minimumYears?: number | null
-    id?: string
-    title: string
-    description: string
-    country: string
-    language: RoleLanguage
-    currency?: string | null
-    salary?: string | null
-    skillsId?: RolesCreateskillsIdInput | string[]
-    createdAt?: Date | string
-    updatedAt?: Date | string
-    sentRolesId?: string | null
-    ready?: boolean
-    url?: string | null
-    company?: string | null
-  }
-
-  export type RolesCreateOrConnectWithoutRoleSkillsInput = {
-    where: RolesWhereUniqueInput
-    create: XOR<RolesCreateWithoutRoleSkillsInput, RolesUncheckedCreateWithoutRoleSkillsInput>
-  }
-
-  export type SkillsCreateWithoutRolesSkillsInput = {
-    id: number
-    name: string
-    subscribersSkills?: SubscribersSkillsCreateNestedManyWithoutSkillsInput
-  }
-
-  export type SkillsUncheckedCreateWithoutRolesSkillsInput = {
-    id: number
-    name: string
-    subscribersSkills?: SubscribersSkillsUncheckedCreateNestedManyWithoutSkillsInput
-  }
-
-  export type SkillsCreateOrConnectWithoutRolesSkillsInput = {
-    where: SkillsWhereUniqueInput
-    create: XOR<SkillsCreateWithoutRolesSkillsInput, SkillsUncheckedCreateWithoutRolesSkillsInput>
-  }
-
-  export type RolesUpsertWithoutRoleSkillsInput = {
-    update: XOR<RolesUpdateWithoutRoleSkillsInput, RolesUncheckedUpdateWithoutRoleSkillsInput>
-    create: XOR<RolesCreateWithoutRoleSkillsInput, RolesUncheckedCreateWithoutRoleSkillsInput>
-    where?: RolesWhereInput
-  }
-
-  export type RolesUpdateToOneWithWhereWithoutRoleSkillsInput = {
-    where?: RolesWhereInput
-    data: XOR<RolesUpdateWithoutRoleSkillsInput, RolesUncheckedUpdateWithoutRoleSkillsInput>
-  }
-
-  export type RolesUpdateWithoutRoleSkillsInput = {
-    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    country?: StringFieldUpdateOperationsInput | string
-    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skillsId?: RolesUpdateskillsIdInput | string[]
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    ready?: BoolFieldUpdateOperationsInput | boolean
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    company?: NullableStringFieldUpdateOperationsInput | string | null
-    sentRoles?: SentRolesUpdateOneWithoutRoleNestedInput
-  }
-
-  export type RolesUncheckedUpdateWithoutRoleSkillsInput = {
-    minimumYears?: NullableIntFieldUpdateOperationsInput | number | null
-    id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
-    country?: StringFieldUpdateOperationsInput | string
-    language?: EnumRoleLanguageFieldUpdateOperationsInput | RoleLanguage
-    currency?: NullableStringFieldUpdateOperationsInput | string | null
-    salary?: NullableStringFieldUpdateOperationsInput | string | null
-    skillsId?: RolesUpdateskillsIdInput | string[]
-    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
-    sentRolesId?: NullableStringFieldUpdateOperationsInput | string | null
-    ready?: BoolFieldUpdateOperationsInput | boolean
-    url?: NullableStringFieldUpdateOperationsInput | string | null
-    company?: NullableStringFieldUpdateOperationsInput | string | null
-  }
-
-  export type SkillsUpsertWithoutRolesSkillsInput = {
-    update: XOR<SkillsUpdateWithoutRolesSkillsInput, SkillsUncheckedUpdateWithoutRolesSkillsInput>
-    create: XOR<SkillsCreateWithoutRolesSkillsInput, SkillsUncheckedCreateWithoutRolesSkillsInput>
-    where?: SkillsWhereInput
-  }
-
-  export type SkillsUpdateToOneWithWhereWithoutRolesSkillsInput = {
-    where?: SkillsWhereInput
-    data: XOR<SkillsUpdateWithoutRolesSkillsInput, SkillsUncheckedUpdateWithoutRolesSkillsInput>
-  }
-
-  export type SkillsUpdateWithoutRolesSkillsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    subscribersSkills?: SubscribersSkillsUpdateManyWithoutSkillsNestedInput
-  }
-
-  export type SkillsUncheckedUpdateWithoutRolesSkillsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    name?: StringFieldUpdateOperationsInput | string
-    subscribersSkills?: SubscribersSkillsUncheckedUpdateManyWithoutSkillsNestedInput
   }
 
   export type SubscribersCreateWithoutSubscriberSkillsInput = {
@@ -13954,13 +12379,11 @@ export namespace Prisma {
   export type SkillsCreateWithoutSubscribersSkillsInput = {
     id: number
     name: string
-    rolesSkills?: RoleSkillsCreateNestedManyWithoutSkillsInput
   }
 
   export type SkillsUncheckedCreateWithoutSubscribersSkillsInput = {
     id: number
     name: string
-    rolesSkills?: RoleSkillsUncheckedCreateNestedManyWithoutSkillsInput
   }
 
   export type SkillsCreateOrConnectWithoutSubscribersSkillsInput = {
@@ -14027,33 +12450,11 @@ export namespace Prisma {
   export type SkillsUpdateWithoutSubscribersSkillsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    rolesSkills?: RoleSkillsUpdateManyWithoutSkillsNestedInput
   }
 
   export type SkillsUncheckedUpdateWithoutSubscribersSkillsInput = {
     id?: IntFieldUpdateOperationsInput | number
     name?: StringFieldUpdateOperationsInput | string
-    rolesSkills?: RoleSkillsUncheckedUpdateManyWithoutSkillsNestedInput
-  }
-
-  export type RoleSkillsCreateWithoutSkillsInput = {
-    id: number
-    roles: RolesCreateNestedOneWithoutRoleSkillsInput
-  }
-
-  export type RoleSkillsUncheckedCreateWithoutSkillsInput = {
-    id: number
-    roleId: string
-  }
-
-  export type RoleSkillsCreateOrConnectWithoutSkillsInput = {
-    where: RoleSkillsWhereUniqueInput
-    create: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput>
-  }
-
-  export type RoleSkillsCreateManySkillsInputEnvelope = {
-    data: RoleSkillsCreateManySkillsInput | RoleSkillsCreateManySkillsInput[]
-    skipDuplicates?: boolean
   }
 
   export type SubscribersSkillsCreateWithoutSkillsInput = {
@@ -14074,22 +12475,6 @@ export namespace Prisma {
   export type SubscribersSkillsCreateManySkillsInputEnvelope = {
     data: SubscribersSkillsCreateManySkillsInput | SubscribersSkillsCreateManySkillsInput[]
     skipDuplicates?: boolean
-  }
-
-  export type RoleSkillsUpsertWithWhereUniqueWithoutSkillsInput = {
-    where: RoleSkillsWhereUniqueInput
-    update: XOR<RoleSkillsUpdateWithoutSkillsInput, RoleSkillsUncheckedUpdateWithoutSkillsInput>
-    create: XOR<RoleSkillsCreateWithoutSkillsInput, RoleSkillsUncheckedCreateWithoutSkillsInput>
-  }
-
-  export type RoleSkillsUpdateWithWhereUniqueWithoutSkillsInput = {
-    where: RoleSkillsWhereUniqueInput
-    data: XOR<RoleSkillsUpdateWithoutSkillsInput, RoleSkillsUncheckedUpdateWithoutSkillsInput>
-  }
-
-  export type RoleSkillsUpdateManyWithWhereWithoutSkillsInput = {
-    where: RoleSkillsScalarWhereInput
-    data: XOR<RoleSkillsUpdateManyMutationInput, RoleSkillsUncheckedUpdateManyWithoutSkillsInput>
   }
 
   export type SubscribersSkillsUpsertWithWhereUniqueWithoutSkillsInput = {
@@ -14123,7 +12508,6 @@ export namespace Prisma {
     ready?: boolean
     url?: string | null
     company?: string | null
-    roleSkills?: RoleSkillsCreateNestedManyWithoutRolesInput
   }
 
   export type RolesUncheckedCreateWithoutSentRolesInput = {
@@ -14141,7 +12525,6 @@ export namespace Prisma {
     ready?: boolean
     url?: string | null
     company?: string | null
-    roleSkills?: RoleSkillsUncheckedCreateNestedManyWithoutRolesInput
   }
 
   export type RolesCreateOrConnectWithoutSentRolesInput = {
@@ -14214,7 +12597,6 @@ export namespace Prisma {
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
-    roleSkills?: RoleSkillsUpdateManyWithoutRolesNestedInput
   }
 
   export type RolesUncheckedUpdateWithoutSentRolesInput = {
@@ -14232,7 +12614,6 @@ export namespace Prisma {
     ready?: BoolFieldUpdateOperationsInput | boolean
     url?: NullableStringFieldUpdateOperationsInput | string | null
     company?: NullableStringFieldUpdateOperationsInput | string | null
-    roleSkills?: RoleSkillsUncheckedUpdateManyWithoutRolesNestedInput
   }
 
   export type SubscribersUpsertWithWhereUniqueWithoutSentRolesInput = {
@@ -14487,49 +12868,9 @@ export namespace Prisma {
     topicId?: IntFieldUpdateOperationsInput | number
   }
 
-  export type RoleSkillsCreateManyRolesInput = {
-    id: number
-    skillId: number
-  }
-
-  export type RoleSkillsUpdateWithoutRolesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    skills?: SkillsUpdateOneRequiredWithoutRolesSkillsNestedInput
-  }
-
-  export type RoleSkillsUncheckedUpdateWithoutRolesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    skillId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type RoleSkillsUncheckedUpdateManyWithoutRolesInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    skillId?: IntFieldUpdateOperationsInput | number
-  }
-
-  export type RoleSkillsCreateManySkillsInput = {
-    id: number
-    roleId: string
-  }
-
   export type SubscribersSkillsCreateManySkillsInput = {
     id: number
     subscriberId: string
-  }
-
-  export type RoleSkillsUpdateWithoutSkillsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    roles?: RolesUpdateOneRequiredWithoutRoleSkillsNestedInput
-  }
-
-  export type RoleSkillsUncheckedUpdateWithoutSkillsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    roleId?: StringFieldUpdateOperationsInput | string
-  }
-
-  export type RoleSkillsUncheckedUpdateManyWithoutSkillsInput = {
-    id?: IntFieldUpdateOperationsInput | number
-    roleId?: StringFieldUpdateOperationsInput | string
   }
 
   export type SubscribersSkillsUpdateWithoutSkillsInput = {

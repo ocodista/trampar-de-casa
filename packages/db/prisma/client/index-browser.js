@@ -138,12 +138,6 @@ exports.Prisma.RolesScalarFieldEnum = {
   company: 'company'
 };
 
-exports.Prisma.RoleSkillsScalarFieldEnum = {
-  id: 'id',
-  roleId: 'roleId',
-  skillId: 'skillId'
-};
-
 exports.Prisma.SubscribersSkillsScalarFieldEnum = {
   id: 'id',
   subscriberId: 'subscriberId',
@@ -218,7 +212,6 @@ exports.RoleLanguage = {
 exports.Prisma.ModelName = {
   Subscribers: 'Subscribers',
   Roles: 'Roles',
-  RoleSkills: 'RoleSkills',
   SubscribersSkills: 'SubscribersSkills',
   Skills: 'Skills',
   SentRoles: 'SentRoles',
