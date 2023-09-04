@@ -30,11 +30,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 5.0.0
- * Query Engine version: 2804dc98259d2ea960602aca6b8e7fdc03c1758f
+ * Query Engine version: 6a3747c37ff169c90047725a05a6ef02e32ac97e
  */
 Prisma.prismaVersion = {
   client: "5.0.0",
-  engine: "2804dc98259d2ea960602aca6b8e7fdc03c1758f"
+  engine: "6a3747c37ff169c90047725a05a6ef02e32ac97e"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -236,11 +236,12 @@ const config = {
   },
   "relativePath": "..",
   "clientVersion": "5.0.0",
-  "engineVersion": "2804dc98259d2ea960602aca6b8e7fdc03c1758f",
+  "engineVersion": "6a3747c37ff169c90047725a05a6ef02e32ac97e",
   "datasourceNames": [
     "db"
   ],
-  "activeProvider": "postgresql"
+  "activeProvider": "postgresql",
+  "dataProxy": false
 }
 
 const fs = require('fs')
