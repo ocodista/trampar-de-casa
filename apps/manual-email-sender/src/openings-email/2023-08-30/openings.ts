@@ -1,5 +1,3 @@
-import { Roles, createClient } from 'db'
-import { Entities } from 'shared'
 import { Opening } from 'shared/src/email/openings-email/Opening'
 import { Openings } from '../Openings'
 
@@ -374,28 +372,4 @@ const globalOpenings: Opening[] = [
 export const openings20230830: Openings = {
   localOpenings,
   globalOpenings,
-}
-
-const injectRoles = async (openings: Opening[]) => {
-  const SUPABASE_URL = 'https://ddmczrcuuvggedglpigt.supabase.co' //process.env['SUPABASE_URL'] || ''
-  const SUPABASE_KEY =
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkbWN6cmN1dXZnZ2VkZ2xwaWd0Iiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTY5MDIyMDY2NCwiZXhwIjoyMDA1Nzk2NjY0fQ.Tz46O-ZmT71q-F4VpdQ9Hlomflv3IQq0zcVVCHruCqk' //process.env['SUPABASE_SERVICE_ROLE'] || ''
-  const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY)
-  for (let index = 0; index < openings.length; index++) {
-    const { language, location, currency, title, url, headerInfo } =
-      openings[index]
-
-    const { error, status } = await supabaseClient.from(Entities.Roles).insert({
-      language: language === 'Português' ? 'Portuguese' : 'English',
-      country: location,
-      currency,
-      description: headerInfo,
-      title,
-      url,
-      createdAt: new Date(),
-      updatedAt: new Date(),
-      companyId: 'b556f3e6-83c6-4fa2-8274-673a0be34de3',
-    } as Roles & { url: string; description: string; updatedAt: Date })
-    console.log(error, status)
-  }
 }
