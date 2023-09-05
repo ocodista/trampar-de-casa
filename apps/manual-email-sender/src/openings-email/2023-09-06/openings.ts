@@ -388,7 +388,7 @@ const globalOpenings: Opening[] = [
   },
 ]
 
-export const openings20230830: Openings = {
+export const openings20230906: Openings = {
   localOpenings,
   globalOpenings,
 }

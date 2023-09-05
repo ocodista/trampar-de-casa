@@ -8,6 +8,7 @@ import { openings20230809 } from './2023-08-09/openings'
 import { openings20230816 } from './2023-08-16/openings'
 import { openings20230823 } from './2023-08-23/openings'
 import { openings20230830 } from './2023-08-30/openings'
+import { openings20230906 } from './2023-09-06/openings'
 import { Openings } from './Openings'
 
 enum EmailDate {
@@ -21,6 +22,7 @@ enum EmailDate {
   '2023-08-16' = '2023-08-16',
   '2023-08-23' = '2023-08-23',
   '2023-08-30' = '2023-08-30',
+  '2023-09-06' = '2023-09-06',
 }
 
 export interface OpeningsEmail {
@@ -68,5 +70,9 @@ export const emailPropsByDate: Record<string, OpeningsEmail> = {
   [EmailDate['2023-08-30']]: {
     feedbackForm: 'https://forms.gle/mBeW8w2kf1fEsiSS9',
     openings: openings20230830,
+  },
+  [EmailDate['2023-09-06']]: {
+    feedbackForm: 'https://forms.gle/mBeW8w2kf1fEsiSS9',
+    openings: openings20230906,
   },
 }
