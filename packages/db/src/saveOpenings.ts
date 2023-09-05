@@ -1,4 +1,4 @@
-import { Entities, skillArray } from "shared"
+import { Entities, Topics, skillArray } from "shared"
 import { Roles, getSupabaseClient } from '../index'
 export type OpeningCurrency = 'U$' | 'R$' | 'EUR'
 
@@ -14,7 +14,7 @@ export interface Opening {
   url: string
 }
 
-export const saveOpenings = async (openings: Opening[]) => {
+export const saveOpenings = async (openings: Opening[], topic: Topics) => {
   const supabaseClient = getSupabaseClient()
   for (let index = 0; index < openings.length; index++) {
     const { language, location, currency, title, url, headerInfo, company, skills } =
@@ -36,8 +36,9 @@ export const saveOpenings = async (openings: Opening[]) => {
       createdAt: new Date(),
       updatedAt: new Date(),
       company,
-      skillsId
-    } as Roles & { url: string; description: string; updatedAt: Date })
+      skillsId,
+      topicId: topic
+    } as Roles & { url: string; description: string; updatedAt: Date, topicId: Topics })
     
     console.log(error, status)
   }
