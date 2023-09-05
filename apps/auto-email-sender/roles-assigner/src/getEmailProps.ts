@@ -1,5 +1,6 @@
-import { Roles, Subscribers } from 'db'
+import { Subscribers } from 'db'
 import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
+import { Role } from './getSubscriberRoles'
 
 export interface EmailProps {
   user: {
@@ -10,7 +11,7 @@ export interface EmailProps {
 }
 
 export const getEmailProps = withExecutionTimeLogging(
-  (subscriber: Subscribers, roles: Roles[]): EmailProps => ({
+  (subscriber: Subscribers, roles: Role[]): EmailProps => ({
     user: {
       email: subscriber.email,
       id: subscriber.id,

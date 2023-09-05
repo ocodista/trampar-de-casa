@@ -16,7 +16,7 @@ const openingsSchema = z.object({
   language: z.string(),
   currency: z.string().nullable(),
   salary: z.string().nullable(),
-  skill: z.array(z.string()).default([]),
+  skillsId: z.array(z.string()).default([]),
   headerInfo: z.string(),
   url: z.string().nullable(),
 })
@@ -41,7 +41,7 @@ export const storeSubscriberProps = async (
       language: role.language,
       location: role.country,
       salary: role.salary,
-      skill: role.skills as string[],
+      skillsId: role.skillsId,
       title: role.title,
       url: role.url,
     }

@@ -5,7 +5,7 @@ export const getRolesBlock = async (
   supabase: SupabaseClient,
   start: number,
   end: number
-): Promise<rolesSkillsView[] | undefined> => {
+): Promise<Array<rolesSkillsView & { company: string }> | undefined> => {
   const { data, error } = await supabase
     .from(Views.RoleSkillsView)
     .select('*')

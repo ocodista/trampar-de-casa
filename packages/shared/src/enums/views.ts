@@ -1,3 +1,3 @@
 export enum Views {
-  RoleSkillsView = 'roleskillsview',
+  RoleSkillsView = 'RolesSkillsView',
 }

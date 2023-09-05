@@ -6,7 +6,7 @@ export const subscribersFactory = (length = 1) =>
     () =>
       ({
         email: faker.internet.email(),
-        skills: [] as Prisma.JsonValue,
+        skillsId: [] as Prisma.JsonValue,
         id: faker.string.uuid(),
       } as Subscribers)
   )

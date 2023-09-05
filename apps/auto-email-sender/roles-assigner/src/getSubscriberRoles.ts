@@ -1,10 +1,4 @@
-import {
-  EnglishLevel,
-  RoleLanguage,
-  Roles,
-  Subscribers,
-  SupabaseClient,
-} from 'db'
+import { EnglishLevel, RoleLanguage, Subscribers, SupabaseClient } from 'db'
 import { Entities } from 'shared/src/enums/entities'
 import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
 
@@ -14,6 +8,23 @@ const englishLevelScore: Record<EnglishLevel, number> = {
   [EnglishLevel.Advanced]: 2,
   [EnglishLevel.Intermediary]: 1,
   [EnglishLevel.Beginner]: 0,
+}
+
+export type Role = {
+  id: string
+  country: string
+  createdAt: Date
+  currency: string
+  description: string
+  salary: string | null
+  title: string
+  updatedAt: Date
+  ready: boolean
+  url: string
+  language: string
+  company: string
+  skillsId: string[]
+  minimumYears: string | null
 }
 
 export const getSubscriberRoles = withExecutionTimeLogging(
@@ -43,17 +54,13 @@ export const getSubscriberRoles = withExecutionTimeLogging(
       // lte worked as gte (?)
       return query.lte('minimumYears', yearOfExperience)
     }
-    const baseQuery = supabase.from(Entities.Roles).select().eq('ready', true)
+    const baseQuery = await supabase
+      .from(Entities.Roles)
+      .select()
+      .eq('ready', true)
     // const filteredBySkill = filterBySkill(subscriber.skills as string[], baseQuery)
-    const filteredByEnglish = filterByEnglish(
-      subscriber.englishLevel,
-      baseQuery
-    )
-    const filteredByMinimumYears = await filterByExp(
-      subscriber.startedWorkingAt,
-      filteredByEnglish
-    )
-    return filteredByMinimumYears?.data as Roles[]
+
+    return baseQuery.data as Role[]
   },
   { name: 'getSubscriberRoles' }
 )

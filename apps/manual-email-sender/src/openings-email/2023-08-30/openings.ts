@@ -1,6 +1,6 @@
-import { saveOpenings } from 'db'
 import dotenv from 'dotenv'
 import { Opening } from 'shared/src/email/openings-email/Opening'
+import { Openings } from '../Openings'
 dotenv.config()
 
 const localOpenings: Opening[] = [
@@ -371,8 +371,7 @@ const globalOpenings: Opening[] = [
   },
 ]
 
-saveOpenings([...localOpenings, ...globalOpenings])
-// export const openings20230830: Openings = {
-//   localOpenings,
-//   globalOpenings,
-// }
+export const openings20230830: Openings = {
+  localOpenings,
+  globalOpenings,
+}

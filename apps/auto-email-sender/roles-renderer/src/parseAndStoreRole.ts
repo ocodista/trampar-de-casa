@@ -5,7 +5,7 @@ import { parseHTML } from './parseHTML'
 
 export const parseAndStoreRole = async (
   redisClient: RedisClientType,
-  role: rolesSkillsView
+  role: rolesSkillsView & { company: string }
 ) => {
   const { id } = role
   const html = parseHTML(role)

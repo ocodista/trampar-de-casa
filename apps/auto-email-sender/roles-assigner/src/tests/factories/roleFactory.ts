@@ -1,18 +1,19 @@
 import { faker } from '@faker-js/faker'
-import { Prisma, RoleLanguage, Roles } from 'db'
+import { RoleLanguage } from 'db'
+import { Role } from 'src/getSubscriberRoles'
 
-export const getRoleMock = (overridableProps?: Partial<Roles>): Roles => ({
+export const getRoleMock = (overridableProps?: Partial<Role>): Role => ({
   id: faker.string.uuid(),
-  companyId: faker.string.uuid(),
   country: faker.location.country(),
-  skills: [] as Prisma.JsonValue,
+  skillsId: [],
+  minimumYears: null,
+  company: '',
   currency: faker.string.uuid(),
   language: faker.helpers.enumValue(RoleLanguage),
   createdAt: new Date('2023-07-11 14:11:57.386'),
   description: faker.hacker.phrase(),
   ready: true,
   salary: faker.string.uuid(),
-  sentRolesId: null,
   title: faker.company.buzzNoun(),
   updatedAt: new Date('2023-07-11 14:11:57.386'),
   url: '',
