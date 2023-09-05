@@ -42,7 +42,7 @@ export const OpeningsEmail = ({
   unsubscribeUrl,
 }: OpeningsEmail) => {
   const rolesCount = globalOpenings.length + localOpenings.length
-  const previewText = ''
+  const previewText = 'Olá, defensor do trabalho remoto!'
   return (
     <Tailwind>
       <Html>
