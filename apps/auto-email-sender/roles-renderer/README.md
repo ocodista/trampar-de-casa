@@ -43,4 +43,6 @@ end
 - **parseAndStoreRole**
   - Extracts the `id` from the `role` object.
   - Parses the role information into static HTML using the `parseHTML` function.
-  - Saves the rendered HTML in the Redis database with the key format `role:${id}`.
+  - Saves the rendered HTML in the Redis database
+    - If is an international role, save with the key format `InternationalRolesRenderer:${id}`.
+    - If is a national role, save with the key format `NationalRolesRenderer:${id}`.

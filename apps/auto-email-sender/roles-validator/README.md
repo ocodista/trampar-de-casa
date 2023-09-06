@@ -56,4 +56,4 @@ How It Works
 
 ### **deleteFromRedis**
 
-The `deleteFromRedis` function is a core element in the Roles Validator module. It meticulously manages data integrity by erasing role-related information from Redis. Whether due to inactivity.
+The `deleteFromRedis` function is a core element in the Roles Validator module. Here, we delete the role of Redis based on topicId because the Redis prefix for roles is based on this value
