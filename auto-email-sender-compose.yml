@@ -64,8 +64,6 @@ services:
         condition: service_started
       rabbitmq:
         condition: service_started
-      roles-validator:
-        condition: service_completed_successfully
   email-sender:
     build: 
       context: .
