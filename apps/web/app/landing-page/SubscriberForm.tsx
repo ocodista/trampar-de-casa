@@ -70,7 +70,7 @@ export function SubscriberForm() {
 
   return (
     <>
-      <div className="-my-2.5 inline-block w-full rounded-xl border-2 border-black p-1.5 focus-within:ring focus-within:ring-indigo-300 lg:-m-2.5 xl:pl-7">
+      <div className="-my-2.5 inline-block w-full rounded-[18px] border-2 border-black p-1.5 focus-within:ring focus-within:ring-indigo-300 lg:-m-2.5 xl:pl-7">
         <ContributeDialog
           open={isContributeDialogOpen}
           onClose={() => setIsContributeDialogOpen(false)}

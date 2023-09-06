@@ -12,7 +12,7 @@ const companies: Company[] = [
     name: 'Strider',
     url: 'https://app.onstrider.com/r/trampar_de_casa',
     description: 'Empresa brasileira com vagas internacionais 100% remotas.',
-    imagePath: '/images/companies/strider.webp',
+    imagePath: '/images/companies/strider.svg',
   },
   {
     name: 'Meteor',

@@ -1,9 +1,5 @@
-import { saveOpenings } from 'db'
-import dotenv from 'dotenv'
-import { Topics } from 'shared'
 import { Opening } from 'shared/src/email/openings-email/Opening'
 import { Openings } from '../Openings'
-dotenv.config()
 
 const localOpenings: Opening[] = [
   {
@@ -372,9 +368,6 @@ const globalOpenings: Opening[] = [
     url: 'https://www.flylance.com/role?id=receY44tUh9fTv0q6',
   },
 ]
-
-saveOpenings(localOpenings, Topics.NATIONAL_VACANCIES)
-saveOpenings(globalOpenings, Topics.INTERNATIONAL_VACANCIES)
 
 export const openings20230830: Openings = {
   localOpenings,

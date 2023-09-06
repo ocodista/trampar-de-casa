@@ -1,3 +1,4 @@
+/* eslint-disable react/no-unescaped-entities */
 import {
   Body,
   Container,
@@ -41,7 +42,7 @@ export const OpeningsEmail = ({
   unsubscribeUrl,
 }: OpeningsEmail) => {
   const rolesCount = globalOpenings.length + localOpenings.length
-  const previewText = 'R$130 de desconto na compra de uma Mesa Slikdesk!'
+  const previewText = 'Olá, defensor do trabalho remoto!'
   return (
     <Tailwind>
       <Html>
@@ -64,33 +65,25 @@ export const OpeningsEmail = ({
               <Hr style={hr} />
               <Text style={paragraph}>Olá, defensor do trabalho remoto!</Text>
               <Text style={{ ...paragraph, color: '#000' }}>
-                <b>Bora Trampar de Casa com a Slikdesk!</b>
-              </Text>
-              <Text>
-                Trampar de Casa combina com{' '}
-                <b>praticidade, conforto, ergonomia e tecnologia</b>. A nossa
-                nova parceira, Slikdesk, oferece tudo isso e muito mais,{' '}
-                elevando sua saúde e dando um upgrade no setup. São diversos
-                modelos de mesas com regulagem de altura (manual ou elétrica),
-                bases com regulagem, cadeira e acessórios indispensáveis para
-                qualquer dev.
-              </Text>
-              <Text>
-                E tem presente para você: R$130 de desconto nas standing desks!
-                <br />
-                Acesse a{' '}
-                <Link href="https://slik.com.br/trampardecasa">
-                  slik.com.br/trampardecasa
-                </Link>{' '}
-                e use o cupom <b>TRAMPARDECASA</b>
+                Hoje tenho o prazer de apresentar o <b>Layerform</b>, uma
+                ferramenta open-source brasileira desenvolvida para capacitar
+                cada programador a criar seu próprio ambiente de staging
+                utilizando apenas arquivos Terraform.
               </Text>
 
               <Text style={paragraph}>
-                O seu feedback nos ajuda <strong>demais</strong>, clique{' '}
-                <Link style={anchor} href={feedbackFormUrl}>
-                  aqui.
-                </Link>
+                Queremos que você conheça mais sobre o{' '}
+                <Link href="https://github.com/ergomake/layerform">
+                  Layerform
+                </Link>{' '}
+                e, se gostar da ideia, ficaríamos muito agradecidos se deixasse
+                sua ⭐ no{' '}
+                <Link href="https://github.com/ergomake/layerform">
+                  repositório
+                </Link>{' '}
+                do Layerform no GitHub.
               </Text>
+
               <Text style={paragraph}>
                 Agora, aproveite as vagas desta semana!
               </Text>
