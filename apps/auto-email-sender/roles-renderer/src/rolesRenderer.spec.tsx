@@ -1,13 +1,16 @@
 import { faker } from '@faker-js/faker'
 import { SupabaseClient } from '@supabase/supabase-js'
-import { rolesSkillsView } from 'db'
 import { RedisClientType } from 'redis'
+import { Topics } from 'shared'
+import { RedisPrefix } from 'shared/src/enums/redis'
 import { describe, expect, it, vi } from 'vitest'
-import { getRolesInBatches } from './getRoles'
+import { RolesSkillsView, getRolesInBatches } from './getRoles'
 import { parseAndStoreRole } from './parseAndStoreRole'
 import { htmlStartingDoctype, parseHTML } from './parseHTML'
 
-const getRolesSkillsMock = (): rolesSkillsView =>
+const getRolesSkillsMock = (
+  topic: Topics = Topics.NATIONAL_VACANCIES
+): RolesSkillsView =>
   ({
     id: faker.string.uuid(),
     companyName: faker.company.name(),
@@ -20,10 +23,11 @@ const getRolesSkillsMock = (): rolesSkillsView =>
     salary: '',
     skillNames: [],
     title: faker.person.jobTitle(),
+    topicId: topic,
     url: '',
-  } as unknown as rolesSkillsView)
+  } as unknown as RolesSkillsView)
 
-const getRolesSkillsMocks = (count: number): rolesSkillsView[] =>
+const getRolesSkillsMocks = (count: number): RolesSkillsView[] =>
   new Array(count).fill(0).map(() => getRolesSkillsMock())
 
 const mockRoles = getRolesSkillsMocks(20)
@@ -66,13 +70,30 @@ describe('Roles Renderer', () => {
     expect(parsed).not.toContain(htmlStartingDoctype)
   })
 
-  it('parses and stores html in roles:{id} key at Redis', async () => {
-    const setSpy = vi.spyOn(mockRedisClient, 'set')
-    await parseAndStoreRole(mockRedisClient, mockRoles[0])
-    expect(setSpy).toHaveBeenCalledWith(
-      `role:${mockRoles[0].id}`,
-      parseHTML(mockRoles[0])
-    )
-    setSpy.mockRestore()
+  describe('Is a national role', () => {
+    it(`parses and stores html in ${RedisPrefix.NationalRolesRenderer}{id} key at Redis`, async () => {
+      const mockNationalRoles = getRolesSkillsMock(Topics.NATIONAL_VACANCIES)
+      const setSpy = vi.spyOn(mockRedisClient, 'set')
+      await parseAndStoreRole(mockRedisClient, mockNationalRoles)
+      expect(setSpy).toHaveBeenCalledWith(
+        `${RedisPrefix.NationalRolesRenderer}${mockNationalRoles.id}`,
+        parseHTML(mockNationalRoles)
+      )
+      setSpy.mockRestore()
+    })
+  })
+  describe('Is a international role', () => {
+    it(`parses and stores html in ${RedisPrefix.InternationalRolesRenderer}{id} key at Redis`, async () => {
+      const mockNationalRoles = getRolesSkillsMock(
+        Topics.INTERNATIONAL_VACANCIES
+      )
+      const setSpy = vi.spyOn(mockRedisClient, 'set')
+      await parseAndStoreRole(mockRedisClient, mockNationalRoles)
+      expect(setSpy).toHaveBeenCalledWith(
+        `${RedisPrefix.InternationalRolesRenderer}${mockNationalRoles.id}`,
+        parseHTML(mockNationalRoles)
+      )
+      setSpy.mockRestore()
+    })
   })
 })

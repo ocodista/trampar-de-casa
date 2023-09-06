@@ -1,11 +1,16 @@
 import { SupabaseClient, rolesSkillsView } from 'db'
-import { Views } from 'shared'
+import { Topics, Views } from 'shared'
+
+export type RolesSkillsView = rolesSkillsView & {
+  company: string
+  topicId: Topics
+}
 
 export const getRolesBlock = async (
   supabase: SupabaseClient,
   start: number,
   end: number
-): Promise<Array<rolesSkillsView & { company: string }> | undefined> => {
+): Promise<Array<RolesSkillsView> | undefined> => {
   const { data, error } = await supabase
     .from(Views.RoleSkillsView)
     .select('*')

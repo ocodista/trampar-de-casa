@@ -14,13 +14,14 @@
   "license": "ISC",
   "dependencies": {
     "@react-email/render": "0.0.7",
+    "amqplib": "latest",
     "db": "*",
     "dotenv": "^16.3.1",
     "react": "^18.2.0",
     "react-email": "^1.9.4",
     "redis": "^4.6.7",
     "shared": "*",
-    "amqplib": "latest"
+    "vitest": "^0.34.3"
   },
   "devDependencies": {
     "@faker-js/faker": "^8.0.2",
