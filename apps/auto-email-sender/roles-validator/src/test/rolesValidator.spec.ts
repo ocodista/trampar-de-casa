@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import * as redisFile from 'redis'
+import { Topics } from 'shared'
 import { RedisPrefix } from 'shared/src/enums/redis'
 import { redisDelStub } from 'shared/src/test/helpers/stubs'
 import { rolesValidator } from 'src/rolesValidator'
@@ -15,11 +16,12 @@ const testSetup = () => {
   vi.spyOn(console, 'error').mockImplementation(() => vi.fn())
 }
 
-const roleDataReturnFactory = () => [
+const roleDataReturnFactory = (topicId?: Topics) => [
   {
     id: faker.string.uuid(),
     url: faker.internet.url(),
     title: faker.person.jobTitle(),
+    topicId: topicId || faker.helpers.enumValue(Topics),
   },
 ]
 
@@ -40,10 +42,10 @@ describe('Roles Validator', () => {
   })
   describe('for each role', () => {
     it('remove role from Redis that are not valid on site', async () => {
-      const roleDataMock = roleDataReturnFactory()
+      const roleDataMock = roleDataReturnFactory(Topics.NATIONAL_VACANCIES)
       getRolesStub.mockResolvedValue(roleDataMock)
       isValidRoleStub.mockResolvedValue(false)
-      const expectedDeletedKey = `${RedisPrefix.RolesRenderer}${roleDataMock[0].id}`
+      const expectedDeletedKey = `${RedisPrefix.NationalRolesRenderer}${roleDataMock[0].id}`
 
       await rolesValidator(redisClientMock)
 
@@ -51,13 +53,12 @@ describe('Roles Validator', () => {
     })
 
     it('remove role from redis when URL is not valid', async () => {
-      const roleDataMock = roleDataReturnFactory()
+      const roleDataMock = roleDataReturnFactory(Topics.NATIONAL_VACANCIES)
       getRolesStub.mockResolvedValue(roleDataMock)
-
       isValidRoleStub.mockImplementation(() => {
         throw new Error(faker.string.sample())
       })
-      const expectedDeletedKey = `${RedisPrefix.RolesRenderer}${roleDataMock[0].id}`
+      const expectedDeletedKey = `${RedisPrefix.NationalRolesRenderer}${roleDataMock[0].id}`
 
       await rolesValidator(redisClientMock)
 
