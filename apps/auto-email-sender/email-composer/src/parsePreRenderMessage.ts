@@ -13,5 +13,6 @@ export const parsePreRenderMessage = async (
   const { footerHTML, headerHTML, roles } = emailPreRender[email]
   const rolesHTML = await getHtmlRoles(roles)
   const bodyHTML = `${headerHTML}${rolesHTML}${footerHTML}`
-  return { [email]: await createEmailHtml(bodyHTML) }
+  const renderedEmail = await createEmailHtml(bodyHTML)
+  return { [email]: renderedEmail }
 }
