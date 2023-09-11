@@ -73,7 +73,7 @@ export async function updateSubscriber(
       linkedInUrl: body.linkedInUrl,
       gitHub: body.gitHub,
       startedWorkingAt: body.startedWorkingAt,
-      skills: body.skills,
+      skills: body.skillsId,
       englishLevel: EnglishLevel[body.englishLevel],
     })
     .eq('id', id)
