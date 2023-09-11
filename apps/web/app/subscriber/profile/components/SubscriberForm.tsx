@@ -22,12 +22,13 @@ export function SubscriberForm({
   profileInfos: ProfileSchema
   descriptionTopics: { name: string; id: number }[]
 }) {
+  console.log(profileInfos)
   const form = useForm<ProfileSchema>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {
-      ...profileInfos,
       englishLevel: profileInfos.englishLevel || EnglishLevel.None,
       linkedInUrl: profileInfos.linkedInUrl || 'https://linkedin.com/in/',
+      ...profileInfos,
     },
     mode: 'all',
     criteriaMode: 'firstError',

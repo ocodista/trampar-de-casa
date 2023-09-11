@@ -6,11 +6,11 @@ export enum ProfileSchemaEnum {
   StartedWorkingAt = 'startedWorkingAt',
   LinkedInUrl = 'linkedInUrl',
   GitHub = 'gitHub',
-  Skills = 'skills',
+  Skills = 'skillsId',
   EnglishLevel = 'englishLevel',
-  NationalRoles = 'nationalRoles',
-  InternationalRoles = 'internationalRoles',
-  EnglishTipes = 'englishTips',
+  // NationalRoles = 'nationalRoles',
+  // InternationalRoles = 'internationalRoles',
+  // EnglishTipes = 'englishTips',
   ReceiveEmailConfig = 'receiveEmailConfig',
 }
 
@@ -37,7 +37,7 @@ export const profileFormSchema = z.object({
     .nullable()
     .transform((data) => (data ? data : null)),
   [ProfileSchemaEnum.StartedWorkingAt]: z.date({ coerce: true }),
-  [ProfileSchemaEnum.EnglishLevel]: z.nativeEnum(EnglishLevel),
+  [ProfileSchemaEnum.EnglishLevel]: z.nativeEnum(EnglishLevel).optional(),
   [ProfileSchemaEnum.Skills]: z
     .array(z.string())
     .min(1, { message: 'Escolha ao menos uma habilidade' }),

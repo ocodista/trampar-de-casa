@@ -1,5 +1,4 @@
 import { UiRoutes, encrypt } from 'shared'
-
 export const SECRET_KEY_ERROR_MESSAGE = 'SECRET_KEY env is not settled'
 
 export function getUnsubscribeLink(url: string, id: string) {

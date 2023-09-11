@@ -7,7 +7,7 @@ import { ProfileSchema } from '../../subscriber/profile/profileSchema'
 const supabaseClient = getSupabaseClient()
 const table = Entities.Subcribers
 export const PUBLIC_FIELDS_KEYS =
-  'name, linkedInUrl, gitHub, startedWorkingAt, skills, englishLevel'
+  'name, linkedInUrl, gitHub, startedWorkingAt, skillsId, englishLevel'
 const errorResponse = new NextResponse(null, {
   status: StatusCodes.INTERNAL_SERVER_ERROR,
 })

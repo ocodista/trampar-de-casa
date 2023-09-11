@@ -20,11 +20,14 @@ export const getSubscriber = async (subscriberId: string) => {
     .from(Entities.Subcribers)
     .select(PUBLIC_FIELDS_KEYS)
     .eq('id', subscriberId)
+  if (subscribeErrors) {
+    console.error(subscribeErrors, subscriberData, subscriberData)
+    notFound()
+  }
   const subscriber = SubscriberSchema.safeParse(subscriberData[0])
-  if (subscribeErrors || !subscriber.success) {
-    console.error(subscribeErrors, subscriber, subscriberData)
+  if (!subscriber.success) {
     notFound()
   }
 
-  return subscriber.data
+  return subscriber.data as z.TypeOf<typeof SubscriberSchema>
 }
