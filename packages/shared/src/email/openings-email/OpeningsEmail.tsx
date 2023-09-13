@@ -65,23 +65,7 @@ export const OpeningsEmail = ({
               <Hr style={hr} />
               <Text style={paragraph}>Olá, defensor do trabalho remoto!</Text>
               <Text style={{ ...paragraph, color: '#000' }}>
-                Hoje tenho o prazer de apresentar o <b>Layerform</b>, uma
-                ferramenta open-source brasileira desenvolvida para capacitar
-                cada programador a criar seu próprio ambiente de staging
-                utilizando apenas arquivos Terraform.
-              </Text>
-
-              <Text style={paragraph}>
-                Queremos que você conheça mais sobre o{' '}
-                <Link href="https://github.com/ergomake/layerform">
-                  Layerform
-                </Link>{' '}
-                e, se gostar da ideia, ficaríamos muito agradecidos se deixasse
-                sua ⭐ no{' '}
-                <Link href="https://github.com/ergomake/layerform">
-                  repositório
-                </Link>{' '}
-                do Layerform no GitHub.
+                Nada de anúncios!📢 (Estou de licença paternidade 🙏)
               </Text>
 
               <Text style={paragraph}>
