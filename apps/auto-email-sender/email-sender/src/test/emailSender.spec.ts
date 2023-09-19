@@ -39,16 +39,23 @@ describe('Email Sender Service Tests', () => {
       const emailComposerItemMock = emailComposerItem()
       const [emailMock, htmlMock] = Object.entries(emailComposerItemMock)[0]
       getStub.mockResolvedValueOnce({
-        content: Buffer.from(JSON.stringify({ [emailMock]: htmlMock })),
+        content: Buffer.from(
+          JSON.stringify({
+            [emailMock]: htmlMock,
+            rolesCount: emailComposerItemMock.rolesCount,
+          })
+        ),
       })
       getStub.mockResolvedValueOnce(false)
+      const titleMock = `${emailComposerItemMock.rolesCount} Vagas para você Trampar de Casa`
 
       await emailSender()
 
       expect(sendEmailStub).toBeCalledWith(
         emailsObjectMock,
         emailMock,
-        htmlMock
+        htmlMock,
+        titleMock
       )
     })
     it('Should acknowledge each message after processing', async () => {

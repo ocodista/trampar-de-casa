@@ -21,13 +21,14 @@ const logFailure = (email: string, error: unknown) => {
 export const sendEmail = async (
   emails: Resend['emails'],
   email: string,
-  html: string
+  html: string,
+  title: string
 ) => {
   try {
     await emails.send({
       from: 'Trampar de Casa <comece@trampardecasa.com.br>',
       to: email,
-      subject: 'Vagas para você Trampar de Casa',
+      subject: title,
       html,
     })
     logSuccessfully(email)

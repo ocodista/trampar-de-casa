@@ -29,10 +29,17 @@ export const consumePreRenderQueue = async (
   emailComposerChannel: Channel
 ) => {
   if (!message) return
+
+  const emailPreRender = JSON.parse(
+    message.content.toString()
+  ) as EmailPreRenderMessage
+  const [email] = Object.keys(emailPreRender)
+  const { roles } = emailPreRender[email]
+
   const emailHtml = await parsePreRenderMessage(message.content)
   emailComposerChannel.sendToQueue(
     EmailQueues.EmailSender,
-    Buffer.from(JSON.stringify(emailHtml))
+    Buffer.from(JSON.stringify({ ...emailHtml, rolesCount: roles.length }))
   )
 }
 
