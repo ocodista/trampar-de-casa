@@ -8,6 +8,7 @@ import {
 } from 'shared/src/test/helpers/stubs'
 import { getHtmlRoles } from 'src/getHtmlRoles'
 import { expect, vi } from 'vitest'
+import * as renderRoleSection from '../renderRolesSection'
 
 describe('filter roles', () => {
   beforeEach(() => {
@@ -29,6 +30,10 @@ describe('filter roles', () => {
     const twoRoleHTML = faker.string.sample()
     redisGetStub.mockResolvedValueOnce(firstRoleHTML)
     redisGetStub.mockResolvedValueOnce(twoRoleHTML)
+    const RenderedRoleSectionMock = firstRoleHTML + twoRoleHTML
+    vi.spyOn(renderRoleSection, 'RenderRolesSection').mockResolvedValue(
+      RenderedRoleSectionMock
+    )
 
     const concatenatedRoles = await getHtmlRoles(rolesIdArray)
 
