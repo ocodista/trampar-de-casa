@@ -1,4 +1,4 @@
-import { getSupabaseClient } from 'app/db/getSupabaseClient'
+import { getSupabaseClient } from 'db'
 import { notFound } from 'next/navigation'
 import { Entities } from 'shared'
 import { z } from 'zod'

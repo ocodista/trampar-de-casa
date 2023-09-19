@@ -21,14 +21,15 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
         receiveEmailConfig: subscriberTopics.map(({ topicId }) =>
           String(topicId)
         ),
-        englishLevel: subscriber.englishLevel as EnglishLevel,
         gitHub: subscriber.gitHub || '',
         linkedInUrl: subscriber.linkedInUrl || '',
         name: subscriber.name,
-        skills: subscriber.skills as string[],
+        skillsId: subscriber.skillsId as string[],
+        ...subscriber,
         startedWorkingAt: subscriber.startedWorkingAt
           ? new Date(subscriber.startedWorkingAt)
           : null,
+        englishLevel: subscriber.englishLevel as EnglishLevel,
       }}
     />
   )

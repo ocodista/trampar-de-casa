@@ -1,6 +1,7 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
+import { skillArray } from 'shared/src/infos'
 import { AutoComplete } from '../../../components/AutoComplete'
 import { CustomFormField } from '../../../components/CustomFormField'
 import { ListOption } from '../../../components/ListOption'
@@ -20,9 +21,12 @@ export const SkillsField = () => {
   useEffect(() => {
     if (!selectedOptions.length && formSkills?.length)
       setSelectedOptions(
-        formSkills.map(
-          (skill: string): ListOption => ({ label: skill, value: skill })
-        )
+        formSkills.map((skill: string): ListOption => {
+          if (!isNaN(Number(skill))) {
+            return { label: skillArray[Number(skill)], value: skill }
+          }
+          return { label: skill, value: skill }
+        })
       )
   }, [formSkills])
 

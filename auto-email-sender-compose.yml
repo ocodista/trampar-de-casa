@@ -1,0 +1,74 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    expose:
+      - 5672
+      - 15672
+    environment:
+      RABBITMQ_DEFAULT_USER: trampar
+      RABBITMQ_DEFAULT_PASS: trampar-de-casa
+  redis:
+    image: redislabs/redismod
+    ports:
+      - '6379:6379'
+    expose:
+      - 6379
+  roles-validator:
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/roles-validator-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/roles-validator/.env
+    depends_on:
+      - redis
+  roles-renderer:
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/roles-renderer-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/roles-renderer/.env
+    depends_on:
+      - redis
+  roles-assigner:
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/roles-assigner-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/roles-assigner/.env
+    depends_on:
+      - redis
+      - rabbitmq
+  email-pre-renderer:
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/email-pre-renderer-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/email-pre-renderer/.env
+    depends_on:
+      - redis
+      - rabbitmq
+  email-composer:
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/email-composer-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/email-composer/.env
+    depends_on:
+      redis:
+        condition: service_started
+      rabbitmq:
+        condition: service_started
+  email-sender:
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/email-sender-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/email-sender/.env
+    depends_on:
+      - rabbitmq

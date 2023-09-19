@@ -15,11 +15,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 5.0.0
- * Query Engine version: 6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
+ * Query Engine version: 6a3747c37ff169c90047725a05a6ef02e32ac97e
  */
 Prisma.prismaVersion = {
   client: "5.0.0",
-  engine: "6b0aef69b7cdfc787f822ecd7cdc76d5f1991584"
+  engine: "6a3747c37ff169c90047725a05a6ef02e32ac97e"
 }
 
 Prisma.PrismaClientKnownRequestError = () => {
@@ -112,27 +112,41 @@ exports.Prisma.SubscribersScalarFieldEnum = {
   linkedInUrl: 'linkedInUrl',
   gitHub: 'gitHub',
   startedWorkingAt: 'startedWorkingAt',
-  skills: 'skills',
   englishLevel: 'englishLevel',
   isConfirmed: 'isConfirmed',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  optOut: 'optOut'
+  optOut: 'optOut',
+  skillsId: 'skillsId'
 };
 
 exports.Prisma.RolesScalarFieldEnum = {
+  minimumYears: 'minimumYears',
   id: 'id',
-  companyId: 'companyId',
   title: 'title',
   description: 'description',
   country: 'country',
   language: 'language',
   currency: 'currency',
   salary: 'salary',
-  skills: 'skills',
+  skillsId: 'skillsId',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
-  sentRolesId: 'sentRolesId'
+  sentRolesId: 'sentRolesId',
+  ready: 'ready',
+  url: 'url',
+  company: 'company'
+};
+
+exports.Prisma.SubscribersSkillsScalarFieldEnum = {
+  id: 'id',
+  subscriberId: 'subscriberId',
+  skillId: 'skillId'
+};
+
+exports.Prisma.SkillsScalarFieldEnum = {
+  id: 'id',
+  name: 'name'
 };
 
 exports.Prisma.SentRolesScalarFieldEnum = {
@@ -154,14 +168,19 @@ exports.Prisma.TopicsScalarFieldEnum = {
   name: 'name'
 };
 
-exports.Prisma.CompaniesScalarFieldEnum = {
+exports.Prisma.RolesSkillsViewScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  country: 'country',
+  currency: 'currency',
+  description: 'description',
+  language: 'language',
+  salary: 'salary',
+  title: 'title',
   url: 'url',
-  logoUrl: 'logoUrl',
-  countryIcon: 'countryIcon',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
+  skillNames: 'skillNames',
+  ready: 'ready',
+  companyName: 'companyName'
 };
 
 exports.Prisma.SortOrder = {
@@ -169,20 +188,9 @@ exports.Prisma.SortOrder = {
   desc: 'desc'
 };
 
-exports.Prisma.NullableJsonNullValueInput = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull
-};
-
 exports.Prisma.QueryMode = {
   default: 'default',
   insensitive: 'insensitive'
-};
-
-exports.Prisma.JsonNullValueFilter = {
-  DbNull: Prisma.DbNull,
-  JsonNull: Prisma.JsonNull,
-  AnyNull: Prisma.AnyNull
 };
 
 exports.Prisma.NullsOrder = {
@@ -196,13 +204,20 @@ exports.EnglishLevel = {
   Fluent: 'Fluent'
 };
 
+exports.RoleLanguage = {
+  English: 'English',
+  Portuguese: 'Portuguese'
+};
+
 exports.Prisma.ModelName = {
   Subscribers: 'Subscribers',
   Roles: 'Roles',
+  SubscribersSkills: 'SubscribersSkills',
+  Skills: 'Skills',
   SentRoles: 'SentRoles',
   SubscriberTopics: 'SubscriberTopics',
   Topics: 'Topics',
-  Companies: 'Companies'
+  rolesSkillsView: 'rolesSkillsView'
 };
 
 /**

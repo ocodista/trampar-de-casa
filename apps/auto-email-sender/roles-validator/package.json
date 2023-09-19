@@ -1,0 +1,34 @@
+{
+  "name": "roles-validator",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "start": "ts-node src/index.ts",
+    "test": "vitest run",
+    "roles-validator:start": "ts-node src/index.ts"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@react-email/components": "^0.0.7",
+    "@react-email/render": "0.0.7",
+    "amqplib": "^0.10.3",
+    "db": "*",
+    "dotenv": "^16.3.1",
+    "puppeteer": "^21.0.3",
+    "redis": "^4.6.7",
+    "shared": "*",
+    "typescript": "^5.1.6",
+    "zod": "^3.21.4"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@types/react": "^18.2.15",
+    "@types/redis-mock": "^0.17.1",
+    "redis-mock": "^0.56.3",
+    "vitest": "^0.33.0"
+  }
+}

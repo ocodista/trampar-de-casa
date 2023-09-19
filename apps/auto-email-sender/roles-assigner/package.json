@@ -1,0 +1,28 @@
+{
+  "name": "roles-assigner",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "private": true,
+  "scripts": {
+    "roles-assigner:start": "ts-node src/index.ts",
+    "test": "vitest run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "db": "*",
+    "dotenv": "^16.3.1",
+    "redis": "^4.6.7",
+    "shared": "*",
+    "typescript": "^5.1.6",
+    "zod": "^3.21.4",
+    "amqplib": "latest"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.0.2",
+    "@types/react": "^18.2.15",
+    "vitest": "^0.33.0"
+  }
+}
