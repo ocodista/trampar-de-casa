@@ -3,7 +3,6 @@ import {
   Heading,
   Hr,
   Img,
-  Link,
   Preview,
   Tailwind,
   Text,
@@ -37,18 +36,9 @@ export function Header({ rolesCount }: { rolesCount: number }) {
       <Hr style={hr} />
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
       <Text className={paragraph} style={{ color: '#000' }}>
-        Hoje tenho o prazer de apresentar o <b>Layerform</b>, uma ferramenta
-        open-source brasileira desenvolvida para capacitar cada programador a
-        criar seu próprio ambiente de staging utilizando apenas arquivos
-        Terraform.
-      </Text>
-
-      <Text className={paragraph}>
-        Queremos que você conheça mais sobre o{' '}
-        <Link href="https://github.com/ergomake/layerform">Layerform</Link> e,
-        se gostar da ideia, ficaríamos muito agradecidos se deixasse sua ⭐ no{' '}
-        <Link href="https://github.com/ergomake/layerform">repositório</Link> do
-        Layerform no GitHub.
+        Selecionamos vagas remotas com todo o carinho para você!
+        <br />E tem mais: na próxima semana, você poderá escolher as suas
+        preferências e personalizar sua busca por oportunidades.
       </Text>
 
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
