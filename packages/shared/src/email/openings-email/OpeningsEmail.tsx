@@ -15,7 +15,6 @@ import {
 } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
-import { RedisClientType } from 'redis'
 import { Opening } from './Opening'
 import OpeningList from './OpeningList'
 import {
@@ -65,7 +64,9 @@ export const OpeningsEmail = ({
               <Hr style={hr} />
               <Text style={paragraph}>Olá, defensor do trabalho remoto!</Text>
               <Text style={{ ...paragraph, color: '#000' }}>
-                Nada de anúncios!📢 (Estou de licença paternidade 🙏)
+                Selecionamos vagas remotas com todo o carinho para você!
+                <br />E tem mais: na próxima semana, você poderá escolher as
+                suas preferências e personalizar sua busca por oportunidades.
               </Text>
 
               <Text style={paragraph}>
@@ -74,10 +75,14 @@ export const OpeningsEmail = ({
               <Heading style={h1}>
                 🌎 {globalOpenings.length} Vagas internacionais
               </Heading>
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+              {/* @ts-ignore */}
               <OpeningList openings={globalOpenings} />
               <Heading style={h1}>
                 🇧🇷 {localOpenings.length} Vagas nacionais
               </Heading>
+              {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
+              {/* @ts-ignore */}
               <OpeningList openings={localOpenings} />
               <Hr style={hr} />
               <Text style={paragraph}>
@@ -103,15 +108,17 @@ export const OpeningsEmail = ({
   )
 }
 export const openingsEmailHTML = async ({
-  redis,
+  // redis,
   ...props
-}: OpeningsEmail & { id: string; redis: RedisClientType }) => {
-  const renderedHtmlPersisted = await redis.get(`OPENING_HTML:${props.id}`)
+}: OpeningsEmail & { id: string }) => {
+  // const renderedHtmlPersisted = await redis.get(`OPENING_HTML:${props.id}`)
+  // console.log('after get')
 
-  if (renderedHtmlPersisted) {
-    return renderedHtmlPersisted
-  }
+  // if (renderedHtmlPersisted) {
+  // return renderedHtmlPersisted
+  // }
   const renderedHtml = render(OpeningsEmail(props))
-  await redis.set(`OPENING_HTML:${props.id}`, renderedHtml)
+  // await redis.set(`OPENING_HTML:${props.id}`, renderedHtml)
+  console.log('rendered')
   return renderedHtml
 }
