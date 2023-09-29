@@ -15,7 +15,6 @@ import {
 } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
-import { RedisClientType } from 'redis'
 import { Opening } from './Opening'
 import OpeningList from './OpeningList'
 import {
@@ -42,7 +41,7 @@ export const OpeningsEmail = ({
   unsubscribeUrl,
 }: OpeningsEmail) => {
   const rolesCount = globalOpenings.length + localOpenings.length
-  const previewText = 'R$130 de desconto na compra de uma Mesa Slikdesk!'
+  const previewText = 'As melhores vagas remotas chegaram!'
   return (
     <Tailwind>
       <Html>
@@ -65,35 +64,10 @@ export const OpeningsEmail = ({
               <Hr style={hr} />
               <Text style={paragraph}>Olá, defensor do trabalho remoto!</Text>
               <Text style={{ ...paragraph, color: '#000' }}>
-                Você ficou perdido com essa história de “standing desks" e
-                "trabalhar em pé" no e-mail anterior? Calma que eu te explico.
+                Espero que sua tão sonhada vaga esteja presente na lista de
+                hoje!
               </Text>
-              <Text style={{ ...paragraph, color: '#000' }}>
-                Ao utilizar uma mesa com regulagem de altura durante sua rotina,
-                você pode alternar momentos de trabalho sentado e em pé, que
-                trazem diversos benefícios para sua saúde e bem-estar, melhoram
-                sua produtividade e eliminam aquelas dores do home office.
-              </Text>
-              <Text style={{ ...paragraph, color: '#000' }}>
-                A nossa parceira Slikdesk disponibilizou um desconto de R$ 130
-                para você adquirir a sua standing desk. <br />
-                Acesse{' '}
-                <Link href="https://slik.com.br/trampardecasa">
-                  slik.com.br/trampardecasa
-                </Link>{' '}
-                e utilize o cupom <br />
-                <b>🎫TRAMPARDECASA</b>
-              </Text>
-
-              <Text style={paragraph}>
-                O seu feedback nos ajuda <strong>demais</strong>, clique{' '}
-                <Link style={anchor} href={feedbackFormUrl}>
-                  aqui.
-                </Link>
-              </Text>
-              <Text style={paragraph}>
-                Agora, aproveite as vagas desta semana!
-              </Text>
+              <Text style={paragraph}>Sem mais delongas, aqui estão:</Text>
               <Heading style={h1}>
                 🌎 {globalOpenings.length} Vagas internacionais
               </Heading>
@@ -126,15 +100,14 @@ export const OpeningsEmail = ({
   )
 }
 export const openingsEmailHTML = async ({
-  redis,
   ...props
-}: OpeningsEmail & { id: string; redis: RedisClientType }) => {
-  const renderedHtmlPersisted = await redis.get(`OPENING_HTML:${props.id}`)
+}: OpeningsEmail & { id: string }) => {
+  // const renderedHtmlPersisted = await redis.get(`OPENING_HTML:${props.id}`)
 
-  if (renderedHtmlPersisted) {
-    return renderedHtmlPersisted
-  }
+  // if (renderedHtmlPersisted) {
+  //   return renderedHtmlPersisted
+  // }
   const renderedHtml = render(OpeningsEmail(props))
-  await redis.set(`OPENING_HTML:${props.id}`, renderedHtml)
+  // await redis.set(`OPENING_HTML:${props.id}`, renderedHtml)
   return renderedHtml
 }
