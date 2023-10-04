@@ -11,7 +11,7 @@
 
 ## Introduction
 
-- Utilizes Redis and Supabase for seamless data retrieval.
+- Utilizes MongoDb and Supabase for seamless data retrieval.
 - Generates personalized email templates (headers and footers) for each subscriber.
 - Sends pre-rendered templates to a RabbitMQ queue.
 
@@ -20,21 +20,21 @@
 Before proceeding, you should have the following installed on your system:
 
 - Latest versions of Node.js
-- Redis
+- MongoDb
 - Supabase libraries
 - RabbitMQ
 
 Refer to the official documentation for [Node.js](https://nodejs.org/),
-[Redis](https://redis.io/),
+[MongoDb](https://www.mongodb.com/docs/),
 [Supabase](https://supabase.io/) and
 [RabbitMQ](https://www.rabbitmq.com/monitoring.html) for installation guides.
 
 ## Functionality
 
-- Establishing connections to the Redis client and RabbitMQ queue.
+- Establishing connections to the MongoDb client and RabbitMQ queue.
 - Retrieving subscribers in batches from Supabase.
 - For each subscriber:
-  - Retrieving persisted user information (roles) from Redis using the subscriber's ID.
+  - Retrieving persisted user information (roles) from MongoDb using the subscriber's ID.
   - Calculating the total number of roles and generating the header HTML.
   - Creating the footer HTML with an injected unsubscribe link.
   - Sending the pre-rendered email template, including subscriber's email, roles, footer HTML, and header HTML, to the RabbitMQ queue.
@@ -53,7 +53,7 @@ sequenceDiagram
   participant E as EmailPreRenderer
   participant RF as RenderFooter
   participant RH as RenderHeader
-  participant R as Redis
+  participant R as MongoDb
   Participant RMQ as RabbitMQ
 
   S ->> E: subscribers chunk
@@ -77,11 +77,11 @@ Pre-rendering Email Templates:
 
 - Ensures tailored email templates based on individual preferences.
 - Enhances engagement through personalized communication.
-- Data Retrieval with Redis and Supabase:
+- Data Retrieval with MongoDb and Supabase:
 
-### Seamlessly interacts with Redis and Supabase for data retrieval.
+### Seamlessly interacts with MongoDb and Supabase for data retrieval.
 
-- Utilizes Redis to store and retrieve persisted user information, like roles.
+- Utilizes MongoDb to store and retrieve persisted user information, like roles.
 - Facilitates efficient retrieval of subscriber data in batches with Supabase.
 - Header and Footer Generation:
 
