@@ -4,7 +4,7 @@ The Auto Email Sender project is a collection of microservices to send opening e
 
 - **Supabase**: Supabase is utilized for access information
 
-- **Redis**: Redis serves as a caching mechanism to improve the performance of data retrieval and processing within the microservices.
+- **MongoDB**: MongoDB serves as a caching mechanism to improve the performance of data retrieval and processing within the microservices.
 
 - **React Email**: React Email is employed for generating dynamic and visually appealing email templates.
 
@@ -18,27 +18,28 @@ The Auto Email Sender project is a collection of microservices to send opening e
 
 - Get roles on Supabase
 - Render inline HTML of roles
-- Save on Redis
+- Save on MongoDb
 
 ### [Roles Validator](./roles-validator/README.md)
 
 - Get roles on Supabase
 - Access role URL
 - Verify if the role is open
-- If not, delete the role of Redis
+- If not, delete the role of MongoDb
 
 ### [Roles Assigner](./roles-assigner/README.md)
 
-The Roles Assigner microservice manages the assignment of roles to users. It provides functionality to assign specific roles to users based on experience time, skills and English level. 
-When assigning roles, we send them to Redis.
+The Roles Assigner microservice manages the assignment of roles to users. It provides functionality to assign specific roles to users based on experience time, skills and English level.
+When assigning roles, we send them to MongoDb.
+
 - Get subscribers on supabase
 - Calculate roles for each subscriber based on Skills, Experience, and English level
-- Send results to Redis
+- Send results to MongoDb
 
 ### [Email Pre-Renderer](./email-pre-renderer/README.md)
 
-- The Email Pre-Renderer accesses the SUpabase to get all confirmed subscribers.
-- Based on subscriber ID, get Redis infos created by [roles-assigner](./roles-assigner/README.md)
+- The Email Pre-Renderer accesses the Supabase to get all confirmed subscribers.
+- Based on subscriber ID, get infos on MongoDb created by [roles-assigner](./roles-assigner/README.md)
 - Render footer component
 - Render Header component
 - Render Assigned roles components
@@ -70,9 +71,11 @@ Here we will delve into the practical aspects of orchestrating a group of micros
 The `auto-email-sender` is a group of microservices focused on sending opening emails. Some services in this group require other services to have been run before, as exemplified below:
 
 ![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/7ecef00d-429b-4739-9c55-4c59e8434623)
+
 > The order is based on the execution time. The slowest is executed first. This order is more effective for schedule sendings but is not mandatory
 
 Now I will show some dependencies between services:
+
 - `roles-validator` requires `roles-renderer`.
 - `email-pre-render` requires `roles-assigner`.
 - `email-composer` requires both `roles-validator` and `email-pre-render`.
