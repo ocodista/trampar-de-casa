@@ -2,7 +2,7 @@ import { EnglishLevel, getSupabaseClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { Entities } from 'shared'
-import { ProfileSchema } from '../../subscriber/profile/profileSchema'
+import { ProfileSchema } from '../../subscribers/profile/profileSchema'
 
 const supabaseClient = getSupabaseClient()
 const table = Entities.Subcribers

@@ -34,13 +34,10 @@ async function main() {
 
   const resendClient = new Resend(process.env['RESEND_KEY'])
 
-  const emailsHTML = await loadSubscribersHtml(
-    secretKey,
-    subscribers,
-    emailProps
-  )
-
   for (const [index, chunk] of chunks.entries()) {
+    console.time(`[${index}] - load htmls`)
+    const emailsHTML = await loadSubscribersHtml(secretKey, chunk, emailProps)
+    console.timeEnd(`[${index}] - load htmls`)
     const promises = chunk.map(async (subscriber) => {
       await sendEmail({
         to: subscriber.email,

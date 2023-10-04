@@ -15,7 +15,6 @@ import {
 } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
-import { RedisClientType } from 'redis'
 import { Opening } from './Opening'
 import OpeningList from './OpeningList'
 import {
@@ -42,7 +41,7 @@ export const OpeningsEmail = ({
   unsubscribeUrl,
 }: OpeningsEmail) => {
   const rolesCount = globalOpenings.length + localOpenings.length
-  const previewText = 'Olá, defensor do trabalho remoto!'
+  const previewText = 'As melhores vagas remotas chegaram!'
   return (
     <Tailwind>
       <Html>
@@ -65,28 +64,10 @@ export const OpeningsEmail = ({
               <Hr style={hr} />
               <Text style={paragraph}>Olá, defensor do trabalho remoto!</Text>
               <Text style={{ ...paragraph, color: '#000' }}>
-                Hoje tenho o prazer de apresentar o <b>Layerform</b>, uma
-                ferramenta open-source brasileira desenvolvida para capacitar
-                cada programador a criar seu próprio ambiente de staging
-                utilizando apenas arquivos Terraform.
+                Espero que sua tão sonhada vaga esteja presente na lista de
+                hoje!
               </Text>
-
-              <Text style={paragraph}>
-                Queremos que você conheça mais sobre o{' '}
-                <Link href="https://github.com/ergomake/layerform">
-                  Layerform
-                </Link>{' '}
-                e, se gostar da ideia, ficaríamos muito agradecidos se deixasse
-                sua ⭐ no{' '}
-                <Link href="https://github.com/ergomake/layerform">
-                  repositório
-                </Link>{' '}
-                do Layerform no GitHub.
-              </Text>
-
-              <Text style={paragraph}>
-                Agora, aproveite as vagas desta semana!
-              </Text>
+              <Text style={paragraph}>Sem mais delongas, aqui estão:</Text>
               <Heading style={h1}>
                 🌎 {globalOpenings.length} Vagas internacionais
               </Heading>
@@ -119,15 +100,14 @@ export const OpeningsEmail = ({
   )
 }
 export const openingsEmailHTML = async ({
-  redis,
   ...props
-}: OpeningsEmail & { id: string; redis: RedisClientType }) => {
-  const renderedHtmlPersisted = await redis.get(`OPENING_HTML:${props.id}`)
+}: OpeningsEmail & { id: string }) => {
+  // const renderedHtmlPersisted = await redis.get(`OPENING_HTML:${props.id}`)
 
-  if (renderedHtmlPersisted) {
-    return renderedHtmlPersisted
-  }
+  // if (renderedHtmlPersisted) {
+  //   return renderedHtmlPersisted
+  // }
   const renderedHtml = render(OpeningsEmail(props))
-  await redis.set(`OPENING_HTML:${props.id}`, renderedHtml)
+  // await redis.set(`OPENING_HTML:${props.id}`, renderedHtml)
   return renderedHtml
 }
