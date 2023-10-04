@@ -1,7 +1,8 @@
 import { faker } from '@faker-js/faker'
+import { Collection, Document, MongoClient } from 'mongodb'
 import * as redisFile from 'redis'
+import * as sharedFile from 'shared'
 import { Topics } from 'shared'
-import { RedisPrefix } from 'shared/src/enums/redis'
 import { redisDelStub } from 'shared/src/test/helpers/stubs'
 import { rolesValidator } from 'src/rolesValidator'
 import { vi } from 'vitest'
@@ -26,6 +27,23 @@ const roleDataReturnFactory = (topicId?: Topics) => [
 ]
 
 describe('Roles Validator', () => {
+  const mockMongoCollection = {
+    insertOne: vi.fn(),
+    updateOne: vi.fn(),
+    deleteOne: vi.fn(),
+    find: vi.fn(),
+    findOne: vi.fn(),
+  } as unknown as Collection<Document>
+  const mockMongoConnection = {
+    db: vi.fn().mockReturnValue({
+      collection: vi.fn().mockReturnValue(mockMongoCollection),
+    }),
+    close: vi.fn(),
+  }
+  vi.spyOn(sharedFile, 'getMongoConnection').mockImplementation(
+    async () => mockMongoConnection as unknown as MongoClient
+  )
+
   const redisClientMock = {
     del: redisDelStub,
   } as unknown as redisFile.RedisClientType
@@ -36,7 +54,7 @@ describe('Roles Validator', () => {
   it('call getRoles', async () => {
     getRolesStub.mockResolvedValue([])
 
-    await rolesValidator(redisClientMock)
+    await rolesValidator(mockMongoCollection)
 
     expect(getRolesStub).toBeCalled()
   })
@@ -45,11 +63,12 @@ describe('Roles Validator', () => {
       const roleDataMock = roleDataReturnFactory(Topics.NATIONAL_VACANCIES)
       getRolesStub.mockResolvedValue(roleDataMock)
       isValidRoleStub.mockResolvedValue(false)
-      const expectedDeletedKey = `${RedisPrefix.NationalRolesRenderer}${roleDataMock[0].id}`
 
-      await rolesValidator(redisClientMock)
+      await rolesValidator(mockMongoCollection)
 
-      expect(redisDelStub).toBeCalledWith(expectedDeletedKey)
+      expect(mockMongoCollection.deleteOne).toBeCalledWith({
+        id: roleDataMock[0].id,
+      })
     })
 
     it('remove role from redis when URL is not valid', async () => {
@@ -58,11 +77,12 @@ describe('Roles Validator', () => {
       isValidRoleStub.mockImplementation(() => {
         throw new Error(faker.string.sample())
       })
-      const expectedDeletedKey = `${RedisPrefix.NationalRolesRenderer}${roleDataMock[0].id}`
 
-      await rolesValidator(redisClientMock)
+      await rolesValidator(mockMongoCollection)
 
-      expect(redisDelStub).toBeCalledWith(expectedDeletedKey)
+      expect(mockMongoCollection.deleteOne).toBeCalledWith({
+        id: roleDataMock[0].id,
+      })
     })
 
     it('keep role in Redis that are valid on site', async () => {
@@ -70,9 +90,9 @@ describe('Roles Validator', () => {
       getRolesStub.mockResolvedValue(roleDataMock)
       isValidRoleStub.mockResolvedValue(true)
 
-      await rolesValidator(redisClientMock)
+      await rolesValidator(mockMongoCollection)
 
-      expect(redisDelStub).not.toBeCalled()
+      expect(mockMongoCollection.deleteOne).not.toBeCalled()
     })
   })
 })
