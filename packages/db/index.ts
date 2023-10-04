@@ -1,6 +1,9 @@
 import { SupabaseClient, createClient } from '@supabase/supabase-js'
+import dotenv from 'dotenv'
 
+dotenv.config()
 export { SupabaseClient, createClient } from '@supabase/supabase-js'
+
 export * from './prisma/client'
 export * from './src/saveOpenings'
 // import { PrismaClient } from './prisma/client'
