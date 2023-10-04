@@ -4,7 +4,7 @@ The Render Roles Worker is a software component that renders and saves each acti
 
 ## Flow Diagram
 
-![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/1c4ae6b4-b1ab-41d6-9f09-d62a3d5b4e90)
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/573aa54c-f1c0-4cb0-b9a8-c642e6c15dbb)
 
 ## Worker Flow
 
