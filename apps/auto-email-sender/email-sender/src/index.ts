@@ -1,5 +1,7 @@
 import { emailSender } from './emailSender'
 
 emailSender()
-  .catch((e) => console.log('email sender service error:', e))
+  .catch((e) => {
+    throw e
+  })
   .finally(() => process.exit(0))

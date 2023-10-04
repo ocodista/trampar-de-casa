@@ -32,7 +32,6 @@ export const getSubscriberRoles = withExecutionTimeLogging(
     type QueryBuilder = ReturnType<ReturnType<typeof supabase.from>['select']>
 
     const filterBySkill = (skills: string[], query: QueryBuilder) => {
-      console.log(skills)
       return query.in('skills', skills)
     }
     const filterByEnglish = (

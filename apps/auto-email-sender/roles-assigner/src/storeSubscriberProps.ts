@@ -51,7 +51,6 @@ export const storeSubscriberProps = async (
     }
     globalOpenings.push(opening)
   })
-  console.log({ globalOpenings, localOpenings })
 
   await redisClient.set(
     `subscriber:${subscriberId}`,

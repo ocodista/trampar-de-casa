@@ -19,7 +19,6 @@ export const emailSender = async () => {
     durable: true,
   })
 
-  // TODO: update consume approach
   let message = await channelToConsume.get(EmailQueues.EmailSender)
   while (message) {
     if (!message) break
