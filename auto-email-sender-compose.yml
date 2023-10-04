@@ -52,6 +52,10 @@ services:
       mongo:
         condition: service_completed_successfully
   roles-assigner:
+    environment:
+      - MONGO_PASSWORD=root
+      - MONGO_USERNAME=root
+      - MONGO_ADDRESS=mongo
     build: 
       context: .
       dockerfile: apps/auto-email-sender/roles-assigner-image.dockerfile
