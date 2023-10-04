@@ -23,6 +23,4 @@ IFS=',' read -ra folders <<< "$folder_names"
 for folder in "${folders[@]}"; do
   echo "Running command for folder: $folder"
   turbo prune --scope="${folder}"
-  # Replace 'your_command_here' with the actual command you want to run for each folder
-  # Example: your_command_here "$target_directory/$folder"
 done
