@@ -62,7 +62,7 @@ describe('Roles Assigner', () => {
       expect(getSubscribersRoleSpy).toBeCalledTimes(subscribersBatchMock.length)
     })
 
-    it('send emailProps { user: { email, id }, roleIds } to emailRendererQueue at Redis', async () => {
+    it('send emailProps {  email, id, roleIds } to emailRendererQueue at Redis', async () => {
       const redisSpy = vi.spyOn(saveSubscriberRolesFiles, 'saveSubscriberRoles')
       await assignRoles()
       expect(redisSpy).toHaveBeenCalled()
