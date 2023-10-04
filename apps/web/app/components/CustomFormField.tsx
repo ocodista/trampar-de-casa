@@ -1,5 +1,5 @@
 'use client'
-import { ProfileSchemaEnum } from 'app/subscriber/profile/profileSchema'
+import { ProfileSchemaEnum } from 'app/subscribers/profile/profileSchema'
 import { format } from 'date-fns'
 import React, { useEffect } from 'react'
 import {
