@@ -5,7 +5,7 @@ import { ZodError } from 'zod'
 import {
   ProfileSchema,
   profileFormSchema,
-} from '../../../subscriber/profile/profileSchema'
+} from '../../../subscribers/profile/profileSchema'
 import { logError } from '../../logError'
 import { getById, updateSubscriber } from '../db'
 
