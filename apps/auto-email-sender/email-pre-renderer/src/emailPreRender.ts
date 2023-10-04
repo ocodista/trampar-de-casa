@@ -1,8 +1,11 @@
 import dotenv from 'dotenv'
-import { MongoCollection, createRabbitMqChannel } from 'shared'
+import {
+  MongoCollection,
+  createRabbitMqChannel,
+  getMongoConnection,
+} from 'shared'
 import { CONFIG } from './config'
 import { getAllSubscribers } from './getAllSubscribers'
-import { getMongoConnection } from './mongo'
 import { renderFooter } from './renderFooter'
 import { renderHeader } from './renderHeader'
 import { sendToQueue } from './sendToQueue'

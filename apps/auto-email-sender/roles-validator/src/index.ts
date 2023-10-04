@@ -1,7 +1,5 @@
-import { MongoCollection } from 'shared'
-import { getMongoConnection } from './mongo'
+import { MongoCollection, getMongoConnection } from 'shared'
 import { rolesValidator } from './rolesValidator'
-
 ;(async () => {
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')

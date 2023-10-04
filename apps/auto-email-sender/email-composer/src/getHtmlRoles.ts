@@ -1,5 +1,4 @@
-import { MongoCollection, Topics } from 'shared'
-import { getMongoConnection } from './mongo'
+import { MongoCollection, Topics, getMongoConnection } from 'shared'
 import { RenderRolesSection } from './renderRolesSection'
 
 export type RolesRendererCollection = {

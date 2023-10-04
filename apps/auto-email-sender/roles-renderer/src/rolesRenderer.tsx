@@ -1,8 +1,7 @@
 import { getSupabaseClient } from 'db'
 import dotenv from 'dotenv'
-import { MongoCollection } from 'shared'
+import { MongoCollection, getMongoConnection } from 'shared'
 import { getRolesInBatches } from './getRoles'
-import { getMongoConnection } from './mongo'
 import { parseAndStoreRole } from './parseAndStoreRole'
 dotenv.config()
 

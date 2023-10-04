@@ -1,11 +1,10 @@
 import { Subscribers, getSupabaseClient } from 'db'
 import dotenv from 'dotenv'
-import { Entities, MongoCollection } from 'shared'
+import { Entities, MongoCollection, getMongoConnection } from 'shared'
 import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
 import { getAllPaginated } from './getAllPaginated'
 import { getEmailProps } from './getEmailProps'
 import { getSubscriberRoles } from './getSubscriberRoles'
-import { getMongoConnection } from './mongo'
 import { saveSubscriberRoles } from './saveSubscriberRoles'
 
 dotenv.config()
