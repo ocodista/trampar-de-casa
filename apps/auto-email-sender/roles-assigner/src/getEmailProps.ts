@@ -3,19 +3,15 @@ import { withExecutionTimeLogging } from 'shared/src/observability/withExecution
 import { Role } from './getSubscriberRoles'
 
 export interface EmailProps {
-  user: {
-    email: string
-    id: string
-  }
+  email: string
+  id: string
   rolesId: string[]
 }
 
 export const getEmailProps = withExecutionTimeLogging(
   (subscriber: Subscribers, roles: Role[]): EmailProps => ({
-    user: {
-      email: subscriber.email,
-      id: subscriber.id,
-    },
+    email: subscriber.email,
+    id: subscriber.id,
     rolesId: roles.map((role) => role.id),
   }),
   { name: 'getEmailProps' }
