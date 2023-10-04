@@ -1,5 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { SupabaseClient } from '@supabase/supabase-js'
+import { Collection, Document } from 'mongodb'
 import { RedisClientType } from 'redis'
 import { Topics } from 'shared'
 import { RedisPrefix } from 'shared/src/enums/redis'
@@ -74,7 +75,10 @@ describe('Roles Renderer', () => {
     it(`parses and stores html in ${RedisPrefix.NationalRolesRenderer}{id} key at Redis`, async () => {
       const mockNationalRoles = getRolesSkillsMock(Topics.NATIONAL_VACANCIES)
       const setSpy = vi.spyOn(mockRedisClient, 'set')
-      await parseAndStoreRole(mockRedisClient, mockNationalRoles)
+      await parseAndStoreRole(
+        mockNationalRoles,
+        vi.fn() as unknown as Collection<Document>
+      )
       expect(setSpy).toHaveBeenCalledWith(
         `${RedisPrefix.NationalRolesRenderer}${mockNationalRoles.id}`,
         parseHTML(mockNationalRoles)
@@ -88,7 +92,10 @@ describe('Roles Renderer', () => {
         Topics.INTERNATIONAL_VACANCIES
       )
       const setSpy = vi.spyOn(mockRedisClient, 'set')
-      await parseAndStoreRole(mockRedisClient, mockNationalRoles)
+      await parseAndStoreRole(
+        mockNationalRoles,
+        vi.fn() as unknown as Collection<Document>
+      )
       expect(setSpy).toHaveBeenCalledWith(
         `${RedisPrefix.InternationalRolesRenderer}${mockNationalRoles.id}`,
         parseHTML(mockNationalRoles)

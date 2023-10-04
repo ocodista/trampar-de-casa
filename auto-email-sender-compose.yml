@@ -19,6 +19,17 @@ services:
       - '6379:6379'
     expose:
       - 6379
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - mongo-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - mongo-data:/data/db
   roles-validator:
     build: 
       context: .
@@ -28,13 +39,18 @@ services:
     depends_on:
       - redis
   roles-renderer:
+    environment:
+      - MONGO_PASSWORD=root
+      - MONGO_USERNAME=root
+      - MONGO_ADDRESS=mongo
     build: 
       context: .
       dockerfile: apps/auto-email-sender/roles-renderer-image.dockerfile
     env_file:
       - apps/auto-email-sender/roles-renderer/.env
     depends_on:
-      - redis
+      mongo:
+        condition: service_completed_successfully
   roles-assigner:
     build: 
       context: .
@@ -72,3 +88,11 @@ services:
       - apps/auto-email-sender/email-sender/.env
     depends_on:
       - rabbitmq
+
+networks:
+  mongo-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
