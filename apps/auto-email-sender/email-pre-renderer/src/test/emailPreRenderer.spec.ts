@@ -1,5 +1,4 @@
 import { faker } from '@faker-js/faker'
-import { RedisPrefix } from 'shared/src/enums/redis'
 import { emailPreRender } from 'src/emailPreRender'
 import { vi } from 'vitest'
 import {
@@ -9,7 +8,6 @@ import {
   createRabbitMqChannelStub,
   getAllSubscribersStub,
   mockSupabaseAndRedis,
-  redisGetStub,
   renderFooterStub,
   renderHeaderStub,
   sendToQueueStub,
@@ -39,14 +37,12 @@ describe('Email Pre Renderer', () => {
   })
 
   describe('For each subscriber', () => {
-    it('Get persisted user info from redis', async () => {
-      const { subscriberMock } = mockSupabaseAndRedis()
+    it('Get persisted user info from mongo', async () => {
+      const { mongoCollectionMock } = mockSupabaseAndRedis()
 
       await emailPreRender()
 
-      expect(redisGetStub).toHaveBeenCalledWith(
-        `${RedisPrefix.RolesAssigner}${subscriberMock.id}`
-      )
+      expect(mongoCollectionMock.findOne).toHaveBeenCalled()
     })
 
     it('Calls render footer passing subscriber id and prefix url', async () => {
@@ -58,15 +54,17 @@ describe('Email Pre Renderer', () => {
     })
 
     it('Calls render header passing rolesID', async () => {
-      const { redisRolesIdMock } = mockSupabaseAndRedis()
+      const { mongoRoleAssignerMock } = mockSupabaseAndRedis()
 
       await emailPreRender()
 
-      expect(renderHeaderStub).toHaveBeenCalledWith(redisRolesIdMock.rolesId)
+      expect(renderHeaderStub).toHaveBeenCalledWith(
+        mongoRoleAssignerMock.rolesId
+      )
     })
 
     it('Sends to rabbitMQ queue passing { [userEmail]: { roles, footerHTML, headerHTML } }', async () => {
-      const { redisRolesIdMock, subscriberMock } = mockSupabaseAndRedis()
+      const { mongoRoleAssignerMock, subscriberMock } = mockSupabaseAndRedis()
 
       await emailPreRender()
 
@@ -74,7 +72,7 @@ describe('Email Pre Renderer', () => {
         [subscriberMock.email]: {
           footerHTML: renderFooterReturnMock,
           headerHTML: renderHeaderReturnMock,
-          roles: redisRolesIdMock.rolesId,
+          roles: mongoRoleAssignerMock.rolesId,
         },
       })
     })

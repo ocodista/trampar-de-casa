@@ -1,7 +1,9 @@
 import { faker } from '@faker-js/faker'
 import * as dbFile from 'db'
+import { MongoClient } from 'mongodb'
 import * as redisFile from 'redis'
 import * as encryptFile from 'shared'
+import * as sharedFile from 'shared'
 import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
 import { getSupabaseClientStub } from 'shared/src/test/helpers/stubs'
 import { vi } from 'vitest'
@@ -50,11 +52,34 @@ export const configExternalServicesMocks = () => {
 }
 export const mockSupabaseAndRedis = () => {
   const subscriberMock = getSubscriberMock()
-  const redisRolesIdMock = { rolesId: [faker.string.sample()] }
   getAllSubscribersStub.mockReturnValue([subscriberMock])
-  redisGetStub.mockResolvedValueOnce(JSON.stringify(redisRolesIdMock))
-
-  return { subscriberMock, redisRolesIdMock }
+  const mongoRoleAssignerMock = {
+    email: faker.internet.email(),
+    id: faker.string.uuid(),
+    rolesId: ['FAKE_INLINE_HTML_ROLE'],
+  }
+  const mongoCollectionMock = {
+    insertOne: vi.fn(),
+    updateOne: vi.fn(),
+    deleteOne: vi.fn(),
+    find: vi.fn(),
+    findOne: vi.fn().mockResolvedValueOnce(mongoRoleAssignerMock),
+  }
+  const mongoConnectionMock = {
+    db: vi.fn().mockReturnValue({
+      collection: vi.fn().mockReturnValue(mongoCollectionMock),
+    }),
+    close: vi.fn(),
+  }
+  vi.spyOn(sharedFile, 'getMongoConnection').mockImplementation(
+    async () => mongoConnectionMock as unknown as MongoClient
+  )
+  return {
+    mongoCollectionMock,
+    subscriberMock,
+    mongoConnectionMock,
+    mongoRoleAssignerMock,
+  }
 }
 export const configRenderMocks = () => {
   vi.spyOn(encryptFile, 'encrypt').mockImplementation(
