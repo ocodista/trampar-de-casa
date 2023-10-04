@@ -30,11 +30,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 5.0.0
- * Query Engine version: 6a3747c37ff169c90047725a05a6ef02e32ac97e
+ * Query Engine version: 2804dc98259d2ea960602aca6b8e7fdc03c1758f
  */
 Prisma.prismaVersion = {
   client: "5.0.0",
-  engine: "6a3747c37ff169c90047725a05a6ef02e32ac97e"
+  engine: "2804dc98259d2ea960602aca6b8e7fdc03c1758f"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -212,7 +212,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "/home/joao/FOSS/trampar-de-casa/packages/db/prisma/client",
+      "value": "/home/joao/work/trampar-de-casa/packages/db/prisma/client",
       "fromEnvVar": null
     },
     "config": {
@@ -232,23 +232,23 @@ const config = {
   },
   "relativeEnvPaths": {
     "rootEnvPath": "../../.env",
-    "schemaEnvPath": "../../.env"
+    "schemaEnvPath": "../../../../apps/auto-email-sender/roles-renderer/.env"
   },
   "relativePath": "..",
   "clientVersion": "5.0.0",
-  "engineVersion": "6a3747c37ff169c90047725a05a6ef02e32ac97e",
+  "engineVersion": "2804dc98259d2ea960602aca6b8e7fdc03c1758f",
   "datasourceNames": [
     "db"
   ],
   "activeProvider": "postgresql",
-  "dataProxy": false
+  "postinstall": true
 }
 
 const fs = require('fs')
 
 config.dirname = __dirname
 if (!fs.existsSync(path.join(__dirname, 'schema.prisma'))) {
-  config.dirname = path.join(process.cwd(), "prisma/client")
+  config.dirname = path.join(process.cwd(), "../../../packages/db/prisma/client")
   config.isBundled = true
 }
 
@@ -271,6 +271,6 @@ exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
 path.join(__dirname, "libquery_engine-debian-openssl-3.0.x.so.node");
-path.join(process.cwd(), "prisma/client/libquery_engine-debian-openssl-3.0.x.so.node")
+path.join(process.cwd(), "../../../packages/db/prisma/client/libquery_engine-debian-openssl-3.0.x.so.node")
 path.join(__dirname, "schema.prisma");
-path.join(process.cwd(), "prisma/client/schema.prisma")
+path.join(process.cwd(), "../../../packages/db/prisma/client/schema.prisma")

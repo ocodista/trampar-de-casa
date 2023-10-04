@@ -32,7 +32,6 @@ export const emailSender = async () => {
     }
     message = await channelToConsume.get(EmailQueues.EmailSender)
   }
-
   const chunks = chunkArray(emailComposerItems, 25)
   for (const [index, chunk] of chunks.entries()) {
     const promises = chunk.map(

@@ -1,5 +1,6 @@
 import { getSupabaseClient } from 'db'
 import dotenv from 'dotenv'
+import { MongoCollection } from 'shared'
 import { getRolesInBatches } from './getRoles'
 import { getMongoConnection } from './mongo'
 import { parseAndStoreRole } from './parseAndStoreRole'
@@ -9,7 +10,9 @@ export async function rolesRenderer() {
   const supabaseClient = getSupabaseClient()
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
-  const mongoCollection = mongoDatabase.collection('roles-renderer')
+  const mongoCollection = mongoDatabase.collection(
+    MongoCollection.RolesRenderer
+  )
 
   const BATCH_SIZE = 100
   const roleBatches = getRolesInBatches(supabaseClient, BATCH_SIZE)

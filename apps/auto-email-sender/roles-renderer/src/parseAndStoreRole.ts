@@ -13,4 +13,9 @@ export const parseAndStoreRole = async (
     content: html,
     topic: role.topicId,
   })
+  console.log({
+    id,
+    content: html,
+    topic: role.topicId,
+  })
 }

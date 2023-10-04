@@ -1,6 +1,6 @@
 import { Subscribers, getSupabaseClient } from 'db'
 import dotenv from 'dotenv'
-import { Entities } from 'shared'
+import { Entities, MongoCollection } from 'shared'
 import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
 import { getAllPaginated } from './getAllPaginated'
 import { getEmailProps } from './getEmailProps'
@@ -14,7 +14,9 @@ export const assignRoles = withExecutionTimeLogging(
   async () => {
     const mongoConnection = await getMongoConnection()
     const mongoDatabase = mongoConnection.db('auto-email-sender')
-    const mongoCollection = mongoDatabase.collection('roles-assigner')
+    const mongoCollection = mongoDatabase.collection(
+      MongoCollection.RolesAssigner
+    )
     const supabaseClient = getSupabaseClient()
 
     const batchSize = 100

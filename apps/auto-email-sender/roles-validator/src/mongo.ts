@@ -1,6 +1,4 @@
-import dotenv from 'dotenv'
 import { MongoClient } from 'mongodb'
-dotenv.config()
 
 const MONGO_PASSWORD = process.env['MONGO_PASSWORD'] as string
 const MONGO_USERNAME = process.env['MONGO_USERNAME'] as string

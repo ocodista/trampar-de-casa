@@ -1,30 +1,40 @@
 import { Heading, Tailwind } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
+import { Topics } from 'shared'
+import { RolesRendererCollection } from './getHtmlRoles'
 
-type RenderInfos = {
-  value: string
-  count: number
-}
-type Props = Record<'national' | 'international', RenderInfos>
+type Props = { roles: RolesRendererCollection[] }
 
-export function RenderRolesSection({ international, national }: Props) {
+export function RenderRolesSection({ roles }: Props) {
+  const internationalRoles = roles.filter(
+    ({ topic }) => topic === Topics.INTERNATIONAL_VACANCIES
+  )
+  const nationalRoles = roles.filter(
+    ({ topic }) => topic === Topics.NATIONAL_VACANCIES
+  )
   return render(
     <Tailwind>
       <Heading className="text-[24px]">
-        🌎 {international.count} Vagas internacionais
+        🌎 {internationalRoles.length} Vagas internacionais
       </Heading>
       <div
         dangerouslySetInnerHTML={{
-          __html: international.value,
+          __html: internationalRoles.reduce(
+            (prev, { content }) => `${prev}${content}`,
+            ''
+          ),
         }}
       ></div>
       <Heading className="text-[24px]">
-        🇧🇷 {national.count} Vagas nacionais
+        🇧🇷 {nationalRoles.length} Vagas nacionais
       </Heading>
       <div
         dangerouslySetInnerHTML={{
-          __html: national.value,
+          __html: nationalRoles.reduce(
+            (prev, { content }) => `${prev}${content}`,
+            ''
+          ),
         }}
       ></div>
     </Tailwind>

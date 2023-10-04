@@ -1,47 +1,32 @@
-import { createClient } from 'redis'
-import { RedisPrefix } from 'shared/src/enums/redis'
+import { MongoCollection, Topics } from 'shared'
+import { getMongoConnection } from './mongo'
 import { RenderRolesSection } from './renderRolesSection'
 
+export type RolesRendererCollection = {
+  id: string
+  content: string
+  topic: Topics
+}
+
 export const getHtmlRoles = async (rolesId: string[]) => {
-  let internationalRoles = ''
-  let internationalCount = 0
-  let nationalRoles = ''
-  let nationalCount = 0
-  const redisClient = createClient({
-    socket: {
-      host: 'redis',
-    },
-  })
-  await redisClient.connect()
+  const mongoConnection = await getMongoConnection()
+  const mongoDatabase = mongoConnection.db('auto-email-sender')
+  const mongoCollection = mongoDatabase.collection(
+    MongoCollection.RolesRenderer
+  )
+
+  const roles: RolesRendererCollection[] = []
 
   for (let index = 0; index < rolesId.length; index++) {
     const roleId = rolesId[index]
-
-    const internationalRole = await redisClient.get(
-      `${RedisPrefix.InternationalRolesRenderer}${roleId}`
-    )
-    const nationalRole = await redisClient.get(
-      `${RedisPrefix.NationalRolesRenderer}${roleId}`
-    )
-    if (internationalRole) {
-      internationalCount++
-      internationalRoles += internationalRole
-    }
-    if (nationalRole) {
-      nationalCount++
-      nationalRoles += nationalRole
+    const roleSavedOnMongo =
+      await mongoCollection.findOne<RolesRendererCollection>({ id: roleId })
+    if (roleSavedOnMongo) {
+      roles.push(roleSavedOnMongo)
     }
   }
-  await redisClient.disconnect()
 
   return RenderRolesSection({
-    international: {
-      count: internationalCount,
-      value: internationalRoles,
-    },
-    national: {
-      count: nationalCount,
-      value: nationalRoles,
-    },
+    roles,
   })
 }

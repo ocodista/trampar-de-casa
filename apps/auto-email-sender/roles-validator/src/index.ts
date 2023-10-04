@@ -1,20 +1,15 @@
-import { RedisClientType, createClient } from 'redis'
+import { MongoCollection } from 'shared'
+import { getMongoConnection } from './mongo'
 import { rolesValidator } from './rolesValidator'
-const redisClient = createClient({
-  socket: {
-    keepAlive: false,
-    host: 'redis',
-  },
-})
+
 ;(async () => {
-  await redisClient.connect()
-  await rolesValidator(redisClient as RedisClientType)
+  const mongoConnection = await getMongoConnection()
+  const mongoDatabase = mongoConnection.db('auto-email-sender')
+  const mongoCollection = mongoDatabase.collection(
+    MongoCollection.RolesRenderer
+  )
+
+  await rolesValidator(mongoCollection).finally(
+    async () => await mongoConnection.close()
+  )
 })()
-  .catch((e) => {
-    console.log('Error on rolesValidator', e)
-    process.exit(1)
-  })
-  .finally(async () => {
-    await redisClient.disconnect()
-    process.exit(0)
-  })

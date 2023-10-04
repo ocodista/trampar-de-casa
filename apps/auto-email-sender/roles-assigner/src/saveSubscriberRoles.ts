@@ -5,6 +5,7 @@ import { EmailProps } from './getEmailProps'
 export const saveSubscriberRoles = withExecutionTimeLogging(
   async (mongoCollection: Collection<Document>, emailProps: EmailProps) => {
     await mongoCollection.insertOne(emailProps)
+    console.log(emailProps)
   },
   { name: 'saveSubscriberRoles' }
 )

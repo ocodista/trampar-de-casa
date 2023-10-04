@@ -1,17 +1,19 @@
-import { RedisClientType, createClient as createRedisClient } from 'redis'
-import { createRabbitMqChannel } from 'shared'
-import { RedisPrefix } from 'shared/src/enums/redis'
+import dotenv from 'dotenv'
+import { MongoCollection, createRabbitMqChannel } from 'shared'
 import { CONFIG } from './config'
 import { getAllSubscribers } from './getAllSubscribers'
+import { getMongoConnection } from './mongo'
 import { renderFooter } from './renderFooter'
 import { renderHeader } from './renderHeader'
 import { sendToQueue } from './sendToQueue'
+dotenv.config()
 
 export async function emailPreRender() {
-  const redisClient = createRedisClient({
-    socket: { host: 'redis' },
-  }) as RedisClientType
-  await redisClient.connect()
+  const mongoConnection = await getMongoConnection()
+  const mongoDatabase = mongoConnection.db('auto-email-sender')
+  const mongoCollection = mongoDatabase.collection(
+    MongoCollection.RolesAssigner
+  )
   const channel = await createRabbitMqChannel({
     password: CONFIG.RABBITMQ_PASS,
     user: CONFIG.RABBITMQ_USER,
@@ -25,14 +27,13 @@ export async function emailPreRender() {
   const data = await getAllSubscribers()
   if (!data) return
   for (const { email, id } of data) {
-    const subscriber = await redisClient.get(
-      `${RedisPrefix.RolesAssigner}${id}`
-    )
-    if (!subscriber) break
-    const rolesAssignerInfos = JSON.parse(subscriber) as { rolesId: string[] }
-    subscriberRolesAndEmail.push({ ...rolesAssignerInfos, email, id })
+    const subscriber = await mongoCollection.findOne({ id })
+    if (subscriber) {
+      const { rolesId } = subscriber as unknown as { rolesId: string[] }
+      subscriberRolesAndEmail.push({ rolesId, email, id })
+    }
   }
-  subscriberRolesAndEmail.forEach(async ({ email, rolesId, id }) => {
+  for (const { email, id, rolesId } of subscriberRolesAndEmail) {
     const promiseFooterHTML = new Promise<string>((resolve) =>
       resolve(renderFooter(id, CONFIG.URL_PREFIX))
     )
@@ -51,8 +52,7 @@ export async function emailPreRender() {
         roles: rolesId,
       },
     })
-  })
+  }
 
-  // await channel.close()
-  await redisClient.disconnect()
+  await mongoConnection.close()
 }
