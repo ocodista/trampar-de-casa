@@ -3,7 +3,7 @@ import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { Entities } from 'shared'
 import { getSupabaseClient } from '../../db/getSupabaseClient'
-import { ProfileSchema } from '../../subscriber/profile/profileSchema'
+import { ProfileSchema } from '../../subscribers/profile/profileSchema'
 
 const supabaseClient = getSupabaseClient()
 const table = Entities.Subcribers
