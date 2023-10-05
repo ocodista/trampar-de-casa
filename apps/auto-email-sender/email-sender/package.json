@@ -6,7 +6,6 @@
   "private": true,
   "scripts": {
     "start": "ts-node src/index.ts",
-    "email-sender:start": "ts-node src/index.ts",
     "test": "vitest run"
   },
   "keywords": [],

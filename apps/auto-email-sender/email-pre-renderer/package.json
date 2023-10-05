@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "email-pre-renderer:start": "ts-node src/index.ts",
+    "start": "ts-node src/index.ts",
     "test": "vitest run"
   },
   "keywords": [],

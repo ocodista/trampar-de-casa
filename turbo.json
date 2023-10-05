@@ -17,26 +17,7 @@
     "start": {},
     "db-start": {},
     "db-seed": {},
-    "db-stop": {},
-    "roles-renderer:start": {
-      "cache": false
-    },
-    "roles-assigner:start": {
-      "cache": false
-    },
-    "email-pre-renderer:start": {
-      "cache": false
-    },
-    "roles-validator:start": {
-      "cache": false
-    },
-    "email-composer:start": {
-      "dependsOn": ["roles-validator:start"],
-      "cache": false
-    },
-    "email-sender:start": {
-      "cache": false
-    }
+    "db-stop": {}
   },
   "globalEnv": ["VERCEL_URL", "VERCEL_ENV"]
 }

@@ -7,7 +7,7 @@
     "test:watch": "vitest watch",
     "test": "vitest run",
     "build": "parcel build src/index.ts",
-    "roles-renderer:start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts"
   },
   "keywords": [],
   "author": "",

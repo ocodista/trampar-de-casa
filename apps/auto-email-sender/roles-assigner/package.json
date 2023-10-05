@@ -5,7 +5,7 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "roles-assigner:start": "ts-node src/index.ts",
+    "start": "ts-node src/index.ts",
     "test": "vitest run"
   },
   "keywords": [],
