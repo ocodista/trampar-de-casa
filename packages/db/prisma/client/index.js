@@ -30,11 +30,11 @@ exports.Prisma = Prisma
 
 /**
  * Prisma Client JS version: 5.0.0
- * Query Engine version: 6b0aef69b7cdfc787f822ecd7cdc76d5f1991584
+ * Query Engine version: a9b7003df90aa623086e4d6f4e43c72468e6339b
  */
 Prisma.prismaVersion = {
   client: "5.0.0",
-  engine: "6b0aef69b7cdfc787f822ecd7cdc76d5f1991584"
+  engine: "a9b7003df90aa623086e4d6f4e43c72468e6339b"
 }
 
 Prisma.PrismaClientKnownRequestError = PrismaClientKnownRequestError;
@@ -197,7 +197,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Users\\mateus.lima\\Documents\\personal\\dev\\JavaScript\\trampar-de-casa-weekly\\packages\\db\\prisma\\client",
+      "value": "/Users/caioborghi/personal/trampar-de-casa/packages/db/prisma/client",
       "fromEnvVar": null
     },
     "config": {
@@ -206,7 +206,7 @@ const config = {
     "binaryTargets": [
       {
         "fromEnvVar": null,
-        "value": "windows",
+        "value": "darwin-arm64",
         "native": true
       }
     ],
@@ -218,7 +218,7 @@ const config = {
   },
   "relativePath": "..",
   "clientVersion": "5.0.0",
-  "engineVersion": "6b0aef69b7cdfc787f822ecd7cdc76d5f1991584",
+  "engineVersion": "a9b7003df90aa623086e4d6f4e43c72468e6339b",
   "datasourceNames": [
     "db"
   ],
@@ -253,7 +253,7 @@ const PrismaClient = getPrismaClient(config)
 exports.PrismaClient = PrismaClient
 Object.assign(exports, Prisma)
 
-path.join(__dirname, "query_engine-windows.dll.node");
-path.join(process.cwd(), "packages/db/prisma/client/query_engine-windows.dll.node")
+path.join(__dirname, "libquery_engine-darwin-arm64.dylib.node");
+path.join(process.cwd(), "packages/db/prisma/client/libquery_engine-darwin-arm64.dylib.node")
 path.join(__dirname, "schema.prisma");
 path.join(process.cwd(), "packages/db/prisma/client/schema.prisma")
