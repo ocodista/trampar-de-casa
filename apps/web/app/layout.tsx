@@ -11,7 +11,12 @@ const description =
 export const metadata: Metadata = {
   title,
   description,
-  twitter: { title, description },
+  twitter: {
+    title,
+    description,
+    card: 'summary_large_image',
+    creator: '@ocodista'
+  },
   openGraph: {
     title,
     description
