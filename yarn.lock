@@ -8042,47 +8042,47 @@ tsutils@^3.21.0:
   dependencies:
     tslib "^1.8.1"
 
-turbo-darwin-64@1.10.13:
-  version "1.10.13"
-  resolved "https://registry.yarnpkg.com/turbo-darwin-64/-/turbo-darwin-64-1.10.13.tgz#7abc33838bf74c7e7ba2955cb6acc40342d6964c"
-  integrity sha512-vmngGfa2dlYvX7UFVncsNDMuT4X2KPyPJ2Jj+xvf5nvQnZR/3IeDEGleGVuMi/hRzdinoxwXqgk9flEmAYp0Xw==
+turbo-darwin-64@1.10.15:
+  version "1.10.15"
+  resolved "https://registry.yarnpkg.com/turbo-darwin-64/-/turbo-darwin-64-1.10.15.tgz#8f1d80ca91e46909a2c80e416e475bc44c91ef9f"
+  integrity sha512-Sik5uogjkRTe1XVP9TC2GryEMOJCaKE2pM/O9uLn4koQDnWKGcLQv+mDU+H+9DXvKLnJnKCD18OVRkwK5tdpoA==
 
-turbo-darwin-arm64@1.10.13:
-  version "1.10.13"
-  resolved "https://registry.yarnpkg.com/turbo-darwin-arm64/-/turbo-darwin-arm64-1.10.13.tgz#89f2d14a28789e5eaf276a17fecd4116d61fd16d"
-  integrity sha512-eMoJC+k7gIS4i2qL6rKmrIQGP6Wr9nN4odzzgHFngLTMimok2cGLK3qbJs5O5F/XAtEeRAmuxeRnzQwTl/iuAw==
+turbo-darwin-arm64@1.10.15:
+  version "1.10.15"
+  resolved "https://registry.yarnpkg.com/turbo-darwin-arm64/-/turbo-darwin-arm64-1.10.15.tgz#4b6b29c9d10c8e286b27d372936c09a98f34449a"
+  integrity sha512-xwqyFDYUcl2xwXyGPmHkmgnNm4Cy0oNzMpMOBGRr5x64SErS7QQLR4VHb0ubiR+VAb8M+ECPklU6vD1Gm+wekg==
 
-turbo-linux-64@1.10.13:
-  version "1.10.13"
-  resolved "https://registry.yarnpkg.com/turbo-linux-64/-/turbo-linux-64-1.10.13.tgz#803e2b351984ec81034dc4b6935cdfb0a7d7d572"
-  integrity sha512-0CyYmnKTs6kcx7+JRH3nPEqCnzWduM0hj8GP/aodhaIkLNSAGAa+RiYZz6C7IXN+xUVh5rrWTnU2f1SkIy7Gdg==
+turbo-linux-64@1.10.15:
+  version "1.10.15"
+  resolved "https://registry.yarnpkg.com/turbo-linux-64/-/turbo-linux-64-1.10.15.tgz#a892aae53946c68f311b2e71504af5b9768dd2c1"
+  integrity sha512-dM07SiO3RMAJ09Z+uB2LNUSkPp3I1IMF8goH5eLj+d8Kkwoxd/+qbUZOj9RvInyxU/IhlnO9w3PGd3Hp14m/nA==
 
-turbo-linux-arm64@1.10.13:
-  version "1.10.13"
-  resolved "https://registry.yarnpkg.com/turbo-linux-arm64/-/turbo-linux-arm64-1.10.13.tgz#92439a927ec98801be1be266016736be5730e40c"
-  integrity sha512-0iBKviSGQQlh2OjZgBsGjkPXoxvRIxrrLLbLObwJo3sOjIH0loGmVIimGS5E323soMfi/o+sidjk2wU1kFfD7Q==
+turbo-linux-arm64@1.10.15:
+  version "1.10.15"
+  resolved "https://registry.yarnpkg.com/turbo-linux-arm64/-/turbo-linux-arm64-1.10.15.tgz#9d241414e75c7457ea8371c36c4b9700ec7ca553"
+  integrity sha512-MkzKLkKYKyrz4lwfjNXH8aTny5+Hmiu4SFBZbx+5C0vOlyp6fV5jZANDBvLXWiDDL4DSEAuCEK/2cmN6FVH1ow==
 
-turbo-windows-64@1.10.13:
-  version "1.10.13"
-  resolved "https://registry.yarnpkg.com/turbo-windows-64/-/turbo-windows-64-1.10.13.tgz#870815cdcb20f2480296c208778f9127be61eec6"
-  integrity sha512-S5XySRfW2AmnTeY1IT+Jdr6Goq7mxWganVFfrmqU+qqq3Om/nr0GkcUX+KTIo9mPrN0D3p5QViBRzulwB5iuUQ==
+turbo-windows-64@1.10.15:
+  version "1.10.15"
+  resolved "https://registry.yarnpkg.com/turbo-windows-64/-/turbo-windows-64-1.10.15.tgz#7d19853634482f01b7c4ae8d5e255321a2f7582c"
+  integrity sha512-3TdVU+WEH9ThvQGwV3ieX/XHebtYNHv9HARHauPwmVj3kakoALkpGxLclkHFBLdLKkqDvmHmXtcsfs6cXXRHJg==
 
-turbo-windows-arm64@1.10.13:
-  version "1.10.13"
-  resolved "https://registry.yarnpkg.com/turbo-windows-arm64/-/turbo-windows-arm64-1.10.13.tgz#2da38b71b1716732541dfc5bd7475dc0903921f8"
-  integrity sha512-nKol6+CyiExJIuoIc3exUQPIBjP9nIq5SkMJgJuxsot2hkgGrafAg/izVDRDrRduQcXj2s8LdtxJHvvnbI8hEQ==
+turbo-windows-arm64@1.10.15:
+  version "1.10.15"
+  resolved "https://registry.yarnpkg.com/turbo-windows-arm64/-/turbo-windows-arm64-1.10.15.tgz#c7b0cf8732b02914b415577593afeda4155219fb"
+  integrity sha512-l+7UOBCbfadvPMYsX08hyLD+UIoAkg6ojfH+E8aud3gcA1padpjCJTh9gMpm3QdMbKwZteT5uUM+wyi6Rbbyww==
 
-turbo@^1.10.12:
-  version "1.10.13"
-  resolved "https://registry.yarnpkg.com/turbo/-/turbo-1.10.13.tgz#8050bcd09f8a20d5a626f41e86cd8760e49a0df6"
-  integrity sha512-vOF5IPytgQPIsgGtT0n2uGZizR2N3kKuPIn4b5p5DdeLoI0BV7uNiydT7eSzdkPRpdXNnO8UwS658VaI4+YSzQ==
+turbo@^1.10.15:
+  version "1.10.15"
+  resolved "https://registry.yarnpkg.com/turbo/-/turbo-1.10.15.tgz#356731acb46991b4e337cce2f7ccd3279bc1f1a6"
+  integrity sha512-mKKkqsuDAQy1wCCIjCdG+jOCwUflhckDMSRoeBPcIL/CnCl7c5yRDFe7SyaXloUUkt4tUR0rvNIhVCcT7YeQpg==
   optionalDependencies:
-    turbo-darwin-64 "1.10.13"
-    turbo-darwin-arm64 "1.10.13"
-    turbo-linux-64 "1.10.13"
-    turbo-linux-arm64 "1.10.13"
-    turbo-windows-64 "1.10.13"
-    turbo-windows-arm64 "1.10.13"
+    turbo-darwin-64 "1.10.15"
+    turbo-darwin-arm64 "1.10.15"
+    turbo-linux-64 "1.10.15"
+    turbo-linux-arm64 "1.10.15"
+    turbo-windows-64 "1.10.15"
+    turbo-windows-arm64 "1.10.15"
 
 tw-to-css@0.0.11:
   version "0.0.11"

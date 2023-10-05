@@ -6,7 +6,6 @@
   "scripts": {
     "test:watch": "vitest watch",
     "test": "vitest run",
-    "build": "parcel build src/index.ts",
     "start": "ts-node src/index.ts"
   },
   "keywords": [],

@@ -3,8 +3,8 @@
   "globalDependencies": ["apps/web/.env"],
   "pipeline": {
     "build": {
-      "dependsOn": ["^build"],
-      "outputs": [".next/**", "!.next/cache/**"]
+      "outputs": [".next/**", "!.next/cache/**"],
+      "cache": false
     },
     "lint": {
       "env": ["URL_PREFIX"]
