@@ -1,7 +1,7 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button } from 'app/components/ui/button'
-import { SkillsField } from 'app/subscriber/profile/components/SkillsField'
+import { SkillsField } from 'app/subscribers/profile/components/SkillsField'
 // import { ProfileSchema, profileFormSchema } from "app/subscriber/profile/profileSchema"
 import { FormProvider, useForm } from 'react-hook-form'
 import { z } from 'zod'
