@@ -2,7 +2,6 @@ import { DialogTitle } from '@radix-ui/react-dialog'
 import { buttonVariants } from 'app/components/ui/button'
 import {
   Dialog,
-  DialogClose,
   DialogContent,
   DialogDescription,
   DialogHeader,
@@ -15,11 +14,10 @@ type ContributeDialogProps = {
 }
 export function ContributeDialog({ onClose, open }: ContributeDialogProps) {
   return (
-    <Dialog open={open}>
+    <Dialog open={open} onOpenChange={onClose}>
       <DialogContent>
         <DialogHeader className="space-y-4">
           <DialogTitle>Obrigado por se cadastrar!</DialogTitle>
-          <DialogClose onClick={onClose} />
           <DialogDescription>
             <b>Verifique seu e-mail</b> para confirmar sua conta e receber vagas
             de trabalho remoto.
