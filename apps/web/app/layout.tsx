@@ -14,8 +14,7 @@ export const metadata: Metadata = {
   twitter: { title, description },
   openGraph: {
     title,
-    description,
-    images: ['/api/og-image'],
+    description
   },
   keywords:
     'trabalho remoto, emprego remoto, vagas remotas, trabalho em casa, empregos de tecnologia remotos, carreira remota, trabalho flexível, oportunidades de trabalho remoto, empresas remotas',
