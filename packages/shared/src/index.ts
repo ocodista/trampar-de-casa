@@ -1,4 +1,6 @@
-export * from './enums'
 export * from './email'
+export * from './enums'
+export * from './infos'
+export * from './mongo/getMongoCoonnection'
 export * from './queue'
 export * from './security'

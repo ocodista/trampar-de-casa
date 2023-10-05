@@ -1,14 +1,13 @@
-import { EnglishLevel } from 'db'
+import { EnglishLevel, getSupabaseClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { Entities } from 'shared'
-import { getSupabaseClient } from '../../db/getSupabaseClient'
 import { ProfileSchema } from '../../subscribers/profile/profileSchema'
 
 const supabaseClient = getSupabaseClient()
 const table = Entities.Subcribers
 export const PUBLIC_FIELDS_KEYS =
-  'name, linkedInUrl, gitHub, startedWorkingAt, skills, englishLevel'
+  'name, linkedInUrl, gitHub, startedWorkingAt, skillsId, englishLevel'
 const errorResponse = new NextResponse(null, {
   status: StatusCodes.INTERNAL_SERVER_ERROR,
 })
@@ -74,7 +73,7 @@ export async function updateSubscriber(
       linkedInUrl: body.linkedInUrl,
       gitHub: body.gitHub,
       startedWorkingAt: body.startedWorkingAt,
-      skills: body.skills,
+      skills: body.skillsId,
       englishLevel: EnglishLevel[body.englishLevel],
     })
     .eq('id', id)

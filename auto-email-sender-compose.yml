@@ -1,0 +1,114 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    expose:
+      - 5672
+      - 15672
+    environment:
+      RABBITMQ_DEFAULT_USER: trampar
+      RABBITMQ_DEFAULT_PASS: trampar-de-casa
+  redis:
+    image: redislabs/redismod
+    ports:
+      - '6379:6379'
+    expose:
+      - 6379
+  mongo:
+    image: mongo:latest
+    ports:
+      - "27017:27017"
+    networks:
+      - mongo-network
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - mongo-data:/data/db
+  roles-validator:
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/roles-validator-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/roles-validator/.env
+    depends_on:
+      - redis
+  roles-renderer:
+    environment:
+      - MONGO_PASSWORD=root
+      - MONGO_USERNAME=root
+      - MONGO_ADDRESS=mongo
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/roles-renderer-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/roles-renderer/.env
+    depends_on:
+      mongo:
+        condition: service_healthy
+  roles-assigner:
+    environment:
+      - MONGO_PASSWORD=root
+      - MONGO_USERNAME=root
+      - MONGO_ADDRESS=mongo
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/roles-assigner-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/roles-assigner/.env
+    depends_on:
+      mongo:
+        condition: service_completed_successfully
+      rabbitmq:
+        condition: service_completed_successfully
+  email-pre-renderer:
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/email-pre-renderer-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/email-pre-renderer/.env
+    environment:
+      - RABBITMQ_DEFAULT_USER=trampar
+      - RABBITMQ_DEFAULT_PASS=trampar-de-casa
+      - RABBITMQ_ADDRESS=rabbitmq
+    depends_on:
+      mongo:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+  email-composer:
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/email-composer-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/email-composer/.env
+    depends_on:
+      redis:
+        condition: service_healthy
+      rabbitmq:
+        condition: service_healthy
+  email-sender:
+    build: 
+      context: .
+      dockerfile: apps/auto-email-sender/email-sender-image.dockerfile
+    env_file:
+      - apps/auto-email-sender/email-sender/.env
+    environment:
+      - RABBITMQ_DEFAULT_USER=trampar
+      - RABBITMQ_DEFAULT_PASS=trampar-de-casa
+      - RABBITMQ_ADDRESS=rabbitmq
+    rabbitmq:
+      condition: service_completed_successfully
+
+networks:
+  mongo-network:
+    driver: bridge
+
+volumes:
+  mongo-data:
+    driver: local
