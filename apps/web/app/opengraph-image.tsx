@@ -15,7 +15,7 @@ export default async function Image() {
   ).then((res) => res.arrayBuffer())
 
   const imageData = await fetch(
-    new URL('../public/images/HO-brasil.png', import.meta.url)
+    new URL('../public/images/HO-brasil.jpg', import.meta.url)
   ).then((res) => res.arrayBuffer())
 
   return new ImageResponse(
