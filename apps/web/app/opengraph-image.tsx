@@ -9,17 +9,14 @@ export const size = {
 
 export const contentType = 'image/png'
 
-const font = fetch(new URL('../public/fonts/Roboto.ttf', import.meta.url)).then(
-  (res) => res.arrayBuffer()
-)
-
-const image = fetch(
-  new URL('../public/images/HO-brasil.png', import.meta.url)
-).then((res) => res.arrayBuffer())
-
 export default async function Image() {
-  const fontData = await font;
-  const imageData = await image;
+  const fontData = await fetch(
+    new URL('../public/fonts/Roboto.ttf', import.meta.url)
+  ).then((res) => res.arrayBuffer())
+
+  const imageData = await fetch(
+    new URL('../public/images/HO-brasil.png', import.meta.url)
+  ).then((res) => res.arrayBuffer())
 
   return new ImageResponse(
     (
