@@ -176,7 +176,7 @@ export default function Page() {
             <DialogFooter>
               <Button
                 variant="destructive"
-                onClick={() => resetFilter()}
+                onClick={resetFilter}
                 className="w-fit self-end"
               >
                 Redefinir
