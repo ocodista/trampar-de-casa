@@ -1,18 +1,22 @@
-import { ImageResponse } from '@vercel/og'
-import { NextRequest } from 'next/server'
+import { ImageResponse } from 'next/server'
 
 export const runtime = 'edge'
 
-export async function GET(request: NextRequest) {
-  const url = request.url.split('api/og-image')[0]
+export const size = {
+  width: 1200,
+  height: 600,
+}
 
-  const imageData = await fetch(new URL(`${url}images/HO-brasil.png`)).then(
-    (res) => res.arrayBuffer()
-  )
+export const contentType = 'image/png'
 
-  const fontData = await fetch(new URL(`${url}/fonts/Roboto.ttf`)).then((res) =>
-    res.arrayBuffer()
-  )
+export default async function Image() {
+  const fontData = await fetch(
+    new URL('../public/fonts/Roboto.ttf', import.meta.url)
+  ).then((res) => res.arrayBuffer())
+
+  const imageData = await fetch(
+    new URL('../public/images/HO-brasil.jpg', import.meta.url)
+  ).then((res) => res.arrayBuffer())
 
   return new ImageResponse(
     (
@@ -193,8 +197,7 @@ export async function GET(request: NextRequest) {
       </div>
     ),
     {
-      width: 1200,
-      height: 600,
+      ...size,
       fonts: [
         {
           name: 'Roboto',
