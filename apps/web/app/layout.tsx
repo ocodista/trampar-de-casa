@@ -11,11 +11,15 @@ const description =
 export const metadata: Metadata = {
   title,
   description,
-  twitter: { title, description },
-  openGraph: {
+  twitter: {
     title,
     description,
-    images: ['/api/og-image'],
+    card: 'summary_large_image',
+    creator: '@ocodista'
+  },
+  openGraph: {
+    title,
+    description
   },
   keywords:
     'trabalho remoto, emprego remoto, vagas remotas, trabalho em casa, empregos de tecnologia remotos, carreira remota, trabalho flexível, oportunidades de trabalho remoto, empresas remotas',
