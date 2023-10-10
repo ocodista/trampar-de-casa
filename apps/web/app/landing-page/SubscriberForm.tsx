@@ -1,6 +1,7 @@
 'use client'
 import { ErrorMessage } from '@hookform/error-message'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { Events, Tracker } from 'analytics'
 import { useLoadingContext } from 'app/contexts/LoadingContext'
 import { useToast } from 'app/hooks/use-toast'
 import { StatusCodes } from 'http-status-codes'
@@ -32,6 +33,12 @@ export function SubscriberForm() {
       if (response.ok) {
         setIsContributeDialogOpen(true)
         fireworks()
+        new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
+          Events.NewSubscriber,
+          {
+            distinct_id: email,
+          }
+        )
         return
       }
 
