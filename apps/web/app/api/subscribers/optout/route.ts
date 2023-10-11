@@ -1,6 +1,6 @@
+import { getSupabaseClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
-import { getSupabaseClient } from '../../../db/getSupabaseClient'
 import { Entities } from 'shared/src/enums'
 import { decrypt } from 'shared/src/security'
 
