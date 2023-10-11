@@ -15,13 +15,20 @@ interface AutoComplete {
   placeholder: string
 }
 
+type Props = {
+  options: ListOption[]
+  placeholder: string
+  selectedOptions: ListOption[]
+  onSelectChange: (listOption: ListOption[]) => void
+  disabled: boolean
+}
 export function AutoComplete({
   options,
   placeholder,
   selectedOptions,
   onSelectChange,
   disabled,
-}) {
+}: Props) {
   const [query, setQuery] = useState('')
   const [isOpened, setIsOpened] = useState(false)
 
