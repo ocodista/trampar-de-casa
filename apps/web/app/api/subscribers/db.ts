@@ -82,3 +82,11 @@ export async function updateSubscriber(
 
   return { data, error }
 }
+
+export async function getSubscriberByEmail(email: string) {
+  const { data, error } = await supabaseClient
+    .from(Entities.Subcribers)
+    .select()
+    .eq('email', email)
+  return { data, error }
+}
