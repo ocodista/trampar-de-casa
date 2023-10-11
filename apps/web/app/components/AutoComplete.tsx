@@ -1,5 +1,9 @@
 import { Combobox, Transition } from '@headlessui/react'
-import { CheckIcon, ChevronUpDownIcon } from '@heroicons/react/20/solid'
+import {
+  CheckIcon,
+  ChevronDownIcon,
+  MagnifyingGlassIcon,
+} from '@heroicons/react/20/solid'
 import { Fragment, useState } from 'react'
 import { ListOption } from './ListOption'
 import { baseInputStyle } from './ui/input'
@@ -19,6 +23,7 @@ export function AutoComplete({
   disabled,
 }) {
   const [query, setQuery] = useState('')
+  const [isOpened, setIsOpened] = useState(false)
 
   const filteredOptions =
     query === ''
@@ -38,51 +43,67 @@ export function AutoComplete({
         onChange={onSelectChange}
         multiple
       >
-        <div className="relative mt-1">
+        <div className="relative ">
           <div className="relative w-full overflow-hidden">
-            <Combobox.Input
-              className={baseInputStyle}
-              displayValue={(option: any) => option.label}
-              placeholder={placeholder}
-              onChange={(event) => setQuery(event.target.value)}
-            />
-            <Combobox.Button className="absolute inset-y-0 right-0 flex items-center pr-2">
-              <ChevronUpDownIcon
-                className="h-5 w-5 text-gray-400"
-                aria-hidden="true"
-              />
+            <Combobox.Button className={`${baseInputStyle} h-auto w-full`}>
+              {selectedOptions.length > 0 ? (
+                <ul className="flex flex-wrap gap-2">
+                  {selectedOptions.map((option) => (
+                    <li key={option.value}>
+                      <button
+                        disabled={disabled}
+                        className="cursor-pointer rounded-2xl border border-s-gray-300 px-2 py-1 text-sm font-semibold"
+                        onClick={() =>
+                          onSelectChange(
+                            selectedOptions.filter(
+                              (selectedOption) =>
+                                selectedOption.value !== option.value
+                            )
+                          )
+                        }
+                      >
+                        {option.label}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              ) : (
+                <span className="text-slate-500">{placeholder}</span>
+              )}
             </Combobox.Button>
+            <button className="absolute inset-y-0 right-0 flex items-center pr-2">
+              <ChevronDownIcon
+                className={`h-5 w-5 text-slate-400 transition-all ${
+                  !isOpened ? '' : 'rotate-180'
+                }`}
+              />
+            </button>
           </div>
-          {selectedOptions.length > 0 && (
-            <ul className="mt-2 flex flex-wrap gap-2">
-              {selectedOptions.map((option) => (
-                <li key={option.value}>
-                  <button
-                    disabled={disabled}
-                    className="cursor-pointer rounded-2xl border border-s-gray-300 px-2 py-1 text-sm font-semibold"
-                    onClick={() =>
-                      onSelectChange(
-                        selectedOptions.filter(
-                          (selectedOption) =>
-                            selectedOption.value !== option.value
-                        )
-                      )
-                    }
-                  >
-                    {option.label}
-                  </button>
-                </li>
-              ))}
-            </ul>
-          )}
           <Transition
             as={Fragment}
             leave="transition ease-in duration-100"
             leaveFrom="opacity-100"
             leaveTo="opacity-0"
-            afterLeave={() => setQuery('')}
+            afterLeave={() => {
+              setQuery('')
+              setIsOpened(false)
+            }}
+            afterEnter={() => setIsOpened(true)}
           >
-            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white py-1 text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+            <Combobox.Options className="absolute mt-1 max-h-60 w-full overflow-auto rounded-md bg-white text-base shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none sm:text-sm">
+              <div className="flex w-full border-b border-slate-300">
+                <div className="grid place-content-center p-2">
+                  <MagnifyingGlassIcon className="h-5 w-5 text-slate-500" />
+                </div>
+                <Combobox.Input
+                  className={
+                    'border-input bg-background placeholder:text-muted-foreground flex h-10 w-full flex-1 rounded-md border border-none px-3 py-2 text-sm outline-none  file:text-sm file:font-medium focus-visible:outline-none disabled:cursor-not-allowed disabled:opacity-50'
+                  }
+                  displayValue={(option: any) => option.label}
+                  placeholder={'Buscar'}
+                  onChange={(event) => setQuery(event.target.value)}
+                />
+              </div>
               {filteredOptions.length === 0 && query !== '' ? (
                 <div className="relative cursor-default select-none px-4 py-2 text-gray-700">
                   Nenhum resultado encontrado.
