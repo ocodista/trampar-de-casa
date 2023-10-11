@@ -9,7 +9,7 @@ let currentEmailChunk: ConsumeMessage[] = []
 const resend = new Resend(CONFIG.RESEND_KEY)
 const RESEND_SENDING_LIMIT = 25
 
-export const sendEmailChunks = withExecutionTimeLogging(
+export const sendEmailChunk = withExecutionTimeLogging(
   async (buffers: ConsumeMessage[], channel: Channel) => {
     const promises = buffers.map(async (message) => {
       const content = JSON.parse(
@@ -36,7 +36,7 @@ export const saveOnEmailChunk = async (
   currentEmailChunk.push(emailComposerMessage)
 
   if (currentEmailChunk.length === RESEND_SENDING_LIMIT) {
-    await sendEmailChunks(currentEmailChunk, channel)
+    await sendEmailChunk(currentEmailChunk, channel)
 
     currentEmailChunk = []
   }
