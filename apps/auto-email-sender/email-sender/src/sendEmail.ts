@@ -33,5 +33,6 @@ export const sendEmail = async (
     logSuccessfully(email)
   } catch (error) {
     logFailure(email, error)
+    throw error
   }
 }
