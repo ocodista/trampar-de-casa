@@ -30,7 +30,8 @@ export const SkillsField = () => {
       )
   }, [formSkills])
 
-  useEffect(() => {
+  const onSelectChange = (selectedOptions: ListOption[]) => {
+    setSelectedOptions(selectedOptions)
     setValue(
       ProfileSchemaEnum.Skills,
       selectedOptions.map((option) => option.value),
@@ -39,7 +40,8 @@ export const SkillsField = () => {
         shouldDirty: true,
       }
     )
-  }, [selectedOptions])
+  }
+
   return (
     <CustomFormField
       name={ProfileSchemaEnum.Skills}
@@ -50,7 +52,7 @@ export const SkillsField = () => {
         <AutoComplete
           disabled={isSubmitting}
           selectedOptions={selectedOptions}
-          onSelectChange={setSelectedOptions}
+          onSelectChange={onSelectChange}
           placeholder="TypeScript, React, .NET"
           options={options}
           {...register(ProfileSchemaEnum.Skills)}

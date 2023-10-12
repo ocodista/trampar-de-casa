@@ -73,12 +73,20 @@ export async function updateSubscriber(
       linkedInUrl: body.linkedInUrl,
       gitHub: body.gitHub,
       startedWorkingAt: body.startedWorkingAt,
-      skills: body.skillsId,
+      skillsId: body.skillsId,
       englishLevel: EnglishLevel[body.englishLevel],
     })
     .eq('id', id)
     .select()
   await updateSubscriberTopics(id, receiveEmailConfig)
+  if (error) throw error
+  return { data, error }
+}
 
+export async function getSubscriberByEmail(email: string) {
+  const { data, error } = await supabaseClient
+    .from(Entities.Subcribers)
+    .select()
+    .eq('email', email)
   return { data, error }
 }

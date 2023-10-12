@@ -22,7 +22,6 @@ export function SubscriberForm({
   profileInfos: ProfileSchema
   descriptionTopics: { name: string; id: number }[]
 }) {
-  console.log(profileInfos)
   const form = useForm<ProfileSchema>({
     resolver: zodResolver(profileFormSchema),
     defaultValues: {

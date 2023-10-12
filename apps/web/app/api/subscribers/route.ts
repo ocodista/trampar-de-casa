@@ -4,7 +4,8 @@ import { NextResponse } from 'next/server'
 import { sendConfirmationEmail } from 'shared/src/email'
 import { SupabaseCodes } from 'shared/src/enums'
 import { logError } from '../logError'
-import { insertSubscriber } from './db'
+import { getSubscriberByEmail, insertSubscriber } from './db'
+import { Tracker, Events } from 'analytics'
 
 interface EmailRequest {
   email: string
@@ -19,11 +20,20 @@ export async function POST(request: Request) {
   const { data, error } = await insertSubscriber(email)
 
   if (error) {
-    return error.code === SupabaseCodes.DuplicatedRow
-      ? new NextResponse('Email já cadastrado.', {
-          status: StatusCodes.CONFLICT,
-        })
-      : await logError(error)
+    if (error.code === SupabaseCodes.DuplicatedRow) {
+      const { data: subscriber } = await getSubscriberByEmail(email)
+      const isConfirmed = subscriber?.length && subscriber[0].isConfirmed
+      return NextResponse.json(
+        {
+          isConfirmed,
+          message: isConfirmed
+            ? 'Email já cadastrado.'
+            : 'Email não confirmado.',
+        },
+        { status: StatusCodes.CONFLICT }
+      )
+    }
+    return await logError(error)
   }
 
   try {
