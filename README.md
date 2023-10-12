@@ -52,11 +52,12 @@ Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas 
 1. Certifique-se de ter o [docker](https://www.docker.com/) instalado na sua máquina.
 2. Navegue até a pasta `apps/web`.
 3. Execute o comando `npm install` para instalar as dependências do projeto.
-4. Execute o comando `npm run db-start` para gerar a pasta `prisma/client` e subir uma instância local do Supabase.
+4. Na pasta packages/db (`cd packages/db`), execute o comando `npm run db-start` para gerar a pasta `prisma/client` e subir uma instância local do Supabase.
 5. Você verá informações no terminal sobre as credenciais da sua instância local do Supabase.
-6. Adicione as credenciais no arquivo `.env`.
-7. Execute o comando `npm run db-seed` caso queira popular sua base de dados.
-8. Caso tenha alguma dúvida consulta a [documentação oficial do supabase](https://supabase.com/docs/guides/getting-started/local-development) e a [documentação oficial do prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
+6. Na pasta apps/web (`cd apps/web`), crie um arquivo `.env`.
+7. Copie o conteúdo do `.env.example` para o `.env`, e preencha `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE` com os credencias do passo 5.
+8. Execute o comando `npm run db-seed` caso queira popular sua base de dados.
+9. Caso tenha alguma dúvida consulta a [documentação oficial do supabase](https://supabase.com/docs/guides/getting-started/local-development) e a [documentação oficial do prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
 
 ## Contribuidores ✨
 
