@@ -2,7 +2,7 @@
 import { ErrorMessage } from '@hookform/error-message'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { useLoadingContext } from 'app/contexts/LoadingContext'
-import { useToast } from 'app/hooks/use-toast'
+import { ToastComponentProps, useToast } from 'app/hooks/use-toast'
 import { StatusCodes } from 'http-status-codes'
 import { useState } from 'react'
 import { useForm } from 'react-hook-form'
@@ -21,6 +21,43 @@ export function SubscriberForm() {
   const { toast } = useToast()
   const [isContributeDialogOpen, setIsContributeDialogOpen] = useState(false)
 
+  const errorToast = (description: string, props?: ToastComponentProps) =>
+    toast({
+      title: 'Algo deu errado 🥶',
+      variant: 'destructive',
+      description: description,
+      ...props,
+    })
+
+  const resendEmail = async () => {
+    const email = getValues().email
+    try {
+      const response = await fetch(ApiRoutes.ResendEmail, {
+        body: JSON.stringify({ email }),
+        method: 'POST',
+      })
+
+      if (response.ok) {
+        setIsContributeDialogOpen(true)
+        fireworks()
+        return
+      }
+
+      if (response.status === StatusCodes.CONFLICT) {
+        errorToast(await response.text())
+        return
+      }
+
+      throw new Error(response.statusText)
+    } catch (err) {
+      errorToast(
+        'Não conseguimos reenviar seu e-mail, tente novamente mais tarde.'
+      )
+    }
+
+    return false
+  }
+
   const saveSubscriber = async () => {
     const email = getValues().email
     try {
@@ -36,22 +73,28 @@ export function SubscriberForm() {
       }
 
       if (response.status === StatusCodes.CONFLICT) {
-        toast({
-          title: 'Algo deu errado 🥶',
-          variant: 'destructive',
-          description: await response.text(),
+        const { message, isConfirmed } = await response.json()
+        const conflictToast = errorToast(message, {
+          action: !isConfirmed && (
+            <h1
+              className="cursor-pointer"
+              onClick={async () => {
+                conflictToast.dismiss()
+                await withLoading(resendEmail)
+              }}
+            >
+              Reenviar email
+            </h1>
+          ),
         })
         return
       }
 
       throw new Error(response.statusText)
     } catch (err) {
-      toast({
-        title: 'Algo deu errado 🥶',
-        variant: 'destructive',
-        description:
-          'Não conseguimos adicionar seu e-mail, tente novamente mais tarde.',
-      })
+      errorToast(
+        'Não conseguimos adicionar seu e-mail, tente novamente mais tarde.'
+      )
     }
 
     return false

@@ -4,12 +4,14 @@ import { vi } from 'vitest'
 export const assertQueueStub = vi.fn()
 export const consumerStub = vi.fn()
 export const ackStub = vi.fn()
+export const nackStub = vi.fn()
 export const sendToQueueStub = vi.fn()
 export const prefetchStub = vi.fn()
 export const getStub = vi.fn()
 
 export const channelMock = {
   ack: ackStub,
+  nack: nackStub,
   assertQueue: assertQueueStub,
   consume: consumerStub,
   sendToQueue: sendToQueueStub,
