@@ -55,7 +55,7 @@ Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas 
 4. Na pasta packages/db (`cd packages/db`), execute o comando `npm run db-start` para gerar a pasta `prisma/client` e subir uma instância local do Supabase.
 5. Você verá informações no terminal sobre as credenciais da sua instância local do Supabase.
 6. Na pasta apps/web (`cd apps/web`), crie um arquivo `.env`.
-7. Copie o conteúdo do `.env.example` para o `.env`, e preencha `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE` com os credencias do passo 5.
+7. Copie o conteúdo do `.env.example` para o `.env`, e preencha `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE` com as credencias do passo 5.
 8. Execute o comando `npm run db-seed` caso queira popular sua base de dados.
 9. Caso tenha alguma dúvida consulta a [documentação oficial do supabase](https://supabase.com/docs/guides/getting-started/local-development) e a [documentação oficial do prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
 
