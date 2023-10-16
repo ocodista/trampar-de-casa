@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import 'shared/src/test/mocks/mongodb'
 import { emailPreRender } from 'src/emailPreRender'
 import { vi } from 'vitest'
 import {
@@ -12,7 +13,6 @@ import {
   renderHeaderStub,
   sendToQueueStub,
 } from './helpers'
-
 describe('Email Pre Renderer', () => {
   const renderFooterReturnMock = faker.string.sample()
   const renderHeaderReturnMock = faker.string.sample()
@@ -33,7 +33,7 @@ describe('Email Pre Renderer', () => {
   it('Get all subscribers', async () => {
     await emailPreRender()
 
-    expect(getAllSubscribersStub).toBeCalledWith()
+    expect(getAllSubscribersStub).toBeCalled()
   })
 
   describe('For each subscriber', () => {

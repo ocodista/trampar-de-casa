@@ -1,3 +1,5 @@
+import { getSupabaseClient } from 'db'
+import { getAllSubscribers } from 'db/src/domains/subscribers/getAllSubscribers'
 import dotenv from 'dotenv'
 import {
   MongoCollection,
@@ -5,7 +7,6 @@ import {
   getMongoConnection,
 } from 'shared'
 import { CONFIG } from './config'
-import { getAllSubscribers } from './getAllSubscribers'
 import { renderFooter } from './renderFooter'
 import { renderHeader } from './renderHeader'
 import { sendToQueue } from './sendToQueue'
@@ -17,6 +18,7 @@ export async function emailPreRender() {
   const mongoCollection = mongoDatabase.collection(
     MongoCollection.RolesAssigner
   )
+  const supabaseClient = getSupabaseClient()
   const channel = await createRabbitMqChannel({
     password: CONFIG.RABBITMQ_PASS,
     user: CONFIG.RABBITMQ_USER,
@@ -27,7 +29,7 @@ export async function emailPreRender() {
     email: string
     id: string
   }[] = []
-  const data = await getAllSubscribers()
+  const data = await getAllSubscribers(supabaseClient)
   if (!data) return
   for (const { email, id } of data) {
     const subscriber = await mongoCollection.findOne({ id })
