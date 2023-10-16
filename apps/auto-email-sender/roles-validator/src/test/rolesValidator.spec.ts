@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import * as getRolesFile from 'db/src/domains/roles/getRoles'
+import * as getRolesFile from 'db/src/supabase/domains/roles/getRoles'
 import { Collection, Document, MongoClient } from 'mongodb'
 import * as redisFile from 'redis'
 import * as sharedFile from 'shared'

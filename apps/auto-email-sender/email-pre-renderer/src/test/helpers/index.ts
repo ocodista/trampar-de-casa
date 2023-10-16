@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import * as dbFile from 'db'
-import * as getAllSubscribersFile from 'db/src/domains/subscribers/getAllSubscribers'
+import * as getAllSubscribersFile from 'db/src/supabase/domains/subscribers/getAllSubscribers'
 import { MongoClient } from 'mongodb'
 import * as redisFile from 'redis'
 import * as encryptFile from 'shared'

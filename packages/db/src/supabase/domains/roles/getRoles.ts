@@ -1,5 +1,5 @@
 import { Entities, Views } from 'shared'
-import { Database, SupabaseClient, getSupabaseClient } from '../../../'
+import { Database, SupabaseClient, getSupabaseClient } from '../../../..'
 
 export const getRolesBlock = async (
   start: number,

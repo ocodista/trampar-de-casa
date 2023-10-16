@@ -1,4 +1,4 @@
-import { getRoles } from 'db/src/domains/roles/getRoles'
+import { getRoles } from 'db/src/supabase/domains/roles/getRoles'
 import dotenv from 'dotenv'
 import { Collection, Document } from 'mongodb'
 import { isValidRole } from './isValidRole'

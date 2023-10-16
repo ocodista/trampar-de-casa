@@ -1,6 +1,6 @@
 import * as dbFile from 'db'
-import * as getSubscriberRolesFile from 'db/src/domains/roles/getSubscriberRoles'
-import * as saveSubscriberRolesFiles from 'db/src/domains/roles/saveSubscriberRoles'
+import * as saveSubscriberRolesFiles from 'db/src/mongodb/domains/roles/saveSubscriberRoles'
+import * as getSubscriberRolesFile from 'db/src/supabase/domains/roles/getSubscriberRoles'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import * as redisFile from 'redis'
 import { Entities } from 'shared'

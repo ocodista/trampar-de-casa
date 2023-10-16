@@ -1,6 +1,6 @@
 import { Database, SupabaseClient } from 'db'
 import { Entities } from 'shared'
-import { getRowsBlock } from './getRowsBlock'
+import { getRowsBlock } from 'src/getRowsBlock'
 
 interface GetAllPaginated {
   supabase: SupabaseClient<Database>

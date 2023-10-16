@@ -1,11 +1,11 @@
 import { getSupabaseClient } from 'db'
-import { getSubscriberRoles } from 'db/src/domains/roles/getSubscriberRoles'
-import { saveSubscriberRoles } from 'db/src/domains/roles/saveSubscriberRoles'
+import { saveSubscriberRoles } from 'db/src/mongodb/domains/roles/saveSubscriberRoles'
+import { getSubscriberRoles } from 'db/src/supabase/domains/roles/getSubscriberRoles'
+import { getAllPaginated } from 'db/src/supabase/getAllPaginated'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import dotenv from 'dotenv'
 import { Entities, MongoCollection, getMongoConnection } from 'shared'
 import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
-import { getAllPaginated } from './getAllPaginated'
 import { getEmailProps } from './getEmailProps'
 
 dotenv.config()

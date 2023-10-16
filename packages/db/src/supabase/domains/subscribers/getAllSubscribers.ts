@@ -1,5 +1,5 @@
 import { Entities } from 'shared'
-import type { Database, SupabaseClient } from '../../../index'
+import type { Database, SupabaseClient } from '../../../../index'
 export const getAllSubscribers = async (
   supabase: SupabaseClient<Database>
 ) => {

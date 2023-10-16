@@ -1,5 +1,5 @@
 import { getSupabaseClient } from 'db'
-import { getAllSubscribers } from 'db/src/domains/subscribers/getAllSubscribers'
+import { getAllSubscribers } from 'db/src/supabase/domains/subscribers/getAllSubscribers'
 import dotenv from 'dotenv'
 import {
   MongoCollection,

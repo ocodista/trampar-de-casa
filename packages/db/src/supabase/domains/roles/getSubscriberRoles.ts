@@ -1,6 +1,6 @@
 import { Database, SupabaseClient } from 'db'
 import { Entities } from 'shared/src/enums/entities'
-import { SupabaseTable } from '../../supabase/utilityTypes'
+import { SupabaseTable } from '../../../supabase/utilityTypes'
 
 type EnglishLevel = Database['public']['Enums']['EnglishLevel']
 type Subscribers = SupabaseTable<'Subscribers'>

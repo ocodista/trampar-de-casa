@@ -1,9 +1,9 @@
+import { getAllPaginated } from 'db/src/supabase/getAllPaginated'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { Entities } from 'shared'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
-import { getAllPaginated } from 'src/getAllPaginated'
-import { getRoleMock } from './factories/roleFactory'
-import { getRowsBlockStub } from './helpers/stubs'
+import { getRoleMock } from '../../../../apps/auto-email-sender/roles-assigner/src/tests/factories/roleFactory'
+import { getRowsBlockStub } from '../../../../apps/auto-email-sender/roles-assigner/src/tests/helpers/stubs'
 
 type Roles = SupabaseTable<'Roles'>[]
 

@@ -1,6 +1,6 @@
 import { Entities, Topics, skillArray } from "shared"
-import { getSupabaseClient } from '../../../index'
-import type { Database } from '../../supabase/type'
+import { getSupabaseClient } from '../../../../index'
+import type { Database } from '../../../supabase/type'
 
 export type OpeningCurrency = 'U$' | 'R$' | 'EUR'
 
