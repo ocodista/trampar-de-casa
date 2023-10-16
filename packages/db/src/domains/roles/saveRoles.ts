@@ -1,5 +1,8 @@
 import { Entities, Topics, skillArray } from "shared"
-import { Roles, getSupabaseClient } from '../index'
+import { getSupabaseClient } from '../../../index'
+import { Database } from '../../supabase/type'
+
+type Roles = Database['public']['Tables']['Roles']['Row']
 export type OpeningCurrency = 'U$' | 'R$' | 'EUR'
 
 export interface Opening {
@@ -13,6 +16,7 @@ export interface Opening {
   salary?: string
   url: string
 }
+type RoleLanguage = Database['public']['Enums']['RoleLanguage']
 
 export const saveOpenings = async (openings: Opening[], topic: Topics) => {
   const supabaseClient = getSupabaseClient()
@@ -27,7 +31,7 @@ export const saveOpenings = async (openings: Opening[], topic: Topics) => {
       return prev
     }, [] as Array<string>)
     const { error, status } = await supabaseClient.from(Entities.Roles).insert({
-      language: language === 'Português' ? 'Portuguese' : 'English',
+      language: language === 'Português' ? 'Portuguese' : 'English' as RoleLanguage,
       country: location,
       currency,
       description: headerInfo,
@@ -37,8 +41,8 @@ export const saveOpenings = async (openings: Opening[], topic: Topics) => {
       updatedAt: new Date(),
       company,
       skillsId,
-      topicId: topic
-    } as Roles & { url: string; description: string; updatedAt: Date, topicId: Topics })
+      topicId: topic,
+    })
     
     console.log(error, status)
   }
