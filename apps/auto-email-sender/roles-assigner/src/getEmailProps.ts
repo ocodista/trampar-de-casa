@@ -1,8 +1,8 @@
-import { Database } from 'db'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
 
-type Subscribers = Database['public']['Tables']['Subscribers']['Row']
-type Role = Database['public']['Tables']['Roles']['Row']
+type Subscribers = SupabaseTable<'Subscribers'>
+type Role = SupabaseTable<'Roles'>
 export interface EmailProps {
   email: string
   id: string

@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
-import { Database } from 'db'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { Topics } from 'shared'
 
-type Role = Database['public']['Tables']['Roles']['Row']
+type Role = SupabaseTable<'Roles'>
 
 enum RoleLanguage {
   English = 'English',

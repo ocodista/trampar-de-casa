@@ -1,7 +1,7 @@
 import { faker } from '@faker-js/faker'
-import { Database } from 'db'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 
-type Subscribers = Database['public']['Tables']['Subscribers']['Row']
+type Subscribers = SupabaseTable<'Subscribers'>
 
 enum EnglishLevel {
   Beginner = 'Beginner',

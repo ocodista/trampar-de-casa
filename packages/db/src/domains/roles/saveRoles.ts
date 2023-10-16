@@ -1,8 +1,7 @@
 import { Entities, Topics, skillArray } from "shared"
 import { getSupabaseClient } from '../../../index'
-import { Database } from '../../supabase/type'
+import type { Database } from '../../supabase/type'
 
-type Roles = Database['public']['Tables']['Roles']['Row']
 export type OpeningCurrency = 'U$' | 'R$' | 'EUR'
 
 export interface Opening {

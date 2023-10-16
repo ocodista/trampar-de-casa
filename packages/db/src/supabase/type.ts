@@ -386,4 +386,3 @@ export interface Database {
     }
   }
 }
-

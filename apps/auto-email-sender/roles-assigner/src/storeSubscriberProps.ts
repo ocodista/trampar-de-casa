@@ -1,8 +1,8 @@
-import { Database } from 'db'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { RedisClientType } from 'redis'
 import { z } from 'zod'
 
-type Roles = Database['public']['Tables']['Roles']['Row']
+type Roles = SupabaseTable<'Roles'>
 
 // interface OpeningsEmail {
 //   globalOpenings: Opening[]
