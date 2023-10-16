@@ -17,7 +17,23 @@ import {
 
 const readyRole = getRoleMock({ ready: true })
 const notReadyRole = getRoleMock({ ready: false })
-
+vi.mock('mongodb', () => {
+  return {
+    Collection: vi.fn(),
+    Document: vi.fn(),
+    MongoClient: class MongoClient {
+      public connect() {
+        return {
+          db: () => ({
+            collection: vi.fn(),
+          }),
+          Document: vi.fn(),
+          close: vi.fn(),
+        }
+      }
+    },
+  }
+})
 describe('Roles Assigner', () => {
   beforeEach(() => {
     vi.spyOn(dbFile, 'getSupabaseClient').mockImplementation(
