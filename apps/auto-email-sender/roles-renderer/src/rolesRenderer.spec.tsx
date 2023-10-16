@@ -1,12 +1,15 @@
 import { faker } from '@faker-js/faker'
 import { SupabaseClient } from '@supabase/supabase-js'
+import { Database } from 'db'
+import { getRolesInBatches } from 'db/src/domains/roles/getRoles'
 import { MongoClient } from 'mongodb'
 import * as sharedFile from 'shared'
 import { Topics } from 'shared'
 import { describe, expect, it, vi } from 'vitest'
-import { RolesSkillsView, getRolesInBatches } from './getRoles'
 import { htmlStartingDoctype, parseHTML } from './parseHTML'
 import { rolesRenderer } from './rolesRenderer'
+
+type RolesSkillsView = Database['public']['Views']['RolesSkillsView']['Row']
 
 const getRolesSkillsMock = (
   topic: Topics = Topics.NATIONAL_VACANCIES
