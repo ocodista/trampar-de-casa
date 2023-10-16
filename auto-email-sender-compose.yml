@@ -22,7 +22,7 @@ services:
   mongo:
     image: mongo:latest
     ports:
-      - "27017:27017"
+      - '27017:27017'
     networks:
       - mongo-network
     environment:
@@ -31,7 +31,7 @@ services:
     volumes:
       - mongo-data:/data/db
   roles-validator:
-    build: 
+    build:
       context: .
       dockerfile: apps/auto-email-sender/roles-validator/Dockerfile
     env_file:
@@ -43,7 +43,7 @@ services:
       - MONGO_PASSWORD=root
       - MONGO_USERNAME=root
       - MONGO_ADDRESS=mongo
-    build: 
+    build:
       context: .
       dockerfile: apps/auto-email-sender/roles-renderer/Dockerfile
     env_file:
@@ -56,18 +56,18 @@ services:
       - MONGO_PASSWORD=root
       - MONGO_USERNAME=root
       - MONGO_ADDRESS=mongo
-    build: 
+    build:
       context: .
       dockerfile: apps/auto-email-sender/roles-assigner/Dockerfile
     env_file:
       - apps/auto-email-sender/roles-assigner/.env
     depends_on:
       mongo:
-        condition: service_completed_successfully
+        condition: service_healthy
       rabbitmq:
-        condition: service_completed_successfully
+        condition: service_healthy
   email-pre-renderer:
-    build: 
+    build:
       context: .
       dockerfile: apps/auto-email-sender/email-pre-renderer/Dockerfile
     env_file:
@@ -82,7 +82,7 @@ services:
       rabbitmq:
         condition: service_healthy
   email-composer:
-    build: 
+    build:
       context: .
       dockerfile: apps/auto-email-sender/email-composer/Dockerfile
     env_file:
@@ -93,7 +93,7 @@ services:
       rabbitmq:
         condition: service_healthy
   email-sender:
-    build: 
+    build:
       context: .
       dockerfile: apps/auto-email-sender/email-sender/Dockerfile
     env_file:
@@ -102,8 +102,9 @@ services:
       - RABBITMQ_DEFAULT_USER=trampar
       - RABBITMQ_DEFAULT_PASS=trampar-de-casa
       - RABBITMQ_ADDRESS=rabbitmq
-    rabbitmq:
-      condition: service_completed_successfully
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
 networks:
   mongo-network:
