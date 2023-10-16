@@ -33,7 +33,7 @@ services:
   roles-validator:
     build: 
       context: .
-      dockerfile: apps/auto-email-sender/roles-validator-image.dockerfile
+      dockerfile: apps/auto-email-sender/roles-validator/Dockerfile
     env_file:
       - apps/auto-email-sender/roles-validator/.env
     depends_on:
@@ -45,7 +45,7 @@ services:
       - MONGO_ADDRESS=mongo
     build: 
       context: .
-      dockerfile: apps/auto-email-sender/roles-renderer-image.dockerfile
+      dockerfile: apps/auto-email-sender/roles-renderer/Dockerfile
     env_file:
       - apps/auto-email-sender/roles-renderer/.env
     depends_on:
@@ -58,7 +58,7 @@ services:
       - MONGO_ADDRESS=mongo
     build: 
       context: .
-      dockerfile: apps/auto-email-sender/roles-assigner-image.dockerfile
+      dockerfile: apps/auto-email-sender/roles-assigner/Dockerfile
     env_file:
       - apps/auto-email-sender/roles-assigner/.env
     depends_on:
@@ -69,7 +69,7 @@ services:
   email-pre-renderer:
     build: 
       context: .
-      dockerfile: apps/auto-email-sender/email-pre-renderer-image.dockerfile
+      dockerfile: apps/auto-email-sender/email-pre-renderer/Dockerfile
     env_file:
       - apps/auto-email-sender/email-pre-renderer/.env
     environment:
@@ -84,7 +84,7 @@ services:
   email-composer:
     build: 
       context: .
-      dockerfile: apps/auto-email-sender/email-composer-image.dockerfile
+      dockerfile: apps/auto-email-sender/email-composer/Dockerfile
     env_file:
       - apps/auto-email-sender/email-composer/.env
     depends_on:
@@ -95,7 +95,7 @@ services:
   email-sender:
     build: 
       context: .
-      dockerfile: apps/auto-email-sender/email-sender-image.dockerfile
+      dockerfile: apps/auto-email-sender/email-sender/Dockerfile
     env_file:
       - apps/auto-email-sender/email-sender/.env
     environment:

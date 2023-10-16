@@ -1,18 +1,21 @@
-FROM node:20-alpine as base
+FROM node:20 as base
 
 FROM base AS builder
-RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 RUN yarn global add turbo
 COPY . .
 
-RUN turbo prune --scope=roles-assigner --docker
+RUN turbo prune --scope=roles-validator --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
-RUN apk add --no-cache libc6-compat
-RUN apk update
+RUN apt-get update
+
+RUN curl -LO https://dl.google.com/linux/direct/google-chrome-stable_current_amd64.deb
+RUN apt-get install -y ./google-chrome-stable_current_amd64.deb
+RUN rm google-chrome-stable_current_amd64.deb 
+
 WORKDIR /app
 
 # First install the dependencies (as they change less often)
@@ -23,4 +26,4 @@ COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn install
 RUN yarn global add turbo
 
-CMD [ "turbo", "run", "roles-assigner:start" ] 
+CMD [ "turbo", "run", "start", "--filter=roles-validator" ] 

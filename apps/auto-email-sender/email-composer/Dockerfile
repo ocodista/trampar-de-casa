@@ -5,10 +5,9 @@ RUN apk add --no-cache libc6-compat
 
 WORKDIR /app
 RUN yarn global add turbo
-
 COPY . .
 
-RUN turbo prune --scope=email-sender --docker
+RUN turbo prune --scope=email-composer --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
@@ -24,4 +23,4 @@ COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn install
 RUN yarn global add turbo
 
-CMD [ "turbo", "run", "email-sender:start" ] 
+CMD [ "turbo", "run", "--filter=email-composer" ] 
