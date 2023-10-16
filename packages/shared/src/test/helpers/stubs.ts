@@ -1,3 +1,4 @@
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { mockAsyncGenerator } from 'shared/src/test/helpers/mockAsyncGeneratorFunction'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { Mock, vi } from 'vitest'
