@@ -1,13 +1,15 @@
-import { Subscribers, getSupabaseClient } from 'db'
+import { Database, getSupabaseClient } from 'db'
+import { getSubscriberRoles } from 'db/src/domains/roles/getSubscriberRoles'
+import { saveSubscriberRoles } from 'db/src/domains/roles/saveSubscriberRoles'
 import dotenv from 'dotenv'
 import { Entities, MongoCollection, getMongoConnection } from 'shared'
 import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
 import { getAllPaginated } from './getAllPaginated'
 import { getEmailProps } from './getEmailProps'
-import { getSubscriberRoles } from './getSubscriberRoles'
-import { saveSubscriberRoles } from './saveSubscriberRoles'
 
 dotenv.config()
+
+type Subscribers = Database['public']['Tables']['Subscribers']['Row']
 
 export const assignRoles = withExecutionTimeLogging(
   async () => {

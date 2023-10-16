@@ -1,7 +1,8 @@
-import { Subscribers } from 'db'
+import { Database } from 'db'
 import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
-import { Role } from './getSubscriberRoles'
 
+type Subscribers = Database['public']['Tables']['Subscribers']['Row']
+type Role = Database['public']['Tables']['Roles']['Row']
 export interface EmailProps {
   email: string
   id: string

@@ -1,6 +1,8 @@
-import { Roles } from 'db'
+import { Database } from 'db'
 import { RedisClientType } from 'redis'
 import { z } from 'zod'
+
+type Roles = Database['public']['Tables']['Roles']['Row']
 
 // interface OpeningsEmail {
 //   globalOpenings: Opening[]
@@ -41,7 +43,7 @@ export const storeSubscriberProps = async (
       language: role.language,
       location: role.country,
       salary: role.salary,
-      skillsId: role.skillsId,
+      skillsId: role.skillsId || [],
       title: role.title,
       url: role.url,
     }

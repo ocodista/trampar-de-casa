@@ -1,9 +1,11 @@
-import { Roles } from 'db'
+import { Database } from 'db'
 import { Entities } from 'shared'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { getAllPaginated } from 'src/getAllPaginated'
 import { getRoleMock } from './factories/roleFactory'
 import { getRowsBlockStub } from './helpers/stubs'
+
+type Roles = Database['public']['Tables']['Roles'][]
 
 let entity: Entities
 let batchSize: number

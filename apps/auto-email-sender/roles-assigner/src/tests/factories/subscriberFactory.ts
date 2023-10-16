@@ -1,5 +1,14 @@
 import { faker } from '@faker-js/faker'
-import { EnglishLevel, Subscribers } from 'db'
+import { Database } from 'db'
+
+type Subscribers = Database['public']['Tables']['Subscribers']['Row']
+
+enum EnglishLevel {
+  Beginner = 'Beginner',
+  Intermediary = 'Intermediary',
+  Advanced = 'Advanced',
+  Fluent = 'Fluent',
+}
 
 export const getSubscriberMock = (subscribers: Partial<Subscribers> = {}) =>
   ({

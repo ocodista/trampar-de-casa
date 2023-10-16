@@ -1,9 +1,9 @@
-import { SupabaseClient } from 'db'
+import { Database, SupabaseClient } from 'db'
 import { Entities } from 'shared'
 import { getRowsBlock } from './getRowsBlock'
 
 interface GetAllPaginated {
-  supabase: SupabaseClient
+  supabase: SupabaseClient<Database>
   entity: Entities
   batchSize: number
 }

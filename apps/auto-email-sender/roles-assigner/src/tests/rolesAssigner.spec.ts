@@ -1,11 +1,12 @@
 import * as dbFile from 'db'
+import * as getSubscriberRolesFile from 'db/src/domains/roles/getSubscriberRoles'
+import * as saveSubscriberRolesFiles from 'db/src/domains/roles/saveSubscriberRoles'
+import type { Database } from 'db/src/supabase/type'
 import * as redisFile from 'redis'
 import { Entities } from 'shared'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { vi } from 'vitest'
-import * as getSubscriberRolesFile from '../getSubscriberRoles'
 import { assignRoles } from '../rolesAssigner'
-import * as saveSubscriberRolesFiles from '../saveSubscriberRoles'
 import { getRoleMock } from './factories/roleFactory'
 import { getSubscriberMock } from './factories/subscriberFactory'
 import {
@@ -38,10 +39,8 @@ describe('Roles Assigner', () => {
   describe('for each subscriber', () => {
     const rolesMock = [readyRole, notReadyRole]
     const getSubscribersRoleSpy = vi.fn().mockReturnValue(rolesMock)
-    const subscribersBatchMock: dbFile.Subscribers[] = [
-      getSubscriberMock(),
-      getSubscriberMock(),
-    ]
+    const subscribersBatchMock: Database['public']['Tables']['Subscribers']['Row'][] =
+      [getSubscriberMock(), getSubscriberMock()]
     beforeAll(() => {
       vi.spyOn(getSubscriberRolesFile, 'getSubscriberRoles').mockImplementation(
         getSubscribersRoleSpy
