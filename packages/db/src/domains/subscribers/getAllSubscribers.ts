@@ -1,7 +1,8 @@
 import { Entities } from 'shared'
-import { getSupabaseClient } from '../../../index'
-export const getAllSubscribers = async () => {
-  const supabase = getSupabaseClient()
+import type { Database, SupabaseClient } from '../../../index'
+export const getAllSubscribers = async (
+  supabase: SupabaseClient<Database>
+) => {
   const { data, error } = await supabase
     .from(Entities.Subcribers)
     .select('id, email')

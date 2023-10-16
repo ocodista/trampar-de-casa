@@ -1,11 +1,11 @@
 import { Entities, Views } from 'shared'
-import { getSupabaseClient } from '../../../'
+import { Database, SupabaseClient, getSupabaseClient } from '../../../'
 
 export const getRolesBlock = async (
   start: number,
-  end: number
+  end: number,
+  supabase: SupabaseClient<Database>
 ) => {
-  const supabase = getSupabaseClient()
   const { data, error } = await supabase
     .from(Views.RoleSkillsView)
     .select('*')
@@ -17,11 +17,12 @@ export const getRolesBlock = async (
 }
 
 export async function* getRolesInBatches(
+  supabase: SupabaseClient<Database>,
   batchSize: number
 ) {
   let start = 0
   while (true) {
-    const roles = await getRolesBlock(start, start + batchSize - 1)
+    const roles = await getRolesBlock(start, start + batchSize - 1, supabase)
     if (roles?.length === 0) break
     yield roles
     start += batchSize
