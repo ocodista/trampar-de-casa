@@ -1,5 +1,5 @@
 {
-  "name": "email-sender",
+  "name": "manual-email-sender",
   "version": "1.0.0",
   "description": "",
   "main": "index.js",

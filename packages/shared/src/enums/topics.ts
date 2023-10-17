@@ -1,0 +1,4 @@
+export enum Topics {
+  NATIONAL_VACANCIES = 1,
+  INTERNATIONAL_VACANCIES = 2,
+}

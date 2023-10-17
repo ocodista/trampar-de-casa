@@ -5,7 +5,7 @@ import { ZodError } from 'zod'
 import {
   ProfileSchema,
   profileFormSchema,
-} from '../../../subscriber/profile/profileSchema'
+} from '../../../subscribers/profile/profileSchema'
 import { logError } from '../../logError'
 import { getById, updateSubscriber } from '../db'
 
@@ -14,6 +14,7 @@ export async function GET(request: Request) {
 }
 export async function PUT(request: Request) {
   const id = getId(request)
+
   if (!id) {
     return new NextResponse(null, { status: StatusCodes.BAD_REQUEST })
   }

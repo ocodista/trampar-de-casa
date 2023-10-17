@@ -41,6 +41,20 @@ const companies: Company[] = [
       'A empresa oferece mesas de trabalho com regulagem de altura, visando proporcionar maior conforto e produtividade aos usuários.',
     imagePath: '/images/companies/slikdesk.webp',
   },
+  {
+    name: 'Fros',
+    url: 'https://fros.dev/trampar-de-casa',
+    description:
+      'Compartilhe seu melhor projeto, receba prêmios e seja reconhecido por suas contribuições à comunidade open-source.',
+    imagePath: '/images/companies/fros.webp',
+  },
+  {
+    name: 'Crafta',
+    url: 'https://crafta.studio',
+    description:
+      'Por uma simples assinatura, a Crafta disponibiliza a sua empresa programadores e designers experientes prontos para trabalho.',
+    imagePath: '/images/companies/crafta.webp',
+  },
 ]
 
 const CompanySection = ({ name, imagePath, url, description }: Company) => (
