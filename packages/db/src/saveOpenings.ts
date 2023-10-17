@@ -37,7 +37,8 @@ export const saveOpenings = async (openings: Opening[], topic: Topics) => {
       updatedAt: new Date(),
       company,
       skillsId,
-      topicId: topic
+      topicId: topic,
+      ready: true
     } as Roles & { url: string; description: string; updatedAt: Date, topicId: Topics })
     
     console.log(error, status)
