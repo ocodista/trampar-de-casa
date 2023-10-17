@@ -3,7 +3,6 @@ import {
   Heading,
   Hr,
   Img,
-  Link,
   Preview,
   Tailwind,
   Text,
@@ -36,19 +35,12 @@ export function Header({ rolesCount }: { rolesCount: number }) {
       >{`🔥 ${rolesCount} vagas para você Trampar de Casa`}</Heading>
       <Hr style={hr} />
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
-      <Text className={paragraph} style={{ color: '#000' }}>
-        Hoje tenho o prazer de apresentar o <b>Layerform</b>, uma ferramenta
-        open-source brasileira desenvolvida para capacitar cada programador a
-        criar seu próprio ambiente de staging utilizando apenas arquivos
-        Terraform.
-      </Text>
 
-      <Text className={paragraph}>
-        Queremos que você conheça mais sobre o{' '}
-        <Link href="https://github.com/ergomake/layerform">Layerform</Link> e,
-        se gostar da ideia, ficaríamos muito agradecidos se deixasse sua ⭐ no{' '}
-        <Link href="https://github.com/ergomake/layerform">repositório</Link> do
-        Layerform no GitHub.
+      <Text className={paragraph} style={{ color: '#000' }}>
+        O mercado global espera por você! Encontre sua primeira vaga
+        internacional de desenvolvedor com a Strider. Conecte-se com empresas
+        inovadoras dos Estados Unidos e transforme sua carreira. Registre-se
+        agora e comece sua jornada internacional.
       </Text>
 
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
