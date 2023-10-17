@@ -10,13 +10,17 @@ export const emailSender = async () => {
     password: CONFIG.RABBITMQ_PASS,
     user: CONFIG.RABBITMQ_USER,
   })
-  await channelToConsume.assertQueue(EmailQueues.EmailSender, {})
-  await channelToConsume.prefetch(25)
-  await channelToConsume.consume(EmailQueues.EmailSender, async (msg) => {
-    if (!msg) return
 
-    await saveOnEmailChunk(msg, channelToConsume)
-  })
+  await channelToConsume.prefetch(25)
+  await channelToConsume.consume(
+    EmailQueues.EmailSender,
+    async (msg) => {
+      if (!msg) return
+
+      await saveOnEmailChunk(msg, channelToConsume)
+    },
+    { noAck: false }
+  )
 
   return
 }
