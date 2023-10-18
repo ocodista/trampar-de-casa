@@ -3,6 +3,7 @@ import {
   Heading,
   Hr,
   Img,
+  Link,
   Preview,
   Tailwind,
   Text,
@@ -37,10 +38,14 @@ export function Header({ rolesCount }: { rolesCount: number }) {
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
 
       <Text className={paragraph} style={{ color: '#000' }}>
-        O mercado global espera por você! Encontre sua primeira vaga
-        internacional de desenvolvedor com a Strider. Conecte-se com empresas
-        inovadoras dos Estados Unidos e transforme sua carreira. Registre-se
-        agora e comece sua jornada internacional.
+        Quer nos ajudar mas não sabe como? Complete seu cadastro na{' '}
+        <Link href="https://app.onstrider.com/r/trampar_de_casa">Strider!</Link>
+        <br />
+        A plataforma brasileira que mais apoia o trabalho remoto, com diversas
+        vagas internacionais.
+        <br />
+        Uma vez finalizado, seu perfil poderá ser chamado mesmo sem uma
+        aplicação manual 😁
       </Text>
 
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
