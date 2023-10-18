@@ -46,7 +46,7 @@ export const composeEmail = async () => {
 
   emailPreRendererChannel.consume(
     EmailQueues.EmailPreRenderer,
-    (message) => consumePreRenderQueue(message, emailSenderChannel),
+    async (message) => await consumePreRenderQueue(message, emailSenderChannel),
     { noAck: true }
   )
 }
