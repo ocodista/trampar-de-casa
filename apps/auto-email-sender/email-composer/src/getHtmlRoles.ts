@@ -13,7 +13,6 @@ export const getHtmlRoles = async (rolesId: string[]) => {
   const mongoCollection = mongoDatabase.collection(
     MongoCollection.RolesRenderer
   )
-
   const roles: RolesRendererCollection[] = []
 
   for (let index = 0; index < rolesId.length; index++) {
