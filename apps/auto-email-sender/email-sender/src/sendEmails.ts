@@ -1,7 +1,6 @@
 import { Channel, GetMessage } from 'amqplib'
-import fs from 'fs'
-import path from 'path'
 import { Resend } from 'resend'
+import { EMAIL_FROM, rolesSubject } from './baseEmail'
 import { EmailComposerContent } from './emailSender'
 
 export const sendEmails = async (
@@ -17,17 +16,12 @@ export const sendEmails = async (
 
     const [email, html] = Object.entries(content)[0]
     try {
-      await new Promise((r) => setTimeout(r, 1000))
-      // await resendCli.emails.send({
-      //   from: EMAIL_FROM,
-      //   to: email,
-      //   html: html,
-      //   subject: rolesSubject(38),
-      // })
-      fs.appendFileSync(
-        path.resolve(__dirname, `./openings-email/sent-emails.txt`),
-        `${email}\n`
-      )
+      await resendCli.emails.send({
+        from: EMAIL_FROM,
+        to: email,
+        html: html,
+        subject: rolesSubject(38),
+      })
       channel.ack(message)
     } catch (e) {
       console.error(e)
