@@ -1,11 +1,9 @@
-import { Events, Tracker } from 'analytics'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { sendConfirmationEmail } from 'shared/src/email'
 import { SupabaseCodes } from 'shared/src/enums'
 import { logError } from '../logError'
 import { getSubscriberByEmail, insertSubscriber } from './db'
-import { Tracker, Events } from 'analytics'
 
 interface EmailRequest {
   email: string
@@ -44,12 +42,6 @@ export async function POST(request: Request) {
       resendKey: process.env['RESEND_KEY'],
       subscriberId: subscriber.id,
     })
-    new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
-      Events.ConfirmedSubscriber,
-      {
-        distinct_id: email,
-      }
-    )
   } catch (err) {
     await logError(err)
   }
