@@ -23,4 +23,4 @@ COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn install
 RUN yarn global add turbo
 
-CMD [ "turbo", "run", "email-composer:start" ] 
+CMD [ "turbo", "run", "start --filter email-composer" ] 

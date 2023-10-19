@@ -26,4 +26,4 @@ COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn install
 RUN yarn global add turbo
 
-CMD [ "turbo", "run", "roles-validator:start" ] 
+CMD [ "turbo", "run", "start --filter roles-validator" ] 
