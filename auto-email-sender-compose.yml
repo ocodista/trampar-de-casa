@@ -31,8 +31,7 @@ services:
     env_file:
       - apps/auto-email-sender/roles-validator/.env
     depends_on:
-      mongo:
-        condition: service_healthy
+      - mongo
   roles-renderer:
     environment:
       - MONGO_PASSWORD=root
@@ -44,8 +43,7 @@ services:
     env_file:
       - apps/auto-email-sender/roles-renderer/.env
     depends_on:
-      mongo:
-        condition: service_healthy
+      - mongo
   roles-assigner:
     environment:
       - MONGO_PASSWORD=root
@@ -57,10 +55,8 @@ services:
     env_file:
       - apps/auto-email-sender/roles-assigner/.env
     depends_on:
-      mongo:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
+      - mongo
+      - rabbitmq
   email-pre-renderer:
     build: 
       context: .
@@ -72,10 +68,8 @@ services:
       - RABBITMQ_DEFAULT_PASS=trampar-de-casa
       - RABBITMQ_ADDRESS=rabbitmq
     depends_on:
-      mongo:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
+      - mongo
+      - rabbitmq
   email-composer:
     build: 
       context: .
@@ -83,10 +77,8 @@ services:
     env_file:
       - apps/auto-email-sender/email-composer/.env
     depends_on:
-      mongo:
-        condition: service_healthy
-      rabbitmq:
-        condition: service_healthy
+      - mongo
+      - rabbitmq
   email-sender:
     build: 
       context: .
@@ -98,9 +90,7 @@ services:
       - RABBITMQ_DEFAULT_PASS=trampar-de-casa
       - RABBITMQ_ADDRESS=rabbitmq
     depends_on:
-      rabbitmq:
-        condition: service_healthy
-
+      - rabbitmq
 networks:
   mongo-network:
     driver: bridge
