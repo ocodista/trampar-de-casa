@@ -8,6 +8,7 @@ import { saveSubscriberRoles } from './saveSubscriberRoles'
 
 dotenv.config()
 
+const BATCH_SIZE = 100
 export const assignRoles = async () => {
   console.time('assignRoles')
   const mongoConnection = await getMongoConnection()
@@ -16,13 +17,12 @@ export const assignRoles = async () => {
     MongoCollection.RolesAssigner
   )
   const supabaseClient = getSupabaseClient()
-
-  const batchSize = 100
-  for await (const subscribersBatch of getAllPaginated<Subscribers>({
+  const subscribersGenerator = getAllPaginated<Subscribers>({
     supabase: supabaseClient,
     entity: Entities.Subcribers,
-    batchSize,
-  })) {
+    batchSize: BATCH_SIZE,
+  })
+  for await (const subscribersBatch of subscribersGenerator) {
     if (!subscribersBatch?.length) break
 
     const matchRolesPromises = subscribersBatch.map(async (subscriber) => {
