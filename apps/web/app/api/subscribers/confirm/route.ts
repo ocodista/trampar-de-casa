@@ -1,3 +1,4 @@
+import { Events, Tracker } from 'analytics'
 import { getSupabaseClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
@@ -18,7 +19,12 @@ export async function POST(request: Request) {
     .select()
 
   if (!error) return NextResponse.json(data)
-
+  new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
+    Events.NewSubscriber,
+    {
+      distinct_id: data[0].id,
+    }
+  )
   // eslint-disable-next-line no-console
   console.error(error)
   return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
