@@ -6,6 +6,7 @@ import { parseAndStoreRole } from './parseAndStoreRole'
 dotenv.config()
 
 export async function rolesRenderer() {
+  console.time('rolesRenderer')
   const supabaseClient = getSupabaseClient()
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
@@ -22,5 +23,6 @@ export async function rolesRenderer() {
     )
   }
 
+  console.timeEnd('rolesRenderer')
   await mongoConnection.close()
 }

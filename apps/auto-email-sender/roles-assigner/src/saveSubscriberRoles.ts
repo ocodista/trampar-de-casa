@@ -1,11 +1,11 @@
 import { Collection, Document } from 'mongodb'
-import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
 import { EmailProps } from './getEmailProps'
 
-export const saveSubscriberRoles = withExecutionTimeLogging(
-  async (mongoCollection: Collection<Document>, emailProps: EmailProps) => {
-    await mongoCollection.insertOne(emailProps)
-    console.log(emailProps)
-  },
-  { name: 'saveSubscriberRoles' }
-)
+export const saveSubscriberRoles = async (
+  mongoCollection: Collection<Document>,
+  emailProps: EmailProps
+) => {
+  console.time(`saveSubscriberRoles#${emailProps.email}`)
+  await mongoCollection.insertOne(emailProps)
+  console.timeEnd(`saveSubscriberRoles#${emailProps.email}`)
+}

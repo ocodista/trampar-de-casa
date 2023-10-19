@@ -8,6 +8,7 @@ import { sendEmails } from './sendEmails'
 export type EmailComposerContent = Record<string, string>
 
 export const emailSender = async () => {
+  console.time('emailSender')
   const resend = new Resend(CONFIG.RESEND_KEY)
   const channelToConsume = await createRabbitMqChannel({
     password: CONFIG.RABBITMQ_PASS,
@@ -20,13 +21,19 @@ export const emailSender = async () => {
     msg = await channelToConsume.get(EmailQueues.EmailSender)
     count++
     if (!msg) break
+    console.log('[Message Count]: ', count)
     if (count % 25 === 0) {
       await sendEmails(emailChunk, channelToConsume, resend)
       emailChunk = []
-    } else {
-      emailChunk.push(msg)
     }
+    emailChunk.push(msg)
   } while (msg)
 
+  if (emailChunk.length) {
+    await sendEmails(emailChunk, channelToConsume, resend)
+    emailChunk = []
+  }
+
+  console.timeEnd('emailSender')
   return
 }

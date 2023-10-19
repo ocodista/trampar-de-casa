@@ -1,6 +1,5 @@
 import { EnglishLevel, RoleLanguage, Subscribers, SupabaseClient } from 'db'
 import { Entities } from 'shared/src/enums/entities'
-import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
 
 const englishLevelScore: Record<EnglishLevel, number> = {
   [EnglishLevel.Fluent]: 4,
@@ -27,39 +26,41 @@ export type Role = {
   minimumYears: string | null
 }
 
-export const getSubscriberRoles = withExecutionTimeLogging(
-  async (subscriber: Subscribers, supabase: SupabaseClient) => {
-    type QueryBuilder = ReturnType<ReturnType<typeof supabase.from>['select']>
+export const getSubscriberRoles = async (
+  subscriber: Subscribers,
+  supabase: SupabaseClient
+) => {
+  console.time(`getSubscriberRoles#${subscriber.email}`)
+  type QueryBuilder = ReturnType<ReturnType<typeof supabase.from>['select']>
 
-    const filterBySkill = (skills: string[], query: QueryBuilder) => {
-      return query.in('skills', skills)
+  const filterBySkill = (skills: string[], query: QueryBuilder) => {
+    return query.in('skills', skills)
+  }
+  const filterByEnglish = (
+    englishLevel: EnglishLevel | null,
+    query: QueryBuilder
+  ) => {
+    if (!englishLevel) return query
+    if (!(englishLevelScore[englishLevel] >= englishLevelScore.Advanced)) {
+      return query.filter('language', 'not.eq', RoleLanguage.English)
     }
-    const filterByEnglish = (
-      englishLevel: EnglishLevel | null,
-      query: QueryBuilder
-    ) => {
-      if (!englishLevel) return query
-      if (!(englishLevelScore[englishLevel] >= englishLevelScore.Advanced)) {
-        return query.filter('language', 'not.eq', RoleLanguage.English)
-      }
 
-      return query
-    }
-    const filterByExp = (startedWorkedAt: Date | null, query: QueryBuilder) => {
-      if (!startedWorkedAt) return query
-      const currentDate = new Date()
-      const yearOfExperience =
-        currentDate.getFullYear() - new Date(startedWorkedAt).getFullYear()
-      // lte worked as gte (?)
-      return query.lte('minimumYears', yearOfExperience)
-    }
-    const baseQuery = await supabase
-      .from(Entities.Roles)
-      .select()
-      .eq('ready', true)
-    // const filteredBySkill = filterBySkill(subscriber.skills as string[], baseQuery)
+    return query
+  }
+  const filterByExp = (startedWorkedAt: Date | null, query: QueryBuilder) => {
+    if (!startedWorkedAt) return query
+    const currentDate = new Date()
+    const yearOfExperience =
+      currentDate.getFullYear() - new Date(startedWorkedAt).getFullYear()
+    // lte worked as gte (?)
+    return query.lte('minimumYears', yearOfExperience)
+  }
+  const baseQuery = await supabase
+    .from(Entities.Roles)
+    .select()
+    .eq('ready', true)
+  // const filteredBySkill = filterBySkill(subscriber.skills as string[], baseQuery)
 
-    return baseQuery.data as Role[]
-  },
-  { name: 'getSubscriberRoles' }
-)
+  console.timeEnd(`getSubscriberRoles#${subscriber.email}`)
+  return baseQuery.data as Role[]
+}

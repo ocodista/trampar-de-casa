@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { Entities, skillArray } from 'shared'
+import { Entities } from 'shared'
 import { getSupabaseClient } from './index'
 import { Prisma } from './prisma/client'
 
@@ -20,22 +20,15 @@ type TopicsTable = {
   name: string
 }
 
-const getSubscribers = (): SubscribersTable[] => [
+const getSubscribers = (): SubscribersTable[] => Array.from({length: 9000}).map(() => (
   {
     email: faker.internet.email(),
     englishLevel: faker.helpers.enumValue(EnglishLevel),
     name: faker.person.fullName(),
     startedWorkingAt: new Date(),
     skillsId: [],
-  },
-  {
-    email: faker.internet.email(),
-    englishLevel: faker.helpers.enumValue(EnglishLevel),
-    name: faker.person.fullName(),
-    startedWorkingAt: new Date(),
-    skillsId: [],
-  },
-]
+  }
+)) 
 
 const getRoles = (): Prisma.RolesCreateInput[] => [
   {
@@ -72,32 +65,31 @@ void (async function () {
           .insert(descriptionTopic)
       })
     )
-    await Promise.all(
-      getSubscribers().map(async (subscriber) =>
-        await supabase.from(Entities.Subcribers)
-          .insert(subscriber)
-      )
-    )
-    await Promise.all(
-      getRoles().map(async (role) => 
-        await supabase.from(Entities.Roles)
-          .insert(role)
-      )
-    )
-    skillArray.forEach(async (skill, index) => {
-      try {
-        const { error } = await supabase.from(Entities.Skills)
-          .insert({id: index, name: skill})
-        if(error) throw error
-      } catch {
-        console.log(
-          {
-            id: index,
-            name: skill
-          }
-        )
-      }
-    })
+    // for (const subscriber of getSubscribers()) {
+    //   await supabase.from(Entities.Subcribers)
+    //     .insert(subscriber)
+
+    // }
+    // await Promise.all(
+    //   getRoles().map(async (role) => 
+    //     await supabase.from(Entities.Roles)
+    //       .insert(role)
+    //   )
+    // )
+    // skillArray.forEach(async (skill, index) => {
+    //   try {
+    //     const { error } = await supabase.from(Entities.Skills)
+    //       .insert({id: index, name: skill})
+    //     if(error) throw error
+    //   } catch {
+    //     console.log(
+    //       {
+    //         id: index,
+    //         name: skill
+    //       }
+    //     )
+    //   }
+    // })
   } catch (err) {
     console.error(err)
     process.exit(1)

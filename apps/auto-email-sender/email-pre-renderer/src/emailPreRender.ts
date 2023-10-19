@@ -12,6 +12,7 @@ import { sendToQueue } from './sendToQueue'
 dotenv.config()
 
 export async function emailPreRender() {
+  console.time('emailPreRender')
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
   const mongoCollection = mongoDatabase.collection(
@@ -29,6 +30,7 @@ export async function emailPreRender() {
   }[] = []
   const data = await getAllSubscribers()
   if (!data) return
+  console.log(data.length)
   for (const { email, id } of data) {
     const subscriber = await mongoCollection.findOne({ id })
     if (subscriber) {
@@ -37,6 +39,7 @@ export async function emailPreRender() {
     }
   }
   for (const { email, id, rolesId } of subscriberRolesAndEmail) {
+    console.time(`RenderHeaderAndFooter#${email}`)
     const promiseFooterHTML = new Promise<string>((resolve) =>
       resolve(renderFooter(id, CONFIG.URL_PREFIX))
     )
@@ -47,6 +50,7 @@ export async function emailPreRender() {
       promiseFooterHTML,
       promiseHeaderHTML,
     ])
+    console.timeEnd(`RenderHeaderAndFooter#${email}`)
 
     await sendToQueue(channel, {
       [email]: {
@@ -58,4 +62,5 @@ export async function emailPreRender() {
   }
 
   await mongoConnection.close()
+  console.timeEnd('emailPreRender')
 }
