@@ -48,18 +48,25 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
 ```mermaid
 sequenceDiagram
 participant emailSender
-participant sendEmail
-participant logFailure
-participant logSuccessfully
+participant emailChunk
+participant sendEmails
 participant rabbitMQ
 
 emailSender->>rabbitMQ:consumes emailSender Queue
+
 loop For each queue message
-  emailSender->>sendEmail: send email based on message content
-  alt send email failed
-    sendEmail->>logFailure:Save failed email
-  else
-    sendEmail->>logSuccessfully: Save successfully sent email
+  rabbitMQ->>emailChunk: store message
+
+  alt emailCHunk has 25 messages?
+    emailChunk->>sendEmails: send 25 emails
+  else if you have any emails left
+    emailChunk->>sendEmails: send rest of emails
+  end
+
+  alt email is sent with success
+    sendEmails->>rabbitMQ: ack message
+  else email is not sent
+    sendEmails->>rabbitMQ: nAck message
   end
 end
 ```
