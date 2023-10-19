@@ -13,12 +13,6 @@ services:
     environment:
       RABBITMQ_DEFAULT_USER: trampar
       RABBITMQ_DEFAULT_PASS: trampar-de-casa
-  redis:
-    image: redislabs/redismod
-    ports:
-      - '6379:6379'
-    expose:
-      - 6379
   mongo:
     image: mongo:latest
     ports:
@@ -37,7 +31,8 @@ services:
     env_file:
       - apps/auto-email-sender/roles-validator/.env
     depends_on:
-      - redis
+      mongo:
+        condition: service_healthy
   roles-renderer:
     environment:
       - MONGO_PASSWORD=root
@@ -63,9 +58,9 @@ services:
       - apps/auto-email-sender/roles-assigner/.env
     depends_on:
       mongo:
-        condition: service_completed_successfully
+        condition: service_healthy
       rabbitmq:
-        condition: service_completed_successfully
+        condition: service_healthy
   email-pre-renderer:
     build: 
       context: .
@@ -88,7 +83,7 @@ services:
     env_file:
       - apps/auto-email-sender/email-composer/.env
     depends_on:
-      redis:
+      mongo:
         condition: service_healthy
       rabbitmq:
         condition: service_healthy
@@ -102,8 +97,9 @@ services:
       - RABBITMQ_DEFAULT_USER=trampar
       - RABBITMQ_DEFAULT_PASS=trampar-de-casa
       - RABBITMQ_ADDRESS=rabbitmq
-    rabbitmq:
-      condition: service_completed_successfully
+    depends_on:
+      rabbitmq:
+        condition: service_healthy
 
 networks:
   mongo-network:
