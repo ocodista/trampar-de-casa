@@ -1,16 +1,18 @@
+import { getSupabaseClient } from 'db'
 import dotenv from 'dotenv'
 import {
+  Entities,
   MongoCollection,
   createRabbitMqChannel,
   getMongoConnection,
 } from 'shared'
 import { CONFIG } from './config'
-import { getAllSubscribers } from './getAllSubscribers'
-import { renderFooter } from './renderFooter'
-import { renderHeader } from './renderHeader'
+import { getAllConfirmedSubscribersPaginated } from './getAllConfirmedSubscribersPaginated'
+import { renderHeaderAndFooter } from './renderHeaderAndFooter'
 import { sendToQueue } from './sendToQueue'
 dotenv.config()
 
+export const BATCH_SIZE = 100
 export async function emailPreRender() {
   console.time('emailPreRender')
   const mongoConnection = await getMongoConnection()
@@ -23,42 +25,33 @@ export async function emailPreRender() {
     user: CONFIG.RABBITMQ_USER,
   })
 
-  const subscriberRolesAndEmail: {
-    rolesId: string[]
-    email: string
-    id: string
-  }[] = []
-  const data = await getAllSubscribers()
-  if (!data) return
-  console.log(data.length)
-  for (const { email, id } of data) {
-    const subscriber = await mongoCollection.findOne({ id })
-    if (subscriber) {
-      const { rolesId } = subscriber as unknown as { rolesId: string[] }
-      subscriberRolesAndEmail.push({ rolesId, email, id })
-    }
-  }
-  for (const { email, id, rolesId } of subscriberRolesAndEmail) {
-    console.time(`RenderHeaderAndFooter#${email}`)
-    const promiseFooterHTML = new Promise<string>((resolve) =>
-      resolve(renderFooter(id, CONFIG.URL_PREFIX))
-    )
-    const promiseHeaderHTML = new Promise<string>((resolve) =>
-      resolve(renderHeader(rolesId))
-    )
-    const [footerHTML, headerHTML] = await Promise.all([
-      promiseFooterHTML,
-      promiseHeaderHTML,
-    ])
-    console.timeEnd(`RenderHeaderAndFooter#${email}`)
+  const supabaseClient = getSupabaseClient()
+  const subscribersGenerator = getAllConfirmedSubscribersPaginated({
+    supabase: supabaseClient,
+    entity: Entities.Subcribers,
+    batchSize: BATCH_SIZE,
+  })
 
-    await sendToQueue(channel, {
-      [email]: {
-        footerHTML,
-        headerHTML,
-        roles: rolesId,
-      },
-    })
+  for await (const subscribers of subscribersGenerator) {
+    for (const { email, id } of subscribers) {
+      const subscriber = await mongoCollection.findOne({ id })
+      if (!subscriber) break
+      const { rolesId } = subscriber as unknown as { rolesId: string[] }
+
+      const { footerHTML, headerHTML } = await renderHeaderAndFooter(
+        email,
+        id,
+        rolesId
+      )
+
+      await sendToQueue(channel, {
+        [email]: {
+          footerHTML,
+          headerHTML,
+          roles: rolesId,
+        },
+      })
+    }
   }
 
   await mongoConnection.close()

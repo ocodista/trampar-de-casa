@@ -7,7 +7,6 @@ import * as sharedFile from 'shared'
 import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
 import { getSupabaseClientStub } from 'shared/src/test/helpers/stubs'
 import { vi } from 'vitest'
-import * as getAllSubscribersFile from '../../getAllSubscribers'
 import * as renderFooterFile from '../../renderFooter'
 import * as renderHeaderFile from '../../renderHeader'
 import * as sendToQueueFile from '../../sendToQueue'
@@ -35,9 +34,6 @@ export const configExternalServicesMocks = () => {
     disconnect: vi.fn(),
     connect: vi.fn(),
   }))
-  vi.spyOn(getAllSubscribersFile, 'getAllSubscribers').mockImplementation(
-    getAllSubscribersStub
-  )
 
   vi.spyOn(
     createRabbitMqChannelFile,
@@ -50,8 +46,9 @@ export const configExternalServicesMocks = () => {
 
   vi.spyOn(sendToQueueFile, 'sendToQueue').mockImplementation(sendToQueueStub)
 }
-export const mockSupabaseAndRedis = () => {
+export const mockSupabaseAndMongo = () => {
   const subscriberMock = getSubscriberMock()
+  const findOneStub = vi.fn()
   getAllSubscribersStub.mockReturnValue([subscriberMock])
   const mongoRoleAssignerMock = {
     email: faker.internet.email(),
@@ -63,7 +60,7 @@ export const mockSupabaseAndRedis = () => {
     updateOne: vi.fn(),
     deleteOne: vi.fn(),
     find: vi.fn(),
-    findOne: vi.fn().mockResolvedValueOnce(mongoRoleAssignerMock),
+    findOne: findOneStub.mockResolvedValueOnce(mongoRoleAssignerMock),
   }
   const mongoConnectionMock = {
     db: vi.fn().mockReturnValue({
@@ -79,6 +76,7 @@ export const mockSupabaseAndRedis = () => {
     subscriberMock,
     mongoConnectionMock,
     mongoRoleAssignerMock,
+    findOneStub,
   }
 }
 export const configRenderMocks = () => {
