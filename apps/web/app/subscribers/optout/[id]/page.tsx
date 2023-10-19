@@ -1,15 +1,13 @@
 'use client'
-import { useSearchParams } from 'next/navigation'
-import { useCallback, useContext, useEffect } from 'react'
-import { LoadingContext } from '../../contexts/LoadingContext'
-import { ApiRoutes } from 'shared/src/enums'
-import { useToast } from '../../hooks/use-toast'
 import ButtonAnchor from 'app/components/ui/ButtonAnchor'
+import { useCallback, useContext, useEffect } from 'react'
+import { ApiRoutes } from 'shared/src/enums'
+import { LoadingContext } from '../../../contexts/LoadingContext'
+import { useToast } from '../../../hooks/use-toast'
 
-export default function Page() {
+export default function Page({ params }: { params: { id: string } }) {
   const { isLoading, setLoaderVisibility } = useContext(LoadingContext)
-  const searchParams = useSearchParams()
-  const id = searchParams.get('id') || ''
+  const { id } = params
   const { toast } = useToast()
 
   const showToast = useCallback(
