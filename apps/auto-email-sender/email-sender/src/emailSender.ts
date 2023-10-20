@@ -21,7 +21,6 @@ export const emailSender = async () => {
     msg = await channelToConsume.get(EmailQueues.EmailSender)
     count++
     if (!msg) break
-    console.log('[Message Count]: ', count)
     if (count % 25 === 0) {
       await sendEmails(emailChunk, channelToConsume, resend)
       emailChunk = []
