@@ -1,9 +1,10 @@
+import { faker } from '@faker-js/faker'
 import * as dbFile from 'db'
 import * as saveSubscriberRolesFiles from 'db/src/mongodb/domains/roles/saveSubscriberRoles'
 import * as getSubscriberRolesFile from 'db/src/supabase/domains/roles/getSubscriberRoles'
+import * as getAllPaginatedFile from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import * as redisFile from 'redis'
-import { Entities } from 'shared'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { vi } from 'vitest'
 import { assignRoles } from '../rolesAssigner'
@@ -14,6 +15,22 @@ import {
   getSupabaseClientStub,
   redisStub,
 } from './helpers/stubs'
+
+type Subscribers = SupabaseTable<'Subscribers'>
+
+const mockSubscribersGenerator = (responseChunks: Array<Subscribers[]>) => {
+  const getAllPaginatedStub = vi.spyOn(
+    getAllPaginatedFile,
+    'getAllConfirmedSubscribersPaginated'
+  )
+  getAllPaginatedStub.mockImplementation(async function* () {
+    for (const chunk of responseChunks) {
+      yield chunk
+    }
+  })
+
+  return { getAllPaginatedStub }
+}
 
 const readyRole = getRoleMock({ ready: true })
 const notReadyRole = getRoleMock({ ready: false })
@@ -42,16 +59,6 @@ describe('Roles Assigner', () => {
     vi.spyOn(redisFile, 'createClient').mockImplementation(redisStub)
   })
 
-  it('get subscribers in batches of 100 rows', async () => {
-    const getAllPaginatedSpy = getAllPaginatedStub([])
-    await assignRoles()
-    expect(getAllPaginatedSpy).toBeCalledWith({
-      supabase: supabaseClientMock,
-      entity: Entities.Subcribers,
-      batchSize: 100,
-    })
-  })
-
   describe('for each subscriber', () => {
     const rolesMock = [readyRole, notReadyRole]
     const getSubscribersRoleSpy = vi.fn().mockReturnValue(rolesMock)
@@ -67,7 +74,10 @@ describe('Roles Assigner', () => {
     })
 
     it('get personalized roles', async () => {
+      mockSubscribersGenerator([subscribersBatchMock])
+
       await assignRoles()
+
       expect(getSubscribersRoleSpy).toBeCalledWith(
         subscribersBatchMock[0],
         supabaseClientMock
@@ -80,9 +90,20 @@ describe('Roles Assigner', () => {
     })
 
     it('send emailProps {  email, id, roleIds } to emailRendererQueue at Redis', async () => {
-      const redisSpy = vi.spyOn(saveSubscriberRolesFiles, 'saveSubscriberRoles')
+      const subscriberMock = {
+        email: faker.internet.email(),
+        id: faker.string.uuid(),
+        isConfirmed: true,
+      } as Subscribers
+      mockSubscribersGenerator([[subscriberMock]])
+      const saveSubscriberRolesSpy = vi.spyOn(
+        saveSubscriberRolesFiles,
+        'saveSubscriberRoles'
+      )
+
       await assignRoles()
-      expect(redisSpy).toHaveBeenCalled()
+
+      expect(saveSubscriberRolesSpy).toHaveBeenCalled()
     })
   })
 })

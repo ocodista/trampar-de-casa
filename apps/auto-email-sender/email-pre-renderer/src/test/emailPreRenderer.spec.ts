@@ -1,9 +1,8 @@
 import { faker } from '@faker-js/faker'
+import * as getAllPaginatedFile from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
-import { Entities } from 'shared'
 import { BATCH_SIZE, emailPreRender } from 'src/emailPreRender'
 import { vi } from 'vitest'
-import * as getAllPaginatedFile from '../getAllConfirmedSubscribersPaginated'
 
 type Subscribers = SupabaseTable<'Subscribers'>
 
@@ -57,7 +56,6 @@ describe('Email Pre Renderer', () => {
     expect(getAllPaginatedStub).toBeCalledWith(
       expect.objectContaining({
         batchSize: BATCH_SIZE,
-        entity: Entities.Subcribers,
       })
     )
   })

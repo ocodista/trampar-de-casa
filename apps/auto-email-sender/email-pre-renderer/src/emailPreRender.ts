@@ -1,13 +1,12 @@
 import { getSupabaseClient } from 'db'
+import { getAllConfirmedSubscribersPaginated } from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import dotenv from 'dotenv'
 import {
-  Entities,
   MongoCollection,
   createRabbitMqChannel,
   getMongoConnection,
 } from 'shared'
 import { CONFIG } from './config'
-import { getAllConfirmedSubscribersPaginated } from './getAllConfirmedSubscribersPaginated'
 import { renderHeaderAndFooter } from './renderHeaderAndFooter'
 import { sendToQueue } from './sendToQueue'
 dotenv.config()
@@ -28,7 +27,6 @@ export async function emailPreRender() {
   const supabaseClient = getSupabaseClient()
   const subscribersGenerator = getAllConfirmedSubscribersPaginated({
     supabase: supabaseClient,
-    entity: Entities.Subcribers,
     batchSize: BATCH_SIZE,
   })
 

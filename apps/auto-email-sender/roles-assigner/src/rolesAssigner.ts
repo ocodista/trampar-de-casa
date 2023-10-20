@@ -1,9 +1,9 @@
 import { getSupabaseClient } from 'db'
 import { saveSubscriberRoles } from 'db/src/mongodb/domains/roles/saveSubscriberRoles'
 import { getSubscriberRoles } from 'db/src/supabase/domains/roles/getSubscriberRoles'
-import { getAllPaginated } from 'db/src/supabase/getAllPaginated'
+import { getAllConfirmedSubscribersPaginated } from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import dotenv from 'dotenv'
-import { Entities, MongoCollection, getMongoConnection } from 'shared'
+import { MongoCollection, getMongoConnection } from 'shared'
 import { getEmailProps } from './getEmailProps'
 
 dotenv.config()
@@ -17,10 +17,9 @@ export const assignRoles = async () => {
     MongoCollection.RolesAssigner
   )
   const supabaseClient = getSupabaseClient()
-  const subscribersGenerator = getAllPaginated<Subscribers>({
-    supabase: supabaseClient,
-    entity: Entities.Subcribers,
+  const subscribersGenerator = getAllConfirmedSubscribersPaginated({
     batchSize: BATCH_SIZE,
+    supabase: supabaseClient,
   })
   for await (const subscribersBatch of subscribersGenerator) {
     if (!subscribersBatch?.length) break
