@@ -50,6 +50,12 @@ const mockSupabaseClient: SupabaseClient = {
   }),
 } as unknown as SupabaseClient
 
+vi.mock('db', () => {
+  return {
+    getSupabaseClient: () => mockSupabaseClient,
+  }
+})
+
 describe('Roles Renderer', () => {
   it('get roles in batches', async ({ expect }) => {
     const roleBatches = getRolesInBatches(mockSupabaseClient, 10)
