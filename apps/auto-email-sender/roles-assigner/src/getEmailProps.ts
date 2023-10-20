@@ -1,6 +1,7 @@
-import { Subscribers } from 'db'
-import { Role } from './getSubscriberRoles'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 
+type Subscribers = SupabaseTable<'Subscribers'>
+type Role = SupabaseTable<'Roles'>
 export interface EmailProps {
   email: string
   id: string

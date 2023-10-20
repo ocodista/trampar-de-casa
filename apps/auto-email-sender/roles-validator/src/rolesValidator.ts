@@ -1,6 +1,6 @@
+import { getRoles } from 'db/src/supabase/domains/roles/getRoles'
 import dotenv from 'dotenv'
 import { Collection, Document } from 'mongodb'
-import { getRoles } from './getRoles'
 import { isValidRole } from './isValidRole'
 
 dotenv.config()

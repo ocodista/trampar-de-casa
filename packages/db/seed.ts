@@ -1,7 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { Entities, skillArray } from 'shared'
 import { getSupabaseClient } from './index'
-import { Prisma } from './prisma/client'
 
 enum EnglishLevel {
   BEGINNER = 'Beginner',
@@ -30,7 +29,7 @@ const getSubscribers = (): SubscribersTable[] => Array.from({length: 9000}).map(
   }
 )) 
 
-const getRoles = (): Prisma.RolesCreateInput[] => [
+const getRoles = () => [
   {
     company: faker.company.name(),
     country: faker.location.country(),

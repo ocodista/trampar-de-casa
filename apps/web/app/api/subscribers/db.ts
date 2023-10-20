@@ -1,4 +1,5 @@
-import { EnglishLevel, getSupabaseClient } from 'db'
+import { getSupabaseClient } from 'db'
+import { EnglishLevel } from 'global/EnglishLevel'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { Entities } from 'shared'

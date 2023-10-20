@@ -1,10 +1,10 @@
-import { Subscribers, getSupabaseClient } from 'db'
+import { getSupabaseClient } from 'db'
+import { saveSubscriberRoles } from 'db/src/mongodb/domains/roles/saveSubscriberRoles'
+import { getSubscriberRoles } from 'db/src/supabase/domains/roles/getSubscriberRoles'
+import { getAllPaginated } from 'db/src/supabase/getAllPaginated'
 import dotenv from 'dotenv'
 import { Entities, MongoCollection, getMongoConnection } from 'shared'
-import { getAllPaginated } from './getAllPaginated'
 import { getEmailProps } from './getEmailProps'
-import { getSubscriberRoles } from './getSubscriberRoles'
-import { saveSubscriberRoles } from './saveSubscriberRoles'
 
 dotenv.config()
 

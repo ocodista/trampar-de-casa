@@ -9,7 +9,8 @@
     "dev": "BROWSER=none prisma studio",
     "db-start": "npx prisma generate && npx supabase start",
     "db-seed": "ts-node ./seed.ts",
-    "db-stop": "npx supabase stop --backup"
+    "db-stop": "npx supabase stop --backup",
+    "db:generate-types": "supabase gen types typescript --local --schema public | tail -n +1 > src/supabase/type.ts"
   },
   "keywords": [],
   "author": "",

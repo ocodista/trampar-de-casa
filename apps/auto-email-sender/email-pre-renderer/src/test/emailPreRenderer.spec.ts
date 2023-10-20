@@ -1,9 +1,12 @@
 import { faker } from '@faker-js/faker'
-import { Subscribers } from 'db'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { Entities } from 'shared'
 import { BATCH_SIZE, emailPreRender } from 'src/emailPreRender'
 import { vi } from 'vitest'
 import * as getAllPaginatedFile from '../getAllConfirmedSubscribersPaginated'
+
+type Subscribers = SupabaseTable<'Subscribers'>
+
 import {
   channelMock,
   configExternalServicesMocks,

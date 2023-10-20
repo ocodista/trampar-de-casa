@@ -1,6 +1,9 @@
-import { Subscribers, SupabaseClient } from 'db'
+import { SupabaseClient } from 'db'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { Entities } from 'shared'
 import { getConfirmedSubscribersRowsBlock } from './getConfirmedSubscribersRowsBlock'
+
+type Subscribers = SupabaseTable<'Subscribers'>
 
 interface GetAllPaginated {
   supabase: SupabaseClient

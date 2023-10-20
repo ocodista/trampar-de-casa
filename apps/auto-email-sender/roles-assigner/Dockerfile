@@ -7,7 +7,7 @@ WORKDIR /app
 RUN yarn global add turbo
 COPY . .
 
-RUN turbo prune --scope=email-pre-renderer --docker
+RUN turbo prune --scope=roles-assigner --docker
 
 # Add lockfile and package.json's of isolated subworkspace
 FROM base AS installer
@@ -23,4 +23,8 @@ COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn install
 RUN yarn global add turbo
 
-CMD [ "turbo", "run", "start --filter email-pre-renderer" ] 
+<<<<<<<< HEAD:apps/auto-email-sender/roles-assigner/dockerfile
+CMD [ "turbo", "run", "start --filter roles-assigner" ] 
+========
+CMD [ "turbo", "run", "--filter=roles-assigner" ] 
+>>>>>>>> separation-of-concerns:apps/auto-email-sender/roles-assigner/Dockerfile

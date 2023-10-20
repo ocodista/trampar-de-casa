@@ -23,4 +23,8 @@ COPY --from=builder /app/out/yarn.lock ./yarn.lock
 RUN yarn install
 RUN yarn global add turbo
 
+<<<<<<<< HEAD:apps/auto-email-sender/email-pre-renderer/dockerfile
 CMD [ "turbo", "run", "start --filter email-pre-renderer" ] 
+========
+CMD [ "turbo", "run", "--filter=email-pre-renderer" ] 
+>>>>>>>> separation-of-concerns:apps/auto-email-sender/email-pre-renderer/Dockerfile

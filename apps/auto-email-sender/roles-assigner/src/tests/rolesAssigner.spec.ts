@@ -1,11 +1,12 @@
 import * as dbFile from 'db'
+import * as saveSubscriberRolesFiles from 'db/src/mongodb/domains/roles/saveSubscriberRoles'
+import * as getSubscriberRolesFile from 'db/src/supabase/domains/roles/getSubscriberRoles'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import * as redisFile from 'redis'
 import { Entities } from 'shared'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { vi } from 'vitest'
-import * as getSubscriberRolesFile from '../getSubscriberRoles'
 import { assignRoles } from '../rolesAssigner'
-import * as saveSubscriberRolesFiles from '../saveSubscriberRoles'
 import { getRoleMock } from './factories/roleFactory'
 import { getSubscriberMock } from './factories/subscriberFactory'
 import {
@@ -16,7 +17,23 @@ import {
 
 const readyRole = getRoleMock({ ready: true })
 const notReadyRole = getRoleMock({ ready: false })
-
+vi.mock('mongodb', () => {
+  return {
+    Collection: vi.fn(),
+    Document: vi.fn(),
+    MongoClient: class MongoClient {
+      public connect() {
+        return {
+          db: () => ({
+            collection: vi.fn(),
+          }),
+          Document: vi.fn(),
+          close: vi.fn(),
+        }
+      }
+    },
+  }
+})
 describe('Roles Assigner', () => {
   beforeEach(() => {
     vi.spyOn(dbFile, 'getSupabaseClient').mockImplementation(
@@ -38,7 +55,7 @@ describe('Roles Assigner', () => {
   describe('for each subscriber', () => {
     const rolesMock = [readyRole, notReadyRole]
     const getSubscribersRoleSpy = vi.fn().mockReturnValue(rolesMock)
-    const subscribersBatchMock: dbFile.Subscribers[] = [
+    const subscribersBatchMock: SupabaseTable<'Subscribers'>[] = [
       getSubscriberMock(),
       getSubscriberMock(),
     ]

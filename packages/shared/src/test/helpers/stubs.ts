@@ -1,9 +1,11 @@
-import { Roles } from 'db'
+import * as getAllPaginatedFile from 'db/src/supabase/getAllPaginated'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { mockAsyncGenerator } from 'shared/src/test/helpers/mockAsyncGeneratorFunction'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { Mock, vi } from 'vitest'
-import * as getAllPaginatedFile from '../../services/getAllPaginated'
 import * as getRowsBlockFile from '../../services/getRowsBlock'
+
+type Roles = SupabaseTable<'Roles'>
 
 export const getAllPaginatedStub = <Data>(batches: Data[][]): Mock => {
   const getAllPaginatedSpy = vi
