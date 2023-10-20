@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 import { isValidRole } from 'src/isValidRole'
 import { vi } from 'vitest'
-import * as searchRoleOnSiteFile from '../isValidRoleOnSite'
 import * as launchBrowserAndNavigateFile from '../launchBrowserAndNavigateTo'
+import * as searchRoleOnSiteFile from '../searchRoleOnPageContent'
 import * as setViewportFile from '../setViewport'
 
 const BASE_URL = faker.internet.url()
@@ -10,7 +10,7 @@ const BASE_ROLE = faker.person.jobTitle()
 const launchBrowserAndNavigateToPageStub = vi.fn()
 
 const setViewportStub = vi.fn()
-const isValidRoleOnSiteStub = vi.fn()
+const searchRoleOnPageContentStub = vi.fn()
 const browserCloseStub = vi.fn()
 
 describe('verifySite', () => {
@@ -26,9 +26,10 @@ describe('verifySite', () => {
     })
 
     vi.spyOn(setViewportFile, 'setViewport').mockImplementation(setViewportStub)
-    vi.spyOn(searchRoleOnSiteFile, 'isValidRoleOnSite').mockImplementation(
-      isValidRoleOnSiteStub
-    )
+    vi.spyOn(
+      searchRoleOnSiteFile,
+      'searchRoleOnPageContent'
+    ).mockImplementation(searchRoleOnPageContentStub)
   })
   afterEach(() => vi.clearAllMocks())
 
@@ -58,7 +59,7 @@ describe('verifySite', () => {
   it('search if role name exists on page', async () => {
     await isValidRole(BASE_URL, BASE_ROLE)
 
-    expect(isValidRoleOnSiteStub).toBeCalled()
+    expect(searchRoleOnPageContentStub).toBeCalled()
   })
 
   it('closes the browser after completing the verification', async () => {
