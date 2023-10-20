@@ -8,9 +8,6 @@ export enum ProfileSchemaEnum {
   GitHub = 'gitHub',
   Skills = 'skillsId',
   EnglishLevel = 'englishLevel',
-  // NationalRoles = 'nationalRoles',
-  // InternationalRoles = 'internationalRoles',
-  // EnglishTipes = 'englishTips',
   ReceiveEmailConfig = 'receiveEmailConfig',
 }
 
