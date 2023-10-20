@@ -8,7 +8,8 @@ export const sendEmails = async (
   channel: Channel,
   resendCli: Resend
 ) => {
-  console.time('sendEmails')
+  const id = Date.now()
+  console.time(`sendEmails#${id}`)
   const promises = buffers.map(async (message) => {
     const content = JSON.parse(
       message.content.toString()
@@ -29,5 +30,5 @@ export const sendEmails = async (
     }
   })
   await Promise.all(promises)
-  console.time('sendEmails')
+  console.timeEnd(`sendEmails#${id}`)
 }

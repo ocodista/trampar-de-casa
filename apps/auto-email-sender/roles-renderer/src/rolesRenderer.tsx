@@ -23,6 +23,6 @@ export async function rolesRenderer() {
     )
   }
 
-  console.timeEnd('rolesRenderer')
   await mongoConnection.close()
+  console.timeEnd('rolesRenderer')
 }
