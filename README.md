@@ -1,4 +1,4 @@
-# Trampar de Casa 👨💻🏠
+# Trampar de Casa 💻🏠
 
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/ocodista/trampar-de-casa/main)
 ![GitHub contributors](https://img.shields.io/github/contributors/ocodista/trampar-de-casa)
