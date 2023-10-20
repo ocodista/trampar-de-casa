@@ -29,7 +29,7 @@ export function SubscriberForm({
       linkedInUrl: profileInfos.linkedInUrl || 'https://linkedin.com/in/',
       ...profileInfos,
     },
-    mode: 'all',
+    mode: 'onBlur',
     criteriaMode: 'firstError',
   })
   const paths = usePathname().split('/').reverse()
