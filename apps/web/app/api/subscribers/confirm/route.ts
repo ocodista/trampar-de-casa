@@ -20,9 +20,9 @@ export async function POST(request: Request) {
 
   if (!error) return NextResponse.json(data)
   new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
-    Events.NewSubscriber,
+    Events.ConfirmedSubscriber,
     {
-      distinct_id: data[0].id,
+      distinct_id: data[0].email,
     }
   )
   // eslint-disable-next-line no-console

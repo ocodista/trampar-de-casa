@@ -1,3 +1,4 @@
+import { Events, Tracker } from 'analytics'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { sendConfirmationEmail } from 'shared/src/email'
@@ -35,13 +36,19 @@ export async function POST(request: Request) {
   }
 
   try {
-    const [subscriber] = data
+    const [subscriber] = data as { id: string; email: string }[]
     await sendConfirmationEmail({
       secretKey: process.env['CRYPT_SECRET'],
       to: email,
       resendKey: process.env['RESEND_KEY'],
       subscriberId: subscriber.id,
     })
+    new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
+      Events.NewSubscriber,
+      {
+        distinct_id: subscriber.email,
+      }
+    )
   } catch (err) {
     await logError(err)
   }
