@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { Entities } from 'shared'
+import { Entities, skillArray } from 'shared'
 import { getSupabaseClient } from './index'
 import { Prisma } from './prisma/client'
 
@@ -65,31 +65,26 @@ void (async function () {
           .insert(descriptionTopic)
       })
     )
-    // for (const subscriber of getSubscribers()) {
-    //   await supabase.from(Entities.Subcribers)
-    //     .insert(subscriber)
+    for (const subscriber of getSubscribers()) {
+      await supabase.from(Entities.Subcribers)
+        .insert(subscriber)
 
-    // }
-    // await Promise.all(
-    //   getRoles().map(async (role) => 
-    //     await supabase.from(Entities.Roles)
-    //       .insert(role)
-    //   )
-    // )
-    // skillArray.forEach(async (skill, index) => {
-    //   try {
-    //     const { error } = await supabase.from(Entities.Skills)
-    //       .insert({id: index, name: skill})
-    //     if(error) throw error
-    //   } catch {
-    //     console.log(
-    //       {
-    //         id: index,
-    //         name: skill
-    //       }
-    //     )
-    //   }
-    // })
+    }
+    await Promise.all(
+      getRoles().map(async (role) => 
+        await supabase.from(Entities.Roles)
+          .insert(role)
+      )
+    )
+    skillArray.forEach(async (skill, index) => {
+      try {
+        const { error } = await supabase.from(Entities.Skills)
+          .insert({id: index, name: skill})
+        if(error) throw error
+      } catch (e) {
+        console.log(e)
+      }
+    })
   } catch (err) {
     console.error(err)
     process.exit(1)
