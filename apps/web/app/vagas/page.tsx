@@ -1,11 +1,10 @@
 'use client'
 
 import { useState } from 'react'
-import { openings20230809 as Openings } from '../../../manual-email-sender/src/openings-email/2023-08-09/openings'
+import { Search } from 'lucide-react'
 import { Input } from 'app/components/ui/input'
 import { Button } from 'app/components/ui/button'
 import JobArticle, { JobArticleProps } from 'app/components/ui/JobArticle'
-import { ToogleGroup, ToogleGroupItem } from 'app/components/ui/ToggleGroup'
 import {
   Dialog,
   DialogTrigger,
@@ -15,7 +14,8 @@ import {
   DialogTitle,
   DialogDescription,
 } from 'app/components/ui/dialog'
-import { Search } from 'lucide-react'
+import { openings20230809 as Openings } from '../../../manual-email-sender/src/openings-email/2023-08-09/openings'
+import { SectionTogglesGroup } from '../components/SectionTogglesGroup'
 
 export default function Page() {
   const [searchText, setSearchText] = useState<string>('')
@@ -121,56 +121,24 @@ export default function Page() {
             </DialogHeader>
 
             <div className="mb-2 flex max-h-[300px] flex-col gap-4 overflow-y-auto">
-              <div>
-                <span className="mb-2 inline-block text-sm font-medium text-gray-600">
-                  Idiomas
-                </span>
-                <ToogleGroup
-                  type="multiple"
-                  value={selectedLanguages}
-                  onValueChange={(value) => setSelectedLanguages(value)}
-                >
-                  {[...available.languages].map((item) => (
-                    <ToogleGroupItem key={item} value={item}>
-                      {item}
-                    </ToogleGroupItem>
-                  ))}
-                </ToogleGroup>
-              </div>
-
-              <div>
-                <span className="mb-2 inline-block text-sm font-medium text-gray-600">
-                  Localizações
-                </span>
-                <ToogleGroup
-                  type="multiple"
-                  value={selectedLocations}
-                  onValueChange={(value) => setSelectedLocations(value)}
-                >
-                  {[...available.locations].map((item) => (
-                    <ToogleGroupItem key={item} value={item}>
-                      {item}
-                    </ToogleGroupItem>
-                  ))}
-                </ToogleGroup>
-              </div>
-
-              <div>
-                <span className="mb-2 inline-block text-sm font-medium text-gray-600">
-                  Habilidades
-                </span>
-                <ToogleGroup
-                  type="multiple"
-                  value={selectedSkills}
-                  onValueChange={(value) => setSelectedSkills(value)}
-                >
-                  {[...available.skills].map((item) => (
-                    <ToogleGroupItem key={item} value={item}>
-                      {item}
-                    </ToogleGroupItem>
-                  ))}
-                </ToogleGroup>
-              </div>
+              <SectionTogglesGroup
+                sectionLabel="Idiomas"
+                availableFilters={[...available.languages]}
+                selectedToggles={selectedLanguages}
+                setSelectedToggles={setSelectedLanguages}
+              />
+              <SectionTogglesGroup
+                sectionLabel="Localizações"
+                availableFilters={[...available.locations]}
+                selectedToggles={selectedLocations}
+                setSelectedToggles={setSelectedLocations}
+              />
+              <SectionTogglesGroup
+                sectionLabel="Habilidades"
+                availableFilters={[...available.skills]}
+                selectedToggles={selectedSkills}
+                setSelectedToggles={setSelectedSkills}
+              />
             </div>
 
             <DialogFooter>
@@ -192,6 +160,7 @@ export default function Page() {
             <JobArticle {...job} />
           </li>
         ))}
+        {!filteredList.length && <h1>Nenhuma vaga encontrada!</h1>}
       </ul>
     </div>
   )
