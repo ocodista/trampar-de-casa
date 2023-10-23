@@ -29,10 +29,10 @@ export const Hero = () => {
                 width={583}
                 height={583}
               />
-              <PartnerCompanies />
             </div>
           </div>
         </div>
+        <PartnerCompanies />
       </div>
     </>
   )
