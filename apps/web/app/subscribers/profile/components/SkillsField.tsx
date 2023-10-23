@@ -8,6 +8,15 @@ import { ListOption } from '../../../components/ListOption'
 import { ProfileSchemaEnum } from '../profileSchema'
 import { skills } from '../subscription/skills'
 
+const sortedSkills = skills.sort((a, b) => {
+  const aFirstLetter = a.label[0].toUpperCase()
+  const bFirstLetter = b.label[0].toUpperCase()
+  if (aFirstLetter > bFirstLetter) {
+    return 1
+  }
+  return -1
+})
+
 export const SkillsField = () => {
   const {
     setValue,
@@ -15,7 +24,7 @@ export const SkillsField = () => {
     formState: { isSubmitting },
   } = useFormContext()
   const [selectedOptions, setSelectedOptions] = useState<ListOption[]>([])
-  const options = useMemo(() => skills, [])
+  const options = useMemo(() => sortedSkills, [])
   const formSkills = watch(ProfileSchemaEnum.Skills)
 
   useEffect(() => {
