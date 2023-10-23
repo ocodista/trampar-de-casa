@@ -6,7 +6,8 @@
   "scripts": {
     "test:watch": "vitest watch",
     "test": "vitest run",
-    "start": "ts-node src/index.ts"
+    "start": "ts-node src/index.ts",
+    "test:silent": "vitest run --silent"
   },
   "keywords": [],
   "author": "",

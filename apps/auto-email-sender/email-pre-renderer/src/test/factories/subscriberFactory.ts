@@ -1,5 +1,13 @@
 import { faker } from '@faker-js/faker'
-import { EnglishLevel, Subscribers } from 'db'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
+
+enum EnglishLevel {
+  Beginner = 'Beginner',
+  Intermediary = 'Intermediary',
+  Advanced = 'Advanced',
+  Fluent = 'Fluent',
+}
+type Subscribers = SupabaseTable<'Subscribers'>
 
 export const getSubscriberMock = (subscribers: Partial<Subscribers> = {}) =>
   ({

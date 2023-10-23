@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { skillArray } from 'shared/src/infos'
+import { skillArray } from 'shared/src/infos/skills'
 import { AutoComplete } from '../../../components/AutoComplete'
 import { CustomFormField } from '../../../components/CustomFormField'
 import { ListOption } from '../../../components/ListOption'
@@ -23,7 +23,10 @@ export const SkillsField = () => {
       setSelectedOptions(
         formSkills.map((skill: string): ListOption => {
           if (!isNaN(Number(skill))) {
-            return { label: skillArray[Number(skill)], value: skill }
+            return {
+              label: skillArray[Number(skill)].name,
+              value: skillArray[Number(skill)].id.toString(),
+            }
           }
           return { label: skill, value: skill }
         })

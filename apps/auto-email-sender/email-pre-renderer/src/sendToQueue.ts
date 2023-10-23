@@ -10,7 +10,9 @@ type Props = Record<
   }
 >
 export async function sendToQueue(queueChannel: Channel, props: Props) {
+  console.time(`sendToQueue#${Object.entries(props)[0][0]}`)
   const queue = EmailQueues.EmailPreRenderer
   await queueChannel.assertQueue(queue)
   queueChannel.sendToQueue(queue, Buffer.from(JSON.stringify(props)))
+  console.timeEnd(`sendToQueue#${Object.entries(props)[0][0]}`)
 }

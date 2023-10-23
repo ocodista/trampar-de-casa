@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import * as getRolesFile from 'db/src/supabase/domains/roles/getRoles'
 import { Collection, Document, MongoClient } from 'mongodb'
 import * as redisFile from 'redis'
 import * as sharedFile from 'shared'
@@ -6,7 +7,6 @@ import { Topics } from 'shared'
 import { redisDelStub } from 'shared/src/test/helpers/stubs'
 import { rolesValidator } from 'src/rolesValidator'
 import { vi } from 'vitest'
-import * as getRolesFile from '../getRoles'
 import * as isValidRoleFile from '../isValidRole'
 
 const isValidRoleStub = vi.fn()

@@ -1,43 +1,34 @@
 import { faker } from '@faker-js/faker'
 import { Entities, skillArray } from 'shared'
 import { getSupabaseClient } from './index'
-import { Prisma } from './prisma/client'
 
 enum EnglishLevel {
   BEGINNER = 'Beginner',
   INTERMEDIARY = 'Intermediary',
   ADVANCED = 'Advanced',
-  FLUENT = 'Fluent'
+  FLUENT = 'Fluent',
 }
 type SubscribersTable = {
   email: string
   name: string
-  startedWorkingAt: Date,
-  skillsId: Array<string>,
+  startedWorkingAt: Date
+  skillsId: Array<string>
   englishLevel: EnglishLevel
 }
 type TopicsTable = {
   name: string
 }
 
-const getSubscribers = (): SubscribersTable[] => [
-  {
+const getSubscribers = (): SubscribersTable[] =>
+  Array.from({ length: 9000 }).map(() => ({
     email: faker.internet.email(),
     englishLevel: faker.helpers.enumValue(EnglishLevel),
     name: faker.person.fullName(),
     startedWorkingAt: new Date(),
     skillsId: [],
-  },
-  {
-    email: faker.internet.email(),
-    englishLevel: faker.helpers.enumValue(EnglishLevel),
-    name: faker.person.fullName(),
-    startedWorkingAt: new Date(),
-    skillsId: [],
-  },
-]
+  }))
 
-const getRoles = (): Prisma.RolesCreateInput[] => [
+const getRoles = () => [
   {
     company: faker.company.name(),
     country: faker.location.country(),
@@ -45,7 +36,7 @@ const getRoles = (): Prisma.RolesCreateInput[] => [
     language: 'English',
     title: faker.person.jobTitle(),
     currency: 'USD',
-    skillsId: []
+    skillsId: [],
   },
   {
     company: faker.company.name(),
@@ -54,7 +45,7 @@ const getRoles = (): Prisma.RolesCreateInput[] => [
     language: 'English',
     title: faker.person.jobTitle(),
     currency: 'BRL',
-    skillsId: []
+    skillsId: [],
   },
 ]
 
@@ -68,34 +59,25 @@ void (async function () {
   try {
     await Promise.all(
       getDescriptionTopics().map(async (descriptionTopic) => {
-        await supabase.from(Entities.Topics)
-          .insert(descriptionTopic)
+        await supabase.from(Entities.Topics).insert(descriptionTopic)
       })
     )
+    for (const subscriber of getSubscribers()) {
+      await supabase.from(Entities.Subcribers).insert(subscriber)
+    }
     await Promise.all(
-      getSubscribers().map(async (subscriber) =>
-        await supabase.from(Entities.Subcribers)
-          .insert(subscriber)
+      getRoles().map(
+        async (role) => await supabase.from(Entities.Roles).insert(role)
       )
     )
-    await Promise.all(
-      getRoles().map(async (role) => 
-        await supabase.from(Entities.Roles)
-          .insert(role)
-      )
-    )
-    skillArray.forEach(async (skill, index) => {
+    skillArray.forEach(async ({ id, name }) => {
       try {
-        const { error } = await supabase.from(Entities.Skills)
-          .insert({id: index, name: skill})
-        if(error) throw error
-      } catch {
-        console.log(
-          {
-            id: index,
-            name: skill
-          }
-        )
+        const { error } = await supabase
+          .from(Entities.Skills)
+          .insert({ id, name })
+        if (error) throw error
+      } catch (e) {
+        console.log(e)
       }
     })
   } catch (err) {

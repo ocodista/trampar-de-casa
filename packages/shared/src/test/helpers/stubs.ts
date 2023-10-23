@@ -1,19 +1,9 @@
-import { Roles } from 'db'
-import { mockAsyncGenerator } from 'shared/src/test/helpers/mockAsyncGeneratorFunction'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { Mock, vi } from 'vitest'
-import * as getAllPaginatedFile from '../../services/getAllPaginated'
 import * as getRowsBlockFile from '../../services/getRowsBlock'
 
-export const getAllPaginatedStub = <Data>(batches: Data[][]): Mock => {
-  const getAllPaginatedSpy = vi
-    .fn()
-    .mockImplementation(() => mockAsyncGenerator(batches))
-  vi.spyOn(getAllPaginatedFile, 'getAllPaginated').mockImplementation(
-    getAllPaginatedSpy
-  )
-  return getAllPaginatedSpy
-}
+type Roles = SupabaseTable<'Roles'>
 
 export const getRowsBlockStub = (roles: Roles[]): Mock => {
   const getRowsBlockSpy = vi
