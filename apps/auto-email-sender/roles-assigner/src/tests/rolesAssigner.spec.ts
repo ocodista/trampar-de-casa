@@ -4,17 +4,12 @@ import * as saveSubscriberRolesFiles from 'db/src/mongodb/domains/roles/saveSubs
 import * as getSubscriberRolesFile from 'db/src/supabase/domains/roles/getSubscriberRoles'
 import * as getAllPaginatedFile from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
-import * as redisFile from 'redis'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { vi } from 'vitest'
 import { assignRoles } from '../rolesAssigner'
 import { getRoleMock } from './factories/roleFactory'
 import { getSubscriberMock } from './factories/subscriberFactory'
-import {
-  getAllPaginatedStub,
-  getSupabaseClientStub,
-  redisStub,
-} from './helpers/stubs'
+import { getAllPaginatedStub, getSupabaseClientStub } from './helpers/stubs'
 
 type Subscribers = SupabaseTable<'Subscribers'>
 
@@ -56,7 +51,6 @@ describe('Roles Assigner', () => {
     vi.spyOn(dbFile, 'getSupabaseClient').mockImplementation(
       getSupabaseClientStub
     )
-    vi.spyOn(redisFile, 'createClient').mockImplementation(redisStub)
   })
 
   describe('for each subscriber', () => {
