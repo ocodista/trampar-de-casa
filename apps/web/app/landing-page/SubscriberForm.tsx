@@ -23,7 +23,7 @@ const ErrorWrapper = ({
   messages: MultipleFieldErrors
 }) => (
   <section className="my-4 mb-16 min-h-[30px] text-sm text-red-600">
-    {message}
+    <p>{message}</p>
   </section>
 )
 
