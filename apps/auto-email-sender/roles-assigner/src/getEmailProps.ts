@@ -1,18 +1,24 @@
-import { Subscribers } from 'db'
-import { withExecutionTimeLogging } from 'shared/src/observability/withExecutionTimeLogging'
-import { Role } from './getSubscriberRoles'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 
+type Subscribers = SupabaseTable<'Subscribers'>
+type Role = SupabaseTable<'Roles'>
 export interface EmailProps {
   email: string
   id: string
   rolesId: string[]
 }
 
-export const getEmailProps = withExecutionTimeLogging(
-  (subscriber: Subscribers, roles: Role[]): EmailProps => ({
+export const getEmailProps = (
+  subscriber: Subscribers,
+  roles: Role[]
+): EmailProps => {
+  console.time(`getEmailProps#${subscriber.email}`)
+  const emailProps = {
     email: subscriber.email,
     id: subscriber.id,
     rolesId: roles.map((role) => role.id),
-  }),
-  { name: 'getEmailProps' }
-)
+  }
+  console.timeEnd(`getEmailProps#${subscriber.email}`)
+
+  return emailProps
+}

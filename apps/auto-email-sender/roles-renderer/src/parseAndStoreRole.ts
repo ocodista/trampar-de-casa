@@ -1,11 +1,14 @@
-import { RolesSkillsView } from 'getRoles'
+import { Database } from 'db'
 import { Collection, Document } from 'mongodb'
 import { parseHTML } from './parseHTML'
+
+type RolesSkillsView = Database['public']['Views']['RolesSkillsView']['Row']
 
 export const parseAndStoreRole = async (
   role: RolesSkillsView,
   mongoCollection: Collection<Document>
 ) => {
+  console.time(`parseAndStoreRole#${role.id}`)
   const { id } = role
   const html = parseHTML(role)
   await mongoCollection.insertOne({
@@ -13,9 +16,5 @@ export const parseAndStoreRole = async (
     content: html,
     topic: role.topicId,
   })
-  console.log({
-    id,
-    content: html,
-    topic: role.topicId,
-  })
+  console.timeEnd(`parseAndStoreRole#${role.id}`)
 }

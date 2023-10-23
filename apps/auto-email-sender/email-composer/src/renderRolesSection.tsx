@@ -4,9 +4,9 @@ import React from 'react'
 import { Topics } from 'shared'
 import { RolesRendererCollection } from './getHtmlRoles'
 
-type Props = { roles: RolesRendererCollection[] }
+export type RenderRolesSectionProps = { roles: RolesRendererCollection[] }
 
-export function RenderRolesSection({ roles }: Props) {
+export function RenderRolesSection({ roles }: RenderRolesSectionProps) {
   const internationalRoles = roles.filter(
     ({ topic }) => topic === Topics.INTERNATIONAL_VACANCIES
   )

@@ -1,100 +1,60 @@
-import { ConsumeMessage } from 'amqplib'
-import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
-import {
-  ackStub,
-  channelMock,
-  consumerStub,
-  nackStub,
-  prefetchStub,
-} from 'shared/src/test/helpers/rabbitMQ'
+import { Channel } from 'amqplib'
+import { EmailQueues } from 'shared'
+import * as createRabbitMqChannel from 'shared/src/queue/createRabbitMqChannel'
+import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
 import { emailSender } from 'src/emailSender'
-import { saveOnEmailChunk } from 'src/saveOnEmailChunk'
 import { vi } from 'vitest'
-import * as saveEmailOnChunkFile from '../saveOnEmailChunk'
-import * as sendEmailFile from '../sendEmail'
-import { emailComposerItem } from './factories/emailComposerItem'
+import * as sendEmailsFile from '../sendEmails'
+import { messageFactory } from './factories/messageFactory'
 
-const createConsumeMessage = (content: unknown) =>
-  ({
-    content: Buffer.from(JSON.stringify(content)),
-  } as ConsumeMessage)
+const rabbitMqMockSetup = () => {
+  const getStub = vi.fn()
+  vi.spyOn(createRabbitMqChannel, 'createRabbitMqChannel').mockResolvedValue({
+    ...channelMock,
+    get: getStub,
+  } as unknown as Channel)
 
-describe('Email Sender Service Tests', () => {
-  const sendEmailStub = vi.fn()
-  const createRabbitMqChannelStub = vi.fn()
-  createRabbitMqChannelStub.mockResolvedValue(channelMock)
+  return { getStub }
+}
 
+describe('email sender', () => {
   beforeEach(() => {
-    vi.spyOn(
-      createRabbitMqChannelFile,
-      'createRabbitMqChannel'
-    ).mockImplementation(createRabbitMqChannelStub)
-    vi.spyOn(sendEmailFile, 'sendEmail').mockImplementation(sendEmailStub)
+    vi.clearAllMocks()
   })
+  it('get messages with rabbitMQ', async () => {
+    const { getStub } = rabbitMqMockSetup()
+    const { messageMock } = messageFactory()
+    getStub.mockResolvedValueOnce(messageMock)
 
-  it('get messages of rabbitMQ queue', async () => {
     await emailSender()
 
-    expect(consumerStub).toBeCalled()
+    expect(getStub).toBeCalledWith(EmailQueues.EmailSender)
   })
-  it('Prefetch 25 messages of rabbitMQ', async () => {
+
+  it('if accumulate 25 messages send email', async () => {
+    const { getStub } = rabbitMqMockSetup()
+    const sendEmailsSpy = vi.spyOn(sendEmailsFile, 'sendEmails')
+    const { messageMock } = messageFactory()
+    for (const _index of Array.from({ length: 25 })) {
+      getStub.mockResolvedValueOnce(messageMock)
+    }
+
     await emailSender()
 
-    expect(prefetchStub).toBeCalledWith(25)
+    expect(sendEmailsSpy).toBeCalled()
   })
 
-  describe('for each batch item', () => {
-    it('if not has 25 messages, not send email', async () => {
-      const emailComposerItemMock = emailComposerItem()
-      const sendEmailSpy = vi.spyOn(saveEmailOnChunkFile, 'sendEmailChunks')
+  it('if accumulate 101 execute send emails 5 times', async () => {
+    const { getStub } = rabbitMqMockSetup()
+    const sendEmailsSpy = vi.spyOn(sendEmailsFile, 'sendEmails')
+    const { messageMock } = messageFactory()
 
-      saveOnEmailChunk(createConsumeMessage(emailComposerItemMock), channelMock)
+    for (const _index of Array.from({ length: 101 })) {
+      getStub.mockResolvedValueOnce(messageMock)
+    }
 
-      expect(sendEmailSpy).not.toBeCalled()
-    })
+    await emailSender()
 
-    it('if has 25 messages, send email', async () => {
-      const sendEmailSpy = vi.spyOn(saveEmailOnChunkFile, 'sendEmailChunks')
-
-      for (let index = 0; index < 25; index++) {
-        const emailComposerItemMock = emailComposerItem()
-
-        await saveOnEmailChunk(
-          createConsumeMessage(emailComposerItemMock),
-          channelMock
-        )
-      }
-
-      expect(sendEmailSpy).not.toBeCalled()
-    })
-    it('acknowledge each message after sending', async () => {
-      for (let index = 0; index < 25; index++) {
-        const emailComposerItemMock = emailComposerItem()
-
-        await saveOnEmailChunk(
-          createConsumeMessage(emailComposerItemMock),
-          channelMock
-        )
-      }
-
-      expect(ackStub).toBeCalled()
-    })
-    it('not acknowledge message after throwing an error when sending', async () => {
-      const sendEmailSpy = vi.spyOn(sendEmailFile, 'sendEmail')
-      sendEmailSpy.mockImplementation(() => {
-        throw new Error('Generic error')
-      })
-
-      for (let index = 0; index < 25; index++) {
-        const emailComposerItemMock = emailComposerItem()
-
-        await saveOnEmailChunk(
-          createConsumeMessage(emailComposerItemMock),
-          channelMock
-        )
-      }
-
-      expect(nackStub).toBeCalled()
-    })
+    expect(sendEmailsSpy).toBeCalledTimes(5)
   })
 })

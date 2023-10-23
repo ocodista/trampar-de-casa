@@ -1,6 +1,13 @@
 import { faker } from '@faker-js/faker'
-import { RoleLanguage } from 'db'
-import { Role } from 'src/getSubscriberRoles'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
+import { Topics } from 'shared'
+
+type Role = SupabaseTable<'Roles'>
+
+enum RoleLanguage {
+  English = 'English',
+  Portuguese = 'Portuguese',
+}
 
 export const getRoleMock = (overridableProps?: Partial<Role>): Role => ({
   id: faker.string.uuid(),
@@ -10,13 +17,15 @@ export const getRoleMock = (overridableProps?: Partial<Role>): Role => ({
   company: '',
   currency: faker.string.uuid(),
   language: faker.helpers.enumValue(RoleLanguage),
-  createdAt: new Date('2023-07-11 14:11:57.386'),
+  createdAt: faker.date.past().toISOString(),
   description: faker.hacker.phrase(),
   ready: true,
   salary: faker.string.uuid(),
   title: faker.company.buzzNoun(),
-  updatedAt: new Date('2023-07-11 14:11:57.386'),
+  updatedAt: faker.date.recent().toISOString(),
   url: '',
+  sentRolesId: null,
+  topicId: faker.helpers.enumValue(Topics),
   ...(overridableProps || {}),
 })
 

@@ -1,6 +1,7 @@
 'use server'
 import { PUBLIC_FIELDS_KEYS } from 'app/api/subscribers/db'
-import { EnglishLevel, getSupabaseClient } from 'db'
+import { getSupabaseClient } from 'db'
+import { EnglishLevel } from 'global/EnglishLevel'
 import { notFound } from 'next/navigation'
 import { Entities } from 'shared'
 import { z } from 'zod'

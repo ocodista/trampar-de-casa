@@ -1,4 +1,4 @@
-import { Channel, Connection, ConsumeMessage } from 'amqplib'
+import { Channel, Connection, GetMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
 import { CONFIG } from '../config'
@@ -25,18 +25,21 @@ export type EmailPreRenderMessage = Record<
 >
 
 export const consumePreRenderQueue = async (
-  message: ConsumeMessage | null,
+  message: GetMessage | false,
   emailComposerChannel: Channel
 ) => {
+  console.time('consumePreRenderQueue')
   if (!message) return
   const emailHtml = await parsePreRenderMessage(message.content)
   emailComposerChannel.sendToQueue(
     EmailQueues.EmailSender,
     Buffer.from(JSON.stringify(emailHtml))
   )
+  console.timeEnd('consumePreRenderQueue')
 }
 
 export const composeEmail = async () => {
+  console.time('composeEmail')
   const rabbitConnection = await createRabbitMqConnection(rabbitMqCredentials)
 
   const [emailPreRendererChannel, emailSenderChannel] = await Promise.all([
@@ -44,9 +47,14 @@ export const composeEmail = async () => {
     connectToQueue(rabbitConnection, EmailQueues.EmailSender),
   ])
 
-  emailPreRendererChannel.consume(
-    EmailQueues.EmailPreRenderer,
-    (message) => consumePreRenderQueue(message, emailSenderChannel),
-    { noAck: true }
-  )
+  let msg: GetMessage | false
+  do {
+    msg = await emailPreRendererChannel.get(EmailQueues.EmailPreRenderer, {
+      noAck: false,
+    })
+    await consumePreRenderQueue(msg, emailSenderChannel)
+    if (msg) emailPreRendererChannel.ack(msg)
+  } while (msg)
+
+  console.timeEnd('composeEmail')
 }
