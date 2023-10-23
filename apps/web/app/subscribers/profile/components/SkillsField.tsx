@@ -23,7 +23,10 @@ export const SkillsField = () => {
       setSelectedOptions(
         formSkills.map((skill: string): ListOption => {
           if (!isNaN(Number(skill))) {
-            return { label: skillArray[Number(skill)], value: skill }
+            return {
+              label: skillArray[Number(skill)].name,
+              value: skillArray[Number(skill)].id.toString(),
+            }
           }
           return { label: skill, value: skill }
         })
