@@ -97,6 +97,18 @@ export const PartnerCompanies = () => {
               />
             ))}
           </span>
+          <span
+            className="animate-scroll-left group-hover:paused flex gap-10"
+            style={{ transform: 'translateX(100%)' }}
+          >
+            {companies.map((company) => (
+              <CompanySection
+                key={company.name}
+                {...company}
+                aria-hidden={true}
+              />
+            ))}
+          </span>
         </span>
       </div>
     </section>
