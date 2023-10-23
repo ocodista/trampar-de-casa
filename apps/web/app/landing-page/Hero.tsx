@@ -7,7 +7,6 @@ import SubscribersCount from './SubscribersCount'
 export const Hero = () => {
   return (
     <>
-      <StriderBanner />
       <div className="pb-28 pt-6">
         <div className="container mx-auto">
           <div className="-m-8 flex flex-wrap items-center">
@@ -34,6 +33,7 @@ export const Hero = () => {
           </div>
         </div>
       </div>
+      <StriderBanner />
     </>
   )
 }
