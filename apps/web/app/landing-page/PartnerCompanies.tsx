@@ -72,7 +72,7 @@ const CompanySection = ({ name, imagePath, url, description }: Company) => (
 
 export const PartnerCompanies = () => {
   return (
-    <section>
+    <section className="max-w-full">
       <p className="text-sm font-semibold text-gray-500">
         EMPRESAS QUE APOIAM O TRABALHO REMOTO
       </p>

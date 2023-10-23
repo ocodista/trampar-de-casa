@@ -20,16 +20,16 @@ export const Hero = () => {
                 Levamos as melhores oportunidades de trampo até você.
               </p>
               <SubscriberForm />
-              <PartnerCompanies />
             </div>
             <div className="w-full p-8 lg:w-1/2">
               <Image
-                className="mx-auto transform rounded-xl object-cover transition duration-1000 ease-in-out hover:-translate-y-4 max-lg:aspect-video max-lg:w-10/12 max-md:w-full"
+                className="mx-auto max-h-full transform rounded-xl object-cover transition duration-1000 ease-in-out hover:-translate-y-4 max-lg:aspect-video max-lg:w-10/12 max-md:w-full"
                 src="/images/HO-brasil.webp"
                 alt="Escritório com uma paisagem natural ao fundo que pode ser vista pelas janelas"
                 width={583}
                 height={583}
               />
+              <PartnerCompanies />
             </div>
           </div>
         </div>
