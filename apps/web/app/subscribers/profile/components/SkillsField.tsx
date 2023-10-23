@@ -1,7 +1,7 @@
 'use client'
 import { useEffect, useMemo, useState } from 'react'
 import { useFormContext } from 'react-hook-form'
-import { skillArray } from 'shared/src/infos'
+import { skillArray } from 'shared/src/infos/skills'
 import { AutoComplete } from '../../../components/AutoComplete'
 import { CustomFormField } from '../../../components/CustomFormField'
 import { ListOption } from '../../../components/ListOption'
