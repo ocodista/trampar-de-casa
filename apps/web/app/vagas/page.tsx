@@ -1,10 +1,10 @@
-'use client'
+"use client";
 
-import { useState } from 'react'
-import { Search } from 'lucide-react'
-import { Input } from 'app/components/ui/input'
-import { Button } from 'app/components/ui/button'
-import JobArticle, { JobArticleProps } from 'app/components/ui/JobArticle'
+import { useState } from "react";
+import { Search } from "lucide-react";
+import { Input } from "app/components/ui/input";
+import { Button } from "app/components/ui/button";
+import JobArticle, { JobArticleProps } from "app/components/ui/JobArticle";
 import {
   Dialog,
   DialogTrigger,
@@ -13,66 +13,66 @@ import {
   DialogFooter,
   DialogTitle,
   DialogDescription,
-} from 'app/components/ui/dialog'
-import { openings20230809 as Openings } from '../../../manual-email-sender/src/openings-email/2023-08-09/openings'
-import { SectionTogglesGroup } from '../components/SectionTogglesGroup'
+} from "app/components/ui/dialog";
+import { openings20231011 as Openings } from "../../../manual-email-sender/src/openings-email/2023-10-18/openings";
+import { SectionTogglesGroup } from "../components/SectionTogglesGroup";
 
 export default function Page() {
-  const [searchText, setSearchText] = useState<string>('')
-  const [selectedLocations, setSelectedLocations] = useState<string[]>([])
-  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([])
-  const [selectedSkills, setSelectedSkills] = useState<string[]>([])
+  const [searchText, setSearchText] = useState<string>("");
+  const [selectedLocations, setSelectedLocations] = useState<string[]>([]);
+  const [selectedLanguages, setSelectedLanguages] = useState<string[]>([]);
+  const [selectedSkills, setSelectedSkills] = useState<string[]>([]);
 
-  const { localOpenings, globalOpenings } = Openings
+  const { localOpenings, globalOpenings } = Openings;
 
-  const jobList = localOpenings.concat(globalOpenings) as JobArticleProps[]
+  const jobList = localOpenings.concat(globalOpenings) as JobArticleProps[];
 
   const available = {
     locations: new Set<string>(),
     languages: new Set<string>(),
     skills: new Set<string>(),
-  }
+  };
 
   jobList.forEach((job) => {
-    available.languages.add(job.language)
-    available.locations.add(job.location)
-    job.skills.map((skill) => available.skills.add(skill))
-  })
+    available.languages.add(job.language);
+    available.locations.add(job.location);
+    job.skills.map((skill) => available.skills.add(skill));
+  });
 
   const filterCondition =
     selectedLocations.length ||
     selectedLanguages.length ||
     selectedSkills.length ||
-    searchText
+    searchText;
 
   const filteredList = filterCondition
     ? jobList.filter((job) => {
         const location = selectedLocations.length
           ? selectedLocations.includes(job.location)
-          : true
+          : true;
 
         const language = selectedLanguages.length
           ? selectedLanguages.includes(job.language)
-          : true
+          : true;
 
         const skills = selectedSkills.length
           ? job.skills
               .map((skill) => selectedSkills.includes(skill))
               .find((skill) => skill === true)
-          : true
+          : true;
 
         const searchByTitle = searchText
           ? job.title.toLowerCase().includes(searchText.toLowerCase())
-          : true
+          : true;
 
-        return searchByTitle && location && language && skills
+        return searchByTitle && location && language && skills;
       })
-    : jobList
+    : jobList;
 
   function resetFilter() {
-    setSelectedLocations([])
-    setSelectedLanguages([])
-    setSelectedSkills([])
+    setSelectedLocations([]);
+    setSelectedLanguages([]);
+    setSelectedSkills([]);
   }
 
   return (
@@ -82,7 +82,7 @@ export default function Page() {
       </h2>
 
       <p className="mb-8 text-xl leading-relaxed text-gray-600">
-        Nós listamos oportunidades para{' '}
+        Nós listamos oportunidades para{" "}
         <span className="font-medium">trampar de casa</span> que oferecem uma
         melhor qualidade de vida.
       </p>
@@ -163,5 +163,5 @@ export default function Page() {
         {!filteredList.length && <h1>Nenhuma vaga encontrada!</h1>}
       </ul>
     </div>
-  )
+  );
 }
