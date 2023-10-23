@@ -9,7 +9,7 @@ import { vi } from 'vitest'
 import { assignRoles } from '../rolesAssigner'
 import { getRoleMock } from './factories/roleFactory'
 import { getSubscriberMock } from './factories/subscriberFactory'
-import { getAllPaginatedStub, getSupabaseClientStub } from './helpers/stubs'
+import { getSupabaseClientStub } from './helpers/stubs'
 
 type Subscribers = SupabaseTable<'Subscribers'>
 
@@ -64,7 +64,6 @@ describe('Roles Assigner', () => {
       vi.spyOn(getSubscriberRolesFile, 'getSubscriberRoles').mockImplementation(
         getSubscribersRoleSpy
       )
-      getAllPaginatedStub([subscribersBatchMock])
     })
 
     it('get personalized roles', async () => {
