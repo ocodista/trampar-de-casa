@@ -5,7 +5,7 @@ import { useLoadingContext } from 'app/contexts/LoadingContext'
 import { ToastComponentProps, useToast } from 'app/hooks/use-toast'
 import { StatusCodes } from 'http-status-codes'
 import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { MultipleFieldErrors, useForm } from 'react-hook-form'
 import { ApiRoutes } from 'shared/src/enums/apiRoutes'
 import { z } from 'zod'
 import fireworks from '../utils/confetti'
@@ -15,6 +15,17 @@ const validationSchema = z.object({
   email: z.string().email('Insira um e-mail válido!'),
 })
 type ValidationSchema = z.infer<typeof validationSchema>
+
+const ErrorWrapper = ({
+  message,
+}: {
+  message: string
+  messages: MultipleFieldErrors
+}) => (
+  <section className="my-4 mb-16 min-h-[30px] text-sm text-red-600">
+    {message}
+  </section>
+)
 
 export function SubscriberForm() {
   const { isLoading, withLoading } = useLoadingContext()
@@ -150,13 +161,7 @@ export function SubscriberForm() {
           </div>
         </form>
       </div>
-      <section className="my-4 mb-16 min-h-[30px] text-sm text-red-600">
-        <ErrorMessage
-          name="email"
-          errors={errors}
-          render={({ message }) => <p>{message}</p>}
-        />
-      </section>
+      <ErrorMessage name="email" errors={errors} render={ErrorWrapper} />
     </>
   )
 }
