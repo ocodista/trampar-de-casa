@@ -1,3 +1,6 @@
+import {
+  PostgrestFilterBuilder
+} from '@supabase/postgrest-js'
 import { Database, SupabaseClient } from 'db'
 import { Entities } from 'shared/src/enums/entities'
 import { SupabaseTable } from '../../../supabase/utilityTypes'
@@ -14,23 +17,29 @@ const englishLevelScore: Record<EnglishLevel, number> = {
 }
 enum RoleLanguage {
   English = 'English',
-  Portuguese = 'Portuguese' 
-} 
+  Portuguese = 'Portuguese',
+}
 
+type RoleFilterBuilder = PostgrestFilterBuilder<
+  Database['public'],
+  Role,
+  Role[],
+  Database['public']['Tables']['Roles']['Relationships']
+>
 
 export const getSubscriberRoles = async (
   subscriber: Subscribers,
-  supabase: SupabaseClient
+  supabase: SupabaseClient<Database>
 ) => {
   console.time(`getSubscriberRoles#${subscriber.email}`)
-  type QueryBuilder = ReturnType<ReturnType<typeof supabase.from>['select']>
 
-  const filterBySkill = (skills: string[], query: QueryBuilder) => {
-    return query.in('skills', skills)
+  const filterBySkill = (skills: string[] | null, query: RoleFilterBuilder) => {
+    if (!skills) return query
+    return query.ilikeAnyOf('skillsId', skills)
   }
   const filterByEnglish = (
     englishLevel: EnglishLevel | null,
-    query: QueryBuilder
+    query: RoleFilterBuilder
   ) => {
     if (!englishLevel) return query
     if (!(englishLevelScore[englishLevel] >= englishLevelScore.Advanced)) {
@@ -39,20 +48,30 @@ export const getSubscriberRoles = async (
 
     return query
   }
-  const filterByExp = (startedWorkedAt: Date | null, query: QueryBuilder) => {
+  const filterByExp = (
+    startedWorkedAt: Subscribers['startedWorkingAt'],
+    query: RoleFilterBuilder
+  ) => {
     if (!startedWorkedAt) return query
     const currentDate = new Date()
     const yearOfExperience =
       currentDate.getFullYear() - new Date(startedWorkedAt).getFullYear()
-    // lte worked as gte (?)
+  
     return query.lte('minimumYears', yearOfExperience)
   }
-  const baseQuery = await supabase
-    .from(Entities.Roles)
-    .select()
-    .eq('ready', true)
-  // const filteredBySkill = filterBySkill(subscriber.skills as string[], baseQuery)
+
+  const baseQuery = supabase.from(Entities.Roles).select()
+  .eq('ready', true)
+  const filterBySkillQuery = filterBySkill(subscriber.skillsId, baseQuery)
+  const filterByEnglishQuery = filterByEnglish(subscriber.englishLevel, filterBySkillQuery)
+  const { data, error } = await filterByExp(subscriber.startedWorkingAt, filterByEnglishQuery)
+
+  if(error) {
+    console.log(error)
+    throw error
+  }
 
   console.timeEnd(`getSubscriberRoles#${subscriber.email}`)
-  return baseQuery.data as Role[]
+  console.log(data)
+  return data || []
 }
