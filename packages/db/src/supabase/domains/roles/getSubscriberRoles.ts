@@ -1,6 +1,4 @@
-import {
-  PostgrestFilterBuilder
-} from '@supabase/postgrest-js'
+import { PostgrestFilterBuilder } from '@supabase/postgrest-js'
 import { Database, SupabaseClient } from 'db'
 import { Entities } from 'shared/src/enums/entities'
 import { SupabaseTable } from '../../../supabase/utilityTypes'
@@ -35,7 +33,7 @@ export const getSubscriberRoles = async (
 
   const filterBySkill = (skills: string[] | null, query: RoleFilterBuilder) => {
     if (!skills) return query
-    return query.ilikeAnyOf('skillsId', skills)
+    return query.filter('skillsId', 'ov', `{${skills}}`)
   }
   const filterByEnglish = (
     englishLevel: EnglishLevel | null,
@@ -56,22 +54,20 @@ export const getSubscriberRoles = async (
     const currentDate = new Date()
     const yearOfExperience =
       currentDate.getFullYear() - new Date(startedWorkedAt).getFullYear()
-  
+
     return query.lte('minimumYears', yearOfExperience)
   }
 
-  const baseQuery = supabase.from(Entities.Roles).select()
-  .eq('ready', true)
-  const filterBySkillQuery = filterBySkill(subscriber.skillsId, baseQuery)
-  const filterByEnglishQuery = filterByEnglish(subscriber.englishLevel, filterBySkillQuery)
-  const { data, error } = await filterByExp(subscriber.startedWorkingAt, filterByEnglishQuery)
+  const baseQuery = supabase.from(Entities.Roles).select().eq('ready', true)
+  const { data, error } = await filterBySkill(subscriber.skillsId, baseQuery)
+  // const filterByEnglishQuery = filterByEnglish(subscriber.englishLevel, filterBySkillQuery)
+  // const { data, error } = await filterByExp(subscriber.startedWorkingAt, filterByEnglishQuery)
 
-  if(error) {
+  if (error) {
     console.log(error)
     throw error
   }
 
   console.timeEnd(`getSubscriberRoles#${subscriber.email}`)
-  console.log(data)
   return data || []
 }
