@@ -660,7 +660,16 @@
     find-up "^4.1.0"
     fs-extra "^8.1.0"
 
-"@manypkg/tools@^1.0.0":
+"@manypkg/find-root@2.2.1":
+  version "2.2.1"
+  resolved "https://registry.yarnpkg.com/@manypkg/find-root/-/find-root-2.2.1.tgz#a7cffffdb06407967daa31f89952ebef108b27cf"
+  integrity sha512-34NlypD5mmTY65cFAK7QPgY5Tzt0qXR4ZRXdg97xAlkiLuwXUPBEXy5Hsqzd+7S2acsLxUz6Cs50rlDZQr4xUA==
+  dependencies:
+    "@manypkg/tools" "^1.1.0"
+    find-up "^4.1.0"
+    fs-extra "^8.1.0"
+
+"@manypkg/tools@^1.0.0", "@manypkg/tools@^1.1.0":
   version "1.1.0"
   resolved "https://registry.yarnpkg.com/@manypkg/tools/-/tools-1.1.0.tgz#730b4c0df78be7f0ce232a417f3c26023884a55c"
   integrity sha512-SkAyKAByB9l93Slyg8AUHGuM2kjvWioUTCckT/03J09jYnfEzMO/wSXmEhnKGYs6qx9De8TH4yJCl0Y9lRgnyQ==
@@ -1426,6 +1435,13 @@
   version "0.0.2"
   resolved "https://registry.yarnpkg.com/@react-email/body/-/body-0.0.2.tgz#afee313e25dcdbcefaf5f9c031d7431a1877d687"
   integrity sha512-SqZrZdxZlH7viwnrLvrMnVzOKpiofVAtho09bmm2siDzy0VMDGItXRzUPLcpg9vcbVJCHZRCIKoNXqA+PtokzQ==
+  dependencies:
+    react "18.2.0"
+
+"@react-email/button@0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@react-email/button/-/button-0.0.10.tgz#be453280f9c2f49660fbbcd9ea872d44ff1be523"
+  integrity sha512-S8r7NGTxXoxvw5kCdMzpwXdBHhYAhrYM9sylK6xr+2M9osrjHQOPLBoV3I/po9xdzN3WyRcZqQixH0wPeXy2Gw==
   dependencies:
     react "18.2.0"
 
@@ -4447,6 +4463,15 @@ fs-extra@11.1.0:
     jsonfile "^6.0.1"
     universalify "^2.0.0"
 
+fs-extra@11.1.1:
+  version "11.1.1"
+  resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-11.1.1.tgz#da69f7c39f3b002378b0954bb6ae7efdc0876e2d"
+  integrity sha512-MGIE4HOvQCeUCzmlHs0vXpih4ysz4wg9qiSAu6cd42lVwPbTM1TjV7RusoyQqMmk/95gdQZX72u+YW+c3eEpFQ==
+  dependencies:
+    graceful-fs "^4.2.0"
+    jsonfile "^6.0.1"
+    universalify "^2.0.0"
+
 fs-extra@^10.1.0:
   version "10.1.0"
   resolved "https://registry.yarnpkg.com/fs-extra/-/fs-extra-10.1.0.tgz#02873cfbc4084dde127eaa5f9905eef2325d1abf"
@@ -6824,6 +6849,28 @@ react-dom@18.2.0, react-dom@^18.2.0:
   dependencies:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
+
+react-email@1.9.5:
+  version "1.9.5"
+  resolved "https://registry.yarnpkg.com/react-email/-/react-email-1.9.5.tgz#3f47a9fae82d59f5be7f81e289ed2b6ab89a9360"
+  integrity sha512-c2ubADlAGKAsfmQRDQd0s3/o+wUW/WCVhwiZo+RkUgsP35RhzDBQisFfxHEX8trjNf0eSv4R9g3ASmRF1vAP8A==
+  dependencies:
+    "@commander-js/extra-typings" "9.4.1"
+    "@manypkg/find-root" "2.2.1"
+    "@octokit/rest" "19.0.7"
+    "@react-email/render" "0.0.6"
+    chokidar "3.5.3"
+    commander "9.4.1"
+    detect-package-manager "2.0.1"
+    esbuild "0.16.4"
+    fs-extra "11.1.1"
+    glob "8.0.3"
+    log-symbols "4.1.0"
+    normalize-path "3.0.0"
+    ora "5.4.1"
+    read-pkg "5.2.0"
+    shelljs "0.8.5"
+    tree-node-cli "1.6.0"
 
 react-email@^1.9.4:
   version "1.9.4"
