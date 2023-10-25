@@ -141,14 +141,17 @@ export interface Database {
         Row: {
           id: number
           name: string
+          normalized: string | null
         }
         Insert: {
           id: number
           name: string
+          normalized?: string | null
         }
         Update: {
           id?: number
           name?: string
+          normalized?: string | null
         }
         Relationships: []
       }
@@ -386,3 +389,4 @@ export interface Database {
     }
   }
 }
+
