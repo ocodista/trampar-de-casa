@@ -5,68 +5,50 @@ These numbers are just an estimate, which will be updated with each change.
 ## Roles-renderer
 
 For 38 roles:
-| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
-|-----------------------|-----------------|------------------|
-| rolesRenderer | 00:02.807 | 19/10/2023
-| parseAndStoreRole | 00:00.447 | 20/10/2023
+|Date (dd/mm/yyyy) | Function | Time (m:ss.mmm) | Roles |
+|-----------------------|-----------------------|-----------------|-------|
+| 19/10/2023 | rolesRenderer | 00:02.807 | 38
+| 20/10/2023 | parseAndStoreRole | 00:00.447 | 38
 
 ## Email-composer
 
-For 6.029 subscribers:
-| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
-|-----------------------|-----------------|------------------|
-| composeEmail | 11:51.297 | 19/10/2023
-| consumePreRenderQueue | 00:00.105 | 19/10/2023
-
-For 6597 subscribers:
-| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
-|----------------------------|------------------|------------------|
-| composeEmail | 13:38.242 | 25/10/2023
+| Date (dd/mm/yyyy) | Function              | Time (m:ss.mmm) | Subscribers |
+| ----------------- | --------------------- | --------------- | ----------- |
+| 19/10/2023        | composeEmail          | 11:51.297       | 6029        |
+| 19/10/2023        | consumePreRenderQueue | 00:00.105       | 6029        |
+| 25/10/2023        | composeEmail          | 13:38.242       | 6597        |
 
 ## Email-pre-renderer
 
-For 6.029 subscribers:
-| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
-|-----------------------|-----------------|------------------|
-| emailPreRender | 6:56.356 | 19/10/2023
-| RenderHeaderAndFooter | 0:00.139 | 20/10/2023
-| sendToQueue | 0:00.003 | 20/10/2023
-
-For 6597 subscribers, in production:
-| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
-|-----------------------|-----------------|------------------|
-| emailPreRender | 7:23.122 | 25/10/2023
+| Date (dd/mm/yyyy) | Function              | Time (m:ss.mmm) | Subscribers |
+| ----------------- | --------------------- | --------------- | ----------- |
+| 19/10/2023        | emailPreRender        | 6:56.356        | 6029        |
+| 20/10/2023        | RenderHeaderAndFooter | 0:00.003        | 6029        |
+| 25/10/2023        | emailPreRender        | 7:23.122        | 6597        |
 
 ## Email-sender
 
-For 6.029 subscribers, sending chunks with 25 emails and "resend" commented(1s of delay on each sending):
-| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
-|-----------------------|-----------------|------------------|
-| emailSender | 4:14.890 | 19/10/2023
-| SendEmails | 0:01.008 | 20/10/2023
-
-For 6597 subscribers, in production:
-| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
-|----------------------------|-------------------|------------------|
-| emailSender | 15:17.474 | 25/10/2023
-| SendEmails | 0:03.971 | 25/10/2023
+| Date (dd/mm/yyyy) | Function    | Time (m:ss.mmm) | Subscribers |
+| ----------------- | ----------- | --------------- | ----------- |
+| 19/10/2023        | emailSender | 4:14.890        | 6029        |
+| 20/10/2023        | SendEmails  | 0:01.008        | 6029        |
+| 25/10/2023        | emailSender | 15:17.474       | 6597        |
+| 25/10/2023        | sendEmails  | 0:03.971        | 6597        |
 
 ## Roles-assigner
 
-For 6.029 subscribers:
-| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
-|-----------------------|-----------------|------------------|
-| assignRoles | 0:45.330 | 19/10/2023
-| getSubscriberRoles | 0:00.287 | 20/10/2023
-| getEmailProps | 0:00.002 | 20/10/2023
-| saveSubscriberRoles | 0:00.001 | 20/10/2023
+| Date (dd/mm/yyyy) | Function            | Time (m:ss.mmm) | Subscribers |
+| ----------------- | ------------------- | --------------- | ----------- |
+| 19/10/2023        | assignRoles         | 0:45.330        | 6029        |
+| 20/10/2023        | getSubscriberRoles  | 0:00.287        | 6029        |
+| 20/10/2023        | getEmailProps       | 0:00.002        | 6029        |
+| 20/10/2023        | saveSubscriberRoles | 0:00.001        | 6029        |
 
 ## Roles-validator
 
-For 38 roles:
-| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
-|--------------------------------|-----------------|------------------|
-| rolesValidator | 5:00.504 | 20/10/2023
-| launchBrowserAndNavigateToPage | 0:08.724 | 20/10/2023
-| isValidRole | 0:08.131 | 20/10/2023
-| searchRoleOnSiteContent | 0:00.004 | 20/10/2023
+| Date (dd/mm/yyyy) | Function                       | Time (m:ss.mmm) | Roles |
+| ----------------- | ------------------------------ | --------------- | ----- |
+| 20/10/2023        | rolesValidator                 | 5:00.504        | 38    |
+| 20/10/2023        | launchBrowserAndNavigateToPage | 0:08.724        | 38    |
+| 20/10/2023        | isValidRole                    | 0:08.131        | 38    |
+| 20/10/2023        | searchRoleOnSiteContent        | 0:00.004        | 38    |
