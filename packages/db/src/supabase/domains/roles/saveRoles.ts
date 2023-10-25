@@ -1,20 +1,11 @@
 import { Entities, Topics, skillArray } from 'shared'
+import { Opening } from 'shared/src/email/openings-email/Opening'
 import { getSupabaseClient } from '../../getSupabaseClient'
 import { Database } from '../../type'
 import { SupabaseTable } from '../../utilityTypes'
 export type OpeningCurrency = 'U$' | 'R$' | 'EUR'
 type Role = SupabaseTable<'Roles'>
-export interface Opening {
-  company: string
-  title: string
-  location: string
-  language: string
-  currency: OpeningCurrency
-  skills: [string, string?, string?, string?, string?]
-  headerInfo?: string
-  salary?: string
-  url: string
-}
+
 type RoleLanguage = Database['public']['Enums']['RoleLanguage']
 
 export const saveOpenings = async (openings: Opening[], topic: Topics) => {
