@@ -18,6 +18,11 @@ For 6.029 subscribers:
 | composeEmail | 11:51.297 | 19/10/2023
 | consumePreRenderQueue | 00:00.105 | 19/10/2023
 
+For 6597 subscribers:
+| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
+|----------------------------|------------------|------------------|
+| composeEmail | 13:38.242 | 25/10/2023
+
 ## Email-pre-renderer
 
 For 6.029 subscribers:
@@ -27,6 +32,11 @@ For 6.029 subscribers:
 | RenderHeaderAndFooter | 0:00.139 | 20/10/2023
 | sendToQueue | 0:00.003 | 20/10/2023
 
+For 6597 subscribers, in production:
+| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
+|-----------------------|-----------------|------------------|
+| emailPreRender | 7:23.122 | 25/10/2023
+
 ## Email-sender
 
 For 6.029 subscribers, sending chunks with 25 emails and "resend" commented(1s of delay on each sending):
@@ -34,6 +44,12 @@ For 6.029 subscribers, sending chunks with 25 emails and "resend" commented(1s o
 |-----------------------|-----------------|------------------|
 | emailSender | 4:14.890 | 19/10/2023
 | SendEmails | 0:01.008 | 20/10/2023
+
+For 6597 subscribers, in production:
+| Function | Time (m:ss.mmm) | Date (dd/mm/yyyy)
+|----------------------------|-------------------|------------------|
+| emailSender | 15:17.474 | 25/10/2023
+| SendEmails | 0:03.971 | 25/10/2023
 
 ## Roles-assigner
 
