@@ -32,7 +32,7 @@ const localOpenings: Opening[] = [
     language: 'Português',
     currency: 'R$',
     salary: 'R$ 12.000 - R$ 20.800',
-    url: 'URL do Anúncio de Emprego (se disponível)',
+    url: 'https://impulso.team/pt/profissionais/oportunidade/1990-pleno-senior-funcional-de-salesforce',
     headerInfo: 'Pleno/Sênior (R$12,000 até R$20,800)',
     skills: ['Salesforce', 'GitHub', 'Kanban', 'Scrum'],
   },
