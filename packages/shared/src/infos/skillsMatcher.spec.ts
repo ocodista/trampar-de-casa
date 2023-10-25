@@ -1,4 +1,3 @@
-import { describe, expect, it } from 'vitest'
 import { skillArray } from './skills'
 
 // TODO: Add normalized column on skills table/list
@@ -10,7 +9,7 @@ const normalizer = (input: string): string => {
   if (output.includes('JS')) {
     output = output.replace('.JS', '').replace('JS', '')
   }
-  return output
+  return output.trim()
 }
 
 describe('Skill normalizer', () => {
@@ -20,6 +19,7 @@ describe('Skill normalizer', () => {
 
   it('removes spaces', () => {
     expect(normalizer('Digital Ocean')).toBe('DIGITALOCEAN')
+    expect(normalizer('React Native')).toBe('REACTNATIVE')
   })
 
   it('removes js', () => {

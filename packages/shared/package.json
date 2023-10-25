@@ -15,12 +15,13 @@
     "@react-email/components": "^0.0.7",
     "@react-email/render": "^0.0.7",
     "resend": "^0.16.0",
-    "typescript": "^5.1.3"
+    "typescript": "^5.1.3",
+    "vitest": "^0.34.6"
   },
   "devDependencies": {
-    "@types/amqplib": "latest",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
+    "@types/amqplib": "latest",
     "@vitejs/plugin-react": "^4.0.1",
     "eslint-config-custom": "*",
     "jsdom": "^22.1.0",
