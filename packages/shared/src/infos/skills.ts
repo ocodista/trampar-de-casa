@@ -246,7 +246,6 @@ export const skillArray = [
   { id: 270, name: 'Rebar3 Build Tool' },
   { id: 271, name: 'Erlang Web' },
   { id: 272, name: 'LFE (Lisp Flavored Erlang)' },
-  { id: 273, name: 'PHP' },
   { id: 275, name: 'Symfony' },
   { id: 276, name: 'CodeIgniter' },
   { id: 277, name: 'Yii' },
