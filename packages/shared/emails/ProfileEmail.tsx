@@ -5,24 +5,23 @@ import {
   Head,
   Html,
   Img,
+  Link,
   Preview,
   Section,
   Tailwind,
   Text,
-  render,
 } from '@react-email/components'
-import fs from 'node:fs'
+import dotenv from 'dotenv'
 import * as React from 'react'
+dotenv.config()
 
-interface KoalaWelcomeEmailProps {
+interface ProfileEmailTemplateProps {
   profileUrl: string
 }
 
-const baseUrl = process.env.VERCEL_URL
-  ? `https://${process.env.VERCEL_URL}`
-  : ''
-
-export const KoalaWelcomeEmail = ({ profileUrl }: KoalaWelcomeEmailProps) => (
+export const ProfileEmailTemplate = ({
+  profileUrl,
+}: ProfileEmailTemplateProps) => (
   <Tailwind>
     <Html>
       <Head />
@@ -30,32 +29,32 @@ export const KoalaWelcomeEmail = ({ profileUrl }: KoalaWelcomeEmailProps) => (
         The sales intelligence platform that helps you uncover qualified leads.
       </Preview>
       <Body style={main}>
-        <Container style={container}>
+        <Container style={container} className="w-full max-w-full">
           <Img
-            src={'https://www.trampardecasa.com.br/images/logo.svg'}
-            width="170"
-            height="50"
-            alt="Trampar de casa"
-            style={logo}
+            src="https://trampardecasa.com.br/images/logo.png"
+            height={70}
+            width={100}
+            alt="Logo da Trampar De Casa"
           />
           <Text style={paragraph}>Olá, defensor do trabalho remoto!</Text>
           <Text style={paragraph}>
             Receber vagas é legal, mas que tal receber vagas personalizadas?
           </Text>
-
-          <Img
-            src={'http://localhost:3000/images/form.gif'}
-            alt="Trampar de casa"
-            width="300"
-            style={logo}
-          />
-
+          <Link href={profileUrl}>
+            <Img
+              src={
+                'https://trampar-de-casa-a0pz4i54j-caiohoborghi.vercel.app/images/form.gif'
+              }
+              alt="Trampar de casa"
+              width="200"
+            />
+          </Link>
           <Text style={paragraph}>
             Agora você pode cadastrar suas preferências e receber vagas mais
             direcionadas.
           </Text>
 
-          <Section style={btnContainer}>
+          <Section>
             <Button
               pX={12}
               pY={12}
@@ -63,7 +62,7 @@ export const KoalaWelcomeEmail = ({ profileUrl }: KoalaWelcomeEmailProps) => (
               className="bg-slate-900"
               href={profileUrl}
             >
-              Clique aqui para melhorar sua experiência com o Trampar De Casa.
+              Configurar preferências <span className="ml-2">⚙️</span>
             </Button>
           </Section>
 
@@ -83,7 +82,7 @@ export const KoalaWelcomeEmail = ({ profileUrl }: KoalaWelcomeEmailProps) => (
   </Tailwind>
 )
 
-export default KoalaWelcomeEmail
+export default ProfileEmailTemplate
 
 const main = {
   backgroundColor: '#ffffff',
@@ -92,21 +91,12 @@ const main = {
 }
 
 const container = {
-  margin: '0 auto',
   padding: '20px 0 48px',
-}
-
-const logo = {
-  margin: '0 auto',
 }
 
 const paragraph = {
   fontSize: '16px',
   lineHeight: '26px',
-}
-
-const btnContainer = {
-  textAlign: 'center' as const,
 }
 
 const button = {
@@ -118,18 +108,3 @@ const button = {
   textAlign: 'center' as const,
   display: 'block',
 }
-
-const hr = {
-  borderColor: '#cccccc',
-  margin: '20px 0',
-}
-
-const footer = {
-  color: '#8898aa',
-  fontSize: '12px',
-}
-
-fs.writeFileSync(
-  './test.html',
-  render(<KoalaWelcomeEmail profileUrl={'aaa'} />)
-)
