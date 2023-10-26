@@ -11,13 +11,14 @@ import {
   Tailwind,
   Text,
 } from '@react-email/components'
-import dotenv from 'dotenv'
 import * as React from 'react'
-dotenv.config()
-
 interface ProfileEmailTemplateProps {
-  profileUrl: string
+  profileUrl?: string
 }
+
+const GIF_URL =
+  'https://trampar-de-casa-a0pz4i54j-caiohoborghi.vercel.app/images/form.gif' // todo: UPDATE URL ON MERGE
+const LOGO_URL = 'https://trampardecasa.com.br/images/logo.png'
 
 export const ProfileEmailTemplate = ({
   profileUrl,
@@ -31,7 +32,7 @@ export const ProfileEmailTemplate = ({
       <Body style={main}>
         <Container style={container} className="w-full max-w-full">
           <Img
-            src="https://trampardecasa.com.br/images/logo.png"
+            src={LOGO_URL}
             height={70}
             width={100}
             alt="Logo da Trampar De Casa"
@@ -40,14 +41,8 @@ export const ProfileEmailTemplate = ({
           <Text style={paragraph}>
             Receber vagas é legal, mas que tal receber vagas personalizadas?
           </Text>
-          <Link href={profileUrl}>
-            <Img
-              src={
-                'https://trampar-de-casa-a0pz4i54j-caiohoborghi.vercel.app/images/form.gif'
-              }
-              alt="Trampar de casa"
-              width="200"
-            />
+          <Link href={'$PROFILE_URL'}>
+            <Img src={GIF_URL} alt="Trampar de casa" width="200" />
           </Link>
           <Text style={paragraph}>
             Agora você pode cadastrar suas preferências e receber vagas mais
@@ -60,7 +55,7 @@ export const ProfileEmailTemplate = ({
               pY={12}
               style={button}
               className="bg-slate-900"
-              href={profileUrl}
+              href={'$PROFILE_URL'}
             >
               Configurar preferências <span className="ml-2">⚙️</span>
             </Button>
