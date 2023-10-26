@@ -1,4 +1,5 @@
 import { getSupabaseClient } from 'db'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { EnglishLevel } from 'global/EnglishLevel'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
@@ -53,7 +54,7 @@ const updateSubscriberTopics = async (
         .from(Entities.SubscriberTopics)
         .insert({
           subscriberId: subscriberId,
-          topicId,
+          topicId: Number(topicId),
         })
       if (error) {
         console.error(error)
@@ -61,7 +62,7 @@ const updateSubscriberTopics = async (
     })
   )
 }
-
+type Subscriber = SupabaseTable<'Subscribers'>
 export async function updateSubscriber(
   id: string,
   { receiveEmailConfig, ...body }: ProfileSchema
@@ -73,9 +74,12 @@ export async function updateSubscriber(
       name: body.name,
       linkedInUrl: body.linkedInUrl,
       gitHub: body.gitHub,
-      startedWorkingAt: body.startedWorkingAt,
+      startedWorkingAt:
+        body.startedWorkingAt as unknown as Subscriber['startedWorkingAt'],
       skillsId: body.skillsId,
-      englishLevel: EnglishLevel[body.englishLevel],
+      englishLevel: EnglishLevel[
+        body.englishLevel
+      ] as Subscriber['englishLevel'],
     })
     .eq('id', id)
     .select()
