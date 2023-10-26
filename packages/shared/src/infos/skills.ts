@@ -312,7 +312,6 @@ export const skillArray = [
     name: 'LFE (Lisp Flavored Erlang)',
     normalized: 'LFELISPFLAVOREDERLANG',
   },
-  { id: 273, name: 'PHP', normalized: 'PHP' },
   { id: 274, name: 'Laravel', normalized: 'LARAVEL' },
   { id: 275, name: 'Symfony', normalized: 'SYMFONY' },
   { id: 276, name: 'CodeIgniter', normalized: 'CODEIGNITER' },
