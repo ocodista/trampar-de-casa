@@ -1,3 +1,4 @@
+import { Events, Tracker } from 'analytics'
 import { getId } from 'app/api/getId'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
@@ -31,6 +32,12 @@ export async function PUT(request: Request) {
 
   try {
     const { data } = await updateSubscriber(id, body)
+    new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
+      Events.ConfirmedSubscriber,
+      {
+        distinct_id: data[0].email,
+      }
+    )
     return NextResponse.json(data)
   } catch (error) {
     return await logError(error)
