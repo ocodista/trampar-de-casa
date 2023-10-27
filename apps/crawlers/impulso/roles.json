@@ -1,0 +1,102 @@
+[
+  {
+    "url": "https://impulso.team/profissionais/oportunidade/1996-senior-golang",
+    "company": "Impulso",
+    "title": "Sênior Golang",
+    "currency": "BRL",
+    "salary": "R$ 15.040 - R$ 20.000",
+    "headerInfo": "R$15,040 até R$20,000",
+    "language": "Portuguese",
+    "skills": ["AWS", "Golang", "Kubernetes", "Terraform"]
+  },
+  {
+    "url": "https://impulso.team/profissionais/oportunidade/1995-senior-reactjs",
+    "company": "Impulso",
+    "title": "Sênior Reactjs",
+    "currency": "BRL",
+    "salary": "R$ 15.000 - R$ 19.800",
+    "headerInfo": "R$15,000 até R$19,800",
+    "language": "Portuguese",
+    "skills": ["CSS", "Docker", "JavaScript", "Jest", "JQuery", "Reactjs"]
+  },
+  {
+    "url": "https://impulso.team/profissionais/oportunidade/1993-senior-golang",
+    "company": "Impulso",
+    "title": "Sênior Golang",
+    "currency": "BRL",
+    "salary": "R$ 13.200 - R$ 18.720",
+    "headerInfo": "R$13,200 até R$18,720",
+    "language": "Portuguese",
+    "skills": ["AWS", "Docker", "Golang", "Jira", "Kubernetes", "SQL Server"]
+  },
+  {
+    "url": "https://impulso.team/profissionais/oportunidade/1992-senior-golang",
+    "company": "Impulso",
+    "title": "Sênior Golang",
+    "currency": "BRL",
+    "salary": "R$ 13.200 - R$ 18.700",
+    "headerInfo": "R$13,200 até R$18,700",
+    "language": "Portuguese",
+    "skills": ["Docker", "Golang", "Kubernetes"]
+  },
+  {
+    "url": "https://impulso.team/profissionais/oportunidade/1991-pleno-golang",
+    "company": "Impulso",
+    "title": "Pleno Golang",
+    "currency": "BRL",
+    "salary": "R$ 11.400 - R$ 16.800",
+    "headerInfo": "R$11,400 até R$16,800",
+    "language": "Portuguese",
+    "skills": ["Docker", "Golang", "Kubernetes"]
+  },
+  {
+    "url": "https://impulso.team/profissionais/oportunidade/1989-senior-data-engineering-python",
+    "company": "Impulso",
+    "title": "Sênior Data Engineering | Python",
+    "currency": "BRL",
+    "salary": "R$ 16.800 - R$ 22.240",
+    "headerInfo": "R$16,800 até R$22,240",
+    "language": "Portuguese",
+    "skills": ["AWS", "Data Engineering", "Python", "SQL"]
+  },
+  {
+    "url": "https://impulso.team/profissionais/oportunidade/1955-senior-golang",
+    "company": "Impulso",
+    "title": "Sênior Golang",
+    "currency": "BRL",
+    "salary": "R$ 14.720 - R$ 16.320",
+    "headerInfo": "R$14,720 até R$16,320",
+    "language": "Portuguese",
+    "skills": ["Angular", "AWS", "CSS", "Docker", "Golang", "GraphQL"]
+  },
+  {
+    "url": "https://impulso.team/profissionais/oportunidade/1953-senior-arquiteto-de-software",
+    "company": "Impulso",
+    "title": "Sênior Arquiteto de Software",
+    "currency": "BRL",
+    "salary": "R$ 15.200 - R$ 17.120",
+    "headerInfo": "R$15,200 até R$17,120",
+    "language": "Portuguese",
+    "skills": ["Angular", "AWS", "Django", "JavaScript", "Kafka", "Kubernetes"]
+  },
+  {
+    "url": "https://impulso.team/profissionais/oportunidade/1948-senior-net-javascript",
+    "company": "Impulso",
+    "title": "Sênior .NET | JavaScript",
+    "currency": "BRL",
+    "salary": "R$ 15.200 - R$ 16.800",
+    "headerInfo": "R$15,200 até R$16,800",
+    "language": "Portuguese",
+    "skills": ["Angular", "JavaScript", ".NET", "RabbitMQ", "Reactjs", "SQL"]
+  },
+  {
+    "url": "https://impulso.team/profissionais/oportunidade/1947-pleno-net-javascript",
+    "company": "Impulso",
+    "title": "Pleno .NET | JavaScript",
+    "currency": "BRL",
+    "salary": "R$ 12.000 - R$ 13.600",
+    "headerInfo": "R$12,000 até R$13,600",
+    "language": "Portuguese",
+    "skills": ["Angular", "JavaScript", ".NET", "RabbitMQ", "Reactjs", "SQL"]
+  }
+]

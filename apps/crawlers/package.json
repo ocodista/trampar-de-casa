@@ -1,0 +1,19 @@
+{
+  "name": "crawlers",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "start": "node remotive",
+    "remotive": "node remotive",
+    "dynamite": "node dynamite",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "puppeteer": "^20.7.3"
+  }
+}

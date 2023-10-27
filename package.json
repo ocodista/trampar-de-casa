@@ -23,6 +23,7 @@
   "packageManager": "yarn@1.22.19",
   "workspaces": [
     "apps/web",
+    "apps/crawlers",
     "apps/auto-email-sender/*",
     "apps/workers/*",
     "packages/*"
