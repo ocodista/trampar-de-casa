@@ -68,8 +68,7 @@ export async function updateSubscriber(
   { receiveEmailConfig, ...body }: ProfileSchema
 ) {
   const sanitizeEnglishLevelInput = (englishLevel: EnglishLevel) => {
-    if (englishLevel === EnglishLevel.None) return null
-    return englishLevel
+    return englishLevel === EnglishLevel.None ? null : englishLevel;
   }
 
   const { data, error } = await supabaseClient
