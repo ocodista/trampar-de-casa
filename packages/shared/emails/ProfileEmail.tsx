@@ -16,8 +16,7 @@ interface ProfileEmailTemplateProps {
   profileUrl?: string
 }
 
-const GIF_URL =
-  'https://trampar-de-casa-a0pz4i54j-caiohoborghi.vercel.app/images/form.gif' // todo: UPDATE URL ON MERGE
+const GIF_URL = 'https://trampardecasa.com.br/images/form.gif'
 const LOGO_URL = 'https://trampardecasa.com.br/images/logo.png'
 
 export const ProfileEmailTemplate = ({
