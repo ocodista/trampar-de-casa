@@ -45,8 +45,8 @@ export const ProfileEmailTemplate = ({
             <Img src={GIF_URL} alt="Trampar de casa" width="200" />
           </Link>
           <Text style={paragraph}>
-            Agora você pode cadastrar suas preferências e receber vagas mais
-            direcionadas.
+            Agora você pode cadastrar suas preferências e receber vagas que
+            façam mais sentido para você 😁.
           </Text>
 
           <Section>
