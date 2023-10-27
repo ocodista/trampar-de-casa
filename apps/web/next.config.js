@@ -6,4 +6,8 @@ module.exports = {
   },
   reactStrictMode: true,
   transpilePackages: ["ui", "eslint-config-custom", "shared", "db"],
+  i18n: {
+    locales: ["pt-BR"],
+    defaultLocale: "pt-BR",
+  },
 }
