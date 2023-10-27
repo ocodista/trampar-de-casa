@@ -18,6 +18,7 @@ interface ProfileEmailTemplateProps {
 
 const GIF_URL = 'https://trampardecasa.com.br/images/form.gif'
 const LOGO_URL = 'https://trampardecasa.com.br/images/logo.png'
+const EMAIL_PREVIEW = 'A funcionalidade mais pedida chegou!'
 
 export const ProfileEmailTemplate = ({
   profileUrl,
@@ -25,9 +26,7 @@ export const ProfileEmailTemplate = ({
   <Tailwind>
     <Html>
       <Head />
-      <Preview>
-        The sales intelligence platform that helps you uncover qualified leads.
-      </Preview>
+      <Preview>{EMAIL_PREVIEW}</Preview>
       <Body style={main}>
         <Container style={container} className="w-full max-w-full">
           <Img
