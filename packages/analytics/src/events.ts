@@ -1,5 +1,5 @@
 export enum Events {
-  ProfileChanged = 'Change Profile',
+  ProfileChanged = 'Changed Profile',
   NewSubscriber = 'New Subscriber',
   ConfirmedSubscriber = 'Confirmed Subscriber',
 }
