@@ -45,7 +45,7 @@ export const ProfileEmailTemplate = ({
           </Link>
           <Text style={paragraph}>
             Agora você pode cadastrar suas preferências e receber vagas que
-            façam mais sentido para você 😁.
+            fazem mais sentido para você 😁.
           </Text>
 
           <Section>
