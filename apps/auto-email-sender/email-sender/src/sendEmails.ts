@@ -21,7 +21,7 @@ export const sendEmails = async (
         from: EMAIL_FROM,
         to: email,
         html: html,
-        subject: rolesSubject(38),
+        subject: rolesSubject(30),
       })
       channel.ack(message)
     } catch (e) {

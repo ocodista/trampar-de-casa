@@ -26,9 +26,13 @@ export const assignRoles = async () => {
 
     const matchRolesPromises = subscribersBatch.map(async (subscriber) => {
       if (!subscriber.isConfirmed) return
-      const roles = await getSubscriberRoles(subscriber, supabaseClient)
-      const emailProps = getEmailProps(subscriber, roles)
-      await saveSubscriberRoles(mongoCollection, emailProps)
+      try {
+        const roles = await getSubscriberRoles(subscriber, supabaseClient)
+        const emailProps = getEmailProps(subscriber, roles)
+        await saveSubscriberRoles(mongoCollection, emailProps)
+      } catch (e) {
+        console.log(e)
+      }
     })
     await Promise.allSettled(matchRolesPromises)
   }
