@@ -7,6 +7,7 @@ import { encrypt } from '../security'
 
 type Subscriber = SupabaseTable<'Subscribers'>
 const TEMPLATE_EMAIL = render(<ProfileEmailTemplate />)
+const EMAIL_SUBJECT = '⚙️ Configure suas preferências de vagas!' as const
 
 const profileUrl = (encryptedId: string) =>
   `https://trampardecasa.com.br/subscribers/profile/${encryptedId}`
@@ -25,7 +26,7 @@ export const sendProfileEmail = async ({
     from: 'Trampar de Casa <comece@trampardecasa.com.br>',
     to: email,
     html: TEMPLATE_EMAIL.replaceAll('$PROFILE_URL', profileUrl(encryptedId)),
-    subject: 'Personalize Suas Oportunidades de Trabalho Remoto Agora!',
+    subject: EMAIL_SUBJECT,
   })
   console.timeEnd(`sendProfileEmail#${email}`)
 }
