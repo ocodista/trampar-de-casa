@@ -10,7 +10,7 @@ A filosofia do Trampar de Casa é clara: todo trabalho que pode ser remoto, deve
 
 Neste manifesto, mostraremos as vantagens do trabalho remoto, as melhores estratégias para implementá-lo com eficiência e nossos compromissos, além de explicar como funciona nosso processo de seleção de vagas.
 
-Em 2023, [152 milhões de brasileiros acessam a internet todos os dias](https://agenciabrasil.ebc.com.br/geral/noticia/2021-08/brasil-tem-152-milhoes-de-pessoas-com-acesso-internet), a humanidade já se mostrou capaz de se conectar e colaborar virtualmente para resolver inúmeros problemas, entretanto, muitas empresas ainda se mantém presas a um modelo de trabalho arcaico: o presencial.
+Em 2023, [152 milhões de brasileiros acessam a internet todos os dias](https://agenciabrasil.ebc.com.br/geral/noticia/2021-08/brasil-tem-152-milhoes-de-pessoas-com-acesso-internet), o que revela que a humanidade já se mostrou capaz de se conectar e colaborar virtualmente para resolver inúmeros problemas. Entretanto, muitas empresas ainda se mantêm presas a um arcaico modelo de trabalho presencial.
 
 ---
 
