@@ -24,7 +24,7 @@ Entendemos que nem todo trabalho pode ser realizado de forma 100% remota. Somos 
 
 O objetivo deste manifesto é defender, valorizar e promover aqueles trabalhos que **podem** ser realizados de forma integralmente remota.
 
-Situações onde pessoas se deslocam de 2 a 4 horas por dia até um escritório distante, enfrentando trânsito intenso, acumulando estresse nos deslocamentos, tudo isso de forma não remunerada.
+Para estar no escritório, comumente, pessoas se deslocam de 2 a 4 horas por dia, enfrentando trânsito intenso e acumulando estresse sem serem devidamente remuneradas. São essas situações que pretendemos destacar, analisar, questionar e, sempre que possível, apoiar na transição para um modelo de trabalho totalmente remoto.
 
 São essas situações que pretendemos destacar, analisar, questionar e, sempre que possível, apoiar na transição para um modelo de trabalho totalmente remoto.
 
