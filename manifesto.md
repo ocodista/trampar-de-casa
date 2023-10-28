@@ -76,7 +76,7 @@ Imagine ter quase 8h a mais por semana para descansar, compartilhar momentos com
 
 Ao adotar o trabalho remoto, os funcionários economizam em despesas diárias, como combustível, transporte público e refeições fora de casa.
 
-Essa economia tem um impacto positivo na vida do trabalhador, possibilitando melhores investimentos em outras áreas de interesse pessoal.
+Tal economia tem impacto positivo na vida do trabalhador, possibilitando melhores investimentos em outras áreas de interesse pessoal.
 
 ### **Ambiente à sua escolha**
 
