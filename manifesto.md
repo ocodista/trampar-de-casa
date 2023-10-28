@@ -156,12 +156,12 @@ Com maior tempo livre durante a semana (antes gasto unicamente com transporte), 
 **Aumentar a conscientização sobre o Trabalho Remoto:** analisar e discutir estratégias modernas pensadas para o trabalho remoto, como:
 
 - "Cultura do Recado": _Async First_
-  - Documentação textual
-  - Gravações de vídeo
-  - Preferência por "recados" globais
-    - Facilidade para revisitar decisões, tarefas, projetos e alterações sem envolver um terceiro.
-    - Filosofia Micro: Fragmentação de tarefas em pequenos entregáveis.
-    - Melhoria e aumento da documentação escrita.
+  - Documentação textual;
+  - Gravações de vídeo;
+  - Preferência por "recados" globais;
+    - Facilidade para revisitar decisões, tarefas, projetos e alterações sem envolver um terceiro;
+    - Filosofia Micro: Fragmentação de tarefas em pequenos entregáveis;
+    - Melhoria e aumento da documentação escrita;
 - Liderança baseada em dados e análises estatísticas:
   - **Data Driven Culture:** Utilizar dados concretos para guiar decisões, otimizando processos e garantindo resultados mais eficientes.
   > Acompanhar evoluções é melhor do que estimar prazos.
