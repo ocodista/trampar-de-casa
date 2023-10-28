@@ -52,7 +52,7 @@ O trabalho remoto incentiva a autonomia do trabalhador e possibilita uma liberda
 
 [Em São Paulo, a média de tempo gasto no deslocamento ao trabalho é de **7,8 horas por semana**](https://valor.globo.com/brasil/noticia/2021/05/07/ibge-tempo-de-deslocamento-ao-trabalho-no-pais-e-de-48h-por-semana-mas-chega-a-78h-em-sp.ghtml). Isso significa que, em média, trabalhadores paulistanos gastam **quase 1 dia comercial por semana** em um deslocamento não remunerado. Essas horas poderiam ser melhor aproveitadas.
 
-Todo trabalho que pode ser remoto, deveria ser remoto.
+Todo trabalho que pode ser remoto, deve ser remoto.
 
 A realidade do transporte público brasileiro é marcada por sua precariedade, fazendo com que seu uso recorrente e desnecessário não apenas consuma tempo e energia, mas também mine a motivação do trabalhador, que se desloca fisicamente até o escritório para realizar todo seu trabalho de seu computador, conectado à internet.
 
