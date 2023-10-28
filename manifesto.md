@@ -129,7 +129,7 @@ conceitos, discussões, decisões, modificações de requisitos ou convenções 
 
 **Maior autonomia para funcionários:** Incentivar uma cultura de “recados globais” ou “documentação” sobre conversa pessoais, tornará seus funcionários mais independentes e, com o passar do tempo, as dúvidas/questionamentos em comum serão transformados em documentação digital, disponíveis 24 horas por dia.
 
-No presencial, ao ter uma dúvida, um funcionário A entraria em contato com outro funcionário B, conversaria com B, resolveria sua dúvida e seguiria com a vida. Se amanhã um terceiro funcionário tiver a mesma dúvida, precisará interromper e contar com a boa memória de um colega para resolver o problema.
+No presencial, ao ter uma dúvida, o funcionário A entraria em contato com o funcionário B, resolveria sua dúvida e seguiria com a vida. Se amanhã um terceiro funcionário tiver a mesma dúvida, precisará interromper e contar com a boa memória de um colega para resolver o problema.
 
 Em uma empresa 100% remota, essa dúvida pode se transformar em documentação e então, todo funcionário que venha a ter esse mesmo questionamento conseguirá resolvê-lo de maneira independente.
 
