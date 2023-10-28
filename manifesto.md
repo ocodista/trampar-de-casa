@@ -88,7 +88,7 @@ Trabalhe de qualquer lugar, mas prefira lugares calmos e confortáveis.
 
 ### **Horários Flexíveis**
 
-A cultura **Async First** vai além, sugere um novo modelo de trabalho, onde são incentivados:
+A cultura **Async First** vai além, sugere um novo modelo de trabalho em que são incentivados:
 
 - Comunicação assíncrona.
   - Envio de emails.
