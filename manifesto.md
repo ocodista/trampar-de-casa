@@ -18,7 +18,7 @@ Em 2023, [152 milhões de brasileiros acessam a internet todos os dias](https://
 
 É o modelo tradicional em que todas as atividades são realizadas em um único local físico.
 
-Acreditamos que, em um mundo digitalizado, com ferramentas de comunicação que operam em tempo-real - seja através de mensagens de texto, vídeos ou áudios - e plataformas avançadas de gerenciamento de tarefas, times e processos, a ideia de um retorno forçado ao escritório parece retrógrada.
+Acreditamos que, em um mundo digitalizado, com ferramentas de comunicação que operam em tempo real - seja através de mensagens de texto, vídeos ou áudios - e plataformas avançadas de gerenciamento de tarefas, times e processos, a ideia de um retorno forçado ao escritório parece retrógrada.
 
 Entendemos que nem todo trabalho pode ser realizado de forma 100% remota. Somos gratos a todos os trabalhadores cujas funções necessitam de sua presença física para realizar suas tarefas.
 
