@@ -90,17 +90,17 @@ Trabalhe de qualquer lugar, mas prefira lugares calmos e confortáveis.
 
 A cultura **Async First** vai além, sugere um novo modelo de trabalho em que são incentivados:
 
-- Comunicação assíncrona.
-  - Envio de emails.
-  - Gravações de tela.
-  - Vídeos explicativos.
-  - Mensagens de áudio.
-  - Comentários em documentos compartilhados.
-  - Postagens em fóruns ou painéis de discussão.
-  - Tarefas ou comentários em sistemas de gerenciamento de projetos (como Jira, por exemplo).
-  - SMS ou mensagens de texto (quando não há expectativa de resposta imediata).
-- Documentação de melhorias sugeridas e realizadas, alterações implementadas, detalhamento de produtos.
-- _[Async Agile](https://www.asyncagile.org/)_, uma abordagem que promove a junção de metodologias ágeis com processos distribuídos e assíncronos, incentivando o aumento da comunicação textual. Defende que ao manter uma documentação robusta e se comunicar de forma assíncrona, as equipes conseguem operar de maneira mais eficaz, mesmo distribuídas geograficamente.
+- Comunicação assíncrona:
+  - Envio de emails;
+  - Gravações de tela;
+  - Vídeos explicativos;
+  - Mensagens de áudio;
+  - Comentários em documentos compartilhados;
+  - Postagens em fóruns ou painéis de discussão;
+  - Tarefas ou comentários em sistemas de gerenciamento de projetos (como Jira, por exemplo);
+  - SMS ou mensagens de texto (quando não há expectativa de resposta imediata);
+- Documentação de melhorias sugeridas e realizadas, alterações implementadas, detalhamento de produtos;
+- _[Async Agile](https://www.asyncagile.org/)_, é uma abordagem que promove a junção de metodologias ágeis com processos distribuídos e assíncronos, incentivando o aumento da comunicação textual. Assim, defende que ao manter uma documentação robusta e se comunicar de forma assíncrona, as equipes conseguem operar de maneira mais eficaz, mesmo distribuídas geograficamente.
 
 ---
 
