@@ -127,7 +127,7 @@ conceitos, discussões, decisões, modificações de requisitos ou convenções 
 
 **Processos mais claros e mais acessíveis:** Com uma documentação 100% digital, qualquer funcionário pode revisitar conceitos, discussões, decisões, modificações de requisitos ou convenções de boas práticas a qualquer instante. Documentação digital é um acervo vivo que contém tudo de interessante relacionado a empresa e promove a distribuição eficaz do conhecimento.
 
-**Maior autonomia para funcionários:** Incentivar uma cultura de “recados globais” ou “documentação” sobre conversa pessoais, tornará seus funcionários mais independentes e, com o passar do tempo, as dúvidas/questionamentos em comum serão transformados em documentação digital, disponível 24h/dia.
+**Maior autonomia para funcionários:** Incentivar uma cultura de “recados globais” ou “documentação” sobre conversa pessoais, tornará seus funcionários mais independentes e, com o passar do tempo, as dúvidas/questionamentos em comum serão transformados em documentação digital, disponíveis 24 horas por dia.
 
 No presencial, ao ter uma dúvida, um funcionário A entraria em contato com outro funcionário B, conversaria com B, resolveria sua dúvida e seguiria com a vida. Se amanhã um terceiro funcionário tiver a mesma dúvida, precisará interromper e contar com a boa memória de um colega para resolver o problema.
 
