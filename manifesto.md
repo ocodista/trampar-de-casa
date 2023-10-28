@@ -62,7 +62,7 @@ Todas as horas gastas no desconforto de ônibus, trens ou caminhadas podem ser t
 
 > Escolha onde viver, sem se preocupar com o local de trabalho.
 
-Com o trabalho remoto, a localização do seu trabalho se torna menos relevante. Trabalhadores não estão mais limitados aos altos custos de moradia dos grandes centros urbanos, por precisarem morar perto do trabalho.
+Com o trabalho remoto, a localização do seu trabalho se torna menos relevante. Trabalhadores não estão mais limitados aos altos custos de moradia dos grandes centros urbanos por precisarem morar perto do trabalho.
 
 Isso significa mais liberdade para escolher aonde viver, com base em suas preferências pessoais, abrindo caminho para uma melhoria na qualidade de vida e redução do estresse vinculado à moradia-perto-do-trabalho.
 
