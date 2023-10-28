@@ -166,7 +166,7 @@ Com maior tempo livre durante a semana (antes gasto unicamente com transporte), 
   - **Data Driven Culture:** Utilizar dados concretos para guiar decisões, otimizando processos e garantindo resultados mais eficientes.
   > Acompanhar evoluções é melhor do que estimar prazos.
 
-**Promover um ambiente inclusivo**: trabalhar para garantir que o trabalho remoto seja um direito a todos os profissionais cujos cargos consigam exercê-lo. Todo trabalho que pode ser remoto deve ser remoto! Independente da localização, identidade de gênero, raça ou necessidades especiais do trabalhador.
+**Promover um ambiente inclusivo**: trabalhar para garantir que o trabalho remoto seja um direito a todos os profissionais cujos cargos consigam exercê-lo remotamente. Todo trabalho que pode ser remoto, deve ser remoto! Independente da localização, identidade de gênero, raça ou necessidades especiais do trabalhador.
 
 **Defender o trabalho remoto:** é importante combater os mitos, distorções, exageros e falsas notícias que o cercam.
 
