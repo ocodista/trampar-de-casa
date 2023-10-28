@@ -16,7 +16,7 @@ Em 2023, [152 milhões de brasileiros acessam a internet todos os dias](https://
 
 # Trabalho Presencial
 
-É o modelo de trabalho tradicional, onde todas as atividades são realizadas em um único local físico.
+É o modelo tradicional em que todas as atividades são realizadas em um único local físico.
 
 Acreditamos que, em um mundo digitalizado, com ferramentas de comunicação que operam em tempo-real - seja através de mensagens de texto, vídeos ou áudios - e plataformas avançadas de gerenciamento de tarefas, times e processos, a ideia de um retorno forçado ao escritório parece retrógrada.
 
