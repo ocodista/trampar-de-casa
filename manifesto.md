@@ -106,7 +106,7 @@ A cultura **Async First** vai além, sugere um novo modelo de trabalho em que s�
 
 ## Benefícios - Empresa
 
-Além dos benefícios claros para os trabalhadores, há também um conjunto de ganhos significativo para a empresa que resolver adotar este moderno modelo de trabalho.
+Além dos benefícios claros para os trabalhadores, há também um conjunto de ganhos significativos para a empresa que resolve adotar este moderno modelo de trabalho.
 
 ### Economia com escritório
 
