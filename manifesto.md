@@ -199,7 +199,7 @@ Ao mesmo tempo que melhor do que o regime 100% presencial, o regime híbrido é,
 
 Forçar a presença de profissionais no escritório sem um motivo claro é insistir em um modelo ultrapassado de gestão de pessoas, em uma atividade que a própria empresa já reconheceu ser uma atividade 100% remota.
 
-Definir uma frequência semanal de trabalho presencial, ao invés de investir em melhorar a comunicação e processos digitais, é render-se à ineficiência da gestão, tratar seus funcionários como adolescentes, ou incentivar uma cultura ultrapassada de **micro-gerenciamento**.
+Definir uma frequência semanal de trabalho presencial, ao invés de investir em melhorar a comunicação e processos digitais, é render-se à ineficiência da gestão, tratar seus funcionários como adolescentes ou incentivar uma cultura ultrapassada de **micro-gerenciamento**.
 
 #### Vagas ilegais ou antiéticas.
 
