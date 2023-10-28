@@ -137,7 +137,7 @@ Esse hábito de converter dúvidas em documentação favorece a criação de um 
 
 **Maior visibilidade nos projetos:** A documentação contínua e atualizada proporciona uma visão clara do andamento dos projetos. Isso facilita o acompanhamento, a avaliação e a comunicação do progresso, permitindo que as equipes estejam sempre bem informadas e possam tomar decisões baseadas em dados concretos.
 
-**Agilidade no Onboarding:** Com uma cultura de documentação bem implantada, a agilidade e facilidade de integrar um novo membro da equipe é um efeito colateral natural e muito bem vindo. Ao basear-se em conteúdo textual, seus outros funcionários ficam mais livres para realizar outras tarefas e sua equipe, mais independente.
+**Agilidade no Onboarding:** Com uma cultura de documentação bem implantada, a agilidade e facilidade de integrar um novo membro da equipe é um efeito colateral natural e muito bem vindo. Ao basear-se em conteúdo textual, seus outros funcionários ficam mais livres para realizar outras tarefas e sua equipe mais independente.
 
 ### Funcionários mais motivados
 
