@@ -84,7 +84,7 @@ Tal economia tem impacto positivo na vida do trabalhador, possibilitando melhore
 
 Crie um espaço em casa do seu jeito ou trabalhe de um _coworking_. O importante é realizar bem suas tarefas e manter uma boa comunicação com o seu time.
 
-Trabalhe de qualquer lugar (prefira lugares calmos e confortáveis)
+Trabalhe de qualquer lugar, mas prefira lugares calmos e confortáveis.
 
 ### **Horários Flexíveis**
 
