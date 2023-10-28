@@ -151,7 +151,7 @@ Com maior tempo livre durante a semana (antes gasto unicamente com transporte), 
 
 # Nossos Compromissos (Trampar de Casa)
 
-**Promover vagas de qualidade:** Divulgamos vagas 100% remotas, nacionais ou internacionais, de empresas que respeitam e valorizam seus funcionários.
+**Promover vagas de qualidade:** divulgamos vagas 100% remotas, nacionais ou internacionais, de empresas que respeitam e valorizam seus funcionários.
 
 **Aumentar a conscientização sobre o Trabalho Remoto:** analisar e discutir estratégias modernas pensadas para o trabalho remoto, como:
 
