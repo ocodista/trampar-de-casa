@@ -114,7 +114,7 @@ Ao adotar uma cultura remota, assíncrona ou digital, é possível erradicar o c
 
 ### Maior área de contratação
 
-Com o fim da restrição de raio de proximidade com o escritório, é possível contratar funcionários de qualquer lugar do país, ou em alguns casos, do mundo. Esse tipo de contratação é muito valioso pois aumenta a visibilidade de profissionais qualificados de regiões distantes.
+Com o fim da restrição de raio de proximidade com o escritório, é possível contratar funcionários de qualquer lugar do país ou, em alguns casos, do mundo. Esse tipo de contratação é muito valioso, pois aumenta a visibilidade de profissionais qualificados de regiões distantes.
 
 - Acesso a candidatos qualificados que vivem fora dos centros urbanos.
 - Fortalecimento da economia local das regiões onde esses talentos motsm.
