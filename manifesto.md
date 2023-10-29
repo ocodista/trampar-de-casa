@@ -115,7 +115,7 @@ Ao não se deslocar para grandes centros, as pessoas tendem a gastar mais dinhei
 
 Menor tempo em deslocamento se traduz em ganhos de **bem-estar e produtividade**.
 
-Seus funcionários não estarão mais sujeitos às condições climáticas adversas nem sofrerão com o estresse causado pelas lotações.
+Seus funcionários não estarão mais sujeitos às condições climáticas adversas nem sofrerão com o estresse causado pelas lotações no transporte público.
 
 #### Economia com escritório
 
