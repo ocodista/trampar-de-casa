@@ -276,15 +276,15 @@ Com maior tempo livre durante a semana (antes gasto unicamente com transporte), 
 ### Divulgaremos
 
 - Vagas
-  - 100% remotas.
+  - 100% remotas;
   - De preferência, que:
-    - Incentivem horários flexíveis.
-    - Possuam uma "cultura assíncrona" (**Async First**).
-    - Promovam a independência e estabilidade do trabalhador.
+    - Incentivem horários flexíveis;
+    - Possuam uma "cultura assíncrona" (**Async First**);
+    - Promovam a independência e estabilidade do trabalhador;
 - Empresas
-  - Que apoiam o trabalho remoto.
-  - Que respeitam e valorizam seus funcionários.
-  - Que tratam seus profissionais como adultos responsáveis.
+  - Que apoiam o trabalho remoto;
+  - Que respeitam e valorizam seus funcionários;
+  - Que tratam seus profissionais como adultos responsáveis;
 
 ### Não Divulgaremos
 
