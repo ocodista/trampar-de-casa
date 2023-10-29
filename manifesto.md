@@ -127,7 +127,7 @@ A eliminação de custos com escritório libera recursos. Essa economia se conve
 
 > O trabalho remoto promove maior liberdade geográfica para seres humanos.
 
-Trabalhadores não estão mais limitados aos altos custos de moradia dos grandes centros urbanos por precisarem morar perto do trabalho, por outro lado, empresas
+Trabalhadores não estão mais limitados aos altos custos de moradia dos grandes centros urbanos por precisarem morar perto do trabalho.
 
 ### Para o trabalhador
 
