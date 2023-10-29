@@ -121,7 +121,7 @@ Seus funcionários não estarão mais sujeitos às condições climáticas adver
 
 Ao adotar uma cultura remota, assíncrona ou digital, é possível erradicar o custo gasto com escritório e investir em outros setores da empresa.
 
-A eliminação de custos com escritório libera recursos. Essa economia se converte diretamente em **capital para expandir e inovar**, fazendo do remoto uma escolha não só viável, mas estratégica.
+A eliminação de custos com escritório libera recursos. Essa economia se converte diretamente em **capital para expandir e inovar**, fazendo do remoto uma escolha viável e estratégica.
 
 ## Liberdade Geográfica
 
