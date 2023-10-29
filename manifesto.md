@@ -107,7 +107,7 @@ Tal economia tem impacto positivo na vida do trabalhador, possibilitando melhore
 
 Com menos pessoas e carros nas ruas durante o horário de pico, as ruas ficarão mais livres e os percursos mais rápidos, tornando o **transporte público mais eficiente**.
 
-Menos deslocamento é igual a menos emissões de poluentes. A redução das emissões de carbono **melhora a qualidade do ar** e ajuda as cidades em suas metas globais de sustentabilidade.
+Menos deslocamento é igual a menos emissão de poluentes. A redução nas emissões de carbono **melhora a qualidade do ar** e ajuda as cidades em suas metas globais de sustentabilidade.
 
 Ao não se deslocar para grandes centros, as pessoas tendem a gastar mais dinheiro em suas próprias comunidades locais, e com isso, **fomentam o desenvolvimento econômico regional**.
 
