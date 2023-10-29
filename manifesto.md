@@ -2,6 +2,29 @@
 
 Porém, encorajamos toda e qualquer sugestão de melhoria, questionamento ou debate que enriqueça a causa do trabalho remoto.
 
+# Sumário
+
+- [Introdução](#introdução)
+- [Trabalho Presencial](#trabalho-presencial)
+- [Trabalho Remoto](#trabalho-remoto)
+- [Benefícios do Trabalho Remoto](#benefícios-do-trabalho-remoto)
+  - [Deslocamento zero](#deslocamento-zero)
+    - [Para o trabalhador](#para-o-trabalhador)
+      - [Economia de tempo](#economia-de-tempo)
+      - [Economia financeira](#economia-financeira)
+    - [Para a sociedade](#para-a-sociedade)
+    - [Para a empresa](#para-a-empresa)
+      - [Economia com escritório](#economia-com-escritório)
+  - [Liberdade Geográfica](#liberdade-geográfica)
+    - [Para o trabalhador](#para-o-trabalhador-1)
+    - [Para a sociedade](#para-a-sociedade-1)
+    - [Para a empresa](#para-a-empresa-1)
+  - [Horários Flexíveis](#horários-flexíveis)
+    - [Para o trabalhador](#para-o-trabalhador-2)
+    - [Para a sociedade](#para-a-sociedade-2)
+    - [Para a empresa](#para-a-empresa-3)
+- [Nossos Compromissos](#nossos-compromissos-trampar-de-casa)
+
 # Introdução
 
 Nosso objetivo é defender, fortalecer e incentivar o trabalho remoto no Brasil.
@@ -44,41 +67,81 @@ O trabalho remoto incentiva a autonomia do trabalhador e possibilita uma liberda
 
 ---
 
-## Benefícios para o trabalhador
+# Benefícios do Trabalho Remoto
 
-### Zero Deslocamento
+> O trabalho remoto é um modelo que beneficia toda a sociedade.
+
+Não só ajuda trabalhadores e empresas, mas também melhora as cidades e distribui oportunidades além dos grandes centros urbanos.
+
+Ele abre oportunidades para quem mora em regiões menos desenvolvidas e mais afastadas, além de possibilitar a migração de trabalhadores, que podem reduzem o custo de vida e estimulam a economia local.
+
+Agora, vamos desvendar como que o trabalho remoto faz isso tudo ser possível.
+
+## Deslocamento zero
 
 > Evitar as horas de estresse em transportes públicos superlotados é, sem dúvida, uma das maiores vantagens do trabalho remoto.
 
-[Em São Paulo, a média de tempo gasto no deslocamento ao trabalho é de **7,8 horas por semana**](https://valor.globo.com/brasil/noticia/2021/05/07/ibge-tempo-de-deslocamento-ao-trabalho-no-pais-e-de-48h-por-semana-mas-chega-a-78h-em-sp.ghtml). Isso significa que, em média, trabalhadores paulistanos gastam **quase 1 dia comercial por semana** em um deslocamento não remunerado. Essas horas poderiam ser melhor aproveitadas.
+### Para o trabalhador
 
-Todo trabalho que pode ser remoto, deve ser remoto.
+[Em São Paulo, a média de tempo gasto no deslocamento ao trabalho é de **7,8 horas por semana**](https://valor.globo.com/brasil/noticia/2021/05/07/ibge-tempo-de-deslocamento-ao-trabalho-no-pais-e-de-48h-por-semana-mas-chega-a-78h-em-sp.ghtml).
 
-A realidade do transporte público brasileiro é marcada por sua precariedade, fazendo com que seu uso recorrente e desnecessário não apenas consuma tempo e energia, mas também mine a motivação do trabalhador, que se desloca fisicamente até o escritório para realizar todo seu trabalho de seu computador, conectado à internet.
+Isso significa que, em média, trabalhadores paulistanos **gastam quase 1 dia comercial por semana** em um deslocamento não remunerado.
 
-Todas as horas gastas no desconforto de ônibus, trens ou caminhadas podem ser transformadas em momentos de lazer e conforto, proporcionando um alívio bem-vindo da correria diária.
-
-### Liberdade Geográfica
-
-> Escolha onde viver, sem se preocupar com o local de trabalho.
-
-Com o trabalho remoto, a localização do seu trabalho se torna menos relevante. Trabalhadores não estão mais limitados aos altos custos de moradia dos grandes centros urbanos por precisarem morar perto do trabalho.
-
-Isso significa mais liberdade para escolher aonde viver, com base em suas preferências pessoais, abrindo caminho para uma melhoria na qualidade de vida e redução do estresse vinculado à moradia-perto-do-trabalho.
-
-### Economia de Tempo
-
-No Brasil, a média de deslocamento é de 4h, já em São Paulo, 7,8 horas.
+#### Economia de tempo
 
 Imagine ter quase 8h a mais por semana para descansar, compartilhar momentos com seus entes queridos, se dedicar a algum projeto ou passatempo, se exercitar, praticar uma arte marcial ou qualquer outra atividade que você consiga encaixar no horário que antes era gasto exclusivamente com deslocamento para o/do trabalho.
 
-### **Economia Financeira**
+A realidade do transporte público brasileiro é marcada por sua precariedade, fazendo com que o uso desnecessário e recorrente, além de consumir tempo e energia, mine também a motivação do profissional, que **vai até o escritório para realizar todo o trabalho em seu computador, conectado à internet**.
+
+Todas as horas gastas no desconforto de ônibus, trens ou carros podem ser transformadas em momentos de lazer e conforto, proporcionando um alívio bem-vindo da correria diária.
+
+#### Economia financeira
 
 Ao adotar o trabalho remoto, os funcionários economizam em despesas diárias, como combustível, transporte público e refeições fora de casa.
 
 Tal economia tem impacto positivo na vida do trabalhador, possibilitando melhores investimentos em outras áreas de interesse pessoal.
 
-### **Ambiente à sua escolha**
+### Para a sociedade
+
+> Melhor transporte para todos, não só para quem trabalha de casa.
+
+Com menos pessoas e carros nas ruas durante o horário de pico, as ruas ficarão mais livres e os percursos mais rápidos, tornando o **transporte público mais eficiente**.
+
+Menos deslocamento é igual a menos emissões de poluentes. A redução das emissões de carbono **melhora a qualidade do ar** e ajuda as cidades em suas metas globais de sustentabilidade.
+
+Ao não se deslocar para grandes centros, as pessoas tendem a gastar mais dinheiro em suas próprias comunidades locais, e com isso, **fomentam o desenvolvimento econômico regional**.
+
+### Para a empresa
+
+Menor tempo em deslocamento se traduz em ganhos de **bem-estar e produtividade**.
+
+Seus funcionários não estarão mais sujeitos às condições climáticas adversas nem sofrerão com o estresse causado pelas lotações.
+
+#### Economia com escritório
+
+Ao adotar uma cultura remota, assíncrona ou digital, é possível erradicar o custo gasto com escritório e investir em outros setores da empresa.
+
+A eliminação de custos com escritório libera recursos. Essa economia se converte diretamente em **capital para expandir e inovar**, fazendo do remoto uma escolha não só viável, mas estratégica.
+
+## Liberdade Geográfica
+
+O trabalho remoto promove maior liberdade geográfica para seres humanos.
+
+Trabalhadores não estão mais limitados aos altos custos de moradia dos grandes centros urbanos por precisarem morar perto do trabalho, por outro lado, empresas
+
+### Para o trabalhador
+
+> Escolha onde viver, o trabalho te segue.
+
+Graças ao trabalho remoto, a localização se torna um mero detalhe.
+
+#### Mais liberdade
+
+É possível escolher onde morar baseando-se em preferências pessoais, sem perder o acesso às melhores oportunidades de trabalho.
+
+Essa liberdade não só melhora a qualidade de vida, mas também reduz todo o estresse relacionado à moradia-perto-do-trabalho, permitindo morar em locais com menor custo financeiro, maior proximidade a família e amigos, ou que favoreçam hobbies e interesses pessoais.
+
+#### Maior conforto
 
 > Trabalhe de onde você se sentir mais confortável.
 
@@ -86,48 +149,39 @@ Crie um espaço em casa do seu jeito ou trabalhe de um _coworking_. O importante
 
 Trabalhe de qualquer lugar, mas prefira lugares calmos e confortáveis.
 
-### **Horários Flexíveis**
+### Para a sociedade
 
-A cultura **Async First** vai além, sugere um novo modelo de trabalho em que são incentivados:
+> Descentralização democratiza o acesso.
 
-- Comunicação assíncrona:
-  - Envio de emails;
-  - Gravações de tela;
-  - Vídeos explicativos;
-  - Mensagens de áudio;
-  - Comentários em documentos compartilhados;
-  - Postagens em fóruns ou painéis de discussão;
-  - Tarefas ou comentários em sistemas de gerenciamento de projetos (como Jira, por exemplo);
-  - SMS ou mensagens de texto (quando não há expectativa de resposta imediata);
-- Documentação de melhorias sugeridas e realizadas, alterações implementadas, detalhamento de produtos;
-- _[Async Agile](https://www.asyncagile.org/)_, é uma abordagem que promove a junção de metodologias ágeis com processos distribuídos e assíncronos, incentivando o aumento da comunicação textual. Assim, defende que ao manter uma documentação robusta e se comunicar de forma assíncrona, as equipes conseguem operar de maneira mais eficaz, mesmo distribuídas geograficamente.
+Regiões marginalizadas não serão mais penalizadas pela distância com o trabalho.
 
----
+Com o trabalho remoto, a democratização do acesso a empregos de qualidade se estende a áreas mais carentes, **fortalecendo economias locais e contribuindo para uma distribuição de renda mais equilibrada em todo o país**.
 
-## Benefícios - Empresa
+### Para a empresa
 
-Além dos benefícios claros para os trabalhadores, há também um conjunto de ganhos significativos para a empresa que resolve adotar este moderno modelo de trabalho.
+O acesso ilimitado a talentos é um divisor de águas.
 
-### Economia com escritório
+#### Maior área de contratação
 
-Ao adotar uma cultura remota, assíncrona ou digital, é possível erradicar o custo gasto com escritório e investir em outros setores da empresa.
+Com o trabalho remoto, a barreira geográfica desaparece, a localização do funcionário deixa de ser importante, ampliando o leque na busca por profissionais qualificados.
 
-### Maior área de contratação
+Sem a necessidade de proximidade física, contratar se torna uma operação sem fronteiras, seja nacional ou internacional.
 
-Com o fim da restrição de raio de proximidade com o escritório, é possível contratar funcionários de qualquer lugar do país ou, em alguns casos, do mundo. Esse tipo de contratação é muito valioso, pois aumenta a visibilidade de profissionais qualificados de regiões distantes.
+Inevitavelmente, a falta do escritório impulsionará a comunicação virtual, melhorando toda documentação da empresa.
 
-- Acesso a candidatos qualificados que vivem fora dos centros urbanos;
-- Fortalecimento da economia local das regiões onde esses talentos moram.
+#### Melhoria na documentação
 
-### Melhoria na documentação
+Manter uma documentação organizada e meticulosa é uma característica vital para empresas que adotam o trabalho remoto.
 
-Manter uma documentação organizada e meticulosa é uma característica vital para empresas que adotam o trabalho remoto. Investir em mais conteúdo textual, não apenas organiza a informação, como desencadeia uma série de benefícios tangíveis:
+Investir em mais conteúdo textual, não apenas organiza a informação, como desencadeia uma série de benefícios tangíveis, com uma boa documentação é possível revisitar conceitos, discussões, decisões ou convenções de boas práticas a qualquer instante.
 
-conceitos, discussões, decisões, modificações de requisitos ou convenções de boas práticas a qualquer instante.
+##### Processos mais claros e mais acessíveis
 
-**Processos mais claros e mais acessíveis:** Com uma documentação 100% digital, qualquer funcionário pode revisitar conceitos, discussões, decisões, modificações de requisitos ou convenções de boas práticas a qualquer instante. Documentação digital é um acervo vivo que contém tudo de interessante relacionado a empresa e promove a distribuição eficaz do conhecimento.
+Com uma documentação 100% digital, qualquer funcionário pode revisitar conceitos, discussões, decisões, modificações de requisitos ou convenções de boas práticas a qualquer instante. Documentação digital é um acervo vivo que contém tudo de interessante relacionado a empresa e promove a distribuição eficaz do conhecimento.
 
-**Maior autonomia para funcionários:** Incentivar uma cultura de “recados globais” ou “documentação” sobre conversa pessoais, tornará seus funcionários mais independentes e, com o passar do tempo, as dúvidas/questionamentos em comum serão transformados em documentação digital, disponíveis 24 horas por dia.
+##### Maior autonomia para funcionários
+
+Incentivar uma cultura de “recados globais” ou “documentação” sobre conversa pessoais, tornará seus funcionários mais independentes e, com o passar do tempo, as dúvidas/questionamentos em comum serão transformados em documentação digital, disponíveis 24 horas por dia.
 
 No presencial, ao ter uma dúvida, o funcionário A entraria em contato com o funcionário B, resolveria sua dúvida e seguiria com a vida. Se amanhã um terceiro funcionário tiver a mesma dúvida, precisará interromper e contar com a boa memória de um colega para resolver o problema.
 
@@ -135,11 +189,58 @@ Em uma empresa 100% remota, essa dúvida pode se transformar em documentação e
 
 Esse hábito de converter dúvidas em documentação favorece a criação de um ambiente de trabalho mais eficaz e auto-suficiente.
 
-**Maior visibilidade nos projetos:** A documentação contínua e atualizada proporciona uma visão clara do andamento dos projetos. Isso facilita o acompanhamento, a avaliação e a comunicação do progresso, permitindo que as equipes estejam sempre bem informadas e possam tomar decisões baseadas em dados concretos.
+##### Maior visibilidade nos projetos
 
-**Agilidade no Onboarding:** Com uma cultura de documentação bem implantada, a agilidade e facilidade de integrar um novo membro da equipe é um efeito colateral natural e muito bem vindo. Ao basear-se em conteúdo textual, seus outros funcionários ficam mais livres para realizar outras tarefas e sua equipe mais independente.
+A documentação contínua e atualizada proporciona uma visão clara do andamento dos projetos. Isso facilita o acompanhamento, a avaliação e a comunicação do progresso, permitindo que as equipes estejam sempre bem informadas e possam tomar decisões baseadas em dados concretos.
 
-### Funcionários mais motivados
+##### Agilidade no Onboarding
+
+Com uma cultura de documentação bem implantada, a agilidade e facilidade de integrar um novo membro da equipe é um efeito colateral natural e muito bem vindo. Ao basear-se em conteúdo textual, seus outros funcionários ficam mais livres para realizar outras tarefas e sua equipe, mais independente.
+
+## **Horários Flexíveis**
+
+> A flexibilidade de horário no trabalho remoto é mais do que um benefício, é a base para uma cultura de trabalho assíncrona e eficaz
+
+O trabalho remoto possibilita uma maior flexibilidade de horário, foi pensando nisso que algumas empresas internacionais adotaram e desenvolveram a cultura _Async First_.
+
+Ela representa a evolução do trabalho remoto que revoluciona a abordagem tradicional de gerenciamento de equipe, priorizando:
+
+- **Comunicação assíncrona**:
+  - Troca de emails;
+  - Gravações de tela com explicações;
+  - Vídeos didáticos;
+  - Mensagens de áudio;
+  - Comentários em documentos compartilhados;
+  - Publicações em fóruns ou painéis de discussão;
+  - Tarefas ou comentários em ferramentas de gerenciamento de projetos (como Jira, por exemplo);
+  - SMS ou chats (quando não há expectativa de resposta imediata);
+- **Documentação Metódica**:
+  - Registro de melhorias propostas e implementadas;
+  - Especificações de produtos;
+  - Documentação de mudanças;
+- _[**Async Agile**](https://www.asyncagile.org/)_: é uma abordagem que promove a junção de metodologias ágeis com processos distribuídos e assíncronos, incentivando o aumento da comunicação textual. Assim, defende que ao manter uma documentação robusta e se comunicar de forma assíncrona, as equipes conseguem operar de maneira mais eficaz, mesmo distribuídas geograficamente.
+
+### Para o trabalhador
+
+Maior flexibilidade de horário significa maior liberdade organizacional.
+
+(A ESCREVER)
+
+### Para a sociedade
+
+Com maior flexibilidade de horário, a vida em sociedade se torna mais dinâmica.
+
+A utilização de vias e estabelecimentos tende a ser mais distribuída, reduzindo as lotações em horários de _rush_.
+
+(A ESCREVER)
+
+### Para a empresa
+
+Maior cobertura de horários e disponibilidade.
+
+Maior organização para distribuir suas tarefas
+
+#### Funcionários mais motivados
 
 > Um ambiente de trabalho flexível e bem estruturado aumenta a satisfação e retenção de talentos.
 
@@ -164,7 +265,7 @@ Com maior tempo livre durante a semana (antes gasto unicamente com transporte), 
     - Melhoria e aumento da documentação escrita;
 - Liderança baseada em dados e análises estatísticas:
   - **Data Driven Culture:** Utilizar dados concretos para guiar decisões, otimizando processos e garantindo resultados mais eficientes.
-  > Acompanhar evoluções é melhor do que estimar prazos.
+    > Acompanhar evoluções é melhor do que estimar prazos.
 
 **Promover um ambiente inclusivo**: trabalhar para garantir que o trabalho remoto seja um direito a todos os profissionais cujos cargos consigam exercê-lo remotamente. Todo trabalho que pode ser remoto, deve ser remoto! Independente da localização, identidade de gênero, raça ou necessidades especiais do trabalhador.
 
