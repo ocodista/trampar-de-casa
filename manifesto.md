@@ -224,7 +224,7 @@ Ela representa a evolução do trabalho remoto que revoluciona a abordagem tradi
 
 Maior flexibilidade de horário significa maior liberdade organizacional.
 
-(A ESCREVER)
+Cada profissional escolhe como esse tempo recuperado será aproveitado, seja realizando mais exercícios físicos, cuidando de sua saúde, praticando esportes ou artes marciais, estudando, criando momentos com sua família e amigos ou dedicando-se a um novo passatempo.
 
 ### Para a sociedade
 
@@ -232,13 +232,11 @@ Com maior flexibilidade de horário, a vida em sociedade se torna mais dinâmica
 
 A utilização de vias e estabelecimentos tende a ser mais distribuída, reduzindo as lotações em horários de _rush_.
 
-(A ESCREVER)
-
 ### Para a empresa
 
-Maior cobertura de horários e disponibilidade.
+Ao promover maior flexibilidade de horário, a empresa deixa claro que valoriza a autonomia de seus funcionários.
 
-Maior organização para distribuir suas tarefas
+Isso resulta em processos mais eficientes, facilidade ao escalar a equipe, maior retenção de talentos e cultura voltada à entregas e resultados, e não horas trabalhadas.
 
 #### Funcionários mais motivados
 
