@@ -159,7 +159,7 @@ Com o trabalho remoto, a democratização do acesso a empregos de qualidade se e
 
 ### Para a empresa
 
-O acesso ilimitado a talentos é um divisor de águas.
+> O acesso ilimitado a talentos é um divisor de águas.
 
 #### Maior área de contratação
 
