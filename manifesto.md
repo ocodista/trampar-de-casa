@@ -153,7 +153,7 @@ Trabalhe de qualquer lugar, mas prefira lugares calmos e confortáveis.
 
 > Descentralização democratiza o acesso.
 
-Regiões marginalizadas não serão mais penalizadas pela distância com o trabalho.
+Regiões marginalizadas não serão mais penalizadas pela distância com o escritório.
 
 Com o trabalho remoto, a democratização do acesso a empregos de qualidade se estende a áreas mais carentes, **fortalecendo economias locais e contribuindo para uma distribuição de renda mais equilibrada em todo o país**.
 
