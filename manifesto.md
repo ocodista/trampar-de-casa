@@ -73,9 +73,9 @@ O trabalho remoto incentiva a autonomia do trabalhador e possibilita uma liberda
 
 Não só ajuda trabalhadores e empresas, mas também melhora as cidades e distribui oportunidades além dos grandes centros urbanos.
 
-Ele abre oportunidades para quem mora em regiões menos desenvolvidas e mais afastadas, além de possibilitar a migração de trabalhadores, que podem reduzem o custo de vida e estimulam a economia local.
+Ele abre oportunidades para quem mora em regiões menos desenvolvidas e mais afastadas, além de possibilitar a migração de trabalhadores, que podem reduzir o custo de vida e estimular a economia local.
 
-Agora, vamos desvendar como que o trabalho remoto faz isso tudo ser possível.
+Agora, vamos desvendar como o trabalho remoto torna isso possível.
 
 ## Deslocamento zero
 
