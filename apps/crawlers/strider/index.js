@@ -1,12 +1,29 @@
 import puppeteer from 'puppeteer'
 import { STRIDER_CONFIG } from '../shared/config.js'
+import { RoleBuilder } from '../shared/role.model.js'
 
 
 const SELECTORS = {
   emailInput: '#text-field-identifier',
   form: 'form button',
   closePopupButton: 'header > button',
-  notionCellLinks: 'div.notion-record-icon + a'
+  notionCellLinks: 'div.notion-record-icon + a',
+  salary: 'div.whenContentEditable > div:nth-child(3) > div > div:nth-child(2) > div > div:nth-child(1) > div > div > div > div:nth-child(1) > div:nth-child(3) > div > div:nth-child(2) > div > div > div > span',
+  applicationUrl: 'div[role="row"] a',
+  jobTitle: 'h1',
+  seniority: '.key-information__group:first-child span',
+  skillItem: '.required-skills__tag'
+}
+
+const salaryTranslate = (input) => {
+  const aaaaa = input.replace(' / ', ' ').split(' ')
+  console.log(aaaaa)
+  const [currency, value, interval] = aaaaa
+
+  if(interval === 'month') {
+    return `(até $${value[0]},000)`
+  }
+  return`($${value},00/hora)`
 }
 
 const notionUrl = []
@@ -41,8 +58,51 @@ void async function() {
 
     notionUrl.push(hrefContent)
   }
-  console.log(notionUrl)
+  for(const url of notionUrl) {
+    try {
+      await page.goto(url)
+      await new Promise(resolve => setTimeout(resolve, 400))
+  
+      const applicationElement = await page.$(SELECTORS.applicationUrl)
+      const applicationUrl = await applicationElement.evaluate(e => e.href)
+      const salaryElement = await page.$(SELECTORS.salary)
+      const salary = await salaryElement.evaluate(e => e.textContent)
+  
+      await page.goto(applicationUrl)
+      await new Promise(resolve => setTimeout(resolve, 400))
+  
+      const titleElement = await page.$(SELECTORS.jobTitle)
+      const title = await titleElement
+        .evaluate(e => e.textContent)
+      const sanitizedTitle = title.split(' - ')[0]
+  
+      const seniorityElement = await page.$(SELECTORS.seniority)
+      const seniority = await seniorityElement.evaluate(e => e.textContent)
+      const headerInfo = `Mínimo ${seniority[0]} anos de XP`
+  
+      const skillsElements = await page.$$(SELECTORS.skillItem)
+      const skills = []
+      for(const skillElement of skillsElements){
+        skills.push(await skillElement.evaluate(e => e.textContent))
+      }
 
+      const role = new RoleBuilder()
+        .withCompany('Strider')
+        .withCurrency('USD')
+        .withLanguage('English')
+        .withUrl(applicationUrl)
+        .withTitle(sanitizedTitle)
+        .withHeaderInfo(headerInfo + " " + salaryTranslate(salary))
+        .withSalary(salary)
+        .withSkills(skills)
+        .build()
+  
+      console.log(role)
+    } catch (erro) {
+      console.log(erro, url)
+    }
+  } 
+  
   await page.close()
   await browser.close()
 }()
