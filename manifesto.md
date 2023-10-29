@@ -292,7 +292,7 @@ Com maior tempo livre durante a semana (antes gasto unicamente com transporte), 
 
 > Acreditamos que o híbrido de hoje é o presencial de amanhã.
 
-Temos críticas ao Modelo Híbrido.
+Temos críticas ao modelo híbrido.
 
 Ao mesmo tempo que melhor do que o regime 100% presencial, o regime híbrido é, no mínimo, contraditório e, no pior dos casos, uma armadilha temporária para reter talentos.
 
