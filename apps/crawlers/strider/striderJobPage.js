@@ -37,10 +37,18 @@ const generateHeaderInfo = async (page) => {
   const headerInfo = `Mínimo ${seniority[0]} anos de XP`
 
   return headerInfo
-} 
+}
 export const striderJobPage = async (page, applicationUrl) => {
   await page.goto(applicationUrl)
-
+  await new Promise((r) => setTimeout(r, 400))
+  const availabilityElement = await page.$(SELECTORS.jobAvailability)
+  const availabilityContent = await availabilityElement.evaluate(
+    (e) => e.textContent
+  )
+  if (availabilityContent.match(/Closed/) !== null) {
+    console.log(`This opening is unavailable: ${applicationUrl}`)
+    return
+  }
   const titleElement = await page.$(SELECTORS.jobTitle)
   const title = await titleElement.evaluate((e) => e.textContent)
   const sanitizedTitle = title.split(' - ')[0]
