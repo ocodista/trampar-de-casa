@@ -37,7 +37,7 @@ Em 2023, [152 milhões de brasileiros acessam a internet todos os dias](https://
 
 ---
 
-# Trabalho Presencial
+# Trabalho presencial
 
 É o modelo tradicional em que todas as atividades são realizadas em um único local físico.
 
@@ -53,7 +53,7 @@ São essas situações que pretendemos destacar, analisar, questionar e, sempre 
 
 ---
 
-# Trabalho Remoto
+# Trabalho remoto
 
 > Economia de tempo, dinheiro e saúde aliada ao ganho de autonomia, liberdade geográfica e, nos melhores casos, flexibilidade de horário.
 
@@ -67,7 +67,7 @@ O trabalho remoto incentiva a autonomia do trabalhador e possibilita uma liberda
 
 ---
 
-# Benefícios do Trabalho Remoto
+# Benefícios do trabalho remoto
 
 > O trabalho remoto é um modelo que beneficia toda a sociedade.
 
@@ -123,7 +123,7 @@ Ao adotar uma cultura remota, assíncrona ou digital, é possível erradicar o c
 
 A eliminação de custos com escritório libera recursos. Essa economia se converte diretamente em **capital para expandir e inovar**, fazendo do remoto uma escolha viável e estratégica.
 
-## Liberdade Geográfica
+## Liberdade geográfica
 
 > O trabalho remoto promove maior liberdade geográfica para seres humanos.
 
@@ -193,11 +193,11 @@ Esse hábito de converter dúvidas em documentação favorece a criação de um 
 
 A documentação contínua e atualizada proporciona uma visão clara do andamento dos projetos. Isso facilita o acompanhamento, a avaliação e a comunicação do progresso, permitindo que as equipes estejam sempre bem informadas e possam tomar decisões baseadas em dados concretos.
 
-##### Agilidade no Onboarding
+##### Agilidade na integração de novos funcionários
 
-Com uma cultura de documentação bem implantada, a agilidade e facilidade de integrar um novo membro da equipe é um efeito colateral natural e muito bem vindo. Ao basear-se em conteúdo textual, seus outros funcionários ficam mais livres para realizar outras tarefas e sua equipe, mais independente.
+Com uma cultura de documentação bem implantada, a agilidade e facilidade de integrar um novo membro da equipe é um efeito colateral natural e muito bem vindo. Ao basear-se em conteúdo textual, seus outros funcionários tornam-se mais livres para realizar outras tarefas e sua equipe, mais independente.
 
-## **Horários Flexíveis**
+## **Horários flexíveis**
 
 > A flexibilidade de horário no trabalho remoto é mais do que um benefício, é a base para uma cultura de trabalho assíncrona e eficaz
 
@@ -248,45 +248,57 @@ Com maior tempo livre durante a semana (antes gasto unicamente com transporte), 
 
 ---
 
-# Nossos Compromissos (Trampar de Casa)
+# Nossos compromissos (Trampar de Casa)
 
-**Promover vagas de qualidade:** divulgamos vagas 100% remotas, nacionais ou internacionais, de empresas que respeitam e valorizam seus funcionários.
+#### Promover vagas de qualidade
 
-**Aumentar a conscientização sobre o Trabalho Remoto:** analisar e discutir estratégias modernas pensadas para o trabalho remoto, como:
+Divulgamos vagas 100% remotas, nacionais ou internacionais, de empresas que respeitam e valorizam seus funcionários.
+
+#### Aumentar a conscientização sobre o trabalho remoto
+
+Analisar e discutir estratégias modernas pensadas para o trabalho remoto, como:
 
 - "Cultura do Recado": _Async First_
-  - Documentação textual;
-  - Gravações de vídeo;
-  - Preferência por "recados" globais;
-    - Facilidade para revisitar decisões, tarefas, projetos e alterações sem envolver um terceiro;
-    - Filosofia Micro: Fragmentação de tarefas em pequenos entregáveis;
-    - Melhoria e aumento da documentação escrita;
-- Liderança baseada em dados e análises estatísticas:
-  - **Data Driven Culture:** Utilizar dados concretos para guiar decisões, otimizando processos e garantindo resultados mais eficientes.
-    > Acompanhar evoluções é melhor do que estimar prazos.
+  - Documentação textual
+  - Gravações de vídeo
+  - Preferência por "recados" globais
+    - Facilidade para revisitar decisões, tarefas, projetos e alterações sem envolver um terceiro
+    - Filosofia Micro: Fragmentação de tarefas em pequenos entregáveis
+    - Melhoria e aumento da documentação escrita
+- Liderança baseada em dados e análises estatísticas
+  - Data Driven Culture: Utilizar dados concretos para guiar decisões, otimizando processos e garantindo resultados mais eficientes
+    > Acompanhar evoluções é melhor do que estimar prazos
 
-**Promover um ambiente inclusivo**: trabalhar para garantir que o trabalho remoto seja um direito a todos os profissionais cujos cargos consigam exercê-lo remotamente. Todo trabalho que pode ser remoto, deve ser remoto! Independente da localização, identidade de gênero, raça ou necessidades especiais do trabalhador.
+#### Promover um ambiente inclusivo
 
-**Defender o trabalho remoto:** é importante combater os mitos, distorções, exageros e falsas notícias que o cercam.
+Trabalhar para garantir que o trabalho remoto seja um direito a todos os profissionais cujos cargos consigam exercê-lo remotamente. Todo trabalho que pode ser remoto, deve ser remoto! Independente da localização, identidade de gênero, raça ou necessidades especiais do trabalhador.
 
-**Auxiliar na conversão de empresas**: ofereceremos suporte para empresas dispostas a transicionar para o trabalho remoto com eficiência.
+#### Defender o trabalho remoto
 
-## Critérios de Vagas
+É importante combater os mitos, distorções, exageros e falsas notícias que o cercam.
+
+#### Auxiliar na conversão de empresas
+
+Ofereceremos suporte para empresas dispostas a transicionar para o trabalho remoto com eficiência.
+
+## Critérios de vagas
+
+Prezamos pela qualidade das vagas anunciadas no trampar de casa. Sempre apoiaremos empresas que defendem o trabalho remoto, ou que estão dispostas a fazer essa transição.
 
 ### Divulgaremos
 
-- Vagas
+- **Vagas**:
   - 100% remotas;
   - De preferência, que:
     - Incentivem horários flexíveis;
     - Possuam uma "cultura assíncrona" (**Async First**);
     - Promovam a independência e estabilidade do trabalhador;
-- Empresas
+- **Empresas**:
   - Que apoiam o trabalho remoto;
   - Que respeitam e valorizam seus funcionários;
-  - Que tratam seus profissionais como adultos responsáveis;
+  - Que tratam seus profissionais como adultos responsáveis.
 
-### Não Divulgaremos
+### Não divulgaremos
 
 #### Vagas híbridas.
 
@@ -302,19 +314,15 @@ Definir uma frequência semanal de trabalho presencial, ao invés de investir em
 
 #### Vagas ilegais ou antiéticas.
 
-Acreditamos em empresas que respeitam e valorizam o profissional. Sabemos que elas existem e já nos aliamos a algumas delas.
+Acreditamos em empresas que respeitam e valorizam o profissional. .
 
-Temos ótimas fontes de vagas dignas, 100% remotas de empresas que valorizam a liberdade do profissional.
+Com isso em mente, nossa política é de rigorosa seleção de vagas. Focamos em oportunidades 100% remotas que oferecem ao profissional autonomia e liberdade.
 
-Dito isso, pretendemos manter a régua de qualidade das vagas altas, não divulgaremos vagas antiéticas, ilegais, de má remuneração ou que
-
-#### Vagas presenciais.
-
-(A ESCREVER)
+Excluímos qualquer vaga que viole princípios éticos, seja ilegal, ofereça remuneração inadequada ou não esteja alinhada com práticas de trabalho respeitosas e justas.
 
 ---
 
-## Conclusão
+# Conclusão
 
 (A ESCREVER)
 _Junte-se a nós e faça parte dessa revolução!_
