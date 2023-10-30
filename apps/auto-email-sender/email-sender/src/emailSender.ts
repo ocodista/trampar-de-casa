@@ -5,7 +5,10 @@ import { createRabbitMqChannel } from 'shared/src/queue/createRabbitMqChannel'
 import { CONFIG } from '../config'
 import { sendEmails } from './sendEmails'
 
-export type EmailComposerContent = Record<string, string>
+export type EmailComposerContent = Record<
+  string,
+  { html: string; subject: string }
+>
 
 export const emailSender = async () => {
   console.time('emailSender')

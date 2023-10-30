@@ -33,7 +33,7 @@ describe('Get HTML roles', () => {
 
     expect(collectionStub).toBeCalled()
   })
-  it.only('concatenate roles taken on redis', async () => {
+  it('concatenate roles taken on redis', async () => {
     const { findOneStub } = mockMongoDb()
     const rolesIdArray = [faker.string.uuid(), faker.string.uuid()]
     const firstRoleHTML = faker.string.sample()
