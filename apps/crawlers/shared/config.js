@@ -7,7 +7,7 @@ export const REMOTAR_CONFIG = {
   rolesUrl: 'https://remotar.com.br/search/jobs?q=&s=1',
   loginAcc: process.env['REMOTAR_LOGIN'],
   passwordAcc: process.env['REMOTAR_PASSWORD'],
-  database: './roles.json',
+  database: './remotar/roles.json',
 }
 
 export const IMPULSO_CONFIG = {
