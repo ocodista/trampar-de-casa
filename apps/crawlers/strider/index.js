@@ -16,10 +16,7 @@ const SELECTORS = {
 }
 
 const salaryTranslate = (input) => {
-  const aaaaa = input.replace(' / ', ' ').split(' ')
-  console.log(aaaaa)
-  const [currency, value, interval] = aaaaa
-
+  const [, value, interval] = input.replace(' / ', ' ').split(' ')
   if(interval === 'month') {
     return `(até $${value[0]},000)`
   }
@@ -86,11 +83,24 @@ void async function() {
         skills.push(await skillElement.evaluate(e => e.textContent))
       }
 
+      await page.goto(STRIDER_CONFIG.baseUrl)
+      await new Promise(resolve => setTimeout(resolve, 1000))
+      await page.click('[role="alertdialog"] button')
+      await page.click('#radix-0')
+      await page.click('#radix-5 > div')
+      await page.type('[role="dialog"] input', applicationUrl.replace('https://www.onstrider.com/jobs/', ''))
+
+      const errorLabelElement = await page.$('[role="dialog"] input + div')
+      const errorLabelContent = await errorLabelElement.evaluate(e => e.textContent)
+      const hasErrorLabel = errorLabelContent.length > 1
+      const referrerLinkElement = await page.$('form > *:nth-child(3)')
+      const referrerLink = await referrerLinkElement.evaluate(e => e.textContent)
+
       const role = new RoleBuilder()
         .withCompany('Strider')
         .withCurrency('USD')
         .withLanguage('English')
-        .withUrl(applicationUrl)
+        .withUrl(hasErrorLabel ? applicationUrl : referrerLink)
         .withTitle(sanitizedTitle)
         .withHeaderInfo(headerInfo + " " + salaryTranslate(salary))
         .withSalary(salary)
