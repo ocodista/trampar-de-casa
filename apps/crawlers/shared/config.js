@@ -16,13 +16,13 @@ export const IMPULSO_CONFIG = {
 }
 
 export const STRIDER_CONFIG = {
-    login: process.env['STRIDER_LOGIN'],
-    password: process.env['STRIDER_PASSWORD'],
-    loginURl: 'https://app.onstrider.com/login',
-    baseUrl: 'https://app.onstrider.com/',
-    jobBoard: 'https://app.onstrider.com/job-board',
-    notionBoard: process.env['STRIDER_URL']
-
+  login: process.env['STRIDER_LOGIN'],
+  password: process.env['STRIDER_PASSWORD'],
+  loginURl: 'https://app.onstrider.com/login',
+  baseUrl: 'https://app.onstrider.com/',
+  jobBoard: 'https://app.onstrider.com/job-board',
+  notionBoard: process.env['STRIDER_URL'],
+  database: './strider/roles.json',
 }
 
 export const REMOTIVE_CONFIG = {
