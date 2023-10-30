@@ -14,8 +14,12 @@
       "persistent": true
     },
     "test": {},
-    "test:silent": {},
-    "start": {},
+    "test:silent": {
+      "cache": false
+    },
+    "start": {
+      "cache": false
+    },
     "db-start": {},
     "db-seed": {},
     "db-stop": {}
