@@ -22,7 +22,7 @@ Porém, encorajamos toda e qualquer sugestão de melhoria, questionamento ou deb
   - [Horários flexíveis](#horários-flexíveis)
     - [Para o trabalhador](#para-o-trabalhador-2)
     - [Para a sociedade](#para-a-sociedade-2)
-    - [Para a empresa](#para-a-empresa-3)
+    - [Para a empresa](#para-a-empresa-2)
 - [Nossos compromissos (Trampar de Casa)](#nossos-compromissos-trampar-de-casa)
   - [Promover vagas de qualidade](#promover-vagas-de-qualidade)
   - [Aumentar a conscientização sobre o trabalho remoto](#aumentar-a-conscientização-sobre-o-trabalho-remoto)
@@ -32,8 +32,6 @@ Porém, encorajamos toda e qualquer sugestão de melhoria, questionamento ou deb
 - [Critérios de vagas](#critérios-de-vagas)
 
   - [Divulgaremos](#divulgaremos)
-    - [Vagas](#vagas)
-    - [Empresas](#empresas)
   - [Não divulgaremos](#não-divulgaremos)
     - [Vagas híbridas](#vagas-híbridas)
     - [Vagas ilegais ou antiéticas](#vagas-ilegais-ou-antiéticas)
