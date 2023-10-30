@@ -16,9 +16,9 @@ interface ProfileEmailTemplateProps {
   profileUrl?: string
 }
 
-const GIF_URL =
-  'https://trampar-de-casa-a0pz4i54j-caiohoborghi.vercel.app/images/form.gif' // todo: UPDATE URL ON MERGE
+const GIF_URL = 'https://trampardecasa.com.br/images/form.gif'
 const LOGO_URL = 'https://trampardecasa.com.br/images/logo.png'
+const EMAIL_PREVIEW = 'A funcionalidade mais pedida chegou!'
 
 export const ProfileEmailTemplate = ({
   profileUrl,
@@ -26,9 +26,7 @@ export const ProfileEmailTemplate = ({
   <Tailwind>
     <Html>
       <Head />
-      <Preview>
-        The sales intelligence platform that helps you uncover qualified leads.
-      </Preview>
+      <Preview>{EMAIL_PREVIEW}</Preview>
       <Body style={main}>
         <Container style={container} className="w-full max-w-full">
           <Img
@@ -45,8 +43,8 @@ export const ProfileEmailTemplate = ({
             <Img src={GIF_URL} alt="Trampar de casa" width="200" />
           </Link>
           <Text style={paragraph}>
-            Agora você pode cadastrar suas preferências e receber vagas mais
-            direcionadas.
+            Agora você pode cadastrar suas preferências e receber vagas que
+            fazem mais sentido para você 😁.
           </Text>
 
           <Section>

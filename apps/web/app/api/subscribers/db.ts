@@ -67,6 +67,10 @@ export async function updateSubscriber(
   id: string,
   { receiveEmailConfig, ...body }: ProfileSchema
 ) {
+  const sanitizeEnglishLevelInput = (englishLevel: EnglishLevel) => {
+    return englishLevel === EnglishLevel.None ? null : englishLevel;
+  }
+
   const { data, error } = await supabaseClient
     .from(Entities.Subcribers)
     .update({
@@ -77,9 +81,7 @@ export async function updateSubscriber(
       startedWorkingAt:
         body.startedWorkingAt as unknown as Subscriber['startedWorkingAt'],
       skillsId: body.skillsId,
-      englishLevel: EnglishLevel[
-        body.englishLevel
-      ] as Subscriber['englishLevel'],
+      englishLevel: sanitizeEnglishLevelInput(body.englishLevel),
     })
     .eq('id', id)
     .select()

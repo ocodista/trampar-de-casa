@@ -70,16 +70,16 @@ void (async function () {
         async (role) => await supabase.from(Entities.Roles).insert(role)
       )
     )
-    skillArray.forEach(async ({ id, name }) => {
+    for (const { id, name, normalized } of skillArray) {
       try {
         const { error } = await supabase
           .from(Entities.Skills)
-          .insert({ id, name })
+          .insert({ id, name, normalized })
         if (error) throw error
       } catch (e) {
         console.log(e)
       }
-    })
+    }
   } catch (err) {
     console.error(err)
     process.exit(1)

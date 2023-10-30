@@ -16,6 +16,7 @@ export const getConfirmedSubscribersRowsBlock = async <Entity>({
     .from(Entities.Subcribers)
     .select('*')
     .eq('isConfirmed', true)
+    .eq('optOut', false)
     .range(start, end)
     .order('createdAt', { ascending: false })
   if (error) throw error
