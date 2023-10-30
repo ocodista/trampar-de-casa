@@ -4,13 +4,9 @@ on:
   push:
     paths: 
       - apps/auto-email-sender/*
-    branches-ignore:
-      - main
   pull_request:
     paths: 
       - apps/auto-email-sender/*
-    branches-ignore:
-      - main
 
 jobs:
   test:
