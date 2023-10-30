@@ -14,9 +14,11 @@ export const SELECTORS = {
   jobTitle: 'h1',
   seniority: '.key-information__group:first-child span',
   skillItem: '.required-skills__tag',
+  jobAvailability: '.details > div', 
 }
 
 const makeLogin = async (page) => {
+  console.time('makeLogin')
   await page.goto(STRIDER_CONFIG.loginURl)
   await new Promise((resolve) => setTimeout(resolve, 400))
 
@@ -30,8 +32,10 @@ const makeLogin = async (page) => {
 
   await page.click(SELECTORS.form)
   await page.waitForNavigation()
+  console.timeEnd('makeLogin')
 }
 const getNotionUrls = async (page) => {
+  console.time('getNotionUrls')
   const notionUrl = []
   await page.goto(STRIDER_CONFIG.notionBoard)
   await new Promise((resolve) => setTimeout(resolve, 1000))
@@ -44,6 +48,7 @@ const getNotionUrls = async (page) => {
     notionUrl.push(hrefContent)
   }
 
+  console.timeEnd('getNotionUrls')
   return notionUrl
 }
 const openings = []
@@ -61,7 +66,7 @@ void (async function () {
   for (const url of notionUrls) {
     try {
       const role = await notionJobPage(page, url)
-      openings.push(role)
+      if(role) openings.push(role)
     } catch (erro) {
       console.log(erro, url)
     }

@@ -27,9 +27,12 @@ const formatHeaderInfo = (headerInfo, salary) => {
 }
 
 export const notionJobPage = async (page, url) => {
+  console.time('notionJobPage')
   await accessNotionJobPage(page, url)
   const { applicationUrl, salary } = await getInfosOnNotionJobPage(page)
-  const { headerInfo, jobLink, sanitizedTitle, skills } = await striderJobPage(page, applicationUrl)
+  const pageInfo = await striderJobPage(page, applicationUrl)
+  if(!pageInfo) return
+  const { headerInfo, jobLink, sanitizedTitle, skills } = pageInfo
   const formattedHeaderInfo = formatHeaderInfo(headerInfo, salary)
 
   const role = new RoleBuilder()
@@ -43,5 +46,6 @@ export const notionJobPage = async (page, url) => {
     .withSkills(skills)
     .build()
 
+  console.timeEnd('notionJobPage')
   return role
 }
