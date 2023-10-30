@@ -23,7 +23,14 @@ Porém, encorajamos toda e qualquer sugestão de melhoria, questionamento ou deb
     - [Para o trabalhador](#para-o-trabalhador-2)
     - [Para a sociedade](#para-a-sociedade-2)
     - [Para a empresa](#para-a-empresa-3)
-- [Nossos Compromissos](#nossos-compromissos-trampar-de-casa)
+- [Nossos Compromissos (Trampar de Casa)](#nossos-compromissos-trampar-de-casa)
+  - [Promover vagas de qualidade](#promover-vagas-de-qualidade)
+  - [Aumentar a conscientização sobre o trabalho remoto](#aumentar-a-conscientização-sobre-o-trabalho-remoto)
+  - [Promover um ambiente inclusivo](#promover-um-ambiente-inclusivo)
+  - [Defender o trabalho remoto](#defender-o-trabalho-remoto)
+  - [Auxiliar na conversão de empresas](#auxiliar-na-conversão-de-empresas)
+- [Critérios de vagas](#critérios-de-vagas)
+- [Conclusão](#conclusão)
 
 # Introdução
 
