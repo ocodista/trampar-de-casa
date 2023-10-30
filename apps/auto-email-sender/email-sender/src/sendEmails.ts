@@ -1,6 +1,6 @@
 import { Channel, GetMessage } from 'amqplib'
 import { Resend } from 'resend'
-import { EMAIL_FROM, rolesSubject } from './baseEmail'
+import { EMAIL_FROM } from './baseEmail'
 import { EmailComposerContent } from './emailSender'
 
 export const sendEmails = async (
@@ -15,13 +15,13 @@ export const sendEmails = async (
       message.content.toString()
     ) as EmailComposerContent
 
-    const [email, html] = Object.entries(content)[0]
+    const [email, { html, subject }] = Object.entries(content)[0]
     try {
       await resendCli.emails.send({
         from: EMAIL_FROM,
         to: email,
         html: html,
-        subject: rolesSubject(30),
+        subject,
       })
       channel.ack(message)
     } catch (e) {

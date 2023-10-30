@@ -12,10 +12,11 @@ export const supabaseClientMock: SupabaseClient = {
         order: () => ({ data: [] }),
       }),
       eq: () => ({
-        range: () => ({
-          order: () => ({ data: [] }),
+        eq: () => ({
+          range: () => ({
+            order: () => ({ data: [] }),
+          }),
         }),
-        eq: () => [],
       }),
     }),
   }),

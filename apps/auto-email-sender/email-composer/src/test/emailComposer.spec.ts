@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { ConsumeMessage } from 'amqplib'
+import { GetMessage } from 'amqplib'
 import { EmailQueues } from 'shared'
 import * as createRabbitMqConnectionFile from 'shared/src/queue/createRabbitMqConnection'
 import { channelMock, sendToQueueStub } from 'shared/src/test/helpers/rabbitMQ'
@@ -8,7 +8,7 @@ import {
   composeEmail,
   consumePreRenderQueue,
 } from 'src/emailComposer'
-import { parsePreRenderMessage } from 'src/parsePreRenderMessage'
+import { parsePreRenderMessage, rolesSubject } from 'src/parsePreRenderMessage'
 import { vi } from 'vitest'
 import * as createEmailHtmlFile from '../createEmailHtml'
 import * as getHtmlRolesFile from '../getHtmlRoles'
@@ -71,7 +71,7 @@ describe.only('Email Composer Service Tests', () => {
       await consumePreRenderQueue(
         {
           content: Buffer.from(JSON.stringify(prerenderMessageMock)),
-        } as unknown as ConsumeMessage,
+        } as unknown as GetMessage,
         channelMock
       )
 
@@ -80,7 +80,10 @@ describe.only('Email Composer Service Tests', () => {
         EmailQueues.EmailSender,
         Buffer.from(
           JSON.stringify({
-            [emailMock]: createEmailHtmlReturn,
+            [emailMock]: {
+              html: createEmailHtmlReturn,
+              subject: rolesSubject(rolesMock.length),
+            },
           })
         )
       )
