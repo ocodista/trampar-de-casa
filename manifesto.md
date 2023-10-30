@@ -105,7 +105,7 @@ Tal economia tem impacto positivo na vida do trabalhador, possibilitando melhore
 
 > Melhor transporte para todos, não só para quem trabalha de casa.
 
-Com menos pessoas e carros nas ruas durante o horário de pico, as ruas ficarão mais livres e os percursos mais rápidos, tornando o **transporte público mais eficiente**.
+Com menos pessoas e carros nas ruas durante os horários de pico, as ruas ficarão mais livres e os percursos mais rápidos, tornando o **transporte público mais eficiente**.
 
 Menos deslocamento é igual a menos emissão de poluentes. A redução nas emissões de carbono **melhora a qualidade do ar** e ajuda as cidades em suas metas globais de sustentabilidade.
 
