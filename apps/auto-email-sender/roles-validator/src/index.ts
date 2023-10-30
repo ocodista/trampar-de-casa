@@ -11,6 +11,3 @@ import { rolesValidator } from './rolesValidator'
     async () => await mongoConnection.close()
   )
 })()
-;(() => {
-  ;('')
-})()
