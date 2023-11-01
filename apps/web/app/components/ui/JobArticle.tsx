@@ -1,23 +1,17 @@
-import { MapPin, Languages } from 'lucide-react'
 import Chip from 'app/components/ui/Chip'
+import { SupabaseView } from 'db/src/supabase/utilityTypes'
+import { Languages, MapPin } from 'lucide-react'
 
-export interface JobArticleProps {
-  title: string
-  company: string
-  headerInfo: string
-  language: string
-  location: string
-  skills: string[]
-  url: string
-}
+type Openings = SupabaseView<'RolesSkillsView'>
+export type JobArticleProps = Openings
 
 export default function JobArticle({
   title,
   company,
-  headerInfo,
+  description,
   language,
-  location,
-  skills,
+  country,
+  skillNames,
   url,
 }: JobArticleProps) {
   return (
@@ -29,12 +23,12 @@ export default function JobArticle({
             <h4 className="text-lg text-zinc-600">{company}</h4>
           </header>
 
-          <p className="text-zinc-600">{headerInfo}</p>
+          <p className="text-zinc-600">{description}</p>
         </div>
 
         <div className="flex flex-col gap-3">
           <div className="flex flex-wrap gap-2 lg:justify-end">
-            {skills.map((skill, i) => (
+            {skillNames.map((skill, i) => (
               <Chip key={`${skill}${i}`} title={skill} />
             ))}
           </div>
@@ -47,7 +41,7 @@ export default function JobArticle({
 
             <div className="flex items-center gap-2">
               <MapPin size={17} />
-              <span className="text-sm font-medium">{location}</span>
+              <span className="text-sm font-medium">{country}</span>
             </div>
           </div>
         </div>
