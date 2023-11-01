@@ -15,7 +15,9 @@
     },
     "test": {},
     "test:silent": {},
-    "start": {},
+    "start": {
+      "cache": false
+    },
     "db-start": {},
     "db-seed": {},
     "db-stop": {}
