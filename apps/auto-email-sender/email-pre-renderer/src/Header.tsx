@@ -37,15 +37,24 @@ export function Header({ rolesCount }: { rolesCount: number }) {
       <Hr style={hr} />
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
 
-      <Text className={paragraph} style={{ color: '#000' }}>
-        Quer nos ajudar mas não sabe como? Complete seu cadastro na{' '}
-        <Link href="https://app.onstrider.com/r/trampar_de_casa">Strider!</Link>
-        <br />
-        A plataforma brasileira que mais apoia o trabalho remoto, com diversas
-        vagas internacionais.
-        <br />
+      <Text className={paragraph}>
+        Estamos construindo um{' '}
+        <Link href="https://github.com/ocodista/trampar-de-casa/blob/add-manifesto/manifesto.md">
+          manifesto sobre trabalho remoto
+        </Link>{' '}
+        e adoraríamos contar com sua contribuição.
+      </Text>
+
+      <Text className={paragraph}>
+        Além disso, ajude-nos completando seu cadastro na{' '}
+        <Link href="https://app.onstrider.com/r/trampar_de_casa">Strider</Link>,
+        uma plataforma brasileira que apoia o trabalho remoto, oferecendo
+        diversas vagas internacionais.
+      </Text>
+
+      <Text className={paragraph}>
         Uma vez finalizado, seu perfil poderá ser chamado mesmo sem uma
-        aplicação manual 😁
+        aplicação manual.
       </Text>
 
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
