@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
-import { isValidRole } from 'src/isValidRole'
 import { vi } from 'vitest'
+import { isValidRole } from '../isValidRole'
 import * as launchBrowserAndNavigateFile from '../launchBrowserAndNavigateTo'
 import * as searchRoleOnSiteFile from '../searchRoleOnPageContent'
 import * as setViewportFile from '../setViewport'

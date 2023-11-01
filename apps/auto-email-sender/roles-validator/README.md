@@ -1,6 +1,6 @@
 # Roles Validator Feature Documentation
 
-The Roles Validator module is all about checking roles. It uses MongoDb to keep track of roles and does some smart web scraping to determine if roles are active.
+The Roles Validator module is all about checking roles. It uses Supabase to track "roles" availability and does some smart web scraping to determine if are active.
 
 ## Worker Flow
 
@@ -11,32 +11,33 @@ sequenceDiagram
 participant rolesValidator
 participant getRoles
 participant isValidRole
-participant deleteFromMongo
+participant disableRoleOnSupabase
 
 rolesValidator->>getRoles: Get roles
 loop for each role
   rolesValidator->>isValidRole: Verify if role is active with web scrapping
   alt isValid = false
-    rolesValidator->>deleteFromMongo: Delete role
+    rolesValidator->>disableRoleOnSupabase: Update ready column
   end
 end
 ```
 
 ## Flow Diagram
+
 ![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/58dcebed-4c0c-4780-a0b6-0634bd4fd41f)
 
 ### **RolesValidator**
 
-This function is like the conductor of the role-checking orchestra. It relies on MongoDb and does some nifty web scraping to handle roles.
+This function is like the conductor of the role-checking orchestra. It relies on Supabase and does some nifty web scraping to handle roles.
 
 How It Works
 
 1. Obtain a list of roles using the getRoles function.
 2. For each role in the list:
    - Examine the id, url, and title.
-   - If there's no url, use deleteFromMongo to clean up MongoDb.
+   - If there's no url, use disableRoleOnSupabase to set `ready` column as `false`.
    - If there's a url, use isValidRole to investigate if the role is still active.
-   - If it's inactive, use deleteFromMongo to tidy up MongoDb.
+   - If it's inactive, use disableRoleOnSupabase to set `ready` column as `false`.
 
 ### **getRoles**
 
@@ -53,6 +54,6 @@ How It Works
 - Utilize web scraping techniques with isValidRoleOnSite to ascertain if the role remains active on the website.
 - Close the web browser upon completion.
 
-### **deleteFromMongo**
+### **disableRoleOnSupabase**
 
-The `deleteFromMongo` function is a core element in the Roles Validator module. Here, we delete the role of MongoDb based on topicId because the MongoDb prefix for roles is based on this value
+The `disableRoleOnSupabase` function is a core element in the Roles Validator module. Here, we change the "role" on Supabase, more specifically, we change the "ready" column

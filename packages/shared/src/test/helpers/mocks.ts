@@ -3,9 +3,15 @@ import { RedisClientType } from 'redis'
 import { vi } from 'vitest'
 
 export const selectStub = vi.fn()
+export const updateStub = vi.fn()
+export const eqStub = vi.fn()
+eqStub.mockResolvedValue({})
+
+updateStub.mockImplementation(() => ({ eq: eqStub }))
 
 export const supabaseClientMock: SupabaseClient = {
   from: () => ({
+    update: updateStub,
     select: (...args: unknown[]) => ({
       ...selectStub(...args),
       range: () => ({
