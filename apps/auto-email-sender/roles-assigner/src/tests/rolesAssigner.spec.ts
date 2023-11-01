@@ -37,7 +37,9 @@ vi.mock('mongodb', () => {
       public connect() {
         return {
           db: () => ({
-            collection: vi.fn(),
+            collection: () => ({
+              insertOne: vi.fn(),
+            }),
           }),
           Document: vi.fn(),
           close: vi.fn(),
