@@ -35,4 +35,4 @@ jobs:
       run: yarn install
 
     - name: Run tests
-      run: yarn turbo run test:silent
+      run: yarn turbo run test
