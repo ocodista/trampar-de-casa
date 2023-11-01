@@ -1,11 +1,10 @@
 name: Run Auto Email Sender Tests
 
 on:
-  - push
-  - pull_request
+  push:
+    paths: 
+      - apps/auto-email-sender/**
   # push:
-  #   paths: 
-  #     - apps/auto-email-sender/*
   # pull_request:
   #   paths: 
   #     - apps/auto-email-sender/*
