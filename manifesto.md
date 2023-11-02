@@ -1,7 +1,3 @@
-# Este documento ainda não está finalizado
-
-Porém, encorajamos toda e qualquer sugestão de melhoria, questionamento ou debate que enriqueça a causa do trabalho remoto.
-
 # Sumário
 
 - [Introdução](#introdução)
@@ -39,15 +35,17 @@ Porém, encorajamos toda e qualquer sugestão de melhoria, questionamento ou deb
 - [Conclusão](#conclusão)
 
 # Introdução
-
 Nosso objetivo é defender, fortalecer e incentivar o trabalho remoto no Brasil.
 
-A filosofia do Trampar de Casa é clara: todo trabalho que pode ser remoto, deve ser remoto.
+Acreditamos que todo trabalho que pode ser remoto, deve ser remoto.
 
-Neste manifesto, mostraremos as vantagens do trabalho remoto, as melhores estratégias para implementá-lo com eficiência e nossos compromissos, além de explicar como funciona nosso processo de seleção de vagas.
+Enxergamos a necessidade de defender este novo modelo de trabalho frente aos ataques que vêm acontecendo e ao fortalecimento do movimento RTO (_Return to Office_) de retorno forçado ao escritório.
 
-Em 2023, [152 milhões de brasileiros acessam a internet todos os dias](https://agenciabrasil.ebc.com.br/geral/noticia/2021-08/brasil-tem-152-milhoes-de-pessoas-com-acesso-internet), o que revela que a humanidade já se mostrou capaz de se conectar e colaborar virtualmente para resolver inúmeros problemas. Entretanto, muitas empresas ainda se mantêm presas a um arcaico modelo de trabalho presencial.
+Neste manifesto, mostraremos os benefícios do trabalho remoto, quais as melhores estratégias para implementá-lo com eficiência e quais são os nossos compromissos, além de explicar como funciona nosso processo de seleção de vagas.
 
+Em 2023, [152 milhões de brasileiros acessam a internet todos os dias](https://agenciabrasil.ebc.com.br/geral/noticia/2021-08/brasil-tem-152-milhoes-de-pessoas-com-acesso-internet), o que revela que a humanidade já se mostrou capaz de se conectar e colaborar virtualmente para resolver inúmeros problemas. 
+
+Entretanto, muitas empresas ainda se mantêm presas a um arcaico modelo de trabalho presencial.
 ---
 
 # Trabalho presencial
@@ -336,6 +334,4 @@ Excluímos qualquer vaga que viole princípios éticos, seja ilegal, ofereça re
 ---
 
 # Conclusão
-
-(A ESCREVER)
 _Junte-se a nós e faça parte dessa revolução!_
