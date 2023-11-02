@@ -3,14 +3,14 @@ import {
   channelMock,
   nackStub,
 } from 'shared/src/test/helpers/rabbitMQ'
-import { EMAIL_FROM, rolesSubject } from 'src/baseEmail'
+import { EMAIL_FROM } from 'src/baseEmail'
 import { sendEmails } from 'src/sendEmails'
 import { messageFactory } from './factories/messageFactory'
 import { resendMockFactory } from './factories/resendFactory'
 
 describe('Send Emails', () => {
   it('uses resend to send email chunk', () => {
-    const { messageMock, emailMock, htmlMock } = messageFactory()
+    const { messageMock, emailMock, htmlMock, subjectMock } = messageFactory()
     const { resendMock, sendSpy } = resendMockFactory()
 
     sendEmails([messageMock], channelMock, resendMock)
@@ -19,7 +19,7 @@ describe('Send Emails', () => {
       from: EMAIL_FROM,
       to: emailMock,
       html: htmlMock,
-      subject: rolesSubject(38),
+      subject: subjectMock,
     })
   })
 
