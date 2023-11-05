@@ -15,6 +15,12 @@ const companies: Company[] = [
     imagePath: '/images/companies/strider.svg',
   },
   {
+    name: 'Impulso',
+    url: '',
+    description: '',
+    imagePath: '/images/companies/impulso.png',
+  },
+  {
     name: 'Meteor',
     url: 'https://www.meteor.com/',
     description:
