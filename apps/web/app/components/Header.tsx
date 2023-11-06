@@ -66,7 +66,7 @@ export const Header = () => {
         </div>
       </div>
       {isMobileMenuOpen && (
-        <div className="navbar-menu fixed bottom-0 left-0 top-0 z-50 w-4/6 sm:max-w-xs">
+        <div className="navbar-menu fixed bottom-0 left-0 top-0 z-50 w-4/6 sm:max-w-xs lg:hidden">
           <div
             className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80"
             onClick={() => setMobileMenuVisibility(false)}
