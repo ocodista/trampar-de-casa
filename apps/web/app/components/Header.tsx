@@ -1,5 +1,6 @@
 'use client'
 import Image from 'next/image'
+import Link from 'next/link'
 import { useState } from 'react'
 import { LandingPageRoutes } from '../landing-page/landingPageRoutes'
 
@@ -12,25 +13,25 @@ export const Header = () => {
         <div className="w-auto">
           <div className="flex flex-wrap items-center">
             <div className="mr-14 w-auto">
-              <a href="/">
+              <Link href="/">
                 <Image
                   src="/images/logo.svg"
                   width={70}
                   height={70}
                   alt="Logotipo da Trampar De Casa"
                 />
-              </a>
+              </Link>
             </div>
             <div className="hidden w-auto lg:block">
-              <ul className="mr-16 flex items-center">
-                <li className="mr-9 font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.Values}>Nossos Valores</a>
+              <ul className="mr-16 flex gap-9 items-center">
+                <li className="font-medium hover:text-gray-700">
+                  <Link href={LandingPageRoutes.Values}>Nossos Valores</Link>
                 </li>
-                <li className="mr-9 font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.HowItWorks}>Como Funciona</a>
+                <li className="font-medium hover:text-gray-700">
+                  <Link href={LandingPageRoutes.HowItWorks}>Como Funciona</Link>
                 </li>
-                <li className="mr-9 font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.FAQ}>Perguntas Frequentes</a>
+                <li className="font-medium hover:text-gray-700">
+                  <Link href={LandingPageRoutes.FAQ}>Perguntas Frequentes</Link>
                 </li>
               </ul>
             </div>
@@ -76,14 +77,14 @@ export const Header = () => {
               <div className="w-full">
                 <div className="-m-2 flex items-center justify-between">
                   <div className="w-auto p-2">
-                    <a className="inline-block" href="/">
+                    <Link className="inline-block" href="/">
                       <Image
                         src="/images/logo.svg"
                         width={70}
                         height={70}
                         alt="Logotipo da Trampar De Casa"
                       />
-                    </a>
+                    </Link>
                   </div>
                   <div className="w-auto p-2">
                     <button
@@ -110,37 +111,35 @@ export const Header = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex w-full flex-col justify-center py-16">
-                <ul>
-                  <li className="mb-12">
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.Values}
-                      onClick={() => setMobileMenuVisibility(false)}
-                    >
-                      Nossos Valores
-                    </a>
-                  </li>
-                  <li className="mb-12">
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.HowItWorks}
-                      onClick={() => setMobileMenuVisibility(false)}
-                    >
-                      Como Funciona
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.FAQ}
-                      onClick={() => setMobileMenuVisibility(false)}
-                    >
-                      Perguntas Frequentes
-                    </a>
-                  </li>
-                </ul>
-              </div>
+              <ul className='w-full flex flex-col justify-center gap-12 py-16'>
+                <li>
+                  <Link
+                    className="font-medium hover:text-gray-700"
+                    href={LandingPageRoutes.Values}
+                    onClick={() => setMobileMenuVisibility(false)}
+                  >
+                    Nossos Valores
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="font-medium hover:text-gray-700"
+                    href={LandingPageRoutes.HowItWorks}
+                    onClick={() => setMobileMenuVisibility(false)}
+                  >
+                    Como Funciona
+                  </Link>
+                </li>
+                <li>
+                  <Link
+                    className="font-medium hover:text-gray-700"
+                    href={LandingPageRoutes.FAQ}
+                    onClick={() => setMobileMenuVisibility(false)}
+                  >
+                    Perguntas Frequentes
+                  </Link>
+                </li>
+              </ul>
             </div>
           </nav>
         </div>
