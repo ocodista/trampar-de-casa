@@ -1,16 +1,29 @@
 'use server '
+import { getOpenings } from 'app/api/vagas/getOpenings'
+import { getOpeningsPageLength } from 'app/api/vagas/getOpeningsPageLength'
+import { z } from 'zod'
+import { Pagination } from './Pagination'
 import { Roles } from './Roles'
 import { SearchSection } from './SearchSection'
-// import { openings20231011 as Openings } from "../../../manual-email-sender/src/openings-email/2023-10-18/openings";
+
+const pageSizeSchema = z.coerce.number().default(10)
+
+const pageSchema = z.coerce.number().default(1)
 
 type Props = {
   searchParams: {
-    page: string
-    skills: string
-    country: string
+    page?: string
+    skills?: string
+    country?: string
   }
 }
 export default async function Page(props: Props) {
+  const page = pageSchema.parse(props.searchParams.page)
+  const openings = await getOpenings({
+    page,
+  })
+  const pagesLength = await getOpeningsPageLength()
+
   return (
     <div className="container flex flex-col gap-2 py-10">
       <h1 className="font-heading max-xs:text-4xl mb-3 text-6xl font-bold leading-tight tracking-tight md:text-7xl">
@@ -23,7 +36,8 @@ export default async function Page(props: Props) {
         melhor qualidade de vida.
       </p>
       <SearchSection />
-      <Roles />
+      <Roles roles={openings} />
+      <Pagination totalPages={pagesLength} />
     </div>
   )
 }

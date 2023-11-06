@@ -1,11 +1,11 @@
 'use client'
+
 import JobArticle from 'app/components/ui/JobArticle'
-import { useOpenings } from './useOpenings'
+import { SupabaseView } from 'db/src/supabase/utilityTypes'
 
-export function Roles() {
-  const { openings } = useOpenings()
-
-  if (!openings)
+type RolesSkillsView = SupabaseView<'RolesSkillsView'>
+export function Roles({ roles }: { roles: RolesSkillsView[] }) {
+  if (!roles?.length)
     return (
       <div className="space-y-2">
         <h2 className="text-center text-2xl font-medium text-slate-500">
@@ -18,7 +18,7 @@ export function Roles() {
 
   return (
     <ul className="space-y-2">
-      {openings.map((job, i) => (
+      {roles.map((job, i) => (
         <li className="w-full" key={`${job.company}-${i}`}>
           <JobArticle {...job} />
         </li>
