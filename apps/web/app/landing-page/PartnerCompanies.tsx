@@ -16,8 +16,8 @@ const companies: Company[] = [
   },
   {
     name: 'Impulso',
-    url: '',
-    description: '',
+    url: 'https://impulso.link/mLPmQR',
+    description: 'É tech. É humano. É Impulso.',
     imagePath: '/images/companies/impulso.png',
   },
   {
