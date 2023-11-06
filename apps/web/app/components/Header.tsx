@@ -25,13 +25,13 @@ export const Header = () => {
             <div className="hidden w-auto lg:block">
               <ul className="mr-16 flex gap-9 items-center">
                 <li className="font-medium hover:text-gray-700">
-                  <Link href={LandingPageRoutes.Values}>Nossos Valores</Link>
+                  <Link href={LandingPageRoutes.Values} as={LandingPageRoutes.Values} >Nossos Valores</Link>
                 </li>
                 <li className="font-medium hover:text-gray-700">
-                  <Link href={LandingPageRoutes.HowItWorks}>Como Funciona</Link>
+                  <Link href={LandingPageRoutes.HowItWorks} as={LandingPageRoutes.HowItWorks}>Como Funciona</Link>
                 </li>
                 <li className="font-medium hover:text-gray-700">
-                  <Link href={LandingPageRoutes.FAQ}>Perguntas Frequentes</Link>
+                  <Link href={LandingPageRoutes.FAQ} as={LandingPageRoutes.FAQ}>Perguntas Frequentes</Link>
                 </li>
               </ul>
             </div>
@@ -116,6 +116,7 @@ export const Header = () => {
                   <Link
                     className="font-medium hover:text-gray-700"
                     href={LandingPageRoutes.Values}
+                    as={LandingPageRoutes.Values}
                     onClick={() => setMobileMenuVisibility(false)}
                   >
                     Nossos Valores
@@ -125,6 +126,7 @@ export const Header = () => {
                   <Link
                     className="font-medium hover:text-gray-700"
                     href={LandingPageRoutes.HowItWorks}
+                    as={LandingPageRoutes.HowItWorks}
                     onClick={() => setMobileMenuVisibility(false)}
                   >
                     Como Funciona
@@ -134,6 +136,7 @@ export const Header = () => {
                   <Link
                     className="font-medium hover:text-gray-700"
                     href={LandingPageRoutes.FAQ}
+                    as={LandingPageRoutes.FAQ}
                     onClick={() => setMobileMenuVisibility(false)}
                   >
                     Perguntas Frequentes
