@@ -2,9 +2,9 @@
 
 import JobArticle from 'app/components/ui/JobArticle'
 import { SupabaseView } from 'db/src/supabase/utilityTypes'
+import { useRoleContext } from './RolesContext'
 
-type RolesSkillsView = SupabaseView<'RolesSkillsView'>
-export function Roles({ roles }: { roles: RolesSkillsView[] }) {
+const RolesComponent = ({ roles }: { roles: RolesSkillsView[] }) => {
   if (!roles?.length)
     return (
       <div className="space-y-2">
@@ -25,4 +25,10 @@ export function Roles({ roles }: { roles: RolesSkillsView[] }) {
       ))}
     </ul>
   )
+}
+
+type RolesSkillsView = SupabaseView<'RolesSkillsView'>
+export function Roles({ roles }: { roles: RolesSkillsView[] }) {
+  const { roles: rolesOnClient } = useRoleContext()
+  return <RolesComponent roles={rolesOnClient || roles} />
 }

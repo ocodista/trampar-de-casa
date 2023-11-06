@@ -4,13 +4,13 @@ import { SupabaseView } from 'db/src/supabase/utilityTypes'
 export const BATCH_SIZE = 10
 
 type Roles = SupabaseView<'RolesSkillsView'>
-export type GetOpeningsParams = Partial<Pick<Roles, 'language' | 'country'>> & {
+export type GetRolesParams = Partial<Pick<Roles, 'language' | 'country'>> & {
   skills?: string[]
   page: number
   query?: string
 }
 
-export const getRoles = async (props: GetOpeningsParams) => {
+export const getRoles = async (props: GetRolesParams) => {
   const batchSize = BATCH_SIZE - 1
   const startRange = props.page < 1 ? 0 : (props.page - 1) * batchSize
   const supabase = getSupabaseClient()

@@ -3,6 +3,7 @@ import { getRoles } from 'app/api/vagas/getRoles'
 import { getRolesPageLength } from 'app/api/vagas/getRolesPageLength'
 import { z } from 'zod'
 import { Roles } from './Roles'
+import { RolesContextWrapper } from './RolesContext'
 import { RolesPagination } from './RolesPagination'
 import { SearchSection } from './SearchSection'
 
@@ -13,14 +14,18 @@ type Props = {
     page?: string
     skills?: string
     country?: string
+    query: string
   }
 }
 export default async function Page(props: Props) {
   const page = pageSchema.parse(props.searchParams.page)
   const openings = await getRoles({
     page,
+    query: props.searchParams.query,
   })
-  const pagesLength = await getRolesPageLength()
+  const pagesLength = await getRolesPageLength({
+    query: props.searchParams.query,
+  })
 
   return (
     <div className="container flex flex-col gap-2 py-10">
@@ -33,9 +38,11 @@ export default async function Page(props: Props) {
         <span className="font-medium">trampar de casa</span> que oferecem uma
         melhor qualidade de vida.
       </p>
-      <SearchSection />
-      <Roles roles={openings} />
-      <RolesPagination totalPages={pagesLength} />
+      <RolesContextWrapper>
+        <SearchSection defaultQuery={props.searchParams.query} />
+        <Roles roles={openings} />
+        <RolesPagination totalPages={pagesLength} />
+      </RolesContextWrapper>
     </div>
   )
 }
