@@ -35,6 +35,7 @@
 - [Conclusão](#conclusão)
 
 # Introdução
+
 Nosso objetivo é defender, fortalecer e incentivar o trabalho remoto no Brasil.
 
 Acreditamos que todo trabalho que pode ser remoto, deve ser remoto.
@@ -43,10 +44,9 @@ Enxergamos a necessidade de defender este novo modelo de trabalho frente aos ata
 
 Neste manifesto, mostraremos os benefícios do trabalho remoto, quais as melhores estratégias para implementá-lo com eficiência e quais são os nossos compromissos, além de explicar como funciona nosso processo de seleção de vagas.
 
-Em 2023, [152 milhões de brasileiros acessam a internet todos os dias](https://agenciabrasil.ebc.com.br/geral/noticia/2021-08/brasil-tem-152-milhoes-de-pessoas-com-acesso-internet), o que revela que a humanidade já se mostrou capaz de se conectar e colaborar virtualmente para resolver inúmeros problemas. 
+Em 2023, [152 milhões de brasileiros acessam a internet todos os dias](https://agenciabrasil.ebc.com.br/geral/noticia/2021-08/brasil-tem-152-milhoes-de-pessoas-com-acesso-internet), o que revela que a humanidade já se mostrou capaz de se conectar e colaborar virtualmente para resolver inúmeros problemas.
 
-Entretanto, muitas empresas ainda se mantêm presas a um arcaico modelo de trabalho presencial.
----
+## Entretanto, muitas empresas ainda se mantêm presas a um arcaico modelo de trabalho presencial.
 
 # Trabalho presencial
 
@@ -334,4 +334,13 @@ Excluímos qualquer vaga que viole princípios éticos, seja ilegal, ofereça re
 ---
 
 # Conclusão
-_Junte-se a nós e faça parte dessa revolução!_
+
+Acreditamos no poder do trabalho remoto como transformador de vidas.
+
+Valorizamos a liberdade que esse modelo oferece aos trabalhadores.
+
+Consideramos que esse deve ser um movimento coletivo, fundamentado nos princípios de **Software Livre** da Free Software Foundation.
+
+Encorajamos e acolhemos qualquer contribuição benéfica para o projeto.
+
+_Junte-se a nós e faça sua parte, defenda o trabalho remoto!_
