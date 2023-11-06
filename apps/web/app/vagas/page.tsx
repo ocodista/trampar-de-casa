@@ -1,6 +1,6 @@
 'use server '
-import { getOpenings } from 'app/api/vagas/getOpenings'
-import { getOpeningsPageLength } from 'app/api/vagas/getOpeningsPageLength'
+import { getRoles } from 'app/api/vagas/getRoles'
+import { getRolesPageLength } from 'app/api/vagas/getRolesPageLength'
 import { z } from 'zod'
 import { Roles } from './Roles'
 import { RolesPagination } from './RolesPagination'
@@ -17,10 +17,10 @@ type Props = {
 }
 export default async function Page(props: Props) {
   const page = pageSchema.parse(props.searchParams.page)
-  const openings = await getOpenings({
+  const openings = await getRoles({
     page,
   })
-  const pagesLength = await getOpeningsPageLength()
+  const pagesLength = await getRolesPageLength()
 
   return (
     <div className="container flex flex-col gap-2 py-10">

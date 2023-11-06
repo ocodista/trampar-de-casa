@@ -1,7 +1,7 @@
 import { getSupabaseClient } from 'db'
-import { BATCH_SIZE } from './getOpenings'
+import { BATCH_SIZE } from './getRoles'
 
-export const getOpeningsPageLength = async () => {
+export const getRolesPageLength = async () => {
   const supabase = getSupabaseClient()
   const { error, data } = await supabase
     .from('RolesSkillsView')

@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server'
-import { GetOpeningsParams, getOpenings } from './getOpenings'
+import { GetOpeningsParams, getRoles } from './getRoles'
+import { getRolesPageLength } from './getRolesPageLength'
 
 enum FilterParams {
   skills = 'skills',
@@ -23,7 +24,8 @@ export const GET = async (request: Request) => {
   const url = new URL(request.url)
   const props = getFilterParams(url)
 
-  return NextResponse.json(
-    await getOpenings(props as unknown as GetOpeningsParams)
-  )
+  return NextResponse.json({
+    openings: await getRoles(props as unknown as GetOpeningsParams),
+    totalPages: await getRolesPageLength(),
+  })
 }
