@@ -2,7 +2,7 @@
 import { Button } from 'app/components/ui/button'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
 
-export const Pagination = ({ totalPages }: { totalPages: number }) => {
+export const RolesPagination = ({ totalPages }: { totalPages: number }) => {
   const pathname = usePathname()
   const searchParams = useSearchParams()
   const router = useRouter()

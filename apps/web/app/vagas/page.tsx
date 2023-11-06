@@ -2,11 +2,9 @@
 import { getOpenings } from 'app/api/vagas/getOpenings'
 import { getOpeningsPageLength } from 'app/api/vagas/getOpeningsPageLength'
 import { z } from 'zod'
-import { Pagination } from './Pagination'
 import { Roles } from './Roles'
+import { RolesPagination } from './RolesPagination'
 import { SearchSection } from './SearchSection'
-
-const pageSizeSchema = z.coerce.number().default(10)
 
 const pageSchema = z.coerce.number().default(1)
 
@@ -37,7 +35,7 @@ export default async function Page(props: Props) {
       </p>
       <SearchSection />
       <Roles roles={openings} />
-      <Pagination totalPages={pagesLength} />
+      <RolesPagination totalPages={pagesLength} />
     </div>
   )
 }

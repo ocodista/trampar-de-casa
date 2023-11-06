@@ -2,10 +2,10 @@
 import { SupabaseView } from 'db/src/supabase/utilityTypes'
 import { useEffect, useState } from 'react'
 
-type Openings = SupabaseView<'RolesSkillsView'>
+type Roles = SupabaseView<'RolesSkillsView'>
 
-export const useOpenings = () => {
-  const [openings, setOpenings] = useState<Openings[] | null>(null)
+export const useRoles = () => {
+  const [roles, setRoles] = useState<Roles[] | null>(null)
 
   const fetchOpenings = async () => {
     const response = await fetch('/api/vagas')
@@ -14,8 +14,8 @@ export const useOpenings = () => {
       console.error('Error on fetch')
       return
     }
-    const data = (await response.json()) as Openings[]
-    setOpenings(data)
+    const data = (await response.json()) as Roles[]
+    setRoles(data)
   }
 
   useEffect(() => {
@@ -23,6 +23,6 @@ export const useOpenings = () => {
   }, [])
 
   return {
-    openings,
+    openings: roles,
   }
 }
