@@ -1,6 +1,5 @@
 'use client'
 import Image from 'next/image'
-import Link from 'next/link'
 import { useState } from 'react'
 import { LandingPageRoutes } from '../landing-page/landingPageRoutes'
 
@@ -13,25 +12,25 @@ export const Header = () => {
         <div className="w-auto">
           <div className="flex flex-wrap items-center">
             <div className="mr-14 w-auto">
-              <Link href="/">
+              <a href="/">
                 <Image
                   src="/images/logo.svg"
                   width={70}
                   height={70}
                   alt="Logotipo da Trampar De Casa"
                 />
-              </Link>
+              </a>
             </div>
             <div className="hidden w-auto lg:block">
               <ul className="mr-16 flex gap-9 items-center">
                 <li className="font-medium hover:text-gray-700">
-                  <Link href={LandingPageRoutes.Values} as={LandingPageRoutes.Values} >Nossos Valores</Link>
+                  <a href={LandingPageRoutes.Values}>Nossos Valores</a>
                 </li>
                 <li className="font-medium hover:text-gray-700">
-                  <Link href={LandingPageRoutes.HowItWorks} as={LandingPageRoutes.HowItWorks}>Como Funciona</Link>
+                  <a href={LandingPageRoutes.HowItWorks}>Como Funciona</a>
                 </li>
                 <li className="font-medium hover:text-gray-700">
-                  <Link href={LandingPageRoutes.FAQ} as={LandingPageRoutes.FAQ}>Perguntas Frequentes</Link>
+                  <a href={LandingPageRoutes.FAQ}>Perguntas Frequentes</a>
                 </li>
               </ul>
             </div>
@@ -77,14 +76,14 @@ export const Header = () => {
               <div className="w-full">
                 <div className="-m-2 flex items-center justify-between">
                   <div className="w-auto p-2">
-                    <Link className="inline-block" href="/">
+                    <a className="inline-block" href="/">
                       <Image
                         src="/images/logo.svg"
                         width={70}
                         height={70}
                         alt="Logotipo da Trampar De Casa"
                       />
-                    </Link>
+                    </a>
                   </div>
                   <div className="w-auto p-2">
                     <button
@@ -113,34 +112,31 @@ export const Header = () => {
               </div>
               <ul className='w-full flex flex-col justify-center gap-12 py-16'>
                 <li>
-                  <Link
+                  <a
                     className="font-medium hover:text-gray-700"
                     href={LandingPageRoutes.Values}
-                    as={LandingPageRoutes.Values}
                     onClick={() => setMobileMenuVisibility(false)}
                   >
                     Nossos Valores
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link
+                  <a
                     className="font-medium hover:text-gray-700"
                     href={LandingPageRoutes.HowItWorks}
-                    as={LandingPageRoutes.HowItWorks}
                     onClick={() => setMobileMenuVisibility(false)}
                   >
                     Como Funciona
-                  </Link>
+                  </a>
                 </li>
                 <li>
-                  <Link
+                  <a
                     className="font-medium hover:text-gray-700"
                     href={LandingPageRoutes.FAQ}
-                    as={LandingPageRoutes.FAQ}
                     onClick={() => setMobileMenuVisibility(false)}
                   >
                     Perguntas Frequentes
-                  </Link>
+                  </a>
                 </li>
               </ul>
             </div>
