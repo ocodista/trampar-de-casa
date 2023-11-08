@@ -155,6 +155,40 @@ export interface Database {
         }
         Relationships: []
       }
+      skillsSuggestions: {
+        Row: {
+          id: string
+          isApproved: boolean
+          skillName: string
+          userId: string | null
+        }
+        Insert: {
+          id?: string
+          isApproved: boolean
+          skillName: string
+          userId?: string | null
+        }
+        Update: {
+          id?: string
+          isApproved?: boolean
+          skillName?: string
+          userId?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "skillsSuggestions_userId_fkey"
+            columns: ["userId"]
+            referencedRelation: "Subscribers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "skillsSuggestions_userId_fkey"
+            columns: ["userId"]
+            referencedRelation: "SubscriberSkillsView"
+            referencedColumns: ["id"]
+          }
+        ]
+      }
       Subscribers: {
         Row: {
           createdAt: string
