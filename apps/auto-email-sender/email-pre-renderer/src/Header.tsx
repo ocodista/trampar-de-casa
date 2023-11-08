@@ -38,23 +38,26 @@ export function Header({ rolesCount }: { rolesCount: number }) {
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
 
       <Text className={paragraph}>
-        Estamos construindo um{' '}
-        <Link href="https://github.com/ocodista/trampar-de-casa/blob/add-manifesto/manifesto.md">
-          manifesto sobre trabalho remoto
-        </Link>{' '}
-        e adoraríamos contar com sua contribuição.
+        A edição de hoje é especial, atingimos a marca de 10.000 inscritos 🎉
       </Text>
-
       <Text className={paragraph}>
-        Além disso, ajude-nos completando seu cadastro na{' '}
-        <Link href="https://app.onstrider.com/r/trampar_de_casa">Strider</Link>,
-        uma plataforma brasileira que apoia o trabalho remoto, oferecendo
-        diversas vagas internacionais.
+        Agradecemos a todo o apoio nessa luta pela defesa do trabalho remoto
+        👏😁
       </Text>
-
       <Text className={paragraph}>
-        Uma vez finalizado, seu perfil poderá ser chamado mesmo sem uma
-        aplicação manual.
+        Gostaríamos de anunciar também a mais nova parceira do Trampar de Casa!
+      </Text>
+      <Text className={paragraph}>
+        Eles vivem, defendem e incentivam o trabalho remoto há mais de 13 anos,
+        acreditam em um ambiente de trabalho mais humano, produtivo e que
+        promova maior qualidade de vida ❤️
+      </Text>
+      <Text className={paragraph}>
+        É tech, é humano, é{' '}
+        <b>
+          <Link href="https://impulso.link/mLPmQR">Impulso</Link>
+        </b>
+        !{' '}
       </Text>
 
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
