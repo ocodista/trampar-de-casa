@@ -3,6 +3,7 @@ import { ChevronDownIcon, MagnifyingGlassIcon } from '@heroicons/react/20/solid'
 import { Fragment, useRef, useState } from 'react'
 import { FilteredSelections } from './FilteredSelections'
 import { ListOption } from './ListOption'
+import { SkillSuggestionDialog } from './SkillSuggestionDialog'
 import { baseInputStyle } from './ui/input'
 
 interface AutoComplete {
@@ -126,6 +127,7 @@ export function AutoComplete({
           </Transition>
         </div>
       </Combobox>
+      <SkillSuggestionDialog />
     </div>
   )
 }
