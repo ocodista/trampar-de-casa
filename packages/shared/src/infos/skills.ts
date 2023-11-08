@@ -763,4 +763,14 @@ export const skillArray = [
     name: 'Elasticsearch',
     normalized: 'ELASTICSEARCH',
   },
+  {
+    id: 453,
+    name: 'DevOps',
+    normalized: 'DEVOPS',
+  },
+  {
+    id: 454,
+    name: 'Linux',
+    normalized: 'LINUX',
+  },
 ] as const
