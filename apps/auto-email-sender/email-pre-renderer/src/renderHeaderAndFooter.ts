@@ -7,7 +7,6 @@ export const renderHeaderAndFooter = async (
   id: string,
   rolesId: string[]
 ) => {
-  console.time(`RenderHeaderAndFooter#${email}`)
   const promiseFooterHTML = new Promise<string>((resolve) =>
     resolve(renderFooter(id, CONFIG.URL_PREFIX))
   )
@@ -18,7 +17,6 @@ export const renderHeaderAndFooter = async (
     promiseFooterHTML,
     promiseHeaderHTML,
   ])
-  console.timeEnd(`RenderHeaderAndFooter#${email}`)
 
   return { footerHTML, headerHTML }
 }
