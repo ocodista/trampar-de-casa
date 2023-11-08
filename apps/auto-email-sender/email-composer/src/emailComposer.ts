@@ -28,14 +28,12 @@ export const consumePreRenderQueue = async (
   message: GetMessage | false,
   emailComposerChannel: Channel
 ) => {
-  console.time('consumePreRenderQueue')
   if (!message) return
   const emailHtml = await parsePreRenderMessage(message.content)
   emailComposerChannel.sendToQueue(
     EmailQueues.EmailSender,
     Buffer.from(JSON.stringify(emailHtml))
   )
-  console.timeEnd('consumePreRenderQueue')
 }
 
 export const composeEmail = async () => {
