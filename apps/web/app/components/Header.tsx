@@ -22,14 +22,14 @@ export const Header = () => {
               </a>
             </div>
             <div className="hidden w-auto lg:block">
-              <ul className="mr-16 flex items-center">
-                <li className="mr-9 font-medium hover:text-gray-700">
+              <ul className="mr-16 flex gap-9 items-center">
+                <li className="font-medium hover:text-gray-700">
                   <a href={LandingPageRoutes.Values}>Nossos Valores</a>
                 </li>
-                <li className="mr-9 font-medium hover:text-gray-700">
+                <li className="font-medium hover:text-gray-700">
                   <a href={LandingPageRoutes.HowItWorks}>Como Funciona</a>
                 </li>
-                <li className="mr-9 font-medium hover:text-gray-700">
+                <li className="font-medium hover:text-gray-700">
                   <a href={LandingPageRoutes.FAQ}>Perguntas Frequentes</a>
                 </li>
               </ul>
@@ -66,7 +66,7 @@ export const Header = () => {
         </div>
       </div>
       {isMobileMenuOpen && (
-        <div className="navbar-menu fixed bottom-0 left-0 top-0 z-50 w-4/6 sm:max-w-xs">
+        <div className="navbar-menu fixed bottom-0 left-0 top-0 z-50 w-4/6 sm:max-w-xs lg:hidden">
           <div
             className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80"
             onClick={() => setMobileMenuVisibility(false)}
@@ -110,37 +110,35 @@ export const Header = () => {
                   </div>
                 </div>
               </div>
-              <div className="flex w-full flex-col justify-center py-16">
-                <ul>
-                  <li className="mb-12">
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.Values}
-                      onClick={() => setMobileMenuVisibility(false)}
-                    >
-                      Nossos Valores
-                    </a>
-                  </li>
-                  <li className="mb-12">
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.HowItWorks}
-                      onClick={() => setMobileMenuVisibility(false)}
-                    >
-                      Como Funciona
-                    </a>
-                  </li>
-                  <li>
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href={LandingPageRoutes.FAQ}
-                      onClick={() => setMobileMenuVisibility(false)}
-                    >
-                      Perguntas Frequentes
-                    </a>
-                  </li>
-                </ul>
-              </div>
+              <ul className='w-full flex flex-col justify-center gap-12 py-16'>
+                <li>
+                  <a
+                    className="font-medium hover:text-gray-700"
+                    href={LandingPageRoutes.Values}
+                    onClick={() => setMobileMenuVisibility(false)}
+                  >
+                    Nossos Valores
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="font-medium hover:text-gray-700"
+                    href={LandingPageRoutes.HowItWorks}
+                    onClick={() => setMobileMenuVisibility(false)}
+                  >
+                    Como Funciona
+                  </a>
+                </li>
+                <li>
+                  <a
+                    className="font-medium hover:text-gray-700"
+                    href={LandingPageRoutes.FAQ}
+                    onClick={() => setMobileMenuVisibility(false)}
+                  >
+                    Perguntas Frequentes
+                  </a>
+                </li>
+              </ul>
             </div>
           </nav>
         </div>
