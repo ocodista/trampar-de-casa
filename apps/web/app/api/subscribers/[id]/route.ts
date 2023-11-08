@@ -1,5 +1,6 @@
 import { Events, Tracker } from 'analytics'
 import { getId } from 'app/api/getId'
+import { getSupabaseClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { ZodError } from 'zod'
@@ -31,7 +32,19 @@ export async function PUT(request: Request) {
   }
 
   try {
-    const { data } = await updateSubscriber(id, body)
+    const { skillsSuggestions, ...subscriberInfos } = body
+    const { data } = await updateSubscriber(id, subscriberInfos)
+    const supabase = getSupabaseClient()
+    if (skillsSuggestions.length) {
+      const suggestionsInsertPromise = skillsSuggestions.map((skill) => {
+        return supabase.from('skillsSuggestions').insert({
+          isApproved: false,
+          skillName: skill,
+          userId: id,
+        })
+      })
+      await Promise.all(suggestionsInsertPromise)
+    }
     new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
       Events.ConfirmedSubscriber,
       {
