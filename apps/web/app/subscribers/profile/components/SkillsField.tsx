@@ -55,21 +55,23 @@ export const SkillsField = () => {
   }
 
   return (
-    <CustomFormField
-      name={ProfileSchemaEnum.Skills}
-      label="Habilidades"
-      placeholder="Você gostaria de receber vagas de quais tecnologias?"
-      description="Selecione as tecnologias que já trabalhou"
-      Input={({ register }) => (
-        <AutoComplete
-          disabled={isSubmitting}
-          selectedOptions={selectedOptions}
-          onSelectChange={onSelectChange}
-          placeholder="TypeScript, React, .NET"
-          options={options}
-          {...register(ProfileSchemaEnum.Skills)}
-        />
-      )}
-    />
+    <>
+      <CustomFormField
+        name={ProfileSchemaEnum.Skills}
+        label="Habilidades"
+        placeholder="Você gostaria de receber vagas de quais tecnologias?"
+        description="Selecione as tecnologias que já trabalhou"
+        Input={({ register }) => (
+          <AutoComplete
+            disabled={isSubmitting}
+            selectedOptions={selectedOptions}
+            onSelectChange={onSelectChange}
+            placeholder="TypeScript, React, .NET"
+            options={options}
+            {...register(ProfileSchemaEnum.Skills)}
+          />
+        )}
+      />
+    </>
   )
 }
