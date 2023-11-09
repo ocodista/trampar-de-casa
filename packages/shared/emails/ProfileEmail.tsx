@@ -12,17 +12,12 @@ import {
   Text,
 } from '@react-email/components'
 import * as React from 'react'
-interface ProfileEmailTemplateProps {
-  profileUrl?: string
-}
 
 const GIF_URL = 'https://trampardecasa.com.br/images/form.gif'
 const LOGO_URL = 'https://trampardecasa.com.br/images/logo.png'
 const EMAIL_PREVIEW = 'A funcionalidade mais pedida chegou!'
 
-export const ProfileEmailTemplate = ({
-  profileUrl,
-}: ProfileEmailTemplateProps) => (
+export const ProfileEmailTemplate = () => (
   <Tailwind>
     <Html>
       <Head />
