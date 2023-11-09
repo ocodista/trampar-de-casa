@@ -39,6 +39,11 @@ export const SkillSuggestionField = ({
   const addSkillOnState = (newSKill: string) => {
     if (skillsArray.includes(newSKill)) {
       setSuggestionInput('')
+      toast({
+        title: 'Já temos essa habilidade cadastrada! 😁',
+        description: 'Por favor, verifique o campo novamente. 😊',
+        variant: 'destructive',
+      })
       return
     }
     if (!skillsSuggested.includes(newSKill)) {
