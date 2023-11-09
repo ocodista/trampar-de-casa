@@ -1,5 +1,6 @@
 import { useToast } from 'app/hooks/use-toast'
 import { ProfileSchemaEnum } from 'app/subscribers/profile/profileSchema'
+import { skills } from 'app/subscribers/profile/subscription/skills'
 import {
   ChangeEventHandler,
   KeyboardEventHandler,
@@ -12,6 +13,8 @@ import { useFormContext } from 'react-hook-form'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 import { Label } from './ui/label'
+
+const skillsArray = skills.map(({ label }) => label) as string[]
 
 export const SkillSuggestionField = ({
   closeDialog,
@@ -34,6 +37,10 @@ export const SkillSuggestionField = ({
   }, [])
 
   const addSkillOnState = (newSKill: string) => {
+    if (skillsArray.includes(newSKill)) {
+      setSuggestionInput('')
+      return
+    }
     if (!skillsSuggested.includes(newSKill)) {
       setSkillsSuggested([...skillsSuggested, newSKill])
     }
