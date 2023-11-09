@@ -28,16 +28,19 @@ export const SkillsField = () => {
   const formSkills = watch(ProfileSchemaEnum.Skills)
 
   useEffect(() => {
+    const getSKill = (skillId: string) =>
+      skillArray.find(({ id }) => id === Number(skillId))
     if (!selectedOptions.length && formSkills?.length)
       setSelectedOptions(
-        formSkills.map((skill: string): ListOption => {
-          if (!isNaN(Number(skill))) {
+        formSkills.map((skillId: string): ListOption => {
+          if (!isNaN(Number(skillId))) {
+            const skill = getSKill(skillId)
             return {
-              label: skillArray[Number(skill)].name,
-              value: skillArray[Number(skill)].id.toString(),
+              label: skill?.name,
+              value: skill?.id.toString(),
             }
           }
-          return { label: skill, value: skill }
+          return { label: skillId, value: skillId }
         })
       )
   }, [formSkills])
