@@ -16,7 +16,7 @@
 
 The Trampar de Casa is an open-source initiative dedicated to connecting Brazilian developers to remote work opportunities, encouraging inclusion, diversity, and eradicating geographical boundaries.
 
-Weekly, we send one email with job opportunities and 100% remotes matching our subscribers' profiles.
+On Wednesdays, we send one email with 100% remote job opportunities. National (🇧🇷) or International (🌍).
 
 ## [Manifest about remote work](./manifesto.md)
 
