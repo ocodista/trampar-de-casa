@@ -7,10 +7,7 @@ import { getSupabaseClient } from "./src/supabase/getSupabaseClient";
     const { error, data } = await supabase
       .from(Entities.Skills)
       .insert({ id, name, normalized })
-    console.log(error)
-    return new Promise(r => {
-      r(data)
-    })
+    return data
   })
   await Promise.all(promises)
 })()
