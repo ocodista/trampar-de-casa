@@ -101,7 +101,7 @@ const ReceiveBestOpeningsCheckbox = () => {
         isChecked={watch(ProfileSchemaEnum.SendBestOpenings)}
         title={
           <>
-            Ignorar filtro, me mande sempre as 31 melhores vagas.
+            Ignorar filtro, me mande sempre as 30 melhores vagas.
             <span className="hidden md:inline">
               (Escolhidas pelo Trampar de Casa)
             </span>
