@@ -10,6 +10,8 @@
 ![Static Badge](https://img.shields.io/badge/vite-%23646CFF?style=for-the-badge&logo=vite&labelColor=black)
 ![Static Badge](https://img.shields.io/badge/tailwindcss-%2306B6D4?style=for-the-badge&logo=tailwindcss&labelColor=black&color=%2306B6D4)
 
+## [Versão em português](.README.md)
+
 ## About the project 🎯
 
 The Trampar de Casa is an open-source
@@ -17,7 +19,7 @@ an initiative dedicated to connecting Brazilian developers to remote work opport
 
 Weekly, we send one email with job opportunities and 100% remotes matching our subscribers' profiles.
 
-## [Manifesto sobre o Trabalho Remoto](./manifesto.md)
+## [Manifest about remote work](./manifesto.md)
 
 ## Roadmap of the project 🚧
 
@@ -39,14 +41,14 @@ Weekly, we send one email with job opportunities and 100% remotes matching our s
 
 ---
 
-## Como executar a aplicação localmente
+## How to execute in a local environment
 
-1. Após clonar o repositório localmente, a partir do seu fork, entre na pasta criada.
-2. Execute o comando `yarn`.
-3. Se você não tiver o yarn instalado, execute `npm install --global yarn`.
-4. Para executar a aplicação no ambiente de desenvolvimento, execute o comando `turbo dev`.
-5. Se você não tiver o turbo instalado, execute `npm install --global turbo`.
-6. A aplicação estará disponível em http://localhost:3000.
+1. After the clone of the repository from your fork, go to the main folder.
+2. Run the command `yarn`.
+3. If you don't have `yarn` installed, run `npm install --global yarn`.
+4. To run the app locally, run `turbo dev`.
+5. If you don't have `turbo` installed, run `npm install --global turbo`.
+6. A application will be available at http://localhost:3000.
 
 ## How to set up the database locally
 
@@ -60,10 +62,10 @@ Weekly, we send one email with job opportunities and 100% remotes matching our s
 8. Run the command `npm run db-seed` if you want to populate your database.
 9. In case of any doubts, you can consult the official documentation of the [supabase](https://supabase.com/docs/guides/getting-started/local-development) and [prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
 
-## Contribuidores ✨
+## contributors ✨
 
 <a href="https://github.com/ocodista/trampar-de-casa/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ocodista/trampar-de-casa&anon=0&columns=20&max=100" />
 </a>
 
-Toda e qualquer contribuição é muito bem-vinda!
+Any contribution is very much appreciated.
