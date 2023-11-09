@@ -200,6 +200,7 @@ export interface Database {
           linkedInUrl: string | null
           name: string | null
           optOut: boolean
+          sendBestOpenings: boolean | null
           skillsId: string[] | null
           startedWorkingAt: string | null
           updatedAt: string | null
@@ -214,6 +215,7 @@ export interface Database {
           linkedInUrl?: string | null
           name?: string | null
           optOut?: boolean
+          sendBestOpenings?: boolean | null
           skillsId?: string[] | null
           startedWorkingAt?: string | null
           updatedAt?: string | null
@@ -228,6 +230,7 @@ export interface Database {
           linkedInUrl?: string | null
           name?: string | null
           optOut?: boolean
+          sendBestOpenings?: boolean | null
           skillsId?: string[] | null
           startedWorkingAt?: string | null
           updatedAt?: string | null
