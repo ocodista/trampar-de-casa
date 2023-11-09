@@ -19,7 +19,7 @@ Weekly, we send one email with job opportunities and 100% remotes matching our s
 
 ## [Manifesto sobre o Trabalho Remoto](./manifesto.md)
 
-## Roadmap do Projeto 🚧
+## Roadmap of the project 🚧
 
 - [ ] **Preference Registration**: Define the preference of work of our users.
 - [ ] **Select and send personalized job opportunities**: Send selected job opportunities with the user's preferences.
