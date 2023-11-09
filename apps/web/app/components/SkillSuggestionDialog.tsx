@@ -25,11 +25,11 @@ export function SkillSuggestionDialog() {
       </p>
       <Dialog open={isOpen} onOpenChange={closeDialog}>
         <DialogContent>
-          <DialogHeader>
+          <DialogHeader className="gap-4">
             <DialogTitle>Habilidades não cadastradas</DialogTitle>
             <DialogDescription>
-              Digite as habilidades que você sentiu falta na lista, vamos
-              revisá-las e incluí-las assim que possível.
+              Faltou algo na lista? Por favor, adicione abaixo. Será incluído em
+              breve.
             </DialogDescription>
           </DialogHeader>
           <SkillSuggestionField closeDialog={closeDialog} />
