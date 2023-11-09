@@ -17,7 +17,7 @@ export function SkillSuggestionDialog() {
       <p>
         <button
           type="button"
-          className="text-blue-400 underline transition-all hover:text-blue-500"
+          className="mt-2 text-sm text-blue-400 underline transition-all hover:text-blue-500"
           onClick={openDialog}
         >
           Não encontrou sua tecnologia?
