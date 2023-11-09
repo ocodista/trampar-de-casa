@@ -46,7 +46,7 @@ export async function PUT(request: Request) {
       await Promise.all(suggestionsInsertPromise)
     }
     new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
-      Events.ConfirmedSubscriber,
+      Events.ProfileChanged,
       {
         distinct_id: data[0].email,
       }
