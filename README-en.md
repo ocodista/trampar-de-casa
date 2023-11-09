@@ -28,14 +28,14 @@ Weekly, we send one email with job opportunities and 100% remotes matching our s
 
 ---
 
-## Como Contribuir 🚀
+## How to Contribute 🚀
 
-1. **Fork** do repositório.
-2. **Clone** do fork em seu ambiente de desenvolvimento local.
-3. **Criação** de uma nova branch para sua funcionalidade ou correção.
-4. **Implementação** de suas alterações e adição de testes, se aplicável.
-5. **Push** para a sua branch no seu fork.
-6. Envio de um **Pull Request** para o repositório principal.
+1. **Fork** of the repository.
+2. **Clone** of the repository in your local development environment.
+3. **Create** a new branch to your new function or correction.
+4. **Implement** your changes and add unit tests, if applicable.
+5. **Push** to your branch in your fork.
+6. Send a **Pull Request** to the main repository.
 
 ---
 
