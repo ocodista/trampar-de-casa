@@ -43,7 +43,6 @@ export function SubscriberForm({
   const { toast } = useToast()
 
   const onSubmit = async (formState: ProfileSchema) => {
-    console.log(formState)
     try {
       const response = await fetch(ApiRoutes.Subscribers + '/' + id, {
         method: 'PUT',

@@ -14,6 +14,7 @@ const SubscriberSchema = z.object({
   [ProfileSchemaEnum.StartedWorkingAt]: z.string().nullable(),
   [ProfileSchemaEnum.Skills]: z.array(z.string()).nullable(),
   [ProfileSchemaEnum.EnglishLevel]: z.nativeEnum(EnglishLevel).nullable(),
+  [ProfileSchemaEnum.SendBestOpenings]: z.boolean(),
 })
 export const getSubscriber = async (subscriberId: string) => {
   const supabase = getSupabaseClient()
