@@ -9,7 +9,7 @@ const getSubscriberCount = async (): Promise<number | null> => {
   )
   const { count, error } = await supabase
     .from(Entities.Subcribers)
-    .select('*', { count: 'exact' })
+    .select('id', { count: 'exact' })
 
   if (error) {
     console.error(error)
