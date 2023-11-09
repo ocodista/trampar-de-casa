@@ -82,7 +82,7 @@ export const SkillSuggestionField = ({
           onKeyDown={saveSuggestOnKeyDownHandler}
           name="skills"
           id={id}
-          placeholder="Digite suas sugestões aqui"
+          placeholder="Tecle ENTER para adicionar, cutuque para remover."
         />
       </section>
       <section className="flex flex-wrap gap-2">

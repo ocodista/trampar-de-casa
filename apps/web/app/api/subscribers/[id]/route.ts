@@ -15,27 +15,25 @@ export async function GET(request: Request) {
   return await getById(getId(request))
 }
 export async function PUT(request: Request) {
-  const id = getId(request)
-
-  if (!id) {
-    return new NextResponse(null, { status: StatusCodes.BAD_REQUEST })
-  }
-
-  const body = (await request.json()) as ProfileSchema
   try {
-    await profileFormSchema.parseAsync(body)
-  } catch (err) {
-    if (err instanceof ZodError) {
-      return new NextResponse(err.message, { status: StatusCodes.BAD_REQUEST })
+    const id = getId(request)
+
+    if (!id) {
+      return new NextResponse(null, { status: StatusCodes.BAD_REQUEST })
     }
-    return await logError(err)
-  }
 
-  try {
+    const body = (await request.json()) as ProfileSchema
+    await profileFormSchema.parseAsync(body)
     const { skillsSuggestions, ...subscriberInfos } = body
     const { data } = await updateSubscriber(id, subscriberInfos)
-    const supabase = getSupabaseClient()
+    new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
+      Events.ProfileChanged,
+      {
+        distinct_id: data[0].email,
+      }
+    )
     if (skillsSuggestions.length) {
+      const supabase = getSupabaseClient()
       const suggestionsInsertPromise = skillsSuggestions.map((skill) => {
         return supabase.from('skillsSuggestions').insert({
           isApproved: false,
@@ -45,14 +43,14 @@ export async function PUT(request: Request) {
       })
       await Promise.all(suggestionsInsertPromise)
     }
-    new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
-      Events.ProfileChanged,
-      {
-        distinct_id: data[0].email,
-      }
-    )
     return NextResponse.json(data)
   } catch (error) {
+    // TODO: Add this try-catch as global middleware (ErrorHandler)
+    if (error instanceof ZodError) {
+      return new NextResponse(error.message, {
+        status: StatusCodes.BAD_REQUEST,
+      })
+    }
     return await logError(error)
   }
 }
