@@ -62,7 +62,7 @@ Weekly, we send one email with job opportunities and 100% remotes matching our s
 8. Run the command `npm run db-seed` if you want to populate your database.
 9. In case of any doubts, you can consult the official documentation of the [supabase](https://supabase.com/docs/guides/getting-started/local-development) and [prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
 
-## contributors ✨
+## Contributors ✨
 
 <a href="https://github.com/ocodista/trampar-de-casa/graphs/contributors">
   <img src="https://contrib.rocks/image?repo=ocodista/trampar-de-casa&anon=0&columns=20&max=100" />
