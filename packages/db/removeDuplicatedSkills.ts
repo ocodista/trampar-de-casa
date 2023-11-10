@@ -19,7 +19,11 @@ const deleteSKills = [
       skill_to_delete_id: id,
       replace_with_id: replaceFor
     })
-    console.log(error)
+    if (error) {
+      console.log(error)
+      return;
+    }
+    console.info("updated successfully!")
   })
 
   await Promise.all(promises)
