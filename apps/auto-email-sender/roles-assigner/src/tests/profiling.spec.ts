@@ -69,5 +69,8 @@ describe('Function Execution Time Test', () => {
         `Running 1000 times\n\tAverage Execution Time: ${averageTime} seconds`
       )
     })
+    test('should fail', () => {
+      expect(false).toBeTruthy()
+    })
   })
 })
