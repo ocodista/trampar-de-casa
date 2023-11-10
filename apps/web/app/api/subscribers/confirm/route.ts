@@ -18,8 +18,9 @@ export async function POST(request: Request) {
     .update({ isConfirmed: true })
     .eq('id', id)
     .select()
+  if (error)
+    return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
 
-  if (!error) return NextResponse.json(data)
   new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
     Events.ConfirmedSubscriber,
     {
