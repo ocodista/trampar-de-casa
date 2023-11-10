@@ -45,14 +45,8 @@ export const ComboOption = ({
   selectedSkills: ListOption[]
   option: ListOption
 }) => {
-  const isOptionSelected = useMemo(
-    () => selectedSkills.map(({ label }) => label).includes(option.label),
-    [selectedSkills]
-  )
-
   return (
     <Combobox.Option
-      onClick={(e) => isOptionSelected && e.preventDefault()}
       key={option.value}
       className={({ active }) =>
         `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
