@@ -64,16 +64,17 @@ export function AutoComplete({
                   {selectedOptions.map((option) => (
                     <li key={option.value}>
                       <button
+                        type="button"
                         disabled={disabled}
                         className="cursor-pointer rounded-2xl border border-s-gray-300 px-2 py-1 text-sm font-semibold"
-                        onClick={() =>
+                        onClick={() => {
                           onSelectChange(
                             selectedOptions.filter(
                               (selectedOption) =>
                                 selectedOption.value !== option.value
                             )
                           )
-                        }
+                        }}
                       >
                         {option.label}
                       </button>
@@ -122,7 +123,11 @@ export function AutoComplete({
                   onChange={(event) => setQuery(event.target.value)}
                 />
               </div>
-              <FilteredSelections options={filteredOptions} query={query} />
+              <FilteredSelections
+                selectedSkills={selectedOptions}
+                options={filteredOptions}
+                query={query}
+              />
             </Combobox.Options>
           </Transition>
         </div>

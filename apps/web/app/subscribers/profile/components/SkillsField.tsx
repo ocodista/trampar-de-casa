@@ -26,7 +26,6 @@ export const SkillsField = () => {
   const [selectedOptions, setSelectedOptions] = useState<ListOption[]>([])
   const options = useMemo(() => sortedSkills, [])
   const formSkills = watch(ProfileSchemaEnum.Skills)
-
   useEffect(() => {
     const getSKill = (skillId: string) =>
       skillArray.find(({ id }) => id === Number(skillId))
