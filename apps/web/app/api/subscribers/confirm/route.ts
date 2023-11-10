@@ -2,6 +2,7 @@ import { Events, Tracker } from 'analytics'
 import { getSupabaseClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
+import { sendProfileEmail } from 'shared/src/email/sendProfileEmail'
 import { Entities } from 'shared/src/enums'
 import { getDecryptedId } from '../../getDecryptedId'
 
@@ -17,15 +18,19 @@ export async function POST(request: Request) {
     .update({ isConfirmed: true })
     .eq('id', id)
     .select()
+  if (error)
+    return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
 
-  if (!error) return NextResponse.json(data)
   new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
     Events.ConfirmedSubscriber,
     {
       distinct_id: data[0].email,
     }
   )
-  // eslint-disable-next-line no-console
-  console.error(error)
-  return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
+  await sendProfileEmail({
+    email: data[0].email,
+    id: data[0].id,
+  })
+
+  return new NextResponse()
 }

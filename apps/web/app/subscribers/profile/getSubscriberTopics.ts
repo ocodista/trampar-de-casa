@@ -21,7 +21,6 @@ export const getSubscriberTopics = async (subscriberId: string) => {
     SubscriberTopicsSchema.safeParse(subscriberTopicsData)
 
   if (subscriberTopicsError || !subscriberTopics.success) {
-    console.log(subscriberTopicsError, subscriberTopics, subscriberTopicsData)
     notFound()
   }
   return subscriberTopics.data

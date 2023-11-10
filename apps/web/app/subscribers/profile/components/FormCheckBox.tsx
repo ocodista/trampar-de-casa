@@ -1,10 +1,10 @@
 'use client'
-import { useEffect, useState } from 'react'
+import { ReactNode, useEffect, useState } from 'react'
 import { Checkbox } from '../../../components/ui/checkbox'
 
 type FormCheckBoxProps = {
   id: string
-  title: string
+  title: ReactNode
   onChange?: (isChecked: boolean) => void
   isChecked?: boolean
   disabled?: boolean

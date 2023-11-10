@@ -8,7 +8,7 @@ import { ProfileSchemaEnum } from '../profileSchema'
 
 export const PersonalInfoForm = () => {
   return (
-    <section className="flex flex-col gap-4">
+    <section className="flex flex-col gap-6">
       <CustomFormField
         name={ProfileSchemaEnum.Name}
         label="Nome"

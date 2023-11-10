@@ -9,7 +9,7 @@ import { ProfileSchema } from '../../subscribers/profile/profileSchema'
 const supabaseClient = getSupabaseClient()
 const table = Entities.Subcribers
 export const PUBLIC_FIELDS_KEYS =
-  'name, linkedInUrl, gitHub, startedWorkingAt, skillsId, englishLevel'
+  'name, linkedInUrl, gitHub, startedWorkingAt, skillsId, englishLevel, sendBestOpenings'
 const errorResponse = new NextResponse(null, {
   status: StatusCodes.INTERNAL_SERVER_ERROR,
 })
@@ -48,7 +48,7 @@ const updateSubscriberTopics = async (
     .from(Entities.SubscriberTopics)
     .delete()
     .eq('subscriberId', subscriberId)
-  Promise.all(
+  await Promise.all(
     topicIds.map(async (topicId) => {
       const { error } = await supabaseClient
         .from(Entities.SubscriberTopics)
@@ -68,7 +68,7 @@ export async function updateSubscriber(
   { receiveEmailConfig, ...body }: ProfileSchema
 ) {
   const sanitizeEnglishLevelInput = (englishLevel: EnglishLevel) => {
-    return englishLevel === EnglishLevel.None ? null : englishLevel;
+    return englishLevel === EnglishLevel.None ? null : englishLevel
   }
 
   const { data, error } = await supabaseClient

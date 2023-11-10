@@ -1,5 +1,5 @@
 import { faker } from '@faker-js/faker'
-import { Entities, skillArray } from 'shared'
+import { Entities } from 'shared'
 import { getSupabaseClient } from './index'
 
 enum EnglishLevel {
@@ -70,16 +70,6 @@ void (async function () {
         async (role) => await supabase.from(Entities.Roles).insert(role)
       )
     )
-    for (const { id, name, normalized } of skillArray) {
-      try {
-        const { error } = await supabase
-          .from(Entities.Skills)
-          .insert({ id, name, normalized })
-        if (error) throw error
-      } catch (e) {
-        console.log(e)
-      }
-    }
   } catch (err) {
     console.error(err)
     process.exit(1)

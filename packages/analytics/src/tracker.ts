@@ -7,7 +7,7 @@ export class Tracker {
     this.mixpanel = Mixpanel.init(key)
   }
 
-  track(event: string, props?: unknown) {
+  track(event: string, props?: Mixpanel.PropertyDict) {
     this.mixpanel.track(event, props || {})
   }
 }

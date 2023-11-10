@@ -6,10 +6,16 @@ import { LoadingOverlay } from 'app/components/ui/loadingOverlay'
 import { useToast } from 'app/hooks/use-toast'
 import { EnglishLevel } from 'global/EnglishLevel'
 import { usePathname } from 'next/navigation'
-import { FormProvider, useForm } from 'react-hook-form'
+import { useId } from 'react'
+import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { ApiRoutes } from 'shared/src/enums/apiRoutes'
-import { ProfileSchema, profileFormSchema } from '../profileSchema'
+import {
+  ProfileSchema,
+  ProfileSchemaEnum,
+  profileFormSchema,
+} from '../profileSchema'
 import { SubscriptionForm } from '../subscription/SubscriptionForm'
+import { FormCheckBox } from './FormCheckBox'
 import { PersonalInfoForm } from './PersonalInfoForm'
 
 const title = 'Perfil'
@@ -69,15 +75,46 @@ export function SubscriberForm({
             <p className="text-muted-foreground">{description}</p>
           </header>
           <Separator className="my-6" />
-          <main className="grid grid-cols-1 gap-6  md:grid-cols-2 md:gap-14">
+          <main className="grid grid-cols-1 gap-6 md:grid-cols-2 md:gap-14">
             <PersonalInfoForm />
             <SubscriptionForm descriptionTopics={descriptionTopics} />
           </main>
-          <footer>
+          <footer className="space-y-4">
+            <ReceiveBestOpeningsCheckbox />
             <Button type="submit">Salvar</Button>
           </footer>
         </form>
       </FormProvider>
     </>
+  )
+}
+
+const ReceiveBestOpeningsCheckbox = () => {
+  const { setValue, watch } = useFormContext()
+  const id = useId()
+
+  return (
+    <section className="flex items-center space-x-2">
+      <FormCheckBox
+        key={id}
+        id={String(id)}
+        isChecked={watch(ProfileSchemaEnum.SendBestOpenings)}
+        title={
+          <>
+            Ignorar filtro, me mande sempre as 30 melhores vagas.
+            <span className="hidden md:inline">
+              (Escolhidas pelo Trampar de Casa)
+            </span>
+          </>
+        }
+        onChange={(isChecked) => {
+          setValue(ProfileSchemaEnum.SendBestOpenings, isChecked)
+        }}
+      />
+      <label
+        htmlFor="terms"
+        className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
+      ></label>
+    </section>
   )
 }
