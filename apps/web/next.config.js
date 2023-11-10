@@ -2,12 +2,15 @@
 
 module.exports = {
   experimental: {
-    serverActions: true
+    serverActions: true,
   },
   reactStrictMode: true,
-  transpilePackages: ["ui", "eslint-config-custom", "shared", "db"],
+  transpilePackages: ['ui', 'eslint-config-custom', 'shared', 'db'],
   i18n: {
-    locales: ["pt-BR"],
-    defaultLocale: "pt-BR",
+    locales: ['pt-BR'],
+    defaultLocale: 'pt-BR',
+  },
+  publicRuntimeConfig: {
+    metadataBase: 'https://trampardecasa.com.br',
   },
 }
