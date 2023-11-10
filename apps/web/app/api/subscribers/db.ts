@@ -48,7 +48,7 @@ const updateSubscriberTopics = async (
     .from(Entities.SubscriberTopics)
     .delete()
     .eq('subscriberId', subscriberId)
-  Promise.all(
+  await Promise.all(
     topicIds.map(async (topicId) => {
       const { error } = await supabaseClient
         .from(Entities.SubscriberTopics)
