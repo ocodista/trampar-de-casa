@@ -4,10 +4,7 @@ on:
   push:
     paths: 
       - apps/auto-email-sender/**
-  # push:
-  # pull_request:
-  #   paths: 
-  #     - apps/auto-email-sender/*
+      - packages/**
 
 jobs:
   test:
@@ -35,4 +32,4 @@ jobs:
       run: yarn install
 
     - name: Run tests
-      run: yarn turbo run test
+      run: yarn turbo run test:silent
