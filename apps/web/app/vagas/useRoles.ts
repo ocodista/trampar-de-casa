@@ -1,7 +1,7 @@
 'use client'
 import { SupabaseView } from 'db/src/supabase/utilityTypes'
 import { usePathname, useRouter, useSearchParams } from 'next/navigation'
-import { useEffect, useState } from 'react'
+import { useState } from 'react'
 
 type Roles = SupabaseView<'RolesSkillsView'>
 
@@ -35,9 +35,6 @@ export const useRoles = () => {
     router.replace(`${pathname}?${current.toString()}`)
     await fetchOpenings()
   }
-  useEffect(() => {
-    fetchOpenings()
-  }, [])
 
   return {
     roles,
