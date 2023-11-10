@@ -1,0 +1,120 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider        = "prisma-client-js"
+  output          = "./client"
+  previewFeatures = ["views"]
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Subscribers {
+  id               String              @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  email            String              @unique
+  name             String?
+  linkedInUrl      String?
+  gitHub           String?
+  startedWorkingAt DateTime?
+  subscriberSkills SubscribersSkills[]
+  englishLevel     EnglishLevel?
+  sentRoles        SentRoles[]         @relation(name: "SentRoles")
+  subscriberTopics SubscriberTopics[]
+  isConfirmed      Boolean             @default(false)
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime?           @updatedAt
+  optOut           Boolean             @default(false)
+  skillsId         String[]
+  @@map("Subscribers")
+}
+
+model Roles {
+  minimumYears Int?
+  id           String @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  title        String
+  description  String
+  country      String
+  language     RoleLanguage
+  currency     String?
+  salary       String?
+  skillsId     String[]
+  createdAt    DateTime     @default(now())
+  updatedAt    DateTime     @updatedAt
+  sentRolesId  String?      @unique
+  sentRoles    SentRoles?   @relation(fields: [sentRolesId], references: [id])
+  ready        Boolean      @default(false)
+  url          String?
+  company      String?
+  @@map("Roles")
+}
+
+model SubscribersSkills {
+  id Int @id
+  subscriberId String      @db.Uuid
+  subscribers  Subscribers @relation(fields: [subscriberId], references: [id])
+  skillId Int
+  skills  Skills @relation(fields: [skillId], references: [id])
+}
+
+model Skills {
+  id                Int                 @id
+  name              String
+  subscribersSkills SubscribersSkills[]
+}
+
+model SentRoles {
+  id          String        @id @default(uuid())
+  sentAt      DateTime?
+  roleId      String
+  role        Roles?
+  subscribers Subscribers[] @relation(name: "SentRoles")
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
+  @@index([sentAt])
+  @@map("SentRoles")
+}
+
+model SubscriberTopics {
+  id           Int         @id @default(autoincrement())
+  subscriber   Subscribers @relation(fields: [subscriberId], references: [id])
+  subscriberId String      @db.Uuid
+  topic        Topics      @relation(fields: [topicId], references: [id])
+  topicId      Int
+}
+
+model Topics {
+  id          Int                @id @default(autoincrement())
+  name        String             @unique
+  subscribers SubscriberTopics[]
+  @@map("Topics")
+}
+
+view rolesSkillsView {
+  id          String   @id
+  country     String
+  currency    String
+  description String
+  language    String
+  salary      String?
+  title       String
+  url         String?
+  createdAt   DateTime
+  skillNames  String[]
+  ready       Boolean
+  companyName String
+}
+
+enum EnglishLevel {
+  Beginner
+  Intermediary
+  Advanced
+  Fluent
+}
+
+enum RoleLanguage {
+  English
+  Portuguese
+}
