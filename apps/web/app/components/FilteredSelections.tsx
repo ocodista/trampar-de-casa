@@ -1,6 +1,5 @@
-import { Combobox } from '@headlessui/react'
-import { CheckIcon } from '@heroicons/react/20/solid'
 import React from 'react'
+import { ComboOption } from './ComboOption'
 import { ListOption } from './ListOption'
 
 function sortOptions(array: ListOption[], label: string) {
@@ -19,7 +18,7 @@ function sortOptions(array: ListOption[], label: string) {
       }
       return accumulativeArray
     },
-    [[], []]
+    [[], [] as ListOption[]]
   )
 
   partialMatchItems.sort(
@@ -28,49 +27,18 @@ function sortOptions(array: ListOption[], label: string) {
       Math.abs(b.label.length - label.length)
   )
 
-  const sortedArray = exactMatchItems.concat(partialMatchItems)
-
+  const sortedArray = exactMatchItems.concat(partialMatchItems) as ListOption[]
   return sortedArray
-}
-
-const optionHof = (label: string) => {
-  const Option = ({
-    active,
-    selected,
-  }: {
-    selected: boolean
-    active: boolean
-  }) => {
-    return (
-      <>
-        <span
-          className={`block truncate ${
-            selected ? 'font-medium' : 'font-normal'
-          }`}
-        >
-          {label}
-        </span>
-        {selected ? (
-          <span
-            className={`absolute inset-y-0 left-0 flex items-center pl-3 ${
-              active ? 'text-white' : 'text-blue-600'
-            }`}
-          >
-            <CheckIcon className="h-5 w-5" aria-hidden="true" />
-          </span>
-        ) : null}
-      </>
-    )
-  }
-  return Option
 }
 
 export function FilteredSelections({
   options,
   query,
+  selectedSkills,
 }: {
   options: ListOption[]
   query: string
+  selectedSkills: ListOption[]
 }) {
   const orderedOptions = React.useMemo(
     () => sortOptions(options, query),
@@ -86,17 +54,11 @@ export function FilteredSelections({
   return (
     <div className="max-h-48 overflow-y-auto">
       {orderedOptions.map((option) => (
-        <Combobox.Option
+        <ComboOption
+          option={option}
+          selectedSkills={selectedSkills}
           key={option.value}
-          className={({ active }) =>
-            `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-              active ? 'bg-blue-600 text-white' : 'text-gray-900'
-            }`
-          }
-          value={option}
-        >
-          {optionHof(option.label)}
-        </Combobox.Option>
+        />
       ))}
     </div>
   )

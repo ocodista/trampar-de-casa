@@ -7,11 +7,13 @@ type Subscribers = SupabaseTable<'Subscribers'>
 interface GetAllPaginated {
   supabase: SupabaseClient
   batchSize: number
+  selectQuery?: string
 }
 
 export async function* getAllConfirmedSubscribersPaginated({
   supabase,
   batchSize,
+  selectQuery
 }: GetAllPaginated): AsyncGenerator<Subscribers[]> {
   let start = 0
   while (true) {
@@ -20,6 +22,7 @@ export async function* getAllConfirmedSubscribersPaginated({
         supabase,
         start,
         end: start + batchSize - 1,
+        selectQuery
       })
     if (!rows?.length) return
     yield rows

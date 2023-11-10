@@ -26,27 +26,29 @@ export const SkillsField = () => {
   const [selectedOptions, setSelectedOptions] = useState<ListOption[]>([])
   const options = useMemo(() => sortedSkills, [])
   const formSkills = watch(ProfileSchemaEnum.Skills)
-
   useEffect(() => {
+    const getSKill = (skillId: string) =>
+      skillArray.find(({ id }) => id === Number(skillId))
     if (!selectedOptions.length && formSkills?.length)
       setSelectedOptions(
-        formSkills.map((skill: string): ListOption => {
-          if (!isNaN(Number(skill))) {
+        formSkills.map((skillId: string): ListOption => {
+          if (!isNaN(Number(skillId))) {
+            const skill = getSKill(skillId)
             return {
-              label: skillArray[Number(skill)].name,
-              value: skillArray[Number(skill)].id.toString(),
+              label: skill?.name,
+              value: skill?.id.toString(),
             }
           }
-          return { label: skill, value: skill }
+          return { label: skillId, value: skillId }
         })
       )
   }, [formSkills])
 
-  const onSelectChange = (selectedOptions: ListOption[]) => {
-    setSelectedOptions(selectedOptions)
+  const setSkills = (skills: ListOption[]) => {
+    setSelectedOptions(skills)
     setValue(
       ProfileSchemaEnum.Skills,
-      selectedOptions.map((option) => option.value),
+      skills.map((option) => option.value),
       {
         shouldValidate: true,
         shouldDirty: true,
@@ -54,22 +56,39 @@ export const SkillsField = () => {
     )
   }
 
+  const onSelectChange = (receivedSelectedOptions: ListOption[]) => {
+    const lastItem = receivedSelectedOptions[receivedSelectedOptions.length - 1]
+    if (
+      receivedSelectedOptions.filter(({ value }) => value === lastItem.value)
+        .length > 1
+    ) {
+      const filteredOptions = receivedSelectedOptions.filter(
+        ({ value }) => lastItem.value != value
+      )
+      setSkills(filteredOptions)
+      return
+    }
+    setSkills(receivedSelectedOptions)
+  }
+
   return (
-    <CustomFormField
-      name={ProfileSchemaEnum.Skills}
-      label="Habilidades"
-      placeholder="Você gostaria de receber vagas de quais tecnologias?"
-      description="Selecione as tecnologias que já trabalhou"
-      Input={({ register }) => (
-        <AutoComplete
-          disabled={isSubmitting}
-          selectedOptions={selectedOptions}
-          onSelectChange={onSelectChange}
-          placeholder="TypeScript, React, .NET"
-          options={options}
-          {...register(ProfileSchemaEnum.Skills)}
-        />
-      )}
-    />
+    <>
+      <CustomFormField
+        name={ProfileSchemaEnum.Skills}
+        label="Habilidades"
+        placeholder="Você gostaria de receber vagas de quais tecnologias?"
+        description="Selecione as tecnologias que já trabalhou"
+        Input={({ register }) => (
+          <AutoComplete
+            disabled={isSubmitting}
+            selectedOptions={selectedOptions}
+            onSelectChange={onSelectChange}
+            placeholder="TypeScript, React, .NET"
+            options={options}
+            {...register(ProfileSchemaEnum.Skills)}
+          />
+        )}
+      />
+    </>
   )
 }

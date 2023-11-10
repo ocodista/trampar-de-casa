@@ -73,7 +73,7 @@ export const SubscriptionForm = ({
 }: {
   descriptionTopics: { name: string; id: number }[]
 }) => (
-  <section className="flex flex-col gap-4">
+  <section className="flex flex-col gap-6">
     <SkillsField />
     <EnglishLevelGroup />
     <ReceiveEmailConfig descriptionTopics={descriptionTopics} />
