@@ -10,6 +10,8 @@
 ![Static Badge](https://img.shields.io/badge/vite-%23646CFF?style=for-the-badge&logo=vite&labelColor=black)
 ![Static Badge](https://img.shields.io/badge/tailwindcss-%2306B6D4?style=for-the-badge&logo=tailwindcss&labelColor=black&color=%2306B6D4)
 
+[English version](./README-en.md)
+
 ## Sobre o Projeto 🎯
 
 O Trampar de Casa é uma iniciativa open-source dedicada a conectar desenvolvedores brasileiros a oportunidades de trabalho remoto, incentivando a inclusão, diversidade e quebrando barreiras geográficas.
