@@ -13,7 +13,7 @@ const EMAIL_SUBJECT = '⚙️ Configure suas preferências de vagas!' as const
 const resend = new Resend(process.env['RESEND_KEY'])
 
 const profileUrl = (encryptedId: string) =>
-  `https://trampar-de-casa-7lkvipswn-trampar-de-casa.vercel.app/subscribers/profile/${encryptedId}`
+  `https://www.trampardecasa.com.br/subscribers/profile/${encryptedId}`
 export const sendProfileEmail = async ({
   email,
   id,
