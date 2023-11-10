@@ -11,10 +11,11 @@ export const ReceiveEmailConfig = ({
   descriptionTopics: { name: string; id: number }[]
 }) => {
   const [selectOptions, setSelectOptions] = useState<string[]>([])
-  const { setValue, watch } = useFormContext()
+  const { setValue, watch, formState } = useFormContext()
   const receiveEmailConfig = watch(
     ProfileSchemaEnum.ReceiveEmailConfig
   ) as string[]
+  const errorMessage = formState.errors[ProfileSchemaEnum.ReceiveEmailConfig]
   useEffect(() => {
     if (!selectOptions.length && receiveEmailConfig?.length) {
       setSelectOptions(receiveEmailConfig)
@@ -36,7 +37,7 @@ export const ReceiveEmailConfig = ({
         <FormCheckBox
           key={id}
           id={String(id)}
-          isChecked={selectOptions.some((options) => options === String(id))}
+          isChecked={selectOptions.includes(String(id))}
           title={name}
           onChange={(isChecked) => {
             if (isChecked) {
@@ -49,6 +50,11 @@ export const ReceiveEmailConfig = ({
           }}
         />
       ))}
+      {errorMessage ? (
+        <p className="text-sm text-red-600">
+          {errorMessage.message.toString()}
+        </p>
+      ) : null}
     </div>
   )
 }
