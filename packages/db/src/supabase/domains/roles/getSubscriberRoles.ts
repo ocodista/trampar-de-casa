@@ -59,8 +59,6 @@ export const getSubscriberRoles = async (
 
   const baseQuery = supabase.from(Entities.Roles).select().eq('ready', true)
   const { data, error } = await filterBySkill(subscriber.skillsId, baseQuery)
-  // const filterByEnglishQuery = filterByEnglish(subscriber.englishLevel, filterBySkillQuery)
-  // const { data, error } = await filterByExp(subscriber.startedWorkingAt, filterByEnglishQuery)
 
   if (error) {
     console.log(error)
