@@ -1,6 +1,6 @@
 import { Resend } from 'resend'
-import { confirmationEmailHTML } from './htmlTemplate'
 import { CreateEmailResponse } from 'resend/build/src/emails/interfaces'
+import { confirmationEmailHTML } from './htmlTemplate'
 
 interface SendConfirmationEmail {
   secretKey: string
