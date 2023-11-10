@@ -9,5 +9,3 @@ expect.extend(matchers)
 afterEach(() => {
   cleanup()
 })
-
-;(() => {return})()
