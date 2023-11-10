@@ -31,4 +31,3 @@ These numbers are just an estimate, which will be updated with each change.
 | Roles-validator | 20/10/2023 | launchBrowserAndNavigateToPage | 0:08.724 | 38 | |
 | Roles-validator | 20/10/2023 | isValidRole | 0:08.131 | 38 | |
 | Roles-validator | 20/10/2023 | searchRoleOnSiteContent | 0:00.004 | 38 | |
-t
