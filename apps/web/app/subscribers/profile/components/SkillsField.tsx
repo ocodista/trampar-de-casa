@@ -44,11 +44,18 @@ export const SkillsField = () => {
       )
   }, [formSkills])
 
-  const onSelectChange = (selectedOptions: ListOption[]) => {
-    setSelectedOptions(selectedOptions)
+  const onSelectChange = (receivedSelectedOptions: ListOption[]) => {
+    const lastItem = receivedSelectedOptions[receivedSelectedOptions.length - 1]
+    if (
+      receivedSelectedOptions.filter(({ value }) => value === lastItem.value)
+        .length > 1
+    )
+      return
+
+    setSelectedOptions(receivedSelectedOptions)
     setValue(
       ProfileSchemaEnum.Skills,
-      selectedOptions.map((option) => option.value),
+      receivedSelectedOptions.map((option) => option.value),
       {
         shouldValidate: true,
         shouldDirty: true,
