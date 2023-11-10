@@ -7,7 +7,12 @@ const envVarsSchema = z.object({
   RABBITMQ_PASS: z.string().min(1),
 })
 
-export const CONFIG = envVarsSchema.parse({
-  RABBITMQ_USER: process.env['RABBITMQ_DEFAULT_USER'],
-  RABBITMQ_PASS: process.env['RABBITMQ_DEFAULT_PASS'],
-})
+export const CONFIG = (() => {
+  const envObject = {
+    RABBITMQ_USER: process.env['RABBITMQ_DEFAULT_USER'],
+    RABBITMQ_PASS: process.env['RABBITMQ_DEFAULT_PASS'],
+  }
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
+  if (process.env.NODE_ENV === 'test') return envObject
+  return envVarsSchema.parse(envObject)
+})()

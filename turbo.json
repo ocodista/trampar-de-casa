@@ -13,8 +13,12 @@
       "cache": false,
       "persistent": true
     },
-    "test": {},
-    "test:silent": {},
+    "test": {
+      "cache": false
+    },
+    "test:silent": {
+      "cache": false
+    },
     "start": {
       "cache": false
     },

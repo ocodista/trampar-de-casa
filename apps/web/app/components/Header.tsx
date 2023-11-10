@@ -22,7 +22,7 @@ export const Header = () => {
               </a>
             </div>
             <div className="hidden w-auto lg:block">
-              <ul className="mr-16 flex gap-9 items-center">
+              <ul className="mr-16 flex items-center gap-9">
                 <li className="font-medium hover:text-gray-700">
                   <a href={LandingPageRoutes.Values}>Nossos Valores</a>
                 </li>
@@ -110,7 +110,7 @@ export const Header = () => {
                   </div>
                 </div>
               </div>
-              <ul className='w-full flex flex-col justify-center gap-12 py-16'>
+              <ul className="flex w-full flex-col justify-center gap-12 py-16">
                 <li>
                   <a
                     className="font-medium hover:text-gray-700"
