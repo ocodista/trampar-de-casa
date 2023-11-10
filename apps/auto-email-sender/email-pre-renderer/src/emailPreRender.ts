@@ -10,7 +10,6 @@ dotenv.config()
 
 export const BATCH_SIZE = 100
 export async function emailPreRender() {
-  console.time('emailPreRender')
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
   const mongoCollection = mongoDatabase.collection(
@@ -49,5 +48,4 @@ export async function emailPreRender() {
   }
 
   await mongoConnection.close()
-  console.timeEnd('emailPreRender')
 }

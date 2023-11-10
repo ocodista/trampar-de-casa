@@ -14,9 +14,9 @@
 
 O Trampar de Casa é uma iniciativa open-source dedicada a conectar desenvolvedores brasileiros a oportunidades de trabalho remoto, incentivando a inclusão, diversidade e quebrando barreiras geográficas.
 
-Semanalmente, compartilhamos um boletim via e-mail, contendo vagas selecionadas que correspondem ao perfil de nossos inscritos.
+Semanalmente, enviamos 1 email com vagas 100% remotas que correspondem ao perfil de nossos inscritos.
 
----
+## [Manifesto sobre o Trabalho Remoto](./manifesto.md)
 
 ## Roadmap do Projeto 🚧
 

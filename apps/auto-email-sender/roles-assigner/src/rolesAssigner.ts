@@ -31,7 +31,7 @@ export const assignRoles = async () => {
         const emailProps = getEmailProps(subscriber, roles)
         await saveSubscriberRoles(mongoCollection, emailProps)
       } catch (e) {
-        console.log(e)
+        console.error(e)
       }
     })
     await Promise.allSettled(matchRolesPromises)

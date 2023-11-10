@@ -29,7 +29,6 @@ export const getSubscriberRoles = async (
   subscriber: Subscribers,
   supabase: SupabaseClient<Database>
 ) => {
-  console.time(`getSubscriberRoles#${subscriber.email}`)
 
   const filterBySkill = (skills: string[] | null, query: RoleFilterBuilder) => {
     if (!skills) return query
@@ -68,6 +67,5 @@ export const getSubscriberRoles = async (
     throw error
   }
 
-  console.timeEnd(`getSubscriberRoles#${subscriber.email}`)
   return data || []
 }

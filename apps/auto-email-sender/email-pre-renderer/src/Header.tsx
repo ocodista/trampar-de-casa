@@ -37,15 +37,27 @@ export function Header({ rolesCount }: { rolesCount: number }) {
       <Hr style={hr} />
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
 
-      <Text className={paragraph} style={{ color: '#000' }}>
-        Quer nos ajudar mas não sabe como? Complete seu cadastro na{' '}
-        <Link href="https://app.onstrider.com/r/trampar_de_casa">Strider!</Link>
-        <br />
-        A plataforma brasileira que mais apoia o trabalho remoto, com diversas
-        vagas internacionais.
-        <br />
-        Uma vez finalizado, seu perfil poderá ser chamado mesmo sem uma
-        aplicação manual 😁
+      <Text className={paragraph}>
+        A edição de hoje é especial, atingimos a marca de 10.000 inscritos 🎉
+      </Text>
+      <Text className={paragraph}>
+        Agradecemos a todo o apoio nessa luta pela defesa do trabalho remoto
+        👏😁
+      </Text>
+      <Text className={paragraph}>
+        Gostaríamos de anunciar também a mais nova parceira do Trampar de Casa!
+      </Text>
+      <Text className={paragraph}>
+        Eles vivem, defendem e incentivam o trabalho remoto há mais de 13 anos,
+        acreditam em um ambiente de trabalho mais humano, produtivo e que
+        promova maior qualidade de vida ❤️
+      </Text>
+      <Text className={paragraph}>
+        É tech, é humano, é{' '}
+        <b>
+          <Link href="https://impulso.link/mLPmQR">Impulso</Link>
+        </b>
+        !{' '}
       </Text>
 
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
