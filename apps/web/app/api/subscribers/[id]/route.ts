@@ -17,7 +17,6 @@ export async function GET(request: Request) {
 export async function PUT(request: Request) {
   try {
     const id = getId(request)
-
     if (!id) {
       return new NextResponse(null, { status: StatusCodes.BAD_REQUEST })
     }
