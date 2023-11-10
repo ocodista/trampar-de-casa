@@ -415,7 +415,13 @@ export interface Database {
       }
     }
     Functions: {
-      [_ in never]: never
+      replace_skills: {
+        Args: {
+          skill_to_delete_id: number
+          replace_with_id: number
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       EnglishLevel: "Beginner" | "Intermediary" | "Advanced" | "Fluent"
