@@ -25,7 +25,7 @@ const rabbitMqConfig = () => {
   ).mockImplementation(createRabbitMqConnectionStub)
 }
 
-describe.only('Email Composer Service Tests', () => {
+describe('Email Composer Service Tests', () => {
   beforeEach(() => {
     rabbitMqConfig()
     vi.spyOn(getHtmlRolesFile, 'getHtmlRoles').mockImplementation(
