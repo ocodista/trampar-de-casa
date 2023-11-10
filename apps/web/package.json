@@ -30,6 +30,7 @@
     "@trpc/next": "^10.34.0",
     "@trpc/react-query": "^10.34.0",
     "@trpc/server": "^10.34.0",
+    "@vercel/analytics": "^1.1.1",
     "analytics": "*",
     "canvas-confetti": "^1.6.0",
     "class-variance-authority": "^0.6.0",

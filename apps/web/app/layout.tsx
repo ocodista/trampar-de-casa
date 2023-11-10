@@ -1,4 +1,5 @@
 import { Metadata } from 'next'
+import { Analytics } from '@vercel/analytics/react'
 import { Header } from './components/Header'
 import { Toaster } from './components/ui/toaster'
 import './global.css'
@@ -15,11 +16,11 @@ export const metadata: Metadata = {
     title,
     description,
     card: 'summary_large_image',
-    creator: '@ocodista'
+    creator: '@ocodista',
   },
   openGraph: {
     title,
-    description
+    description,
   },
   keywords:
     'trabalho remoto, emprego remoto, vagas remotas, trabalho em casa, empregos de tecnologia remotos, carreira remota, trabalho flexível, oportunidades de trabalho remoto, empresas remotas',
@@ -37,6 +38,7 @@ export default function RootLayout({ children }) {
           </nav>
           <main>{children}</main>
         </Providers>
+        <Analytics />
       </body>
     </html>
   )
