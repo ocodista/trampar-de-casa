@@ -74,7 +74,6 @@ export async function updateSubscriber(
   const { data, error } = await supabaseClient
     .from(Entities.Subcribers)
     .update({
-      ...body,
       name: body.name,
       linkedInUrl: body.linkedInUrl,
       gitHub: body.gitHub,
