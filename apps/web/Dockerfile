@@ -20,6 +20,6 @@ WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/full/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
-RUN yarn install
+RUN yarn install --frozen-lockfile
 RUN yarn global add turbo
 CMD [ "turbo", "dev", "--filter=web" ] 
