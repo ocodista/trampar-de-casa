@@ -1,6 +1,8 @@
 include:
-  - path: docker/docker-compose.yml
-    env_file: docker/.env
+  - path: ${INCLUDE_PATH:-.}/docker/docker-compose.yml
+    env_file: 
+      - ${INCLUDE_PATH:-.}/docker/.env
+      - ${INCLUDE_PATH:-.}/.env
 
 services:
   app:
@@ -13,9 +15,9 @@ services:
       - 3000:3000
     env_file:
       - apps/web/.env
+      - ${INCLUDE_PATH:-.}/.env
     environment:
       - SUPABASE_SERVICE_ROLE_KEY=${SERVICE_ROLE_KEY}
       - SUPABASE_URL=http://kong:8000
     depends_on:
-      analytics:
-        condition: service_healthy
+      - kong
