@@ -21,10 +21,7 @@
     },
     "start": {
       "cache": false
-    },
-    "db-start": {},
-    "db-seed": {},
-    "db-stop": {}
+    }
   },
   "globalEnv": ["VERCEL_URL", "VERCEL_ENV"]
 }
