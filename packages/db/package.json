@@ -6,7 +6,7 @@
   "types": "index.ts",
   "private": true,
   "scripts": {
-    "dev": "npx supabase start",
+    "db:start": "npx supabase start",
     "db:generate-types": "supabase gen types typescript --local --schema public | tail -n +1 > src/supabase/type.ts",
     "db:migrate": "supabase migrations up && yarn db:generate-types"
   },
@@ -14,10 +14,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@prisma/client": "5.0.0",
     "@supabase/auth-helpers-nextjs": "^0.7.2",
     "@supabase/supabase-js": "^2.26.0",
-    "prisma": "^5.0.0",
     "shared": "*",
     "supabase": "^1.88.0"
   },

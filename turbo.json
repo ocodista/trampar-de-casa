@@ -21,6 +21,9 @@
     },
     "start": {
       "cache": false
+    },
+    "db:start": {
+      "cache": false
     }
   },
   "globalEnv": ["VERCEL_URL", "VERCEL_ENV"]
