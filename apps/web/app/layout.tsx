@@ -10,6 +10,7 @@ const description =
   'Receba oportunidades de tecnologia no seu e-mail, todas às quartas-feiras.'
 
 export const metadata: Metadata = {
+  metadataBase: new URL('https://trampardecasa.com.br'),
   title,
   description,
   twitter: {
