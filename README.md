@@ -54,6 +54,7 @@ Semanalmente, enviamos 1 email com vagas 100% remotas que correspondem ao perfil
 3. Depois, execute o comando `yarn setup`  
    3.a Copie o valor da `service_role key`  
    3.b Crie uma cópia do arquivo `apps/web/.env.example` chamada de `apps/web/.env`  
+   3.b.! Se for sistema GNU, rode: `cp apps/web/.env.example apps/web/.env`  
    3.c Cole o valor da `service_role key` na propriedade `SUPABASE_SERVICE_ROLE=`
 4. Então, execute o comando `yarn dev`.
 5. A aplicação estará disponível em http://localhost:3000.
