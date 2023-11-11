@@ -31,12 +31,15 @@ export async function PUT(request: Request) {
         distinct_id: data[0].email,
       }
     )
-    new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
-      Events.ReceiveBestOpenings,
-      {
-        distinct_id: data[0].email,
-      }
-    )
+
+    if (data[0].sendBestOpenings) {
+      new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
+        Events.ReceiveBestOpenings,
+        {
+          distinct_id: data[0].email,
+        }
+      )
+    }
     if (skillsSuggestions.length) {
       const supabase = getSupabaseClient()
       const suggestionsInsertPromise = skillsSuggestions.map((skill) => {
