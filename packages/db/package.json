@@ -7,11 +7,12 @@
   "private": true,
   "scripts": {
     "dev": "BROWSER=none prisma studio",
-    "db:start": "npx prisma generate && npx supabase start",
+    "db:start": "npx supabase start",
     "db:seed": "ts-node ./seed.ts",
     "db:stop": "npx supabase stop --backup",
     "db:generate-types": "supabase gen types typescript --local --schema public | tail -n +1 > src/supabase/type.ts",
-    "db:migrate": "supabase migrations up && yarn db:generate-types"
+    "db:migrate": "supabase migrations up",
+    "db:migrate-update-types": "yarn db:migrate && yarn db:generate-types"
   },
   "keywords": [],
   "author": "",
@@ -22,7 +23,7 @@
     "@supabase/supabase-js": "^2.26.0",
     "prisma": "^5.0.0",
     "shared": "*",
-    "supabase": "^1.88.0"
+    "supabase": "^1.110.1"
   },
   "prisma": {
     "schema": "prisma/schema.prisma",

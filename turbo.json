@@ -22,9 +22,10 @@
     "start": {
       "cache": false
     },
-    "db-start": {},
-    "db-seed": {},
-    "db-stop": {}
+    "db:start": {},
+    "db:seed": {},
+    "db:stop": {},
+    "db:migrate": {}
   },
   "globalEnv": ["VERCEL_URL", "VERCEL_ENV"]
 }
