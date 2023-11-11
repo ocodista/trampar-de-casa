@@ -6,12 +6,15 @@
       "outputs": [".next/**", "!.next/cache/**"],
       "cache": false
     },
-    "lint": {
-      "env": ["URL_PREFIX"]
-    },
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "lint": {
+      "env": ["URL_PREFIX"]
+    },
+    "setup": {
+      "cache": false
     },
     "test": {
       "cache": false
@@ -20,9 +23,6 @@
       "cache": false
     },
     "start": {
-      "cache": false
-    },
-    "db:start": {
       "cache": false
     }
   },

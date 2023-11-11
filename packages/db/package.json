@@ -6,7 +6,7 @@
   "types": "index.ts",
   "private": true,
   "scripts": {
-    "db:start": "npx supabase start",
+    "setup": "npx supabase start",
     "db:generate-types": "supabase gen types typescript --local --schema public | tail -n +1 > src/supabase/type.ts",
     "db:migrate": "supabase migrations up && yarn db:generate-types"
   },

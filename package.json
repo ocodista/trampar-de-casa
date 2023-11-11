@@ -7,9 +7,10 @@
   "scripts": {
     "dev": "turbo dev --concurrency 20",
     "lint-format": "yarn format && eslint --fix",
-    "lint": "turbo run lint",
+    "lint": "turbo run lint --concurrency 20",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "setup": "turbo setup --concurrency 20"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
