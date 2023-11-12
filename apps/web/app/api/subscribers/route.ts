@@ -45,11 +45,9 @@ export async function POST(request: Request) {
       resendKey: process.env['RESEND_KEY'],
       subscriberId: subscriber.id,
     })
-    console.log('Sent confirmation email')
     tracker.track(Events.NewSubscriber, {
       distinct_id: subscriber.email,
     })
-    console.log('Tracked!', { subscriber })
   } catch (err) {
     return logError(err)
   }
