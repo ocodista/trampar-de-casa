@@ -12,7 +12,7 @@ export async function POST(request: Request) {
   const { data, error } = await getSubscriberByEmail(email)
 
   if (error) {
-    return await logError(error)
+    return logError(error)
   }
 
   const [subscriber] = data
@@ -35,6 +35,6 @@ export async function POST(request: Request) {
     })
     return new NextResponse(null, { status: StatusCodes.NO_CONTENT })
   } catch (err) {
-    await logError(err)
+    logError(err)
   }
 }
