@@ -10,6 +10,9 @@ import {
 } from '../../../subscribers/profile/profileSchema'
 import { logError } from '../../logError'
 import { getById, updateSubscriber } from '../db'
+import { getTracker } from '../../../utils/tracker'
+
+const tracker = getTracker()
 
 export async function GET(request: Request) {
   return await getById(getId(request))
@@ -25,20 +28,14 @@ export async function PUT(request: Request) {
     await profileFormSchema.parseAsync(body)
     const { skillsSuggestions, ...subscriberInfos } = body
     const { data } = await updateSubscriber(id, subscriberInfos)
-    new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
-      Events.ProfileChanged,
-      {
-        distinct_id: data[0].email,
-      }
-    )
+    tracker.track(Events.ProfileChanged, {
+      distinct_id: data[0].email,
+    })
 
     if (data[0].sendBestOpenings) {
-      new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
-        Events.ReceiveBestOpenings,
-        {
-          distinct_id: data[0].email,
-        }
-      )
+      tracker.track(Events.ReceiveBestOpenings, {
+        distinct_id: data[0].email,
+      })
     }
     if (skillsSuggestions.length) {
       const supabase = getSupabaseClient()
@@ -59,6 +56,6 @@ export async function PUT(request: Request) {
         status: StatusCodes.BAD_REQUEST,
       })
     }
-    return await logError(error)
+    return logError(error)
   }
 }
