@@ -40,6 +40,13 @@ On Wednesdays, we send one email with 100% remote job opportunities. National (ð
 
 ---
 
+## How to execute
+
+1. After the clone of the repository from your fork, go to the main folder.
+2. Run the command `make setup-env` to create the `.env` files.
+3. Run the command `docker-compose up -d` and after it finished, run the command `make migrate`.
+6. An application will be available at http://localhost:3000.
+
 ## How to execute in a local environment
 
 1. After the clone of the repository from your fork, go to the main folder.
@@ -47,7 +54,7 @@ On Wednesdays, we send one email with 100% remote job opportunities. National (ð
 3. If you don't have `yarn` installed, run `npm install --global yarn`.
 4. To run the app locally, run `turbo dev`.
 5. If you don't have `turbo` installed, run `npm install --global turbo`.
-6. A application will be available at http://localhost:3000.
+6. An application will be available at http://localhost:3000.
 
 ## How to set up the database locally
 
