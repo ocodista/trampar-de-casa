@@ -43,7 +43,7 @@ Semanalmente, enviamos 1 email com vagas 100% remotas que correspondem ao perfil
 ## Como executar a aplicação
 
 1. Após clonar o repositório localmente, a partir do seu fork, entre na pasta criada.
-2. Copie o conteúdo do `.env.example` para o `.env`, e preencha `INCLUDE_PATH` com o resultado do comando `pwd`.
+2. Execute o comando `make setup-env` para criar os arquivos `.env`.
 3. Execute o comando `docker-compose up -d` e após finalizar, execute o comando `make migrate`.
 4. A aplicação estará disponível em http://localhost:3000.
 
