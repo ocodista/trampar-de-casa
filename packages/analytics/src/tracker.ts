@@ -9,7 +9,5 @@ export class Tracker {
 
   track(event: string, props?: Mixpanel.PropertyDict) {
     this.mixpanel.track(event, props || {})
-    console.log('TRACKING!', { event, props })
-    console.log('Mixpanel!', { mixpanel: this.mixpanel })
   }
 }
