@@ -6,12 +6,15 @@
       "outputs": [".next/**", "!.next/cache/**"],
       "cache": false
     },
-    "lint": {
-      "env": ["URL_PREFIX"]
-    },
     "dev": {
       "cache": false,
       "persistent": true
+    },
+    "lint": {
+      "env": ["URL_PREFIX"]
+    },
+    "setup": {
+      "cache": false
     },
     "test": {
       "cache": false
@@ -22,9 +25,6 @@
     "start": {
       "cache": false
     },
-    "db:start": {},
-    "db:seed": {},
-    "db:stop": {},
     "db:migrate": {}
   },
   "globalEnv": ["VERCEL_URL", "VERCEL_ENV"]

@@ -49,24 +49,23 @@ Semanalmente, enviamos 1 email com vagas 100% remotas que correspondem ao perfil
 
 ## Como executar a aplicação localmente
 
+### Pré Requisitos
+
+- [Docker](https://www.docker.com/)
+- [Supabase CLI](https://supabase.com/docs/reference/cli/introduction)
+- [Yarn](https://yarnpkg.com/)
+- [Turbo](https://turbo.build/)
+
 1. Após clonar o repositório localmente, a partir do seu fork, entre na pasta criada.
 2. Execute o comando `yarn`.
-3. Se você não tiver o yarn instalado, execute `npm install --global yarn`.
-4. Para executar a aplicação no ambiente de desenvolvimento, execute o comando `turbo dev`.
-5. Se você não tiver o turbo instalado, execute `npm install --global turbo`.
-6. A aplicação estará disponível em http://localhost:3000.
-
-## Como subir o banco de dados localmente
-
-1. Certifique-se de ter o [docker](https://www.docker.com/) instalado na sua máquina.
-2. Navegue até a pasta `apps/web`.
-3. Execute o comando `npm install` para instalar as dependências do projeto.
-4. Na pasta packages/db (`cd packages/db`), execute o comando `npm run db-start` para gerar a pasta `prisma/client` e subir uma instância local do Supabase.
-5. Você verá informações no terminal sobre as credenciais da sua instância local do Supabase.
-6. Na pasta apps/web (`cd apps/web`), crie um arquivo `.env`.
-7. Copie o conteúdo do `.env.example` para o `.env`, e preencha `SUPABASE_URL` e `SUPABASE_SERVICE_ROLE` com as credencias do passo 5.
-8. Execute o comando `npm run db-seed` caso queira popular sua base de dados.
-9. Caso tenha alguma dúvida consulta a [documentação oficial do supabase](https://supabase.com/docs/guides/getting-started/local-development) e a [documentação oficial do prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
+3. Depois, execute o comando `yarn setup`  
+   3.a Copie o valor da `service_role key`  
+   3.b Crie uma cópia do arquivo `apps/web/.env.example` chamada de `apps/web/.env`  
+   3.b.! Se for sistema GNU, rode: `cp apps/web/.env.example apps/web/.env`  
+   3.c Cole o valor da `service_role key` na propriedade `SUPABASE_SERVICE_ROLE=`
+4. Então, execute o comando `yarn dev`.
+5. A aplicação estará disponível em http://localhost:3000.
+6. Caso tenha alguma dúvida abra uma _issue_ neste repositório.
 
 ## Contribuidores ✨
 

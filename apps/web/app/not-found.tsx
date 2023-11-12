@@ -17,7 +17,7 @@ export default function NotFound() {
             href="/"
             className="flex items-center justify-center rounded-md border border-black px-5 py-2 text-xl text-black transition-colors hover:bg-black hover:text-white"
           >
-            Pagina Principal
+            Página Principal
           </Link>
         </div>
       </div>
