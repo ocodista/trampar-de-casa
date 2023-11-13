@@ -42,31 +42,40 @@ On Wednesdays, we send one email with 100% remote job opportunities. National (ð
 
 ## How to execute
 
+### Prerequisites
+
+- [Docker](https://www.docker.com/)
+- [Docker Compose (2.20 or newer)](https://docs.docker.com/compose/install/)
+
 1. After the clone of the repository from your fork, go to the main folder.
-2. Run the command `make setup-env` to create the `.env` files.
-3. Run the command `docker-compose up -d` and after it finished, run the command `make migrate`.
+2. Run the command `make setup-env` to create the `.env` files.  
+  2.! If you're not running from a GNU-based system, copy the `.env.example` to `.env`,
+  and `docker/.env.example` to `docker/.env`. Then fill the property `INCLUDE_PATH` with
+  the result of the `pwd` command.  
+3. Run the command `docker-compose up -d` and after it finished, run the command `make migrate`.  
+  3.! If you're not running from a GNU-based system, run `docker-compose exec app sh -c 'turbo run db:migrate --filter=db -- --db-url="$$DATABASE_URL"'`.
 6. An application will be available at http://localhost:3000.
+7. If you have any doubts, open an _issue_ in this repository.
 
 ## How to execute in a local environment
 
+### Prerequisites
+
+- [Docker](https://www.docker.com/)
+- [Supabase CLI](https://supabase.com/docs/reference/cli/introduction)
+- [Yarn](https://yarnpkg.com/)
+- [Turbo](https://turbo.build/)
+
 1. After the clone of the repository from your fork, go to the main folder.
 2. Run the command `yarn`.
-3. If you don't have `yarn` installed, run `npm install --global yarn`.
-4. To run the app locally, run `turbo dev`.
-5. If you don't have `turbo` installed, run `npm install --global turbo`.
-6. An application will be available at http://localhost:3000.
-
-## How to set up the database locally
-
-1. Be sure you have the [docker](https://www.docker.com/) installed on your machine.
-2. Navigate to the `apps/web` folder.
-3. Run the command `npm install` to install all the project dependencies.
-4. In the folder packages/db (`cd packages/db`), run the command `npm run db-start` to create the folder `prisma/client` and set up a local instance of Supabase.
-5. You will see info about your local Supabase credentials in the terminal.
-6. In the folder apps/web (`cd apps/web`), create a `.env` file.
-7. Copy the content of `.env.example` to your `.env` file, and fill in the `SUPABASE_URL` and the `SUPABASE_SERVICE_ROLE` with the credentials of the 5 step.
-8. Run the command `npm run db-seed` if you want to populate your database.
-9. In case of any doubts, you can consult the official documentation of the [supabase](https://supabase.com/docs/guides/getting-started/local-development) and [prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
+3. Then, run `yarn setup`.  
+   3.a Copy the value from `service_role key`.  
+   3.b Create a copy from the file `apps/web/.env.example` called `apps/web/.env`.  
+   3.b.! If your system is GNU-based, run: `cp apps/web/.env.example apps/web/env`.  
+   3.c Copy the value from `service_role key` to the `SUPABASE_SERVICE_ROLE` property.  
+4. Then, run `yarn dev`.
+5. An application will be available at http://localhost:3000.
+6. If you have any doubts, open an _issue_ in this repository.
 
 ## Contributors âœ¨
 

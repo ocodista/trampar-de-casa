@@ -42,9 +42,16 @@ Semanalmente, enviamos 1 email com vagas 100% remotas que correspondem ao perfil
 
 ## Como executar a aplicação
 
+### Prerequisites
+
+- [Docker](https://www.docker.com/)
+- [Docker Compose (2.20 ou maior)](https://docs.docker.com/compose/install/)
+
 1. Após clonar o repositório localmente, a partir do seu fork, entre na pasta criada.
-2. Execute o comando `make setup-env` para criar os arquivos `.env`.
-3. Execute o comando `docker-compose up -d` e após finalizar, execute o comando `make migrate`.
+2. Execute o comando `make setup-env` para criar os arquivos `.env`.  
+  2.! Se o sistema não for GNU, crie uma cópia do arquivo `.env.example` chamada `.env` e preencha a propriedade `INCLUDE_PATH` com o resultado do comando `pwd`.   
+3. Execute o comando `docker-compose up -d` e após finalizar, execute o comando `make migrate`.  
+  3.! Se o sistema não for GNU, execute o comando `docker-compose exec app sh -c 'turbo run db:migrate --filter=db -- --db-url="$$DATABASE_URL"'`.  
 4. A aplicação estará disponível em http://localhost:3000.
 
 ## Como executar a aplicação localmente
@@ -59,10 +66,10 @@ Semanalmente, enviamos 1 email com vagas 100% remotas que correspondem ao perfil
 1. Após clonar o repositório localmente, a partir do seu fork, entre na pasta criada.
 2. Execute o comando `yarn`.
 3. Depois, execute o comando `yarn setup`  
-   3.a Copie o valor da `service_role key`  
-   3.b Crie uma cópia do arquivo `apps/web/.env.example` chamada de `apps/web/.env`  
-   3.b.! Se for sistema GNU, rode: `cp apps/web/.env.example apps/web/.env`  
-   3.c Cole o valor da `service_role key` na propriedade `SUPABASE_SERVICE_ROLE=`
+   3.a Copie o valor da `service_role key`.  
+   3.b Crie uma cópia do arquivo `apps/web/.env.example` chamada de `apps/web/.env`.  
+   3.b.! Se for sistema GNU, rode: `cp apps/web/.env.example apps/web/.env`.  
+   3.c Cole o valor da `service_role key` na propriedade `SUPABASE_SERVICE_ROLE=`.
 4. Então, execute o comando `yarn dev`.
 5. A aplicação estará disponível em http://localhost:3000.
 6. Caso tenha alguma dúvida abra uma _issue_ neste repositório.
