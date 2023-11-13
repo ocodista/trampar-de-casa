@@ -1,7 +1,7 @@
 include:
-  - path: ${INCLUDE_PATH:-.}/docker/docker-compose.yml
+  - path: ${INCLUDE_PATH:-.}/supabase/docker-compose.yml
     env_file: 
-      - ${INCLUDE_PATH:-.}/docker/.env
+      - ${INCLUDE_PATH:-.}/supabase/.env
       - ${INCLUDE_PATH:-.}/.env
 
 services:

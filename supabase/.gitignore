@@ -1,5 +1,4 @@
-volumes/db/data
-volumes/storage
+volumes/
 .env
 test.http
 docker-compose.override.yml
