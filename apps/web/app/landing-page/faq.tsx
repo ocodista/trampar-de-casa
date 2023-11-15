@@ -7,7 +7,7 @@ import { FAQ_OPTIONS } from 'app/constants'
 export function FAQ() {
   return (
     <section
-      id="perguntas-frequentes"
+      data-section="faq-section"
       className="overflow-hidden bg-white pb-32 pt-28"
     >
       <div className="container mx-auto px-8 lg:px-4">
@@ -25,9 +25,9 @@ export function FAQ() {
         </h2>
 
         <Accordion.Root
-          collapsible
           type="single"
           defaultValue={FAQ_OPTIONS[0].label}
+          aria-label="accordion"
         >
           {FAQ_OPTIONS.map(({ description, label }, i) => {
             return (

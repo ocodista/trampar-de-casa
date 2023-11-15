@@ -9,8 +9,8 @@ export const Item = React.forwardRef<
   return (
     <AccordionPrimitive.Item
       className={cn(
-        'border-border overflow-hidden rounded-2xl border',
-        'data-[state=open]:ring data-[state=open]:ring-[#4F46E5]',
+        'border-border overflow-hidden rounded-2xl border transition-[border]',
+        'hover:border-zinc-300 data-[state=open]:border-zinc-300',
         className
       )}
       ref={ref}

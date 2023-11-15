@@ -1,5 +1,5 @@
 import ScrollToTopButton from './components/ui/ScrollToTopButton'
-import { FAQ } from './landing-page/FAQ'
+import { FAQ } from './landing-page/faq'
 import { Hero } from './landing-page/Hero'
 import { HowItWorks } from './landing-page/HowItWorks'
 import { Values } from './landing-page/Values'
