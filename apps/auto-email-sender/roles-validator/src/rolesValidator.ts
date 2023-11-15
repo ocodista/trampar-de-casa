@@ -32,5 +32,4 @@ export async function rolesValidator(mongoCollection: Collection<Document>) {
   }
 
   console.timeEnd('rolesValidator')
-  process.exit(0)
 }
