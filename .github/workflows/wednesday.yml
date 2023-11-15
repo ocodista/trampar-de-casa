@@ -10,9 +10,8 @@ jobs:
     runs-on: ubuntu-latest
     env:
       MONGO_ADDRESS: mongodb://root:example@localhost:27017
-      RABBITMQ_ADDRESS: localhost 
-      RABBITMQ_DEFAULT_USER: trampar
-      RABBITMQ_DEFAULT_PASS: trampar-de-casa
+      RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@rabbitmq
+
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}

@@ -3,7 +3,6 @@ import { getAllConfirmedSubscribersPaginated } from 'db/src/supabase/domains/sub
 import dotenv from 'dotenv'
 import { MongoCollection, getMongoConnection } from 'shared'
 import { createRabbitMqChannel } from 'shared/src/queue/createRabbitMqChannel'
-import { CONFIG } from './config'
 import { renderHeaderAndFooter } from './renderHeaderAndFooter'
 import { sendToQueue } from './sendToQueue'
 dotenv.config()
@@ -15,10 +14,7 @@ export async function emailPreRender() {
   const mongoCollection = mongoDatabase.collection(
     MongoCollection.RolesAssigner
   )
-  const channel = await createRabbitMqChannel({
-    password: CONFIG.RABBITMQ_PASS,
-    user: CONFIG.RABBITMQ_USER,
-  })
+  const channel = await createRabbitMqChannel()
   const supabaseClient = getSupabaseClient()
   const subscribersGenerator = getAllConfirmedSubscribersPaginated({
     supabase: supabaseClient,

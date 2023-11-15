@@ -60,9 +60,7 @@ services:
     env_file:
       - apps/auto-email-sender/email-pre-renderer/.env
     environment:
-      - RABBITMQ_DEFAULT_USER=trampar
-      - RABBITMQ_DEFAULT_PASS=trampar-de-casa
-      - RABBITMQ_ADDRESS=rabbitmq
+      - RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@rabbitmq
     depends_on:
       - mongo
       - rabbitmq
@@ -82,9 +80,7 @@ services:
     env_file:
       - apps/auto-email-sender/email-sender/.env
     environment:
-      - RABBITMQ_DEFAULT_USER=trampar
-      - RABBITMQ_DEFAULT_PASS=trampar-de-casa
-      - RABBITMQ_ADDRESS=rabbitmq
+      - RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@rabbitmq
     depends_on:
       - rabbitmq
 networks:
