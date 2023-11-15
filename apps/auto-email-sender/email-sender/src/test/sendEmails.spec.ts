@@ -19,7 +19,7 @@ describe('Send Emails', () => {
       from: EMAIL_FROM,
       to: emailMock,
       html: htmlMock,
-      subject: 'Somos 10.000 🎉🎉🎉',
+      subject: subjectMock,
     })
   })
 
