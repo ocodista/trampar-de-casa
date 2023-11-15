@@ -1,5 +1,5 @@
 import * as AccordionPrimitive from '@radix-ui/react-accordion'
-import { cn } from 'app/utils/utils'
+import { cn } from '../../utils/utils'
 import React from 'react'
 
 export const Item = React.forwardRef<

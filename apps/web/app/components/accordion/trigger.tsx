@@ -9,6 +9,7 @@ export const Trigger = React.forwardRef<
 >(({ className, children, ...props }, ref) => {
   return (
     <AccordionPrimitive.Trigger
+      role="button"
       className={cn(
         'group flex w-full items-center justify-between p-6',
         'text-xl font-semibold focus:outline-none',

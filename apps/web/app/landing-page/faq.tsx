@@ -1,8 +1,8 @@
 'use client'
 
-import { cn } from 'app/utils/utils'
 import * as Accordion from 'app/components/accordion'
 import { FAQ_OPTIONS } from 'app/constants'
+import { cn } from 'app/utils/utils'
 
 export function FAQ() {
   return (
@@ -25,6 +25,7 @@ export function FAQ() {
         </h2>
 
         <Accordion.Root
+          collapsible
           type="single"
           defaultValue={FAQ_OPTIONS[0].label}
           aria-label="accordion"
