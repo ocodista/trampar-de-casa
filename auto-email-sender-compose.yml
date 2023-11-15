@@ -34,9 +34,7 @@ services:
       - mongo
   roles-renderer:
     environment:
-      - MONGO_PASSWORD=root
-      - MONGO_USERNAME=root
-      - MONGO_ADDRESS=mongo
+      - MONGO_ADDRESS=mongodb://root:root@mongo:27017
     build:
       context: .
       dockerfile: apps/auto-email-sender/roles-renderer/Dockerfile
@@ -46,9 +44,7 @@ services:
       - mongo
   roles-assigner:
     environment:
-      - MONGO_PASSWORD=root
-      - MONGO_USERNAME=root
-      - MONGO_ADDRESS=mongo
+      - MONGO_ADDRESS=mongodb://root:root@mongo:27017
     build:
       context: .
       dockerfile: apps/auto-email-sender/roles-assigner/Dockerfile

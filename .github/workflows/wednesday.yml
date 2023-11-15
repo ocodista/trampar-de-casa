@@ -1,0 +1,75 @@
+name: wednesday job
+
+#on: [push]
+on:
+  schedule:
+    - cron: '0 9 * * 3'
+
+jobs:
+  wednesday-email:
+    runs-on: ubuntu-latest
+    env:
+      MONGO_ADDRESS: mongodb://root:example@localhost:27017
+      RABBITMQ_ADDRESS: localhost 
+      RABBITMQ_DEFAULT_USER: trampar
+      RABBITMQ_DEFAULT_PASS: trampar-de-casa
+      SECRET_KEY: ${{ secrets.SECRET_KEY }}
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+      URL_PREFIX: https://trampardecasa.com.br
+
+    services:
+      rabbitmq:
+        image: rabbitmq:3-management
+        ports:
+          - 5672:5672
+          - 15672:15672
+        env:
+          RABBITMQ_DEFAULT_USER: trampar
+          RABBITMQ_DEFAULT_PASS: trampar-de-casa
+      mongodb:
+        image: mongo:latest
+        env:
+          MONGO_INITDB_ROOT_USERNAME: root
+          MONGO_INITDB_ROOT_PASSWORD: example
+        ports:
+          - 27017:27017
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v2
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v2
+      with:
+        node-version: 18
+
+    - name: Cache node modules
+      uses: actions/cache@v2
+      with:
+        path: |
+          node_modules
+        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+        restore-keys: |
+          ${{ runner.os }}-yarn-
+
+    - name: Install dependencies
+      run: yarn install
+
+    - name: Install turbo
+      run: yarn add -WD turbo
+
+    - name: Wait for MongoDB
+      run: until nc -z localhost 27017; do sleep 1; done
+
+    - name: Roles renderer
+      run: yarn turbo start --filter roles-renderer
+    
+    - name: Roles validator
+      run: yarn turbo start --filter roles-validator
+
+    - name: Roles assigner
+      run: yarn turbo start --filter roles-assigner
+    
+    - name: Email pre-renderer
+      run: yarn turbo start --filter email-pre-renderer

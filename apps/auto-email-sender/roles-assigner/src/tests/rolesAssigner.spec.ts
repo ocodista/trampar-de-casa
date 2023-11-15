@@ -3,6 +3,7 @@ import * as dbFile from 'db'
 import * as saveSubscriberRolesFiles from 'db/src/mongodb/domains/roles/saveSubscriberRoles'
 import * as getSubscriberRolesFile from 'db/src/supabase/domains/roles/getSubscriberRoles'
 import * as getAllPaginatedFile from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
+import * as sharedFile from 'shared'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { vi } from 'vitest'
@@ -10,6 +11,7 @@ import { assignRoles } from '../rolesAssigner'
 import { getRoleMock } from './factories/roleFactory'
 import { getSubscriberMock } from './factories/subscriberFactory'
 import { getSupabaseClientStub } from './helpers/stubs'
+import { Collection, MongoClient } from 'mongodb'
 
 type Subscribers = SupabaseTable<'Subscribers'>
 
@@ -46,12 +48,31 @@ vi.mock('mongodb', () => {
         }
       }
     },
+    ServerApiVersion: {
+      v1: 'v1',
+    },
   }
 })
 describe('Roles Assigner', () => {
   beforeEach(() => {
     vi.spyOn(dbFile, 'getSupabaseClient').mockImplementation(
       getSupabaseClientStub
+    )
+    const mockMongoCollection = {
+      insertOne: vi.fn(),
+      updateOne: vi.fn(),
+      deleteOne: vi.fn(),
+      find: vi.fn(),
+      findOne: vi.fn(),
+    } as unknown as Collection<Document>
+    const mockMongoConnection = {
+      db: vi.fn().mockReturnValue({
+        collection: vi.fn().mockReturnValue(mockMongoCollection),
+      }),
+      close: vi.fn(),
+    }
+    vi.spyOn(sharedFile, 'getMongoConnection').mockImplementation(
+      async () => mockMongoConnection as unknown as MongoClient
     )
   })
 

@@ -1,11 +1,11 @@
 import { Channel } from 'amqplib'
-import { EmailQueues } from 'shared'
 import * as createRabbitMqChannel from 'shared/src/queue/createRabbitMqChannel'
 import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
 import { emailSender } from 'src/emailSender'
 import { vi } from 'vitest'
 import * as sendEmailsFile from '../sendEmails'
 import { messageFactory } from './factories/messageFactory'
+import { EmailQueues } from 'shared/src/enums/emailQueues'
 
 const rabbitMqMockSetup = () => {
   const getStub = vi.fn()
@@ -21,6 +21,7 @@ describe('email sender', () => {
   beforeEach(() => {
     vi.clearAllMocks()
   })
+
   it('get messages with rabbitMQ', async () => {
     const { getStub } = rabbitMqMockSetup()
     const { messageMock } = messageFactory()
