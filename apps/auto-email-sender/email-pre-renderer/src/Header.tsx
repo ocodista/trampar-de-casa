@@ -1,18 +1,36 @@
 import {
+  Button,
   Container,
   Heading,
   Hr,
   Img,
-  Link,
   Preview,
+  Section,
   Tailwind,
   Text,
 } from '@react-email/components'
 import React from 'react'
+import { createProfileFormLink } from 'shared/src/services/createProfileFormLink'
 
 export const HEADER_TITLE_SUFFIX = 'vagas para você Trampar de Casa 🔥'
 
-export function Header({ rolesCount }: { rolesCount: number }) {
+const button = {
+  backgroundColor: '#020617',
+  borderRadius: '3px',
+  color: '#fff',
+  fontSize: '16px',
+  textDecoration: 'none',
+  textAlign: 'center' as const,
+  display: 'block',
+}
+
+export function Header({
+  rolesCount,
+  userId,
+}: {
+  rolesCount: number
+  userId: string
+}) {
   const previewText = `${rolesCount} ${HEADER_TITLE_SUFFIX}`
   const h1 = 'text-[24px]'
   const hr = {
@@ -36,29 +54,26 @@ export function Header({ rolesCount }: { rolesCount: number }) {
       >{`🔥 ${rolesCount} vagas para você Trampar de Casa`}</Heading>
       <Hr style={hr} />
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
-
       <Text className={paragraph}>
-        A edição de hoje é especial, atingimos a marca de 10.000 inscritos 🎉
+        Estamos animados em anunciar o lançamento da <b>funcionalidade</b> mais
+        pedida do Trampar de Casa: vagas personalizadas!
       </Text>
       <Text className={paragraph}>
-        Agradecemos a todo o apoio nessa luta pela defesa do trabalho remoto
-        👏😁
+        Configure seu perfil agora e aproveite as vantagens de receber vagas que
+        se alinham perfeitamente ao que você procura em oportunidades de
+        trabalho remoto.
       </Text>
-      <Text className={paragraph}>
-        Gostaríamos de anunciar também a mais nova parceira do Trampar de Casa!
-      </Text>
-      <Text className={paragraph}>
-        Eles vivem, defendem e incentivam o trabalho remoto há mais de 13 anos,
-        acreditam em um ambiente de trabalho mais humano, produtivo e que
-        promova maior qualidade de vida ❤️
-      </Text>
-      <Text className={paragraph}>
-        É tech, é humano, é{' '}
-        <b>
-          <Link href="https://impulso.link/mLPmQR">Impulso</Link>
-        </b>
-        !{' '}
-      </Text>
+      <Section>
+        <Button
+          pX={12}
+          pY={12}
+          style={button}
+          className="bg-slate-900"
+          href={createProfileFormLink(userId)}
+        >
+          Configurar preferências <span className="ml-2">⚙️</span>
+        </Button>
+      </Section>
 
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
     </Tailwind>

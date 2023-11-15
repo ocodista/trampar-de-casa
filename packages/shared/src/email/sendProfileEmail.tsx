@@ -5,29 +5,25 @@ import path from 'path'
 import React from 'react'
 import { Resend } from 'resend'
 import ProfileEmailTemplate from '../../emails/ProfileEmail'
-import { encrypt } from '../security'
+import { createProfileFormLink } from '../services/createProfileFormLink'
 
 type Subscriber = SupabaseTable<'Subscribers'>
 const TEMPLATE_EMAIL = render(<ProfileEmailTemplate />)
 const EMAIL_SUBJECT = '⚙️ Configure suas preferências de vagas!' as const
 const resend = new Resend(process.env['RESEND_KEY'])
 
-const profileUrl = (encryptedId: string) =>
-  `https://www.trampardecasa.com.br/subscribers/profile/${encryptedId}`
 export const sendProfileEmail = async ({
   email,
   id,
 }: Pick<Subscriber, 'email' | 'id'>) => {
-  const cryptSecret = process.env['CRYPT_SECRET']
-  if (!cryptSecret) throw new Error('secret not found')
-
-  const encryptedId = encrypt(cryptSecret, id)
-
   try {
     await resend.emails.send({
       from: 'Trampar de Casa <comece@trampardecasa.com.br>',
       to: email,
-      html: TEMPLATE_EMAIL.replaceAll('$PROFILE_URL', profileUrl(encryptedId)),
+      html: TEMPLATE_EMAIL.replaceAll(
+        '$PROFILE_URL',
+        createProfileFormLink(id)
+      ),
       subject: EMAIL_SUBJECT,
     })
   } catch {

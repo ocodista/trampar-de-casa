@@ -45,13 +45,17 @@ export const composeEmail = async () => {
     connectToQueue(rabbitConnection, EmailQueues.EmailSender),
   ])
 
-  let msg: GetMessage | false
+  let msg: GetMessage | false,
+    count = 0
   do {
     msg = await emailPreRendererChannel.get(EmailQueues.EmailPreRenderer, {
       noAck: false,
     })
     await consumePreRenderQueue(msg, emailSenderChannel)
-    if (msg) emailPreRendererChannel.ack(msg)
+    if (msg) {
+      emailPreRendererChannel.ack(msg)
+    }
+    console.log(++count)
   } while (msg)
 
   console.timeEnd('composeEmail')
