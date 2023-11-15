@@ -14,16 +14,15 @@ export async function rolesValidator(mongoCollection: Collection<Document>) {
     console.timeEnd(`deleteFromMongo#${id}`)
   }
 
-  for (let index = 0; index < roles.length; index++) {
-    const { id, url, title } = roles[index]
+  for (const [index, role] of roles.entries()) {
+    const { id, url, title } = role
     if (!url) {
       await deleteFromMongo(id)
       break
     }
     try {
       const isValid = await isValidRole(url, title)
-      console.log(url, title, isValid)
-
+      console.log(`Role ${index}/${roles.length}: Valid? ${isValid}`)
       if (!isValid) await deleteFromMongo(id)
     } catch (e) {
       console.error(`Error on ${url}`)
@@ -33,4 +32,5 @@ export async function rolesValidator(mongoCollection: Collection<Document>) {
   }
 
   console.timeEnd('rolesValidator')
+  process.exit(0)
 }

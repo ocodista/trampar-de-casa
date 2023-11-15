@@ -32,6 +32,8 @@ services:
       - apps/auto-email-sender/roles-validator/.env
     depends_on:
       - mongo
+    environment:
+      - MONGO_ADDRESS=mongodb://root:root@mongo:27017
   roles-renderer:
     environment:
       - MONGO_ADDRESS=mongodb://root:root@mongo:27017
