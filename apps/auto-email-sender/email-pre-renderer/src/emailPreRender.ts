@@ -7,7 +7,7 @@ import { renderHeaderAndFooter } from './renderHeaderAndFooter'
 import { sendToQueue } from './sendToQueue'
 dotenv.config()
 
-export const BATCH_SIZE = 1000
+export const BATCH_SIZE = 1_000
 export async function emailPreRender() {
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
@@ -25,6 +25,7 @@ export async function emailPreRender() {
   let count = 0
   for await (const subscribers of subscribersGenerator) {
     count += subscribers.length
+    console.log(`Rendering ${subscribers.length}...`)
     const logText = `Processed: ${count}`
     console.time(logText)
     for (const { email, id } of subscribers) {
