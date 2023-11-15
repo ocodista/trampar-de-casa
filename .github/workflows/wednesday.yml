@@ -63,8 +63,8 @@ jobs:
     - name: Roles renderer
       run: yarn turbo start --filter roles-renderer
     
-    - name: Roles validator
-      run: yarn turbo start --filter roles-validator
+#    - name: Roles validator
+#      run: yarn turbo start --filter roles-validator
 
     - name: Roles assigner
       run: yarn turbo start --filter roles-assigner
