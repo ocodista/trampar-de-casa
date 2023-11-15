@@ -1,8 +1,8 @@
-import { SupabaseClient } from 'db'
+import { Database, SupabaseClient } from 'db'
 import { Entities } from 'shared'
 
 interface GetRowsBlock {
-  supabase: SupabaseClient
+  supabase: SupabaseClient<Database>
   selectQuery?: string
   start: number
   end: number
@@ -12,7 +12,7 @@ export const getConfirmedSubscribersRowsBlock = async <Entity>({
   supabase,
   start,
   end,
-  selectQuery
+  selectQuery,
 }: GetRowsBlock): Promise<Entity[]> => {
   const { data, error } = await supabase
     .from(Entities.Subcribers)

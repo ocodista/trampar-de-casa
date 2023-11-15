@@ -107,7 +107,8 @@ describe('Email Pre Renderer', () => {
       await emailPreRender()
 
       expect(renderHeaderStub).toHaveBeenCalledWith(
-        mongoRoleAssignerMock.rolesId
+        mongoRoleAssignerMock.rolesId,
+        mongoRoleAssignerMock.id
       )
     })
 

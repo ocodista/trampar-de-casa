@@ -20,12 +20,16 @@ export const emailSender = async () => {
   let count = 0,
     emailChunk: GetMessage[] = [],
     msg: GetMessage | false
+
   do {
     msg = await channelToConsume.get(EmailQueues.EmailSender)
     count++
+
     if (!msg) break
     if (count % 25 === 0) {
+      console.time(`${count} emails sent!`)
       await sendEmails(emailChunk, channelToConsume, resend)
+      console.timeEnd(`${count} emails sent!`)
       emailChunk = []
     }
     emailChunk.push(msg)
@@ -33,9 +37,9 @@ export const emailSender = async () => {
 
   if (emailChunk.length) {
     await sendEmails(emailChunk, channelToConsume, resend)
+    console.log(`sent [${count}] emails!`)
     emailChunk = []
   }
 
   console.timeEnd('emailSender')
-  return
 }
