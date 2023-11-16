@@ -11,11 +11,11 @@ export const BATCH_SIZE = 1_000
 export async function emailPreRender() {
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
-  throw new Error('[TEST]Not has subscriber')
   const mongoCollection = mongoDatabase.collection(
     MongoCollection.RolesAssigner
   )
   const channel = await createRabbitMqChannel()
+  throw new Error('[TEST]Not has subscriber')
   const supabaseClient = getSupabaseClient()
   const subscribersGenerator = getAllConfirmedSubscribersPaginated({
     supabase: supabaseClient,
