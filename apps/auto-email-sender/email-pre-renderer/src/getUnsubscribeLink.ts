@@ -1,9 +1,9 @@
 import { UiRoutes, encrypt } from 'shared'
-export const SECRET_KEY_ERROR_MESSAGE = 'SECRET_KEY env is not settled'
+export const CRYPT_SECRET_ERROR_MESSAGE = 'CRYPT_SECRET env is not settled'
 
 export function getUnsubscribeLink(url: string, id: string) {
-  const secretKey = process.env['SECRET_KEY'] || ''
-  if (!secretKey) throw new Error(SECRET_KEY_ERROR_MESSAGE)
+  const secretKey = process.env['CRYPT_SECRET'] || ''
+  if (!secretKey) throw new Error(CRYPT_SECRET_ERROR_MESSAGE)
   const encryptedId = encrypt(secretKey, id)
 
   return `${url}${UiRoutes.OptOut}/${encryptedId}`

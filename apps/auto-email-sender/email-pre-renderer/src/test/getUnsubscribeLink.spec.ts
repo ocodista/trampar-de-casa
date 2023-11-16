@@ -5,10 +5,11 @@ import { vi } from 'vitest'
 import { getSubscriberMock } from './factories/subscriberFactory'
 const ENCRYPTED_VALUE_MOCK = faker.string.hexadecimal({ length: 32 })
 
+const ENV_NAME = 'CRYPT_SECRET'
 vi.spyOn(encryptFile, 'encrypt').mockImplementation(() => ENCRYPTED_VALUE_MOCK)
 describe('Create unsubscribe link', () => {
   it('Create unsubscribe link', () => {
-    vi.stubEnv('SECRET_KEY', faker.string.sample())
+    vi.stubEnv(ENV_NAME, faker.string.sample())
     const urlMock = faker.internet.url()
     const subscriberMock = getSubscriberMock()
     const expectedUrl = `${urlMock}${encryptFile.UiRoutes.OptOut}/${ENCRYPTED_VALUE_MOCK}`
@@ -19,7 +20,7 @@ describe('Create unsubscribe link', () => {
   })
   it(`Throws an error when not having SECRET_KEY env`, () => {
     const EMPTY_STRING = ''
-    vi.stubEnv('SECRET_KEY', EMPTY_STRING)
+    vi.stubEnv(ENV_NAME, EMPTY_STRING)
     const urlMock = faker.internet.url()
     const subscriberMock = getSubscriberMock()
 
