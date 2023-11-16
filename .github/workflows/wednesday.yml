@@ -1,6 +1,6 @@
 name: wednesday job
 
-on: [push]
+# on: []
 # on:
 #   schedule:
 #     - cron: '0 9 * * 3'
