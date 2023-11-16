@@ -5,9 +5,9 @@ interface EmailProps {
   id: string
   rolesId: string[]
 }
-export const saveSubscriberRoles = 
-  async (mongoCollection: Collection<Document>, emailProps: EmailProps) => {
-    console.time(`saveSubscriberRoles#${emailProps.email}`)
-    await mongoCollection.insertOne(emailProps)
-    console.timeEnd(`saveSubscriberRoles#${emailProps.email}`)
-  }
+export const saveSubscriberRoles = async (
+  mongoCollection: Collection<Document>,
+  emailProps: EmailProps
+) => {
+  await mongoCollection.insertOne(emailProps)
+}

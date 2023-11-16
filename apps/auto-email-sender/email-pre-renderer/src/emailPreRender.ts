@@ -8,7 +8,7 @@ import { renderHeaderAndFooter } from './renderHeaderAndFooter'
 import { sendToQueue } from './sendToQueue'
 dotenv.config()
 
-export const BATCH_SIZE = 100
+export const BATCH_SIZE = 1000
 export async function emailPreRender() {
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
@@ -23,16 +23,20 @@ export async function emailPreRender() {
   const subscribersGenerator = getAllConfirmedSubscribersPaginated({
     supabase: supabaseClient,
     batchSize: BATCH_SIZE,
+    selectQuery: 'email,id',
   })
 
+  let count = 0
   for await (const subscribers of subscribersGenerator) {
+    count += subscribers.length
+    const logText = `Processed: ${count}`
+    console.time(logText)
     for (const { email, id } of subscribers) {
       const subscriber = await mongoCollection.findOne({ id })
-      if (!subscriber) break
+      if (!subscriber) continue
       const { rolesId } = subscriber as unknown as { rolesId: string[] }
 
       const { footerHTML, headerHTML } = await renderHeaderAndFooter(
-        email,
         id,
         rolesId
       )
@@ -45,6 +49,7 @@ export async function emailPreRender() {
         },
       })
     }
+    console.timeEnd(logText)
   }
 
   await mongoConnection.close()

@@ -1,10 +1,13 @@
 import { Events, Tracker } from 'analytics'
+
 import { getSupabaseClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { sendProfileEmail } from 'shared/src/email/sendProfileEmail'
 import { Entities } from 'shared/src/enums'
 import { getDecryptedId } from '../../getDecryptedId'
+import { getTracker } from '../../../utils/tracker'
+const tracker = getTracker()
 
 export async function POST(request: Request) {
   const body = await request.json()
@@ -21,12 +24,9 @@ export async function POST(request: Request) {
   if (error)
     return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
 
-  new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
-    Events.ConfirmedSubscriber,
-    {
-      distinct_id: data[0].email,
-    }
-  )
+  tracker.track(Events.ConfirmedSubscriber, {
+    distinct_id: data[0].email,
+  })
   await sendProfileEmail({
     email: data[0].email,
     id: data[0].id,

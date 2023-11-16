@@ -9,6 +9,7 @@ export const sendEmails = async (
   resendCli: Resend
 ) => {
   const promises = buffers.map(async (message) => {
+    // TODO: Remove parsing, save as string on rabbit
     const content = JSON.parse(
       message.content.toString()
     ) as EmailComposerContent
@@ -19,7 +20,7 @@ export const sendEmails = async (
         from: EMAIL_FROM,
         to: email,
         html: html,
-        subject: 'Somos 10.000 🎉🎉🎉',
+        subject,
       })
       channel.ack(message)
     } catch (e) {

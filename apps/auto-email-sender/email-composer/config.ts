@@ -11,7 +11,7 @@ export const CONFIG = (() => {
   const envObject = {
     RABBITMQ_USER: process.env['RABBITMQ_DEFAULT_USER'],
     RABBITMQ_PASS: process.env['RABBITMQ_DEFAULT_PASS'],
-  }
+  } as z.infer<typeof envVarsSchema>
   // eslint-disable-next-line turbo/no-undeclared-env-vars
   if (process.env.NODE_ENV === 'test') return envObject
   return envVarsSchema.parse(envObject)
