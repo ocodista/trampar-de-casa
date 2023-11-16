@@ -53,4 +53,5 @@ export const composeEmail = async () => {
   } while (msg)
 
   console.timeEnd('composeEmail')
+  process.exit(0)
 }

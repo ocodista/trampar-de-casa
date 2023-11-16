@@ -13,6 +13,9 @@ import { vi } from 'vitest'
 import * as createEmailHtmlFile from '../createEmailHtml'
 import * as getHtmlRolesFile from '../getHtmlRoles'
 
+// mock process.exit
+vi.spyOn(process, 'exit').mockImplementation(vi.fn())
+
 const createChannelStub = vi.fn().mockResolvedValue(channelMock)
 const createRabbitMqConnectionStub = vi.fn().mockResolvedValue({
   createChannel: createChannelStub,
