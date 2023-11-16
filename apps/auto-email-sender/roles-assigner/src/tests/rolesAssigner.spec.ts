@@ -3,17 +3,20 @@ import * as dbFile from 'db'
 import * as saveSubscriberRolesFiles from 'db/src/mongodb/domains/roles/saveSubscriberRoles'
 import * as getSubscriberRolesFile from 'db/src/supabase/domains/roles/getSubscriberRoles'
 import * as getAllPaginatedFile from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
-import * as sharedFile from 'shared'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
+import { Collection, MongoClient } from 'mongodb'
+import * as sharedFile from 'shared'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { vi } from 'vitest'
 import { assignRoles } from '../rolesAssigner'
 import { getRoleMock } from './factories/roleFactory'
 import { getSubscriberMock } from './factories/subscriberFactory'
 import { getSupabaseClientStub } from './helpers/stubs'
-import { Collection, MongoClient } from 'mongodb'
 
 type Subscribers = SupabaseTable<'Subscribers'>
+
+// mock process.exit
+vi.spyOn(process, 'exit').mockImplementation(vi.fn())
 
 const mockSubscribersGenerator = (responseChunks: Array<Subscribers[]>) => {
   const getAllPaginatedStub = vi.spyOn(
