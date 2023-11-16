@@ -28,9 +28,9 @@ export async function emailPreRender() {
     console.log(`Rendering ${subscribers.length}...`)
     const logText = `Processed: ${count}`
     console.time(logText)
-    throw new Error('[TEST]Not has subscriber ' + subscribers.length)
     for (const { email, id } of subscribers) {
       const subscriber = await mongoCollection.findOne({ id })
+      throw new Error('[TEST]Not has subscriber ' + Boolean(subscriber))
       if (!subscriber) continue
       const { rolesId } = subscriber as unknown as { rolesId: string[] }
 
