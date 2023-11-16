@@ -30,7 +30,9 @@ export async function emailPreRender() {
     console.time(logText)
     for (const { email, id } of subscribers) {
       const subscriber = await mongoCollection.findOne({ id })
-      if (!subscriber) continue
+      if (!subscriber) {
+        throw new Error('[TEST]Not has subscriber')
+      }
       const { rolesId } = subscriber as unknown as { rolesId: string[] }
 
       const { footerHTML, headerHTML } = await renderHeaderAndFooter(
