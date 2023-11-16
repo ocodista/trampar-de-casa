@@ -9,7 +9,7 @@ jobs:
   wednesday-email:
     runs-on: ubuntu-latest
     env:
-      MONGO_ADDRESS: mongodb://root:example@localhost:27017
+      MONGO_ADDRESS: ${{ secrets.MONGO_ADDRESS }}
       RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@rabbitmq
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
@@ -25,13 +25,13 @@ jobs:
         env:
           RABBITMQ_DEFAULT_USER: trampar
           RABBITMQ_DEFAULT_PASS: trampar-de-casa
-      mongodb:
-        image: mongo:latest
-        env:
-          MONGO_INITDB_ROOT_USERNAME: root
-          MONGO_INITDB_ROOT_PASSWORD: example
-        ports:
-          - 27017:27017
+      # mongodb:
+      #   image: mongo:latest
+      #   env:
+      #     MONGO_INITDB_ROOT_USERNAME: root
+      #     MONGO_INITDB_ROOT_PASSWORD: example
+      #   ports:
+      #     - 27017:27017
 
     steps:
     - name: Checkout code
@@ -57,8 +57,8 @@ jobs:
     - name: Install turbo
       run: yarn add -WD turbo
 
-    - name: Wait for MongoDB
-      run: until nc -z localhost 27017; do sleep 1; done
+    # - name: Wait for MongoDB
+    #   run: until nc -z localhost 27017; do sleep 1; done
 
     - name: Roles renderer
       run: yarn turbo start --filter roles-renderer
