@@ -45,7 +45,6 @@ export async function emailPreRender() {
           roles: rolesId,
         },
       })
-      throw new Error('[TEST]Not has subscriber ' + Boolean(subscriber))
     }
     console.timeEnd(logText)
   }

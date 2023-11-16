@@ -14,6 +14,7 @@ jobs:
       SECRET_KEY: ${{ secrets.SECRET_KEY }}
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+      CRYPT_SECRET: ${{ secrets.CRYPT_SECRET }}
       URL_PREFIX: https://trampardecasa.com.br
 
     steps:
