@@ -9,9 +9,9 @@ dotenv.config()
 
 export const BATCH_SIZE = 1_000
 export async function emailPreRender() {
-  throw new Error('[TEST]Not has subscriber')
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
+  throw new Error('[TEST]Not has subscriber')
   const mongoCollection = mongoDatabase.collection(
     MongoCollection.RolesAssigner
   )
