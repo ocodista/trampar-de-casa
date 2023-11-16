@@ -60,14 +60,14 @@ jobs:
     # - name: Wait for MongoDB
     #   run: until nc -z localhost 27017; do sleep 1; done
 
+    - name: Roles assigner
+      run: yarn turbo start --filter roles-assigner
+
     - name: Roles renderer
       run: yarn turbo start --filter roles-renderer
     
 #    - name: Roles validator
 #      run: yarn turbo start --filter roles-validator
 
-    - name: Roles assigner
-      run: yarn turbo start --filter roles-assigner
-    
     - name: Email pre-renderer
       run: yarn turbo start --filter email-pre-renderer
