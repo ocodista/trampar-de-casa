@@ -24,7 +24,6 @@ export const assignRoles = async () => {
   })
   let count = 0
   for await (const subscribersBatch of subscribersGenerator) {
-    console.log({ subscribersBatch })
     count += subscribersBatch?.length || 0
     console.log(`Processing ${count}...`)
     console.time(`Processed ${count}`)
