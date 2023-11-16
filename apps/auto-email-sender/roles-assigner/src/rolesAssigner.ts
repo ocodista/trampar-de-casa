@@ -46,4 +46,5 @@ export const assignRoles = async () => {
 
   await mongoConnection.close()
   console.timeEnd('assignRoles')
+  process.exit(0)
 }
