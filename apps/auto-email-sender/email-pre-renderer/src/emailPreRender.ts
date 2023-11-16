@@ -15,6 +15,7 @@ export async function emailPreRender() {
     MongoCollection.RolesAssigner
   )
   const channel = await createRabbitMqChannel()
+  throw new Error('[TEST]Not has subscriber')
   const supabaseClient = getSupabaseClient()
   const subscribersGenerator = getAllConfirmedSubscribersPaginated({
     supabase: supabaseClient,
@@ -30,9 +31,7 @@ export async function emailPreRender() {
     console.time(logText)
     for (const { email, id } of subscribers) {
       const subscriber = await mongoCollection.findOne({ id })
-      if (!subscriber) {
-        throw new Error('[TEST]Not has subscriber')
-      }
+      if (!subscriber) continue
       const { rolesId } = subscriber as unknown as { rolesId: string[] }
 
       const { footerHTML, headerHTML } = await renderHeaderAndFooter(
