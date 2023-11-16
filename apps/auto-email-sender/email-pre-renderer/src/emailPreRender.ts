@@ -50,4 +50,5 @@ export async function emailPreRender() {
   }
 
   await mongoConnection.close()
+  process.exit(0)
 }
