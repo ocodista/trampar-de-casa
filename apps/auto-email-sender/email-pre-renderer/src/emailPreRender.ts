@@ -31,7 +31,6 @@ export async function emailPreRender() {
     for (const { email, id } of subscribers) {
       const subscriber = await mongoCollection.findOne({ id })
       if (!subscriber) continue
-      throw new Error('[TEST]Not has subscriber ' + Boolean(subscriber))
       const { rolesId } = subscriber as unknown as { rolesId: string[] }
 
       const { footerHTML, headerHTML } = await renderHeaderAndFooter(
@@ -46,6 +45,7 @@ export async function emailPreRender() {
           roles: rolesId,
         },
       })
+      throw new Error('[TEST]Not has subscriber ' + Boolean(subscriber))
     }
     console.timeEnd(logText)
   }
