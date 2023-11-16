@@ -16,23 +16,6 @@ jobs:
       SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
       URL_PREFIX: https://trampardecasa.com.br
 
-    # services:
-    #   rabbitmq:
-    #     image: rabbitmq:3-management
-    #     ports:
-    #       - 5672:5672
-    #       - 15672:15672
-    #     env:
-    #       RABBITMQ_DEFAULT_USER: trampar
-    #       RABBITMQ_DEFAULT_PASS: trampar-de-casa
-      # mongodb:
-      #   image: mongo:latest
-      #   env:
-      #     MONGO_INITDB_ROOT_USERNAME: root
-      #     MONGO_INITDB_ROOT_PASSWORD: example
-      #   ports:
-      #     - 27017:27017
-
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
