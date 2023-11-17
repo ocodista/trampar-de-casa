@@ -1,12 +1,13 @@
 import { faker } from '@faker-js/faker'
 import * as getAllPaginatedFile from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
+import * as sendToQueueFile from 'shared/src/queue/sendToQueue'
 import { BATCH_SIZE, emailPreRender } from 'src/emailPreRender'
 import { vi } from 'vitest'
-import * as sendToQueueFile from '../sendToQueue'
 
 type Subscribers = SupabaseTable<'Subscribers'>
 
+import { EmailQueues } from 'shared'
 import {
   channelMock,
   configRenderMocks,
@@ -131,13 +132,17 @@ describe('Email Pre Renderer', () => {
 
       await emailPreRender()
 
-      expect(sendToQueueSpy).toHaveBeenCalledWith(channelMock, {
-        [subscriberMock.email]: {
-          footerHTML: renderFooterReturnMock,
-          headerHTML: renderHeaderReturnMock,
-          roles: mongoRoleAssignerMock.rolesId,
-        },
-      })
+      expect(sendToQueueSpy).toHaveBeenCalledWith(
+        EmailQueues.EmailPreRenderer,
+        channelMock,
+        {
+          [subscriberMock.email]: {
+            footerHTML: renderFooterReturnMock,
+            headerHTML: renderHeaderReturnMock,
+            roles: mongoRoleAssignerMock.rolesId,
+          },
+        }
+      )
     })
   })
 })

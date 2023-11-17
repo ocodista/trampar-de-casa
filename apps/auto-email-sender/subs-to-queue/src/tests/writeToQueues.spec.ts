@@ -1,8 +1,8 @@
 import { EmailQueues } from 'shared'
+import * as sendToQueueFile from 'shared/src/queue/sendToQueue'
 import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
 import { writeToQueues } from 'src/writeToQueues'
 import { vi } from 'vitest'
-import * as sendToQueueFile from '../sendToQueue'
 import { subscribersMock } from './mocks'
 
 describe('Read Subscribers Chunks', () => {

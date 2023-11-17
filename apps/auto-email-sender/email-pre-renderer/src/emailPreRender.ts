@@ -1,10 +1,10 @@
 import { getSupabaseClient } from 'db'
 import { getAllConfirmedSubscribersPaginated } from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import dotenv from 'dotenv'
-import { MongoCollection, getMongoConnection } from 'shared'
+import { EmailQueues, MongoCollection, getMongoConnection } from 'shared'
 import { createRabbitMqChannel } from 'shared/src/queue/createRabbitMqChannel'
+import { sendToQueue } from 'shared/src/queue/sendToQueue'
 import { renderHeaderAndFooter } from './renderHeaderAndFooter'
-import { sendToQueue } from './sendToQueue'
 dotenv.config()
 
 export const BATCH_SIZE = 1_000
@@ -38,7 +38,7 @@ export async function emailPreRender() {
         rolesId
       )
 
-      await sendToQueue(channel, {
+      await sendToQueue(EmailQueues.EmailPreRenderer, channel, {
         [email]: {
           footerHTML,
           headerHTML,
