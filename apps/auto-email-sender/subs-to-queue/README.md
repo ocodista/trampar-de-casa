@@ -1,6 +1,6 @@
 # Subs to queue
 
-The objective of this service is send the necessary database information of `email-pre-renderer` and `email-composer` for a queue `email-pre-renderer-subs` and `email-sender-subs`.
+The objective of this service is to send the necessary database information of `email-pre-renderer` and `email-composer` for a queue of `email-pre-renderer-subs` and `email-sender-subs``.
 
 ## Prerequisites
 
@@ -42,9 +42,10 @@ end
 
 ### subsToQueue
 
-- Create connection with RabbitMQ and Supabase
+Create a connection with RabbitMQ and Supabase
+
 - Execute `getAllConfirmedSubscribersPaginated`
-- Create a loop for read all chunks
+- Create a loop to read all chunks
 
 ### readChunk
 
