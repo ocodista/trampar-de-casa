@@ -12,6 +12,8 @@ Before starting, you'll need:
 
 Refer to the official documentation for [Node.js](https://nodejs.org/), [RabbitMQ](https://www.rabbitmq.com/documentation.html), and [Supabase](https://supabase.io/) for installation guides.
 
+Or, if you're smart, use Docker.
+
 ## Flow Diagram
 
 ![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/e18ac657-a3d2-4d08-b95f-ef5f912d174c)
