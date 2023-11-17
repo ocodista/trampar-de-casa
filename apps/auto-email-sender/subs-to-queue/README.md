@@ -13,6 +13,7 @@ Before proceeding, you should have the following installed on your system:
 Refer to the official documentation for [Node.js](https://nodejs.org/), [RabbitMQ](https://www.rabbitmq.com/documentation.html), and [Supabase](https://supabase.io/) for installation guides.
 
 ## Flow Diagram
+
 ![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/e18ac657-a3d2-4d08-b95f-ef5f912d174c)
 
 ## Sequence Diagram
@@ -57,7 +58,7 @@ end
 
 ### sendToSubsInfoEmailPreRenderer
 
-- send message to `sendToSubsInfoEmailPreRenderer` queue.
+- send message to `EmailQueues.SubsInfoEmailPreRenderer` queue.
 
 ### sendToQueue
 
