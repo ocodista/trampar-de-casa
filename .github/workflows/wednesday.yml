@@ -13,6 +13,7 @@ jobs:
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
       CRYPT_SECRET: ${{ secrets.CRYPT_SECRET }}
+      RESEND_KEY: ${{ secrets.RESEND_KEY }}
       URL_PREFIX: https://trampardecasa.com.br
 
     steps:
@@ -50,3 +51,9 @@ jobs:
 
     - name: Email pre-renderer
       run: yarn turbo start --filter email-pre-renderer
+
+    - name: Email composer
+      run: yarn turbo start --filter email-composer
+
+    - name: Email sender
+      run: yarn turbo start --filter email-sender
