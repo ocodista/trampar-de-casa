@@ -1,7 +1,7 @@
 import { Channel } from 'amqplib'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
-import { sendToSubsInfoEmailComposer } from './sendToSubsInfoEmailComposer'
-import { sendToSubsInfoEmailPreRenderer } from './sendToSubsInfoEmailPreRenderer'
+import { sendToQueue } from './sendToQueue'
+import { EmailQueues } from 'shared'
 
 export type Subscriber = Pick<
   SupabaseTable<'Subscribers'>,
@@ -13,20 +13,20 @@ export const writeToQueues = async (
 ) => {
   const promises = subscribers.map(
     async ({ id, email, isConfirmed, skillsId, startedWorkingAt }) => {
-      const subsInfoEmailComposerObject = {
+      const emailComposerSub = {
         skillsId,
         startedWorkingAt,
         id,
         email,
         isConfirmed,
       }
-      const subsInfoEmailPreRendererObject = {
+      const emailPreRenderSub = {
         id,
         email,
       }
       return [
-        sendToSubsInfoEmailComposer(channel, subsInfoEmailComposerObject),
-        sendToSubsInfoEmailPreRenderer(channel, subsInfoEmailPreRendererObject),
+        sendToQueue(EmailQueues.EmailComposerSubs, channel, emailComposerSub),
+        sendToQueue(EmailQueues.EmailPreRenderSubs, channel, emailPreRenderSub),
       ]
     }
   )

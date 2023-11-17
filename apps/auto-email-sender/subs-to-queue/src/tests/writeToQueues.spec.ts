@@ -2,45 +2,42 @@ import { EmailQueues } from 'shared'
 import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
 import { writeToQueues } from 'src/writeToQueues'
 import { vi } from 'vitest'
-import * as sendSubInfoToEmailComposerFile from '../sendToSubsInfoEmailComposer'
-import * as sendSubInfoToEmailPreRendererFile from '../sendToSubsInfoEmailPreRenderer'
+import * as sendToQueueFile from '../sendToQueue'
 import { subscribersMock } from './mocks'
 
 describe('Read Subscribers Chunks', () => {
   describe('For Each Subscriber', () => {
-    it(`Send to ${EmailQueues.SubsInfoEmailPreRenderer} the object with {id, email}`, async () => {
+    it(`Send to ${EmailQueues.EmailPreRenderSubs} the object with {id, email}`, async () => {
       const subscribers = subscribersMock(1)
       const { id, email } = subscribers[0]
-      const sendToSubsInfoEmailPreRendererSpy = vi.spyOn(
-        sendSubInfoToEmailPreRendererFile,
-        'sendToSubsInfoEmailPreRenderer'
-      )
-
+      const sendToQueueSpy = vi.spyOn(sendToQueueFile, 'sendToQueue')
       await writeToQueues(subscribers, channelMock)
-
-      expect(sendToSubsInfoEmailPreRendererSpy).toHaveBeenCalledWith(
+      expect(sendToQueueSpy).toHaveBeenCalledWith(
+        EmailQueues.EmailPreRenderSubs,
         channelMock,
         { id, email }
       )
     })
-    it(`Send to ${EmailQueues.SubsInfoEmailComposer} the object with {skillsId,startedWorkingAt,id,email,isConfirmed}`, async () => {
+    it(`Send to ${EmailQueues.EmailComposerSubs} the object with {skillsId,startedWorkingAt,id,email,isConfirmed}`, async () => {
       const subscribers = subscribersMock(1)
       const { id, email, isConfirmed, skillsId, startedWorkingAt } =
         subscribers[0]
-      const sendSubInfoToEmailComposerSpy = vi.spyOn(
-        sendSubInfoToEmailComposerFile,
-        'sendToSubsInfoEmailComposer'
-      )
+
+      const sendToQueueSpy = vi.spyOn(sendToQueueFile, 'sendToQueue')
 
       await writeToQueues(subscribers, channelMock)
 
-      expect(sendSubInfoToEmailComposerSpy).toHaveBeenCalledWith(channelMock, {
-        id,
-        email,
-        isConfirmed,
-        skillsId,
-        startedWorkingAt,
-      })
+      expect(sendToQueueSpy).toHaveBeenCalledWith(
+        EmailQueues.EmailComposerSubs,
+        channelMock,
+        {
+          id,
+          email,
+          isConfirmed,
+          skillsId,
+          startedWorkingAt,
+        }
+      )
     })
   })
 })
