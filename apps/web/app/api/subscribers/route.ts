@@ -5,10 +5,12 @@ import { sendConfirmationEmail } from 'shared/src/email'
 import { SupabaseCodes } from 'shared/src/enums'
 import { logError } from '../logError'
 import { getSubscriberByEmail, insertSubscriber } from './db'
+import { getTracker } from '../../utils/tracker'
 
 interface EmailRequest {
   email: string
 }
+const tracker = getTracker()
 
 export async function POST(request: Request) {
   const { email } = (await request.json()) as EmailRequest
@@ -18,24 +20,24 @@ export async function POST(request: Request) {
 
   const { data, error } = await insertSubscriber(email)
 
-  if (error) {
-    if (error.code === SupabaseCodes.DuplicatedRow) {
-      const { data: subscriber } = await getSubscriberByEmail(email)
-      const isConfirmed = subscriber?.length && subscriber[0].isConfirmed
-      return NextResponse.json(
-        {
-          isConfirmed,
-          message: isConfirmed
-            ? 'Email já cadastrado.'
-            : 'Email não confirmado.',
-        },
-        { status: StatusCodes.CONFLICT }
-      )
-    }
-    return await logError(error)
-  }
-
   try {
+    if (error) {
+      if (error.code === SupabaseCodes.DuplicatedRow) {
+        const { data: subscriber } = await getSubscriberByEmail(email)
+        const isConfirmed = subscriber?.length && subscriber[0].isConfirmed
+        return NextResponse.json(
+          {
+            isConfirmed,
+            message: isConfirmed
+              ? 'Email já cadastrado.'
+              : 'Email não confirmado.',
+          },
+          { status: StatusCodes.CONFLICT }
+        )
+      }
+      return logError(error)
+    }
+
     const [subscriber] = data as { id: string; email: string }[]
     await sendConfirmationEmail({
       secretKey: process.env['CRYPT_SECRET'],
@@ -43,14 +45,11 @@ export async function POST(request: Request) {
       resendKey: process.env['RESEND_KEY'],
       subscriberId: subscriber.id,
     })
-    new Tracker(process.env['NEXT_PUBLIC_MIXPANEL_KEY']).track(
-      Events.NewSubscriber,
-      {
-        distinct_id: subscriber.email,
-      }
-    )
+    tracker.track(Events.NewSubscriber, {
+      distinct_id: subscriber.email,
+    })
   } catch (err) {
-    await logError(err)
+    return logError(err)
   }
 
   return NextResponse.json(data)

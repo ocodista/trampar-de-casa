@@ -9,12 +9,12 @@ export interface EmailProps {
 }
 
 export const getEmailProps = (
-  subscriber: Subscribers,
+  { email, id }: Subscribers,
   roles: Role[]
 ): EmailProps => {
   const emailProps = {
-    email: subscriber.email,
-    id: subscriber.id,
+    email,
+    id,
     rolesId: roles.map((role) => role.id),
   }
 

@@ -1,13 +1,7 @@
 import { Channel, Connection, GetMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
-import { CONFIG } from '../config'
 import { parsePreRenderMessage } from './parsePreRenderMessage'
-
-const rabbitMqCredentials = {
-  password: CONFIG.RABBITMQ_PASS,
-  user: CONFIG.RABBITMQ_USER,
-}
 
 const connectToQueue = async (connection: Connection, queue: string) => {
   const channel = await connection.createChannel()
@@ -38,21 +32,26 @@ export const consumePreRenderQueue = async (
 
 export const composeEmail = async () => {
   console.time('composeEmail')
-  const rabbitConnection = await createRabbitMqConnection(rabbitMqCredentials)
+  const rabbitConnection = await createRabbitMqConnection()
 
   const [emailPreRendererChannel, emailSenderChannel] = await Promise.all([
     connectToQueue(rabbitConnection, EmailQueues.EmailPreRenderer),
     connectToQueue(rabbitConnection, EmailQueues.EmailSender),
   ])
 
-  let msg: GetMessage | false
+  let msg: GetMessage | false,
+    count = 0
   do {
     msg = await emailPreRendererChannel.get(EmailQueues.EmailPreRenderer, {
       noAck: false,
     })
     await consumePreRenderQueue(msg, emailSenderChannel)
-    if (msg) emailPreRendererChannel.ack(msg)
+    if (msg) {
+      emailPreRendererChannel.ack(msg)
+    }
+    console.log(++count)
   } while (msg)
 
   console.timeEnd('composeEmail')
+  process.exit(0)
 }

@@ -25,6 +25,7 @@ export const profileFormSchema = z.object({
     .min(28, {
       message: 'Seu LinkedIn é obrigatório',
     })
+    .trim()
     .startsWith(
       'https://linkedin.com/in/',
       'URL do perfil deve começar com https://linkedin.com/in/'

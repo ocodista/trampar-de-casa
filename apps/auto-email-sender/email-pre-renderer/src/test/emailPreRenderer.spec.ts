@@ -15,6 +15,9 @@ import {
   renderHeaderStub,
 } from './helpers'
 
+// mock process.exit
+vi.spyOn(process, 'exit').mockImplementation(vi.fn())
+
 const mockSubscribersGenerator = (responseChunks: Array<Subscribers[]>) => {
   const getAllPaginatedStub = vi.spyOn(
     getAllPaginatedFile,
@@ -107,7 +110,8 @@ describe('Email Pre Renderer', () => {
       await emailPreRender()
 
       expect(renderHeaderStub).toHaveBeenCalledWith(
-        mongoRoleAssignerMock.rolesId
+        mongoRoleAssignerMock.rolesId,
+        mongoRoleAssignerMock.id
       )
     })
 

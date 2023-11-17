@@ -3,20 +3,8 @@ import { Database, SupabaseClient } from 'db'
 import { Entities } from 'shared/src/enums/entities'
 import { SupabaseTable } from '../../../supabase/utilityTypes'
 
-type EnglishLevel = Database['public']['Enums']['EnglishLevel']
 type Subscribers = SupabaseTable<'Subscribers'>
 type Role = SupabaseTable<'Roles'>
-
-const englishLevelScore: Record<EnglishLevel, number> = {
-  Fluent: 3,
-  Advanced: 2,
-  Intermediary: 1,
-  Beginner: 0,
-}
-enum RoleLanguage {
-  English = 'English',
-  Portuguese = 'Portuguese',
-}
 
 type RoleFilterBuilder = PostgrestFilterBuilder<
   Database['public'],
@@ -25,45 +13,52 @@ type RoleFilterBuilder = PostgrestFilterBuilder<
   Database['public']['Tables']['Roles']['Relationships']
 >
 
-export const getSubscriberRoles = async (
-  subscriber: Subscribers,
-  supabase: SupabaseClient<Database>
+const readyRoles = (supabase: SupabaseClient<Database>): RoleFilterBuilder =>
+  supabase.from(Entities.Roles).select().eq('ready', true)
+const top = (limit: number, query: RoleFilterBuilder) => query.limit(limit)
+
+const filterBySkills = (
+  skills: string[] | null,
+  query: RoleFilterBuilder
+): RoleFilterBuilder => {
+  if (!skills) return query
+  return query.filter('skillsId', 'ov', `{${skills}}`)
+}
+
+const filterByExp = (
+  startedWorkedAt: Subscribers['startedWorkingAt'],
+  query: RoleFilterBuilder
 ) => {
+  if (!startedWorkedAt) return query
+  const currentDate = new Date()
+  const yearOfExperience =
+    currentDate.getFullYear() - new Date(startedWorkedAt).getFullYear()
 
-  const filterBySkill = (skills: string[] | null, query: RoleFilterBuilder) => {
-    if (!skills) return query
-    return query.filter('skillsId', 'ov', `{${skills}}`)
-  }
-  const filterByEnglish = (
-    englishLevel: EnglishLevel | null,
-    query: RoleFilterBuilder
-  ) => {
-    if (!englishLevel) return query
-    if (!(englishLevelScore[englishLevel] >= englishLevelScore.Advanced)) {
-      return query.filter('language', 'not.eq', RoleLanguage.English)
-    }
+  return query.lte('minimumYears', yearOfExperience)
+}
 
-    return query
-  }
-  const filterByExp = (
-    startedWorkedAt: Subscribers['startedWorkingAt'],
-    query: RoleFilterBuilder
-  ) => {
-    if (!startedWorkedAt) return query
-    const currentDate = new Date()
-    const yearOfExperience =
-      currentDate.getFullYear() - new Date(startedWorkedAt).getFullYear()
+let topRoles: SupabaseTable<'Roles'>[] | undefined = undefined
+const top40Roles = async (supabase: SupabaseClient<Database>) => {
+  if (topRoles) return topRoles
+  // TODO: Add columns top to roles table so we can choose the top 40 for each release.
+  const { data, error } = await top(40, readyRoles(supabase))
+  if (error) throw error
+  topRoles = data
+  return topRoles
+}
 
-    return query.lte('minimumYears', yearOfExperience)
+export const getSubscriberRoles = async (
+  { skillsId, startedWorkingAt }: Subscribers,
+  supabase: SupabaseClient<Database>
+): Promise<SupabaseTable<'Roles'>[]> => {
+  if (!skillsId) {
+    return await top40Roles(supabase)
   }
 
-  const baseQuery = supabase.from(Entities.Roles).select().eq('ready', true)
-  const { data, error } = await filterBySkill(subscriber.skillsId, baseQuery)
-
-  if (error) {
-    console.log(error)
-    throw error
-  }
-
-  return data || []
+  const roles = readyRoles(supabase)
+  const skilledRoles = filterBySkills(skillsId, roles)
+  const leveledRoles = filterByExp(startedWorkingAt, skilledRoles)
+  const { data, error } = await top(40, leveledRoles)
+  if (error) throw error
+  return data
 }
