@@ -1,10 +1,9 @@
 import { faker } from '@faker-js/faker'
-import * as dbFile from 'db'
 import { MongoClient } from 'mongodb'
 import * as encryptFile from 'shared'
 import * as sharedFile from 'shared'
 import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
-import { getSupabaseClientStub } from 'shared/src/test/helpers/stubs'
+import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
 import { vi } from 'vitest'
 import * as renderFooterFile from '../../renderFooter'
 import * as renderHeaderFile from '../../renderHeader'
@@ -17,18 +16,10 @@ export const renderHeaderStub = vi.fn()
 export const renderFooterStub = vi.fn()
 export const createRabbitMqChannelStub = vi.fn()
 export const sendToQueueStub = vi.fn()
-export const channelMock = {
-  close: vi.fn(),
-  assertQueue: vi.fn(),
-  sendToQueue: sendToQueueStub,
-}
 createRabbitMqChannelStub.mockReturnValue(channelMock)
 export const getAllSubscribersStub = vi.fn()
 
 export const mockExternalServices = () => {
-  vi.spyOn(dbFile, 'getSupabaseClient').mockImplementation(
-    getSupabaseClientStub
-  )
   vi.spyOn(
     createRabbitMqChannelFile,
     'createRabbitMqChannel'
