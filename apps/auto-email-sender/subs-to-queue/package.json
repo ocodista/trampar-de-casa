@@ -1,0 +1,22 @@
+{
+  "name": "subs-to-queue",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "license": "MIT",
+  "scripts": {
+    "test:watch": "vitest watch",
+    "test": "vitest run",
+    "start": "ts-node src/index.ts",
+    "test:silent": "vitest run --silent"
+  },
+  "dependencies": {
+    "amqplib": "^0.10.3",
+    "db": "*",
+    "shared": "*"
+  },
+  "devDependencies": {
+    "@faker-js/faker": "^8.3.1",
+    "ts-node": "^10.9.1",
+    "vitest": "^0.34.6"
+  }
+}
