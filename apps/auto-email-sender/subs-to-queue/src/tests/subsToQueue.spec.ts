@@ -6,7 +6,7 @@ import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
 import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
 import { subsToQueue } from 'src/subsToQueue'
 import { vi } from 'vitest'
-import * as readChunkFile from '../readChunk'
+import * as writeToQueuesFile from '../writeToQueues'
 import { subscribersMock } from './mocks'
 
 const supabasePaginationSetup = () => {
@@ -62,7 +62,7 @@ describe('subs-to-queue', () => {
         supabasePaginationSetup()
       rabbitMqSetup()
       const subscriberMock = subscribersMock(1)
-      const readChunkSPy = vi.spyOn(readChunkFile, 'readChunk')
+      const readChunkSPy = vi.spyOn(writeToQueuesFile, 'writeToQueues')
       getAllConfirmedSubscribersPaginatedSpy
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore

@@ -6,7 +6,7 @@ import { sendToQueue } from './sendToQueue'
 export type Subscriber = Pick<SupabaseTable<'Subscribers'>, 'id' | 'email'>
 export const sendToSubsInfoEmailPreRenderer = async (
   channel: Channel,
-  props: Subscriber
+  subscriber: Subscriber
 ) => {
-  await sendToQueue(EmailQueues.SubsInfoEmailPreRenderer, channel, props)
+  await sendToQueue(EmailQueues.SubsInfoEmailPreRenderer, channel, subscriber)
 }

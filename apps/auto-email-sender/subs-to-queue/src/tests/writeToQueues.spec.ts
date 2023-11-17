@@ -1,6 +1,6 @@
 import { EmailQueues } from 'shared'
 import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
-import { readChunk } from 'src/readChunk'
+import { writeToQueues } from 'src/writeToQueues'
 import { vi } from 'vitest'
 import * as sendSubInfoToEmailComposerFile from '../sendToSubsInfoEmailComposer'
 import * as sendSubInfoToEmailPreRendererFile from '../sendToSubsInfoEmailPreRenderer'
@@ -16,7 +16,7 @@ describe('Read Subscribers Chunks', () => {
         'sendToSubsInfoEmailPreRenderer'
       )
 
-      await readChunk(subscribers, channelMock)
+      await writeToQueues(subscribers, channelMock)
 
       expect(sendToSubsInfoEmailPreRendererSpy).toHaveBeenCalledWith(
         channelMock,
@@ -32,7 +32,7 @@ describe('Read Subscribers Chunks', () => {
         'sendToSubsInfoEmailComposer'
       )
 
-      await readChunk(subscribers, channelMock)
+      await writeToQueues(subscribers, channelMock)
 
       expect(sendSubInfoToEmailComposerSpy).toHaveBeenCalledWith(channelMock, {
         id,

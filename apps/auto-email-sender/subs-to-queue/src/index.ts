@@ -1,3 +1,6 @@
 import { subsToQueue } from './subsToQueue'
-
-subsToQueue()
+;(async () => {
+  await subsToQueue()
+  console.log('finished.')
+  process.exit(0)
+})()
