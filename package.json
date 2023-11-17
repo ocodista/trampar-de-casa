@@ -5,6 +5,7 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "build": "turbo run build --filter=./apps/auto-email-sender/*",
     "dev": "turbo dev --concurrency 20",
     "lint-format": "yarn format && eslint --fix",
     "lint": "turbo run lint --concurrency 20",

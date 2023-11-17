@@ -75,6 +75,7 @@ describe('Roles Renderer', () => {
   it(`parses and stores html in mongoDb`, async () => {
     const mockMongoCollection = {
       insertOne: vi.fn(),
+      insertMany: vi.fn(),
       updateOne: vi.fn(),
       deleteOne: vi.fn(),
       find: vi.fn(),
