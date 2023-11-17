@@ -49,20 +49,8 @@ Create a connection with RabbitMQ and Supabase
 - Execute `getAllConfirmedSubscribersPaginated`
 - Create a loop to read all chunks
 
-### readChunk
+### writeToQueue
 
 - create a loop for each chunk
-- execute `sendToSubsInfoRolesAssigner`
-- execute `sendToSubsInfoEmailPreRenderer`
-
-### sendToSubsInfoRolesAssigner
-
-- send message to `EmailQueues.SubsInfoRolesAssigner` queue.
-
-### sendToSubsInfoEmailPreRenderer
-
-- send message to `EmailQueues.SubsInfoEmailPreRenderer` queue.
-
-### sendToQueue
-
-A simple abstraction to send a message to RabbitMQ
+- send to `EmailQueues.SubsInfoEmailComposer` rabbitMQ queue.
+- send to `EmailQueues.SubsInfoEmailPreRenderer` rabbitMQ queue.
