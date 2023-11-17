@@ -4,5 +4,5 @@ export enum EmailQueues {
   EmailPreRenderer = 'email-pre-renderer',
   EmailSender = 'email-sender',
   EmailPreRenderSubs = 'email-pre-renderer-subs',
-  EmailComposerSubs = 'email-composer-subs',
+  RolesAssignerSubs = 'roles-assigner-subs',
 }

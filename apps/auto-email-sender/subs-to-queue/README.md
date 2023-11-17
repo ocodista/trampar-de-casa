@@ -1,6 +1,6 @@
 # Subs to queue
 
-The objective of this service is to send the necessary database information of `email-pre-renderer` and `email-composer` for a queue of `email-pre-renderer-subs` and `email-sender-subs``.
+The objective of this service is to send the necessary database information of `email-pre-renderer` and `roles-assigner` for a queue of `email-pre-renderer-subs` and `roles-assigner-subs``.
 
 ## Prerequisites
 
@@ -25,7 +25,7 @@ sequenceDiagram
 
 participant S as Service
 participant RC as ReadChunk
-participant STIEC as sendToSubsInfoEmailComposer
+participant STIEC as sendToSubsInfoRolesAssigner
 participant STIEPR as sendToSubsInfoEmailPreRenderer
 participant DB as Supabase
 participant R as RabbitMQ
@@ -52,12 +52,12 @@ Create a connection with RabbitMQ and Supabase
 ### readChunk
 
 - create a loop for each chunk
-- execute `sendToSubsInfoEmailComposer`
+- execute `sendToSubsInfoRolesAssigner`
 - execute `sendToSubsInfoEmailPreRenderer`
 
-### sendToSubsInfoEmailComposer
+### sendToSubsInfoRolesAssigner
 
-- send message to `EmailQueues.SubsInfoEmailComposer` queue.
+- send message to `EmailQueues.SubsInfoRolesAssigner` queue.
 
 ### sendToSubsInfoEmailPreRenderer
 

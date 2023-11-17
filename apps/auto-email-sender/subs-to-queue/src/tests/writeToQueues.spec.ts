@@ -18,7 +18,7 @@ describe('Read Subscribers Chunks', () => {
         { id, email }
       )
     })
-    it(`Send to ${EmailQueues.EmailComposerSubs} the object with {skillsId,startedWorkingAt,id,email,isConfirmed}`, async () => {
+    it(`Send to ${EmailQueues.RolesAssignerSubs} the object with {skillsId,startedWorkingAt,id,email,isConfirmed}`, async () => {
       const subscribers = subscribersMock(1)
       const { id, email, isConfirmed, skillsId, startedWorkingAt } =
         subscribers[0]
@@ -28,7 +28,7 @@ describe('Read Subscribers Chunks', () => {
       await writeToQueues(subscribers, channelMock)
 
       expect(sendToQueueSpy).toHaveBeenCalledWith(
-        EmailQueues.EmailComposerSubs,
+        EmailQueues.RolesAssignerSubs,
         channelMock,
         {
           id,
