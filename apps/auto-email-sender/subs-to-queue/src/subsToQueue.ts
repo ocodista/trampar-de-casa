@@ -14,6 +14,8 @@ export const subsToQueue = async () => {
 
   for await (const subscribersChunk of subscribersGenerator) {
     console.log(`Processing... ${subscribersChunk.length}`)
+    console.time(`Processed ${subscribersChunk.length}`)
     await writeToQueues(subscribersChunk, queueChannel)
+    console.timeEnd(`Processed ${subscribersChunk.length}`)
   }
 }
