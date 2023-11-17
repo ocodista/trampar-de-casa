@@ -1,13 +1,7 @@
 import { Channel, Connection, GetMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
-import { CONFIG } from '../config'
 import { parsePreRenderMessage } from './parsePreRenderMessage'
-
-const rabbitMqCredentials = {
-  password: CONFIG.RABBITMQ_PASS,
-  user: CONFIG.RABBITMQ_USER,
-}
 
 const connectToQueue = async (connection: Connection, queue: string) => {
   const channel = await connection.createChannel()
@@ -38,7 +32,7 @@ export const consumePreRenderQueue = async (
 
 export const composeEmail = async () => {
   console.time('composeEmail')
-  const rabbitConnection = await createRabbitMqConnection(rabbitMqCredentials)
+  const rabbitConnection = await createRabbitMqConnection()
 
   const [emailPreRendererChannel, emailSenderChannel] = await Promise.all([
     connectToQueue(rabbitConnection, EmailQueues.EmailPreRenderer),
@@ -59,4 +53,5 @@ export const composeEmail = async () => {
   } while (msg)
 
   console.timeEnd('composeEmail')
+  process.exit(0)
 }

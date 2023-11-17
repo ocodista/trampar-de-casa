@@ -7,7 +7,8 @@ import { rolesValidator } from './rolesValidator'
     MongoCollection.RolesRenderer
   )
 
-  await rolesValidator(mongoCollection).finally(
-    async () => await mongoConnection.close()
-  )
+  await rolesValidator(mongoCollection).finally(async () => {
+    await mongoConnection.close()
+    process.exit(0)
+  })
 })()

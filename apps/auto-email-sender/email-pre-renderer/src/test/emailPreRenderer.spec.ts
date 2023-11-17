@@ -15,6 +15,9 @@ import {
   renderHeaderStub,
 } from './helpers'
 
+// mock process.exit
+vi.spyOn(process, 'exit').mockImplementation(vi.fn())
+
 const mockSubscribersGenerator = (responseChunks: Array<Subscribers[]>) => {
   const getAllPaginatedStub = vi.spyOn(
     getAllPaginatedFile,

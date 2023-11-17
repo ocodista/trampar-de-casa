@@ -48,16 +48,16 @@ const top40Roles = async (supabase: SupabaseClient<Database>) => {
 }
 
 export const getSubscriberRoles = async (
-  subscriber: Subscribers,
+  { skillsId, startedWorkingAt }: Subscribers,
   supabase: SupabaseClient<Database>
 ): Promise<SupabaseTable<'Roles'>[]> => {
-  if (!subscriber.skillsId) {
+  if (!skillsId) {
     return await top40Roles(supabase)
   }
 
   const roles = readyRoles(supabase)
-  const skilledRoles = filterBySkills(subscriber.skillsId, roles)
-  const leveledRoles = filterByExp(subscriber.startedWorkingAt, skilledRoles)
+  const skilledRoles = filterBySkills(skillsId, roles)
+  const leveledRoles = filterByExp(startedWorkingAt, skilledRoles)
   const { data, error } = await top(40, leveledRoles)
   if (error) throw error
   return data

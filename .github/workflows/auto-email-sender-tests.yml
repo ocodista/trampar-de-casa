@@ -1,4 +1,4 @@
-name: Run Auto Email Sender Tests
+name: auto email sender tests
 
 on:
   push:

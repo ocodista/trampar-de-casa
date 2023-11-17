@@ -8,7 +8,7 @@ import { getEmailProps } from './getEmailProps'
 
 dotenv.config()
 
-const BATCH_SIZE = 100
+const BATCH_SIZE = 1_000
 export const assignRoles = async () => {
   console.time('assignRoles')
   const mongoConnection = await getMongoConnection()
@@ -20,8 +20,13 @@ export const assignRoles = async () => {
   const subscribersGenerator = getAllConfirmedSubscribersPaginated({
     batchSize: BATCH_SIZE,
     supabase: supabaseClient,
+    selectQuery: 'skillsId,startedWorkingAt,id,email,isConfirmed',
   })
+  let count = 0
   for await (const subscribersBatch of subscribersGenerator) {
+    count += subscribersBatch?.length || 0
+    console.log(`Processing ${count}...`)
+    console.time(`Processed ${count}`)
     if (!subscribersBatch?.length) break
 
     const matchRolesPromises = subscribersBatch.map(async (subscriber) => {
@@ -35,8 +40,10 @@ export const assignRoles = async () => {
       }
     })
     await Promise.allSettled(matchRolesPromises)
+    console.timeEnd(`Processed ${count}`)
   }
 
   await mongoConnection.close()
   console.timeEnd('assignRoles')
+  process.exit(0)
 }
