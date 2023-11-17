@@ -4,7 +4,7 @@ The objective of this service is to send the necessary database information of `
 
 ## Prerequisites
 
-Before proceeding, you should have the following installed on your system:
+Before starting, you'll need:
 
 - [RabbitMQ](https://www.rabbitmq.com/documentation.html)
 - [Supabase](https://supabase.com/docs)
