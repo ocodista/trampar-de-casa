@@ -3,6 +3,6 @@ export enum EmailQueues {
   ConfirmationEmail = 'send-confirmation-email-queue',
   EmailPreRenderer = 'email-pre-renderer',
   EmailSender = 'email-sender',
-  SubsInfoEmailPreRenderer = 'subs-info-email-pre-renderer',
-  SubsInfoEmailComposer = 'subs-info-email-composer',
+  SubsInfoEmailPreRenderer = 'email-pre-renderer-subs',
+  SubsInfoEmailComposer = 'email-composer-subs',
 }
