@@ -37,8 +37,7 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
   - Sending the pre-rendered email template, including the subscriber's email, roles, footer HTML, and header HTML, to the RabbitMQ queue.
 
 ## Flow Diagram
-
-![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/4c5e0b49-44d1-496b-86bc-aca87a13f1e6)
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/c2bc552c-e434-41b9-a938-ac4bda0c9d45)
 
 ## Sequence Diagram
 
