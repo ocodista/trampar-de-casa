@@ -5,7 +5,9 @@
   "main": "index.js",
   "private": true,
   "scripts": {
-    "start": "ts-node src/index.ts",
+    "build": "esbuild ./src/index.ts --bundle --platform=node --target=node20.5.1 --outfile=./dist/index.js --define:import.meta.url=import_meta_url --external:isomorphic-fetch",
+    "inspect": "node --inspect --no-experimental-fetch -r esbuild-register -r isomorphic-fetch",
+    "start": "node dist/index.js",
     "test": "vitest run",
     "test:silent": "vitest run --silent"
   },
