@@ -8,13 +8,14 @@ dotenv.config()
 export async function rolesValidator(mongoCollection: Collection<Document>) {
   console.time('rolesValidator')
   const roles = await getRoles()
+  console.log(`got ${roles.length} roles!`)
   const deleteFromMongo = async (id: string) => {
     console.time(`deleteFromMongo#${id}`)
     await mongoCollection.deleteOne({ id })
     console.timeEnd(`deleteFromMongo#${id}`)
   }
 
-  for (const [index, role] of roles.entries()) {
+  for (const [_index, role] of roles.entries()) {
     const { id, url, title } = role
     if (!url) {
       await deleteFromMongo(id)
@@ -22,8 +23,10 @@ export async function rolesValidator(mongoCollection: Collection<Document>) {
     }
     try {
       const isValid = await isValidRole(url, title)
-      console.log(`Role ${index}/${roles.length}: Valid? ${isValid}`)
-      if (!isValid) await deleteFromMongo(id)
+      if (!isValid) {
+        console.log(url)
+        await deleteFromMongo(id)
+      }
     } catch (e) {
       console.error(`Error on ${url}`)
       console.error(e)

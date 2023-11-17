@@ -1,4 +1,4 @@
-name: auto email sender tests
+name: auto email sender 
 
 on:
   push:
@@ -30,6 +30,9 @@ jobs:
 
     - name: Install dependencies
       run: yarn install
+
+    - name: Build
+      run: yarn turbo run build --filter='./apps/auto-email-sender/**'
 
     - name: Run tests
       run: yarn turbo run test:silent
