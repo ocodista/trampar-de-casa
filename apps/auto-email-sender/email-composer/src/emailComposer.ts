@@ -1,6 +1,7 @@
 import { Channel, Connection, GetMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
+import { sendToQueue } from 'shared/src/queue/sendToQueue'
 import { parsePreRenderMessage } from './parsePreRenderMessage'
 
 const connectToQueue = async (connection: Connection, queue: string) => {
@@ -24,10 +25,7 @@ export const consumePreRenderQueue = async (
 ) => {
   if (!message) return
   const emailHtml = await parsePreRenderMessage(message.content)
-  emailComposerChannel.sendToQueue(
-    EmailQueues.EmailSender,
-    Buffer.from(JSON.stringify(emailHtml))
-  )
+  sendToQueue(EmailQueues.EmailSender, emailComposerChannel, emailHtml)
 }
 
 export const composeEmail = async () => {

@@ -2,7 +2,7 @@ import { getSupabaseClient } from 'db'
 import { getRolesInBatches } from 'db/src/supabase/domains/roles/getRoles'
 import dotenv from 'dotenv'
 import { MongoCollection, getMongoConnection } from 'shared'
-import { parseAndStoreRole } from './parseAndStoreRole'
+import { parseHTML } from './parseHTML'
 dotenv.config()
 
 export async function rolesRenderer() {
@@ -17,10 +17,14 @@ export async function rolesRenderer() {
   const BATCH_SIZE = 100
   const roleBatches = getRolesInBatches(supabase, BATCH_SIZE)
   for await (const roles of roleBatches) {
-    if (!roles?.length) continue
-    await Promise.all(
-      roles.map((role) => parseAndStoreRole(role, mongoCollection))
-    )
+    if (!roles?.length) return
+
+    const parsedRoles = roles.map((role) => ({
+      id: role.id,
+      content: parseHTML(role),
+      topic: role.topicId,
+    }))
+    await mongoCollection.insertMany(parsedRoles)
   }
 
   await mongoConnection.close()

@@ -1,19 +1,26 @@
 import { faker } from '@faker-js/faker'
 import * as getAllPaginatedFile from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
-import { BATCH_SIZE, emailPreRender } from 'src/emailPreRender'
+import * as sendToQueueFile from 'shared/src/queue/sendToQueue'
+import { channelMock, getStub } from 'shared/src/test/helpers/rabbitMQ'
+import { emailPreRender } from 'src/emailPreRender'
 import { vi } from 'vitest'
-import * as sendToQueueFile from '../sendToQueue'
 
 type Subscribers = SupabaseTable<'Subscribers'>
 
+import { EmailQueues } from 'shared'
 import {
-  channelMock,
   configRenderMocks,
   mockExternalServices,
   renderFooterStub,
   renderHeaderStub,
 } from './helpers'
+
+const mockMessageContent = <T>(props: T) => {
+  const mesageBufferMock = Buffer.from(JSON.stringify(props))
+
+  getStub.mockResolvedValueOnce({ content: mesageBufferMock })
+}
 
 // mock process.exit
 vi.spyOn(process, 'exit').mockImplementation(vi.fn())
@@ -50,31 +57,22 @@ describe('Email Pre Renderer', () => {
     expect(createRabbitMqChannelStub).toHaveBeenCalled()
   })
 
-  it('Get all subscribers', async () => {
-    const { getAllPaginatedStub } = mockSubscribersGenerator([])
+  it('get messages on rabbitmq queue', async () => {
+    mockExternalServices()
 
     await emailPreRender()
 
-    expect(getAllPaginatedStub).toBeCalledWith(
-      expect.objectContaining({
-        batchSize: BATCH_SIZE,
-      })
-    )
+    expect(getStub).toBeCalled()
   })
 
   describe('For each subscriber', () => {
     it('Get persisted user info from mongo', async () => {
       const { mongoCollectionMock, mongoRoleAssignerMock } =
         mockExternalServices()
-      mockSubscribersGenerator([
-        [
-          {
-            email: mongoRoleAssignerMock.email,
-            id: mongoRoleAssignerMock.id,
-          } as unknown as Subscribers,
-        ],
-      ])
-
+      mockMessageContent({
+        email: mongoRoleAssignerMock.email,
+        id: mongoRoleAssignerMock.id,
+      } as unknown as Subscribers)
       await emailPreRender()
 
       expect(mongoCollectionMock.findOne).toHaveBeenCalled()
@@ -82,14 +80,10 @@ describe('Email Pre Renderer', () => {
 
     it('Calls render footer passing subscriber id and prefix url', async () => {
       const { subscriberMock } = mockExternalServices()
-      mockSubscribersGenerator([
-        [
-          {
-            email: subscriberMock.email,
-            id: subscriberMock.id,
-          } as unknown as Subscribers,
-        ],
-      ])
+      mockMessageContent({
+        email: subscriberMock.email,
+        id: subscriberMock.id,
+      } as unknown as Subscribers)
 
       await emailPreRender()
 
@@ -98,14 +92,10 @@ describe('Email Pre Renderer', () => {
 
     it('Calls render header passing rolesID', async () => {
       const { mongoRoleAssignerMock } = mockExternalServices()
-      mockSubscribersGenerator([
-        [
-          {
-            email: mongoRoleAssignerMock.email,
-            id: mongoRoleAssignerMock.id,
-          } as unknown as Subscribers,
-        ],
-      ])
+      mockMessageContent({
+        email: mongoRoleAssignerMock.email,
+        id: mongoRoleAssignerMock.id,
+      } as unknown as Subscribers)
 
       await emailPreRender()
 
@@ -119,25 +109,26 @@ describe('Email Pre Renderer', () => {
       const { mongoRoleAssignerMock, subscriberMock, findOneStub } =
         mockExternalServices()
       findOneStub.mockResolvedValue({ rolesId: [] })
-      mockSubscribersGenerator([
-        [
-          {
-            email: subscriberMock.email,
-            id: subscriberMock.id,
-          } as unknown as Subscribers,
-        ],
-      ])
+      mockMessageContent({
+        email: subscriberMock.email,
+        id: subscriberMock.id,
+      } as unknown as Subscribers)
+
       const sendToQueueSpy = vi.spyOn(sendToQueueFile, 'sendToQueue')
 
       await emailPreRender()
 
-      expect(sendToQueueSpy).toHaveBeenCalledWith(channelMock, {
-        [subscriberMock.email]: {
-          footerHTML: renderFooterReturnMock,
-          headerHTML: renderHeaderReturnMock,
-          roles: mongoRoleAssignerMock.rolesId,
-        },
-      })
+      expect(sendToQueueSpy).toHaveBeenCalledWith(
+        EmailQueues.EmailPreRenderer,
+        channelMock,
+        {
+          [subscriberMock.email]: {
+            footerHTML: renderFooterReturnMock,
+            headerHTML: renderHeaderReturnMock,
+            roles: mongoRoleAssignerMock.rolesId,
+          },
+        }
+      )
     })
   })
 })

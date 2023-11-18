@@ -1,7 +1,6 @@
 import { SupabaseClient } from 'db'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { getConfirmedSubscribersRowsBlock } from './getConfirmedSubscribersRowsBlock'
-
 type Subscribers = SupabaseTable<'Subscribers'>
 
 interface GetAllPaginated {

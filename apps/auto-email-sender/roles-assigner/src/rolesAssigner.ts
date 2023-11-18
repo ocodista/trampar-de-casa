@@ -1,14 +1,19 @@
+import { GetMessage } from 'amqplib'
 import { getSupabaseClient } from 'db'
 import { saveSubscriberRoles } from 'db/src/mongodb/domains/roles/saveSubscriberRoles'
 import { getSubscriberRoles } from 'db/src/supabase/domains/roles/getSubscriberRoles'
-import { getAllConfirmedSubscribersPaginated } from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
+import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import dotenv from 'dotenv'
-import { MongoCollection, getMongoConnection } from 'shared'
+import {
+  EmailQueues,
+  MongoCollection,
+  createRabbitMqChannel,
+  getMongoConnection,
+} from 'shared'
 import { getEmailProps } from './getEmailProps'
 
 dotenv.config()
-
-const BATCH_SIZE = 1_000
+type Subscriber = SupabaseTable<'Subscribers'>
 export const assignRoles = async () => {
   console.time('assignRoles')
   const mongoConnection = await getMongoConnection()
@@ -17,31 +22,27 @@ export const assignRoles = async () => {
     MongoCollection.RolesAssigner
   )
   const supabaseClient = getSupabaseClient()
-  const subscribersGenerator = getAllConfirmedSubscribersPaginated({
-    batchSize: BATCH_SIZE,
-    supabase: supabaseClient,
-    selectQuery: 'skillsId,startedWorkingAt,id,email,isConfirmed',
-  })
-  let count = 0
-  for await (const subscribersBatch of subscribersGenerator) {
-    count += subscribersBatch?.length || 0
-    console.log(`Processing ${count}...`)
-    console.time(`Processed ${count}`)
-    if (!subscribersBatch?.length) break
+  const channel = await createRabbitMqChannel()
+  let msg: GetMessage | false,
+    count = 0
 
-    const matchRolesPromises = subscribersBatch.map(async (subscriber) => {
-      if (!subscriber.isConfirmed) return
-      try {
-        const roles = await getSubscriberRoles(subscriber, supabaseClient)
-        const emailProps = getEmailProps(subscriber, roles)
-        await saveSubscriberRoles(mongoCollection, emailProps)
-      } catch (e) {
-        console.error(e)
-      }
-    })
-    await Promise.allSettled(matchRolesPromises)
-    console.timeEnd(`Processed ${count}`)
-  }
+  do {
+    msg = await channel.get(EmailQueues.RolesAssignerSubs)
+    if (!msg) break
+    count = count + 1
+    const subscriber = JSON.parse(msg.content.toString()) as Subscriber
+    try {
+      const roles = await getSubscriberRoles(subscriber, supabaseClient)
+      const emailProps = getEmailProps(subscriber, roles)
+      await mongoCollection.insertOne(emailProps)
+      await saveSubscriberRoles(mongoCollection, emailProps)
+      channel.ack(msg)
+      console.log(count)
+    } catch (e) {
+      console.error(e)
+      channel.nack(msg, false, true)
+    }
+  } while (msg)
 
   await mongoConnection.close()
   console.timeEnd('assignRoles')
