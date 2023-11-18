@@ -5,6 +5,7 @@
   "license": "MIT",
   "scripts": {
     "build": "esbuild ./src/index.ts --bundle --platform=node --target=node20.5.1 --outfile=./dist/index.js",
+    "doctor": "clinic doctor -- node dist/index.js",
     "inspect": "node --inspect --no-experimental-fetch -r esbuild-register -r isomorphic-fetch src/index.ts",
     "start": "node -r esbuild-register -r isomorphic-fetch src/index.ts",
     "start:slim": "node dist/index.js",

@@ -34,8 +34,10 @@ export const assignRoles = async () => {
     try {
       const roles = await getSubscriberRoles(subscriber, supabaseClient)
       const emailProps = getEmailProps(subscriber, roles)
+      await mongoCollection.insertOne(emailProps)
       await saveSubscriberRoles(mongoCollection, emailProps)
       channel.ack(msg)
+      console.log(count)
     } catch (e) {
       console.error(e)
       channel.nack(msg, false, true)
