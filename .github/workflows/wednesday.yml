@@ -39,9 +39,15 @@ jobs:
 
     - name: Install turbo
       run: yarn add -WD turbo
+    
+    - name: Build all
+      run: yarn build:auto-email-sender
 
     - name: Roles renderer
       run: yarn turbo start --filter roles-renderer
+    
+    - name: Subs to Queue
+      run: yarn turbo start --filter subs-to-queue
 
     - name: Roles assigner
       run: yarn turbo start --filter roles-assigner

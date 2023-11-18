@@ -32,7 +32,7 @@ jobs:
       run: yarn install
 
     - name: Build
-      run: yarn turbo run build --filter='./apps/auto-email-sender/**'
+      run: yarn build:auto-email-sender
 
     - name: Run tests
-      run: yarn turbo run test:silent
+      run: yarn test:silent

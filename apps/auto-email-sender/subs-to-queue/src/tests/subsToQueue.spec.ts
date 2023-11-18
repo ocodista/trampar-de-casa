@@ -3,7 +3,7 @@ import * as getAllConfirmedSubscribersPaginatedFile from 'db/src/supabase/domain
 import * as sharedFile from 'shared'
 import { mockAsyncGenerator } from 'shared/src/test/helpers/mockAsyncGeneratorFunction'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
-import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
+import { channelMock, sendToQueueStub } from 'shared/src/test/helpers/rabbitMQ'
 import { subsToQueue } from 'src/subsToQueue'
 import { vi } from 'vitest'
 import * as writeToQueuesFile from '../writeToQueues'
@@ -62,7 +62,6 @@ describe('subs-to-queue', () => {
         supabasePaginationSetup()
       rabbitMqSetup()
       const subscriberMock = subscribersMock(1)
-      const readChunkSPy = vi.spyOn(writeToQueuesFile, 'writeToQueues')
       getAllConfirmedSubscribersPaginatedSpy
         // eslint-disable-next-line @typescript-eslint/ban-ts-comment
         // @ts-ignore
@@ -70,8 +69,7 @@ describe('subs-to-queue', () => {
 
       await subsToQueue()
 
-      expect(readChunkSPy).toBeCalledTimes(1)
-      expect(readChunkSPy).toBeCalledWith(subscriberMock, channelMock)
+      expect(sendToQueueStub).toBeCalledTimes(2)
     })
   })
 })
