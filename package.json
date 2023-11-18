@@ -13,7 +13,7 @@
     "prepare": "husky install",
     "setup": "turbo setup --concurrency 20",
     "test": "turbo run test --concurrency 20",
-    "test:silen": "turbo run test:silent --concurrency 20"
+    "test:silent": "turbo run test:silent --concurrency 20"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",
