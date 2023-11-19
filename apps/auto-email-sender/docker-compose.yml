@@ -1,0 +1,99 @@
+version: '3'
+
+services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    hostname: rabbitmq
+    ports:
+      - 5672:5672
+      - 15672:15672
+    expose:
+      - 5672
+      - 15672
+    environment:
+      RABBITMQ_DEFAULT_USER: trampar
+      RABBITMQ_DEFAULT_PASS: trampar-de-casa
+  mongo:
+    image: mongo:latest
+    ports:
+      - '27017:27017'
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: root
+    volumes:
+      - mongo-data:/data/db
+
+  roles-validator:
+    build:
+      context: roles-validator
+    env_file:
+      - roles-validator/.env
+    depends_on:
+      - mongo
+    environment:
+      - MONGO_ADDRESS=mongodb://root:root@mongo:27017
+
+  roles-renderer:
+    environment:
+      - MONGO_ADDRESS=mongodb://root:root@mongo:27017
+    build:
+      context: roles-renderer
+    env_file:
+      - roles-renderer/.env
+    depends_on:
+      - mongo
+
+  roles-assigner:
+    environment:
+      - MONGO_ADDRESS=mongodb://root:root@mongo:27017
+    build:
+      context: roles-assigner
+    env_file:
+      - roles-assigner/.env
+    depends_on:
+      - mongo
+      - rabbitmq
+
+  email-pre-renderer:
+    build:
+      context: email-pre-renderer
+    env_file:
+      - email-pre-renderer/.env
+    environment:
+      RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@rabbitmq
+    depends_on:
+      - mongo
+      - rabbitmq
+
+  email-composer:
+    build:
+      context: email-composer
+    env_file:
+      - email-composer/.env
+    depends_on:
+      - mongo
+      - rabbitmq
+
+  email-sender:
+    build:
+      context: email-sender
+    env_file:
+      - email-sender/.env
+    environment:
+      RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@rabbitmq
+    depends_on:
+      - rabbitmq
+      
+  subs-to-queue:
+    build:
+      context: subs-to-queue
+    env_file:
+      - subs-to-queue/.env
+    environment:
+      RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@rabbitmq
+    depends_on:
+      - rabbitmq
+
+volumes:
+  mongo-data:
+    driver: local

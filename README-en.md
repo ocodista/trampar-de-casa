@@ -12,29 +12,29 @@
 
 [Versão em português](./README.md)
 
-## About the project 🎯
+## About the Project 🎯
 
-The Trampar de Casa is an open-source initiative dedicated to connecting Brazilian developers to remote work opportunities, encouraging inclusion, diversity, and eradicating geographical boundaries.
+Work from Home is an open-source initiative dedicated to connecting Brazilian developers with remote work opportunities, encouraging inclusion, diversity, and breaking geographical barriers.
 
-On Wednesdays, we send one email with 100% remote job opportunities. National (🇧🇷) or International (🌍).
+Every week, we send out an email with 100% remote job opportunities that match the profile of our subscribers.
 
-## [Manifest about remote work](./manifesto.md)
+## [Manifesto on Remote Work](./manifesto.md)
 
-## Roadmap of the project 🚧
+## Project Roadmap 🚧
 
-- [ ] **Preference Registration**: Define the preference of work of our users.
-- [ ] **Select and send personalized job opportunities**: Send selected job opportunities with the user's preferences.
-- [ ] **Automatic send job opportunity**: Send job opportunities regularly with no actively searching.
-- [ ] **A page for partner companies**: Show more info about partner companies.
+- [ ] **Preference Registration**: Define users' work preferences.
+- [ ] **Selection and Sending of Customized Job Positions**: Send selected job positions based on preferences.
+- [ ] **Automating Job Postings**: Regularly send opportunities without active searching.
+- [ ] **Page for Partner Companies**: Display more details about partner companies.
 
 ---
 
 ## How to Contribute 🚀
 
-1. **Fork** of the repository.
-2. **Clone** of the repository in your local development environment.
-3. **Create** a new branch to your new function or correction.
-4. **Implement** your changes and add unit tests, if applicable.
+1. **Fork** the repository.
+2. **Clone** your fork to your local development environment.
+3. **Create** a new branch for your feature or fix.
+4. **Implement** your changes and add tests, if applicable.
 5. **Push** to your branch in your fork.
 6. Send a **Pull Request** to the main repository.
 
@@ -50,14 +50,14 @@ On Wednesdays, we send one email with 100% remote job opportunities. National (�
 1. After the clone of the repository from your fork, go to the main folder.
 2. Run the command `make setup-env` to create the `.env` files.  
   2.! If you're not running from a GNU-based system, copy the `.env.example` to `.env`,
-  and `docker/.env.example` to `docker/.env`. Then fill the property `INCLUDE_PATH` with
-  the result of the `pwd` command.  
+  and `supabase/.env.example` to `supabase/.env`. Then fill the property `INCLUDE_PATH`
+  in the root `.env` file with the result of the `pwd` command.  
 3. Run the command `docker-compose up -d` and after it finished, run the command `make migrate`.  
   3.! If you're not running from a GNU-based system, run `docker-compose exec app sh -c 'turbo run db:migrate --filter=db -- --db-url="$$DATABASE_URL"'`.
 6. An application will be available at http://localhost:3000.
-7. If you have any doubts, open an _issue_ in this repository.
+7. If you have any questions, open an _issue_ in this repository.
 
-## How to execute in a local environment
+## How to Run the Application Locally
 
 ### Prerequisites
 
@@ -66,16 +66,12 @@ On Wednesdays, we send one email with 100% remote job opportunities. National (�
 - [Yarn](https://yarnpkg.com/)
 - [Turbo](https://turbo.build/)
 
-1. After the clone of the repository from your fork, go to the main folder.
+1. After cloning the repository locally from your fork, enter the created folder.
 2. Run the command `yarn`.
-3. Then, run `yarn setup`.  
-   3.a Copy the value from `service_role key`.  
-   3.b Create a copy from the file `apps/web/.env.example` called `apps/web/.env`.  
-   3.b.! If your system is GNU-based, run: `cp apps/web/.env.example apps/web/env`.  
-   3.c Copy the value from `service_role key` to the `SUPABASE_SERVICE_ROLE` property.  
-4. Then, run `yarn dev`.
-5. An application will be available at http://localhost:3000.
-6. If you have any doubts, open an _issue_ in this repository.
+3. Then, run the command `yarn setup`
+4. Next, run the command `yarn dev`.
+5. The application will be available at http://localhost:3000.
+6. If you have any questions, open an _issue_ in this repository.
 
 ## Contributors ✨
 
@@ -83,4 +79,4 @@ On Wednesdays, we send one email with 100% remote job opportunities. National (�
   <img src="https://contrib.rocks/image?repo=ocodista/trampar-de-casa&anon=0&columns=20&max=100" />
 </a>
 
-Any contribution is very much appreciated.
+All contributions are very welcome!

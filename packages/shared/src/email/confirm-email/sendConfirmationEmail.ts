@@ -1,5 +1,4 @@
 import { Resend } from 'resend'
-import { CreateEmailResponse } from 'resend/build/src/emails/interfaces'
 import { confirmationEmailHTML } from './htmlTemplate'
 
 interface SendConfirmationEmail {
@@ -14,14 +13,17 @@ export const sendConfirmationEmail = async ({
   to,
   resendKey,
   subscriberId,
-}: SendConfirmationEmail): Promise<CreateEmailResponse | null> => {
+}: SendConfirmationEmail): Promise<void> => {
+  if (!resendKey) {
+    console.warn('RESEND_KEY is empty!')
+    return
+  }
   const resend = new Resend(resendKey)
   const emailHTML = confirmationEmailHTML({ subscriberId, secretKey })
-  const response = await resend.emails.send({
+  await resend.emails.send({
     from: 'Trampar de Casa <comece@trampardecasa.com.br>',
     to,
     subject: '🚀 Ative sua Conta - Confirmação de Email Necessária',
     html: emailHTML,
   })
-  return response
 }

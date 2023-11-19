@@ -11,7 +11,7 @@
     "lint": "turbo run lint --concurrency 20",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
-    "setup": "turbo setup --concurrency 20",
+    "setup": "node setup.mjs",
     "test": "turbo run test --concurrency 20",
     "test:silent": "turbo run test:silent --concurrency 20"
   },
