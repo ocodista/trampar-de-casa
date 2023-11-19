@@ -1,4 +1,4 @@
-import { exec } from 'child_process'
+import { spawn } from 'child_process'
 import { promises as fs } from 'fs'
 import { fileURLToPath } from 'url'
 import path from 'path'
@@ -18,19 +18,31 @@ async function setupEnvironment() {
     return
   } catch {
     console.log('Starting setup (this may take a while)...')
-    exec('turbo setup --concurrency 20', async (error, stdout, stderr) => {
-      if (error) {
-        console.error(`Error occurred during turbo setup: ${error.message}`)
-        return
-      }
-      if (stderr) {
-        console.error(`Stderr from turbo setup: ${stderr}`)
+
+    const setupProcess = spawn('yarn', ['turbo', 'run', 'setup', '--filter=db'])
+
+    let fullOutput = ''
+
+    setupProcess.stdout.on('data', (data) => {
+      process.stdout.write(data)
+      fullOutput += data.toString()
+    })
+
+    setupProcess.stderr.on('data', (data) => {
+      process.stderr.write(data)
+      fullOutput += data.toString()
+    })
+
+    setupProcess.on('close', async (code) => {
+      if (code !== 0) {
+        console.error(`turbo setup process exited with code ${code}`)
         return
       }
 
-      console.log('Extracting the supabase SERVICE_ROLE_KEY...')
-      const serviceRoleKeyMatch = stdout.match(/service_role key: (\S+)/)
-
+      console.log(
+        'Setup completed. Extracting the supabase SERVICE_ROLE_KEY...'
+      )
+      const serviceRoleKeyMatch = fullOutput.match(/service_role key: (\S+)/)
       if (serviceRoleKeyMatch && serviceRoleKeyMatch[1]) {
         const serviceRoleKey = serviceRoleKeyMatch[1]
         console.log(
@@ -39,22 +51,18 @@ async function setupEnvironment() {
 
         try {
           await fs.copyFile(envExampleFilePath, envFilePath)
-          console.log('Copied apps/web/.env.example to apps/web/.env.')
-
           let envContent = await fs.readFile(envFilePath, 'utf-8')
           envContent = envContent.replace(
             /^SUPABASE_SERVICE_ROLE=.*$/m,
             `SUPABASE_SERVICE_ROLE=${serviceRoleKey}`
           )
           await fs.writeFile(envFilePath, envContent)
-
           console.log(
             'The SUPABASE_SERVICE_ROLE has been configured in the .env file.'
           )
+          console.log('\n\nSetup finished! Run yarn dev')
         } catch (err) {
           console.error('Error updating the .env file:', err)
-        } finally {
-          console.log('Setup finished! Run: yarn dev')
         }
       } else {
         console.error(
