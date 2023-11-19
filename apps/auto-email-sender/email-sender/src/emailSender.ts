@@ -13,10 +13,7 @@ export type EmailComposerContent = Record<
 export const emailSender = async () => {
   console.time('emailSender')
   const resend = new Resend(CONFIG.RESEND_KEY)
-  const channelToConsume = await createRabbitMqChannel({
-    password: CONFIG.RABBITMQ_PASS,
-    user: CONFIG.RABBITMQ_USER,
-  })
+  const channelToConsume = await createRabbitMqChannel()
   let count = 0,
     emailChunk: GetMessage[] = [],
     msg: GetMessage | false

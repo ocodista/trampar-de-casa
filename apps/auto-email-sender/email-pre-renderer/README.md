@@ -11,7 +11,7 @@
 
 ## Introduction
 
-- Utilizes MongoDb and Supabase for seamless data retrieval.
+- Utilizes MongoDB and RabbitMQ for seamless data retrieval.
 - Generates personalized email templates (headers and footers) for each subscriber.
 - Sends pre-rendered templates to a RabbitMQ queue.
 
@@ -20,28 +20,25 @@
 Before proceeding, you should have the following installed on your system:
 
 - Latest versions of Node.js
-- MongoDb
-- Supabase libraries
+- MongoDB
 - RabbitMQ
 
 Refer to the official documentation for [Node.js](https://nodejs.org/),
-[MongoDb](https://www.mongodb.com/docs/),
-[Supabase](https://supabase.io/) and
-[RabbitMQ](https://www.rabbitmq.com/monitoring.html) for installation guides.
+[MongoDB](https://www.mongodb.com/docs/), and [RabbitMQ](https://www.rabbitmq.com/monitoring.html) for installation guides.
 
 ## Functionality
 
-- Establishing connections to the MongoDb client and RabbitMQ queue.
-- Retrieving subscribers in batches from Supabase.
+- Establishing connections to the MongoDB client and RabbitMQ queue.
+- Retrieving subscribers in the RabbitMQ queue.
 - For each subscriber:
-  - Retrieving persisted user information (roles) from MongoDb using the subscriber's ID.
+  - Retrieving persisted user information (roles) from MongoDB using the subscriber's ID.
   - Calculating the total number of roles and generating the header HTML.
   - Creating the footer HTML with an injected unsubscribe link.
-  - Sending the pre-rendered email template, including subscriber's email, roles, footer HTML, and header HTML, to the RabbitMQ queue.
+  - Sending the pre-rendered email template, including the subscriber's email, roles, footer HTML, and header HTML, to the RabbitMQ queue.
 
 ## Flow Diagram
 
-![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/4c5e0b49-44d1-496b-86bc-aca87a13f1e6)
+![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/c2bc552c-e434-41b9-a938-ac4bda0c9d45)
 
 ## Sequence Diagram
 
@@ -49,14 +46,13 @@ Refer to the official documentation for [Node.js](https://nodejs.org/),
 
 ```mermaid
 sequenceDiagram
-  participant S as Supabase
   participant E as EmailPreRenderer
   participant RF as RenderFooter
   participant RH as RenderHeader
-  participant R as MongoDb
+  participant R as MongoDB
   Participant RMQ as RabbitMQ
 
-  S ->> E: subscribers chunk
+  E ->> RMQ: Get Messages on queue
   loop For each Subscriber
     E ->> R: Get subscriber info
     R ->> E: { user: { email, id }, rolesId }
@@ -77,12 +73,12 @@ Pre-rendering Email Templates:
 
 - Ensures tailored email templates based on individual preferences.
 - Enhances engagement through personalized communication.
-- Data Retrieval with MongoDb and Supabase:
+- Data Retrieval with MongoDB and RabbitMQ:
 
-### Seamlessly interacts with MongoDb and Supabase for data retrieval.
+### Seamlessly interacts with MongoDB and RabbitMQ for data retrieval.
 
-- Utilizes MongoDb to store and retrieve persisted user information, like roles.
-- Facilitates efficient retrieval of subscriber data in batches with Supabase.
+- Utilizes MongoDB to store and retrieve persisted user information, like roles.
+- Get the Subscriber's data on the RabbitMQ queue.
 - Header and Footer Generation:
 
 ### Calculates the total number of roles and includes it in the header HTML.

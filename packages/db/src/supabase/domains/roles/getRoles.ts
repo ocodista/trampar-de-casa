@@ -36,6 +36,5 @@ export const getRoles = async () => {
     .select('id, title, url, topicId')
     .eq('ready', true)
   if (!data) return []
-  
   return data
 }

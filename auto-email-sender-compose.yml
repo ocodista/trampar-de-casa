@@ -32,11 +32,11 @@ services:
       - apps/auto-email-sender/roles-validator/.env
     depends_on:
       - mongo
+    environment:
+      - MONGO_ADDRESS=mongodb://root:root@mongo:27017
   roles-renderer:
     environment:
-      - MONGO_PASSWORD=root
-      - MONGO_USERNAME=root
-      - MONGO_ADDRESS=mongo
+      - MONGO_ADDRESS=mongodb://root:root@mongo:27017
     build:
       context: .
       dockerfile: apps/auto-email-sender/roles-renderer/Dockerfile
@@ -46,9 +46,7 @@ services:
       - mongo
   roles-assigner:
     environment:
-      - MONGO_PASSWORD=root
-      - MONGO_USERNAME=root
-      - MONGO_ADDRESS=mongo
+      - MONGO_ADDRESS=mongodb://root:root@mongo:27017
     build:
       context: .
       dockerfile: apps/auto-email-sender/roles-assigner/Dockerfile
@@ -64,9 +62,7 @@ services:
     env_file:
       - apps/auto-email-sender/email-pre-renderer/.env
     environment:
-      - RABBITMQ_DEFAULT_USER=trampar
-      - RABBITMQ_DEFAULT_PASS=trampar-de-casa
-      - RABBITMQ_ADDRESS=rabbitmq
+      RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@rabbitmq
     depends_on:
       - mongo
       - rabbitmq
@@ -86,9 +82,7 @@ services:
     env_file:
       - apps/auto-email-sender/email-sender/.env
     environment:
-      - RABBITMQ_DEFAULT_USER=trampar
-      - RABBITMQ_DEFAULT_PASS=trampar-de-casa
-      - RABBITMQ_ADDRESS=rabbitmq
+      RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@rabbitmq
     depends_on:
       - rabbitmq
 networks:

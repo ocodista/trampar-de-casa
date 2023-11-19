@@ -4,9 +4,12 @@
   "description": "",
   "main": "dist/index.js",
   "scripts": {
+    "build": "esbuild ./src/index.ts --bundle --platform=node --target=node20.5.1 --outfile=./dist/index.js --external:isomorphic-fetch",
+    "doctor": "clinic doctor -- node dist/index.js",
+    "inspect": "node --inspect --no-experimental-fetch -r esbuild-register -r isomorphic-fetch",
+    "start": "node --no-experimental-fetch -r esbuild-register -r isomorphic-fetch src/index.ts",
     "test:watch": "vitest watch",
     "test": "vitest run",
-    "start": "ts-node src/index.ts",
     "test:silent": "vitest run --silent"
   },
   "keywords": [],
@@ -29,6 +32,10 @@
     "@types/react": "^18.2.15",
     "cross-fetch": "^4.0.0",
     "typescript": "^5.1.6",
-    "vitest": "^0.33.0"
+    "es": "^0.8.0",
+    "esbuild": "^0.19.5",
+    "esbuild-register": "^3.5.0",
+    "isomorphic-fetch": "^3.0.0",
+    "vitest": "^0.34.3"
   }
 }

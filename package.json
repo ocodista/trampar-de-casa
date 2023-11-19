@@ -5,12 +5,15 @@
   "private": true,
   "license": "MIT",
   "scripts": {
+    "build:auto-email-sender": "turbo run build --filter=./apps/auto-email-sender/*",
     "dev": "turbo dev --concurrency 20",
     "lint-format": "yarn format && eslint --fix",
     "lint": "turbo run lint --concurrency 20",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
     "prepare": "husky install",
-    "setup": "turbo setup --concurrency 20"
+    "setup": "turbo setup --concurrency 20",
+    "test": "turbo run test --concurrency 20",
+    "test:silent": "turbo run test:silent --concurrency 20"
   },
   "devDependencies": {
     "@turbo/gen": "^1.9.7",

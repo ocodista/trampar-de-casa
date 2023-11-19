@@ -1,4 +1,4 @@
-name: Run Auto Email Sender Tests
+name: auto email sender 
 
 on:
   push:
@@ -17,7 +17,7 @@ jobs:
     - name: Set up Node.js
       uses: actions/setup-node@v2
       with:
-        node-version: 18
+        node-version: 20.5.1
 
     - name: Cache node modules
       uses: actions/cache@v2
@@ -31,5 +31,8 @@ jobs:
     - name: Install dependencies
       run: yarn install
 
+    - name: Build
+      run: yarn build:auto-email-sender
+
     - name: Run tests
-      run: yarn turbo run test:silent
+      run: yarn test:silent
