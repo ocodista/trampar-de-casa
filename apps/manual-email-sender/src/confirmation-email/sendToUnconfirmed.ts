@@ -38,21 +38,17 @@ async function sendEmail(id: string, email: string) {
   }
 
   try {
-    const response = await sendConfirmationEmail({
+    await sendConfirmationEmail({
       resendKey: process.env['RESEND_KEY'] || '',
       secretKey: process.env['CRYPT_SECRET'] || '',
       to: email,
       subscriberId: id,
     })
-    if (!response) {
-      handleError('Response is null')
-    } else {
-      fs.appendFileSync(
-        path.resolve(__dirname, './success-emails.txt'),
-        `${email}\n`
-      )
-      console.log(`Successfully sent to: ${email}`)
-    }
+    fs.appendFileSync(
+      path.resolve(__dirname, './success-emails.txt'),
+      `${email}\n`
+    )
+    console.log(`Successfully sent to: ${email}`)
   } catch (err) {
     handleError(err)
   }
