@@ -12,54 +12,49 @@
 
 [Versão em português](./README.md)
 
-## About the project 🎯
+## About the Project 🎯
 
-The Trampar de Casa is an open-source initiative dedicated to connecting Brazilian developers to remote work opportunities, encouraging inclusion, diversity, and eradicating geographical boundaries.
+Work from Home is an open-source initiative dedicated to connecting Brazilian developers with remote work opportunities, encouraging inclusion, diversity, and breaking geographical barriers.
 
-On Wednesdays, we send one email with 100% remote job opportunities. National (🇧🇷) or International (🌍).
+Every week, we send out an email with 100% remote job opportunities that match the profile of our subscribers.
 
-## [Manifest about remote work](./manifesto.md)
+## [Manifesto on Remote Work](./manifesto.md)
 
-## Roadmap of the project 🚧
+## Project Roadmap 🚧
 
-- [ ] **Preference Registration**: Define the preference of work of our users.
-- [ ] **Select and send personalized job opportunities**: Send selected job opportunities with the user's preferences.
-- [ ] **Automatic send job opportunity**: Send job opportunities regularly with no actively searching.
-- [ ] **A page for partner companies**: Show more info about partner companies.
+- [ ] **Preference Registration**: Define users' work preferences.
+- [ ] **Selection and Sending of Customized Job Positions**: Send selected job positions based on preferences.
+- [ ] **Automating Job Postings**: Regularly send opportunities without active searching.
+- [ ] **Page for Partner Companies**: Display more details about partner companies.
 
 ---
 
 ## How to Contribute 🚀
 
-1. **Fork** of the repository.
-2. **Clone** of the repository in your local development environment.
-3. **Create** a new branch to your new function or correction.
-4. **Implement** your changes and add unit tests, if applicable.
+1. **Fork** the repository.
+2. **Clone** your fork to your local development environment.
+3. **Create** a new branch for your feature or fix.
+4. **Implement** your changes and add tests, if applicable.
 5. **Push** to your branch in your fork.
 6. Send a **Pull Request** to the main repository.
 
 ---
 
-## How to execute in a local environment
+## How to Run the Application Locally
 
-1. After the clone of the repository from your fork, go to the main folder.
+### Prerequisites
+
+- [Docker](https://www.docker.com/)
+- [Supabase CLI](https://supabase.com/docs/reference/cli/introduction)
+- [Yarn](https://yarnpkg.com/)
+- [Turbo](https://turbo.build/)
+
+1. After cloning the repository locally from your fork, enter the created folder.
 2. Run the command `yarn`.
-3. If you don't have `yarn` installed, run `npm install --global yarn`.
-4. To run the app locally, run `turbo dev`.
-5. If you don't have `turbo` installed, run `npm install --global turbo`.
-6. A application will be available at http://localhost:3000.
-
-## How to set up the database locally
-
-1. Be sure you have the [docker](https://www.docker.com/) installed on your machine.
-2. Navigate to the `apps/web` folder.
-3. Run the command `npm install` to install all the project dependencies.
-4. In the folder packages/db (`cd packages/db`), run the command `npm run db-start` to create the folder `prisma/client` and set up a local instance of Supabase.
-5. You will see info about your local Supabase credentials in the terminal.
-6. In the folder apps/web (`cd apps/web`), create a `.env` file.
-7. Copy the content of `.env.example` to your `.env` file, and fill in the `SUPABASE_URL` and the `SUPABASE_SERVICE_ROLE` with the credentials of the 5 step.
-8. Run the command `npm run db-seed` if you want to populate your database.
-9. In case of any doubts, you can consult the official documentation of the [supabase](https://supabase.com/docs/guides/getting-started/local-development) and [prisma](https://www.prisma.io/docs/guides/migrate/seed-database).
+3. Then, run the command `yarn setup`
+4. Next, run the command `yarn dev`.
+5. The application will be available at http://localhost:3000.
+6. If you have any questions, open an _issue_ in this repository.
 
 ## Contributors ✨
 
@@ -67,4 +62,4 @@ On Wednesdays, we send one email with 100% remote job opportunities. National (�
   <img src="https://contrib.rocks/image?repo=ocodista/trampar-de-casa&anon=0&columns=20&max=100" />
 </a>
 
-Any contribution is very much appreciated.
+All contributions are very welcome!
