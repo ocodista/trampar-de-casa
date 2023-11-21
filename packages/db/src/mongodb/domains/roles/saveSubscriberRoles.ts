@@ -9,5 +9,9 @@ export const saveSubscriberRoles = async (
   mongoCollection: Collection<Document>,
   emailProps: EmailProps
 ) => {
-  await mongoCollection.insertOne(emailProps)
+  try {
+    await mongoCollection.insertOne(emailProps)
+  } catch (e) {
+    console.error(e)
+  }
 }
