@@ -24,6 +24,8 @@ jobs:
           - 5672:5672
           - 15672:15672
         env:
+          RABBITMQ_DEFAULT_USER: trampar
+          RABBITMQ_DEFAULT_PASS: trampar-de-casa
           RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@localhost:5672/
     steps:
     - name: Checkout code
