@@ -36,8 +36,6 @@ export const composeEmail = async () => {
     connectToQueue(rabbitConnection, EmailQueues.EmailPreRenderer),
     connectToQueue(rabbitConnection, EmailQueues.EmailSender),
   ])
-  emailPreRendererChannel.assertQueue(EmailQueues.EmailPreRenderer)
-  emailSenderChannel.assertQueue(EmailQueues.EmailSender)
 
   let msg: GetMessage | false,
     count = 0
