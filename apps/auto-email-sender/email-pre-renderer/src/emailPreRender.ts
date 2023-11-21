@@ -1,7 +1,8 @@
 import { GetMessage } from 'amqplib'
 import dotenv from 'dotenv'
 import { EmailQueues, MongoCollection, getMongoConnection } from 'shared'
-import { createRabbitMqChannel } from 'shared/src/queue/createRabbitMqChannel'
+import { connectToQueue } from 'shared/src/queue/connectToQueue'
+import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
 import { sendToQueue } from 'shared/src/queue/sendToQueue'
 import { renderHeaderAndFooter } from './renderHeaderAndFooter'
 dotenv.config()
@@ -13,13 +14,21 @@ export async function emailPreRender() {
   const mongoCollection = mongoDatabase.collection(
     MongoCollection.RolesAssigner
   )
-  const channel = await createRabbitMqChannel()
-  channel.assertQueue(EmailQueues.EmailPreRenderer)
+  const channel = await createRabbitMqConnection()
+  const emailPreRendererChannel = await connectToQueue(
+    channel,
+    EmailQueues.EmailPreRenderer
+  )
+  const emailPreRenderSubsChannel = await connectToQueue(
+    channel,
+    EmailQueues.EmailPreRenderSubs
+  )
+
   let msg: GetMessage | false,
     count = 0
 
   do {
-    msg = await channel.get(EmailQueues.EmailPreRenderSubs)
+    msg = await emailPreRenderSubsChannel.get(EmailQueues.EmailPreRenderSubs)
     if (!msg) break
     count = count + 1
     const logText = `Processed: ${count}`
@@ -33,14 +42,14 @@ export async function emailPreRender() {
     const { rolesId } = subscriber as unknown as { rolesId: string[] }
     const { footerHTML, headerHTML } = await renderHeaderAndFooter(id, rolesId)
 
-    await sendToQueue(EmailQueues.EmailPreRenderer, channel, {
+    await sendToQueue(EmailQueues.EmailPreRenderer, emailPreRendererChannel, {
       [email]: {
         footerHTML,
         headerHTML,
         roles: rolesId,
       },
     })
-    channel.ack(msg)
+    emailPreRenderSubsChannel.ack(msg)
     console.timeEnd(logText)
   } while (msg)
 

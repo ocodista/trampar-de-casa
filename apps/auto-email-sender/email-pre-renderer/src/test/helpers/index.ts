@@ -2,7 +2,7 @@ import { faker } from '@faker-js/faker'
 import { MongoClient } from 'mongodb'
 import * as encryptFile from 'shared'
 import * as sharedFile from 'shared'
-import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqChannel'
+import * as createRabbitMqChannelFile from 'shared/src/queue/createRabbitMqConnection'
 import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
 import { vi } from 'vitest'
 import * as renderFooterFile from '../../renderFooter'
@@ -15,6 +15,10 @@ export const ENCRYPTED_VALUE_MOCK = faker.string.hexadecimal({ length: 32 })
 export const renderHeaderStub = vi.fn()
 export const renderFooterStub = vi.fn()
 export const createRabbitMqChannelStub = vi.fn()
+export const createRabbitMqConnectionStub = vi.fn()
+createRabbitMqConnectionStub.mockImplementation(async () => ({
+  createChannel: async () => channelMock,
+}))
 export const sendToQueueStub = vi.fn()
 createRabbitMqChannelStub.mockReturnValue(channelMock)
 export const getAllSubscribersStub = vi.fn()
@@ -22,8 +26,8 @@ export const getAllSubscribersStub = vi.fn()
 export const mockExternalServices = () => {
   vi.spyOn(
     createRabbitMqChannelFile,
-    'createRabbitMqChannel'
-  ).mockImplementation(createRabbitMqChannelStub)
+    'createRabbitMqConnection'
+  ).mockImplementation(createRabbitMqConnectionStub)
 
   const subscriberMock = getSubscriberMock()
   const findOneStub = vi.fn()
@@ -56,6 +60,7 @@ export const mockExternalServices = () => {
     mongoRoleAssignerMock,
     findOneStub,
     createRabbitMqChannelStub,
+    createRabbitMqConnectionStub,
     sendToQueueStub,
   }
 }

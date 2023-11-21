@@ -50,11 +50,11 @@ describe('Email Pre Renderer', () => {
   afterAll(() => vi.clearAllMocks())
 
   it('Connects with rabbitMQ queue', async () => {
-    const { createRabbitMqChannelStub } = mockExternalServices()
+    const { createRabbitMqConnectionStub } = mockExternalServices()
 
     await emailPreRender()
 
-    expect(createRabbitMqChannelStub).toHaveBeenCalled()
+    expect(createRabbitMqConnectionStub).toHaveBeenCalled()
   })
 
   it('get messages on rabbitmq queue', async () => {
