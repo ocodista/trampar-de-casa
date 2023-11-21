@@ -56,7 +56,13 @@ export const subsToQueue = async () => {
         await new Promise((resolve) => queueChannel.once('drain', resolve))
       }
     }
-    console.log({ prerenderStops, rolesAssignerStops, subscribersCount })
     console.timeEnd(`Processed ${count}`)
   }
+  const queueEmailPreRenderSubs = await queueChannel.checkQueue(
+    EmailQueues.EmailPreRenderSubs
+  )
+  const queueRolesAssignerSubs = await queueChannel.checkQueue(
+    EmailQueues.RolesAssignerSubs
+  )
+  console.log({ queueEmailPreRenderSubs, queueRolesAssignerSubs })
 }

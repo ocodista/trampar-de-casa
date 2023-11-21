@@ -2,19 +2,29 @@ name: wednesday job
 
 on:
   - push
+  # schedule:
+  #   - cron: '0 12 * * 3' # this cron runs 9am on -3 timezone. The github cron runs on UTC timezone
 
 jobs:
   wednesday-email:
     runs-on: ubuntu-latest
     env:
       MONGO_ADDRESS: ${{ secrets.MONGO_ADDRESS }}
-      RABBITMQ_ADDRESS: ${{ secrets.RABBITMQ_ADDRESS }}
+      RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@localhost:5672/
       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
       SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
       CRYPT_SECRET: ${{ secrets.CRYPT_SECRET }}
       RESEND_KEY: ${{ secrets.RESEND_KEY }}
       URL_PREFIX: https://trampardecasa.com.br
 
+    services:
+      rabbitmq:
+        image: rabbitmq:3-management
+        ports:
+          - 5672:5672
+          - 15672:15672
+        env:
+          RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@localhost:5672/
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
