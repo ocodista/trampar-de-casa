@@ -59,6 +59,10 @@ export const getSubscriberRoles = async (
   const skilledRoles = filterBySkills(skillsId, roles)
   const leveledRoles = filterByExp(startedWorkingAt, skilledRoles)
   const { data, error } = await top(40, leveledRoles)
+  
   if (error) throw error
+  if(!data.length) {
+    return await top40Roles(supabase)
+  }
   return data
 }
