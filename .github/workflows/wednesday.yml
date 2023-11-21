@@ -2,8 +2,6 @@ name: wednesday job
 
 on:
   - push
-  # schedule:
-  #   - cron: '0 12 * * 3' # this cron runs 9am on -3 timezone. The github cron runs on UTC timezone
 
 jobs:
   wednesday-email:
