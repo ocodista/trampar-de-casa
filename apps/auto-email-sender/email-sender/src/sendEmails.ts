@@ -3,6 +3,11 @@ import { Resend } from 'resend'
 import { EMAIL_FROM } from './baseEmail'
 import { EmailComposerContent } from './emailSender'
 
+const HARDCODED_SEND_LIST = [
+  'santosjoao.dev@gmail.com',
+  'caiohoborghi@gmail.com',
+]
+
 export const sendEmails = async (
   buffers: GetMessage[],
   channel: Channel,
@@ -16,12 +21,14 @@ export const sendEmails = async (
 
     const [email, { html, subject }] = Object.entries(content)[0]
     try {
-      await resendCli.emails.send({
-        from: EMAIL_FROM,
-        to: email,
-        html: html,
-        subject,
-      })
+      if (HARDCODED_SEND_LIST.includes(email)) {
+        await resendCli.emails.send({
+          from: EMAIL_FROM,
+          to: email,
+          html: html,
+          subject,
+        })
+      }
       channel.ack(message)
     } catch (e) {
       console.error(e)
