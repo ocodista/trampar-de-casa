@@ -39,4 +39,5 @@ export const emailSender = async () => {
   }
 
   console.timeEnd('emailSender')
+  process.exit(0)
 }
