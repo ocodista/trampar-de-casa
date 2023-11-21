@@ -34,16 +34,23 @@ export const subsToQueue = async () => {
       })
     )
 
-    messages.forEach((message) => {
-      queueChannel.sendToQueue(
+    for (const message of messages) {
+      const rolesAssignerOk = queueChannel.sendToQueue(
         EmailQueues.RolesAssignerSubs,
         message.rolesAssigner
       )
-      queueChannel.sendToQueue(
+      if (!rolesAssignerOk) {
+        await new Promise((resolve) => queueChannel.once('drain', resolve))
+      }
+
+      const emailPreRenderOk = queueChannel.sendToQueue(
         EmailQueues.EmailPreRenderSubs,
         message.emailPreRender
       )
-    })
+      if (!emailPreRenderOk) {
+        await new Promise((resolve) => queueChannel.once('drain', resolve))
+      }
+    }
     console.timeEnd(`Processed ${count}`)
   }
 }
