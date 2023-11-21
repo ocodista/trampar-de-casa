@@ -14,6 +14,7 @@ export async function emailPreRender() {
     MongoCollection.RolesAssigner
   )
   const channel = await createRabbitMqChannel()
+  channel.assertQueue(EmailQueues.EmailPreRenderer)
   let msg: GetMessage | false,
     count = 0
 
