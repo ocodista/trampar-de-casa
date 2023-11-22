@@ -8,6 +8,8 @@ export const nackStub = vi.fn()
 export const sendToQueueStub = vi.fn()
 export const prefetchStub = vi.fn()
 export const getStub = vi.fn()
+export const onceStub = vi.fn()
+export const checkQueueStub = vi.fn()
 
 export const channelMock = {
   ack: ackStub,
@@ -17,6 +19,8 @@ export const channelMock = {
   sendToQueue: sendToQueueStub,
   prefetch: prefetchStub,
   get: getStub,
+  once: onceStub,
+  checkQueue: checkQueueStub,
 } as unknown as amqplibFile.Channel
 
 const connectionReturnMock: Connection = {

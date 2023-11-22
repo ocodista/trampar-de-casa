@@ -3,10 +3,13 @@ import * as getAllConfirmedSubscribersPaginatedFile from 'db/src/supabase/domain
 import * as sharedFile from 'shared'
 import { mockAsyncGenerator } from 'shared/src/test/helpers/mockAsyncGeneratorFunction'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
-import { channelMock, sendToQueueStub } from 'shared/src/test/helpers/rabbitMQ'
+import {
+  channelMock,
+  onceStub,
+  sendToQueueStub,
+} from 'shared/src/test/helpers/rabbitMQ'
 import { subsToQueue } from 'src/subsToQueue'
 import { vi } from 'vitest'
-import * as writeToQueuesFile from '../writeToQueues'
 import { subscribersMock } from './mocks'
 
 const supabasePaginationSetup = () => {
@@ -34,6 +37,9 @@ describe('subs-to-queue', () => {
       const { getAllConfirmedSubscribersPaginatedSpy } =
         supabasePaginationSetup()
       rabbitMqSetup()
+      onceStub.mockImplementation((event: string, cb: () => unknown) => {
+        cb()
+      })
 
       await subsToQueue()
 
