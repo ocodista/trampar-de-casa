@@ -1,75 +1,75 @@
 name: wednesday job
 
-on:
-  schedule:
-    - cron: '0 12 * * 3' # this cron runs 9am on -3 timezone. The github cron runs on UTC timezone
+# on:
+#   schedule:
+#     - cron: '0 12 * * 3' # this cron runs 9am on -3 timezone. The github cron runs on UTC timezone
 
-jobs:
-  wednesday-email:
-    runs-on: ubuntu-latest
-    env:
-      MONGO_ADDRESS: ${{ secrets.MONGO_ADDRESS }}
-      RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@localhost:5672/
-      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-      SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
-      CRYPT_SECRET: ${{ secrets.CRYPT_SECRET }}
-      RESEND_KEY: ${{ secrets.RESEND_KEY }}
-      URL_PREFIX: https://trampardecasa.com.br
+# jobs:
+#   wednesday-email:
+#     runs-on: ubuntu-latest
+#     env:
+#       MONGO_ADDRESS: ${{ secrets.MONGO_ADDRESS }}
+#       RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@localhost:5672/
+#       SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+#       SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
+#       CRYPT_SECRET: ${{ secrets.CRYPT_SECRET }}
+#       RESEND_KEY: ${{ secrets.RESEND_KEY }}
+#       URL_PREFIX: https://trampardecasa.com.br
 
-    services:
-      rabbitmq:
-        image: rabbitmq:3-management
-        ports:
-          - 5672:5672
-          - 15672:15672
-        env:
-          RABBITMQ_DEFAULT_USER: trampar
-          RABBITMQ_DEFAULT_PASS: trampar-de-casa
-          RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@localhost:5672/
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v2
+#     services:
+#       rabbitmq:
+#         image: rabbitmq:3-management
+#         ports:
+#           - 5672:5672
+#           - 15672:15672
+#         env:
+#           RABBITMQ_DEFAULT_USER: trampar
+#           RABBITMQ_DEFAULT_PASS: trampar-de-casa
+#           RABBITMQ_ADDRESS: amqp://trampar:trampar-de-casa@localhost:5672/
+#     steps:
+#     - name: Checkout code
+#       uses: actions/checkout@v2
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v2
-      with:
-        node-version: 20.5.1
+#     - name: Set up Node.js
+#       uses: actions/setup-node@v2
+#       with:
+#         node-version: 20.5.1
 
-    - name: Cache node modules
-      uses: actions/cache@v2
-      with:
-        path: |
-          node_modules
-        key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
-        restore-keys: |
-          ${{ runner.os }}-yarn-
+#     - name: Cache node modules
+#       uses: actions/cache@v2
+#       with:
+#         path: |
+#           node_modules
+#         key: ${{ runner.os }}-yarn-${{ hashFiles('**/yarn.lock') }}
+#         restore-keys: |
+#           ${{ runner.os }}-yarn-
 
-    - name: Install dependencies
-      run: yarn install
+#     - name: Install dependencies
+#       run: yarn install
 
-    - name: Install turbo
-      run: yarn add -WD turbo
+#     - name: Install turbo
+#       run: yarn add -WD turbo
     
-    - name: Build all
-      run: yarn build:auto-email-sender
+#     - name: Build all
+#       run: yarn build:auto-email-sender
 
-    - name: Roles renderer
-      run: yarn turbo start --filter roles-renderer
+#     - name: Roles renderer
+#       run: yarn turbo start --filter roles-renderer
     
-    - name: Subs to Queue
-      run: yarn turbo start --filter subs-to-queue
+#     - name: Subs to Queue
+#       run: yarn turbo start --filter subs-to-queue
 
-    - name: Roles assigner
-      run: yarn turbo start --filter roles-assigner
+#     - name: Roles assigner
+#       run: yarn turbo start --filter roles-assigner
       
-    - name: Roles validator
-      run: yarn turbo start --filter roles-validator
+#     - name: Roles validator
+#       run: yarn turbo start --filter roles-validator
 
-    - name: Email pre-renderer
-      run: yarn turbo start --filter email-pre-renderer
+#     - name: Email pre-renderer
+#       run: yarn turbo start --filter email-pre-renderer
 
-    - name: Email composer
-      run: yarn turbo start --filter email-composer
+#     - name: Email composer
+#       run: yarn turbo start --filter email-composer
 
-    - name: Email sender
-      run: yarn turbo start --filter email-sender
+#     - name: Email sender
+#       run: yarn turbo start --filter email-sender
