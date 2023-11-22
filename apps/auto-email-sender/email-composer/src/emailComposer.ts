@@ -1,14 +1,9 @@
-import { Channel, Connection, GetMessage } from 'amqplib'
+import { Channel, GetMessage } from 'amqplib'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
+import { connectToQueue } from 'shared/src/queue/connectToQueue'
 import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
 import { sendToQueue } from 'shared/src/queue/sendToQueue'
 import { parsePreRenderMessage } from './parsePreRenderMessage'
-
-const connectToQueue = async (connection: Connection, queue: string) => {
-  const channel = await connection.createChannel()
-  await channel.assertQueue(queue)
-  return channel
-}
 
 export type EmailPreRenderMessage = Record<
   string,

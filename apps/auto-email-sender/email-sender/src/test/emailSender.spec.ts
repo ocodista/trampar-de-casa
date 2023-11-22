@@ -1,11 +1,14 @@
 import { Channel } from 'amqplib'
+import { EmailQueues } from 'shared/src/enums/emailQueues'
 import * as createRabbitMqChannel from 'shared/src/queue/createRabbitMqChannel'
 import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
 import { emailSender } from 'src/emailSender'
 import { vi } from 'vitest'
 import * as sendEmailsFile from '../sendEmails'
 import { messageFactory } from './factories/messageFactory'
-import { EmailQueues } from 'shared/src/enums/emailQueues'
+
+// mock process.exit
+vi.spyOn(process, 'exit').mockImplementation(vi.fn())
 
 const rabbitMqMockSetup = () => {
   const getStub = vi.fn()

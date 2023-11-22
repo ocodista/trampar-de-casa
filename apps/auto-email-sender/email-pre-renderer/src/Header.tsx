@@ -1,16 +1,14 @@
 import {
-  Button,
   Container,
   Heading,
   Hr,
   Img,
+  Link,
   Preview,
-  Section,
   Tailwind,
   Text,
 } from '@react-email/components'
 import React from 'react'
-import { createProfileFormLink } from 'shared/src/services/createProfileFormLink'
 
 export const HEADER_TITLE_SUFFIX = 'vagas para você Trampar de Casa 🔥'
 
@@ -55,26 +53,13 @@ export function Header({
       <Hr style={hr} />
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
       <Text className={paragraph}>
-        Estamos animados em anunciar o lançamento da <b>funcionalidade</b> mais
-        pedida do Trampar de Casa: vagas personalizadas!
+        Espero que estejam gostando das vagas personalizadas, estamos sempre
+        abertos a novas sugestões através de nosso{' '}
+        <Link href="https://github.com/ocodista/trampar-de-casa/issues">
+          link para issues(github)
+        </Link>
+        .
       </Text>
-      <Text className={paragraph}>
-        Configure seu perfil agora e aproveite as vantagens de receber vagas que
-        se alinham perfeitamente ao que você procura em oportunidades de
-        trabalho remoto.
-      </Text>
-      <Section>
-        <Button
-          pX={12}
-          pY={12}
-          style={button}
-          className="bg-slate-900"
-          href={createProfileFormLink(userId)}
-        >
-          Configurar preferências <span className="ml-2">⚙️</span>
-        </Button>
-      </Section>
-
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
     </Tailwind>
   )

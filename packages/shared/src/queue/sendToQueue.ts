@@ -6,6 +6,5 @@ export async function sendToQueue<K>(
   queueChannel: Channel,
   props: K
 ) {
-  await queueChannel.assertQueue(queue)
   queueChannel.sendToQueue(queue, Buffer.from(JSON.stringify(props)))
 }

@@ -13,7 +13,9 @@ export const subsToQueue = async () => {
   const queueChannel = await createRabbitMqChannel()
   await queueChannel.assertQueue(EmailQueues.RolesAssignerSubs)
   await queueChannel.assertQueue(EmailQueues.EmailPreRenderSubs)
-
+  let subscribersCount = 0,
+    prerenderStops = 0,
+    rolesAssignerStops = 0
   let count = 0
   for await (const subscribersChunk of subscribersGenerator) {
     count += subscribersChunk.length
@@ -34,16 +36,33 @@ export const subsToQueue = async () => {
       })
     )
 
-    messages.forEach((message) => {
-      queueChannel.sendToQueue(
+    for (const message of messages) {
+      subscribersCount = subscribersCount + 1
+      const rolesAssignerOk = queueChannel.sendToQueue(
         EmailQueues.RolesAssignerSubs,
         message.rolesAssigner
       )
-      queueChannel.sendToQueue(
+      if (!rolesAssignerOk) {
+        rolesAssignerStops = rolesAssignerStops + 1
+        await new Promise((resolve) => queueChannel.once('drain', resolve))
+      }
+
+      const emailPreRenderOk = queueChannel.sendToQueue(
         EmailQueues.EmailPreRenderSubs,
         message.emailPreRender
       )
-    })
+      if (!emailPreRenderOk) {
+        prerenderStops = prerenderStops + 1
+        await new Promise((resolve) => queueChannel.once('drain', resolve))
+      }
+    }
     console.timeEnd(`Processed ${count}`)
   }
+  const queueEmailPreRenderSubs = await queueChannel.checkQueue(
+    EmailQueues.EmailPreRenderSubs
+  )
+  const queueRolesAssignerSubs = await queueChannel.checkQueue(
+    EmailQueues.RolesAssignerSubs
+  )
+  console.log({ queueEmailPreRenderSubs, queueRolesAssignerSubs })
 }
