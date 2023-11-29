@@ -12,7 +12,7 @@ export const getHtmlRoles = async (
   rolesId: string[],
   mongoCollection: Collection<Document>,
   memoizedRoles: Map<any, any>
-) => {
+): Promise<string> => {
   const roles: RolesRendererCollection[] = []
   let role
   for (const roleId of rolesId) {
@@ -22,8 +22,6 @@ export const getHtmlRoles = async (
         id: roleId,
       })
       memoizedRoles.set(roleId, role)
-    } else {
-      console.log('Get memoized!', roleId)
     }
     if (role) {
       roles.push(role)
