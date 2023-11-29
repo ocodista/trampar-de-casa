@@ -5,8 +5,27 @@ import { Topics } from 'shared'
 import { RolesRendererCollection } from './getHtmlRoles'
 
 export type RenderRolesSectionProps = { roles: RolesRendererCollection[] }
+enum RenderedKey {
+  internationalCount = '##INTERNATIONAL_COUNT',
+  nationalCount = '##NATIONAL_COUNT',
+  internationalRoleHtml = '##INTERNATIONAL_ROLE_HTML',
+  nationalRoleHtml = '##NATIONAL_ROLE_HTML',
+}
+const renderedHtml = render(
+  <Tailwind>
+    <Heading className="text-[24px]">
+      🌎 {RenderedKey.internationalCount} Vagas internacionais
+    </Heading>
+    <div>{RenderedKey.internationalRoleHtml}</div>
+    <Heading className="text-[24px]">
+      🇧🇷 {RenderedKey.nationalCount} Vagas nacionais
+    </Heading>
+    <div>{RenderedKey.nationalRoleHtml}</div>
+  </Tailwind>
+)
 
 export function RenderRolesSection({ roles }: RenderRolesSectionProps): string {
+  console.time('RenderRolesSection [forEach]')
   const obj = {
     international: {
       count: 0,
@@ -26,25 +45,14 @@ export function RenderRolesSection({ roles }: RenderRolesSectionProps): string {
       obj.national.count++
     }
   })
+  console.timeEnd('RenderRolesSection [forEach]')
 
-  return render(
-    <Tailwind>
-      <Heading className="text-[24px]">
-        🌎 {obj.international.count} Vagas internacionais
-      </Heading>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: obj.international.html,
-        }}
-      ></div>
-      <Heading className="text-[24px]">
-        🇧🇷 {obj.national.count} Vagas nacionais
-      </Heading>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: obj.national.html,
-        }}
-      ></div>
-    </Tailwind>
-  )
+  console.time('RenderRolesSection [render]')
+  const sanitizedHtml = renderedHtml
+    .replace(RenderedKey.internationalCount, obj.international.count.toString())
+    .replace(RenderedKey.nationalCount, obj.national.count.toString())
+    .replace(RenderedKey.nationalRoleHtml, obj.national.html)
+    .replace(RenderedKey.internationalRoleHtml, obj.international.html)
+  console.timeEnd('RenderRolesSection [render]')
+  return sanitizedHtml
 }
