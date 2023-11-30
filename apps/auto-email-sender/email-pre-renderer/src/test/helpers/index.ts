@@ -12,7 +12,7 @@ import { getSubscriberMock } from '../factories/subscriberFactory'
 export const rolesMock = { rolesId: [faker.string.uuid()] }
 export const ENCRYPTED_VALUE_MOCK = faker.string.hexadecimal({ length: 32 })
 
-export const renderHeaderStub = vi.fn()
+export const mountHeaderStub = vi.fn()
 export const renderFooterStub = vi.fn()
 export const createRabbitMqChannelStub = vi.fn()
 export const createRabbitMqConnectionStub = vi.fn()
@@ -68,10 +68,6 @@ export const configRenderMocks = () => {
   vi.spyOn(encryptFile, 'encrypt').mockImplementation(
     () => ENCRYPTED_VALUE_MOCK
   )
-  vi.spyOn(renderFooterFile, 'renderFooter').mockImplementation(
-    renderFooterStub
-  )
-  vi.spyOn(renderHeaderFile, 'renderHeader').mockImplementation(
-    renderHeaderStub
-  )
+  vi.spyOn(renderFooterFile, 'mountFooter').mockImplementation(renderFooterStub)
+  vi.spyOn(renderHeaderFile, 'mountHeader').mockImplementation(mountHeaderStub)
 }

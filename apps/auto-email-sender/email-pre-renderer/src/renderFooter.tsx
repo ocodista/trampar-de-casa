@@ -3,7 +3,7 @@ import { render } from '@react-email/render'
 import React from 'react'
 import { getUnsubscribeLink } from './getUnsubscribeLink'
 
-enum HtmlKey {
+export enum HtmlFooterKeys {
   unsubscribeLink = '##UNSUBSCRIBE_LINK',
 }
 
@@ -15,7 +15,7 @@ export const renderFooterHTML = () => {
         comunicações, entendemos completamente. Nós respeitamos o seu espaço e o
         valorizamos como membro da nossa comunidade. Para se desinscrever, basta
         clicar{' '}
-        <Link className="text-[#556cd6]" href={HtmlKey.unsubscribeLink}>
+        <Link className="text-[#556cd6]" href={HtmlFooterKeys.unsubscribeLink}>
           aqui
         </Link>
         .
@@ -33,5 +33,5 @@ export function mountFooter(
 ) {
   const unsubscribeLink = getUnsubscribeLink(urlPrefix, id)
 
-  return renderedFooter.replace(HtmlKey.unsubscribeLink, unsubscribeLink)
+  return renderedFooter.replace(HtmlFooterKeys.unsubscribeLink, unsubscribeLink)
 }

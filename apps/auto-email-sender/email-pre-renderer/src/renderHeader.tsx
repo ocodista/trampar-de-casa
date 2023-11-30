@@ -13,12 +13,12 @@ import React from 'react'
 
 export const HEADER_TITLE_SUFFIX = 'vagas para você Trampar de Casa 🔥'
 
-enum HtmlKeys {
+export enum HeaderHtmlKeys {
   rolesCount = '##ROLES_COUNT',
 }
 
 function Header() {
-  const previewText = `${HtmlKeys.rolesCount} ${HEADER_TITLE_SUFFIX}`
+  const previewText = `${HeaderHtmlKeys.rolesCount} ${HEADER_TITLE_SUFFIX}`
   const h1 = 'text-[24px]'
   const hr = {
     borderColor: '#e6ebf1',
@@ -38,7 +38,7 @@ function Header() {
       </Container>
       <Heading
         className={h1}
-      >{`🔥 ${HtmlKeys.rolesCount} vagas para você Trampar de Casa`}</Heading>
+      >{`🔥 ${HeaderHtmlKeys.rolesCount} vagas para você Trampar de Casa`}</Heading>
       <Hr style={hr} />
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
       <Text className={paragraph}>
@@ -60,7 +60,7 @@ export function renderHeaderHtml() {
 
 export function mountHeader(rolesIds: string[], renderedHeader: string) {
   return renderedHeader.replaceAll(
-    HtmlKeys.rolesCount,
+    HeaderHtmlKeys.rolesCount,
     rolesIds.length.toString()
   )
 }

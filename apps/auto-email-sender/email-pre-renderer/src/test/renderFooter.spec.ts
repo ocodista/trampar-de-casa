@@ -1,8 +1,8 @@
 import { faker } from '@faker-js/faker'
 import * as encryptFile from 'shared'
-import { renderFooter } from 'src/renderFooter'
 import { vi } from 'vitest'
 import * as getUnsubscribeFile from '../getUnsubscribeLink'
+import { HtmlFooterKeys, mountFooter } from '../renderFooter'
 import { getSubscriberMock } from './factories/subscriberFactory'
 
 const ENCRYPTED_VALUE_MOCK = faker.string.hexadecimal({ length: 32 })
@@ -24,7 +24,7 @@ describe('Render footer', () => {
     getUnsubscribeLinkMock.mockResolvedValue(unsubscribeLinkMock)
     const subscriberMock = getSubscriberMock()
 
-    renderFooter(subscriberMock.id, urlPrefix)
+    mountFooter(subscriberMock.id, urlPrefix, '')
 
     expect(getUnsubscribeLinkMock).toBeCalledWith(urlPrefix, subscriberMock.id)
   })
@@ -35,7 +35,11 @@ describe('Render footer', () => {
     getUnsubscribeLinkMock.mockImplementation(() => unsubscribeLinkMock)
     const subscriberMock = getSubscriberMock()
 
-    const renderedFooter = renderFooter(subscriberMock.id, urlPrefix)
+    const renderedFooter = mountFooter(
+      subscriberMock.id,
+      urlPrefix,
+      `test ${HtmlFooterKeys.unsubscribeLink} test`
+    )
     expect(renderedFooter).toContain(unsubscribeLinkMock)
   })
 })
