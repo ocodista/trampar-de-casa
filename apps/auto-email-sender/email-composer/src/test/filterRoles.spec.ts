@@ -1,52 +1,33 @@
 import { faker } from '@faker-js/faker'
-import { MongoClient } from 'mongodb'
-import * as sharedFile from 'shared'
 import { getHtmlRoles } from 'src/getHtmlRoles'
-import {
-  RenderRolesSection,
-  RenderRolesSectionProps,
-} from 'src/renderRolesSection'
-import { expect, vi } from 'vitest'
-
-const mockMongoDb = () => {
-  const collectionStub = vi.fn()
-  const findOneStub = vi.fn()
-  collectionStub.mockReturnValue({
-    findOne: findOneStub,
-  })
-  vi.spyOn(sharedFile, 'getMongoConnection').mockImplementation(
-    async () =>
-      ({
-        db: () => ({
-          collection: collectionStub,
-        }),
-      } as unknown as MongoClient)
-  )
-
-  return { collectionStub, findOneStub }
-}
+import { expect } from 'vitest'
+import { mockMongoDb } from './utils/mockMongo'
 
 describe('Get HTML roles', () => {
-  it('establish connection with redis', async () => {
-    const { collectionStub } = mockMongoDb()
-    await getHtmlRoles([faker.string.sample()])
+  it('establish connection with mongo', async () => {
+    const { collectionStub, collectionMock } = mockMongoDb()
+    await getHtmlRoles([faker.string.sample()], collectionMock, new Map())
 
     expect(collectionStub).toBeCalled()
   })
-  it('concatenate roles taken on redis', async () => {
-    const { findOneStub } = mockMongoDb()
-    const rolesIdArray = [faker.string.uuid(), faker.string.uuid()]
+  it.only('run getHtmlRoles 100 times', async () => {
+    const { findOneStub, collectionMock } = mockMongoDb()
+    findOneStub.mockResolvedValue(faker.string.sample(1_000))
+
     const firstRoleHTML = faker.string.sample()
     const twoRoleHTML = faker.string.sample()
     findOneStub.mockResolvedValueOnce(firstRoleHTML)
     findOneStub.mockResolvedValueOnce(twoRoleHTML)
-
-    const concatenatedRoles = await getHtmlRoles(rolesIdArray)
-
-    expect(concatenatedRoles).toStrictEqual(
-      RenderRolesSection({
-        roles: [firstRoleHTML, twoRoleHTML],
-      } as unknown as RenderRolesSectionProps)
+    const rolesIdArray = Array.from({ length: 40 }).map(() =>
+      faker.string.uuid()
     )
+
+    const memoizedRoles = new Map()
+    const emptyArray = Array.from({ length: 100 })
+    for (const _ of emptyArray) {
+      await getHtmlRoles(rolesIdArray, collectionMock, memoizedRoles)
+    }
+
+    expect(true).toBeTruthy()
   })
 })

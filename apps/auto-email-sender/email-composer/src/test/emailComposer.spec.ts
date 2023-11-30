@@ -1,17 +1,12 @@
 import { faker } from '@faker-js/faker'
-import { GetMessage } from 'amqplib'
-import { EmailQueues } from 'shared'
 import * as createRabbitMqConnectionFile from 'shared/src/queue/createRabbitMqConnection'
-import { channelMock, sendToQueueStub } from 'shared/src/test/helpers/rabbitMQ'
-import {
-  EmailPreRenderMessage,
-  composeEmail,
-  consumePreRenderQueue,
-} from 'src/emailComposer'
+import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
+import { EmailPreRenderMessage, composeEmail } from 'src/emailComposer'
 import { parsePreRenderMessage, rolesSubject } from 'src/parsePreRenderMessage'
 import { vi } from 'vitest'
 import * as createEmailHtmlFile from '../createEmailHtml'
 import * as getHtmlRolesFile from '../getHtmlRoles'
+import { collectionMock } from './utils/mockMongo'
 
 // mock process.exit
 vi.spyOn(process, 'exit').mockImplementation(vi.fn())
@@ -56,8 +51,17 @@ describe('Email Composer Service Tests', () => {
     )
 
     it('gets roles HTML', async () => {
-      await parsePreRenderMessage(mockedBufferMessage)
-      expect(getHtmlRolesStub).toBeCalledWith(rolesMock)
+      const memoizedRoles = new Map()
+      await parsePreRenderMessage(
+        mockedBufferMessage,
+        collectionMock,
+        memoizedRoles
+      )
+      expect(getHtmlRolesStub).toBeCalledWith(
+        rolesMock,
+        collectionMock,
+        memoizedRoles
+      )
     })
 
     it('converts rabbit message buffer into [email]: bodyHTML object', async () => {
@@ -65,31 +69,24 @@ describe('Email Composer Service Tests', () => {
       vi.spyOn(createEmailHtmlFile, 'createEmailHtml').mockImplementation(
         createEmailHtmlStub
       )
+      const memoizedRoles = new Map()
       const createEmailHtmlReturn = faker.string.sample()
       createEmailHtmlStub.mockResolvedValue(createEmailHtmlReturn)
       const rolesHTML = faker.string.sample()
       getHtmlRolesStub.mockReturnValue(rolesHTML)
-      const inlineHTML = `${prerenderMessageMock[emailMock].headerHTML}${rolesHTML}${prerenderMessageMock[emailMock].footerHTML}`
 
-      await consumePreRenderQueue(
-        {
-          content: Buffer.from(JSON.stringify(prerenderMessageMock)),
-        } as unknown as GetMessage,
-        channelMock
+      const returnedObj = await parsePreRenderMessage(
+        Buffer.from(JSON.stringify(prerenderMessageMock)),
+        collectionMock,
+        memoizedRoles
       )
 
-      expect(createEmailHtmlStub).toBeCalledWith(inlineHTML)
-      expect(sendToQueueStub).toBeCalledWith(
-        EmailQueues.EmailSender,
-        Buffer.from(
-          JSON.stringify({
-            [emailMock]: {
-              html: createEmailHtmlReturn,
-              subject: rolesSubject(rolesMock.length),
-            },
-          })
-        )
-      )
+      expect(returnedObj).toEqual({
+        [emailMock]: {
+          html: createEmailHtmlReturn,
+          subject: rolesSubject(rolesMock.length),
+        },
+      })
     })
   })
 })

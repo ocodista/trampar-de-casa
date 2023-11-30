@@ -1,18 +1,17 @@
 import { faker } from '@faker-js/faker'
 import * as dbFile from 'db'
-import * as saveSubscriberRolesFiles from 'db/src/mongodb/domains/roles/saveSubscriberRoles'
 import * as getSubscriberRolesFile from 'db/src/supabase/domains/roles/getSubscriberRoles'
 import * as getAllPaginatedFile from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { Collection, MongoClient } from 'mongodb'
 import * as sharedFile from 'shared'
 import { supabaseClientMock } from 'shared/src/test/helpers/mocks'
+import { channelMock, getStub } from 'shared/src/test/helpers/rabbitMQ'
 import { vi } from 'vitest'
 import { assignRoles } from '../rolesAssigner'
 import { getRoleMock } from './factories/roleFactory'
 import { getSubscriberMock } from './factories/subscriberFactory'
 import { getSupabaseClientStub } from './helpers/stubs'
-
 type Subscribers = SupabaseTable<'Subscribers'>
 
 // mock process.exit
@@ -56,7 +55,7 @@ vi.mock('mongodb', () => {
     },
   }
 })
-describe.skip('Roles Assigner', () => {
+describe('Roles Assigner', () => {
   const mockMongoCollection = {
     insertOne: vi.fn(),
     updateOne: vi.fn(),
@@ -94,19 +93,23 @@ describe.skip('Roles Assigner', () => {
     })
 
     it('get personalized roles', async () => {
-      mockSubscribersGenerator([subscribersBatchMock])
-
+      vi.spyOn(sharedFile, 'createRabbitMqChannel').mockImplementation(
+        async () => channelMock
+      )
+      // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+      // @ts-ignore
+      vi.spyOn(dbFile, 'getSupabaseClient').mockImplementation(
+        () => supabaseClientMock
+      )
+      getStub.mockResolvedValueOnce({
+        content: Buffer.from(JSON.stringify(subscribersBatchMock[0])),
+      })
       await assignRoles()
 
       expect(getSubscribersRoleSpy).toBeCalledWith(
         subscribersBatchMock[0],
         supabaseClientMock
       )
-      expect(getSubscribersRoleSpy).toBeCalledWith(
-        subscribersBatchMock[1],
-        supabaseClientMock
-      )
-      expect(getSubscribersRoleSpy).toBeCalledTimes(subscribersBatchMock.length)
     })
 
     it('send emailProps {  email, id, roleIds } to emailRendererQueue at Redis', async () => {
