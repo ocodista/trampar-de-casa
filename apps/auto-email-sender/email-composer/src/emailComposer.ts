@@ -1,9 +1,13 @@
-import { Channel, GetMessage } from 'amqplib'
+import { GetMessage } from 'amqplib'
+import { getMongoConnection } from 'shared'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
+import { MongoCollection } from 'shared/src/enums/mongo'
 import { connectToQueue } from 'shared/src/queue/connectToQueue'
 import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
 import { sendToQueue } from 'shared/src/queue/sendToQueue'
+import { renderEmailWrapperHtml } from './createEmailHtml'
 import { parsePreRenderMessage } from './parsePreRenderMessage'
+import { renderRolesHtml } from './renderRolesSection'
 
 export type EmailPreRenderMessage = Record<
   string,
@@ -14,37 +18,40 @@ export type EmailPreRenderMessage = Record<
   }
 >
 
-export const consumePreRenderQueue = async (
-  message: GetMessage | false,
-  emailComposerChannel: Channel
-) => {
-  if (!message) return
-  const emailHtml = await parsePreRenderMessage(message.content)
-  sendToQueue(EmailQueues.EmailSender, emailComposerChannel, emailHtml)
-}
-
 export const composeEmail = async () => {
-  console.time('composeEmail')
+  const memoizedRoles = new Map()
   const rabbitConnection = await createRabbitMqConnection()
+  const mongoConnection = await getMongoConnection()
+  const mongoDatabase = mongoConnection.db('auto-email-sender')
+  const mongoCollection = mongoDatabase.collection(
+    MongoCollection.RolesRenderer
+  )
 
   const [emailPreRendererChannel, emailSenderChannel] = await Promise.all([
     connectToQueue(rabbitConnection, EmailQueues.EmailPreRenderer),
     connectToQueue(rabbitConnection, EmailQueues.EmailSender),
   ])
 
+  const renderedRolesHtml = renderRolesHtml()
+  const renderedEmailWrapperHtml = renderEmailWrapperHtml()
   let msg: GetMessage | false,
     count = 0
   do {
     msg = await emailPreRendererChannel.get(EmailQueues.EmailPreRenderer, {
       noAck: false,
     })
-    await consumePreRenderQueue(msg, emailSenderChannel)
-    if (msg) {
-      emailPreRendererChannel.ack(msg)
-    }
+    if (!msg) break
+    const emailHtml = await parsePreRenderMessage(
+      msg.content,
+      mongoCollection,
+      memoizedRoles,
+      renderedRolesHtml,
+      renderedEmailWrapperHtml
+    )
+    sendToQueue(EmailQueues.EmailSender, emailSenderChannel, emailHtml)
+    emailPreRendererChannel.ack(msg)
     console.log(++count)
   } while (msg)
 
-  console.timeEnd('composeEmail')
   process.exit(0)
 }

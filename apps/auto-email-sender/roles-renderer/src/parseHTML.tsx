@@ -1,3 +1,4 @@
+import { Tailwind } from '@react-email/components'
 import { render } from '@react-email/render'
 import { Database } from 'db'
 import React from 'react'
@@ -9,15 +10,17 @@ export const htmlStartingDoctype = `<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0
 
 export const parseHTML = (role: RolesSkillsView): string => {
   return render(
-    <OpeningCard
-      company={role.company as string}
-      currency={(role.currency as OpeningCurrency) || 'R$'}
-      language={role.language as string}
-      headerInfo={role.description as string}
-      location={role.country as string}
-      skills={role.skillNames as string[]}
-      title={role.title as string}
-      url={role.url || ''}
-    />
+    <Tailwind>
+      <OpeningCard
+        company={role.company as string}
+        currency={(role.currency as OpeningCurrency) || 'R$'}
+        language={role.language as string}
+        headerInfo={role.description as string}
+        location={role.country as string}
+        skills={role.skillNames as string[]}
+        title={role.title as string}
+        url={role.url || ''}
+      />
+    </Tailwind>
   ).replace(htmlStartingDoctype, '')
 }

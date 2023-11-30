@@ -13,7 +13,7 @@ enum EnglishLevel {
 export const getSubscriberMock = (subscribers: Partial<Subscribers> = {}) =>
   ({
     email: faker.internet.email(),
-    createdAt: faker.date.past(),
+    createdAt: faker.date.past().toString(),
     englishLevel: faker.helpers.enumValue(EnglishLevel),
     gitHub: faker.internet.url(),
     linkedInUrl: faker.internet.url(),
@@ -22,8 +22,8 @@ export const getSubscriberMock = (subscribers: Partial<Subscribers> = {}) =>
     skills: [faker.hacker.noun()],
     isConfirmed: true,
     optOut: false,
-    startedWorkingAt: faker.date.past(),
-    updatedAt: new Date(),
+    startedWorkingAt: faker.date.past().toString(),
+    updatedAt: new Date().toString(),
     ...subscribers,
   } as Subscribers)
 

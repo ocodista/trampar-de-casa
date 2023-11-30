@@ -5,38 +5,60 @@ import { Topics } from 'shared'
 import { RolesRendererCollection } from './getHtmlRoles'
 
 export type RenderRolesSectionProps = { roles: RolesRendererCollection[] }
-
-export function RenderRolesSection({ roles }: RenderRolesSectionProps) {
-  const internationalRoles = roles.filter(
-    ({ topic }) => topic === Topics.INTERNATIONAL_VACANCIES
-  )
-  const nationalRoles = roles.filter(
-    ({ topic }) => topic === Topics.NATIONAL_VACANCIES
-  )
-  return render(
+enum RenderedKeys {
+  internationalCount = '##INTERNATIONAL_COUNT',
+  nationalCount = '##NATIONAL_COUNT',
+  internationalRolesHtml = '##INTERNATIONAL_ROLE_HTML',
+  nationalRolesHtml = '##NATIONAL_ROLE_HTML',
+}
+export const renderRolesHtml = () => {
+  const renderedHtml = render(
     <Tailwind>
       <Heading className="text-[24px]">
-        🌎 {internationalRoles.length} Vagas internacionais
+        🌎 {RenderedKeys.internationalCount} Vagas internacionais
       </Heading>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: internationalRoles.reduce(
-            (prev, { content }) => `${prev}${content}`,
-            ''
-          ),
-        }}
-      ></div>
+      <div>{RenderedKeys.internationalRolesHtml}</div>
       <Heading className="text-[24px]">
-        🇧🇷 {nationalRoles.length} Vagas nacionais
+        🇧🇷 {RenderedKeys.nationalCount} Vagas nacionais
       </Heading>
-      <div
-        dangerouslySetInnerHTML={{
-          __html: nationalRoles.reduce(
-            (prev, { content }) => `${prev}${content}`,
-            ''
-          ),
-        }}
-      ></div>
+      <div>{RenderedKeys.nationalRolesHtml}</div>
     </Tailwind>
   )
+
+  return renderedHtml
+}
+
+export function RenderRolesSection(
+  { roles }: RenderRolesSectionProps,
+  renderedRolesHtml: string
+): string {
+  const obj = {
+    international: {
+      count: 0,
+      html: '',
+    },
+    national: {
+      count: 0,
+      html: '',
+    },
+  }
+  roles.forEach((role) => {
+    if (role.topic === Topics.INTERNATIONAL_VACANCIES) {
+      obj.international.html += role.content
+      obj.international.count++
+    } else {
+      obj.national.html += role.content
+      obj.national.count++
+    }
+  })
+
+  const sanitizedHtml = renderedRolesHtml
+    .replace(
+      RenderedKeys.internationalCount,
+      obj.international.count.toString()
+    )
+    .replace(RenderedKeys.nationalCount, obj.national.count.toString())
+    .replace(RenderedKeys.nationalRolesHtml, obj.national.html)
+    .replace(RenderedKeys.internationalRolesHtml, obj.international.html)
+  return sanitizedHtml
 }

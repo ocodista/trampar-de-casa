@@ -1,4 +1,5 @@
-import { MongoCollection, Topics, getMongoConnection } from 'shared'
+import { Collection, Document } from 'mongodb'
+import { Topics } from 'shared'
 import { RenderRolesSection } from './renderRolesSection'
 
 export type RolesRendererCollection = {
@@ -7,24 +8,31 @@ export type RolesRendererCollection = {
   topic: Topics
 }
 
-export const getHtmlRoles = async (rolesId: string[]) => {
-  const mongoConnection = await getMongoConnection()
-  const mongoDatabase = mongoConnection.db('auto-email-sender')
-  const mongoCollection = mongoDatabase.collection(
-    MongoCollection.RolesRenderer
-  )
+export const getHtmlRoles = async (
+  rolesId: string[],
+  mongoCollection: Collection<Document>,
+  memoizedRoles: Map<any, any>,
+  renderedRolesHtml: string
+): Promise<string> => {
   const roles: RolesRendererCollection[] = []
-
-  for (let index = 0; index < rolesId.length; index++) {
-    const roleId = rolesId[index]
-    const roleSavedOnMongo =
-      await mongoCollection.findOne<RolesRendererCollection>({ id: roleId })
-    if (roleSavedOnMongo) {
-      roles.push(roleSavedOnMongo)
+  let role
+  for (const roleId of rolesId) {
+    role = memoizedRoles.get(roleId)
+    if (!role) {
+      role = await mongoCollection.findOne<RolesRendererCollection>({
+        id: roleId,
+      })
+      memoizedRoles.set(roleId, role)
+    }
+    if (role) {
+      roles.push(role)
     }
   }
 
-  return RenderRolesSection({
-    roles,
-  })
+  return RenderRolesSection(
+    {
+      roles,
+    },
+    renderedRolesHtml
+  )
 }

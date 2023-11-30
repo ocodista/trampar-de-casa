@@ -2,8 +2,11 @@ import { Body, Head, Html, Tailwind } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
 
-export async function createEmailHtml(contentHTML: string) {
-  return render(
+enum HtmlKeys {
+  contentHtml = '##CONTENT_HTML',
+}
+export const renderEmailWrapperHtml = () => {
+  const renderedEmailHtml = render(
     <Tailwind>
       <Html>
         <Head />
@@ -14,14 +17,18 @@ export async function createEmailHtml(contentHTML: string) {
               '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
           }}
         >
-          <div
-            className="mx-auto my-0 mb-[64px] max-w-[37.5em] bg-white p-[20px_48px_48px]"
-            dangerouslySetInnerHTML={{
-              __html: contentHTML,
-            }}
-          />
+          <div className="mx-auto my-0 mb-[64px] max-w-[37.5em] bg-white p-[20px_48px_48px]">
+            {HtmlKeys.contentHtml}
+          </div>
         </Body>
       </Html>
     </Tailwind>
   )
+  return renderedEmailHtml
+}
+export async function createEmailHtml(
+  contentHTML: string,
+  renderedEmailWrapperHtml: string
+) {
+  return renderedEmailWrapperHtml.replace(HtmlKeys.contentHtml, contentHTML)
 }

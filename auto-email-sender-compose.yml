@@ -22,8 +22,6 @@ services:
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: root
-    volumes:
-      - mongo-data:/data/db
   roles-validator:
     build:
       context: .
@@ -88,7 +86,3 @@ services:
 networks:
   mongo-network:
     driver: bridge
-
-volumes:
-  mongo-data:
-    driver: local
