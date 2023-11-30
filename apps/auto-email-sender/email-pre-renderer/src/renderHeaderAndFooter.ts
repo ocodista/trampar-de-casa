@@ -1,12 +1,19 @@
-import { renderFooter } from './renderFooter'
-import { renderHeader } from './renderHeader'
+import { mountFooter } from './renderFooter'
+import { mountHeader } from './renderHeader'
 
-export const renderHeaderAndFooter = async (id: string, rolesId: string[]) => {
+export const renderHeaderAndFooter = async (
+  id: string,
+  rolesId: string[],
+  renderedFooter: string,
+  renderedHeader: string
+) => {
   const promiseFooterHTML = new Promise<string>((resolve) =>
-    resolve(renderFooter(id, process.env['URL_PREFIX'] as string))
+    resolve(
+      mountFooter(id, process.env['URL_PREFIX'] as string, renderedFooter)
+    )
   )
   const promiseHeaderHTML = new Promise<string>((resolve) =>
-    resolve(renderHeader(rolesId, id))
+    resolve(mountHeader(rolesId, renderedHeader))
   )
   const [footerHTML, headerHTML] = await Promise.all([
     promiseFooterHTML,

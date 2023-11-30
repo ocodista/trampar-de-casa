@@ -1,10 +1,44 @@
 import { faker } from '@faker-js/faker'
-import * as getAllPaginatedFile from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import * as sendToQueueFile from 'shared/src/queue/sendToQueue'
 import { channelMock, getStub } from 'shared/src/test/helpers/rabbitMQ'
-import { emailPreRender } from 'src/emailPreRender'
 import { vi } from 'vitest'
+import { emailPreRender } from '../emailPreRender'
+import * as renderFooterFile from '../renderFooter'
+import * as renderHeaderFile from '../renderHeader'
+
+const mockRenderHeaderAndFooter = () => {
+  const renderedFooterMock = faker.string.sample(1000)
+  const renderedHeaderMock = faker.string.sample(1000)
+  const renderFooterHtmlStub = vi.fn()
+  const renderHeaderHtmlStub = vi.fn()
+  renderFooterHtmlStub.mockReturnValue(renderedFooterMock)
+  renderHeaderHtmlStub.mockReturnValue(renderedHeaderMock)
+  vi.spyOn(renderFooterFile, 'renderFooterHTML').mockImplementation(
+    renderFooterHtmlStub
+  )
+  vi.spyOn(renderHeaderFile, 'renderHeaderHtml').mockImplementation(
+    renderHeaderHtmlStub
+  )
+
+  return { renderedFooterMock, renderedHeaderMock }
+}
+const mockMountHeaderAndFooter = () => {
+  const renderedFooterMock = faker.string.sample(1000)
+  const renderedHeaderMock = faker.string.sample(1000)
+  const mountFooterHtmlStub = vi.fn()
+  const mountHeaderHtmlStub = vi.fn()
+  mountFooterHtmlStub.mockResolvedValue(renderedFooterMock)
+  mountHeaderHtmlStub.mockResolvedValue(renderedHeaderMock)
+  vi.spyOn(renderFooterFile, 'mountFooter').mockImplementation(
+    mountFooterHtmlStub
+  )
+  vi.spyOn(renderHeaderFile, 'mountHeader').mockImplementation(
+    mountHeaderHtmlStub
+  )
+
+  return { renderedFooterMock, renderedHeaderMock }
+}
 
 type Subscribers = SupabaseTable<'Subscribers'>
 
@@ -12,8 +46,8 @@ import { EmailQueues } from 'shared'
 import {
   configRenderMocks,
   mockExternalServices,
+  mountHeaderStub,
   renderFooterStub,
-  renderHeaderStub,
 } from './helpers'
 
 const mockMessageContent = <T>(props: T) => {
@@ -25,25 +59,7 @@ const mockMessageContent = <T>(props: T) => {
 // mock process.exit
 vi.spyOn(process, 'exit').mockImplementation(vi.fn())
 
-const mockSubscribersGenerator = (responseChunks: Array<Subscribers[]>) => {
-  const getAllPaginatedStub = vi.spyOn(
-    getAllPaginatedFile,
-    'getAllConfirmedSubscribersPaginated'
-  )
-  getAllPaginatedStub.mockImplementation(async function* () {
-    for (const chunk of responseChunks) {
-      yield chunk
-    }
-  })
-
-  return { getAllPaginatedStub }
-}
-
 describe('Email Pre Renderer', () => {
-  const renderFooterReturnMock = faker.string.sample()
-  const renderHeaderReturnMock = faker.string.sample()
-  renderFooterStub.mockImplementation(() => renderFooterReturnMock)
-  renderHeaderStub.mockImplementation(() => renderHeaderReturnMock)
   beforeAll(() => {
     configRenderMocks()
   })
@@ -80,6 +96,7 @@ describe('Email Pre Renderer', () => {
 
     it('Calls render footer passing subscriber id and prefix url', async () => {
       const { subscriberMock } = mockExternalServices()
+      const { renderedFooterMock } = mockRenderHeaderAndFooter()
       mockMessageContent({
         email: subscriberMock.email,
         id: subscriberMock.id,
@@ -87,11 +104,16 @@ describe('Email Pre Renderer', () => {
 
       await emailPreRender()
 
-      expect(renderFooterStub).toHaveBeenCalledWith(subscriberMock.id, 'url')
+      expect(renderFooterStub).toHaveBeenCalledWith(
+        subscriberMock.id,
+        'url',
+        renderedFooterMock
+      )
     })
 
     it('Calls render header passing rolesID', async () => {
       const { mongoRoleAssignerMock } = mockExternalServices()
+      const { renderedHeaderMock } = mockRenderHeaderAndFooter()
       mockMessageContent({
         email: mongoRoleAssignerMock.email,
         id: mongoRoleAssignerMock.id,
@@ -99,9 +121,9 @@ describe('Email Pre Renderer', () => {
 
       await emailPreRender()
 
-      expect(renderHeaderStub).toHaveBeenCalledWith(
+      expect(mountHeaderStub).toHaveBeenCalledWith(
         mongoRoleAssignerMock.rolesId,
-        mongoRoleAssignerMock.id
+        renderedHeaderMock
       )
     })
 
@@ -113,18 +135,19 @@ describe('Email Pre Renderer', () => {
         email: subscriberMock.email,
         id: subscriberMock.id,
       } as unknown as Subscribers)
+      const { renderedFooterMock, renderedHeaderMock } =
+        mockMountHeaderAndFooter()
 
       const sendToQueueSpy = vi.spyOn(sendToQueueFile, 'sendToQueue')
 
       await emailPreRender()
-
       expect(sendToQueueSpy).toHaveBeenCalledWith(
         EmailQueues.EmailPreRenderer,
         channelMock,
         {
           [subscriberMock.email]: {
-            footerHTML: renderFooterReturnMock,
-            headerHTML: renderHeaderReturnMock,
+            footerHTML: renderedFooterMock,
+            headerHTML: renderedHeaderMock,
             roles: mongoRoleAssignerMock.rolesId,
           },
         }
