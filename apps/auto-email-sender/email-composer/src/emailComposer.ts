@@ -18,7 +18,6 @@ export type EmailPreRenderMessage = Record<
 
 export const composeEmail = async () => {
   const memoizedRoles = new Map()
-  console.time('composeEmail')
   const rabbitConnection = await createRabbitMqConnection()
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
@@ -48,6 +47,5 @@ export const composeEmail = async () => {
     console.log(++count)
   } while (msg)
 
-  console.timeEnd('composeEmail')
   process.exit(0)
 }
