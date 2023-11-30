@@ -5,22 +5,22 @@ import { Topics } from 'shared'
 import { RolesRendererCollection } from './getHtmlRoles'
 
 export type RenderRolesSectionProps = { roles: RolesRendererCollection[] }
-enum RenderedKey {
+enum RenderedKeys {
   internationalCount = '##INTERNATIONAL_COUNT',
   nationalCount = '##NATIONAL_COUNT',
-  internationalRoleHtml = '##INTERNATIONAL_ROLE_HTML',
-  nationalRoleHtml = '##NATIONAL_ROLE_HTML',
+  internationalRolesHtml = '##INTERNATIONAL_ROLE_HTML',
+  nationalRolesHtml = '##NATIONAL_ROLE_HTML',
 }
 const renderedHtml = render(
   <Tailwind>
     <Heading className="text-[24px]">
-      🌎 {RenderedKey.internationalCount} Vagas internacionais
+      🌎 {RenderedKeys.internationalCount} Vagas internacionais
     </Heading>
-    <div>{RenderedKey.internationalRoleHtml}</div>
+    <div>{RenderedKeys.internationalRolesHtml}</div>
     <Heading className="text-[24px]">
-      🇧🇷 {RenderedKey.nationalCount} Vagas nacionais
+      🇧🇷 {RenderedKeys.nationalCount} Vagas nacionais
     </Heading>
-    <div>{RenderedKey.nationalRoleHtml}</div>
+    <div>{RenderedKeys.nationalRolesHtml}</div>
   </Tailwind>
 )
 
@@ -49,10 +49,13 @@ export function RenderRolesSection({ roles }: RenderRolesSectionProps): string {
 
   console.time('RenderRolesSection [render]')
   const sanitizedHtml = renderedHtml
-    .replace(RenderedKey.internationalCount, obj.international.count.toString())
-    .replace(RenderedKey.nationalCount, obj.national.count.toString())
-    .replace(RenderedKey.nationalRoleHtml, obj.national.html)
-    .replace(RenderedKey.internationalRoleHtml, obj.international.html)
+    .replace(
+      RenderedKeys.internationalCount,
+      obj.international.count.toString()
+    )
+    .replace(RenderedKeys.nationalCount, obj.national.count.toString())
+    .replace(RenderedKeys.nationalRolesHtml, obj.national.html)
+    .replace(RenderedKeys.internationalRolesHtml, obj.international.html)
   console.timeEnd('RenderRolesSection [render]')
   return sanitizedHtml
 }
