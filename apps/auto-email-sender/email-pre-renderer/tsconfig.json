@@ -1,5 +1,6 @@
 {
   "compilerOptions": {
+    "lib": ["ES2021"],
     "esModuleInterop": true,
     "forceConsistentCasingInFileNames": true,
     "isolatedModules": true,
