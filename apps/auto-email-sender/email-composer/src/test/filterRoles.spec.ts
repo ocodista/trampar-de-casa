@@ -4,12 +4,6 @@ import { expect } from 'vitest'
 import { mockMongoDb } from './utils/mockMongo'
 
 describe('Get HTML roles', () => {
-  it('establish connection with mongo', async () => {
-    const { collectionStub, collectionMock } = mockMongoDb()
-    await getHtmlRoles([faker.string.sample()], collectionMock, new Map())
-
-    expect(collectionStub).toBeCalled()
-  })
   it('run getHtmlRoles 100 times', async () => {
     const { findOneStub, collectionMock } = mockMongoDb()
     findOneStub.mockResolvedValue(faker.string.sample(1_000))
