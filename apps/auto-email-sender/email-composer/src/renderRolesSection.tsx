@@ -25,7 +25,6 @@ const renderedHtml = render(
 )
 
 export function RenderRolesSection({ roles }: RenderRolesSectionProps): string {
-  console.time('RenderRolesSection [forEach]')
   const obj = {
     international: {
       count: 0,
@@ -45,9 +44,7 @@ export function RenderRolesSection({ roles }: RenderRolesSectionProps): string {
       obj.national.count++
     }
   })
-  console.timeEnd('RenderRolesSection [forEach]')
 
-  console.time('RenderRolesSection [render]')
   const sanitizedHtml = renderedHtml
     .replace(
       RenderedKeys.internationalCount,
@@ -56,6 +53,5 @@ export function RenderRolesSection({ roles }: RenderRolesSectionProps): string {
     .replace(RenderedKeys.nationalCount, obj.national.count.toString())
     .replace(RenderedKeys.nationalRolesHtml, obj.national.html)
     .replace(RenderedKeys.internationalRolesHtml, obj.international.html)
-  console.timeEnd('RenderRolesSection [render]')
   return sanitizedHtml
 }
