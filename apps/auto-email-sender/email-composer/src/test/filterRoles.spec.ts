@@ -19,7 +19,7 @@ describe('Get HTML roles', () => {
     const memoizedRoles = new Map()
     const emptyArray = Array.from({ length: 100 })
     for (const _ of emptyArray) {
-      await getHtmlRoles(rolesIdArray, collectionMock, memoizedRoles)
+      await getHtmlRoles(rolesIdArray, collectionMock, memoizedRoles, '')
     }
 
     expect(true).toBeTruthy()

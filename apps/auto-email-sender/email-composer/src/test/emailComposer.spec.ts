@@ -68,12 +68,15 @@ describe('Email Composer Service Tests', () => {
       await parsePreRenderMessage(
         mockedBufferMessage,
         collectionMock,
-        memoizedRoles
+        memoizedRoles,
+        '',
+        ''
       )
       expect(getHtmlRolesStub).toBeCalledWith(
         rolesMock,
         collectionMock,
-        memoizedRoles
+        memoizedRoles,
+        ''
       )
     })
 
@@ -91,7 +94,9 @@ describe('Email Composer Service Tests', () => {
       const returnedObj = await parsePreRenderMessage(
         Buffer.from(JSON.stringify(prerenderMessageMock)),
         collectionMock,
-        memoizedRoles
+        memoizedRoles,
+        '',
+        ''
       )
 
       expect(returnedObj).toEqual({
