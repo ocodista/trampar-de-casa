@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import * as sharedFile from 'shared'
 import * as createRabbitMqConnectionFile from 'shared/src/queue/createRabbitMqConnection'
 import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
 import { EmailPreRenderMessage, composeEmail } from 'src/emailComposer'
@@ -22,6 +23,16 @@ const rabbitMqConfig = () => {
     'createRabbitMqConnection'
   ).mockImplementation(createRabbitMqConnectionStub)
 }
+const mongoDbConfig = () => {
+  vi.spyOn(sharedFile, 'getMongoConnection')
+    // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    .mockImplementation(async () => ({
+      db: () => ({
+        collection: vi.fn(),
+      }),
+    }))
+}
 
 describe('Email Composer Service Tests', () => {
   beforeEach(() => {
@@ -32,6 +43,8 @@ describe('Email Composer Service Tests', () => {
   })
 
   it('establishes connection with rabbitMQ', async () => {
+    rabbitMqConfig()
+    mongoDbConfig()
     await composeEmail()
     expect(createRabbitMqConnectionStub).toBeCalled()
   })
