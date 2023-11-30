@@ -11,20 +11,27 @@ enum RenderedKeys {
   internationalRolesHtml = '##INTERNATIONAL_ROLE_HTML',
   nationalRolesHtml = '##NATIONAL_ROLE_HTML',
 }
-const renderedHtml = render(
-  <Tailwind>
-    <Heading className="text-[24px]">
-      🌎 {RenderedKeys.internationalCount} Vagas internacionais
-    </Heading>
-    <div>{RenderedKeys.internationalRolesHtml}</div>
-    <Heading className="text-[24px]">
-      🇧🇷 {RenderedKeys.nationalCount} Vagas nacionais
-    </Heading>
-    <div>{RenderedKeys.nationalRolesHtml}</div>
-  </Tailwind>
-)
+export const renderRolesHtml = () => {
+  const renderedHtml = render(
+    <Tailwind>
+      <Heading className="text-[24px]">
+        🌎 {RenderedKeys.internationalCount} Vagas internacionais
+      </Heading>
+      <div>{RenderedKeys.internationalRolesHtml}</div>
+      <Heading className="text-[24px]">
+        🇧🇷 {RenderedKeys.nationalCount} Vagas nacionais
+      </Heading>
+      <div>{RenderedKeys.nationalRolesHtml}</div>
+    </Tailwind>
+  )
 
-export function RenderRolesSection({ roles }: RenderRolesSectionProps): string {
+  return renderedHtml
+}
+
+export function RenderRolesSection(
+  { roles }: RenderRolesSectionProps,
+  renderedRolesHtml: string
+): string {
   const obj = {
     international: {
       count: 0,
@@ -45,7 +52,7 @@ export function RenderRolesSection({ roles }: RenderRolesSectionProps): string {
     }
   })
 
-  const sanitizedHtml = renderedHtml
+  const sanitizedHtml = renderedRolesHtml
     .replace(
       RenderedKeys.internationalCount,
       obj.international.count.toString()

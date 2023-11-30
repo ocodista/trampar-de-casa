@@ -11,7 +11,8 @@ export type RolesRendererCollection = {
 export const getHtmlRoles = async (
   rolesId: string[],
   mongoCollection: Collection<Document>,
-  memoizedRoles: Map<any, any>
+  memoizedRoles: Map<any, any>,
+  renderedRolesHtml: string
 ): Promise<string> => {
   const roles: RolesRendererCollection[] = []
   let role
@@ -28,7 +29,10 @@ export const getHtmlRoles = async (
     }
   }
 
-  return RenderRolesSection({
-    roles,
-  })
+  return RenderRolesSection(
+    {
+      roles,
+    },
+    renderedRolesHtml
+  )
 }

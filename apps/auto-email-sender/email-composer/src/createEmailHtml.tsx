@@ -5,24 +5,30 @@ import React from 'react'
 enum HtmlKeys {
   contentHtml = '##CONTENT_HTML',
 }
-const renderedEmailHtml = render(
-  <Tailwind>
-    <Html>
-      <Head />
-      <Body
-        className="bg-[#f6f9fc]"
-        style={{
-          fontFamily:
-            '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
-        }}
-      >
-        <div className="mx-auto my-0 mb-[64px] max-w-[37.5em] bg-white p-[20px_48px_48px]">
-          {HtmlKeys.contentHtml}
-        </div>
-      </Body>
-    </Html>
-  </Tailwind>
-)
-export async function createEmailHtml(contentHTML: string) {
-  return renderedEmailHtml.replace(HtmlKeys.contentHtml, contentHTML)
+export const renderEmailWrapperHtml = () => {
+  const renderedEmailHtml = render(
+    <Tailwind>
+      <Html>
+        <Head />
+        <Body
+          className="bg-[#f6f9fc]"
+          style={{
+            fontFamily:
+              '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
+          }}
+        >
+          <div className="mx-auto my-0 mb-[64px] max-w-[37.5em] bg-white p-[20px_48px_48px]">
+            {HtmlKeys.contentHtml}
+          </div>
+        </Body>
+      </Html>
+    </Tailwind>
+  )
+  return renderedEmailHtml
+}
+export async function createEmailHtml(
+  contentHTML: string,
+  renderedEmailWrapperHtml: string
+) {
+  return renderedEmailWrapperHtml.replace(HtmlKeys.contentHtml, contentHTML)
 }

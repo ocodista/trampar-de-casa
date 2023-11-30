@@ -5,7 +5,9 @@ import { MongoCollection } from 'shared/src/enums/mongo'
 import { connectToQueue } from 'shared/src/queue/connectToQueue'
 import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
 import { sendToQueue } from 'shared/src/queue/sendToQueue'
+import { renderEmailWrapperHtml } from './createEmailHtml'
 import { parsePreRenderMessage } from './parsePreRenderMessage'
+import { renderRolesHtml } from './renderRolesSection'
 
 export type EmailPreRenderMessage = Record<
   string,
@@ -30,6 +32,8 @@ export const composeEmail = async () => {
     connectToQueue(rabbitConnection, EmailQueues.EmailSender),
   ])
 
+  const renderedRolesHtml = renderRolesHtml()
+  const renderedEmailWrapperHtml = renderEmailWrapperHtml()
   let msg: GetMessage | false,
     count = 0
   do {
@@ -40,7 +44,9 @@ export const composeEmail = async () => {
     const emailHtml = await parsePreRenderMessage(
       msg.content,
       mongoCollection,
-      memoizedRoles
+      memoizedRoles,
+      renderedRolesHtml,
+      renderedEmailWrapperHtml
     )
     sendToQueue(EmailQueues.EmailSender, emailSenderChannel, emailHtml)
     emailPreRendererChannel.ack(msg)
