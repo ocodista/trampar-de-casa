@@ -4,6 +4,8 @@ import { EmailQueues, MongoCollection, getMongoConnection } from 'shared'
 import { connectToQueue } from 'shared/src/queue/connectToQueue'
 import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
 import { sendToQueue } from 'shared/src/queue/sendToQueue'
+import { renderFooterHTML } from './renderFooter'
+import { renderHeaderHtml } from './renderHeader'
 import { renderHeaderAndFooter } from './renderHeaderAndFooter'
 dotenv.config()
 
@@ -23,6 +25,8 @@ export async function emailPreRender() {
     channel,
     EmailQueues.EmailPreRenderSubs
   )
+  const renderedFooter = renderFooterHTML()
+  const renderedHeader = renderHeaderHtml()
 
   let msg: GetMessage | false,
     count = 0
@@ -40,7 +44,12 @@ export async function emailPreRender() {
     const subscriber = await mongoCollection.findOne({ id })
     if (!subscriber) continue
     const { rolesId } = subscriber as unknown as { rolesId: string[] }
-    const { footerHTML, headerHTML } = await renderHeaderAndFooter(id, rolesId)
+    const { footerHTML, headerHTML } = await renderHeaderAndFooter(
+      id,
+      rolesId,
+      renderedFooter,
+      renderedHeader
+    )
 
     await sendToQueue(EmailQueues.EmailPreRenderer, emailPreRendererChannel, {
       [email]: {
