@@ -10,7 +10,7 @@ describe('Get HTML roles', () => {
 
     expect(collectionStub).toBeCalled()
   })
-  it.only('run getHtmlRoles 100 times', async () => {
+  it('run getHtmlRoles 100 times', async () => {
     const { findOneStub, collectionMock } = mockMongoDb()
     findOneStub.mockResolvedValue(faker.string.sample(1_000))
 
