@@ -1,0 +1,11 @@
+
+# This script runs on specif machine for send emails.
+# The crontab should execute this script at 02:00 PM, only on Wednesday(UTC+0)
+# 0 14 * * 3 /home/ubuntu/trampar-de-casa/scripts/auto-email-sender
+#! /bin/bash
+set -e
+# Enter on project folder
+cd /home/ubuntu/trampar-de-casa
+
+# Run email-sender
+yarn turbo run start --filter=email-sender
