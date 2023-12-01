@@ -1,3 +1,6 @@
+# This script runs on specif machine for create emails to send.
+# The crontab should execute this script at 01:00 PM, only on Wednesday(UTC+0)
+# 0 13 * * 3 /home/ubuntu/trampar-de-casa/scripts/auto-email-sender-setup
 #! /bin/bash
 set -e
 # Enter on project folder
