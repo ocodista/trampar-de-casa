@@ -9,7 +9,7 @@ cd /home/ubuntu/trampar-de-casa
 # Initiate container
 docker compose --file auto-email-sender-compose.yml up rabbitmq -d
 docker compose --file auto-email-sender-compose.yml up mongo -d
-sleep 30
+sleep 60
 
 # Run subs-to-queue
 yarn turbo run start --filter=subs-to-queue
