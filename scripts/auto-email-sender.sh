@@ -9,3 +9,6 @@ cd /home/ubuntu/trampar-de-casa
 
 # Run email-sender
 yarn turbo run start --filter=email-sender
+
+# Down services
+docker compose --file auto-email-sender-compose.yml down
