@@ -1,0 +1,24 @@
+#! /bin/bash
+set -e
+# Enter on project folder
+cd /home/ubuntu/trampar-de-casa
+
+# Initiate container
+docker compose --file auto-email-sender-compose.yml up rabbitmq -d
+docker compose --file auto-email-sender-compose.yml up mongo -d
+sleep 30
+
+# Run subs-to-queue
+yarn turbo run start --filter=subs-to-queue
+
+# Run roles-renderer
+yarn turbo run start --filter=roles-renderer
+
+# Run roles-assigner in parallel
+yarn turbo run start --filter=roles-assigner & yarn turbo run start --filter=roles-assigner & yarn turbo run start --filter=roles-assigner & yarn turbo run start --filter=roles-assigner
+
+# Run email-pre-renderer
+yarn turbo run start --filter=email-pre-renderer & yarn turbo run start --filter=email-pre-renderer & yarn turbo run start --filter=email-pre-renderer & yarn turbo run start --filter=email-pre-renderer
+
+# Run email-composer
+yarn turbo run start --filter=email-composer & yarn turbo run start --filter=email-composer & yarn turbo run start --filter=email-composer & yarn turbo run start --filter=email-composer
