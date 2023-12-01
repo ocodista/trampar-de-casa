@@ -8,6 +8,8 @@ import { Topics } from 'shared'
 import { describe, expect, it, vi } from 'vitest'
 import { htmlStartingDoctype, parseHTML } from './parseHTML'
 import { rolesRenderer } from './rolesRenderer'
+// mock process.exit
+vi.spyOn(process, 'exit').mockImplementation(vi.fn())
 
 type RolesSkillsView = Database['public']['Views']['RolesSkillsView']['Row']
 
