@@ -1,3 +1,5 @@
+import { FAQCard } from './FAQCard'
+
 export const FAQ = () => (
   <section
     id="perguntas-frequentes"
@@ -12,52 +14,28 @@ export const FAQ = () => (
       </h2>
       <div className="mb-8">
         <div className="-m-4 flex flex-wrap">
-          <div className="w-full p-4 md:w-1/2">
-            <div className="shadow-10xl rounded-2xl border border-gray-200 p-6">
-              <h3 className="mb-4 text-lg font-semibold leading-normal">
-                1. Qual o preço?
-              </h3>
-              <p className="font-sans leading-relaxed text-gray-600">
-                Nosso serviço é totalmente gratuito. Nosso objetivo é conectar
+          <FAQCard
+            title="1. Qual o preço?"
+            description="Nosso serviço é totalmente gratuito. Nosso objetivo é conectar
                 profissionais de tecnologia a oportunidades de trabalho remoto
-                de alta qualidade, sem nenhum custo.
-              </p>
-            </div>
-          </div>
-          <div className="w-full p-4 md:w-1/2">
-            <div className="shadow-10xl rounded-2xl border border-gray-200 p-6">
-              <h3 className="mb-4 text-lg font-semibold leading-normal">
-                2. A vaga não é remota, e agora?
-              </h3>
-              <p className="font-sans leading-relaxed text-gray-600">
-                Caso encontre alguma vaga que não seja remota, denuncie!
-                Analisaremos todas as denúncias o mais rápido possível e
-                tomaremos as providências.
-              </p>
-            </div>
-          </div>
-          <div className="w-full p-4 md:w-1/2">
-            <div className="shadow-10xl rounded-2xl border border-gray-200 p-6">
-              <h3 className="mb-4 text-lg font-semibold leading-normal">
-                3. Quantos e-mails receberei?
-              </h3>
-              <p className="font-sans leading-relaxed text-gray-600">
-                Apenas um e-mail por semana, nas quartas-feiras às 11h, com
-                vagas que fizerem sentido para você. Todas são 100% remotas.
-              </p>
-            </div>
-          </div>
-          <div className="w-full p-4 md:w-1/2">
-            <div className="shadow-10xl rounded-2xl border border-gray-200 p-6">
-              <h3 className="mb-4 text-lg font-semibold leading-normal">
-                4. O trabalho remoto pode afetar a produtividade?
-              </h3>
-              <p className="font-sans leading-relaxed text-gray-600">
-                O trabalho remoto pode aumentar sua produtividade ao reduzir o
-                tempo perdido em deslocamentos e interrupções no escritório.
-              </p>
-            </div>
-          </div>
+                de alta qualidade, sem nenhum custo."
+          />
+          <FAQCard
+            title="2. A vaga não é remota, e agora?"
+            description="Caso encontre alguma vaga que não seja remota, denuncie!
+            Analisaremos todas as denúncias o mais rápido possível e
+            tomaremos as providências."
+          />
+          <FAQCard
+            title="3. Quantos e-mails receberei?"
+            description="Apenas um e-mail por semana, nas quartas-feiras às 11h, com
+            vagas que fizerem sentido para você. Todas são 100% remotas."
+          />
+          <FAQCard
+            title="4. O trabalho remoto pode afetar a produtividade?"
+            description="O trabalho remoto pode aumentar sua produtividade ao reduzir o
+            tempo perdido em deslocamentos e interrupções no escritório."
+          />
         </div>
       </div>
     </div>
