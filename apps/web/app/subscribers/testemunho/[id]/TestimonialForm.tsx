@@ -54,7 +54,6 @@ export async function TestimonialForm({ email }: { email: string }) {
           id={Fields.Email}
           type="email"
           readOnly
-          disabled
           value={email}
         />
       </section>
@@ -62,7 +61,12 @@ export async function TestimonialForm({ email }: { email: string }) {
       <Field field={Fields.Role} label="Qual cargo?" required />
       <SkillsField />
       <section className="space-y-1">
-        <Label htmlFor={Fields.Testimonial}>Dê mais detalhes</Label>
+        <Label
+          className="after:ml-0.5 after:text-red-500 after:content-['*']"
+          htmlFor={Fields.Testimonial}
+        >
+          Dê mais detalhes
+        </Label>
         <Textarea required id={Fields.Testimonial} name={Fields.Testimonial} />
       </section>
       <Button className="justify-self-end">Enviar</Button>
