@@ -1,4 +1,4 @@
-'use client'
+'use server'
 import { Button } from 'app/components/ui/button'
 import { Input } from 'app/components/ui/input'
 import { Label } from 'app/components/ui/label'
@@ -13,19 +13,39 @@ type FieldProps = {
   value?: string
   label: string
   fieldType?: HTMLInputTypeAttribute
+  required?: boolean
 }
-const Field = ({ field, value, label, fieldType = 'text' }: FieldProps) => (
+const Field = ({
+  field,
+  value,
+  label,
+  fieldType = 'text',
+  required,
+}: FieldProps) => (
   <section className="space-y-1">
-    <Label htmlFor={field}>{label}</Label>
-    <Input name={field} id={field} type={fieldType} value={value} />
+    <Label
+      className={
+        required ? "after:ml-0.5 after:text-red-500 after:content-['*']" : ''
+      }
+      htmlFor={field}
+    >
+      {label}
+    </Label>
+    <Input
+      name={field}
+      id={field}
+      type={fieldType}
+      value={value}
+      required={required}
+    />
   </section>
 )
 
-export function TestimonialForm({ email }: { email: string }) {
+export async function TestimonialForm({ email }: { email: string }) {
   return (
     <form
       action={saveTestimonial}
-      className="mx-4 grid w-screen max-w-[95vw] space-y-3 md:max-w-[400px] lg:w-[33vw]"
+      className="mx-4 grid w-screen max-w-[95vw] space-y-3 md:max-w-[70vw] lg:w-[70vw] lg:space-y-6 xl:max-w-[900px]"
     >
       <section className="space-y-1">
         <Label htmlFor={Fields.Email}>Email</Label>
@@ -39,12 +59,12 @@ export function TestimonialForm({ email }: { email: string }) {
         />
       </section>
       <Field field={Fields.Company} label="Qual empresa?" />
-      <Field field={Fields.Role} label="Qual cargo?" />
-      <section className="space-y-1">
-        <Label htmlFor={Fields.Testimonial}>Conte um pouco sobre</Label>
-        <Textarea id={Fields.Testimonial} name={Fields.Testimonial} />
-      </section>
+      <Field field={Fields.Role} label="Qual cargo?" required />
       <SkillsField />
+      <section className="space-y-1">
+        <Label htmlFor={Fields.Testimonial}>Dê mais detalhes</Label>
+        <Textarea required id={Fields.Testimonial} name={Fields.Testimonial} />
+      </section>
       <Button className="justify-self-end">Enviar</Button>
     </form>
   )
