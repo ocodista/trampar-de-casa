@@ -48,7 +48,7 @@ export function SkillsField() {
         placeholder="TypeScript, React, .NET"
         options={options}
       />
-      <input hidden ref={ghostInputRef} type="text" name={Fields.Role} />
+      <input hidden ref={ghostInputRef} type="text" name={Fields.Skills} />
     </section>
   )
 }
