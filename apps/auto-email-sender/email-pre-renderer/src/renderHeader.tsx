@@ -44,7 +44,7 @@ function Header() {
           </Column>
           <Column align="right">
             <Link href={HeaderHtmlKeys.testimonialLink}>
-              Consegui uma vaga!
+              Consegui uma vaga! 🎉
             </Link>
           </Column>
         </Row>
