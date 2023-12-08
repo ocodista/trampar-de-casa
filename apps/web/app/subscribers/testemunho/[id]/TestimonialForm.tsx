@@ -3,43 +3,10 @@ import { Button } from 'app/components/ui/button'
 import { Input } from 'app/components/ui/input'
 import { Label } from 'app/components/ui/label'
 import { Textarea } from 'app/components/ui/textarea'
-import { HTMLInputTypeAttribute } from 'react'
+import { Field } from './Field'
 import { Fields } from './Fields'
 import { SkillsField } from './SkillsField'
 import { saveTestimonial } from './saveTestimonial'
-
-type FieldProps = {
-  field: Fields
-  value?: string
-  label: string
-  fieldType?: HTMLInputTypeAttribute
-  required?: boolean
-}
-const Field = ({
-  field,
-  value,
-  label,
-  fieldType = 'text',
-  required,
-}: FieldProps) => (
-  <section className="space-y-1">
-    <Label
-      className={
-        required ? "after:ml-0.5 after:text-red-500 after:content-['*']" : ''
-      }
-      htmlFor={field}
-    >
-      {label}
-    </Label>
-    <Input
-      name={field}
-      id={field}
-      type={fieldType}
-      value={value}
-      required={required}
-    />
-  </section>
-)
 
 export async function TestimonialForm({ email }: { email: string }) {
   return (
@@ -57,17 +24,12 @@ export async function TestimonialForm({ email }: { email: string }) {
           value={email}
         />
       </section>
-      <Field field={Fields.Company} label="Qual empresa?" />
+      <Field field={Fields.Company} required label="Qual empresa?" />
       <Field field={Fields.Role} label="Qual cargo?" required />
       <SkillsField />
       <section className="space-y-1">
-        <Label
-          className="after:ml-0.5 after:text-red-500 after:content-['*']"
-          htmlFor={Fields.Testimonial}
-        >
-          Dê mais detalhes
-        </Label>
-        <Textarea required id={Fields.Testimonial} name={Fields.Testimonial} />
+        <Label htmlFor={Fields.Testimonial}>Dê mais detalhes</Label>
+        <Textarea id={Fields.Testimonial} name={Fields.Testimonial} />
       </section>
       <Button className="justify-self-end rounded-full px-6 transition-all">
         Enviar

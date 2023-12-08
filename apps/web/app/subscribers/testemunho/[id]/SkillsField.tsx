@@ -4,6 +4,7 @@ import { AutoComplete } from 'app/components/AutoComplete'
 import { ListOption } from 'app/components/ListOption'
 import { skills } from 'app/subscribers/profile/subscription/skills'
 import { useMemo, useRef, useState } from 'react'
+import { REQUIRED_LABEL_STYLE } from './Field'
 import { Fields } from './Fields'
 
 const sortedSkills = skills.sort((a, b) => {
@@ -39,7 +40,9 @@ export function SkillsField() {
   }
   return (
     <section className="space-y-1">
-      <label htmlFor={Fields.Role}>Quais tecnologias</label>
+      <label htmlFor={Fields.Role} className={REQUIRED_LABEL_STYLE}>
+        Quais tecnologias
+      </label>
       <AutoComplete
         hiddenSuggestionField={true}
         disabled={false}
