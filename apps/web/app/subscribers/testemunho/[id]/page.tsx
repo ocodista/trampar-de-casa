@@ -29,8 +29,8 @@ export default async function TestimonialsPage({ params }: PageProps) {
   const email = await getSubscriberEmail(subscriberId)
 
   return (
-    <section className="grid flex-1 place-content-center space-y-5">
-      <section className="mx-4">
+    <section className="container mt-5 flex-1 space-y-5 lg:mx-auto">
+      <section className="">
         <h1 className={Typography.h1}>Fui contratado</h1>
         <p className={Typography.p}>
           Ficamos felizes em te ajudar a encontrar a vaga ideal!

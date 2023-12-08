@@ -45,7 +45,7 @@ export async function TestimonialForm({ email }: { email: string }) {
   return (
     <form
       action={saveTestimonial}
-      className="mx-4 grid w-screen max-w-[95vw] space-y-3 md:max-w-[70vw] lg:w-[70vw] lg:space-y-6 xl:max-w-[900px]"
+      className="grid w-full space-y-3 lg:space-y-6"
     >
       <section className="space-y-1">
         <Label htmlFor={Fields.Email}>Email</Label>

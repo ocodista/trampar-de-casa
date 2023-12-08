@@ -8,7 +8,7 @@ export const Header = () => {
 
   return (
     <div className="container mx-auto overflow-hidden">
-      <div className="relative flex items-center justify-between bg-transparent px-4 py-5">
+      <div className="relative flex items-center justify-between bg-transparent py-5">
         <div className="w-auto">
           <div className="flex flex-wrap items-center">
             <div className="mr-14 w-auto">
