@@ -1,20 +1,24 @@
 import {
-  Container,
+  Column,
   Heading,
   Hr,
   Img,
   Link,
   Preview,
+  Row,
+  Section,
   Tailwind,
   Text,
 } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
+import { getTestimonialLink } from './getTestimonialLink'
 
 export const HEADER_TITLE_SUFFIX = 'vagas para você Trampar de Casa 🔥'
 
 export enum HeaderHtmlKeys {
   rolesCount = '##ROLES_COUNT',
+  testimonialLink = '##GET_JOB_TESTIMONIAL',
 }
 
 function Header() {
@@ -28,14 +32,23 @@ function Header() {
   return render(
     <Tailwind>
       <Preview>{previewText}</Preview>
-      <Container className="flex items-center justify-center">
-        <Img
-          src="https://trampardecasa.com.br/images/logo.png"
-          height={70}
-          width={100}
-          alt="Logo da Trampar De Casa"
-        />
-      </Container>
+      <Section className="flex items-center justify-between">
+        <Row style={{ width: '37.5em' }}>
+          <Column align="left">
+            <Img
+              src="https://trampardecasa.com.br/images/logo.png"
+              height={70}
+              width={100}
+              alt="Logo da Trampar De Casa"
+            />
+          </Column>
+          <Column align="right">
+            <Link href={HeaderHtmlKeys.testimonialLink}>
+              Consegui uma vaga pelo Trampar de Casa
+            </Link>
+          </Column>
+        </Row>
+      </Section>
       <Heading
         className={h1}
       >{`🔥 ${HeaderHtmlKeys.rolesCount} vagas para você Trampar de Casa`}</Heading>
@@ -58,9 +71,14 @@ export function renderHeaderHtml() {
   return Header()
 }
 
-export function mountHeader(rolesIds: string[], renderedHeader: string) {
-  return renderedHeader.replaceAll(
-    HeaderHtmlKeys.rolesCount,
-    rolesIds.length.toString()
-  )
+export function mountHeader(
+  subscriberId: string,
+  urlPrefix: string,
+  rolesIds: string[],
+  renderedHeader: string
+) {
+  const testimonialLink = getTestimonialLink(urlPrefix, subscriberId)
+  return renderedHeader
+    .replaceAll(HeaderHtmlKeys.rolesCount, rolesIds.length.toString())
+    .replaceAll(HeaderHtmlKeys.testimonialLink, testimonialLink)
 }
