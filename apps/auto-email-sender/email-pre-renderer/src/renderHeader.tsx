@@ -3,7 +3,6 @@ import {
   Heading,
   Hr,
   Img,
-  Link,
   Preview,
   Tailwind,
   Text,
@@ -41,14 +40,6 @@ function Header() {
       >{`🔥 ${HeaderHtmlKeys.rolesCount} vagas para você Trampar de Casa`}</Heading>
       <Hr style={hr} />
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
-      <Text className={paragraph}>
-        Espero que estejam gostando das vagas personalizadas, estamos sempre
-        abertos a novas sugestões através de nosso{' '}
-        <Link href="https://github.com/ocodista/trampar-de-casa/issues">
-          link para issues(github)
-        </Link>
-        .
-      </Text>
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
     </Tailwind>
   )
