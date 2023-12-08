@@ -1,9 +1,9 @@
 import {
+  Button,
   Column,
   Heading,
   Hr,
   Img,
-  Link,
   Preview,
   Row,
   Section,
@@ -43,9 +43,25 @@ function Header() {
             />
           </Column>
           <Column align="right">
-            <Link href={HeaderHtmlKeys.testimonialLink}>
-              Consegui uma vaga! 🎉
-            </Link>
+            <Button
+              className="rounded-full bg-stone-900 px-4 pt-[8px] text-lg text-white"
+              href={HeaderHtmlKeys.testimonialLink}
+            >
+              <Row className="space-x-5">
+                <Column>Consegui uma vaga! </Column>
+                <Column>
+                  <Img
+                    data-emoji="🎉"
+                    style={{ width: 18, height: 18, paddingLeft: 8 }}
+                    className="an1"
+                    alt="🎉"
+                    aria-label="🎉"
+                    src="https://fonts.gstatic.com/s/e/notoemoji/15.0/1f389/32.png"
+                    loading="lazy"
+                  />
+                </Column>
+              </Row>
+            </Button>
           </Column>
         </Row>
       </Section>
