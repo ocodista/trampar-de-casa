@@ -69,7 +69,9 @@ export async function TestimonialForm({ email }: { email: string }) {
         </Label>
         <Textarea required id={Fields.Testimonial} name={Fields.Testimonial} />
       </section>
-      <Button className="justify-self-end">Enviar</Button>
+      <Button className="justify-self-end rounded-full px-6 transition-all">
+        Enviar
+      </Button>
     </form>
   )
 }
