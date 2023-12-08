@@ -16,7 +16,11 @@ describe('Render header', () => {
   })
   it('Calculate the total roles count', () => {
     const rolesIds = Array.from({ length: 100 }, () => faker.string.uuid())
+    const subscriberId = faker.string.uuid()
+    const urlPrefix = faker.internet.url()
     const html = mountHeader(
+      subscriberId,
+      urlPrefix,
       rolesIds,
       `${faker.string.uuid()} ${
         HeaderHtmlKeys.rolesCount
