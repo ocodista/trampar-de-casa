@@ -3,6 +3,7 @@ import {
   Heading,
   Hr,
   Img,
+  Link,
   Preview,
   Row,
   Section,
@@ -43,7 +44,7 @@ function Header() {
           </Column>
           <Column align="right">
             <Link href={HeaderHtmlKeys.testimonialLink}>
-              Consegui uma vaga pelo Trampar de Casa
+              Consegui uma vaga!
             </Link>
           </Column>
         </Row>
