@@ -8,9 +8,12 @@ import { Fields } from './Fields'
 import { SkillsField } from './SkillsField'
 import { saveTestimonial } from './saveTestimonial'
 
+const FORM_ID = 'testimonial_form'
+
 export async function TestimonialForm({ email }: { email: string }) {
   return (
     <form
+      id={FORM_ID}
       action={saveTestimonial}
       className="grid w-full space-y-3 lg:space-y-6"
     >
@@ -26,7 +29,7 @@ export async function TestimonialForm({ email }: { email: string }) {
       </section>
       <Field field={Fields.Company} required label="Qual empresa?" />
       <Field field={Fields.Role} label="Qual cargo?" required />
-      <SkillsField />
+      <SkillsField formId={FORM_ID} />
       <section className="space-y-1">
         <Label htmlFor={Fields.Testimonial}>Dê mais detalhes</Label>
         <Textarea id={Fields.Testimonial} name={Fields.Testimonial} />

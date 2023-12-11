@@ -3,7 +3,7 @@
 import { AutoComplete } from 'app/components/AutoComplete'
 import { ListOption } from 'app/components/ListOption'
 import { skills } from 'app/subscribers/profile/subscription/skills'
-import { useMemo, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import { REQUIRED_LABEL_STYLE } from './Field'
 import { Fields } from './Fields'
 
@@ -16,10 +16,17 @@ const sortedSkills = skills.sort((a, b) => {
   return -1
 })
 
-export function SkillsField() {
+const ErrorMessage = ({ message }: { message: string | null }) => {
+  if (!message) return null
+
+  return <p className="text-destructive text-sm font-medium">{message}</p>
+}
+
+export function SkillsField({ formId }: { formId: string }) {
   const [selectedOptions, setSelectedOptions] = useState<ListOption[]>([])
   const options = useMemo(() => sortedSkills, [])
   const ghostInputRef = useRef<HTMLInputElement>(null)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const onSelectChange = (receivedSelectedOptions: ListOption[]) => {
     ghostInputRef.current.value = receivedSelectedOptions
@@ -38,6 +45,21 @@ export function SkillsField() {
     }
     setSelectedOptions(receivedSelectedOptions)
   }
+
+  useEffect(() => {
+    const formElement = document.querySelector(`#${formId}`)
+    const submitHandler = (e: { preventDefault: () => void }) => {
+      setErrorMessage(null)
+      if (!selectedOptions.length) {
+        e.preventDefault()
+        setErrorMessage('Selecione pelo menos uma tecnologia.')
+      }
+    }
+    formElement.addEventListener('submit', submitHandler)
+
+    return () => formElement.removeEventListener('submit', submitHandler)
+  }, [formId, selectedOptions])
+
   return (
     <section className="space-y-1">
       <label htmlFor={Fields.Role} className={REQUIRED_LABEL_STYLE}>
@@ -51,6 +73,7 @@ export function SkillsField() {
         placeholder="TypeScript, React, .NET"
         options={options}
       />
+      <ErrorMessage message={errorMessage} />
       <input hidden ref={ghostInputRef} type="text" name={Fields.Skills} />
     </section>
   )
