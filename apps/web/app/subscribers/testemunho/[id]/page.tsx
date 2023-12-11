@@ -16,6 +16,7 @@ const getSubscriberEmail = async (userId: string) => {
   if (error) {
     throw new Error(error.message, { cause: error })
   }
+  if (!data.length) throw new Error('Link inválido, usuário não encontrado')
   return data[0].email
 }
 
