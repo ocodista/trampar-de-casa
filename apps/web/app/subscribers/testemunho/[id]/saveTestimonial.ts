@@ -14,12 +14,11 @@ const testimonialSchema = z.object({
   skills: z.array(z.string()),
 })
 type TestimonialTable = SupabaseTable<'testimonial'>
-export async function saveTestimonial(formData: FormData) {
-  console.log(formData, Fields.Email)
+export async function saveTestimonial(email: string, formData: FormData) {
   const payloadObj: Partial<Record<keyof TestimonialTable, unknown>> = {
     company: formData.get(Fields.Company)?.toString(),
     details: formData.get(Fields.Testimonial)?.toString(),
-    email: formData.get(Fields.Email)?.toString(),
+    email,
     skills: formData.get(Fields.Skills)?.toString().split(','),
     role: formData.get(Fields.Role)?.toString(),
   }
