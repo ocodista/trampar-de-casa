@@ -84,7 +84,7 @@ export const HowItWorks = () => (
                     </h3>
                     <p className="font-medium leading-relaxed text-gray-700">
                       Nós cruzamos suas preferências com nossas vagas
-                      disponíveis. (EM BREVE)
+                      disponíveis.
                     </p>
                   </div>
                 </div>
