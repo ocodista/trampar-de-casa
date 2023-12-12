@@ -3,6 +3,7 @@
 import { getSupabaseClient } from 'db'
 import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { redirect } from 'next/navigation'
+import { Resend } from 'resend'
 import { z } from 'zod'
 import { Fields } from './Fields'
 
@@ -30,6 +31,23 @@ export async function saveTestimonial(email: string, formData: FormData) {
 
   if (error) throw new Error(error.message, { cause: error })
 
-  console.log(data)
+  await sendEmailLogger(email)
   redirect('?success')
+}
+
+const sendEmailLogger = async (email: string) => {
+  const resendKey = process.env['RESEND_KEY']
+  if (!resendKey) {
+    throw new Error('[ENV NOT FOUND] resend key is not configured')
+  }
+  const ownerEmail = process.env['OWNER_EMAIL']
+  if (!ownerEmail)
+    throw new Error('[ENV NOT FOUND] Owner Email is not configured')
+  const resend = new Resend(resendKey)
+  resend.emails.send({
+    from: 'logger@trampardecasa.com.br',
+    subject: 'Testimonial Notification',
+    to: ownerEmail,
+    text: `User with email ${email} sent a testimonial!`,
+  })
 }
