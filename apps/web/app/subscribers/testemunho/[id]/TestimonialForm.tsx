@@ -11,10 +11,11 @@ import { saveTestimonial } from './saveTestimonial'
 const FORM_ID = 'testimonial_form'
 
 export async function TestimonialForm({ email }: { email: string }) {
+  const saveTestimonialWithEmail = saveTestimonial.bind(null, email)
   return (
     <form
       id={FORM_ID}
-      action={saveTestimonial}
+      action={saveTestimonialWithEmail}
       className="grid w-full space-y-3 lg:space-y-6"
     >
       <section className="space-y-1">
