@@ -31,8 +31,7 @@ export default async function TestimonialsPage({ params }: PageProps) {
 
   return (
     <section className="container mt-5 flex-1 space-y-5 lg:mx-auto">
-      <section className="">
-        <h1 className={Typography.h1}>Fui contratado</h1>
+      <section>
         <p className={Typography.p}>
           Ficamos felizes em te ajudar a encontrar a vaga ideal!
           <br />
