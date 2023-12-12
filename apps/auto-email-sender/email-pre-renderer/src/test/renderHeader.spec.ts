@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import * as sharedFile from 'shared'
 import * as createProfileFormLinkFile from 'shared/src/services/createProfileFormLink'
 import { vi } from 'vitest'
 import {
@@ -15,6 +16,9 @@ describe('Render header', () => {
     ).mockImplementation(vi.fn().mockReturnValue(faker.internet.url()))
   })
   it('Calculate the total roles count', () => {
+    vi.spyOn(sharedFile, 'encrypt').mockImplementation(() =>
+      faker.string.sample()
+    )
     const rolesIds = Array.from({ length: 100 }, () => faker.string.uuid())
     const subscriberId = faker.string.uuid()
     const urlPrefix = faker.internet.url()
