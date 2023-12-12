@@ -74,7 +74,6 @@ function Header() {
         {
           'Agora você pode nos avisar ao conseguir sua tão sonhada vaga, basta clicar no novo botão "Consegui uma vaga!"'
         }
-        .
       </Text>
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
     </Tailwind>
