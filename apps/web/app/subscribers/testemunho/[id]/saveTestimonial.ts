@@ -46,8 +46,8 @@ const sendEmailLogger = async (email: string) => {
   const resend = new Resend(resendKey)
   resend.emails.send({
     from: 'logger@trampardecasa.com.br',
-    subject: 'Testimonial Notification',
+    subject: '[Trampar de Casa] New hire!',
     to: ownerEmail,
-    text: `User with email ${email} sent a testimonial!`,
+    text: `User ${email} got a new job!`,
   })
 }
