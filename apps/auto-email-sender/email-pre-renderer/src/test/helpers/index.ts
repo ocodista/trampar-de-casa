@@ -32,9 +32,11 @@ export const mockExternalServices = () => {
   const subscriberMock = getSubscriberMock()
   const findOneStub = vi.fn()
   getAllSubscribersStub.mockReturnValue([subscriberMock])
+  const subscriberIdMock = faker.string.uuid()
+  const emailMock = faker.internet.email()
   const mongoRoleAssignerMock = {
-    email: faker.internet.email(),
-    id: faker.string.uuid(),
+    email: emailMock,
+    id: subscriberIdMock,
     rolesId: ['FAKE_INLINE_HTML_ROLE'],
   }
   const mongoCollectionMock = {
@@ -62,6 +64,10 @@ export const mockExternalServices = () => {
     createRabbitMqChannelStub,
     createRabbitMqConnectionStub,
     sendToQueueStub,
+    mongoSubscriberMock: {
+      id: subscriberIdMock,
+      email: emailMock,
+    },
   }
 }
 export const configRenderMocks = () => {

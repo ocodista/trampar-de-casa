@@ -112,7 +112,8 @@ describe('Email Pre Renderer', () => {
     })
 
     it('Calls render header passing rolesID', async () => {
-      const { mongoRoleAssignerMock } = mockExternalServices()
+      const { mongoRoleAssignerMock, mongoSubscriberMock } =
+        mockExternalServices()
       const { renderedHeaderMock } = mockRenderHeaderAndFooter()
       mockMessageContent({
         email: mongoRoleAssignerMock.email,
@@ -122,6 +123,8 @@ describe('Email Pre Renderer', () => {
       await emailPreRender()
 
       expect(mountHeaderStub).toHaveBeenCalledWith(
+        mongoSubscriberMock.id,
+        'url',
         mongoRoleAssignerMock.rolesId,
         renderedHeaderMock
       )

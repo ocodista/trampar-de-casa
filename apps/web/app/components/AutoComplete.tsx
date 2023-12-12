@@ -19,6 +19,7 @@ type Props = {
   selectedOptions: ListOption[]
   onSelectChange: (listOption: ListOption[]) => void
   disabled: boolean
+  hiddenSuggestionField?: boolean
 }
 
 export function AutoComplete({
@@ -27,6 +28,7 @@ export function AutoComplete({
   selectedOptions,
   onSelectChange,
   disabled,
+  hiddenSuggestionField,
 }: Props) {
   const [query, setQuery] = useState('')
   const [isOpened, setIsOpened] = useState(false)
@@ -132,7 +134,7 @@ export function AutoComplete({
           </Transition>
         </div>
       </Combobox>
-      <SkillSuggestionDialog />
+      {!hiddenSuggestionField && <SkillSuggestionDialog />}
     </div>
   )
 }

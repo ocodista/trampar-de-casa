@@ -311,6 +311,36 @@ export interface Database {
           }
         ]
       }
+      testimonial: {
+        Row: {
+          company: string | null
+          createdat: string
+          details: string | null
+          email: string | null
+          id: number
+          role: string | null
+          skills: string[] | null
+        }
+        Insert: {
+          company?: string | null
+          createdat?: string
+          details?: string | null
+          email?: string | null
+          id?: number
+          role?: string | null
+          skills?: string[] | null
+        }
+        Update: {
+          company?: string | null
+          createdat?: string
+          details?: string | null
+          email?: string | null
+          id?: number
+          role?: string | null
+          skills?: string[] | null
+        }
+        Relationships: []
+      }
       Topics: {
         Row: {
           id: number
@@ -415,13 +445,7 @@ export interface Database {
       }
     }
     Functions: {
-      replace_skills: {
-        Args: {
-          skill_to_delete_id: number
-          replace_with_id: number
-        }
-        Returns: undefined
-      }
+      [_ in never]: never
     }
     Enums: {
       EnglishLevel: "Beginner" | "Intermediary" | "Advanced" | "Fluent"
