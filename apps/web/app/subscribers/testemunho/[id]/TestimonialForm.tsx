@@ -26,6 +26,7 @@ export async function TestimonialForm({ email }: { email: string }) {
           type="email"
           readOnly
           value={email}
+          disabled
         />
       </section>
       <Field field={Fields.Company} required label="Qual empresa?" />
