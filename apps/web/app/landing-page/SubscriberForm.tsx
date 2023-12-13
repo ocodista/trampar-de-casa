@@ -1,20 +1,11 @@
 'use client'
-import { ErrorMessage } from '@hookform/error-message'
-import { zodResolver } from '@hookform/resolvers/zod'
 import { useLoadingContext } from 'app/contexts/LoadingContext'
 import { ToastComponentProps, useToast } from 'app/hooks/use-toast'
 import { StatusCodes } from 'http-status-codes'
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
+import { FormEventHandler, useState } from 'react'
 import { ApiRoutes } from 'shared/src/enums/apiRoutes'
-import { z } from 'zod'
 import fireworks from '../utils/confetti'
 import { ContributeDialog } from './ContributeDialog'
-
-const validationSchema = z.object({
-  email: z.string().email('Insira um e-mail válido!'),
-})
-type ValidationSchema = z.infer<typeof validationSchema>
 
 export function SubscriberForm() {
   const { isLoading, withLoading } = useLoadingContext()
@@ -29,87 +20,70 @@ export function SubscriberForm() {
       ...props,
     })
 
-  const resendEmail = async () => {
-    const email = getValues().email
-    try {
-      const response = await fetch(ApiRoutes.ResendEmail, {
-        body: JSON.stringify({ email }),
-        method: 'POST',
-      })
-
-      if (response.ok) {
-        setIsContributeDialogOpen(true)
-        fireworks()
-        return
-      }
-
-      if (response.status === StatusCodes.CONFLICT) {
-        errorToast(await response.text())
-        return
-      }
-
-      throw new Error(response.statusText)
-    } catch (err) {
-      errorToast(
-        'Não conseguimos reenviar seu e-mail, tente novamente mais tarde.'
-      )
+  const resendEmail = async (email: string) => {
+    const response = await fetch(ApiRoutes.ResendEmail, {
+      body: JSON.stringify({ email }),
+      method: 'POST',
+    })
+    if (response.ok) {
+      setIsContributeDialogOpen(true)
+      fireworks()
+      return
     }
-
-    return false
+    if (response.status === StatusCodes.CONFLICT) {
+      errorToast(await response.text())
+      return
+    }
+    errorToast(
+      'Não conseguimos reenviar seu e-mail, tente novamente mais tarde.'
+    )
+    return
   }
 
-  const saveSubscriber = async () => {
-    const email = getValues().email
-    try {
-      const response = await fetch(ApiRoutes.Subscribers, {
-        body: JSON.stringify({ email }),
-        method: 'POST',
+  const saveSubscriber: FormEventHandler<HTMLFormElement> = async (e) => {
+    e.preventDefault()
+    const formData = new FormData(e.target as HTMLFormElement)
+    const email = formData.get('email').toString()
+
+    const response = await fetch(ApiRoutes.Subscribers, {
+      body: JSON.stringify({ email }),
+      method: 'POST',
+    })
+
+    const resendEmailToast = async () => {
+      const { message, isConfirmed } = (await response.json()) as {
+        isConfirmed: boolean
+        message: string
+      }
+      const conflictToast = errorToast(message, {
+        action: !isConfirmed && (
+          <h1
+            className="cursor-pointer"
+            onClick={async () => {
+              conflictToast.dismiss()
+              await withLoading(async () => await resendEmail(email))
+            }}
+          >
+            Reenviar email
+          </h1>
+        ),
       })
-
-      if (response.ok) {
-        setIsContributeDialogOpen(true)
-        fireworks()
-        return
-      }
-
-      if (response.status === StatusCodes.CONFLICT) {
-        const { message, isConfirmed } = await response.json()
-        const conflictToast = errorToast(message, {
-          action: !isConfirmed && (
-            <h1
-              className="cursor-pointer"
-              onClick={async () => {
-                conflictToast.dismiss()
-                await withLoading(resendEmail)
-              }}
-            >
-              Reenviar email
-            </h1>
-          ),
-        })
-        return
-      }
-
-      throw new Error(response.statusText)
-    } catch (err) {
-      errorToast(
-        'Não conseguimos adicionar seu e-mail, tente novamente mais tarde.'
-      )
     }
 
-    return false
+    if (response.ok) {
+      setIsContributeDialogOpen(true)
+      fireworks()
+      return
+    }
+    if (response.status === StatusCodes.CONFLICT) {
+      await resendEmailToast()
+      return
+    }
+    errorToast(
+      'Não conseguimos adicionar seu e-mail, tente novamente mais tarde.'
+    )
+    return
   }
-
-  const methods = useForm<ValidationSchema>({
-    resolver: zodResolver(validationSchema),
-    mode: 'onTouched',
-  })
-
-  const {
-    register,
-    getValues,
-    formState: { isValid, errors },
-  } = methods
 
   return (
     <>
@@ -118,12 +92,7 @@ export function SubscriberForm() {
           open={isContributeDialogOpen}
           onClose={() => setIsContributeDialogOpen(false)}
         />
-        <form
-          onSubmit={async (e) => {
-            e.preventDefault()
-            await withLoading(saveSubscriber)
-          }}
-        >
+        <form onSubmit={(e) => withLoading(async () => saveSubscriber(e))}>
           <div className="flex flex-wrap items-center">
             <div className="w-full xl:flex-1">
               <input
@@ -131,15 +100,16 @@ export function SubscriberForm() {
                 id="email"
                 type="email"
                 disabled={isLoading}
+                name="email"
+                required
                 placeholder="Digite seu melhor e-mail"
-                {...register('email')}
               />
             </div>
             <div className="w-full xl:w-auto">
               <div className="block">
                 <button
                   type="submit"
-                  disabled={!isValid || isLoading}
+                  disabled={isLoading}
                   className="pointer w-full cursor-pointer rounded-xl bg-indigo-600 px-7 py-4 font-semibold text-white transition duration-200 ease-in-out hover:bg-indigo-700 focus:ring 
                       focus:ring-indigo-300 disabled:cursor-default disabled:opacity-50"
                 >
@@ -150,13 +120,7 @@ export function SubscriberForm() {
           </div>
         </form>
       </div>
-      <section className="my-4 mb-16 min-h-[30px] text-sm text-red-600">
-        <ErrorMessage
-          name="email"
-          errors={errors}
-          render={({ message }) => <p>{message}</p>}
-        />
-      </section>
+      <section className="my-4 mb-16 min-h-[30px] text-sm text-red-600"></section>
     </>
   )
 }

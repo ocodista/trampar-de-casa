@@ -1,11 +1,11 @@
-import { Events, Tracker } from 'analytics'
+import { Events } from 'analytics'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { sendConfirmationEmail } from 'shared/src/email'
 import { SupabaseCodes } from 'shared/src/enums'
+import { getTracker } from '../../utils/tracker'
 import { logError } from '../logError'
 import { getSubscriberByEmail, insertSubscriber } from './db'
-import { getTracker } from '../../utils/tracker'
 
 interface EmailRequest {
   email: string
@@ -19,7 +19,6 @@ export async function POST(request: Request) {
   }
 
   const { data, error } = await insertSubscriber(email)
-
   try {
     if (error) {
       if (error.code === SupabaseCodes.DuplicatedRow) {
@@ -52,5 +51,5 @@ export async function POST(request: Request) {
     return logError(err)
   }
 
-  return NextResponse.json(data)
+  return new Response()
 }
