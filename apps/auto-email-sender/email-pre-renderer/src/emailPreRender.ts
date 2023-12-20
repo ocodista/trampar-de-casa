@@ -1,6 +1,11 @@
 import { GetMessage } from 'amqplib'
 import dotenv from 'dotenv'
-import { EmailQueues, MongoCollection, getMongoConnection } from 'shared'
+import {
+  EmailQueues,
+  MongoCollection,
+  getMongoConnection,
+  logger,
+} from 'shared'
 import { connectToQueue } from 'shared/src/queue/connectToQueue'
 import { createRabbitMqConnection } from 'shared/src/queue/createRabbitMqConnection'
 import { sendToQueue } from 'shared/src/queue/sendToQueue'
@@ -36,7 +41,7 @@ export async function emailPreRender() {
     if (!msg) break
     count = count + 1
     const logText = `Processed: ${count}`
-    console.time(logText)
+    logger.time(logText)
     const { email, id } = JSON.parse(msg.content.toString()) as {
       id: string
       email: string
@@ -59,7 +64,7 @@ export async function emailPreRender() {
       },
     })
     emailPreRenderSubsChannel.ack(msg)
-    console.timeEnd(logText)
+    logger.timeEnd(logText)
   } while (msg)
 
   await mongoConnection.close()

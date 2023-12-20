@@ -1,5 +1,6 @@
 import { Channel, GetMessage } from 'amqplib'
 import { Resend } from 'resend'
+import { logger } from 'shared'
 import { EMAIL_FROM } from './baseEmail'
 import { EmailComposerContent } from './emailSender'
 
@@ -24,7 +25,7 @@ export const sendEmails = async (
       })
       channel.ack(message)
     } catch (e) {
-      console.error(e)
+      logger.error(e)
       channel.nack(message, false, true)
     }
   })

@@ -1,4 +1,5 @@
 import { Collection, Document } from 'mongodb'
+import { logger } from 'shared'
 
 interface EmailProps {
   email: string
@@ -12,6 +13,6 @@ export const saveSubscriberRoles = async (
   try {
     await mongoCollection.insertOne(emailProps)
   } catch (e) {
-    console.error(e)
+    logger.error(e)
   }
 }

@@ -9,13 +9,14 @@ import {
   MongoCollection,
   createRabbitMqChannel,
   getMongoConnection,
+  logger,
 } from 'shared'
 import { getEmailProps } from './getEmailProps'
 
 dotenv.config()
 type Subscriber = SupabaseTable<'Subscribers'>
 export const assignRoles = async () => {
-  console.time('assignRoles')
+  logger.time('assignRoles')
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
   const mongoCollection = mongoDatabase.collection(
@@ -34,17 +35,16 @@ export const assignRoles = async () => {
     try {
       const roles = await getSubscriberRoles(subscriber, supabaseClient)
       const emailProps = getEmailProps(subscriber, roles)
-      await mongoCollection.insertOne(emailProps)
       await saveSubscriberRoles(mongoCollection, emailProps)
       channel.ack(msg)
-      console.log(count)
+      logger(count)
     } catch (e) {
-      console.error(e)
+      logger.error(e)
       channel.nack(msg, false, true)
     }
   } while (msg)
 
   await mongoConnection.close()
-  console.timeEnd('assignRoles')
+  logger.timeEnd('assignRoles')
   process.exit(0)
 }

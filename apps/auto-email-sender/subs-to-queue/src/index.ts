@@ -1,6 +1,7 @@
+import { logger } from 'shared'
 import { subsToQueue } from './subsToQueue'
 ;(async () => {
   await subsToQueue()
-  console.log('finished.')
+  logger('finished.')
   process.exit(0)
 })()
