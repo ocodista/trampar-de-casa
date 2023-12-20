@@ -3,7 +3,7 @@ const runIfDebuggerIsEnable = (fn: (...args: unknown[]) => unknown) => {
 }
 
 interface Logger {
-  (...content: unknown[]): void // Função principal
+  (...content: unknown[]): void
   time: (label: string) => void
   timeEnd: (label: string) => void
   error: (...content: unknown[]) => void
