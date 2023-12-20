@@ -1,6 +1,6 @@
 import { GetMessage } from 'amqplib'
 import { Resend } from 'resend'
-import { EmailQueues } from 'shared'
+import { EmailQueues, logger } from 'shared'
 import { createRabbitMqChannel } from 'shared/src/queue/createRabbitMqChannel'
 import { CONFIG } from '../config'
 import { sendEmails } from './sendEmails'
@@ -11,7 +11,7 @@ export type EmailComposerContent = Record<
 >
 
 export const emailSender = async () => {
-  console.time('emailSender')
+  logger.time('emailSender')
   const resend = new Resend(CONFIG.RESEND_KEY)
   const channelToConsume = await createRabbitMqChannel()
   let count = 0,
@@ -24,9 +24,9 @@ export const emailSender = async () => {
 
     if (!msg) break
     if (count % 25 === 0) {
-      console.time(`${count} emails sent!`)
+      logger.time(`${count} emails sent!`)
       await sendEmails(emailChunk, channelToConsume, resend)
-      console.timeEnd(`${count} emails sent!`)
+      logger.timeEnd(`${count} emails sent!`)
       emailChunk = []
     }
     emailChunk.push(msg)
@@ -34,10 +34,10 @@ export const emailSender = async () => {
 
   if (emailChunk.length) {
     await sendEmails(emailChunk, channelToConsume, resend)
-    console.log(`sent [${count}] emails!`)
+    logger(`sent [${count}] emails!`)
     emailChunk = []
   }
 
-  console.timeEnd('emailSender')
+  logger.timeEnd('emailSender')
   process.exit(0)
 }

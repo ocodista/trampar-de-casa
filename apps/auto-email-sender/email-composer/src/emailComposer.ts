@@ -1,5 +1,5 @@
 import { GetMessage } from 'amqplib'
-import { getMongoConnection } from 'shared'
+import { getMongoConnection, logger } from 'shared'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import { MongoCollection } from 'shared/src/enums/mongo'
 import { connectToQueue } from 'shared/src/queue/connectToQueue'
@@ -50,7 +50,7 @@ export const composeEmail = async () => {
     )
     sendToQueue(EmailQueues.EmailSender, emailSenderChannel, emailHtml)
     emailPreRendererChannel.ack(msg)
-    console.log(++count)
+    logger(++count)
   } while (msg)
 
   process.exit(0)

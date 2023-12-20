@@ -1,6 +1,6 @@
 import { getSupabaseClient } from 'db'
 import { getAllConfirmedSubscribersPaginated } from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
-import { EmailQueues, createRabbitMqChannel } from 'shared'
+import { EmailQueues, createRabbitMqChannel, logger } from 'shared'
 
 export const subsToQueue = async () => {
   const supabase = getSupabaseClient()
@@ -19,8 +19,8 @@ export const subsToQueue = async () => {
   let count = 0
   for await (const subscribersChunk of subscribersGenerator) {
     count += subscribersChunk.length
-    console.log(`Processing... ${count}`)
-    console.time(`Processed ${count}`)
+    logger(`Processing... ${count}`)
+    logger.time(`Processed ${count}`)
     const messages = subscribersChunk.map(
       ({ id, email, isConfirmed, skillsId, startedWorkingAt }) => ({
         rolesAssigner: Buffer.from(
@@ -56,7 +56,7 @@ export const subsToQueue = async () => {
         await new Promise((resolve) => queueChannel.once('drain', resolve))
       }
     }
-    console.timeEnd(`Processed ${count}`)
+    logger.timeEnd(`Processed ${count}`)
   }
   const queueEmailPreRenderSubs = await queueChannel.checkQueue(
     EmailQueues.EmailPreRenderSubs
@@ -64,5 +64,5 @@ export const subsToQueue = async () => {
   const queueRolesAssignerSubs = await queueChannel.checkQueue(
     EmailQueues.RolesAssignerSubs
   )
-  console.log({ queueEmailPreRenderSubs, queueRolesAssignerSubs })
+  logger({ queueEmailPreRenderSubs, queueRolesAssignerSubs })
 }

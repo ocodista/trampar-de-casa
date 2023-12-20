@@ -1,12 +1,12 @@
 import { getSupabaseClient } from 'db'
 import { getRolesInBatches } from 'db/src/supabase/domains/roles/getRoles'
 import dotenv from 'dotenv'
-import { MongoCollection, getMongoConnection } from 'shared'
+import { MongoCollection, getMongoConnection, logger } from 'shared'
 import { parseHTML } from './parseHTML'
 dotenv.config()
 
 export async function rolesRenderer() {
-  console.time('rolesRenderer')
+  logger.time('rolesRenderer')
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
   const mongoCollection = mongoDatabase.collection(
@@ -28,6 +28,6 @@ export async function rolesRenderer() {
   }
 
   await mongoConnection.close()
-  console.timeEnd('rolesRenderer')
+  logger.timeEnd('rolesRenderer')
   process.exit(0)
 }
