@@ -52,6 +52,7 @@
     "security": "*",
     "shared": "*",
     "tailwind-merge": "^1.13.2",
+    "tailwindcss": "^3.4.0",
     "tailwindcss-animate": "^1.0.6",
     "vercel-email": "^0.0.6",
     "zod": "^3.21.4"
