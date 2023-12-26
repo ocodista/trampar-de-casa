@@ -71,11 +71,10 @@ function Header() {
       <Hr style={hr} />
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
       <Text className={paragraph}>
-        {
-          'Agora você pode nos avisar ao conseguir sua tão sonhada vaga, basta clicar no novo botão "Consegui uma vaga!"'
-        }
+        Espero que tenha tido um ótimo Natal, desejo a você um excelente ano
+        novo, que a sua tão sonhado vaga esteja presente neste e-mail 🙏
       </Text>
-      <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
+      <Text className={paragraph}>Grande abraço 😁</Text>
     </Tailwind>
   )
 }
