@@ -71,11 +71,11 @@ function Header() {
       <Hr style={hr} />
       <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
       <Text className={paragraph}>
-        {
-          'Agora você pode nos avisar ao conseguir sua tão sonhada vaga, basta clicar no novo botão "Consegui uma vaga!"'
-        }
+        Feliz ano novo! Que 2024 seja ainda melhor do que 2023.
       </Text>
-      <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
+      <Text className={paragraph}>
+        Agora, aproveite as vagas desta semana 😁
+      </Text>
     </Tailwind>
   )
 }
