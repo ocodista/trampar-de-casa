@@ -1,4 +1,4 @@
-import { Events, Tracker } from 'analytics'
+import { Events } from 'analytics'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { sendConfirmationEmail } from 'shared/src/email'
