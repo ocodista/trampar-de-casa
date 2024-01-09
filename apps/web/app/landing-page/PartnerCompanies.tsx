@@ -21,6 +21,13 @@ const companies: Company[] = [
     imagePath: '/images/companies/impulso.png',
   },
   {
+    name: 'Husky',
+    url: 'https://www.husky.io/?ref=trampardecasa',
+    description:
+      'A Husky, parte do grupo Nomad desde 2016, revoluciona as transferências internacionais com pagamentos transparentes em câmbio real e sem spreads ocultos.',
+    imagePath: '/images/companies/husky.webp',
+  },
+  {
     name: 'Meteor',
     url: 'https://www.meteor.com/',
     description:
