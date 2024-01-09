@@ -22,9 +22,9 @@ Semanalmente, enviamos 1 email com vagas 100% remotas que correspondem ao perfil
 
 ## Roadmap do Projeto 🚧
 
-- [ X ] **Cadastro de Preferências**: Definir preferências de trabalho dos usuários.
-- [ X ] **Seleção e envio de vagas personalizadas**: Enviar vagas selecionadas com base nas preferências.
-- [ X ] **Automatização de envio de vagas**: Enviar oportunidades regularmente sem pesquisar ativamente.
+- [X] **Cadastro de Preferências**: Definir preferências de trabalho dos usuários.
+- [X] **Seleção e envio de vagas personalizadas**: Enviar vagas selecionadas com base nas preferências.
+- [X] **Automatização de envio de vagas**: Enviar oportunidades regularmente sem pesquisar ativamente.
 - [ ] **Página para Empresas Parceiras**: Exibir mais detalhes das empresas parceiras.
 
 ---
