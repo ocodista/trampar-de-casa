@@ -6,6 +6,12 @@ set -e
 # Enter on project folder
 cd /home/ubuntu/trampar-de-casa
 
+# Checkout git repository
+git checkout main
+
+# Pull repository
+git pull
+
 # Initiate container
 docker compose --file auto-email-sender-compose.yml up rabbitmq -d
 docker compose --file auto-email-sender-compose.yml up mongo -d
