@@ -4,6 +4,7 @@ import {
   Heading,
   Hr,
   Img,
+  Link,
   Preview,
   Row,
   Section,
@@ -69,12 +70,29 @@ function Header() {
         className={h1}
       >{`🔥 ${HeaderHtmlKeys.rolesCount} vagas para você Trampar de Casa`}</Heading>
       <Hr style={hr} />
-      <Text className={paragraph}>Olá, defensor do trabalho remoto!</Text>
+      <Text className={paragraph}>Alô, amantes do trabalho remoto!</Text>
       <Text className={paragraph}>
-        Feliz ano novo! Que 2024 seja ainda melhor do que 2023.
+        Temos uma ótima novidade: a{' '}
+        <Link href="https://www.husky.io/?ref=trampardecasa">Husky</Link>, é a
+        mais nova parceira do Trampar de Casa 🎉
+      </Text>
+      <Img
+        width={300}
+        style={{ paddingTop: 20, paddingBottom: 20 }}
+        alt="Husky by Nomad"
+        src="https://trampardecasa.com.br/images/companies/husky.webp"
+      />
+      <Text className={paragraph}>
+        Pioneira em transferências internacionais{' '}
+        <strong>sem burocracia</strong>, a Husky se dedica ao trabalho remoto
+        desde 2016, trazendo sua expertise para fortalecer ainda mais nossa
+        comunidade.
       </Text>
       <Text className={paragraph}>
-        Agora, aproveite as vagas desta semana 😁
+        Juntos, estamos fortalecendo o mundo do trabalho remoto!
+      </Text>
+      <Text className={paragraph}>
+        Agora, aproveite as novas vagas desta semana 😁
       </Text>
     </Tailwind>
   )
