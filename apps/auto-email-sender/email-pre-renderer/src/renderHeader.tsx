@@ -73,14 +73,14 @@ function Header() {
       <Text className={paragraph}>Alô, amantes do trabalho remoto!</Text>
       <Text className={paragraph}>
         Temos uma ótima novidade: a{' '}
-        <Link href="https://www.husky.io/?ref=trampardecasa">Husky</Link>, é a
+        <Link href="https://www.husky.io/?ref=trampardecasa">Husky</Link> é a
         mais nova parceira do Trampar de Casa 🎉
       </Text>
       <Img
         width={300}
         style={{ paddingTop: 20, paddingBottom: 20 }}
         alt="Husky by Nomad"
-        src="https://trampardecasa.com.br/images/companies/husky.webp"
+        src="https://trampardecasa.com.br/images/companies/husky-with-bg.webp"
       />
       <Text className={paragraph}>
         Pioneira em transferências internacionais{' '}
