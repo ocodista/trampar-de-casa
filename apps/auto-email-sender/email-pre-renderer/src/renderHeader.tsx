@@ -80,7 +80,7 @@ function Header() {
         width={300}
         style={{ paddingTop: 20, paddingBottom: 20 }}
         alt="Husky by Nomad"
-        src="https://trampardecasa.com.br/images/companies/husky.webp"
+        src="https://trampardecasa.com.br/images/companies/husky-with-bg.webp"
       />
       <Text className={paragraph}>
         Pioneira em transferências internacionais{' '}
