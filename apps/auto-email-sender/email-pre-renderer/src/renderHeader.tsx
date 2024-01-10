@@ -73,7 +73,7 @@ function Header() {
       <Text className={paragraph}>Alô, amantes do trabalho remoto!</Text>
       <Text className={paragraph}>
         Temos uma ótima novidade: a{' '}
-        <Link href="https://www.husky.io/?ref=trampardecasa">Husky</Link>, é a
+        <Link href="https://www.husky.io/?ref=trampardecasa">Husky</Link> é a
         mais nova parceira do Trampar de Casa 🎉
       </Text>
       <Img
