@@ -8,7 +8,7 @@ export default async function Page() {
       <h1 className="scroll-m-20 border-b pb-2 text-3xl font-semibold tracking-tight first:mt-0">
         Email da semana
       </h1>
-      <section className="grid grid-cols-2">
+      <section className="grid xl:grid-cols-2">
         <Form />
         <PreviewNextWeekEmail />
       </section>
