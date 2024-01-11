@@ -7,7 +7,7 @@ export default async function RootLayout({
 }: {
   children: ReactNode
 }) {
-  if (process.env['development'] === 'true') {
+  if (!(process.env['development'] === 'true')) {
     notFound()
   }
   return <>{children}</>
