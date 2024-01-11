@@ -3,8 +3,6 @@ import React from 'react'
 import { Header, HeaderHtmlKeys } from 'shared/ui/email/Header'
 import { getTestimonialLink } from './getTestimonialLink'
 
-export const HEADER_TITLE_SUFFIX = 'vagas para você Trampar de Casa 🔥'
-
 function RenderHeaderHtml() {
   return render(
     <Header
