@@ -3,12 +3,14 @@
 import { Button } from 'app/components/ui/button'
 import { Input } from 'app/components/ui/input'
 import { useToast } from 'app/hooks/use-toast'
-import { FormEventHandler } from 'react'
+import { FormEventHandler, useState } from 'react'
 
 export default function Form() {
   const { toast } = useToast()
+  const [isSubmitting, setIsSubmitting] = useState(false)
   const onSubmit: FormEventHandler<HTMLFormElement> = async (e) => {
     e.preventDefault()
+    setIsSubmitting(true)
     const formData = new FormData(e.target as HTMLFormElement)
     const email = formData.get('email')
     const response = await fetch(
@@ -20,6 +22,7 @@ export default function Form() {
         title: 'Tudo certo 🥳',
         description: 'Email enviado!',
       })
+      setIsSubmitting(false)
       return
     }
 
@@ -28,6 +31,8 @@ export default function Form() {
       variant: 'destructive',
       description: 'Tente novamente mais tarde',
     })
+
+    setIsSubmitting(false)
   }
   return (
     <form onSubmit={onSubmit} className="space-y-4">
@@ -41,7 +46,9 @@ export default function Form() {
           name="email"
         />
       </fieldset>
-      <Button type="submit">Enviar</Button>
+      <Button disabled={isSubmitting} type="submit">
+        Enviar
+      </Button>
     </form>
   )
 }
