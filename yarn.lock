@@ -1710,6 +1710,16 @@
     react "18.2.0"
     react-dom "18.2.0"
 
+"@react-email/render@^0.0.10":
+  version "0.0.10"
+  resolved "https://registry.yarnpkg.com/@react-email/render/-/render-0.0.10.tgz#d72363bf2b15fbcc042ab8ab393b34724b77cd7c"
+  integrity sha512-FdLhg/E5PH5qZU/jf9NbvRi5v5134kbX7o8zIhOJIk/TALxB18ggprnH5tQX96dGQFqlLob8OLReaRwrpEF7YA==
+  dependencies:
+    html-to-text "9.0.5"
+    pretty "2.0.0"
+    react "18.2.0"
+    react-dom "18.2.0"
+
 "@react-email/row@0.0.5":
   version "0.0.5"
   resolved "https://registry.yarnpkg.com/@react-email/row/-/row-0.0.5.tgz#665d7db896fd38c7d9d3a8094624410f66e2f9c3"
