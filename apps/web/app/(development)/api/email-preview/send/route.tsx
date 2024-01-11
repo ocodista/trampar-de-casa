@@ -1,7 +1,7 @@
-import { Body, Head, Html, Tailwind } from '@react-email/components'
 import { render } from '@react-email/render'
 import { getFakeRoles } from 'app/(development)/email-preview/getFakeRoles'
 import { Resend } from 'resend'
+import { EmailWrapper } from 'shared/ui/email/EmailWrapper'
 import { Footer } from 'shared/ui/email/Footer'
 import { Header } from 'shared/ui/email/Header'
 import { RoleCard } from 'shared/ui/email/RoleCard'
@@ -20,31 +20,18 @@ export const POST = async (req: Request) => {
     to: email,
     subject: 'Teste - Email de vagas',
     html: render(
-      <Tailwind>
-        <Html>
-          <Head />
-          <Body
-            className="bg-[#f6f9fc]"
-            style={{
-              fontFamily:
-                '-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Ubuntu,sans-serif',
-            }}
-          >
-            <div className="mx-auto my-0 mb-[64px] max-w-[37.5em] bg-white p-[20px_48px_48px]">
-              <Header rolesCount="10" testimonialLink="teste" />
-              {fakeRoles.map((props) => (
-                <RoleCard
-                  key={props.id}
-                  skills={props.skillNames}
-                  location={props.country}
-                  {...props}
-                />
-              ))}
-              <Footer href="teste" />
-            </div>
-          </Body>
-        </Html>
-      </Tailwind>
+      <EmailWrapper>
+        <Header rolesCount="10" testimonialLink="teste" />
+        {fakeRoles.map((props) => (
+          <RoleCard
+            key={props.id}
+            skills={props.skillNames}
+            location={props.country}
+            {...props}
+          />
+        ))}
+        <Footer href="teste" />
+      </EmailWrapper>
     ),
   })
 
