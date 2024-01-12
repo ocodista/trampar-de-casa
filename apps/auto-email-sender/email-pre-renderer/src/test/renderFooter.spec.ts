@@ -1,8 +1,9 @@
 import { faker } from '@faker-js/faker'
 import * as encryptFile from 'shared'
+import { HtmlFooterKeys } from 'shared/ui/email/Footer'
 import { vi } from 'vitest'
 import * as getUnsubscribeFile from '../getUnsubscribeLink'
-import { HtmlFooterKeys, mountFooter } from '../renderFooter'
+import { mountFooter } from '../renderFooter'
 import { getSubscriberMock } from './factories/subscriberFactory'
 
 const ENCRYPTED_VALUE_MOCK = faker.string.hexadecimal({ length: 32 })

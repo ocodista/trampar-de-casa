@@ -3,7 +3,7 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "next dev",
+    "dev": "development=true next dev",
     "build": "next build",
     "start": "next start",
     "lint": "eslint ./app --fix"
@@ -57,7 +57,8 @@
     "zod": "^3.21.4"
   },
   "devDependencies": {
-    "@faker-js/faker": "^8.0.2",
+    "@faker-js/faker": "^8.3.1",
+    "@react-email/render": "^0.0.10",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
     "@types/canvas-confetti": "^1.6.0",

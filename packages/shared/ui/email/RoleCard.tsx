@@ -1,9 +1,27 @@
 import { Column, Heading, Row, Tailwind } from '@react-email/components'
 import React from 'react'
-import { Opening } from './Opening'
+import { skillArray } from '../../src'
 
 interface Skill {
   name: string
+}
+
+export type OpeningCurrency = 'U$' | 'R$' | 'EUR'
+
+type Skills =
+  | (typeof skillArray)[number]['name']
+  | Omit<string, (typeof skillArray)[number]['name']>
+
+export interface Opening {
+  company: string
+  title: string
+  location: string
+  language: string
+  currency: OpeningCurrency | Omit<string, OpeningCurrency>
+  skills: [Skills, Skills?, Skills?, Skills?, Skills?]
+  headerInfo?: string
+  salary?: string
+  url: string
 }
 
 const Skill = ({ name }: Skill) => (
@@ -12,7 +30,7 @@ const Skill = ({ name }: Skill) => (
   </div>
 )
 
-export const OpeningCard = ({
+export const RoleCard = ({
   company,
   headerInfo,
   url,
@@ -74,15 +92,3 @@ export const OpeningCard = ({
     </Tailwind>
   )
 }
-
-const OpeningList = ({
-  openings: openings,
-}: {
-  openings: (Opening & { skills: string[] })[]
-}) => {
-  return openings.map((opening) => (
-    <OpeningCard key={`${opening.title}-${opening.company}`} {...opening} />
-  ))
-}
-
-export default OpeningList
