@@ -1,12 +1,9 @@
 import { faker } from '@faker-js/faker'
 import * as sharedFile from 'shared'
 import * as createProfileFormLinkFile from 'shared/src/services/createProfileFormLink'
+import { HEADER_TITLE_SUFFIX, HeaderHtmlKeys } from 'shared/ui/email/Header'
 import { vi } from 'vitest'
-import {
-  HEADER_TITLE_SUFFIX,
-  HeaderHtmlKeys,
-  mountHeader,
-} from '../renderHeader'
+import { mountHeader } from '../renderHeader'
 
 describe('Render header', () => {
   beforeAll(() => {

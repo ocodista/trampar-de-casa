@@ -1,27 +1,10 @@
-import { Link, Tailwind, Text } from '@react-email/components'
 import { render } from '@react-email/render'
 import React from 'react'
+import { Footer, HtmlFooterKeys } from 'shared/ui/email/Footer'
 import { getUnsubscribeLink } from './getUnsubscribeLink'
 
-export enum HtmlFooterKeys {
-  unsubscribeLink = '##UNSUBSCRIBE_LINK',
-}
-
 export const renderFooterHTML = () => {
-  const renderedHtml = render(
-    <Tailwind>
-      <Text className="text-left text-[8px] leading-[24px] text-[#525f7f]">
-        Se por algum motivo você deseja interromper o recebimento destas
-        comunicações, entendemos completamente. Nós respeitamos o seu espaço e o
-        valorizamos como membro da nossa comunidade. Para se desinscrever, basta
-        clicar{' '}
-        <Link className="text-[#556cd6]" href={HtmlFooterKeys.unsubscribeLink}>
-          aqui
-        </Link>
-        .
-      </Text>
-    </Tailwind>
-  )
+  const renderedHtml = render(<Footer href={HtmlFooterKeys.unsubscribeLink} />)
 
   return renderedHtml
 }

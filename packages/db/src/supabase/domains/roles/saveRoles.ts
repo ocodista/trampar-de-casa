@@ -1,5 +1,5 @@
 import { Entities, Topics, skillArray } from 'shared'
-import { Opening } from 'shared/src/email/openings-email/Opening'
+import { Opening } from 'shared/ui/email/RoleCard'
 import { getSupabaseClient } from '../../getSupabaseClient'
 import { Database } from '../../type'
 import { SupabaseTable } from '../../utilityTypes'
