@@ -22,6 +22,7 @@ jobs:
           version: latest
 
       - name: Link Project
+        working-directory: ./packages/db
         run: supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_ID }}
       - name: Push migrations to prod
         working-directory: ./packages/db
