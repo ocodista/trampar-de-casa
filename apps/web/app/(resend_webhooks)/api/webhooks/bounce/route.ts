@@ -1,10 +1,12 @@
 import { getSupabaseClient } from 'db/src/supabase/getSupabaseClient'
 import { Webhook } from 'svix'
 
-// eslint-disable-next-line turbo/no-undeclared-env-vars
-const webhookSecret = process.env.RESEND_WEBHOOK_SECRET
-if (!webhookSecret) throw new Error('RESEND_WEBHOOK_SECRET is not settled')
-const webhook = new Webhook(webhookSecret)
+const getWebhook = () => {
+  // eslint-disable-next-line turbo/no-undeclared-env-vars
+  const webhookSecret = process.env.RESEND_WEBHOOK_SECRET
+  if (!webhookSecret) throw new Error('RESEND_WEBHOOK_SECRET is not settled')
+  return new Webhook(webhookSecret)
+}
 
 type EmailType =
   | 'email.sent'
@@ -27,6 +29,7 @@ interface WebhookEvent {
 }
 
 export const POST = async (req: Request) => {
+  const webhook = getWebhook()
   const svix_id = req.headers.get('svix-id') ?? ''
   const svix_timestamp = req.headers.get('svix-timestamp') ?? ''
   const svix_signature = req.headers.get('svix-signature') ?? ''
