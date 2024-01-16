@@ -54,5 +54,5 @@ export const POST = async (req: Request) => {
     }
   }
 
-  return new Response()
+  return new Response(null, { status: 200 })
 }
