@@ -6,6 +6,11 @@ set -e
 # Enter on project folder
 cd /home/ubuntu/trampar-de-casa
 
+# Clear unstaged or uncommitted changes
+git reset .
+git checkout .
+git clean -fd
+
 # Checkout git repository
 git checkout main
 
