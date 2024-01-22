@@ -47,7 +47,7 @@ export const POST = async (req: Request) => {
 
     const { error } = await supabaseClient
       .from('Subscribers')
-      .update({ optOut: true })
+      .update({ optOut: true, updatedAt: new Date().toISOString() })
       .eq('email', bouncedEmail)
     if (error) {
       console.error('Error when update bounced email: ', error)
