@@ -1,5 +1,4 @@
-import { Events, Tracker } from 'analytics'
-
+import { Events } from 'analytics'
 import { getSupabaseClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'

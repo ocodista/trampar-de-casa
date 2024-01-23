@@ -13,8 +13,8 @@
   "license": "ISC",
   "dependencies": {
     "@react-email/button": "0.0.10",
-    "@react-email/components": "^0.0.7",
-    "@react-email/html": "0.0.4",
+    "@react-email/components": "^0.0.9",
+    "@react-email/html": "0.0.7",
     "@react-email/render": "^0.0.9",
     "react-email": "1.9.5",
     "resend": "^2.0.0",
