@@ -75,7 +75,7 @@ const CompanySection = ({ name, imagePath, url, description }: Company) => (
     <Image
       src={imagePath}
       alt={`Logo da ${name}`}
-      className="mx-10 aspect-video min-w-[128px] cursor-pointer object-contain"
+      className="mx-10 aspect-video h-[auto] min-w-[128px] cursor-pointer object-contain"
       title={description}
       width={128}
       height={28}
