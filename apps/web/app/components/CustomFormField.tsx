@@ -1,11 +1,12 @@
 'use client'
 import { ProfileSchemaEnum } from 'app/subscribers/profile/profileSchema'
 import { format } from 'date-fns'
-import React, { useEffect } from 'react'
+import React, { InputHTMLAttributes, useEffect } from 'react'
 import {
   ControllerRenderProps,
-  FieldValues,
+  FieldValue,
   Path,
+  UseFormRegister,
   useFormContext,
 } from 'react-hook-form'
 import {
@@ -23,13 +24,8 @@ interface CustomFormFieldProps<FormState> {
   label: string
   placeholder?: string
   description?: string
-  Input?: React.FC<{
-    register
-    name: string
-    placeholder: string
-    field: ControllerRenderProps<FieldValues, Path<FormState>>
-    isSubmitting: boolean
-  }>
+  Input?: React.FC<TextInputProps>
+  type?: InputHTMLAttributes<HTMLInputElement>['type']
   className?: string
 }
 
@@ -40,6 +36,7 @@ export function CustomFormField<FormState>({
   description,
   Input,
   className,
+  type,
 }: CustomFormFieldProps<FormState>) {
   const {
     control,
@@ -50,12 +47,12 @@ export function CustomFormField<FormState>({
     <FormField
       control={control}
       name={name as Path<FormState>}
-      render={({ field }) => (
+      render={({ field }: { field: ControllerRenderProps }) => (
         <FormItem className={className}>
           <FormLabel>{label}</FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
           <FormControl>
-            {Input({ register, name, placeholder, field, isSubmitting })}
+            {Input({ register, name, placeholder, field, isSubmitting, type })}
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -64,12 +61,27 @@ export function CustomFormField<FormState>({
   )
 }
 
-export const TextInput = ({ field, placeholder, isSubmitting }) => {
+export type TextInputProps = {
+  field: ControllerRenderProps
+  placeholder: string
+  isSubmitting: boolean
+  name: string
+  register: UseFormRegister<FieldValue<unknown>>
+  type: InputHTMLAttributes<HTMLInputElement>['type']
+}
+
+export const TextInput = ({
+  field,
+  placeholder,
+  isSubmitting,
+  type = 'text',
+}: TextInputProps) => {
   return (
     <BaseInput
-      type="string"
+      type={type}
       disabled={isSubmitting}
       onFocus={(e) => {
+        if (type === 'number') return
         const goToLastCharacter = () => {
           e.target.selectionStart = e.target.value.length
         }
