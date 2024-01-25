@@ -1,34 +1,18 @@
 'use client'
 import { zodResolver } from '@hookform/resolvers/zod'
+import { FormSchema, formSchema } from 'app/(roles)/formSchema'
 import { CustomFormField, TextInput } from 'app/components/CustomFormField'
 import { FormRadioGroup } from 'app/components/FormRadioGroup'
 import { Button } from 'app/components/ui/button'
 import { FormMessage } from 'app/components/ui/form'
+import { useToast } from 'app/hooks/use-toast'
 import { SkillsField } from 'app/subscribers/profile/components/SkillsField'
 import { InputHTMLAttributes, useId } from 'react'
 import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { Topics } from 'shared/src/enums/topics'
-import z from 'zod'
-
-const formSchema = z.object({
-  url: z.string().url('URL inválida.'),
-  title: z.string({ required_error: 'Título inválido' }),
-  company: z.string({ required_error: 'Nome da empresa inválido' }),
-  currency: z.string({ required_error: 'Câmbio inválido' }),
-  description: z.string().nullable(),
-  language: z.string({ required_error: 'Idioma inválido' }),
-  skillsId: z.array(z.string(), {
-    required_error: 'Adicione pelo menos uma habilidade.',
-  }),
-  country: z.string({ required_error: 'País de origem inválido' }),
-  minimumYears: z.string({ required_error: 'Valor inválido' }).nullable(),
-  topicsId: z
-    .string({ invalid_type_error: 'Selecione algum tópico' })
-    .default(Topics.NATIONAL_VACANCIES.toString()),
-})
 
 type FormFields = {
-  name: keyof z.TypeOf<typeof formSchema>
+  name: keyof FormSchema
   label: string
   placeholder?: string
   description?: string
@@ -68,6 +52,13 @@ const fields: FormFields = [
     description: 'Insira o câmbio do salário',
   },
   {
+    name: 'salary',
+    label: 'Sálario',
+    description: 'Digite o sálario base da vaga',
+    placeholder: 'Ex: 3000',
+    type: 'number',
+  },
+  {
     name: 'description',
     label: 'Descrição',
     description: 'Insira a descrição da vaga',
@@ -80,12 +71,31 @@ const fields: FormFields = [
 ]
 
 export default function RolesCreate() {
-  const form = useForm<z.TypeOf<typeof formSchema>>({
+  const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
   })
+  const toast = useToast()
+  const onSubmit = async (data: FormSchema) => {
+    const headers = new Headers()
+    headers.set('Content-Type', 'application/json')
+
+    const response = await fetch('/api/vagas/publique', {
+      method: 'POST',
+      headers,
+      body: JSON.stringify(data),
+    })
+    if (response.ok) {
+      form.reset()
+      toast.toast({
+        title: 'Vaga enviada com sucesso!',
+        description: 'Muito obrigado por enviar a vaga.',
+      })
+      return
+    }
+  }
   return (
     <FormProvider {...form}>
-      <form onSubmit={form.handleSubmit(console.log)}>
+      <form onSubmit={form.handleSubmit(onSubmit)}>
         <section className="container pb-6">
           <section className="grid grid-cols-1 gap-6 py-6 md:grid-cols-2">
             {fields.map((props) => (
@@ -102,8 +112,7 @@ export default function RolesCreate() {
 }
 
 const RoleTopic = () => {
-  const { setValue, watch, formState } =
-    useFormContext<z.TypeOf<typeof formSchema>>()
+  const { setValue, watch, formState } = useFormContext<FormSchema>()
   const fieldId = 'topicsId'
   const id = useId()
 

@@ -79,6 +79,7 @@ export const TextInput = ({
   return (
     <BaseInput
       type={type}
+      min={0}
       disabled={isSubmitting}
       onFocus={(e) => {
         if (type === 'number') return
