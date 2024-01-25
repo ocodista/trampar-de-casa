@@ -32,6 +32,11 @@ export const Header = () => {
                 <li className="font-medium hover:text-gray-700">
                   <a href={LandingPageRoutes.FAQ}>Perguntas Frequentes</a>
                 </li>
+                <li className="font-medium hover:text-gray-700">
+                  <a href={LandingPageRoutes.PublishYourRole}>
+                    Publique uma vaga
+                  </a>
+                </li>
               </ul>
             </div>
           </div>
