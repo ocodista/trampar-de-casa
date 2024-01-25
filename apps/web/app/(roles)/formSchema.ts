@@ -16,7 +16,7 @@ export const formSchema = z.object({
   topicsId: z
     .string({ invalid_type_error: 'Selecione algum tópico' })
     .default(Topics.NATIONAL_VACANCIES.toString()),
-  salary: z.string().nullable(),
+  salary: z.string({ required_error: 'Sálario Inválido' }).nullable(),
 })
 
 export type FormSchema = z.TypeOf<typeof formSchema>

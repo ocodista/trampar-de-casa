@@ -10,6 +10,7 @@ import { SkillsField } from 'app/subscribers/profile/components/SkillsField'
 import { InputHTMLAttributes, useId } from 'react'
 import { FormProvider, useForm, useFormContext } from 'react-hook-form'
 import { Topics } from 'shared/src/enums/topics'
+import { RolePreview } from './RolePreview'
 
 type FormFields = {
   name: keyof FormSchema
@@ -97,6 +98,9 @@ export default function RolesCreate() {
     <FormProvider {...form}>
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <section className="container pb-6">
+          <h1 className="text-2xl font-bold tracking-tight">
+            Publique sua vaga!
+          </h1>
           <section className="grid grid-cols-1 gap-6 py-6 md:grid-cols-2">
             {fields.map((props) => (
               <CustomFormField key={props.name} {...props} Input={TextInput} />
@@ -104,7 +108,10 @@ export default function RolesCreate() {
             <RoleTopic />
             <SkillsField />
           </section>
-          <Button type="submit">Enviar</Button>
+          <section className="space-x-4">
+            <Button type="submit">Enviar</Button>
+            <RolePreview />
+          </section>
         </section>
       </form>
     </FormProvider>
