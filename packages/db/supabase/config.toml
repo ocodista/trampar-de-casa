@@ -3,6 +3,7 @@
 project_id = "db"
 
 [api]
+enabled = true
 # Port to use for the API URL.
 port = 54321
 # Schemas to expose in your API. Tables, views and stored procedures in this schema will get API
@@ -23,6 +24,23 @@ shadow_port = 54320
 # server_version;` on the remote database to check.
 major_version = 15
 
+[db.pooler]
+enabled = false
+# Port to use for the local connection pooler.
+port = 54329
+# Specifies when a server connection can be reused by other clients.
+# Configure one of the supported pooler modes: `transaction`, `session`.
+pool_mode = "transaction"
+# How many server connections to allow per user/database pair.
+default_pool_size = 20
+# Maximum number of client connections allowed.
+max_client_conn = 100
+
+[realtime]
+enabled = true
+# Bind realtime via either IPv4 or IPv6. (default: IPv6)
+# ip_version = "IPv6"
+
 [studio]
 enabled = true
 # Port to use for Supabase Studio.
@@ -41,10 +59,12 @@ port = 54324
 # pop3_port = 54326
 
 [storage]
+enabled = true
 # The maximum file size allowed (e.g. "5MB", "500KB").
 file_size_limit = "50MiB"
 
 [auth]
+enabled = true
 # The base URL of your website. Used as an allow-list for redirects and for constructing URLs used
 # in emails.
 site_url = "http://localhost:3000"
@@ -69,13 +89,22 @@ double_confirm_changes = true
 # If enabled, users need to confirm their email address before signing in.
 enable_confirmations = false
 
+# Uncomment to customize email template
+# [auth.email.template.invite]
+# subject = "You have been invited"
+# content_path = "./supabase/templates/invite.html"
+
 [auth.sms]
 # Allow/disallow new user signups via SMS to your project.
 enable_signup = true
 # If enabled, users need to confirm their phone number before signing in.
 enable_confirmations = false
 
-# Configure one of the supported SMS providers: `twilio`, `messagebird`, `textlocal`, `vonage`.
+# Use pre-defined map of phone number to OTP for testing.
+[auth.sms.test_otp]
+# 4152127777 = "123456"
+
+# Configure one of the supported SMS providers: `twilio`, `twilio_verify`, `messagebird`, `textlocal`, `vonage`.
 [auth.sms.twilio]
 enabled = false
 account_sid = ""
@@ -101,8 +130,5 @@ url = ""
 enabled = false
 port = 54327
 vector_port = 54328
-# Setup BigQuery project to enable log viewer on local development stack.
-# See: https://supabase.com/docs/guides/getting-started/local-development#enabling-local-logging
-gcp_project_id = ""
-gcp_project_number = ""
-gcp_jwt_path = "supabase/gcloud.json"
+# Configure one of the supported backends: `postgres`, `bigquery`.
+backend = "postgres"

@@ -9,40 +9,6 @@ export type Json =
 export interface Database {
   public: {
     Tables: {
-      _SentRoles: {
-        Row: {
-          A: string
-          B: string
-        }
-        Insert: {
-          A: string
-          B: string
-        }
-        Update: {
-          A?: string
-          B?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "_SentRoles_A_fkey"
-            columns: ["A"]
-            referencedRelation: "SentRoles"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "_SentRoles_B_fkey"
-            columns: ["B"]
-            referencedRelation: "Subscribers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "_SentRoles_B_fkey"
-            columns: ["B"]
-            referencedRelation: "SubscriberSkillsView"
-            referencedColumns: ["id"]
-          }
-        ]
-      }
       Roles: {
         Row: {
           company: string | null
@@ -55,7 +21,6 @@ export interface Database {
           minimumYears: number | null
           ready: boolean
           salary: string | null
-          sentRolesId: string | null
           skillsId: string[] | null
           title: string
           topicId: number | null
@@ -73,7 +38,6 @@ export interface Database {
           minimumYears?: number | null
           ready?: boolean
           salary?: string | null
-          sentRolesId?: string | null
           skillsId?: string[] | null
           title: string
           topicId?: number | null
@@ -91,7 +55,6 @@ export interface Database {
           minimumYears?: number | null
           ready?: boolean
           salary?: string | null
-          sentRolesId?: string | null
           skillsId?: string[] | null
           title?: string
           topicId?: number | null
@@ -100,12 +63,6 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "Roles_sentRolesId_fkey"
-            columns: ["sentRolesId"]
-            referencedRelation: "SentRoles"
-            referencedColumns: ["id"]
-          },
-          {
             foreignKeyName: "Roles_topicId_fkey"
             columns: ["topicId"]
             referencedRelation: "Topics"
@@ -113,29 +70,57 @@ export interface Database {
           }
         ]
       }
-      SentRoles: {
+      rolesRecommendation: {
         Row: {
-          createdAt: string
-          id: string
-          roleId: string
-          sentAt: string | null
-          updatedAt: string
+          company: string | null
+          country: string | null
+          created_at: string | null
+          currency: string | null
+          description: string | null
+          id: number | null
+          language: string | null
+          minimum_years: number | null
+          salary: number | null
+          title: string | null
+          topic_id: number | null
+          url: string | null
         }
         Insert: {
-          createdAt?: string
-          id: string
-          roleId: string
-          sentAt?: string | null
-          updatedAt: string
+          company?: string | null
+          country?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          id?: number | null
+          language?: string | null
+          minimum_years?: number | null
+          salary?: number | null
+          title?: string | null
+          topic_id?: number | null
+          url?: string | null
         }
         Update: {
-          createdAt?: string
-          id?: string
-          roleId?: string
-          sentAt?: string | null
-          updatedAt?: string
+          company?: string | null
+          country?: string | null
+          created_at?: string | null
+          currency?: string | null
+          description?: string | null
+          id?: number | null
+          language?: string | null
+          minimum_years?: number | null
+          salary?: number | null
+          title?: string | null
+          topic_id?: number | null
+          url?: string | null
         }
-        Relationships: []
+        Relationships: [
+          {
+            foreignKeyName: "fk_topics"
+            columns: ["topic_id"]
+            referencedRelation: "Topics"
+            referencedColumns: ["id"]
+          }
+        ]
       }
       Skills: {
         Row: {
@@ -236,43 +221,6 @@ export interface Database {
           updatedAt?: string | null
         }
         Relationships: []
-      }
-      SubscribersSkills: {
-        Row: {
-          id: number
-          skillId: number
-          subscriberId: string
-        }
-        Insert: {
-          id: number
-          skillId: number
-          subscriberId: string
-        }
-        Update: {
-          id?: number
-          skillId?: number
-          subscriberId?: string
-        }
-        Relationships: [
-          {
-            foreignKeyName: "SubscribersSkills_skillId_fkey"
-            columns: ["skillId"]
-            referencedRelation: "Skills"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "SubscribersSkills_subscriberId_fkey"
-            columns: ["subscriberId"]
-            referencedRelation: "Subscribers"
-            referencedColumns: ["id"]
-          },
-          {
-            foreignKeyName: "SubscribersSkills_subscriberId_fkey"
-            columns: ["subscriberId"]
-            referencedRelation: "SubscriberSkillsView"
-            referencedColumns: ["id"]
-          }
-        ]
       }
       SubscriberTopics: {
         Row: {
