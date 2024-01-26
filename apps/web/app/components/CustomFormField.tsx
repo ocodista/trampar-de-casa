@@ -76,7 +76,7 @@ export type FormInputProps = {
   placeholder: string
   isSubmitting: boolean
   name: string
-  register: UseFormRegister<FieldValue<unknown>>
+  register: UseFormRegister<FieldValue<any>>
   type: InputHTMLAttributes<HTMLInputElement>['type']
 }
 
