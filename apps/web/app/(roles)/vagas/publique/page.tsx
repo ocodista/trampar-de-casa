@@ -61,7 +61,10 @@ const RolePreviewSection = () => {
   const entry = useIntersectionObserver(sectionRef, {
     threshold: 0.3,
   })
-  const isFloatSectionVisible = !entry?.isIntersecting
+  const intersectionEntryIsNull = !entry
+  const isFloatSectionVisible = intersectionEntryIsNull
+    ? false
+    : !entry?.isIntersecting
 
   return (
     <>
