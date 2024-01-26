@@ -1,6 +1,7 @@
 'use client'
 import { ProfileSchemaEnum } from 'app/subscribers/profile/profileSchema'
 import { format } from 'date-fns'
+import { Database } from 'db/src/supabase/type'
 import React, { InputHTMLAttributes, useEffect } from 'react'
 import {
   ControllerRenderProps,
@@ -18,13 +19,22 @@ import {
   FormMessage,
 } from './ui/form'
 import { Input as BaseInput } from './ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select'
 
 interface CustomFormFieldProps<FormState> {
   name: string
   label: string
   placeholder?: string
   description?: string
-  Input?: React.FC<TextInputProps>
+  Input?: React.FC<FormInputProps>
   type?: InputHTMLAttributes<HTMLInputElement>['type']
   className?: string
 }
@@ -48,7 +58,7 @@ export function CustomFormField<FormState>({
       control={control}
       name={name as Path<FormState>}
       render={({ field }: { field: ControllerRenderProps }) => (
-        <FormItem className={className}>
+        <FormItem className={`${className} flex flex-col justify-end`}>
           <FormLabel>{label}</FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
           <FormControl>
@@ -61,7 +71,7 @@ export function CustomFormField<FormState>({
   )
 }
 
-export type TextInputProps = {
+export type FormInputProps = {
   field: ControllerRenderProps
   placeholder: string
   isSubmitting: boolean
@@ -75,7 +85,7 @@ export const TextInput = ({
   placeholder,
   isSubmitting,
   type = 'text',
-}: TextInputProps) => {
+}: FormInputProps) => {
   return (
     <BaseInput
       type={type}
@@ -91,6 +101,51 @@ export const TextInput = ({
       {...(field as ControllerRenderProps)}
       placeholder={placeholder || ''}
     />
+  )
+}
+
+export const LanguageSelect = ({
+  field,
+  isSubmitting,
+  placeholder,
+  name,
+}: FormInputProps) => {
+  const { setValue } = useFormContext()
+  const languages: {
+    value: Database['public']['Enums']['RoleLanguage']
+    label: string
+  }[] = [
+    {
+      value: 'Portuguese',
+      label: 'Português',
+    },
+    {
+      value: 'English',
+      label: 'Inglês',
+    },
+  ]
+  return (
+    <Select
+      onValueChange={(value) => {
+        setValue(name, value)
+      }}
+      disabled={isSubmitting}
+      {...(field as ControllerRenderProps)}
+    >
+      <SelectTrigger>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Linguagem</SelectLabel>
+          {languages.map(({ label, value }) => (
+            <SelectItem value={value} key={value}>
+              {label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   )
 }
 
