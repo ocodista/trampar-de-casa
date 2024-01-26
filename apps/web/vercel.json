@@ -1,0 +1,8 @@
+{
+  "crons": [
+    {
+      "path": "/api/vagas/trigger",
+      "schedule": "0 19 * * 2"
+    }
+  ]
+}
