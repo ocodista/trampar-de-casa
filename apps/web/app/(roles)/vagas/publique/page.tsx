@@ -2,6 +2,7 @@
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormSchema, formSchema } from 'app/(roles)/formSchema'
 import {
+  CurrencySelect,
   CustomFormField,
   FormInputProps,
   LanguageSelect,
@@ -30,13 +31,14 @@ type FormFields = {
 const fields: FormFields = [
   {
     name: 'url',
+    type: 'url',
     label: 'Link da vaga',
     description: 'Insira o link da vaga',
   },
   {
     name: 'title',
-    label: 'Nome da vaga',
-    description: 'Insira o nome da vaga',
+    label: 'Título da vaga',
+    description: 'Insira o título da vaga',
   },
   {
     name: 'company',
@@ -51,8 +53,9 @@ const fields: FormFields = [
   },
   {
     name: 'description',
-    label: 'Descrição',
-    description: 'Insira a descrição da vaga',
+    label: 'Mensagem',
+    description: 'Insira um resumo da vaga',
+    placeholder: 'Ex: Mínimo X anos de XP (a partir de $xx.xxx)',
   },
 ]
 
@@ -135,7 +138,9 @@ export default function RolesCreate() {
                   {
                     name: 'currency',
                     label: 'Câmbio',
+                    placeholder: 'BRL, USD, EUR...',
                     description: 'Insira o câmbio do salário',
+                    Input: CurrencySelect,
                   },
                   {
                     name: 'salary',
@@ -148,7 +153,7 @@ export default function RolesCreate() {
                   <CustomFormField
                     key={props.name}
                     {...props}
-                    Input={TextInput}
+                    Input={props.Input || TextInput}
                   />
                 ))}
               </section>
@@ -174,8 +179,8 @@ export default function RolesCreate() {
                   />
                 ))}
               </section>
-              <SkillsField />
               <RoleTopic />
+              <SkillsField />
             </section>
           </section>
           <section className="flex gap-4">
@@ -196,8 +201,10 @@ const RoleTopic = () => {
   const id = useId()
 
   return (
-    <section className="flex flex-col justify-center gap-4 space-x-2">
-      <p>Esta é uma vaga: </p>
+    <section className="flex flex-col gap-4 space-x-2">
+      <p className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
+        Esta é uma vaga:
+      </p>
       <FormRadioGroup
         key={id}
         options={[

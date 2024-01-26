@@ -148,6 +148,54 @@ export const LanguageSelect = ({
     </Select>
   )
 }
+export const CurrencySelect = ({
+  field,
+  isSubmitting,
+  placeholder,
+  name,
+}: FormInputProps) => {
+  const { setValue } = useFormContext()
+  const languages: {
+    value: string
+    label: string
+  }[] = [
+    {
+      value: 'BRL',
+      label: 'BRL',
+    },
+    {
+      value: 'USD',
+      label: 'USD',
+    },
+    {
+      value: 'EUR',
+      label: 'EUR',
+    },
+  ]
+  return (
+    <Select
+      onValueChange={(value) => {
+        setValue(name, value)
+      }}
+      disabled={isSubmitting}
+      {...(field as ControllerRenderProps)}
+    >
+      <SelectTrigger>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Moeda</SelectLabel>
+          {languages.map(({ label, value }) => (
+            <SelectItem value={value} key={value}>
+              {label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
+}
 
 export const StartWorkAtInput = ({ field, placeholder, isSubmitting }) => {
   const form = useFormContext()
