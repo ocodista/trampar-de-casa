@@ -1,4 +1,4 @@
-DROP TABLE IF EXISTS "rolesRecommendations";
+DROP TABLE "rolesRecommendation";
 
 CREATE TABLE "rolesRecommendation" (
     id SERIAL PRIMARY KEY,
