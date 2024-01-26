@@ -55,6 +55,7 @@
     "svix": "^1.15.0",
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6",
+    "usehooks-ts": "^2.10.0",
     "vercel-email": "^0.0.6",
     "zod": "^3.21.4"
   },

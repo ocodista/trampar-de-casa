@@ -7,6 +7,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from 'app/components/ui/dialog'
+import { Database } from 'db/src/supabase/type'
 import { useFormContext } from 'react-hook-form'
 import { skillArray } from 'shared/src/infos/skills'
 import { RoleCard } from 'shared/ui/email/RoleCard'
@@ -16,6 +17,16 @@ const sanitizeSkills = (skillIds: string[] = []) => {
     (id) => skillArray.find((skillInfo) => skillInfo.id === Number(id)).name
   ) as unknown as string[]
 }
+const sanitizeLanguage = (language: string) => {
+  const languageList: Record<
+    Database['public']['Enums']['RoleLanguage'],
+    string
+  > = {
+    English: 'Inglês',
+    Portuguese: 'Português',
+  }
+  return languageList[language]
+}
 
 export const RolePreview = () => {
   const { watch } = useFormContext<FormSchema>()
@@ -24,7 +35,7 @@ export const RolePreview = () => {
     <RoleCard
       company={watch('company') || 'Vazio'}
       currency={watch('currency') || 'Vazio'}
-      language={watch('language') || 'Vazio'}
+      language={sanitizeLanguage(watch('language')) || 'Vazio'}
       headerInfo={watch('description') || 'Vazio'}
       location={watch('country') || 'Vazio'}
       skills={sanitizeSkills(watch('skillsId'))}
