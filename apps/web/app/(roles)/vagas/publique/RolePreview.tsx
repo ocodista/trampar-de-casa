@@ -17,8 +17,24 @@ const sanitizeSkills = (skillIds: string[] = []) => {
   ) as unknown as string[]
 }
 
-export function RolePreview() {
+export const RolePreview = () => {
   const { watch } = useFormContext<FormSchema>()
+
+  return (
+    <RoleCard
+      company={watch('company') || 'Vazio'}
+      currency={watch('currency') || 'Vazio'}
+      language={watch('language') || 'Vazio'}
+      headerInfo={watch('description') || 'Vazio'}
+      location={watch('country') || 'Vazio'}
+      skills={sanitizeSkills(watch('skillsId'))}
+      title={watch('title') || 'Vazio'}
+      url={watch('url')}
+    />
+  )
+}
+
+export function RolePreviewModal() {
   return (
     <Dialog>
       <DialogTrigger asChild>
@@ -27,18 +43,7 @@ export function RolePreview() {
       <DialogContent className="sm:max-w-[425px]">
         <DialogTitle>Visualização da vaga</DialogTitle>
         <DialogDescription>Como o usuário enxerga sua vaga:</DialogDescription>
-        <section>
-          <RoleCard
-            company={watch('company')}
-            currency={watch('currency')}
-            language={watch('language')}
-            headerInfo={watch('description')}
-            location={watch('country')}
-            skills={sanitizeSkills(watch('skillsId'))}
-            title={watch('title')}
-            url={watch('url')}
-          />
-        </section>
+        <RolePreview />
       </DialogContent>
     </Dialog>
   )
