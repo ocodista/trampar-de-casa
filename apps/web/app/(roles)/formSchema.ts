@@ -2,7 +2,10 @@ import { Topics } from 'shared/src/enums/topics'
 import { z } from 'zod'
 
 export const formSchema = z.object({
-  url: z.string().url('URL inválida.'),
+  url: z
+    .string()
+    .url({ message: 'Formato de URL inválido.' })
+    .default('https://'),
   title: z.string({ required_error: 'Título inválido' }),
   company: z.string({ required_error: 'Nome da empresa inválido' }),
   currency: z.string({ required_error: 'Câmbio inválido' }),
