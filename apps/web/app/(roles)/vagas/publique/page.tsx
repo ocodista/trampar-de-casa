@@ -125,7 +125,7 @@ export default function RolesCreate() {
           </h1>
           <section>
             <RolePreviewSection />
-            <section className="grid grid-cols-1 gap-6 px-4 py-6 md:grid-cols-2">
+            <section className="grid grid-cols-1 gap-6 py-6 md:grid-cols-2">
               {fields.map((props) => (
                 <CustomFormField
                   key={props.name}
