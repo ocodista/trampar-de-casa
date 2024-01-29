@@ -32,7 +32,7 @@ const salaryAndCurrencyField: FormFields = [
     name: 'currency',
     label: 'Câmbio',
     placeholder: 'BRL, USD, EUR...',
-    description: 'Insira o câmbio do salário',
+    description: 'Insira a moeda de pagamento do salário',
     Input: CurrencySelect,
     required: true,
   },
