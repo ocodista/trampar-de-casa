@@ -1,11 +1,13 @@
 'use client'
 import { ProfileSchemaEnum } from 'app/subscribers/profile/profileSchema'
 import { format } from 'date-fns'
-import React, { useEffect } from 'react'
+import { Database } from 'db/src/supabase/type'
+import React, { InputHTMLAttributes, useEffect } from 'react'
 import {
   ControllerRenderProps,
-  FieldValues,
+  FieldValue,
   Path,
+  UseFormRegister,
   useFormContext,
 } from 'react-hook-form'
 import {
@@ -17,20 +19,25 @@ import {
   FormMessage,
 } from './ui/form'
 import { Input as BaseInput } from './ui/input'
+import {
+  Select,
+  SelectContent,
+  SelectGroup,
+  SelectItem,
+  SelectLabel,
+  SelectTrigger,
+  SelectValue,
+} from './ui/select'
 
 interface CustomFormFieldProps<FormState> {
   name: string
   label: string
   placeholder?: string
   description?: string
-  Input?: React.FC<{
-    register
-    name: string
-    placeholder: string
-    field: ControllerRenderProps<FieldValues, Path<FormState>>
-    isSubmitting: boolean
-  }>
+  Input?: React.FC<FormInputProps>
+  type?: InputHTMLAttributes<HTMLInputElement>['type']
   className?: string
+  required?: boolean
 }
 
 export function CustomFormField<FormState>({
@@ -40,6 +47,8 @@ export function CustomFormField<FormState>({
   description,
   Input,
   className,
+  type,
+  required,
 }: CustomFormFieldProps<FormState>) {
   const {
     control,
@@ -50,12 +59,14 @@ export function CustomFormField<FormState>({
     <FormField
       control={control}
       name={name as Path<FormState>}
-      render={({ field }) => (
-        <FormItem className={className}>
-          <FormLabel>{label}</FormLabel>
+      render={({ field }: { field: ControllerRenderProps }) => (
+        <FormItem className={`${className} flex flex-col justify-end`}>
+          <FormLabel>
+            {label} {required && <span className="text-red-600">*</span>}
+          </FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
           <FormControl>
-            {Input({ register, name, placeholder, field, isSubmitting })}
+            {Input({ register, name, placeholder, field, isSubmitting, type })}
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -64,12 +75,28 @@ export function CustomFormField<FormState>({
   )
 }
 
-export const TextInput = ({ field, placeholder, isSubmitting }) => {
+export type FormInputProps = {
+  field: ControllerRenderProps
+  placeholder: string
+  isSubmitting: boolean
+  name: string
+  register: UseFormRegister<FieldValue<any>>
+  type: InputHTMLAttributes<HTMLInputElement>['type']
+}
+
+export const TextInput = ({
+  field,
+  placeholder,
+  isSubmitting,
+  type = 'text',
+}: FormInputProps) => {
   return (
     <BaseInput
-      type="string"
+      type={type}
+      min={0}
       disabled={isSubmitting}
       onFocus={(e) => {
+        if (type === 'number') return
         const goToLastCharacter = () => {
           e.target.selectionStart = e.target.value.length
         }
@@ -78,6 +105,99 @@ export const TextInput = ({ field, placeholder, isSubmitting }) => {
       {...(field as ControllerRenderProps)}
       placeholder={placeholder || ''}
     />
+  )
+}
+
+export const LanguageSelect = ({
+  field,
+  isSubmitting,
+  placeholder,
+  name,
+}: FormInputProps) => {
+  const { setValue } = useFormContext()
+  const languages: {
+    value: Database['public']['Enums']['RoleLanguage']
+    label: string
+  }[] = [
+    {
+      value: 'Portuguese',
+      label: 'Português',
+    },
+    {
+      value: 'English',
+      label: 'Inglês',
+    },
+  ]
+  return (
+    <Select
+      onValueChange={(value) => {
+        setValue(name, value)
+      }}
+      disabled={isSubmitting}
+      {...(field as ControllerRenderProps)}
+    >
+      <SelectTrigger>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Linguagem</SelectLabel>
+          {languages.map(({ label, value }) => (
+            <SelectItem value={value} key={value}>
+              {label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
+  )
+}
+export const CurrencySelect = ({
+  field,
+  isSubmitting,
+  placeholder,
+  name,
+}: FormInputProps) => {
+  const { setValue } = useFormContext()
+  const languages: {
+    value: string
+    label: string
+  }[] = [
+    {
+      value: 'BRL',
+      label: 'BRL',
+    },
+    {
+      value: 'USD',
+      label: 'USD',
+    },
+    {
+      value: 'EUR',
+      label: 'EUR',
+    },
+  ]
+  return (
+    <Select
+      onValueChange={(value) => {
+        setValue(name, value)
+      }}
+      disabled={isSubmitting}
+      {...(field as ControllerRenderProps)}
+    >
+      <SelectTrigger>
+        <SelectValue placeholder={placeholder} />
+      </SelectTrigger>
+      <SelectContent>
+        <SelectGroup>
+          <SelectLabel>Moeda</SelectLabel>
+          {languages.map(({ label, value }) => (
+            <SelectItem value={value} key={value}>
+              {label}
+            </SelectItem>
+          ))}
+        </SelectGroup>
+      </SelectContent>
+    </Select>
   )
 }
 
