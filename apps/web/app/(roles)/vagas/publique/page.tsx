@@ -73,7 +73,7 @@ const fields: FormFields = [
   {
     name: 'title',
     label: 'Cargo',
-    description: 'Qual o cargo da vaga?',
+    description: 'Qual o profissional perfeito para a vaga?',
     placeholder: 'React Developer',
     required: true,
   },
