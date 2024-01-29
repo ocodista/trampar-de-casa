@@ -86,7 +86,8 @@ const fields: FormFields = [
   {
     name: 'minimumYears',
     label: 'Qual o tempo mínimo de experiência?',
-    description: 'Insira o tempo em anos',
+    description: 'Em anos',
+    placeholder: 'Ex: 2',
     type: 'number',
   },
   {
