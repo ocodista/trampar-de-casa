@@ -80,7 +80,7 @@ const fields: FormFields = [
   {
     name: 'company',
     label: 'Nome da empresa',
-    description: 'Qual empresa esta contratando?',
+    description: 'Qual empresa está contratando?',
     required: true,
   },
   {
