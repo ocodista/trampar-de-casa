@@ -24,42 +24,83 @@ type FormFields = {
   description?: string
   type?: InputHTMLAttributes<HTMLInputElement>['type']
   Input?: React.FC<FormInputProps>
+  required?: true
 }[]
+
+const salaryAndCurrencyField: FormFields = [
+  {
+    name: 'currency',
+    label: 'Câmbio',
+    placeholder: 'BRL, USD, EUR...',
+    description: 'Insira o câmbio do salário',
+    Input: CurrencySelect,
+    required: true,
+  },
+  {
+    name: 'salary',
+    label: 'Sálario',
+    description: 'Digite o sálario base da vaga',
+    placeholder: 'Ex: 3000',
+    type: 'number',
+  },
+]
+
+const countryAndLanguageField: FormFields = [
+  {
+    name: 'country',
+    label: 'País',
+    description: 'Insira o país no qual a empresa se econtra',
+    required: true,
+  },
+  {
+    name: 'language',
+    label: 'Idioma da vaga',
+    description: 'Selecione um idioma',
+    placeholder: 'Idioma',
+    Input: LanguageSelect,
+    required: true,
+  },
+]
 
 const fields: FormFields = [
   {
     name: 'url',
-    type: 'url',
     label: 'Link da vaga',
     description: 'Insira o link da vaga',
+    required: true,
   },
   {
     name: 'title',
-    label: 'Título da vaga',
-    description: 'Insira o título da vaga',
+    label: 'Cargo',
+    description: 'Qual o cargo da vaga?',
+    placeholder: 'React Developer',
+    required: true,
   },
   {
     name: 'company',
     label: 'Nome da empresa',
-    description: 'Insira o nome da empresa',
+    description: 'Qual empresa esta contratando?',
+    required: true,
   },
   {
     name: 'minimumYears',
-    label: 'Tempo mínimo de experiência',
+    label: 'Qual o tempo mínimo de experiência?',
     description: 'Insira o tempo em anos',
     type: 'number',
   },
   {
     name: 'description',
-    label: 'Mensagem',
-    description: 'Insira um resumo da vaga',
-    placeholder: 'Ex: Mínimo X anos de XP (a partir de $xx.xxx)',
+    label: 'Subtítulo',
+    description: 'Insira um subtítulo chamativo',
+    placeholder: 'Ex: Mínimo X anos de XP (a partir de R$ 10.000)',
+    required: true,
   },
 ]
 
 export default function RolesCreate() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
+    mode: 'onBlur',
   })
   const toast = useToast()
   const onSubmit = async (data: FormSchema) => {
@@ -98,22 +139,7 @@ export default function RolesCreate() {
                 />
               ))}
               <section className="grid grid-cols-2 gap-6">
-                {[
-                  {
-                    name: 'currency',
-                    label: 'Câmbio',
-                    placeholder: 'BRL, USD, EUR...',
-                    description: 'Insira o câmbio do salário',
-                    Input: CurrencySelect,
-                  },
-                  {
-                    name: 'salary',
-                    label: 'Sálario',
-                    description: 'Digite o sálario base da vaga',
-                    placeholder: 'Ex: 3000',
-                    type: 'number',
-                  },
-                ].map((props) => (
+                {salaryAndCurrencyField.map((props) => (
                   <CustomFormField
                     key={props.name}
                     {...props}
@@ -122,20 +148,7 @@ export default function RolesCreate() {
                 ))}
               </section>
               <section className="grid grid-cols-2 gap-6">
-                {[
-                  {
-                    name: 'country',
-                    label: 'País',
-                    description: 'Insira o país no qual a empresa se econtra',
-                  },
-                  {
-                    name: 'language',
-                    label: 'Lingua da vaga',
-                    description: 'Selecione uma lingua',
-                    placeholder: 'Lingua',
-                    Input: LanguageSelect,
-                  },
-                ].map((props) => (
+                {countryAndLanguageField.map((props) => (
                   <CustomFormField
                     key={props.name}
                     {...props}

@@ -37,6 +37,7 @@ interface CustomFormFieldProps<FormState> {
   Input?: React.FC<FormInputProps>
   type?: InputHTMLAttributes<HTMLInputElement>['type']
   className?: string
+  required?: boolean
 }
 
 export function CustomFormField<FormState>({
@@ -47,6 +48,7 @@ export function CustomFormField<FormState>({
   Input,
   className,
   type,
+  required,
 }: CustomFormFieldProps<FormState>) {
   const {
     control,
@@ -59,7 +61,9 @@ export function CustomFormField<FormState>({
       name={name as Path<FormState>}
       render={({ field }: { field: ControllerRenderProps }) => (
         <FormItem className={`${className} flex flex-col justify-end`}>
-          <FormLabel>{label}</FormLabel>
+          <FormLabel>
+            {label} {required && <span className="text-red-600">*</span>}
+          </FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
           <FormControl>
             {Input({ register, name, placeholder, field, isSubmitting, type })}
