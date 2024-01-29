@@ -49,7 +49,7 @@ const countryAndLanguageField: FormFields = [
   {
     name: 'country',
     label: 'País',
-    description: 'Insira o país no qual a empresa se econtra',
+    description: 'Da empresa',
     required: true,
   },
   {
