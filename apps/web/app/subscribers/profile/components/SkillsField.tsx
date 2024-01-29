@@ -48,11 +48,11 @@ export const SkillsField = () => {
     setSelectedOptions(skills)
     setValue(
       ProfileSchemaEnum.Skills,
-      skills.map((option) => option.value)
-      // {
-      //   shouldValidate: true,
-      //   shouldDirty: true,
-      // }
+      skills.map((option) => option.value),
+      {
+        shouldValidate: true,
+        shouldDirty: true,
+      }
     )
   }
 
