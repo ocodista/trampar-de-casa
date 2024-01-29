@@ -159,7 +159,7 @@ export default function RolesCreate() {
                 ))}
               </section>
               <RoleTopic />
-              <SkillsField />
+              <SkillsField description="Quais habilidades são necessárias para a vaga?" />
             </section>
           </section>
           <section className="flex gap-4">

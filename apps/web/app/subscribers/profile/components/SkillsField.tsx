@@ -17,7 +17,7 @@ const sortedSkills = skills.sort((a, b) => {
   return -1
 })
 
-export const SkillsField = () => {
+export const SkillsField = ({ description }: { description?: string }) => {
   const {
     setValue,
     watch,
@@ -78,7 +78,7 @@ export const SkillsField = () => {
         required
         label="Habilidades"
         placeholder="Você gostaria de receber vagas de quais tecnologias?"
-        description="Selecione as tecnologias que já trabalhou"
+        description={description || 'Selecione as tecnologias que já trabalhou'}
         Input={({ register }) => (
           <AutoComplete
             disabled={isSubmitting}
