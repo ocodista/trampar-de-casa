@@ -93,7 +93,7 @@ const fields: FormFields = [
   {
     name: 'description',
     label: 'Subtítulo',
-    description: 'Insira um subtítulo chamativo',
+    description: 'Use um texto chamativo',
     placeholder: 'Ex: Mínimo X anos de XP (a partir de R$ 10.000)',
     required: true,
   },
