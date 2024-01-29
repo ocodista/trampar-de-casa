@@ -2,10 +2,7 @@ import { Topics } from 'shared/src/enums/topics'
 import { z } from 'zod'
 
 export const formSchema = z.object({
-  url: z
-    .string()
-    .url({ message: 'Formato de URL inválido.' })
-    .default('https://'),
+  url: z.string().url({ message: 'Formato de URL inválido.' }),
   title: z.string({ required_error: 'Título inválido' }),
   company: z.string({ required_error: 'Nome da empresa inválido' }),
   currency: z.string({ required_error: 'Câmbio inválido' }),
@@ -15,11 +12,14 @@ export const formSchema = z.object({
     required_error: 'Adicione pelo menos uma habilidade.',
   }),
   country: z.string({ required_error: 'País de origem inválido' }),
-  minimumYears: z.string({ required_error: 'Valor inválido' }).nullable(),
+  minimumYears: z.number({ coerce: true }).default(0).nullable(),
   topicsId: z
     .string({ invalid_type_error: 'Selecione algum tópico' })
     .default(Topics.NATIONAL_VACANCIES.toString()),
-  salary: z.string({ required_error: 'Sálario Inválido' }).nullable(),
+  salary: z
+    .number({ required_error: 'Sálario Inválido', coerce: true })
+    .default(0)
+    .nullable(),
 })
 
 export type FormSchema = z.TypeOf<typeof formSchema>
