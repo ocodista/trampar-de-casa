@@ -13,7 +13,7 @@ export const RoleTopic = () => {
   return (
     <section className="flex flex-col gap-4 space-x-2">
       <p className="text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70">
-        Esta é uma vaga<span className="text-red-600">*</span>:
+        Esta é uma vaga:<span className="text-red-600">*</span>
       </p>
       <FormRadioGroup
         key={id}
