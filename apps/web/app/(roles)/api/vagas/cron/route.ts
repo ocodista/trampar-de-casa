@@ -1,10 +1,9 @@
 import { getSupabaseClient } from 'db'
 import { Resend } from 'resend'
 
-// eslint-disable-next-line turbo/no-undeclared-env-vars
 const CRON_SECRET = process.env.CRON_SECRET
-// eslint-disable-next-line turbo/no-undeclared-env-vars
 const OWNER_EMAIL = process.env.OWNER_EMAIL
+
 export const GET = async (request: Request) => {
   const authHeader = request.headers.get('authorization')
   if (authHeader !== `Bearer ${CRON_SECRET}`) {
