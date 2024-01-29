@@ -67,6 +67,7 @@ const fields: FormFields = [
     name: 'url',
     label: 'Link da vaga',
     description: 'Insira o link da vaga',
+    placeholder: 'https://linkdavaga.com.br',
     required: true,
   },
   {
