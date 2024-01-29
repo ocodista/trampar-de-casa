@@ -75,6 +75,7 @@ export const SkillsField = () => {
     <>
       <CustomFormField
         name={ProfileSchemaEnum.Skills}
+        required
         label="Habilidades"
         placeholder="Você gostaria de receber vagas de quais tecnologias?"
         description="Selecione as tecnologias que já trabalhou"
