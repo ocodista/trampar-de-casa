@@ -17,6 +17,7 @@ export const RoleTopic = () => {
       </p>
       <FormRadioGroup
         key={id}
+        disabled={formState.isSubmitting}
         options={[
           {
             label: 'Internacional',

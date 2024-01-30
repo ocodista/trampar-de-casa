@@ -115,7 +115,19 @@ export default function RolesCreate() {
       body: JSON.stringify(data),
     })
     if (response.ok) {
-      form.reset()
+      form.reset({
+        url: '',
+        company: '',
+        country: '',
+        currency: undefined,
+        description: '',
+        language: undefined,
+        minimumYears: undefined,
+        salary: undefined,
+        skillsId: undefined,
+        title: '',
+        topicsId: undefined,
+      })
       toast.toast({
         title: 'Vaga enviada com sucesso!',
         description: 'Muito obrigado por enviar a vaga.',
@@ -163,7 +175,9 @@ export default function RolesCreate() {
             </section>
           </section>
           <section className="flex gap-4">
-            <Button type="submit">Enviar</Button>
+            <Button disabled={form.formState.isSubmitting} type="submit">
+              Enviar
+            </Button>
             <section className="md:invisible">
               <RolePreviewModal />
             </section>
