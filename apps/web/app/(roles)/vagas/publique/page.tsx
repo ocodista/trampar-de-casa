@@ -9,6 +9,7 @@ import {
   TextInput,
 } from 'app/components/CustomFormField'
 import { Button } from 'app/components/ui/button'
+import { LoadingOverlay } from 'app/components/ui/loadingOverlay'
 import { useToast } from 'app/hooks/use-toast'
 import { SkillsField } from 'app/subscribers/profile/components/SkillsField'
 import { InputHTMLAttributes } from 'react'
@@ -137,6 +138,7 @@ export default function RolesCreate() {
   }
   return (
     <FormProvider {...form}>
+      {form.formState.isSubmitting && <LoadingOverlay className="flex" />}
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <section className="container pb-6">
           <h1 className="text-2xl font-bold tracking-tight">
