@@ -2,11 +2,13 @@ import { Topics } from 'shared/src/enums/topics'
 import { z } from 'zod'
 
 export const formSchema = z.object({
-  url: z.string().url({ message: 'URL inválida.' }),
+  url: z
+    .string({ required_error: 'Campo obrigatório.' })
+    .url({ message: 'URL inválida.' }),
   title: z.string({ required_error: 'O título da vaga é obrigatório.' }),
   company: z.string({ required_error: 'Sem empresa -> Sem vaga 😶‍🌫️' }),
   currency: z.string({ required_error: 'Moeda inválida.' }),
-  description: z.string().nullable(),
+  description: z.string({ required_error: 'Campo obrigatório.' }).nullable(),
   language: z.string({ required_error: 'Idioma inválido.' }),
   skillsId: z.array(z.string(), {
     required_error: 'Adicione ao menos uma habilidade.',

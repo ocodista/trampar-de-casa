@@ -89,7 +89,9 @@ export const TextInput = ({
   placeholder,
   isSubmitting,
   type = 'text',
+  name,
 }: FormInputProps) => {
+  const { watch } = useFormContext()
   return (
     <BaseInput
       type={type}
@@ -102,6 +104,7 @@ export const TextInput = ({
         }
         goToLastCharacter()
       }}
+      value={watch(name)}
       {...(field as ControllerRenderProps)}
       placeholder={placeholder || ''}
     />

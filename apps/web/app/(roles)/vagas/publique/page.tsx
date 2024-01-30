@@ -9,6 +9,7 @@ import {
   TextInput,
 } from 'app/components/CustomFormField'
 import { Button } from 'app/components/ui/button'
+import { LoadingOverlay } from 'app/components/ui/loadingOverlay'
 import { useToast } from 'app/hooks/use-toast'
 import { SkillsField } from 'app/subscribers/profile/components/SkillsField'
 import { InputHTMLAttributes } from 'react'
@@ -115,16 +116,34 @@ export default function RolesCreate() {
       body: JSON.stringify(data),
     })
     if (response.ok) {
-      form.reset()
+      form.reset({
+        url: '',
+        company: '',
+        country: '',
+        currency: undefined,
+        description: '',
+        language: undefined,
+        minimumYears: undefined,
+        salary: undefined,
+        skillsId: undefined,
+        title: '',
+        topicsId: undefined,
+      })
       toast.toast({
         title: 'Vaga enviada com sucesso!',
         description: 'Muito obrigado por enviar a vaga.',
       })
       return
     }
+    toast.toast({
+      title: 'Já temos essa vaga cadastrada! 😁',
+      description: 'Por favor, verifique o formulário novamente. 😊',
+      variant: 'destructive',
+    })
   }
   return (
     <FormProvider {...form}>
+      {form.formState.isSubmitting && <LoadingOverlay className="flex" />}
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <section className="container pb-6">
           <h1 className="text-2xl font-bold tracking-tight">
@@ -163,7 +182,9 @@ export default function RolesCreate() {
             </section>
           </section>
           <section className="flex gap-4">
-            <Button type="submit">Enviar</Button>
+            <Button disabled={form.formState.isSubmitting} type="submit">
+              Enviar
+            </Button>
             <section className="md:invisible">
               <RolePreviewModal />
             </section>
