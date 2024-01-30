@@ -135,6 +135,11 @@ export default function RolesCreate() {
       })
       return
     }
+    toast.toast({
+      title: 'Já temos essa vaga cadastrada! 😁',
+      description: 'Por favor, verifique o formulário novamente. 😊',
+      variant: 'destructive',
+    })
   }
   return (
     <FormProvider {...form}>
