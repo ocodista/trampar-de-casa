@@ -4,7 +4,6 @@ import {
   Heading,
   Hr,
   Img,
-  Link,
   Preview,
   Row,
   Section,
@@ -48,56 +47,47 @@ export function Header({
             />
           </Column>
           <Column align="right">
-            <Button
-              className="rounded-full bg-stone-900 px-4 pt-[8px] text-lg text-white"
+            <a
+              className="text-primary-foreground inline-flex h-10 h-auto items-center justify-center rounded-full bg-black px-4 py-3 text-sm font-medium text-white no-underline transition-colors"
               href={testimonialLink}
             >
-              <Row className="space-x-5">
-                <Column>Consegui uma vaga! </Column>
-                <Column>
-                  <Img
-                    data-emoji="🎉"
-                    style={{ width: 18, height: 18, paddingLeft: 8 }}
-                    className="an1"
-                    alt="🎉"
-                    aria-label="🎉"
-                    src="https://fonts.gstatic.com/s/e/notoemoji/15.0/1f389/32.png"
-                    loading="lazy"
-                  />
-                </Column>
-              </Row>
-            </Button>
+              Consegui uma vaga!
+              <Img
+                data-emoji="🎉"
+                style={{ width: 18, height: 18, paddingLeft: 8 }}
+                className="an1"
+                alt="🎉"
+                aria-label="🎉"
+                src="https://fonts.gstatic.com/s/e/notoemoji/15.0/1f389/32.png"
+                loading="lazy"
+              />
+            </a>
           </Column>
         </Row>
       </Section>
       <Heading
         className={h1}
-      >{`🔥 ${rolesCount} vagas para você Trampar de Casa`}</Heading>
+      >{`${rolesCount} vagas para você Trampar de Casa`}</Heading>
       <Hr style={hr} />
-      <Text className={paragraph}>Salve, amantes do trabalho remoto!</Text>
+      <Text className={paragraph}>Bom dia!!!</Text>
       <Text className={paragraph}>
-        Quer receber em dólar mas não sabe como? A{' '}
-        <Link href="https://www.husky.io/?ref=trampardecasa">Husky</Link> pode
-        te ajudar!
-      </Text>
-      <Link href="https://www.husky.io/?ref=trampardecasa">
-        <Img
-          width={300}
-          style={{ paddingTop: 20, paddingBottom: 20 }}
-          alt="Husky by Nomad"
-          src="https://trampardecasa.com.br/images/companies/husky-with-bg.webp"
-        />
-      </Link>
-      <Text className={paragraph}>
-        Diga adeus à burocracia e receba seus pagamentos no Brasil de forma
-        fácil e rápida.
+        Hoje, dia{' '}
+        <i>
+          3<span style={{ fontSize: '2px' }}>0</span>1
+        </i>{' '}
+        de Janeiro, temos um <strong>nova funcionalidade</strong> para anunciar!
       </Text>
       <Text className={paragraph}>
-        Registre-se agora para receber de forma mais inteligente, rápida e
-        transparente!
+        Agora você pode nos ajudar a expandir o universo do trabalho remoto:{' '}
       </Text>
+      <Button
+        href="https://trampardecasa.com.br/vagas/publique"
+        className="text-primary-foreground inline-flex h-10 h-auto items-center justify-center rounded-md bg-black px-4 py-3 text-sm font-medium text-white transition-colors"
+      >
+        Publique ou Indique vagas remotas!{' '}
+      </Button>
       <Text className={paragraph}>
-        Agora, sem mais delongas, aqui estão suas vagas desta semana 😁
+        Agora, aproveite as novas vagas desta semana!
       </Text>
     </Tailwind>
   )
