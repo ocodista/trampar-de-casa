@@ -48,7 +48,7 @@ export function Header({
           </Column>
           <Column align="right">
             <a
-              className="text-primary-foreground inline-flex h-10 h-auto items-center justify-center rounded-full bg-black px-4 py-3 text-sm font-medium text-white no-underline transition-colors"
+              className="inline-flex h-auto items-center justify-center rounded-full bg-black px-4 py-3 text-sm font-medium text-white no-underline"
               href={testimonialLink}
             >
               Consegui uma vaga!
