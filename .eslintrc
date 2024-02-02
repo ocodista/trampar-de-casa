@@ -1,0 +1,12 @@
+{
+  "parserOptions": {
+    "sourceType": "module",
+    "ecmaVersion": "latest",
+    "ecmaFeatures": {
+      "jsx": true
+    }
+  },
+  "rules": {
+    "jsx-a11y/anchor-is-valid": 0
+  }
+}
