@@ -8,7 +8,7 @@ const TestimonialCard = ({
   remoteWorkDuration,
   quote,
 }) => (
-  <figure className="mx-auto flex max-w-sm flex-col rounded-lg border border-gray-200 bg-white p-4 shadow-md dark:border-gray-700 dark:bg-gray-800">
+  <figure className="relative mx-auto flex max-w-sm flex-col rounded-lg border border-gray-200 bg-white p-4 shadow-md dark:border-gray-700 dark:bg-gray-800">
     <div className="flex gap-4">
       <img
         alt="name"
@@ -33,7 +33,7 @@ const TestimonialCard = ({
       dangerouslySetInnerHTML={{ __html: quote }}
       className="my-2 text-center text-justify text-gray-500 dark:text-gray-400"
     ></blockquote>
-    <span className="text-right text-xs italic text-gray-500 dark:text-gray-400">
+    <span className="absolute bottom-1 right-1 text-right text-xs italic text-gray-500 dark:text-gray-400">
       Remoto há {remoteWorkDuration}
     </span>
   </figure>
