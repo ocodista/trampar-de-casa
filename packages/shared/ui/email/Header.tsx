@@ -69,26 +69,8 @@ export function Header({
         className={h1}
       >{`${rolesCount} vagas para você Trampar de Casa`}</Heading>
       <Hr style={hr} />
-      <Text className={paragraph}>Bom dia!!!</Text>
-      <Text className={paragraph}>
-        Hoje, dia{' '}
-        <i>
-          3<span style={{ fontSize: '2px' }}>0</span>1
-        </i>{' '}
-        de Janeiro, temos um <strong>nova funcionalidade</strong> para anunciar!
-      </Text>
-      <Text className={paragraph}>
-        Agora você pode nos ajudar a expandir o universo do trabalho remoto:{' '}
-      </Text>
-      <Button
-        href="https://trampardecasa.com.br/vagas/publique"
-        className="text-primary-foreground inline-flex h-10 h-auto items-center justify-center rounded-md bg-black px-4 py-3 text-sm font-medium text-white transition-colors"
-      >
-        Publique ou Indique vagas remotas!{' '}
-      </Button>
-      <Text className={paragraph}>
-        Agora, aproveite as novas vagas desta semana!
-      </Text>
+      <Text className={paragraph}>Salve, amantes do trabalho remoto!</Text>
+      <Text className={paragraph}>Aproveite as novas vagas desta semana!</Text>
     </Tailwind>
   )
 }
