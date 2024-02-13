@@ -3,6 +3,27 @@ import Image from 'next/image'
 import { useState } from 'react'
 import { LandingPageRoutes } from '../landing-page/landingPageRoutes'
 
+// Logo Component
+const Logo = () => (
+  <a href="/">
+    <Image
+      src="/images/logo.svg"
+      width={70}
+      height={70}
+      alt="Logotipo da Trampar De Casa"
+    />
+  </a>
+)
+
+// Menu Items
+const menuItems = [
+  { href: LandingPageRoutes.Blog, label: 'Blog' },
+  { href: LandingPageRoutes.Values, label: 'Nossos Valores' },
+  { href: LandingPageRoutes.HowItWorks, label: 'Como Funciona' },
+  { href: LandingPageRoutes.FAQ, label: 'Perguntas Frequentes' },
+  { href: LandingPageRoutes.PublishYourRole, label: 'Indique uma vaga' },
+]
+
 export const Header = () => {
   const [isMobileMenuOpen, setMobileMenuVisibility] = useState(false)
 
@@ -12,62 +33,42 @@ export const Header = () => {
         <div className="w-auto">
           <div className="flex flex-wrap items-center">
             <div className="mr-14 w-auto">
-              <a href="/">
-                <Image
-                  src="/images/logo.svg"
-                  width={70}
-                  height={70}
-                  alt="Logotipo da Trampar De Casa"
-                />
-              </a>
+              <Logo />
             </div>
-            <div className="hidden w-auto lg:block">
-              <ul className="mr-16 flex items-center gap-9">
-                <li className="font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.Values}>Nossos Valores</a>
-                </li>
-                <li className="font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.HowItWorks}>Como Funciona</a>
-                </li>
-                <li className="font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.FAQ}>Perguntas Frequentes</a>
-                </li>
-                <li className="font-medium hover:text-gray-700">
-                  <a href={LandingPageRoutes.PublishYourRole}>
-                    Publique uma vaga
-                  </a>
-                </li>
+            <div className="hidden lg:block">
+              <ul className="mr-16 flex items-center justify-center gap-9">
+                {menuItems.map((item, index) => (
+                  <li key={index} className="font-medium hover:text-gray-700">
+                    <a href={item.href}>{item.label}</a>
+                  </li>
+                ))}
               </ul>
             </div>
           </div>
         </div>
-        <div className="w-auto">
-          <div className="flex flex-wrap items-center">
-            <div className="w-auto lg:hidden">
-              <button
-                type="button"
-                onClick={() => setMobileMenuVisibility(!isMobileMenuOpen)}
-              >
-                <svg
-                  className="navbar-burger text-indigo-600"
-                  width={51}
-                  height={51}
-                  viewBox="0 0 56 56"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <rect width={56} height={56} rx={28} fill="currentColor" />
-                  <path
-                    d="M37 32H19M37 24H19"
-                    stroke="white"
-                    strokeWidth="1.5"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
+        <div className="w-auto lg:hidden">
+          <button
+            type="button"
+            onClick={() => setMobileMenuVisibility(!isMobileMenuOpen)}
+          >
+            <svg
+              className="navbar-burger text-indigo-600"
+              width={51}
+              height={51}
+              viewBox="0 0 56 56"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect width={56} height={56} rx={28} fill="currentColor" />
+              <path
+                d="M37 32H19M37 24H19"
+                stroke="white"
+                strokeWidth="1.5"
+                strokeLinecap="round"
+                strokeLinejoin="round"
+              />
+            </svg>
+          </button>
         </div>
       </div>
       {isMobileMenuOpen && (
@@ -77,74 +78,52 @@ export const Header = () => {
             onClick={() => setMobileMenuVisibility(false)}
           />
           <nav className="relative h-full overflow-y-auto bg-white px-9 pt-8">
-            <div className="flex h-full flex-wrap justify-between">
-              <div className="w-full">
-                <div className="-m-2 flex items-center justify-between">
-                  <div className="w-auto p-2">
-                    <a className="inline-block" href="/">
-                      <Image
-                        src="/images/logo.svg"
-                        width={70}
-                        height={70}
-                        alt="Logotipo da Trampar De Casa"
-                      />
-                    </a>
-                  </div>
-                  <div className="w-auto p-2">
-                    <button
-                      type="button"
-                      className="navbar-burger"
+            <div className="-m-2 flex items-center justify-between">
+              <div className="w-auto p-2">
+                <Logo />
+              </div>
+              <div className="w-auto p-2">
+                <button
+                  type="button"
+                  className="navbar-burger"
+                  onClick={() => setMobileMenuVisibility(false)}
+                >
+                  <svg
+                    width={24}
+                    height={24}
+                    viewBox="0 0 24 24"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                  >
+                    <path
+                      d="M6 18L18 6M6 6L18 18"
+                      stroke="#111827"
+                      strokeWidth={2}
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                    />
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <ul className="flex w-full flex-col justify-center gap-12 py-16">
+              {menuItems.slice(0, -1).map(
+                (
+                  item,
+                  index // Exclude 'PublishYourRole' for mobile
+                ) => (
+                  <li key={index}>
+                    <a
+                      className="font-medium hover:text-gray-700"
+                      href={item.href}
                       onClick={() => setMobileMenuVisibility(false)}
                     >
-                      <svg
-                        width={24}
-                        height={24}
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        xmlns="http://www.w3.org/2000/svg"
-                      >
-                        <path
-                          d="M6 18L18 6M6 6L18 18"
-                          stroke="#111827"
-                          strokeWidth={2}
-                          strokeLinecap="round"
-                          strokeLinejoin="round"
-                        />
-                      </svg>
-                    </button>
-                  </div>
-                </div>
-              </div>
-              <ul className="flex w-full flex-col justify-center gap-12 py-16">
-                <li>
-                  <a
-                    className="font-medium hover:text-gray-700"
-                    href={LandingPageRoutes.Values}
-                    onClick={() => setMobileMenuVisibility(false)}
-                  >
-                    Nossos Valores
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="font-medium hover:text-gray-700"
-                    href={LandingPageRoutes.HowItWorks}
-                    onClick={() => setMobileMenuVisibility(false)}
-                  >
-                    Como Funciona
-                  </a>
-                </li>
-                <li>
-                  <a
-                    className="font-medium hover:text-gray-700"
-                    href={LandingPageRoutes.FAQ}
-                    onClick={() => setMobileMenuVisibility(false)}
-                  >
-                    Perguntas Frequentes
-                  </a>
-                </li>
-              </ul>
-            </div>
+                      {item.label}
+                    </a>
+                  </li>
+                )
+              )}
+            </ul>
           </nav>
         </div>
       )}

@@ -80,7 +80,18 @@ module.exports = {
       screens: {
         xs: '350px',
       },
+      typography: (theme) => ({
+        DEFAULT: {
+          css: {
+            ul: {
+              listStyleType: 'disc', // default, but can be changed
+              marginLeft: '1em', // Adjust spacing from the left margin
+
+            }
+          }
+        }
+      })
     },
   },
-  plugins: [require('tailwindcss-animate')],
+  plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],
 }
