@@ -69,8 +69,18 @@ export function Header({
         className={h1}
       >{`${rolesCount} vagas para você Trampar de Casa`}</Heading>
       <Hr style={hr} />
-      <Text className={paragraph}>Salve, amantes do trabalho remoto!</Text>
-      <Text className={paragraph}>Aproveite as novas vagas desta semana!</Text>
+      <Text className={paragraph}>
+        Salve, defensor(a) do trabalho remoto, feliz ano novo!
+      </Text>
+      <Text className={paragraph}>
+        Que 2024 seja um ano de muito sucesso para você 😁
+      </Text>
+      <Text className={paragraph}>
+        Teremos uma novidade semana que vem, publicaremos uma entrevista de um
+        amante do Trabalho Remoto que converteu o regime de sua empresa de 100%
+        presencial para híbrido/remoto, vale a leitura!
+      </Text>
+      <Text className={paragraph}>Agora, aqui vão suas vagas!</Text>
     </Tailwind>
   )
 }
