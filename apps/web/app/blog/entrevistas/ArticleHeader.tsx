@@ -2,7 +2,7 @@ import Image from 'next/image'
 import React from 'react'
 
 const getImageUrl = (author: string) =>
-  `/blog/${author.toLowerCase().replaceAll(' ', '-')}.jpeg`
+  `/blog/entrevistas/${author.toLowerCase().replaceAll(' ', '-')}.jpeg`
 
 export function ArticleHeader({
   author,
@@ -17,19 +17,15 @@ export function ArticleHeader({
 }) {
   const imageSubtitle = `Image of ${author}`
   return (
-    <header className="relative pt-10">
+    <header className="border-b-solid relative border-b border-b-slate-200 pb-[1.25rem] pt-10">
       <small className="text-muted-foreground absolute top-0 text-sm">
         16 de Fev, 2024
       </small>
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ">
         {title}
       </h1>
-      <blockquote className="mt-6 border-l-2 pl-6 italic">
-        {description}
-      </blockquote>
-      <section className="border-t-solid flex items-center gap-4 border-t border-t-slate-200 pt-4">
+      <section className="flex items-center gap-4">
         <Image
-          // src={"https://picsum.photos/200"}
           src={getImageUrl(author)}
           alt={imageSubtitle}
           title={imageSubtitle}
@@ -42,6 +38,9 @@ export function ArticleHeader({
           <small className="mt-1">{role}</small>
         </section>
       </section>
+      <blockquote className="mb-2 border-l-2 pl-6 italic">
+        {description}
+      </blockquote>
     </header>
   )
 }
