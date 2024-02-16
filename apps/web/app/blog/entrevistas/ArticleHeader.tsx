@@ -9,17 +9,19 @@ export function ArticleHeader({
   title,
   role,
   description,
+  dateText,
 }: {
   author: string
   title: string
   role: string
   description: string
+  dateText: string
 }) {
   const imageSubtitle = `Image of ${author}`
   return (
     <header className="border-b-solid relative pt-10">
       <small className="text-muted-foreground absolute top-0 text-sm">
-        16 de Fev, 2024
+        {dateText}
       </small>
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ">
         {title}
