@@ -1,0 +1,10 @@
+.article > ul li {
+  margin: 0px;
+}
+
+.article li a {
+  color: blue;
+}
+.article li::marker {
+  color: black;
+}

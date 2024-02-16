@@ -1,9 +1,11 @@
+import { ArticleHeader } from "../ArticleHeader.tsx"
 export const metadata = {
   author: 'Sam dos Santos Alves',
   title: 'Entrevista #1 - Sam Alves, o evangelista do trabalho remoto!',
+  description: '"Lorem ipsum dolor sit amet, consectetur adipiscing elit. Curabitur metus dui, vehicula at imperdiet in, ornare eget arcu."'
 }
 
-# Entrevista #1 - Sam Salves
+<ArticleHeader author={metadata.author} title={metadata.title} role="Manager na BBTech" description={metadata.description} />
 
 Salve, defensor do trabalho remoto, beleza?
 
@@ -16,8 +18,9 @@ _**Nota:** Trabalho remoto aplicável para funcionários fora de Belo Horizonte 
 <div id="quem-e-voce"></div>
 
 ## Sumário
+
 - <a href="#quem-e-voce">Quem é você?</a>
-  - <a href="do-que-voce-gosta">Do que você gosta?</a>
+  - <a href="#do-que-voce-gosta">Do que você gosta?</a>
 - <a href="#trajetoria-profissional">Trajetoria Profissional</a>
 
 ## Quem é você?
