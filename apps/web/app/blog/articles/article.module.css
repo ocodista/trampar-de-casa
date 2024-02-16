@@ -1,7 +1,11 @@
 .article > ul li {
   margin: 0px;
 }
-
+.article ul {
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+}
 .article li a {
   color: blue;
 }
