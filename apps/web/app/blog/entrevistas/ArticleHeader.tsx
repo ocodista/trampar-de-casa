@@ -10,18 +10,20 @@ export function ArticleHeader({
   role,
   description,
   dateText,
+  timeToRead,
 }: {
   author: string
   title: string
   role: string
   description: string
   dateText: string
+  timeToRead: number
 }) {
   const imageSubtitle = `Image of ${author}`
   return (
     <header className="border-b-solid relative pt-10">
       <small className="text-muted-foreground absolute top-0 text-sm">
-        {dateText}
+        {dateText} • <span>{timeToRead} minutos de leitura</span>
       </small>
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ">
         {title}
