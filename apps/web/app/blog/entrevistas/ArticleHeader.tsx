@@ -17,7 +17,7 @@ export function ArticleHeader({
 }) {
   const imageSubtitle = `Image of ${author}`
   return (
-    <header className="border-b-solid relative border-b border-b-slate-200 pb-[1.25rem] pt-10">
+    <header className="border-b-solid relative pt-10">
       <small className="text-muted-foreground absolute top-0 text-sm">
         16 de Fev, 2024
       </small>
@@ -38,7 +38,7 @@ export function ArticleHeader({
           <small className="mt-1">{role}</small>
         </section>
       </section>
-      <blockquote className="mb-2 border-l-2 pl-6 italic">
+      <blockquote className="border-b-solid mb-2 border-b border-l-2 border-b-slate-200 pb-6 pl-6 italic">
         {description}
       </blockquote>
     </header>
