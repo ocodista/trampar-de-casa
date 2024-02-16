@@ -3,6 +3,14 @@ const remarkGfm = import('remark-gfm')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
 const nextConfig = {
+ images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
+    ],
+  }, 
   experimental: {
     serverActions: true
   },
