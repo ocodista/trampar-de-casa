@@ -5,7 +5,7 @@ import { Toaster } from './components/ui/toaster'
 import './global.css'
 import { Providers } from './providers'
 
-const title = 'Vagas 100% remotas'
+const title = 'Vagas 100% remotas - Trampar de Casa'
 const description =
   'Receba oportunidades de tecnologia no seu e-mail, todas às quartas-feiras.'
 

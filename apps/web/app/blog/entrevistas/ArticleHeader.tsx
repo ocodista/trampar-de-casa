@@ -1,7 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 
-const getImageUrl = (author: string) =>
+export const getImageUrl = (author: string) =>
   `/blog/entrevistas/${author.toLowerCase().replaceAll(' ', '-')}.jpeg`
 
 export function ArticleHeader({
