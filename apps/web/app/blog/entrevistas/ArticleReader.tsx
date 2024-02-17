@@ -10,19 +10,19 @@ export const ArticleReader = ({ mp3Url }: ArticleReaderProps) => {
 
   useEffect(() => {
     if (!audioRef) return
-    isPlaying ? audioRef.current.play() : audioRef.current.pause()
+    isPlaying ? audioRef.play() : audioRef.pause()
   }, [isPlaying, audioRef])
 
   useEffect(() => {
     setAudio(new Audio(mp3Url))
     // Cleanup to pause audio when component unmounts
     return () => {
-      audioRef?.current.pause()
+      audioRef?.pause()
     }
   }, [])
 
   return (
-    <div className="fixed left-4 top-4 z-50 flex items-center space-x-2 rounded-full bg-[rgb(79,70,229)] p-2 text-white shadow-lg">
+    <div className="top-25 fixed left-10 z-50 flex items-center space-x-2 rounded-full bg-[rgb(79,70,229)] p-2 text-white shadow-lg">
       <svg
         width="20px"
         height="20px"
