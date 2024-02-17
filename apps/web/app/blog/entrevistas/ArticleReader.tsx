@@ -9,14 +9,15 @@ export const ArticleReader = ({ mp3Url }: ArticleReaderProps) => {
   const [audioRef, setAudio] = useState(null)
 
   useEffect(() => {
+    if (!audioRef) return
     isPlaying ? audioRef.current.play() : audioRef.current.pause()
-  }, [isPlaying])
+  }, [isPlaying, audioRef])
 
   useEffect(() => {
     setAudio(new Audio(mp3Url))
     // Cleanup to pause audio when component unmounts
     return () => {
-      audioRef.current.pause()
+      audioRef?.current.pause()
     }
   }, [])
 
