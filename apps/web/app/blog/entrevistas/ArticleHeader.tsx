@@ -20,20 +20,21 @@ export async function ArticleHeader({
   dateText: string
   timeToRead: number
 }) {
-  const count: number = await kv.get('sam-alves')
-  await kv.set('sam-alves', (count || 0) + 1)
+  const count: number = (await kv.get(title)) || 0
+  await kv.set(title, count + 1)
   const imageSubtitle = `Image of ${author}`
 
   return (
     <header className="border-b-solid relative pt-10">
-      <div className="">
-        <small className="text-muted-foreground absolute top-0 text-sm">
-          {dateText} • <span>{timeToRead} minutos de leitura</span>
-        </small>
-      </div>
-      <small className="text-muted-foreground absolute right-0 top-0 text-sm">
-        {count} acessos
+      <small className="text-muted-foreground absolute top-0 text-sm">
+        {dateText} • <span>{timeToRead} minutos de leitura</span>
       </small>
+      {count > 0 && (
+        <small className="text-muted-foreground absolute right-0 top-0 text-sm">
+          {count.toLocaleString()} {count > 1 ? 'leitores' : 'leitor'}{' '}
+          {count > 1 ? 'apoiam' : 'apoia'} o trabalho remoto
+        </small>
+      )}
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ">
         {title.replace(' - Trampar de Casa', '')}
       </h1>
