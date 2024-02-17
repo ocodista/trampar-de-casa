@@ -1,5 +1,6 @@
 import { ReactNode } from 'react'
 import style from './article.module.css'
+import ScrollToTopButton from 'app/components/ui/ScrollToTopButton'
 
 export default function Layout({ children }: { children: ReactNode }) {
   const styleClass =
@@ -7,6 +8,7 @@ export default function Layout({ children }: { children: ReactNode }) {
   return (
     <article className={`container ${style.article} ${styleClass}`}>
       {children}
+      <ScrollToTopButton />
     </article>
   )
 }
