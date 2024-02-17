@@ -1,6 +1,7 @@
 'use client'
 
 import Link from 'next/link'
+import { LandingPageRoutes } from './landingPageRoutes'
 
 export function FocusBanner() {
   return (
@@ -10,11 +11,11 @@ export function FocusBanner() {
         role="alert"
       >
         <span className="mr-2 font-medium leading-tight max-md:text-lg">
-          #001 Sam converteu sua empresa ao Trabalho Remoto.
+          Sam converteu sua empresa ao Trabalho Remoto.
         </span>
         <Link
           className="mr-[6px] flex cursor-pointer items-center gap-2 rounded-full bg-indigo-500 px-3 py-1 text-xs font-bold uppercase transition-colors hover:bg-indigo-700 max-md:text-sm max-md:font-semibold"
-          href="/blog"
+          href={LandingPageRoutes.Blog}
           referrerPolicy="no-referrer"
           target="__blank"
         >

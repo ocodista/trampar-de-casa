@@ -8,14 +8,14 @@ export function ArticleHeader({
   author,
   title,
   role,
-  description,
+  quote,
   dateText,
   timeToRead,
 }: {
   author: string
   title: string
   role: string
-  description: string
+  quote: string
   dateText: string
   timeToRead: number
 }) {
@@ -26,7 +26,7 @@ export function ArticleHeader({
         {dateText} • <span>{timeToRead} minutos de leitura</span>
       </small>
       <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ">
-        {title}
+        {title.replace(' - Trampar de Casa', '')}
       </h1>
       <section className="flex items-center gap-4">
         <Image
@@ -43,7 +43,7 @@ export function ArticleHeader({
         </section>
       </section>
       <blockquote className="border-b-solid mb-2 border-b border-l-2 border-b-slate-200 pb-6 pl-6 italic">
-        {description}
+        {quote}
       </blockquote>
     </header>
   )
