@@ -1,5 +1,4 @@
 import { ArticleHeader, getImageUrl } from "../ArticleHeader.tsx"
-
 export const metadata = {
   applicationName: 'Trampar de Casa',
   author: 'Samuel dos Santos Alves',
@@ -8,6 +7,7 @@ export const metadata = {
   keywords: ['trabalho remoto', 'transição trabalho remoto', 'gestão remota', 'eficiência remota', 'tecnologia', 'desenvolvimento de software', 'Node.js'],
   publisher: 'Trampar de Casa',
   description: 'Descubra como Sam Alves transformou a BBTech adotando o trabalho remoto, promovendo flexibilidade e eficiência. Uma visão detalhada sobre a transição para regimes híbridos e remotos, superando desafios e impulsionando o crescimento.',
+  metadataBase: new URL('https://trampardecasa.com.br'),
   openGraph: {
     title: 'Entrevista #1 - Sam Alves, o evangelista do trabalho remoto! - Trampar de Casa', // Assuming you want the same title as the main one
     description: 'Descubra como Sam Alves transformou a BBTech adotando o trabalho remoto, promovendo flexibilidade e eficiência. Uma visão detalhada sobre a transição para regimes híbridos e remotos, superando desafios e impulsionando o crescimento.', // Optional: if you want a different description for OG
@@ -15,7 +15,7 @@ export const metadata = {
     type: 'article',
     locale: 'pt_BR',
     siteName: 'Trampar de Casa'
-  }
+  },
 };
 
 <ArticleHeader timeToRead={8} author={metadata.author} title={metadata.title} role="Manager na BBTech" quote="Em 21 dias conseguimos fechar todas as vagas que precisávamos graças ao trabalho remoto" dateText="12 de fevereiro, 2024" />
@@ -36,7 +36,7 @@ _**Nota:** Trabalho remoto aplicável para funcionários fora de Belo Horizonte 
   - <a href="#do-que-voce-gosta-no-learn-in-public">Do que você gosta no Learn In Public?</a>
 - <a href="#trajetoria-profissional">Trajetoria Profissional</a>
   - <a href="#engenharia-ambiental">Engenharia Ambiental</a>
-  - <a href="#quando-comecou-oficialmente-na-computacao">Quando começou oficialmente na computação</a>
+  - <a href="#quando-comecou-oficialmente-na-computacao">Quando começou oficialmente na computação?</a>
   - <a href="#carreira-como-dev">Carreira como Dev</a>
     - <a href="#burnout">Burnout</a>
     - <a href="#passando-de-nivel">Passando de nível</a>
@@ -53,14 +53,14 @@ _**Nota:** Trabalho remoto aplicável para funcionários fora de Belo Horizonte 
 <div id="quem-e-voce"></div>
 ## Quem é você?
 
-\- Sou Samuel dos Santos Alves, tenho 30 anos, sou mineiro (de BH), Engenheiro Ambiental de informação pela CEFET, possuo pós graduação na área.
+\- Sou Samuel dos Santos Alves, tenho 30 anos, sou mineiro (de BH), Engenheiro Ambiental de formação pela CEFET, possuo pós graduação na área.
 
 <div id="do-que-voce-gosta"></div>
 ### Do que você gosta?
 
-\- De tocar baixo para caramba, jogar RPG Online, gatos (temos 5 aqui em casa) e de Learn in Public _(aprender em público)_.
+\- De tocar baixo para caramba, jogar RPG Online, de gatos (temos 5 aqui em casa) e de Learn in Public _(aprender em público)_.
 
-Já tive banda de Jazz, MPB e até Death Metal. Dei aula voluntária de música na UFMG, oscilei também entre pesquisas sobre histórica da ciência, engenharia ambiental e filosofia.
+Já tive banda de Jazz, MPB e até Death Metal. Dei aula voluntária de música na UFMG, oscilei também entre pesquisas sobre história da ciência, engenharia ambiental e filosofia.
 
 <div id="qual-baixista-te-inspira"></div>
 ### Qual baixista te inspira?
@@ -70,12 +70,12 @@ Já tive banda de Jazz, MPB e até Death Metal. Dei aula voluntária de música 
 <div id="do-que-voce-gosta-no-learn-in-public"></div>
 ### Do que você gosta no Learn In Public?
 
-\- Gosto muito de learn in public, acho que foi a melhor coisa que já aconteceu, você consegue aprende sem estudar, não existe nenhuma obrigação, comecei a aprender muito mais rápido e de maneira muito mais descontraída.
+\- Gosto muito de learn in public, acho que foi a melhor coisa que já aconteceu, você consegue aprender sem estudar, não existe nenhuma pressão ou obrigação. Comecei a aprender muito mais rápido e de maneira muito mais descontraída.
 
 <div id="trajetoria-profissional"></div>
 ## Trajetória Profissional
 
-Não tive uma carreira linear, desisti de muitas outras áreas antes de ingressar na computação.
+Não tive uma carreira linear, desisti de muitas áreas antes de ingressar na computação.
 
 ```
 Engenheiro ambiental
@@ -102,46 +102,46 @@ Dev Júnior
 <div id="engenharia-ambiental"></div>
 ### Engenharia Ambiental
 
-\- Comecei a trabalhar nos processos das barragens de rejeitos de Mariana em Brumadinho lá em 2019, já no modelo remoto. Nesse emprego eu já sabia programação, tive 1 ano de aula na faculdade (linguagem C), botava muita fé mas sempre fui um aluno dedicado, tentava resolver os problemas sem pesquisar muito na internet, quebrei muito a cabeça mas fazia as coisas "na unha".
+\- Comecei a trabalhar nos processos das barragens de rejeitos de Mariana, em Brumadinho, lá em 2019, já no modelo remoto. Nesse emprego eu já sabia programação (tive 1 ano de aula na faculdade com linguagem C), não botava muita fé mas sempre fui um aluno dedicado, tentava resolver os problemas sem pesquisar na internet, quebrei muito a cabeça mas fazia as coisas "na unha".
 
 <div id="quando-comecou-oficialmente-na-computacao"></div>
 ### Quando começou oficialmente na computação
 
-\- Desisti de muita coisa: música, história da ciência, desisti da engenharia ambiental. Passei por todas essas áreas e perdi o emprego quando tinha 27 anos durante a pandemia.
+\- Desisti de muita coisa: música, história da ciência e engenharia ambiental. Passei por todas essas áreas e perdi o emprego quando tinha 27 anos durante a pandemia.
 
-Já tinha uma noçãozinha de _C#_, já manjava de _C_ e decidir **virar a chave**, fiz um bootcamp de 90h e com ele consegui **minha primeira vaga oficial na computação.** 🎉
+Já tinha uma noçãozinha de _C#_, já manjava de _C_ e decidir **virar a chave**: fiz um bootcamp de 90h e com ele consegui **minha primeira vaga oficial na computação.** 🎉
 
 <div id="carreira-como-dev"></div>
-### Carreira como Dev
+### Carreira como dev
 
-Daí pra frente foi loucura, tinham _squads_ de muitas empresas gigantes, arrumei mentores que mantenho amizade até hoje e me ajudaram desde o dia que "respirei" na área. Dei essa "sorte".
+Daí pra frente foi loucura, trabalhei em _squads_ de empresas gigantes, arrumei mentores que mantenho amizade até hoje e me ajudaram desde o primeiro dia que "respirei" na área. Dei essa "sorte".
 
-Nesse primeiro emprego tive uma responsabilidade bem grande na _squad_ de produtos pagos, para mim foi bem desafiante porque eu tinha estudado só 3 meses e já tava tendo que fazer CI/CD (_Continuous Integration / Continuous Deployment_) na AWS (_Amazon Web Service_), implementar arquitetura serverless e resolver problemas.
+Nesse primeiro emprego tive uma responsabilidade bem grande na _squad_ de produtos pagos, para mim foi bem desafiante porque eu tinha estudado só 3 meses e já tive que fazer CI/CD (_Continuous Integration / Continuous Deployment_) na AWS (_Amazon Web Service_), implementar arquitetura serverless e resolver vários problemas.
 
-Tinha que trabalhar mais do que 8h sem ganhar para fazer isso, minha curva inicial foi sofrida.
+Tive que trabalhar mais do que 8h/dia sem ganhar a mais por isso, minha curva inicial foi sofrida.
 
 <div id="burnout"></div>
 #### Burnout
 
-Sofri um burnout com isso, ganhei 15kg, precisei largar os _freelas_, tinha dor de cabeça, bruxismo, estava super estressado, foi o preço que paguei.
+Sofri um burnout, ganhei 15kg, tinha dor de cabeça, bruxismo, estava super estressado e precisei largar os _freelas_, foi o preço que paguei.
 
-Hoje consegui reverter o quadro, to feliz demais, minha saúde tá boa, treino musculação todo dia, não saio da dieta e isso me ajuda demais!
+Hoje consegui reverter o quadro, to feliz demais, minha saúde tá boa, treino musculação todo dia, não saio da dieta e isso me ajuda demais com a rotina de trabalho!
 
 (Façam exercícios ✌️!)
 
 <div id="passando-de-nivel"></div>
 #### Passando de nível
 
-Bem, com 10 meses resolvi pedir aumento e consegui, mas vi que não era o que eu queria, resolvi testar o mercado e consegui passar para _(uma vaga de)_ pleno.
+Bem, com 10 meses resolvi pedir aumento e consegui, depois descobri que não era isso o que eu queria, resolvi testar o mercado e consegui passar para _(uma vaga de)_ pleno.
 
 **Em 9 meses me promoveram para Sênior 🥂**
 
 Acho que o que me salvou foi a maturidade profissional, eu já havia liderado times em outras áreas e possuía um conhecimento multidisciplinar (música, história, biologia e filosofia).
 
 **Como fez para progredir na carreira?**
-Nos 2 primeiros anos sempre pegava muito _freela_, lia muita documentação, li a do Node, alguns livros da _O'Reilly_, comecei a mentorar muita gente que buscava mudar de área e isso me ajudou.
+Nos 2 primeiros anos sempre pegava muito _freela_, lia muita documentação, alguns livros da _O'Reilly_ e comecei a mentorar uma galera que buscava mudar de área, isso me ajudou.
 
-Subia vários MVPs (_Minimum Viable Product_) do zero, comecei a pegar alguns _freelas_ em cargos de liderança e comecei a receber _offers_ (_proposta de emprego_) de _Tech Lead_. Eu sabia que esse tipo de cargo ajudaria a deslanchar minha carreira. Tive também algumas mentorias com o _@sseraphini_, e isso me levou até o cargo que estou hoje.
+Subi vários MVPs (_Minimum Viable Product_) do zero, daí comecei a pegar _freelas_ em cargos de liderança e comecei a receber _offers_ (_proposta de emprego_) para _Tech Lead_. Eu sabia que esse tipo de cargo ajudaria a deslanchar minha carreira. Tive também algumas mentorias com o _[@sseraphini](https://x.com/sseraphini)_, e isso me levou até o cargo que estou hoje.
 
 <div id="quais-foram-os-seus-desafios"></div>
 ### Quais foram os seus desafios?
@@ -152,7 +152,7 @@ Tecnicamente falando: já tive que mudar 50.000 items de um banco de dados _NoSQ
 
 Meu maior desafio é o atual, estou em uma empresa que conseguiu se vender num período muito curto de tempo (e sabemos que programar correndo causa **bastante** débito técnico).
 
-Meu desafio hoje é preparar essa empresa para a proporção que ela precisa e é o desafio que acho mais legal.
+Meu desafio hoje é preparar essa empresa para a proporção que ela precisa e é o desafio que eu acho mais legal.
 
 ## Por que você odeia _else_?
 

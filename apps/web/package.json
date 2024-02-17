@@ -36,6 +36,7 @@
     "@trpc/server": "^10.34.0",
     "@types/mdx": "^2.0.11",
     "@vercel/analytics": "^1.1.1",
+    "@vercel/kv": "^1.0.1",
     "analytics": "*",
     "canvas-confetti": "^1.6.0",
     "class-variance-authority": "^0.6.0",
