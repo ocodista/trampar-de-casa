@@ -1,18 +1,19 @@
 'use client'
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect } from 'react'
 
 interface ArticleReaderProps {
   mp3Url: string
 }
 export const ArticleReader = ({ mp3Url }: ArticleReaderProps) => {
   const [isPlaying, setIsPlaying] = useState(false)
-  const audioRef = useRef(new Audio(mp3Url))
+  const [audioRef, setAudio] = useState(null)
 
   useEffect(() => {
     isPlaying ? audioRef.current.play() : audioRef.current.pause()
   }, [isPlaying])
 
   useEffect(() => {
+    setAudio(new Audio(mp3Url))
     // Cleanup to pause audio when component unmounts
     return () => {
       audioRef.current.pause()
