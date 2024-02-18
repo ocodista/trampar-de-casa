@@ -1,32 +1,22 @@
 'use client'
 
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useRef } from 'react'
 import { getAudioUrl } from './utils'
-
-const slug = window.location.href.split('/').at(-1)
-const mp3Url = getAudioUrl(slug)
+import { usePathname } from 'next/navigation'
+import styles from './article-reader.module.css'
 
 export const ArticleReader = () => {
-  const [isVisible, setIsVisible] = useState(false)
+  const pathname = usePathname()
+  const slug = pathname.split('/').at(-1)
+  const mp3Url = getAudioUrl(slug)
   const audioRef = useRef(null)
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      setIsVisible(true)
-    }, 1_100)
-
-    return () => {
-      audioRef?.current.pause()
-      clearTimeout(timer)
-    }
-  }, [])
+  const alertRef = useRef(null)
 
   return (
-    <div className="fixed right-5 top-5 z-50 w-[300px]">
+    <div ref={alertRef} className="fixed right-5 top-5 z-50 w-[320px]">
       <div
-        className={`flex flex-col items-center gap-4 rounded-lg bg-[#004AAD] p-4 text-white shadow-xl transition-transform duration-700 ease-out ${
-          isVisible ? 'translate-y-0' : '-translate-y-[200px]'
-        }`}
+        className={`${styles.slideIn} flex flex-col items-center gap-4 rounded-lg bg-[#004AAD] p-4 text-white shadow-xl transition-transform duration-700
+          ease-out`}
         role="region"
         aria-labelledby="audioPlayerTitle"
         tabIndex={0}
@@ -37,18 +27,11 @@ export const ArticleReader = () => {
           </div>
           <button
             onClick={() => {
-              audioRef?.current.pause()
-              setIsVisible(false)
+              alertRef?.current &&
+                alertRef.current.classList.add(styles.slideOut)
+              audioRef?.current && audioRef.current.pause()
             }}
-            className="absolute right-3 top-1"
-            style={{
-              position: 'absolute',
-
-              background: 'transparent',
-              border: 'none',
-              color: 'white',
-              cursor: 'pointer',
-            }}
+            className="color-white transparent absolute right-3 top-1 cursor-pointer border-none"
           >
             &#x2715;{' '}
           </button>

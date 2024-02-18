@@ -1,0 +1,44 @@
+@keyframes slideIn {
+  from {
+    transform: translateY(-200px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slideIn {
+  animation: slideIn 0.7s ease-out 1.1s forwards;
+  opacity: 0;
+  visibility: hidden;
+}
+
+@keyframes slideIn {
+  0% {
+    transform: translateY(-200px);
+    opacity: 0;
+    visibility: visible;
+  }
+  to {
+    visibility: visible;
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.slideOut {
+  animation: slideOut 0.7s ease-out forwards;
+}
+
+@keyframes slideOut {
+  from {
+    opacity: 1;
+    transform: translateY(0);
+  }
+  to {
+    opacity: 0;
+    transform: translateY(-200px);
+  }
+}
