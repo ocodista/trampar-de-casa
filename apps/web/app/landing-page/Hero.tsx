@@ -4,6 +4,8 @@ import { FocusBanner } from './FocusBanner'
 import { SubscriberForm } from './SubscriberForm'
 import SubscribersCount from './SubscribersCount'
 
+export const revalidate = 14_400 // 4 hours
+
 export const Hero = () => {
   return (
     <>
