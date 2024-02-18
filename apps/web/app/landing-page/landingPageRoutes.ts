@@ -1,5 +1,5 @@
 export enum LandingPageRoutes {
-  Blog = '/blog/entrevistas/001-samuel-alves',
+  Blog = '/blog/entrevistas/samuel-dos-santos-alves',
   Values = '/#valores',
   HowItWorks = '/#como-funciona',
   FAQ = '/#perguntas-frequentes',

@@ -1,9 +1,7 @@
 import Image from 'next/image'
 import React from 'react'
 import { kv } from '@vercel/kv'
-
-export const getImageUrl = (author: string) =>
-  `/blog/entrevistas/${author.toLowerCase().replaceAll(' ', '-')}.jpeg`
+import { getImageUrl } from './utils'
 
 export async function ArticleHeader({
   author,
