@@ -1,9 +1,19 @@
+const remarkGfm = import('remark-gfm')
 // eslint-disable-next-line @typescript-eslint/no-var-requires
 
-module.exports = {
+const nextConfig = {
+ images: {
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos',
+      },
+    ],
+  }, 
   experimental: {
     serverActions: true
   },
+  pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   reactStrictMode: true,
   transpilePackages: ["ui", "eslint-config-custom", "shared", "db"],
   i18n: {
@@ -11,3 +21,13 @@ module.exports = {
     defaultLocale: "pt-BR",
   },
 }
+
+// eslint-disable-next-line @typescript-eslint/no-var-requires
+const withMDX = require('@next/mdx')({
+  options: {
+    remakPlugins: [remarkGfm],
+    rehypePlugins: []
+  }
+})
+
+module.exports = withMDX(nextConfig)

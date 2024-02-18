@@ -1,0 +1,16 @@
+.article > ul li {
+  margin: 0px;
+}
+.article ul {
+  line-height: 129%;
+  font-size: 18px;
+  margin-top: 0;
+  margin-bottom: 0;
+  margin-left: 0;
+}
+.article li a {
+  color: blue;
+}
+.article li::marker {
+  color: black;
+}

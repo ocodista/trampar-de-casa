@@ -28,7 +28,8 @@
     "**/*.ts",
     "**/*.tsx",
     "vitest.config.ts",
-    "app/api/subscribers/[id]"
+    "app/api/subscribers/[id]",
+    "app/blog/page.mdx"
   ],
   "exclude": ["node_modules"],
   "ts-node": {
