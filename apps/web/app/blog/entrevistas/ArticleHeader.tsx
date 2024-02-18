@@ -3,6 +3,8 @@ import React from 'react'
 import { kv } from '@vercel/kv'
 import { getImageUrl } from './utils'
 
+export const revalidate = 0 // Needed to increase counter
+
 export async function ArticleHeader({
   author,
   title,
