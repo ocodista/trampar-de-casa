@@ -1,12 +1,17 @@
+'use client'
 import Image from 'next/image'
-import React from 'react'
-import { kv } from '@vercel/kv'
+import React, { useEffect, useState } from 'react'
+import { updateViews } from './actions'
 import { getImageUrl } from './utils'
 
-export const revalidate = 1 // Needed to increase counter
-
-// Opt out of caching for all data requests in the route segment
-export const dynamic = 'force-dynamic'
+export interface IArticleHeader {
+  author: string
+  title: string
+  role: string
+  quote: string
+  dateText: string
+  timeToRead: number
+}
 
 export async function ArticleHeader({
   author,
@@ -15,16 +20,11 @@ export async function ArticleHeader({
   quote,
   dateText,
   timeToRead,
-}: {
-  author: string
-  title: string
-  role: string
-  quote: string
-  dateText: string
-  timeToRead: number
-}) {
-  const count: number = (await kv.get(title)) || 0
-  await kv.set(title, count + 1)
+}: IArticleHeader) {
+  const [viewers, setViewers] = useState(0)
+  useEffect(() => {
+    updateViews(title).then(setViewers)
+  }, [])
   const imageSubtitle = `Image of ${author}`
 
   return (
@@ -33,10 +33,10 @@ export async function ArticleHeader({
         <small className="text-muted-foreground text-sm">
           {dateText} • <span>{timeToRead} minutos de leitura</span>
         </small>
-        {count > 0 && (
+        {viewers > 0 && (
           <small className="text-muted-foreground text-sm">
-            {count.toLocaleString()} {count > 1 ? 'leitores' : 'leitor'}{' '}
-            {count > 1 ? 'apoiam' : 'apoia'} o trabalho remoto
+            {viewers.toLocaleString()} {viewers > 1 ? 'leitores' : 'leitor'}{' '}
+            {viewers > 1 ? 'apoiam' : 'apoia'} o trabalho remoto
           </small>
         )}
       </section>
