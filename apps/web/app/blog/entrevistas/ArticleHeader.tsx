@@ -28,17 +28,19 @@ export async function ArticleHeader({
   const imageSubtitle = `Image of ${author}`
 
   return (
-    <header className="border-b-solid relative pt-10">
-      <small className="text-muted-foreground absolute top-0 text-sm">
-        {dateText} • <span>{timeToRead} minutos de leitura</span>
-      </small>
-      {count > 0 && (
-        <small className="text-muted-foreground absolute right-0 top-0 text-sm">
-          {count.toLocaleString()} {count > 1 ? 'leitores' : 'leitor'}{' '}
-          {count > 1 ? 'apoiam' : 'apoia'} o trabalho remoto
+    <header className="border-b-solid relative flex flex-col gap-2">
+      <section className="just1fy-between flex flex-wrap gap-1">
+        <small className="text-muted-foreground text-sm">
+          {dateText} • <span>{timeToRead} minutos de leitura</span>
         </small>
-      )}
-      <h1 className="scroll-m-20 text-4xl font-extrabold tracking-tight lg:text-5xl ">
+        {count > 0 && (
+          <small className="text-muted-foreground text-sm">
+            {count.toLocaleString()} {count > 1 ? 'leitores' : 'leitor'}{' '}
+            {count > 1 ? 'apoiam' : 'apoia'} o trabalho remoto
+          </small>
+        )}
+      </section>
+      <h1 className="my-4 text-4xl font-extrabold tracking-tight lg:text-5xl">
         {title.replace(' - Trampar de Casa', '')}
       </h1>
       <section className="flex items-center gap-4">
@@ -55,7 +57,7 @@ export async function ArticleHeader({
           <small className="mt-1">{role}</small>
         </section>
       </section>
-      <blockquote className="border-b-solid mb-2 border-b border-l-2 border-b-slate-200 pb-6 pl-6 italic">
+      <blockquote className="border-b-solid mb-0 border-b border-l-2 border-b-slate-200 pb-5 pl-6 italic">
         {quote}
       </blockquote>
     </header>
