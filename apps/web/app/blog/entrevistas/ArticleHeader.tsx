@@ -29,7 +29,7 @@ export async function ArticleHeader({
 
   return (
     <header className="border-b-solid relative flex flex-col gap-2">
-      <section className="just1fy-between flex flex-wrap gap-1">
+      <section className="flex flex-wrap justify-between gap-1">
         <small className="text-muted-foreground text-sm">
           {dateText} • <span>{timeToRead} minutos de leitura</span>
         </small>
