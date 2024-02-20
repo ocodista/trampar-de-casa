@@ -3,11 +3,6 @@ import React from 'react'
 import { kv } from '@vercel/kv'
 import { getImageUrl } from './utils'
 
-export const revalidate = 1 // Needed to increase counter
-
-// Opt out of caching for all data requests in the route segment
-export const dynamic = 'force-dynamic'
-
 export async function ArticleHeader({
   author,
   title,
