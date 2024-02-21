@@ -4,6 +4,7 @@ import {
   Heading,
   Hr,
   Img,
+  Link,
   Preview,
   Row,
   Section,
@@ -73,14 +74,17 @@ export function Header({
         Salve, defensor(a) do trabalho remoto, feliz ano novo!
       </Text>
       <Text className={paragraph}>
-        Que 2024 seja um ano de muito sucesso para você 😁
+        Apresento a vocês nossa primeira entrevista sobre trabalho remoto, com o
+        Samuel dos Santos Alves (Manager na BPTech), que converteu o modelo da
+        empresa de 100% presencial para uma mistura de remoto/híbrido.
       </Text>
       <Text className={paragraph}>
-        Teremos uma novidade semana que vem, publicaremos uma entrevista de um
-        amante do Trabalho Remoto que converteu o regime de sua empresa de 100%
-        presencial para híbrido/remoto, vale a leitura!
+        Leia mais{' '}
+        <Link href="https://trampardecasa.com.br/blog/entrevistas/samuel-dos-santos-alves">
+          aqui
+        </Link>
       </Text>
-      <Text className={paragraph}>Agora, aqui vão suas vagas!</Text>
+      <Text className={paragraph}>Agora, aproveita as vagas desta semana!</Text>
     </Tailwind>
   )
 }
