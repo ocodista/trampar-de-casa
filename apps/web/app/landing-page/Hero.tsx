@@ -3,6 +3,7 @@ import { PartnerCompanies } from './PartnerCompanies'
 import { FocusBanner } from './FocusBanner'
 import { SubscriberForm } from './SubscriberForm'
 import SubscribersCount from './SubscribersCount'
+import { WarningBanner } from './WarningBanner'
 
 export const revalidate = 14_400 // 4 hours
 
@@ -10,6 +11,7 @@ export const Hero = () => {
   return (
     <>
       <FocusBanner />
+      <WarningBanner />
       <div className="pb-28 pt-6">
         <div className="container mx-auto">
           <div className="-m-8 flex flex-wrap items-center">
