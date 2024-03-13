@@ -1,10 +1,8 @@
 import {
-  Button,
   Column,
   Heading,
   Hr,
   Img,
-  Link,
   Preview,
   Row,
   Section,
@@ -70,21 +68,10 @@ export function Header({
         className={h1}
       >{`${rolesCount} vagas para você Trampar de Casa`}</Heading>
       <Hr style={hr} />
+      <Text className={paragraph}>Bom dia, defensor do trabalho remoto!</Text>
       <Text className={paragraph}>
-        Salve, defensor(a) do trabalho remoto, feliz ano novo!
+        Espero que aproveite as vagas desta semana 😁🙏
       </Text>
-      <Text className={paragraph}>
-        Apresento a vocês nossa primeira entrevista sobre trabalho remoto, com o
-        Samuel dos Santos Alves (Manager na BPTech), que converteu o modelo da
-        empresa de 100% presencial para uma mistura de remoto/híbrido.
-      </Text>
-      <Text className={paragraph}>
-        Leia mais{' '}
-        <Link href="https://trampardecasa.com.br/blog/entrevistas/samuel-dos-santos-alves">
-          aqui
-        </Link>
-      </Text>
-      <Text className={paragraph}>Agora, aproveita as vagas desta semana!</Text>
     </Tailwind>
   )
 }
