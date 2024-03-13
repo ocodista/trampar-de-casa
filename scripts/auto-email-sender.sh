@@ -14,4 +14,4 @@ yarn turbo run start --filter=email-sender
 docker compose --file auto-email-sender-compose.yml down
 
 # Clear volumes
-docker volume prune
+docker volume prune -f
