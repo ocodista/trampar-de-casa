@@ -1,6 +1,3 @@
-'use client'
-
-import React, { useEffect, useState } from 'react'
 import { LinkIcon } from '@heroicons/react/20/solid'
 
 interface CompanyCardProps {

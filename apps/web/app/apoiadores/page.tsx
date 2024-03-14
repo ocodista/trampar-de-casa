@@ -3,7 +3,6 @@ import { Github } from 'lucide-react'
 import hearth from '../../public/images/hearth.png'
 import CompanyCard from 'app/components/ui/CompanyCard'
 import { companies } from 'app/landing-page/PartnerCompanies'
-import { useEffect, useState } from 'react'
 
 const SupportingCompanies = () => {
   return (
