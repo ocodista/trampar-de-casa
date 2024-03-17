@@ -15,10 +15,10 @@ const SupportingCompanies = () => {
               Empresas que apoiam o trabalho remoto
             </p>
             <p className="pt-[20px] text-[12px] sm:pt-[25px] sm:text-[18px] md:pt-[30px] md:text-[20px] lg:pt-[35px] lg:text-[26px]">
-              O trabalho remoto tem se tornado cada vez mais comum, e várias
-              empresas ao redor do mundo têm adotado essa prática para
-              proporcionar flexibilidade e uma vida melhor para seus
-              funcionários.
+              Descubra empresas comprometidas com o trabalho remoto, que se
+              dedicam a promover uma cultura de trabalho 100% remoto. Encontre
+              oportunidades em organizações que valorizam a flexibilidade e a
+              liberdade de trabalhar de qualquer lugar.
             </p>
           </div>
           <div className="flex w-3/6 items-center justify-end">
