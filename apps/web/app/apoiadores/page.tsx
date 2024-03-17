@@ -30,9 +30,6 @@ const SupportingCompanies = () => {
           </div>
         </div>
         <div className="mt-14 sm:mt-20 md:mt-32 lg:mt-36">
-          <p className="mb-[50px] text-[20px] font-bold sm:text-[27px] md:text-[27px] lg:text-[27px]">
-            Empresas que apoiam:
-          </p>
           <div className="flex flex-wrap justify-center gap-5 pb-16 sm:gap-5 md:gap-10 lg:gap-16">
             {companies.map((company) => (
               <CompanyCard
