@@ -1,6 +1,6 @@
 import { FocusBanner } from 'app/landing-page/FocusBanner'
 import { Github } from 'lucide-react'
-import hearth from '../../public/images/hearth.png'
+import partnershipImage from '../../public/images/partnership.png'
 import CompanyCard from 'app/components/ui/CompanyCard'
 import { companies } from 'app/landing-page/PartnerCompanies'
 
@@ -23,8 +23,8 @@ const SupportingCompanies = () => {
           </div>
           <div className="flex w-3/6 items-center justify-end">
             <img
-              className=" h-[160px] w-[160px] scale-x-[-1] transform sm:h-[250px] sm:w-[250px] md:h-[300px] md:w-[300px] lg:h-[368px] lg:w-[385px]"
-              src={hearth.src}
+              className="h-[180px] w-[180px] object-cover sm:h-[300px] sm:w-[300px] md:h-[350px] md:w-[350px] lg:h-[500px] lg:w-[500px]"
+              src={partnershipImage.src}
               alt="Hearth Image"
             />
           </div>
