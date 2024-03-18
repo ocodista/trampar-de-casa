@@ -15,10 +15,10 @@ const SupportingCompanies = () => {
               Empresas que apoiam o trabalho remoto
             </p>
             <p className="pt-[20px] text-[12px] sm:pt-[25px] sm:text-[18px] md:pt-[30px] md:text-[20px] lg:pt-[35px] lg:text-[26px]">
-              O trabalho remoto tem se tornado cada vez mais comum, e várias
-              empresas ao redor do mundo têm adotado essa prática para
-              proporcionar flexibilidade e uma vida melhor para seus
-              funcionários.
+              Descubra empresas comprometidas com o trabalho remoto, que se
+              dedicam a promover uma cultura de trabalho 100% remoto. Encontre
+              oportunidades em organizações que valorizam a flexibilidade e a
+              liberdade de trabalhar de qualquer lugar.
             </p>
           </div>
           <div className="flex w-3/6 items-center justify-end">
@@ -30,9 +30,6 @@ const SupportingCompanies = () => {
           </div>
         </div>
         <div className="mt-14 sm:mt-20 md:mt-32 lg:mt-36">
-          <p className="mb-[50px] text-[20px] font-bold sm:text-[27px] md:text-[27px] lg:text-[27px]">
-            Empresas que apoiam:
-          </p>
           <div className="flex flex-wrap justify-center gap-5 pb-16 sm:gap-5 md:gap-10 lg:gap-16">
             {companies.map((company) => (
               <CompanyCard

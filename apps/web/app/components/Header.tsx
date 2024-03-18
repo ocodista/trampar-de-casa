@@ -21,7 +21,7 @@ const menuItems = [
   { href: LandingPageRoutes.Values, label: 'Nossos Valores' },
   { href: LandingPageRoutes.HowItWorks, label: 'Como Funciona' },
   { href: LandingPageRoutes.FAQ, label: 'Perguntas Frequentes' },
-  { href: LandingPageRoutes.SupportingCompanies, label: 'Empresas apoiadoras' },
+  { href: LandingPageRoutes.SupportingCompanies, label: 'Empresas Remotas' },
   { href: LandingPageRoutes.PublishYourRole, label: 'Indique uma vaga' },
 ]
 
