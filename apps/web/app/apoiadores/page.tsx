@@ -25,7 +25,7 @@ const SupportingCompanies = () => {
             <img
               className="h-[180px] w-[180px] object-cover sm:h-[300px] sm:w-[300px] md:h-[350px] md:w-[350px] lg:h-[500px] lg:w-[500px]"
               src={partnershipImage.src}
-              alt="Hearth Image"
+              alt="Partnership Image "
             />
           </div>
         </div>
