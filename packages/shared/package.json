@@ -6,7 +6,8 @@
   "types": "src/index.ts",
   "scripts": {
     "lint": "eslint ./src --fix",
-    "test": "vitest run"
+    "test": "vitest run",
+    "skills:push": "ts-node ./src/infos/updateSkillsOnDatabase.ts"
   },
   "keywords": [],
   "author": "",
