@@ -32,5 +32,6 @@ jobs:
       run: yarn install
 
     - name: Push skills
+      working-directory: ./packages/shared
       run: yarn skills:push
 
