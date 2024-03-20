@@ -844,8 +844,8 @@ export const skillArray = [
     normalized: 'LINUX',
   },
   {
-    id: 455,
     name: 'Postgres SQL',
+    id: 455,
     normalized: 'POSTGRESQL',
   },
   {
