@@ -6,9 +6,12 @@ on:
       - packages/shared/src/infos/skills.ts
 
 jobs:
-  test:
+  push:
     runs-on: ubuntu-latest
 
+    env:
+      SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+      SUPABASE_SERVICE_ROLE: ${{ secrets.SUPABASE_SERVICE_ROLE }}
     steps:
     - name: Checkout code
       uses: actions/checkout@v2
