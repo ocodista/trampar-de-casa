@@ -2,7 +2,9 @@ name: Push skills to database
 
 on:
   push:
-    paths: 
+    branches:
+      - main
+    paths:
       - packages/shared/src/infos/skills.ts
 
 jobs:
