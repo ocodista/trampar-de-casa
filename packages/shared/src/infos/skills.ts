@@ -863,4 +863,109 @@ export const skillArray = [
     name: 'SQL Server',
     normalized: 'SQLSERVER',
   },
+  {
+    id: 459,
+    name: 'Sys Admin',
+    normalized: 'SYSADMIN',
+  },
+  {
+    id: 460,
+    name: 'Cloud',
+    normalized: 'CLOUD',
+  },
+  {
+    id: 461,
+    name: 'Full Stack',
+    normalized: 'FULLSTACK',
+  },
+  {
+    id: 462,
+    name: 'Design',
+    normalized: 'DESIGN',
+  },
+  {
+    id: 463,
+    name: 'InfoSec',
+    normalized: 'INFOSEC',
+  },
+  {
+    id: 464,
+    name: 'Marketing',
+    normalized: 'MARKETING',
+  },
+  {
+    id: 465,
+    name: 'Mobile',
+    normalized: 'MOBILE',
+  },
+  {
+    id: 466,
+    name: 'Content Writing',
+    normalized: 'CONTENTWRITING',
+  },
+  {
+    id: 467,
+    name: 'Stats',
+    normalized: 'STATS',
+  },
+  {
+    id: 468,
+    name: 'English',
+    normalized: 'ENGLISH',
+  },
+  {
+    id: 469,
+    name: 'Quality Assurance',
+    normalized: 'QUALITYASSURANCE',
+  },
+  {
+    id: 470,
+    name: 'Crypto',
+    normalized: 'CRYPTO',
+  },
+  {
+    id: 471,
+    name: 'Junior',
+    normalized: 'JUNIOR',
+  },
+  {
+    id: 472,
+    name: 'Accounting',
+    normalized: 'ACCOUNTING',
+  },
+  {
+    id: 473,
+    name: 'Admin',
+    normalized: 'ADMIN',
+  },
+  {
+    id: 474,
+    name: 'Microsoft',
+    normalized: 'MICROSOFT',
+  },
+  {
+    id: 475,
+    name: 'Amazon',
+    normalized: 'AMAZON',
+  },
+  {
+    id: 476,
+    name: 'Analyst',
+    normalized: 'ANALYST',
+  },
+  {
+    id: 477,
+    name: 'Ads',
+    normalized: 'ADS',
+  },
+  {
+    id: 478,
+    name: 'Product Designer',
+    normalized: 'PRODUCTDESIGNER',
+  },
+  {
+    id: 479,
+    name: 'Objective C',
+    normalized: 'OBJECTIVEC',
+  },
 ] as const
