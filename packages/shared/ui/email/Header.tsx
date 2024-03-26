@@ -3,6 +3,7 @@ import {
   Heading,
   Hr,
   Img,
+  Link,
   Preview,
   Row,
   Section,
@@ -68,10 +69,16 @@ export function Header({
         className={h1}
       >{`${rolesCount} vagas para você Trampar de Casa`}</Heading>
       <Hr style={hr} />
-      <Text className={paragraph}>Bom dia, defensor do trabalho remoto!</Text>
       <Text className={paragraph}>
-        Espero que aproveite as vagas desta semana 😁🙏
+        Bom dia, defensor do trabalho remoto, tudo bom?
       </Text>
+      <Text className={paragraph}>
+        Precisando afiar o inglês? Nosso inscrito Matheus oferece aulas de
+        inglês focadas no mercado internacional, dá uma olhada no{' '}
+        <Link href="https://www.instagram.com/lumosling/">Instagram</Link> dele,
+        pode ser o empurrão que faltava para você deixar o inglês no jeito 😁
+      </Text>
+      <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
     </Tailwind>
   )
 }
