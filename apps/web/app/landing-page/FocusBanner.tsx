@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 
-export function StriderBanner() {
+export function FocusBanner() {
   return (
     <div className="text-center">
       <div
