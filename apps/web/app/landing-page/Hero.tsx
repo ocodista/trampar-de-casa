@@ -4,8 +4,6 @@ import { FocusBanner } from './FocusBanner'
 import { SubscriberForm } from './SubscriberForm'
 import SubscribersCount from './SubscribersCount'
 
-export const revalidate = 14_400 // 4 hours
-
 export const Hero = () => {
   return (
     <>
@@ -15,7 +13,7 @@ export const Hero = () => {
           <div className="-m-8 flex flex-wrap items-center">
             <div className="w-full p-8 lg:w-1/2 lg:pr-0">
               <SubscribersCount />
-              <h1 className="lg:text-10xl max-xs:text-4xl mb-6 text-6xl font-bold leading-none tracking-tight md:text-8xl">
+              <h1 className="lg:text-10xl max-xs:text-4xl mb-6 text-6xl font-bold leading-none tracking-tight md:text-7xl">
                 Vagas remotas no seu e-mail
               </h1>
               <p className="mb-9 text-lg font-medium text-gray-900 max-xl:max-w-sm md:text-xl">
