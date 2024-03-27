@@ -6,7 +6,8 @@
     "dev": "development=true next dev",
     "build": "next build",
     "start": "next start",
-    "lint": "eslint ./app --fix"
+    "lint": "eslint ./app --fix",
+    "test": "vitest run"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",

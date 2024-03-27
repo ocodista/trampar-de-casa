@@ -26,9 +26,14 @@ export const profileFormSchema = z.object({
       message: 'Seu LinkedIn é obrigatório',
     })
     .trim()
-    .startsWith(
-      'https://linkedin.com/in/',
-      'URL do perfil deve começar com https://linkedin.com/in/'
+    .refine(
+      (url) =>
+        url.startsWith('https://linkedin.com/in/') ||
+        url.startsWith('https://www.linkedin.com/in/'),
+      {
+        message:
+          'URL do perfil deve começar com https://linkedin.com/in/ ou https://www.linkedin.com/in/',
+      }
     ),
   [ProfileSchemaEnum.GitHub]: z
     .string()
