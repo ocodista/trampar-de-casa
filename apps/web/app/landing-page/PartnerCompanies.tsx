@@ -7,7 +7,7 @@ interface Company {
   imagePath: string
 }
 
-const companies: Company[] = [
+export const companies: Company[] = [
   {
     name: 'Strider',
     url: 'https://app.onstrider.com/r/trampar_de_casa',
@@ -44,7 +44,7 @@ const companies: Company[] = [
   {
     name: 'Rock n code',
     url: 'https://anchor.fm/curtinhasdoed',
-    description: 'Podcast de tecnologia',
+    description: 'Podcast de tecnologia.',
     imagePath: '/images/companies/rock_n_code.webp',
   },
   {
