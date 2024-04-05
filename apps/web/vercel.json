@@ -1,7 +1,7 @@
 {
   "crons": [
     {
-      "path": "/api/vagas/trigger",
+      "path": "/api/vagas/cron",
       "schedule": "0 19 * * 2"
     }
   ]
