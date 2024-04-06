@@ -16,7 +16,7 @@ jobs:
       - name: Upgrade project version
         id: upgrade-version-step
         run: |
-          NEW_VERSION=$(npm version patch --legacy-peer-deps)
+          NEW_VERSION=$(npm version patch --legacy-peer-deps --git-tag-version false)
           NEW_VERSION_CLEAN=$(echo $NEW_VERSION | sed 's/v//' | grep -oP 'v\d+\.\d+\.\d+')
           echo "Version clean is $NEW_VERSION_CLEAN"
           echo API_VERSION=$NEW_VERSION_CLEAN >> $GITHUB_OUTPUT
