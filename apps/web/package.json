@@ -60,6 +60,7 @@
     "resend": "^2.0.0",
     "security": "*",
     "shared": "*",
+    "sharp": "^0.33.3",
     "svix": "^1.15.0",
     "tailwind-merge": "^1.13.2",
     "tailwindcss-animate": "^1.0.6",
