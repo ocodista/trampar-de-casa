@@ -6,16 +6,52 @@ on:
     #   - main
 
 jobs:
+  upgrade-project-version:
+    if: ${{ !contains(github.event.head_commit.message, '[RELEASE]') }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web/
+    steps:
+      - name: checkout
+        uses: actions/checkout@v3
+      - name: Upgrade project version
+        id: upgrade-version-step
+        run: |
+          NEW_VERSION=$(npm version patch --legacy-peer-deps)
+          NEW_VERSION_CLEAN=$(echo $NEW_VERSION | sed 's/v//' | grep -oP 'v\d+\.\d+\.\d+')
+          echo "Version clean is $NEW_VERSION_CLEAN"
+          echo API_VERSION=$NEW_VERSION_CLEAN >> $GITHUB_OUTPUT
+    outputs:
+      API_VERSION: ${{ steps.upgrade-version-step.outputs.API_VERSION }}
+
   docker-build:
+    if: ${{ !contains(github.event.head_commit.message, '[RELEASE]') }}
+    needs: [upgrade-project-version]
     runs-on: ubuntu-latest
 
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: 'arm64,arm'
+
+      - name: Docker Setup Buildx
+        uses: docker/setup-buildx-action@v2.2.1
+
+      - name: Login to OCIR
+        uses: docker/login-action@v2
+        with:
+          registry: gru.ocir.io
+          username: ${{ secrets.OCI_REPOSITORY_USER }}
+          password: ${{ secrets.OCI_REPOSITORY_PASS }}
+
       - name: Build Docker image
         run: |
-          docker build . --file Dockerfile \
+          docker buildx build . --platform linux/arm64 -t "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:latest" -t "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:${{ needs.upgrade-project-version.outputs.API_VERSION }}" --push \
           --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
           --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
           --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
@@ -27,3 +63,23 @@ jobs:
           --build-arg OWNER_EMAIL="${{ secrets.OWNER_EMAIL }}" \
           --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
           --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}"
+
+  upgrade-project-version-and-commit:
+    needs: [build-and-publish-version-tag]
+    if: ${{ !contains(github.event.head_commit.message, '[RELEASE]') }}
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: apps/web/
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Upgrade version in package.json
+        run: |
+          NEW_VERSION=$(npm version patch --legacy-peer-deps)
+          NEW_VERSION_CLEAN=$(echo $NEW_VERSION | sed 's/v//' | grep -oP 'v\d+\.\d+\.\d+')
+          git config --global user.name 'Version Bot'
+          git config --global user.email 'version@bot.it'
+          git add .
+          git commit -m "[RELEASE] $NEW_VERSION"
+          git push
