@@ -23,7 +23,7 @@ COPY --from=builder /app/out/yarn.lock ./yarn.lock
 
 # Install build-essential for native addons
 RUN apk update && apk add --no-cache python3 make g++ && ln -sf /usr/bin/python3 /usr/bin/python
-RUN npm install -g node-gyp
+RUN npm install -g node-gyp sharp
 
 RUN yarn install
  
