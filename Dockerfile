@@ -19,7 +19,6 @@ WORKDIR /app
 COPY .gitignore .gitignore
 COPY --from=builder /app/out/json/ .
 COPY --from=builder /app/out/yarn.lock ./yarn.lock
-# COPY --from=builder /app/packages/shared/package.json ./packages/shared/package.json
 
 # Install build-essential for native addons
 RUN apk update && apk add --no-cache python3 make g++ && ln -sf /usr/bin/python3 /usr/bin/python
