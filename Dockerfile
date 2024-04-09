@@ -53,6 +53,7 @@ ENV DATABASE_URL=$DATABASE_URL \
     OWNER_EMAIL=$OWNER_EMAIL \
     NEXT_PUBLIC_MIXPANEL_KEY=$NEXT_PUBLIC_MIXPANEL_KEY \
     CRON_SECRET=$CRON_SECRET
+    NEXT_SHARP_PATH=/app/node_modules/sharp
 
 RUN yarn turbo run build --filter=web
  
