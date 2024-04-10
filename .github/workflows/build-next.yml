@@ -2,10 +2,20 @@ name: Docker Build
 
 on:
   push:
-    branches:
-      - main
+    # branches:
+    #   - main
 
 jobs:
+  update-web-project:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      - name: Update web app
+        run: |
+          echo "teste"
+      
   docker-build:
     runs-on: ubuntu-latest
 
@@ -29,16 +39,32 @@ jobs:
           password: ${{ secrets.OCI_REPOSITORY_PASS }}
 
       - name: Build Docker image
-        run: |
-          docker buildx build . --platform linux/arm64 -t "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:latest" --push \
-          --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-          --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
-          --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
-          --build-arg EMAIL_KEY="${{ secrets.EMAIL_KEY }}" \
-          --build-arg EMAIL_PASS="${{ secrets.EMAIL_PASS }}" \
-          --build-arg CRYPT_SECRET="${{ secrets.CRYPT_SECRET }}" \
-          --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \
-          --build-arg RESEND_WEBHOOK_SECRET="${{ secrets.RESEND_WEBHOOK_SECRET }}" \
-          --build-arg OWNER_EMAIL="${{ secrets.OWNER_EMAIL }}" \
-          --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
-          --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}"
+        run: echo "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:latest"
+        # run: |
+        #   docker buildx build . --platform linux/arm64 -t "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:latest" --push \
+        #   --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+        #   --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
+        #   --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
+        #   --build-arg EMAIL_KEY="${{ secrets.EMAIL_KEY }}" \
+        #   --build-arg EMAIL_PASS="${{ secrets.EMAIL_PASS }}" \
+        #   --build-arg CRYPT_SECRET="${{ secrets.CRYPT_SECRET }}" \
+        #   --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \
+        #   --build-arg RESEND_WEBHOOK_SECRET="${{ secrets.RESEND_WEBHOOK_SECRET }}" \
+        #   --build-arg OWNER_EMAIL="${{ secrets.OWNER_EMAIL }}" \
+        #   --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
+        #   --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}"
+      - name: Build version docker image
+        run: "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:$(cd apps/web && cat package.json | jq -r '.version')"
+        # run: |
+        #   docker buildx build . --platform linux/arm64 -t "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:$(cd apps/web && cat package.json | jq -r '.version')" --push \
+        #   --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+        #   --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
+        #   --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
+        #   --build-arg EMAIL_KEY="${{ secrets.EMAIL_KEY }}" \
+        #   --build-arg EMAIL_PASS="${{ secrets.EMAIL_PASS }}" \
+        #   --build-arg CRYPT_SECRET="${{ secrets.CRYPT_SECRET }}" \
+        #   --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \
+        #   --build-arg RESEND_WEBHOOK_SECRET="${{ secrets.RESEND_WEBHOOK_SECRET }}" \
+        #   --build-arg OWNER_EMAIL="${{ secrets.OWNER_EMAIL }}" \
+        #   --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
+        #   --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}"
