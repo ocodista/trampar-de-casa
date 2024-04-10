@@ -29,8 +29,8 @@ jobs:
         NEW_VERSION=$(cat package.json | jq -r '.version')
         echo "Version clean is $NEW_VERSION"
         echo API_VERSION=$NEW_VERSION >> $GITHUB_OUTPUT
-        git config --global user.name 'Version Bot'
-        git config --global user.email 'version@bot.it'
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
         git add .
         git commit -m "[RELEASE] $NEW_VERSION"
         git push
