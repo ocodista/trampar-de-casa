@@ -9,9 +9,9 @@ jobs:
   upgrade-project-version:
     if: ${{ !contains(github.event.head_commit.message, '[RELEASE]') }}
     runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: apps/web/
+    # defaults:
+    #   run:
+    #     working-directory: apps/web/
     steps:
     -
       name: checkout
@@ -20,7 +20,7 @@ jobs:
       name: Upgrade project version
       id: upgrade-version-step
       run: |
-        NEW_VERSION=$(npm version patch)
+        NEW_VERSION=$(cd apps/web/ && npm version patch)
         NEW_VERSION_CLEAN=$(echo $NEW_VERSION | sed 's/v//' | grep -oP 'v\d+\.\d+\.\d+')
         echo "Version clean is $NEW_VERSION_CLEAN"
         echo API_VERSION=$NEW_VERSION_CLEAN >> $GITHUB_OUTPUT
