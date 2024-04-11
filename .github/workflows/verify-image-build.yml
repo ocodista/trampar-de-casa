@@ -18,7 +18,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker buildx build . --platform linux/arm64 \
+          docker buildx build --platform linux/arm64 --load -t local-image:local . \
           --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
           --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
           --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
