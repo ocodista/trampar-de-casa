@@ -29,19 +29,11 @@ jobs:
         NEW_VERSION=$(cat package.json | jq -r '.version')
         echo "Version clean is $NEW_VERSION"
         echo API_VERSION=$NEW_VERSION >> $GITHUB_OUTPUT
-    - name: Run the Action
-      uses: devops-infra/action-commit-push@master
-      with:
-        github_token: "${{ secrets.GITHUB_TOKEN }}"
-        add_timestamp: true
-        commit_prefix: "[AUTO]"
-        commit_message: "Automatic commit"
-        force: false
-      # git config user.name "GitHub Actions Bot"
-      #   git config user.email "<>"
-      #   git add .
-      #   git commit -m "[RELEASE] $NEW_VERSION"
-      #   git push
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
+        git add .
+        git commit -m "[RELEASE] $NEW_VERSION"
+        git push
         
       # run: |
     outputs:
