@@ -87,7 +87,7 @@ jobs:
         #   --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
         #   --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}"
       - name: Build version docker image
-        run: "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:${{ needs.upgrade-project-version.outputs.API_VERSION }}" 
+        run: "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:${{ needs.upgrade-project-version.outputs.API_VERSION }}"
         # run: |
         #   docker buildx build . --platform linux/arm64 -t "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:$(cd apps/web && cat package.json | jq -r '.version')" --push \
         #   --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
