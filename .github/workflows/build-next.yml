@@ -37,7 +37,6 @@ jobs:
         commit_prefix: "[AUTO]"
         commit_message: "Automatic commit"
         force: false
-        target_branch: update/version  
       # git config user.name "GitHub Actions Bot"
       #   git config user.email "<>"
       #   git add .
