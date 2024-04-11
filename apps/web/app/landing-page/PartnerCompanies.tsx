@@ -43,7 +43,7 @@ export const companies: Company[] = [
   },
   {
     name: 'Rock n code',
-    url: 'https://anchor.fm/curtinhasdoed',
+    url: 'https://anchor.fm/rockncode',
     description: 'Podcast de tecnologia.',
     imagePath: '/images/companies/rock_n_code.webp',
   },
