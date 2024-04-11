@@ -3,8 +3,8 @@ name: Exemplo GitHub Action
 on:
   push:
     branches:
-      - '**' # Todas as branches
-      - '!main' # Exceto na branch main
+      - '**'
+      - '!main'
 
 jobs:
   exemplo_job:
@@ -12,9 +12,28 @@ jobs:
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
-      
-      # Adicione aqui os passos que deseja executar nas branches
+            
+      - name: Docker Setup Buildx
+        uses: docker/setup-buildx-action@v2.2.1
 
-      - name: Exemplo de comando
+      - name: Login to OCIR
+        uses: docker/login-action@v2
+        with:
+          registry: gru.ocir.io
+          username: ${{ secrets.OCI_REPOSITORY_USER }}
+          password: ${{ secrets.OCI_REPOSITORY_PASS }}
+
+      - name: Build Docker image
         run: |
-          echo "Executando na branch: $GITHUB_REF_NAME"
+          docker buildx build . --platform linux/arm64 \
+          --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+          --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
+          --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
+          --build-arg EMAIL_KEY="${{ secrets.EMAIL_KEY }}" \
+          --build-arg EMAIL_PASS="${{ secrets.EMAIL_PASS }}" \
+          --build-arg CRYPT_SECRET="${{ secrets.CRYPT_SECRET }}" \
+          --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \
+          --build-arg RESEND_WEBHOOK_SECRET="${{ secrets.RESEND_WEBHOOK_SECRET }}" \
+          --build-arg OWNER_EMAIL="${{ secrets.OWNER_EMAIL }}" \
+          --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
+          --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}"
