@@ -1,0 +1,20 @@
+name: Exemplo GitHub Action
+
+on:
+  push:
+    branches:
+      - '**' # Todas as branches
+      - '!main' # Exceto na branch main
+
+jobs:
+  exemplo_job:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+      
+      # Adicione aqui os passos que deseja executar nas branches
+
+      - name: Exemplo de comando
+        run: |
+          echo "Executando na branch: $GITHUB_REF_NAME"
