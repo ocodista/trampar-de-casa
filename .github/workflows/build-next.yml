@@ -16,26 +16,42 @@ jobs:
     -
       name: checkout
       uses: actions/checkout@v3
+    
+    - name: 'Automated Version Bump'
+      id: version-bump
+      uses: 'phips28/gh-action-bump-version@master'
+      with:
+        tag-prefix: 'v'
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        PACKAGE_FILENAME:  'apps/web/package.json'
+    - name: 'cat apps/web/package.json'
+      run: cat apps/web/package.json
+    - name: 'Output Step'
+      env:
+        NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
+      run: echo "new tag $NEW_TAG"
+    
     -
       name: setup node
       uses: actions/setup-node@v4
       with:
         node-version: 20
-    -
-      name: Upgrade project version
-      id: upgrade-version-step
-      run: | 
-        npm version patch &&
-        NEW_VERSION=$(cat package.json | jq -r '.version')
-        echo "Version clean is $NEW_VERSION"
-        echo API_VERSION=$NEW_VERSION >> $GITHUB_OUTPUT
-        git config user.name "GitHub Actions Bot"
-        git config user.email "<>"
-        git add .
-        git commit -m "[RELEASE] $NEW_VERSION"
-        git push
-    outputs:
-      API_VERSION: ${{ steps.upgrade-version-step.outputs.API_VERSION }}
+    # -
+    #   name: Upgrade project version
+    #   id: upgrade-version-step
+    #   run: | 
+    #     npm version patch &&
+    #     NEW_VERSION=$(cat package.json | jq -r '.version')
+    #     echo "Version clean is $NEW_VERSION"
+    #     echo API_VERSION=$NEW_VERSION >> $GITHUB_OUTPUT
+    #     git config user.name "GitHub Actions Bot"
+    #     git config user.email "<>"
+    #     git add .
+    #     git commit -m "[RELEASE] $NEW_VERSION"
+    #     git push
+    # outputs:
+    #   API_VERSION: ${{ steps.upgrade-version-step.outputs.API_VERSION }}
       
   docker-build:
     needs: [upgrade-project-version]
@@ -45,21 +61,6 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
-      - name: 'Automated Version Bump'
-        id: version-bump
-        uses: 'phips28/gh-action-bump-version@master'
-        with:
-          tag-prefix: 'v'
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          PACKAGE_FILENAME:  'apps/web/package.json'
-      - name: 'cat apps/web/package.json'
-        run: cat apps/web/package.json
-      - name: 'Output Step'
-        env:
-          NEW_TAG: ${{ steps.version-bump.outputs.newTag }}
-        run: echo "new tag $NEW_TAG"
-      
       # - name: Set up QEMU
         # uses: docker/setup-qemu-action@v2
         # with:
