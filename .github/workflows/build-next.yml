@@ -24,7 +24,8 @@ jobs:
         tag-prefix: 'v'
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        PACKAGE_FILENAME:  'apps/web/package.json'
+        PACKAGE_FILENAME:  apps/web/package.json
+        PACKAGEJSON_DIR: apps/web
     - name: 'cat apps/web/package.json'
       run: cat apps/web/package.json
     - name: 'Output Step'
