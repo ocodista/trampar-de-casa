@@ -1,0 +1,42 @@
+name: NPM Version Patch and PR
+
+on:
+  push:
+    branches:
+      - main # Trigger the action when a push is made to the main branch
+
+jobs:
+  version-patch:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up Node.js
+      uses: actions/setup-node@v3
+      with:
+        node-version: '20'
+
+    - name: Bump version
+      working-directory: apps/web
+      run: npm version patch
+
+    - name: Commit changes
+      working-directory: apps/web
+      run: |
+        git add package.json
+        git commit -m "Bump version in apps/web"
+
+    - name: Push changes
+      run: |
+        git push origin main
+
+    - name: Create Pull Request
+      uses: peter-evans/create-pull-request@v4
+      with:
+        token: ${{ secrets.GITHUB_TOKEN }}
+        commit-message: "Bump version in apps/web"
+        branch: "main"
+        title: "Bump version in apps/web"
+        body: "Bump version in apps/web folder using npm version patch"
+        base: "main"
