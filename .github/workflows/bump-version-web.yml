@@ -1,42 +1,60 @@
-name: NPM Version Patch and PR
+name: Verify and Bump Version
 
 on:
-  push:
-    # branches:
-    #   - main # Trigger the action when a push is made to the main branch
+  pull_request:
+    branches:
+      - main # Trigger the action on PRs targeting the main branch
 
 jobs:
-  version-patch:
+  verify-and-bump:
     runs-on: ubuntu-latest
-    steps:
-    - name: Checkout code
-      uses: actions/checkout@v3
 
-    - name: Set up Node.js
-      uses: actions/setup-node@v3
+    steps:
+    - name: Checkout the PR branch
+      uses: actions/checkout@v3
       with:
-        node-version: '20'
+        ref: ${{ github.head_ref }}
+
+    - name: Get version from PR branch
+      id: pr-version
+      run: |
+        PR_VERSION=$(jq -r '.version' apps/web/package.json)
+        echo "::set-output name=pr_version::${PR_VERSION}"
+
+    - name: Checkout the main branch
+      uses: actions/checkout@v3
+      with:
+        ref: main
+
+    - name: Get version from main branch
+      id: main-version
+      run: |
+        MAIN_VERSION=$(jq -r '.version' apps/web/package.json)
+        echo "::set-output name=main_version::${MAIN_VERSION}"
+
+    - name: Compare versions
+      run: |
+        if [ "${{ steps.pr-version.outputs.pr_version }}" != "${{ steps.main-version.outputs.main_version }}" ]; then
+          echo "The versions are different."
+          exit 0
+        else
+          echo "The versions are the same. Bump required."
+          exit 1
+
+    - name: Checkout the PR branch
+      uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}
+        fetch-depth: 0
 
     - name: Bump version
+      if: always()
       working-directory: apps/web
       run: npm version patch
 
     - name: Commit changes
-      working-directory: apps/web
+      if: always()
       run: |
-        git add package.json
+        git add apps/web/package.json
         git commit -m "Bump version in apps/web"
-
-    - name: Push changes
-      run: |
-        git push origin main
-
-    - name: Create Pull Request
-      uses: peter-evans/create-pull-request@v4
-      with:
-        token: ${{ secrets.GITHUB_TOKEN }}
-        commit-message: "Bump version in apps/web"
-        branch: "main"
-        title: "Bump version in apps/web"
-        body: "Bump version in apps/web folder using npm version patch"
-        base: "main"
+        git push origin ${{ github.head_ref }}
