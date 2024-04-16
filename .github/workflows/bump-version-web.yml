@@ -57,5 +57,7 @@ jobs:
       if: always()
       run: |
         git add apps/web/package.json
+        git config user.name "GitHub Actions Bot"
+        git config user.email "<>"
         git commit -m "Bump version in apps/web"
         git push origin ${{ github.head_ref }}
