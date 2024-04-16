@@ -2,8 +2,8 @@ name: NPM Version Patch and PR
 
 on:
   push:
-    branches:
-      - main # Trigger the action when a push is made to the main branch
+    # branches:
+    #   - main # Trigger the action when a push is made to the main branch
 
 jobs:
   version-patch:
