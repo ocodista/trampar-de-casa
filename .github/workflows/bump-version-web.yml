@@ -35,15 +35,24 @@ jobs:
         echo "::set-output name=main_version::${MAIN_VERSION}"
 
     - name: Compare versions
+      id: compare-versions
       run: |
         if [ "${{ steps.pr-version.outputs.pr_version }}" != "${{ steps.main-version.outputs.main_version }}" ]; then
+        echo "::set-output name=need_bumb::false"
           echo "The versions are different."
           exit 0
         else
+          echo "::set-output name=need_bumb::true"
           echo "The versions are the same. Bump required."
           exit 1
         fi
-
+    - name: Comment PR
+      if: contains(steps.compare-versions.outputs.need_bump, 'true')
+      uses: thollander/actions-comment-pull-request@v2
+      with:
+        message: |
+          Please, update version of web project! :wave:
+        
     # - name: Checkout the PR branch
     #   uses: actions/checkout@v3
     #   with:
