@@ -40,11 +40,9 @@ jobs:
         if [ "${{ steps.pr-version.outputs.pr_version }}" != "${{ steps.main-version.outputs.main_version }}" ]; then
         echo "::set-output name=need_bump::false" >> $GITHUB_OUTPUT
           echo "The versions are different."
-          exit 0
         else
           echo "::set-output name=need_bump::true" >> $GITHUB_OUTPUT
           echo "The versions are the same. Bump required."
-          exit 0
         fi
     - name: Comment PR
       if: contains(steps.compare-versions.outputs.need_bump, 'true')
