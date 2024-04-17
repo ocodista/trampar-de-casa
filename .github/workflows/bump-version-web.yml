@@ -41,6 +41,7 @@ jobs:
         else
           echo "The versions are the same. Bump required."
           exit 1
+        fi
 
     # - name: Checkout the PR branch
     #   uses: actions/checkout@v3
