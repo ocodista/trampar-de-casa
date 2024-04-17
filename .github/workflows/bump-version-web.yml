@@ -1,10 +1,11 @@
 name: Verify and Bump Version
 
 on:
-  push
-  # pull_request:
-  #   branches:
-  #     - main # Trigger the action on PRs targeting the main branch
+  # push
+  pull_request:
+    types: [opened, reopened]
+    branches:
+      - main # Trigger the action on PRs targeting the main branch
 
 jobs:
   verify-and-bump:
