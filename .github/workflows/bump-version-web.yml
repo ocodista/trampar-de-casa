@@ -44,7 +44,7 @@ jobs:
         else
           echo "::set-output name=need_bumb::true"
           echo "The versions are the same. Bump required."
-          exit 1
+          exit 0
         fi
     - name: Comment PR
       if: contains(steps.compare-versions.outputs.need_bump, 'true')
