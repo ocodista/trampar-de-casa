@@ -38,11 +38,11 @@ jobs:
       id: compare-versions
       run: |
         if [ "${{ steps.pr-version.outputs.pr_version }}" != "${{ steps.main-version.outputs.main_version }}" ]; then
-        echo "::set-output name=need_bumb::false" >> $GITHUB_OUTPUT
+        echo "::set-output name=need_bump::false" >> $GITHUB_OUTPUT
           echo "The versions are different."
           exit 0
         else
-          echo "::set-output name=need_bumb::true" >> $GITHUB_OUTPUT
+          echo "::set-output name=need_bump::true" >> $GITHUB_OUTPUT
           echo "The versions are the same. Bump required."
           exit 0
         fi
