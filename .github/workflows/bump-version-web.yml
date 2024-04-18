@@ -33,15 +33,14 @@ jobs:
       run: |
         MAIN_VERSION=$(jq -r '.version' apps/web/package.json)
         echo "::set-output name=main_version::${MAIN_VERSION}"
-
     - name: Compare versions
       id: compare-versions
       run: |
         if [ "${{ steps.pr-version.outputs.pr_version }}" != "${{ steps.main-version.outputs.main_version }}" ]; then
-        echo "::set-output name=need_bump::false" >> $GITHUB_OUTPUT
+        echo "::set-output name=need_bump::'false'"
           echo "The versions are different."
         else
-          echo "::set-output name=need_bump::true" >> $GITHUB_OUTPUT
+          echo "::set-output name=need_bump::'true'"
           echo "The versions are the same. Bump required."
         fi
     - name: Comment PR
