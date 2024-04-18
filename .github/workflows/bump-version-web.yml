@@ -1,7 +1,6 @@
 name: Verify and Bump Version
 
 on:
-  # push
   pull_request:
     types: [opened, reopened]
     branches:
