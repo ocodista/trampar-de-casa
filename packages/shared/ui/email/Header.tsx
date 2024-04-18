@@ -69,18 +69,14 @@ export function Header({
         className={h1}
       >{`${rolesCount} vagas para você Trampar de Casa`}</Heading>
       <Hr style={hr} />
-      <Text className={paragraph}>Olá, amante do trabalho remoto, beleza?</Text>
       <Text className={paragraph}>
-        Estou muito feliz de anunciar o lançamento da nossa loja de adesivos!
-        Agora, você pode apoiar o projeto e exibir ao mundo seu amor pelo
-        trabalho remoto, com adesivos por apenas R$4,00.
+        Olá, defensor do trabalho remoto, beleza?
       </Text>
       <Text className={paragraph}>
-        Visite nossa{' '}
-        <Link href="https://trampardecasa2.lojavirtualnuvem.com.br/">Loja</Link>{' '}
-        e utilize o cupom VIVAOTRABALHOREMOTO (20% off).
+        Tivemos um imprevisto com nosso DNS, que causou um atraso no envio de
+        hoje.
       </Text>
-
+      <Text className={paragraph}>Pedimos desculpas pelo desconforto!</Text>
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
     </Tailwind>
   )
