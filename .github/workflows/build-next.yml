@@ -6,39 +6,7 @@ on:
       - main
 
 jobs:
-  upgrade-project-version:
-    if: ${{ !contains(github.event.head_commit.message, '[RELEASE]') }}
-    runs-on: ubuntu-latest
-    defaults:
-      run:
-        working-directory: apps/web/
-    steps:
-    -
-      name: checkout
-      uses: actions/checkout@v3
-    -
-      name: setup node
-      uses: actions/setup-node@v4
-      with:
-        node-version: 20
-    -
-      name: Upgrade project version
-      id: upgrade-version-step
-      run: | 
-        npm version patch &&
-        NEW_VERSION=$(cat package.json | jq -r '.version')
-        echo "Version clean is $NEW_VERSION"
-        echo API_VERSION=$NEW_VERSION >> $GITHUB_OUTPUT
-        git config user.name "GitHub Actions Bot"
-        git config user.email "<>"
-        git add .
-        git commit -m "[RELEASE] $NEW_VERSION"
-        git push
-    outputs:
-      API_VERSION: ${{ steps.upgrade-version-step.outputs.API_VERSION }}
-      
   docker-build:
-    needs: [upgrade-project-version]
     runs-on: ubuntu-latest
 
     steps:
