@@ -48,7 +48,9 @@ jobs:
       uses: thollander/actions-comment-pull-request@v2
       with:
         message: |
-          Please, update version of web project! :wave:
+          Please, update version of web project!\nuse ```bash
+          cd apps/web && npm version patch
+          ``` :wave:
         
     # - name: Checkout the PR branch
     #   uses: actions/checkout@v3
