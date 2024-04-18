@@ -53,23 +53,3 @@ jobs:
           ```bash
           cd apps/web && npm version patch
           ```
-        
-    # - name: Checkout the PR branch
-    #   uses: actions/checkout@v3
-    #   with:
-    #     ref: ${{ github.head_ref }}
-    #     fetch-depth: 0
-
-    # - name: Bump version
-    #   if: always()
-    #   working-directory: apps/web
-    #   run: npm version patch
-
-    # - name: Commit changes
-    #   if: always()
-    #   run: |
-    #     git add apps/web/package.json
-    #     git config user.name "GitHub Actions Bot"
-    #     git config user.email "<>"
-    #     git commit -m "Bump version in apps/web"
-    #     git push
