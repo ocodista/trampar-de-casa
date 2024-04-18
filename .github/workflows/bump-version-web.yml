@@ -49,7 +49,7 @@ jobs:
       with:
         message: |
           Please, update version of web project!
-          execute thsi command on terminal
+          execute this command on terminal
           ```bash
           cd apps/web && npm version patch
           ```
