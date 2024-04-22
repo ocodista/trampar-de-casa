@@ -1,15 +1,14 @@
 'use client'
 import { FocusBanner } from 'app/landing-page/FocusBanner'
-import { Search } from 'lucide-react'
+import { ChevronDown, Search } from 'lucide-react'
 import Presentation from '../../components/presentation'
 import { useState } from 'react'
-import brasil from '../../../public/images/brazilianFlag.png'
-import USA from '../../../public/images/USAFlag.png'
-import UK from '../../../public/images/UKflag.png'
-import Image from 'next/image'
+import close from '../../../public/images/close.svg'
 import JobCard from '../../components/ui/JobCard'
 import { createClient } from '@supabase/supabase-js'
 import { skillArray } from '../../../../../packages/shared/src/infos/skills'
+import DynamicInput from 'app/components/DynamicInput'
+import Image from 'next/image'
 
 const supabase = createClient(
   process.env['NEXT_PUBLIC_SUPABASE_URL'] as string,
@@ -20,29 +19,17 @@ const technologys = ['C++', 'GO', 'PYTHON', 'RUST', 'WEB3']
 
 const experienceLevels = ['Estágio', 'Júnior', 'Pleno', 'Sênior']
 
-const flags = [
-  {
-    country: 'Brasil',
-    alt: 'Bandeira do Brasil',
-    src: brasil,
-  },
-  {
-    country: 'Estados Unidos',
-    alt: 'Bandeira dos Estados Unidos',
-    src: USA,
-  },
-  {
-    country: 'Reino Unido',
-    alt: 'Bandeira do Reino Unido',
-    src: UK,
-  },
-]
+const flags = ['Brasil', 'Estados Unidos', 'Reino Unido']
 
 const RolesPage = () => {
   const [selectedCountry, setSelectedCountry] = useState([])
   const [selectedTechnology, setSelectedTechnology] = useState([])
   const [selectedLevel, setSelectedLevel] = useState([])
   const [jobs, setJobs] = useState([])
+  const [salaryOpen, setSalaryOpen] = useState(false)
+  const [rangeValue, setRangeValue] = useState(50)
+  const [previewRangeValue, setPreviewRangeValue] = useState<number>()
+  const [filters, setFilters] = useState([])
 
   const fetchJobs = async (
     countries: Array<string>,
@@ -121,6 +108,51 @@ const RolesPage = () => {
     fetchJobs(selectedCountry, selectedTechnology, selectedLevel)
   }
 
+  const options = [
+    'teste 1',
+    'Option 2',
+    'Option 3',
+    'teste 1',
+    'Option 2',
+    'Option 3',
+    'teste 1',
+    'Option 2',
+    'Option 3',
+    'teste 1',
+    'Option 2',
+    'Option 3',
+    'teste 1',
+    'Option 2',
+    'Option 3',
+    'teste 1',
+    'Option 2',
+    'Option 3',
+    'teste 1',
+    'Option 2',
+    'Option 3',
+    'teste 1',
+    'Option 2',
+    'Option 3',
+  ]
+
+  const handleDeleteFilter = ({ filter }) => {
+    const newFilterArray = filters.filter((item) => item !== filter)
+    setFilters(newFilterArray)
+  }
+
+  const handleInputRange = () => {
+    if (previewRangeValue) {
+      const newFilterArray = filters.filter(
+        (value) => value !== previewRangeValue
+      )
+      setFilters([rangeValue, ...newFilterArray])
+      setPreviewRangeValue(rangeValue)
+      return
+    }
+    setFilters((prevState) => [rangeValue, ...prevState])
+    setPreviewRangeValue(rangeValue)
+  }
+
   return (
     <>
       <FocusBanner />
@@ -137,14 +169,82 @@ const RolesPage = () => {
                 className="absolute left-[35px] top-[34px]"
                 size={'25px'}
               />
-              <input className="color-[#0f1115] mx-[14px] mb-[14px] mt-[7px] w-[400px] rounded-[100px] border-[2px] py-[12px] pl-[60px] pr-[12px] text-left text-[20px]"></input>
+              <input
+                className="color-[#0f1115] mx-[14px] mb-[14px] mt-[7px] w-[400px] 
+              rounded-[100px] border-[2px] py-[12px] pl-[60px] pr-[12px] text-left 
+              text-[20px]"
+              ></input>
             </div>
           </div>
         </div>
-        <div className="mb-[150px] mt-[35px] flex">
-          <div className="w-[30%]">
-            <h1 className="mb-[15px] text-[20px] font-bold">Tecnologia</h1>
-            <div className="flex flex-wrap gap-[15px]">
+        <div className="mb-[150px] mt-[35px]">
+          <div className="w-full">
+            <div className="flex gap-[20px]">
+              <DynamicInput
+                placeholder="🔍 Search"
+                options={technologys}
+                setFilters={setFilters}
+              />
+              <DynamicInput
+                placeholder="🌏 Location"
+                options={flags}
+                setFilters={setFilters}
+              />
+              <button
+                onClick={() => setSalaryOpen(!salaryOpen)}
+                className="border-box relative flex w-[150px] items-center rounded-[20px] 
+                border-[1px] bg-[#F4F4F5] py-[9px] pl-[14px] pr-[9px] text-black text-opacity-100"
+              >
+                <span>💵 Salary</span>
+                <ChevronDown className="absolute right-[10px]" />
+                {salaryOpen && (
+                  <div className="absolute left-0 top-[40px] z-10 min-w-[250px] rounded-2xl bg-[#f4f4f5] p-[14px]">
+                    <div className="flex justify-between">
+                      <p>Minimum</p>
+                      <p>${rangeValue}k/year</p>
+                    </div>
+                    <input
+                      type="range"
+                      value={rangeValue}
+                      step={10}
+                      className="m-[2px] w-full"
+                      min={10}
+                      max={100}
+                      onMouseUp={() => handleInputRange()}
+                      onChange={(e) => {
+                        setRangeValue(parseInt(e.target.value))
+                      }}
+                    />
+                  </div>
+                )}
+              </button>
+              <DynamicInput
+                placeholder="🎪 Level"
+                options={experienceLevels}
+                setFilters={setFilters}
+              />
+            </div>
+            <div className="flex gap-[15px]">
+              {filters.map((filter) => (
+                <div
+                  key={filter}
+                  className="border-box relative mt-[15px] flex w-[150px] items-center 
+                  justify-center rounded-[20px] border-[1px] 
+                bg-[#F4F4F5] py-[7px] pl-[7px] pr-[29px] text-center placeholder-black 
+                placeholder-opacity-100"
+                >
+                  <ChevronDown />
+                  {filter}
+                  <Image
+                    className="absolute right-[12px] h-[14px] w-[16px] opacity-50"
+                    alt="Close tag"
+                    src={close}
+                    onClick={() => handleDeleteFilter({ filter })}
+                  />
+                </div>
+              ))}
+            </div>
+            {/* <div className="flex flex-wrap gap-[15px]">
               {technologys.map((technology) => (
                 <button
                   key={technology}
@@ -158,8 +258,8 @@ const RolesPage = () => {
                   {technology}
                 </button>
               ))}
-            </div>
-            <div className="mt-[25px]">
+            </div> */}
+            {/* <div className="mt-[25px]">
               <h1 className="mb-[15px] text-[20px] font-bold">
                 Salário mensal (em reais)
               </h1>
@@ -208,12 +308,12 @@ const RolesPage = () => {
               >
                 Pesquisar
               </button>
-            </div>
+            </div> */}
           </div>
-          <div className="flex w-[70%] flex-col flex-col items-center gap-[10px]">
-            {jobs.map((job, index) => (
-              <JobCard job={job} key={index} />
-            ))}
+          <div className="flex w-full flex-col flex-col items-center gap-[10px]">
+            {jobs.length > 0
+              ? jobs.map((job, index) => <JobCard job={job} key={index} />)
+              : 'Nenhum trabalho encontrado'}
           </div>
         </div>
       </div>
