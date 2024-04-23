@@ -65,19 +65,23 @@ export function Header({
           </Column>
         </Row>
       </Section>
-      <Heading
-        className={h1}
-      >{`${rolesCount} vagas para você Trampar de Casa`}</Heading>
+      <Heading className={h1}>
+        Somos 20.000 amantes do trabalho remoto 🎉
+      </Heading>
       <Hr style={hr} />
       <Text className={paragraph}>
-        Olá, defensor do trabalho remoto, beleza?
+        Olá, amante do trabalho remoto, tudo bem?
       </Text>
       <Text className={paragraph}>
-        Tivemos um imprevisto com nosso DNS, que causou um atraso no envio de
-        hoje.
+        Hoje temos a honra de celebrar 20.000 inscritos na nossa plataforma!
       </Text>
-      <Text className={paragraph}>Pedimos desculpas pelo desconforto!</Text>
-      <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
+      <Text className={paragraph}>
+        Gostaríamos de te agradecer por todo o suporte e participação nessa luta
+        para tornar o trabalho 100% remoto cada vez mais comum, muito obrigado!
+      </Text>
+      <Text className={paragraph}>
+        Agora, como de costume, aproveite suas vagas da semana!
+      </Text>
     </Tailwind>
   )
 }
