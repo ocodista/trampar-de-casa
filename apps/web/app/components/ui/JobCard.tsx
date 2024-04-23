@@ -11,7 +11,7 @@ const jobCard = ({ job }) => {
     <a
       href={job.url}
       target="_blank"
-      className="pointer shadow-brand-shadow w-[90%] rounded-lg bg-[#FCFCFD] p-[30px]"
+      className="pointer shadow-brand-shadow w-full rounded-lg bg-[#FCFCFD] p-[30px]"
     >
       <div className="mb-[10px] flex justify-between">
         <h2 className="text-[12px]">{job.company}</h2>
