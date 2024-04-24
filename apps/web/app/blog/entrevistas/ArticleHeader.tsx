@@ -1,6 +1,4 @@
 import Image from 'next/image'
-import React from 'react'
-import { kv } from '@vercel/kv'
 import { getImageUrl } from './utils'
 
 export async function ArticleHeader({
@@ -18,8 +16,6 @@ export async function ArticleHeader({
   dateText: string
   timeToRead: number
 }) {
-  const count: number = (await kv.get(title)) || 0
-  await kv.set(title, count + 1)
   const imageSubtitle = `Image of ${author}`
 
   return (
@@ -28,12 +24,6 @@ export async function ArticleHeader({
         <small className="text-muted-foreground text-sm">
           {dateText} • <span>{timeToRead} minutos de leitura</span>
         </small>
-        {count > 0 && (
-          <small className="text-muted-foreground text-sm">
-            {count.toLocaleString()} {count > 1 ? 'leitores' : 'leitor'}{' '}
-            {count > 1 ? 'apoiam' : 'apoia'} o trabalho remoto
-          </small>
-        )}
       </section>
       <h1 className="my-4 text-4xl font-extrabold tracking-tight lg:text-5xl">
         {title.replace(' - Trampar de Casa', '')}
