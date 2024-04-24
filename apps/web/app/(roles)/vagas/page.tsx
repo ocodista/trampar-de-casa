@@ -15,66 +15,100 @@ const supabase = createClient(
   process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] as string
 )
 
+interface Filters {
+  option: string
+  inputType: string
+}
+
 const technologys = ['🖥️ C++', '🚀 GO', '🐍 PYTHON', '⚙️ RUST', '🌐 WEB3']
 
 const experienceLevels = ['🎓 Estágio', '👶 Júnior', '🧑‍💼 Pleno', '👴 Sênior']
 
 const flags = ['🇧🇷 Brasil', '🇺🇸 Estados Unidos', '🇬🇧 Reino Unido']
 
-const order = [
-  '👀 Mais visualizados',
-  '📝 Mais aplicados',
-  '🕒 Trabalhos mais recentes',
-  '🌟 Melhores avaliados',
-  '💰 Melhores pagamentos',
-  '🔥 Hottest',
-]
+const order = ['🕒 Trabalhos mais recentes', '🕒 Trabalhos mais antigos']
 
 const RolesPage = () => {
   const [jobs, setJobs] = useState([])
   const [salaryOpen, setSalaryOpen] = useState(false)
   const [rangeValue, setRangeValue] = useState(50)
   const [previewRangeValue, setPreviewRangeValue] = useState('')
-  const [filters, setFilters] = useState([])
+  const [filters, setFilters] = useState<Filters[]>([])
 
-  const fetchJobs = async (option?: string, filterType?: string) => {
+  const fetchJobs = async () => {
     try {
-      let query = supabase
-        .from('Roles')
-        .select('*')
-        .order('createdAt', { ascending: false })
-        .limit(10)
-
-      if (option) {
-        const optionFormatted = option
+      const countryFilters = filters.filter(
+        (filter) => filter.inputType === 'country'
+      )
+      const countryOptionsFormatted = countryFilters.map((countryFilter) =>
+        countryFilter.option
           .replace(/[^A-Za-záéíóúãõâêîôûàèìòùç0-9\s+-]/g, '')
           .trim()
+      )
 
-        if (filterType === 'skill') {
-          const skill = skillArray.find(
-            (skill) => skill.normalized === optionFormatted
-          )
-          const skillId = skill ? skill.id.toString() : null
-          query = query.filter('skillsId', 'cs', `{${skillId}}`)
-        }
+      const skillsFilters = filters.filter(
+        (filter) => filter.inputType === 'skill'
+      )
+      const skillsFormatted = skillsFilters.map((countryFilter) =>
+        countryFilter.option
+          .replace(/[^A-Za-záéíóúãõâêîôûàèìòùç0-9\s+-]/g, '')
+          .trim()
+      )
+      const matchingSkills = skillArray.filter((skill) =>
+        skillsFormatted.includes(skill.normalized)
+      )
 
-        if (filterType === 'country') {
-          query = query.eq('country', optionFormatted)
-        }
+      const skillIdsArray = matchingSkills.map((skill) => skill.id.toString())
 
-        if (filterType === 'level') {
-          query = query.ilike('description', `%${optionFormatted}%`)
-        }
+      const levelFilters = filters.filter(
+        (filter) => filter.inputType === 'level'
+      )
+      const levelsFormated = levelFilters.map((countryFilter) =>
+        countryFilter.option
+          .replace(/[^A-Za-záéíóúãõâêîôûàèìòùç0-9\s+-]/g, '')
+          .trim()
+      )
+
+      const orderFilter = filters.find((filter) => filter.inputType === 'order')
+
+      const orderOptionFormated = orderFilter.option
+        .replace(/[^A-Za-záéíóúãõâêîôûàèìòùç0-9\s+-]/g, '')
+        .trim()
+
+      let query = supabase.from('Roles').select('*').limit(1000)
+
+      if (countryOptionsFormatted.length > 0) {
+        query = query.in('country', countryOptionsFormatted)
       }
+
+      if (skillIdsArray.length > 0) {
+        query = query.contains('skillsId', skillIdsArray)
+      }
+
+      query = query.order('createdAt', {
+        ascending:
+          orderOptionFormated === 'Trabalhos mais antigos' ? true : false,
+      })
+
       console.log(query)
       const { data, error } = await query
-      console.log({ DATAAAA: data, ERRROOOOORR: error })
+      console.log({ DATA: data, ERROR: error })
 
       if (error) {
         throw error
       }
+      if (levelsFormated.length > 0) {
+        const filteredData = data.filter((job) => {
+          const jobDescription = job.description.toLowerCase()
 
-      setJobs(data)
+          return levelsFormated.some((level) =>
+            jobDescription.includes(level.toLowerCase())
+          )
+        })
+        setJobs(filteredData)
+      } else {
+        setJobs(data)
+      }
     } catch (error) {
       console.error('Erro ao buscar dados do banco de dados:', error.message)
     }
@@ -88,19 +122,25 @@ const RolesPage = () => {
   const handleInputRange = () => {
     if (previewRangeValue) {
       const newFilterArray = filters.filter(
-        (value) => value !== previewRangeValue
+        (value) => value.option !== previewRangeValue
       )
-      setFilters([`💵 >$${rangeValue}k/y`, ...newFilterArray])
+      setFilters([
+        { option: `💵 >$${rangeValue}k/y`, inputType: 'range' },
+        ...newFilterArray,
+      ])
       setPreviewRangeValue(`💵 >$${rangeValue}k/y`)
       return
     }
-    setFilters((prevState) => [`💵 >$${rangeValue}k/y`, ...prevState])
+    setFilters((prevState) => [
+      { option: `💵 >$${rangeValue}k/y`, inputType: 'range' },
+      ...prevState,
+    ])
     setPreviewRangeValue(`💵 >$${rangeValue}k/y`)
   }
 
   useEffect(() => {
     fetchJobs()
-  }, [])
+  }, [filters])
 
   return (
     <>
@@ -134,7 +174,6 @@ const RolesPage = () => {
                   placeholder="🔍 Procurar"
                   options={technologys}
                   setFilters={setFilters}
-                  fetchJobs={fetchJobs}
                   filterType="skill"
                   filters={filters}
                 />
@@ -142,7 +181,6 @@ const RolesPage = () => {
                   placeholder="🌏 Local"
                   options={flags}
                   setFilters={setFilters}
-                  fetchJobs={fetchJobs}
                   filterType="country"
                   filters={filters}
                 />
@@ -178,7 +216,6 @@ const RolesPage = () => {
                   placeholder="🚀 Níveis"
                   options={experienceLevels}
                   setFilters={setFilters}
-                  fetchJobs={fetchJobs}
                   filterType="level"
                   filters={filters}
                 />
@@ -186,9 +223,8 @@ const RolesPage = () => {
               <DynamicInput
                 placeholder="📊 Ordenar"
                 options={order}
-                setFilters={setFilters}
-                fetchJobs={fetchJobs}
                 filterType="order"
+                setFilters={setFilters}
                 filters={filters}
                 optionConfig="w-[300px] right-0"
               />
@@ -196,13 +232,13 @@ const RolesPage = () => {
             <div className="flex gap-[15px]">
               {filters.map((filter) => (
                 <div
-                  key={filter}
+                  key={filter.option}
                   className="border-box relative mt-[15px] flex items-center 
                   rounded-[20px] border-[1px] 
                 bg-[#F4F4F5] py-[7px] pl-[7px] pr-[29px] text-center placeholder-black 
                 placeholder-opacity-100"
                 >
-                  {filter}
+                  {filter.option}
                   <Image
                     className="absolute right-[10px] h-[14px] w-[16px] cursor-pointer opacity-50"
                     alt="Close tag"
