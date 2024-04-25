@@ -53,13 +53,13 @@ const DynamicInput = ({
       const newFilterArray = filters.filter(
         (value) => value.option !== previewOrderValue
       )
-      setFilters([{ option: option, inputType: 'order' }, ...newFilterArray])
+      setFilters([...newFilterArray, { option: option, inputType: 'order' }])
       setPreviewOrderValue(option)
       return
     }
     setFilters((prevState: Filter[]) => [
-      ...prevState,
       { option: option, inputType: filterType },
+      ...prevState,
     ])
     setPreviewOrderValue(option)
   }

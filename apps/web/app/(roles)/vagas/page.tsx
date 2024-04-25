@@ -9,6 +9,7 @@ import { createClient } from '@supabase/supabase-js'
 import { skillArray } from '../../../../../packages/shared/src/infos/skills'
 import DynamicInput from 'app/components/DynamicInput'
 import Image from 'next/image'
+import InfiniteScroll from 'react-infinite-scroll-component'
 
 const supabase = createClient(
   process.env['NEXT_PUBLIC_SUPABASE_URL'] as string,
@@ -30,52 +31,34 @@ const order = ['🕒 Trabalhos mais recentes', '🕒 Trabalhos mais antigos']
 
 const RolesPage = () => {
   const [jobs, setJobs] = useState([])
+  const [useTyped, setUseTyped] = useState(true)
+  const [inputUseTypedValue, setInputUseTypedValue] = useState('')
   const [salaryOpen, setSalaryOpen] = useState(false)
   const [rangeValue, setRangeValue] = useState(50)
   const [previewRangeValue, setPreviewRangeValue] = useState('')
   const [filters, setFilters] = useState<Filters[]>([])
+  const [hasMore, setHasMore] = useState(true)
 
-  const fetchJobs = async () => {
+  const formatFiltersData = (filters, type: string) => {
+    return filters
+      .filter((filter) => filter.inputType === type)
+      .map((filter) =>
+        filter.option.replace(/[^A-Za-záéíóúãõâêîôûàèìòùç0-9\s+-]/g, '').trim()
+      )
+  }
+
+  const fetchJobs = async (type: string) => {
     try {
-      const countryFilters = filters.filter(
-        (filter) => filter.inputType === 'country'
-      )
-      const countryOptionsFormatted = countryFilters.map((countryFilter) =>
-        countryFilter.option
-          .replace(/[^A-Za-záéíóúãõâêîôûàèìòùç0-9\s+-]/g, '')
-          .trim()
-      )
-
-      const skillsFilters = filters.filter(
-        (filter) => filter.inputType === 'skill'
-      )
-      const skillsFormatted = skillsFilters.map((countryFilter) =>
-        countryFilter.option
-          .replace(/[^A-Za-záéíóúãõâêîôûàèìòùç0-9\s+-]/g, '')
-          .trim()
-      )
+      const countryOptionsFormatted = formatFiltersData(filters, 'country')
+      const skillsFormatted = formatFiltersData(filters, 'skill')
       const matchingSkills = skillArray.filter((skill) =>
         skillsFormatted.includes(skill.normalized)
       )
-
       const skillIdsArray = matchingSkills.map((skill) => skill.id.toString())
-
-      const levelFilters = filters.filter(
-        (filter) => filter.inputType === 'level'
-      )
-      const levelsFormated = levelFilters.map((countryFilter) =>
-        countryFilter.option
-          .replace(/[^A-Za-záéíóúãõâêîôûàèìòùç0-9\s+-]/g, '')
-          .trim()
-      )
-
+      const levelsFormated = formatFiltersData(filters, 'level')
       const orderFilter = filters.find((filter) => filter.inputType === 'order')
 
-      const orderOptionFormated = orderFilter.option
-        .replace(/[^A-Za-záéíóúãõâêîôûàèìòùç0-9\s+-]/g, '')
-        .trim()
-
-      let query = supabase.from('Roles').select('*').limit(1000)
+      let query = supabase.from('Roles').select('*').limit(21)
 
       if (countryOptionsFormatted.length > 0) {
         query = query.in('country', countryOptionsFormatted)
@@ -85,38 +68,54 @@ const RolesPage = () => {
         query = query.contains('skillsId', skillIdsArray)
       }
 
-      query = query.order('createdAt', {
-        ascending:
-          orderOptionFormated === 'Trabalhos mais antigos' ? true : false,
-      })
+      if (levelsFormated.length > 0) {
+        const filters = levelsFormated.map(
+          (level) => `description.ilike.%${level}%`
+        )
+        const combinedFilter = filters.join(',')
+        query = query.or(combinedFilter)
+      }
 
-      console.log(query)
+      if (orderFilter) {
+        const orderOptionFormated = formatFiltersData(filters, 'order')
+        query = query.order('createdAt', {
+          ascending:
+            orderOptionFormated[0] === 'Trabalhos mais antigos' ? true : false,
+        })
+      } else {
+        query = query.order('createdAt', { ascending: false })
+      }
+
+      if (type === 'refetch') {
+        query = query.range(jobs.length, jobs.length + 10)
+      }
+
       const { data, error } = await query
-      console.log({ DATA: data, ERROR: error })
 
       if (error) {
         throw error
       }
-      if (levelsFormated.length > 0) {
-        const filteredData = data.filter((job) => {
-          const jobDescription = job.description.toLowerCase()
 
-          return levelsFormated.some((level) =>
-            jobDescription.includes(level.toLowerCase())
-          )
-        })
-        setJobs(filteredData)
-      } else {
+      if (type === 'initial') {
         setJobs(data)
+      } else if (type === 'refetch') {
+        setJobs((prevJobs) => [...prevJobs, ...data])
+      }
+
+      if (data.length < 10) {
+        setHasMore(false)
       }
     } catch (error) {
       console.error('Erro ao buscar dados do banco de dados:', error.message)
     }
   }
 
-  const handleDeleteFilter = ({ filter }) => {
-    const newFilterArray = filters.filter((item) => item !== filter)
-    setFilters(newFilterArray)
+  const handleDeleteFilter = ({ filter }: { filter: Filters }) => {
+    setFilters((prevFilters) =>
+      prevFilters.filter((item) => item.option !== filter.option)
+    )
+
+    setHasMore(true)
   }
 
   const handleInputRange = () => {
@@ -139,7 +138,7 @@ const RolesPage = () => {
   }
 
   useEffect(() => {
-    fetchJobs()
+    fetchJobs('initial')
   }, [filters])
 
   return (
@@ -153,7 +152,7 @@ const RolesPage = () => {
               <br /> de qualquer lugar
             </h1>
             <div className="relative">
-              <Presentation />
+              {useTyped && <Presentation />}
               <Search
                 className="absolute left-[35px] top-[34px]"
                 size={'25px'}
@@ -162,6 +161,13 @@ const RolesPage = () => {
                 className="color-[#0f1115] mx-[14px] mb-[14px] mt-[7px] w-[400px] 
               rounded-[100px] border-[2px] py-[12px] pl-[60px] pr-[12px] text-left 
               text-[20px]"
+                onChange={(e) => setInputUseTypedValue(e.target.value)}
+                value={inputUseTypedValue}
+                onFocus={() => setUseTyped(false)}
+                onBlur={() => {
+                  setUseTyped(true)
+                  setInputUseTypedValue('')
+                }}
               ></input>
             </div>
           </div>
@@ -233,10 +239,12 @@ const RolesPage = () => {
               {filters.map((filter) => (
                 <div
                   key={filter.option}
-                  className="border-box relative mt-[15px] flex items-center 
+                  className={`border-box relative mt-[15px] flex items-center 
                   rounded-[20px] border-[1px] 
                 bg-[#F4F4F5] py-[7px] pl-[7px] pr-[29px] text-center placeholder-black 
-                placeholder-opacity-100"
+                placeholder-opacity-100 ${
+                  order.includes(filter.option) && 'hidden'
+                }`}
                 >
                   {filter.option}
                   <Image
@@ -247,29 +255,43 @@ const RolesPage = () => {
                   />
                 </div>
               ))}
-              {filters.length ? (
-                <button
-                  onClick={() => {
-                    setFilters([])
-                    fetchJobs()
-                  }}
-                  className="border-box relative mt-[15px] flex 
-                  items-center rounded-[20px] border-[1px] border-[#FF0000]
-                bg-[#F4F4F5] py-[7px] pl-[7px] pr-[7px] text-center text-[#FF0000] hover:bg-[#FF0000] hover:text-white"
-                >
-                  <X />
-                  <p>Clear {jobs.length > 20 ? '20+' : jobs.length} results</p>
-                </button>
-              ) : (
-                ''
-              )}
+              {filters.length > 0 &&
+                filters.some((filter) => !order.includes(filter.option)) && (
+                  <button
+                    onClick={() => {
+                      setFilters([])
+                      setHasMore(true)
+                    }}
+                    className="border-box relative mt-[15px] flex items-center rounded-[20px] border-[1px] border-[#FF0000] bg-[#F4F4F5] py-[7px] pl-[7px] pr-[7px] text-center text-[#FF0000] hover:bg-[#FF0000] hover:text-white"
+                  >
+                    <X />
+                    <p>
+                      Clear {jobs.length > 20 ? '20+' : jobs.length} results
+                    </p>
+                  </button>
+                )}
             </div>
           </div>
-          <div className="mt-[25px] flex w-full flex-col flex-col gap-[10px]">
-            {jobs.length > 0
-              ? jobs.map((job, index) => <JobCard job={job} key={index} />)
-              : 'Nenhum trabalho encontrado'}
-          </div>
+          <InfiniteScroll
+            dataLength={jobs.length}
+            next={() => fetchJobs('refetch')}
+            hasMore={hasMore}
+            loader={<h4>Carregando...</h4>}
+            endMessage={<p>Nenhum trabalho adicional para carregar.</p>}
+            style={{
+              marginTop: '25px',
+              display: 'flex',
+              width: '100%',
+              flexDirection: 'column',
+              gap: '10px',
+              overflowY: 'hidden',
+              padding: '10px',
+            }}
+          >
+            {jobs.map((job, index) => (
+              <JobCard job={job} key={index} />
+            ))}
+          </InfiniteScroll>
         </div>
       </div>
     </>

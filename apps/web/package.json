@@ -56,6 +56,7 @@
     "react-day-picker": "^8.8.0",
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.0",
+    "react-infinite-scroll-component": "^6.1.0",
     "react-query": "^3.39.3",
     "remark-gfm": "^4.0.0",
     "resend": "^2.0.0",
