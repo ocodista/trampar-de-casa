@@ -1,4 +1,5 @@
 import { GetMessage } from 'amqplib'
+import { Resend } from 'resend'
 import { getMongoConnection, logger } from 'shared'
 import { EmailQueues } from 'shared/src/enums/emailQueues'
 import { MongoCollection } from 'shared/src/enums/mongo'
@@ -52,6 +53,12 @@ export const composeEmail = async () => {
     emailPreRendererChannel.ack(msg)
     logger(++count)
   } while (msg)
-
+  const resend = new Resend(process.env['RESEND_KEY'])
+  await resend.emails.send({
+    from: 'logger@trampardecasa.com.br',
+    to: process.env['OWNER_EMAIL'] as string,
+    subject: 'Trampar de casa emails were rendered!',
+    text: `Rendering ${count} emails!`,
+  })
   process.exit(0)
 }
