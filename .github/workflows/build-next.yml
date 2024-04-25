@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - main
+    paths:
+      - apps/web
 
 jobs:
   docker-build:

@@ -5,6 +5,8 @@ on:
     types: [opened, reopened]
     branches:
       - main # Trigger the action on PRs targeting the main branch
+    paths:
+      - apps/web
 
 jobs:
   verify-and-bump:
