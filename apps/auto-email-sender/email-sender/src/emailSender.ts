@@ -37,7 +37,12 @@ export const emailSender = async () => {
     logger(`sent [${count}] emails!`)
     emailChunk = []
   }
-
+  await resend.emails.send({
+    from: 'logger@trampardecasa.com.br',
+    to: process.env['OWNER_EMAIL'] as string,
+    subject: 'Trampar de casa emails were send!',
+    text: `Sent ${count} emails!`,
+  })
   logger.timeEnd('emailSender')
   process.exit(0)
 }
