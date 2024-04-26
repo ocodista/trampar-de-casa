@@ -6,6 +6,9 @@ on:
       - main
     paths:
       - apps/web
+      - packages/analytics
+      - packages/shared
+      - packages/db
 
 jobs:
   docker-build:

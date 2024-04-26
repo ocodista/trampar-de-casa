@@ -7,6 +7,9 @@ on:
       - main # Trigger the action on PRs targeting the main branch
     paths:
       - apps/web
+      - packages/analytics
+      - packages/shared
+      - packages/db
 
 jobs:
   verify-and-bump:
