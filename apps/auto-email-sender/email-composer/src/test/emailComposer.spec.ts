@@ -1,4 +1,5 @@
 import { faker } from '@faker-js/faker'
+import * as resendLib from 'resend'
 import * as sharedFile from 'shared'
 import * as createRabbitMqConnectionFile from 'shared/src/queue/createRabbitMqConnection'
 import { channelMock } from 'shared/src/test/helpers/rabbitMQ'
@@ -8,7 +9,6 @@ import { vi } from 'vitest'
 import * as createEmailHtmlFile from '../createEmailHtml'
 import * as getHtmlRolesFile from '../getHtmlRoles'
 import { collectionMock } from './utils/mockMongo'
-
 // mock process.exit
 vi.spyOn(process, 'exit').mockImplementation(vi.fn())
 
@@ -33,6 +33,13 @@ const mongoDbConfig = () => {
       }),
     }))
 }
+const resendConfig = () => {
+  vi.spyOn(resendLib, 'Resend').mockReturnValue({
+    emails: {
+      send: vi.fn(),
+    },
+  } as unknown as resendLib.Resend)
+}
 
 describe('Email Composer Service Tests', () => {
   beforeEach(() => {
@@ -45,8 +52,11 @@ describe('Email Composer Service Tests', () => {
   it('establishes connection with rabbitMQ', async () => {
     rabbitMqConfig()
     mongoDbConfig()
+    resendConfig()
+
     await composeEmail()
-    expect(createRabbitMqConnectionStub).toBeCalled()
+
+    expect(createRabbitMqConnectionStub).toHaveBeenCalled()
   })
 
   describe('For each queue message', () => {
