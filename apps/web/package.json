@@ -59,7 +59,6 @@
     "react-query": "^3.39.3",
     "remark-gfm": "^4.0.0",
     "resend": "^2.0.0",
-    "security": "*",
     "shared": "*",
     "sharp": "^0.33.3",
     "svix": "^1.15.0",
