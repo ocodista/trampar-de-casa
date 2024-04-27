@@ -4,7 +4,7 @@ import { skillArray } from '../../../../../packages/shared/src/infos/skills'
 const jobCard = ({ job }) => {
   const normalize = (id: string) => {
     const skill = skillArray.find((skill) => skill.id === parseInt(id))
-    return skill ? skill.normalized : 'NOTFOUND'
+    return skill ? skill.name : null
   }
 
   return (
@@ -22,7 +22,9 @@ const jobCard = ({ job }) => {
         {job.skillsId.map((skillId) => (
           <span
             key={skillId}
-            className="mt-[5px] rounded-[20px] bg-[#F4F4F5] px-[15px] py-[2px]"
+            className={`${
+              normalize(skillId) === null && 'hidden'
+            } mt-[5px] rounded-[20px] bg-[#F4F4F5] px-[15px] py-[2px]`}
           >
             {normalize(skillId)}
           </span>
@@ -31,7 +33,7 @@ const jobCard = ({ job }) => {
       <div className="flex gap-[25px] text-[15px]">
         <div className="flex items-center">
           <MapPin size={15} className="mr-[5px]" />
-          <span>International</span>
+          <span>{job.country ? job.country : 'Internacional'}</span>
         </div>
         <div className="flex items-center">
           <Languages size={15} className="mr-[5px]" />
