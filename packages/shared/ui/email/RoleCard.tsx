@@ -1,11 +1,6 @@
-import { Column, Heading, Row, Tailwind } from '@react-email/components'
 import React from 'react'
 import { skillArray } from '../../src'
 import { RoleHTML } from './RoleHTML'
-
-interface Skill {
-  name: string
-}
 
 export type OpeningCurrency = 'U$' | 'R$' | 'EUR'
 
@@ -24,12 +19,6 @@ export interface Opening {
   salary?: string
   url: string
 }
-
-const Skill = ({ name }: Skill) => (
-  <div className="mb-1 whitespace-nowrap rounded-2xl border-2 border-solid border-black bg-zinc-200 px-4 py-1.5 text-xs">
-    {name}
-  </div>
-)
 
 export const RoleCard = ({
   company,
