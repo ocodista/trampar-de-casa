@@ -17,14 +17,14 @@ export const getFakeRoles = (
     description: `A partir de $${faker.number.float({
       min: 1000,
       max: 6000,
-      precision: 2,
+      multipleOf: 2,
     })}`,
     language: faker.helpers.arrayElement(['Inglês', 'Português']),
     ready: faker.datatype.boolean(),
     salary: `A partir de $${faker.number.float({
       min: 1000,
       max: 6000,
-      precision: 2,
+      multipleOf: 2,
     })}`,
     skillNames: faker.helpers
       .arrayElements(skillArray, 2)
