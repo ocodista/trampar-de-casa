@@ -1,6 +1,7 @@
 import { Column, Heading, Row, Tailwind } from '@react-email/components'
 import React from 'react'
 import { skillArray } from '../../src'
+import { RoleHTML } from './RoleHTML'
 
 interface Skill {
   name: string
@@ -38,57 +39,18 @@ export const RoleCard = ({
   location,
   skills,
   language,
+  salary,
 }: Omit<Opening, 'skills'> & { skills: string[] }) => {
   const firstSkills = skills.slice(0, 4)
-
-  return (
-    <Tailwind>
-      <a
-        href={url}
-        target="_blank"
-        className="decoration-none no-underline"
-        style={{
-          textDecoration: 'none',
-          color: 'unset',
-        }}
-        rel="noreferrer"
-      >
-        <div
-          className={`my-4 cursor-pointer rounded-md border border-solid border-gray-300 p-4 text-sm`}
-        >
-          <Row>
-            <Column align="left" className="text-xs italic">
-              {company}
-            </Column>
-            <Column align="right" className="text-xs italic">
-              {headerInfo}
-            </Column>
-          </Row>
-          <Row>
-            <Heading className="text-sm">{title}</Heading>
-          </Row>
-          <section className="flex flex-wrap gap-x-2">
-            {firstSkills.map((skill: string | undefined) => {
-              if (!skill) return null
-              return <Skill key={skill} name={skill} />
-            })}
-          </section>
-          <Row className="mt-2 text-gray-400">
-            <Column align="left" className="flex items-center text-xs">
-              {location ? (
-                <>
-                  📍 <span className="ml-1 mr-6">{location}</span>
-                  💬 <span className="mx-1">{language}</span>
-                </>
-              ) : (
-                <>
-                  💬 <span className="mx-1">{language}</span>
-                </>
-              )}
-            </Column>
-          </Row>
-        </div>
-      </a>
-    </Tailwind>
-  )
+  const roleHTML = RoleHTML({
+    company,
+    language,
+    headerInfo,
+    location,
+    url,
+    title,
+    skills: firstSkills,
+    salary,
+  })
+  return <div dangerouslySetInnerHTML={{ __html: roleHTML }} />
 }
