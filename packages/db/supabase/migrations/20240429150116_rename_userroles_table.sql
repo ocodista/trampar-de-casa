@@ -1,0 +1,1 @@
+ALTER TABLE userroles RENAME TO "UserRoles";
