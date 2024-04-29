@@ -12,8 +12,8 @@ export async function insertRoleClicked({
   roleId: string
 }) {
   const { data, error } = await supabaseClient
-    .from(Entities.RoleClicks)
-    .insert({ userId, roleId, clickedAt: Date.now() })
+    .from(Entities.UserRoles)
+    .insert({ roleId, userId })
     .select()
   return { data, error }
 }
