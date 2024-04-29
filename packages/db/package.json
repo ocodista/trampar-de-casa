@@ -8,7 +8,9 @@
   "scripts": {
     "setup": "npx supabase start",
     "db:generate-types": "supabase gen types typescript --local --schema public | tail -n +1 > src/supabase/type.ts",
-    "db:migrate": "supabase migrations up && yarn db:generate-types"
+    "db:migration": "supabase migration up && yarn db:generate-types",
+    "db:migration:new": "supabase migration new",
+    "db:status": "supabase status"
   },
   "keywords": [],
   "author": "",

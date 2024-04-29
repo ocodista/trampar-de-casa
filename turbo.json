@@ -25,6 +25,15 @@
     },
     "start": {
       "cache": false
+    },
+    "db:migration": {
+      "cache": false
+    },
+    "db:status": {
+      "cache": false
+    },
+    "db:migration:new": {
+      "cache": false
     }
   },
   "globalEnv": [
