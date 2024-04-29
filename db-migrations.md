@@ -10,6 +10,8 @@ To create a migration type the following command:
 yarn db:migration:new [migration name]
 ```
 
+> The migration file path should returned by command.
+
 ## How to push migration to the local database
 
 This can make on the root of the project
