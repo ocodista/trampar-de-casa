@@ -19,7 +19,7 @@ const SubscriberSchema = z.object({
 export const getSubscriber = async (subscriberId: string) => {
   const supabase = getSupabaseClient()
   const { data: subscriberData, error: subscribeErrors } = await supabase
-    .from(Entities.Subcribers)
+    .from(Entities.Subscribers)
     .select(PUBLIC_FIELDS_KEYS)
     .eq('id', subscriberId)
   if (subscribeErrors) {

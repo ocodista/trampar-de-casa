@@ -13,7 +13,7 @@ export async function POST(request: Request) {
     const realId = decrypt(process.env['CRYPT_SECRET'], id as string)
     const supabase = getSupabaseClient()
     const { data, error } = await supabase
-      .from(Entities.Subcribers)
+      .from(Entities.Subscribers)
       .update({ optOut: true })
       .eq('id', realId)
       .select()

@@ -7,7 +7,7 @@ import { Entities } from 'shared'
 import { ProfileSchema } from '../../subscribers/profile/profileSchema'
 
 const supabaseClient = getSupabaseClient()
-const table = Entities.Subcribers
+const table = Entities.Subscribers
 export const PUBLIC_FIELDS_KEYS =
   'name, linkedInUrl, gitHub, startedWorkingAt, skillsId, englishLevel, sendBestOpenings'
 const errorResponse = new NextResponse(null, {
@@ -34,7 +34,7 @@ export const getById = async (id: string) =>
 
 export async function insertSubscriber(email: string) {
   const { data, error } = await supabaseClient
-    .from(Entities.Subcribers)
+    .from(Entities.Subscribers)
     .insert({ email })
     .select()
   return { data, error }
@@ -72,7 +72,7 @@ export async function updateSubscriber(
   }
 
   const { data, error } = await supabaseClient
-    .from(Entities.Subcribers)
+    .from(Entities.Subscribers)
     .update({
       name: body.name,
       linkedInUrl: body.linkedInUrl,
@@ -91,7 +91,7 @@ export async function updateSubscriber(
 
 export async function getSubscriberByEmail(email: string) {
   const { data, error } = await supabaseClient
-    .from(Entities.Subcribers)
+    .from(Entities.Subscribers)
     .select()
     .eq('email', email)
   return { data, error }

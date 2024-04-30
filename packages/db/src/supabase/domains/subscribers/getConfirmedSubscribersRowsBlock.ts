@@ -15,7 +15,7 @@ export const getConfirmedSubscribersRowsBlock = async <Entity>({
   selectQuery,
 }: GetRowsBlock): Promise<Entity[]> => {
   const { data, error } = await supabase
-    .from(Entities.Subcribers)
+    .from(Entities.Subscribers)
     .select(selectQuery || '*')
     .eq('isConfirmed', true)
     .eq('optOut', false)

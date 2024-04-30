@@ -14,7 +14,7 @@ const SUPABASE_KEY = process.env['SUPABASE_KEY'] || ''
 const getUnconfirmedSubscribers = async () => {
   const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY)
   const { data, error } = await supabaseClient
-    .from(Entities.Subcribers)
+    .from(Entities.Subscribers)
     .select('*')
     .eq('isConfirmed', 'FALSE')
   if (error) throw error
