@@ -34,6 +34,9 @@
     },
     "db:migration:new": {
       "cache": false
+    },
+    "db:start": {
+      "cache": false
     }
   },
   "globalEnv": [

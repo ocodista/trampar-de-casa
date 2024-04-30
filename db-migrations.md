@@ -17,6 +17,11 @@ yarn db:migration:new [migration name]
 This can make on the root of the project
 
 1. Make sure that [supabase local](https://supabase.com/docs/guides/cli/local-development) is running with `yarn db:status`.
+
+   The supabase local is very important. Is necessary to run the apps of the repo and make any changes on the DB.
+
+   **Run `yarn db:start`** to init [supabase local](https://supabase.com/docs/guides/cli/local-development).
+
 2. Type this command to apply migrations on the local database `yarn db:migration`
 
    This command runs two other commands. The `supabase migration up` to apply new migrations on supabase local and `yarn db:generate-types` to generate database types based on the local database.

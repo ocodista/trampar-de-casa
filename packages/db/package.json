@@ -10,7 +10,8 @@
     "db:generate-types": "supabase gen types typescript --local --schema public | tail -n +1 > src/supabase/type.ts",
     "db:migration": "supabase migration up && yarn db:generate-types",
     "db:migration:new": "supabase migration new",
-    "db:status": "supabase status"
+    "db:status": "supabase status",
+    "db:start": "supabase start"
   },
   "keywords": [],
   "author": "",
