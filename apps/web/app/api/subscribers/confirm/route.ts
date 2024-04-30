@@ -1,12 +1,12 @@
-import { Events, Tracker } from 'analytics'
+import { Events } from 'analytics'
 
 import { getSupabaseClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { sendProfileEmail } from 'shared/src/email/sendProfileEmail'
 import { Entities } from 'shared/src/enums'
-import { getDecryptedId } from '../../getDecryptedId'
 import { getTracker } from '../../../utils/tracker'
+import { getDecryptedId } from '../../getDecryptedId'
 const tracker = getTracker()
 
 export async function POST(request: Request) {
@@ -17,7 +17,7 @@ export async function POST(request: Request) {
   const id = getDecryptedId(body.id)
   const supabase = getSupabaseClient()
   const { data, error } = await supabase
-    .from(Entities.Subcribers)
+    .from(Entities.Subscribers)
     .update({ isConfirmed: true })
     .eq('id', id)
     .select()
