@@ -4,7 +4,7 @@ import { Entities } from 'shared'
 
 const supabaseClient = getSupabaseClient()
 
-export async function insertRoleClicked({
+async function insertRoleClicked({
   userId,
   roleId,
 }: {
