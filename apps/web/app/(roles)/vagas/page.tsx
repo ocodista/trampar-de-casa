@@ -1,7 +1,7 @@
 'use client'
 import { FocusBanner } from 'app/landing-page/FocusBanner'
 import { ChevronDown, X } from 'lucide-react'
-import { useEffect, useRef, useState } from 'react'
+import { useEffect, useMemo, useRef, useState } from 'react'
 import close from '../../../public/images/close.svg'
 import JobCard from '../../components/ui/JobCard'
 import { createClient } from '@supabase/supabase-js'
@@ -72,15 +72,15 @@ const flags = [
 const orderOptions = [
   {
     value: null,
-    label: '📊 Ordenar',
+    label: '🛠️  Ordenar',
   },
   {
     value: 'ascending',
-    label: '🕒 Trabalhos mais recentes',
+    label: '🕒 Vagas mais recentes',
   },
   {
     value: 'descending',
-    label: '🕒 Trabalhos mais antigos',
+    label: '🕒 Vagas mais antigas',
   },
 ]
 
@@ -116,7 +116,6 @@ const RolesPage = () => {
       const levelsFormated = getFilter(filters, 'level')
       const orderFilter = filters.find((filter) => filter.inputType === 'order')
 
-      // Contagem total de vagas
       let totalQuery = supabase.from('Roles').select('id')
 
       if (countryOptionsFormatted.length > 0) {
@@ -149,7 +148,6 @@ const RolesPage = () => {
 
       const totalJobs = totalData.length
 
-      // Consulta paginada para obter os dados reais das vagas
       let query = supabase.from('Roles').select('*').limit(21)
 
       if (countryOptionsFormatted.length > 0) {
@@ -289,39 +287,43 @@ const RolesPage = () => {
     fetchJobs('initial')
   }, [filters])
 
+  const memoInputWithUseTyped = useMemo(
+    () => (
+      <InputWithUseTyped
+        options={technologies}
+        filters={filters}
+        setFilters={setFilters}
+        filterType="skill"
+        placeholder="Digite..."
+      />
+    ),
+    []
+  )
+
   return (
     <>
       <FocusBanner />
-      <div className="md:pt-15 lg:pt-15 container mx-auto sm:pt-16">
-        <div>
-          <div className="flex flex-col items-center justify-center text-center text-[48px]">
-            <h1>
-              Encontre uma vaga remota
-              <br /> de qualquer lugar
-            </h1>
-            <div className="relative">
-              <InputWithUseTyped
-                options={technologies}
-                setFilters={setFilters}
-                filterType="skill"
-                filters={filters}
-              />
-            </div>
-          </div>
+      <div className="container mx-auto">
+        <div className="my-[35px] flex flex-col items-center justify-center text-center text-[48px]">
+          <h1>
+            Encontre vagas remotas
+            <br /> feitas para você
+          </h1>
+          <div className="relative">{memoInputWithUseTyped}</div>
         </div>
-        <div className="mb-[150px] mt-[35px]">
+        <div className="mb-[150px]">
           <div className="w-full">
             <div className="flex justify-between">
               <div className="flex gap-[20px]">
                 <SelectInput
-                  placeholder="🔎 Procurar"
+                  placeholder="🔎  Área"
                   options={technologies}
                   setFilters={setFilters}
                   filterType="skill"
                   filters={filters}
                 />
                 <SelectInput
-                  placeholder={'🌎 Local'}
+                  placeholder="🌎  Local"
                   options={flags}
                   setFilters={setFilters}
                   filterType="country"
@@ -334,12 +336,12 @@ const RolesPage = () => {
                   <input
                     readOnly
                     onFocus={() => setSalaryOpen(true)}
-                    className="border-box w-[150px] rounded-[20px] border-[1px] bg-[#F4F4F5] py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100"
-                    placeholder="💵 Salario"
+                    className="border-box z-[2] w-[150px] rounded-[20px] border-[1px] bg-transparent py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100"
+                    placeholder="💵  Salario"
                   />
-                  <ChevronDown className="absolute right-[10px]" />
+                  <ChevronDown className="z-1 absolute right-[10px]" />
                   {salaryOpen && (
-                    <div className="absolute left-0 top-[40px] z-10 min-w-[250px] rounded-2xl bg-[#f4f4f5] p-[14px]">
+                    <div className="absolute left-0 top-[47px] z-10 min-w-[250px] rounded-2xl bg-[#f4f4f5] p-[14px]">
                       <div className="flex justify-between">
                         <p>Minimum</p>
                         <p>${rangeValue}k/year</p>
@@ -360,7 +362,7 @@ const RolesPage = () => {
                   )}
                 </div>
                 <SelectInput
-                  placeholder="🚀 Níveis"
+                  placeholder="🚀  Níveis"
                   options={experienceLevels}
                   setFilters={setFilters}
                   filterType="level"
@@ -374,16 +376,17 @@ const RolesPage = () => {
                     orderOptions.find((or) => or.value === orderButtonValue)
                       .label
                   }
-                  className="border-box w-[250px] rounded-[20px] border-[1px] bg-[#F4F4F5] py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100"
+                  className="text-baseline border-box z-[2] w-[250px] rounded-[20px] border-[1px] bg-transparent 
+                  py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100"
                   onFocus={() => setShowOrder(true)}
                   onBlur={() => {
                     setTimeout(() => setShowOrder(false), 100)
                   }}
                 />
-                <ChevronDown className="absolute right-[10px]" />
+                <ChevronDown className="z-1 absolute right-[10px]" />
                 {showOrder && (
                   <div
-                    className={`absolute right-0 top-[40px] z-10 max-h-[500px] w-[300px] overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px]`}
+                    className={`absolute right-0 top-[47px] z-10 max-h-[500px] w-[300px] overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px]`}
                   >
                     {orderOptions
                       .filter((or) => or.value !== null)
@@ -432,9 +435,7 @@ const RolesPage = () => {
                     className="border-box relative mt-[15px] flex items-center rounded-[20px] border-[1px] border-[#FF0000] bg-[#F4F4F5] py-[7px] pl-[7px] pr-[7px] text-center text-[#FF0000] hover:bg-[#FF0000] hover:text-white"
                   >
                     <X />
-                    <p>
-                      Clear {jobs.length > 20 ? '20+' : jobs.length} results
-                    </p>
+                    <p>Limpar {totalJobs} resultados</p>
                   </button>
                 )}
             </div>
@@ -443,8 +444,15 @@ const RolesPage = () => {
             dataLength={jobs.length}
             next={() => fetchJobs('refetch')}
             hasMore={hasMore}
-            loader={<h4>Carregando...</h4>}
-            endMessage={<p>Nenhum trabalho adicional para carregar.</p>}
+            loader={
+              <h4 className="mt-[10px] text-center">Carregando vagas...</h4>
+            }
+            endMessage={
+              <p className="mt-[10px] text-center">
+                🚀 Todas as vagas foram carregadas! Explore e encontre a sua
+                oportunidade.
+              </p>
+            }
             style={{
               marginTop: '25px',
               display: 'flex',

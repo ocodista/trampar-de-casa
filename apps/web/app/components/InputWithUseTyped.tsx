@@ -1,6 +1,6 @@
+import React, { useState, useEffect, useRef } from 'react'
+import useTyped from '../components/hooks/useTyped'
 import { Search } from 'lucide-react'
-import { useState } from 'react'
-import Presentation from './presentation'
 import { Filter, SelectOption } from './SelectInput'
 
 interface InputWithUseTypedProps {
@@ -11,6 +11,17 @@ interface InputWithUseTypedProps {
   filters: { option: SelectOption; inputType: string }[]
 }
 
+const useTypedStrings = [
+  `Figma`,
+  `AWS`,
+  `Typescript`,
+  `Javascript`,
+  `React`,
+  `Tailwind`,
+  `Node`,
+  `Outros`,
+]
+
 const InputWithUseTyped = ({
   placeholder,
   options,
@@ -18,22 +29,30 @@ const InputWithUseTyped = ({
   filterType,
   filters,
 }: InputWithUseTypedProps) => {
-  const [currentPlaceholder, setCurrentPlaceholder] = useState(placeholder)
+  const inputRef = useRef<HTMLInputElement>(null)
+  const [typedEnabled, setTypedEnabled] = useState(true)
+  const typedInstance = useTyped(
+    inputRef,
+    {
+      strings: useTypedStrings,
+      typeSpeed: 90,
+      backSpeed: 90,
+      loop: true,
+    },
+    typedEnabled
+  )
+
   const [showOptions, setShowOptions] = useState(false)
   const [inputText, setInputText] = useState('')
-  const [useTyped, setUseTyped] = useState(true)
 
   const handleFocus = () => {
-    setCurrentPlaceholder('Type...')
     setShowOptions(true)
-    setUseTyped(false)
+    setTypedEnabled(false)
   }
 
   const handleBlur = () => {
-    setCurrentPlaceholder(placeholder)
-    setInputText('')
     setShowOptions(false)
-    setUseTyped(true)
+    setInputText('')
   }
 
   const handleOptionSelect = (option: SelectOption) => {
@@ -48,29 +67,28 @@ const InputWithUseTyped = ({
     ])
     setShowOptions(false)
   }
+
   const filteredOptions = options.filter((option) =>
     option.label.toLowerCase().includes(inputText.toLowerCase())
   )
 
   return (
     <>
-      {useTyped && <Presentation />}
       <Search className="absolute left-[35px] top-[34px]" size={'25px'} />
       <input
-        className="color-[#0f1115] mx-[14px] mb-[14px] mt-[7px] w-[400px] 
-              rounded-[100px] border-[2px] py-[12px] pl-[60px] pr-[12px] text-left 
-              text-[20px]"
-        placeholder={currentPlaceholder}
+        ref={inputRef}
+        className="color-[#0f1115] z-30 mx-[14px] mb-[14px] mt-[7px] w-[400px] rounded-[100px] border-[2px] py-[12px] pl-[60px] pr-[12px] text-left text-[20px]"
+        placeholder={typedEnabled ? '' : placeholder}
         onChange={(e) => setInputText(e.target.value)}
         onFocus={handleFocus}
         onBlur={() => {
           setTimeout(() => handleBlur(), 100)
         }}
         value={inputText}
-      ></input>
+      />
       {showOptions && (
         <div
-          className={`absolute top-[78px] z-10 max-h-[500px] w-full overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px]`}
+          className={`absolute top-[80px] z-10 max-h-[500px] w-full overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px]`}
         >
           {filteredOptions.length > 0 ? (
             filteredOptions.map((option) => (

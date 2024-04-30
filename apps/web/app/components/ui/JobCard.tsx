@@ -1,4 +1,3 @@
-import { Languages, MapPin } from 'lucide-react'
 import { skillArray } from '../../../../../packages/shared/src/infos/skills'
 
 const jobCard = ({ job }) => {
@@ -24,7 +23,7 @@ const jobCard = ({ job }) => {
             key={skillId}
             className={`${
               normalize(skillId) === null && 'hidden'
-            } mt-[5px] rounded-[20px] bg-[#F4F4F5] px-[15px] py-[2px]`}
+            } mt-[5px] rounded-[20px] border-[1px] border-black bg-[#F4F4F5] px-[15px] py-[2px]`}
           >
             {normalize(skillId)}
           </span>
@@ -32,12 +31,10 @@ const jobCard = ({ job }) => {
       </div>
       <div className="flex gap-[25px] text-[15px]">
         <div className="flex items-center">
-          <MapPin size={15} className="mr-[5px]" />
-          <span>{job.country ? job.country : 'Internacional'}</span>
+          <span>📍 {job.country ? job.country : 'Internacional'}</span>
         </div>
         <div className="flex items-center">
-          <Languages size={15} className="mr-[5px]" />
-          <span>{job.language}</span>
+          <span>💬 {job.language}</span>
         </div>
       </div>
     </a>

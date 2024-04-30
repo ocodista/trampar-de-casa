@@ -61,7 +61,7 @@ const SelectInput = ({
     <div className="relative flex items-center">
       <input
         placeholder={currentPlaceholder ? currentPlaceholder : placeholder}
-        className="border-box w-[150px] rounded-[20px] border-[1px] bg-[#F4F4F5] py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100"
+        className="border-box z-[2] w-[150px] rounded-[20px] border-[1px] bg-transparent py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100"
         onFocus={handleFocus}
         onBlur={() => {
           setTimeout(() => handleBlur(), 100)
@@ -69,10 +69,10 @@ const SelectInput = ({
         onChange={(e) => setInputText(e.target.value)}
         value={inputText}
       />
-      <ChevronDown className="absolute right-[10px]" />
+      <ChevronDown className="z-1 absolute right-[10px]" />
       {showOptions && (
         <div
-          className={`absolute top-[40px] z-10 max-h-[500px] w-[400px] overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px]`}
+          className={`absolute top-[47px] z-10 max-h-[500px] w-[400px] overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px]`}
         >
           {filteredOptions.length > 0 ? (
             filteredOptions.map((option) => (
