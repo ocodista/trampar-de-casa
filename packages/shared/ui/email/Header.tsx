@@ -65,27 +65,27 @@ export function Header({
           </Column>
         </Row>
       </Section>
-      <Heading className={h1}>
-        {`${rolesCount} vagas para você Trampar de Casa 😎`}
-      </Heading>
+      <Heading className={h1}>{`Tivemos um problema!`}</Heading>
       <Hr style={hr} />
       <Text className={paragraph}>
         Olá, defensor do trabalho remoto, tudo bem?
       </Text>
       <Text className={paragraph}>
-        Que tal experimentar um teclado ergonômico?
+        Tivemos um problema com nosso último envio, os links não estavam
+        funcionando.
       </Text>
       <Text className={paragraph}>
-        Apresento a vocês a loja{' '}
+        Pedimos desculpas pelo ocorrido e, por conta disso, aqui estão suas
+        vagas novamente!
+      </Text>
+      <Text className={paragraph}>
+        Não deixe de acessar a{' '}
         <Link href="https://www.instagram.com/tupinikeebs/">Tupinikeebs</Link>,
         a primeira loja de teclados ergonômicos customizados do Brasil!
       </Text>
       <Text className={paragraph}>
-        Fundada por um membro da comunidade Trampar de Casa, oferecem um
-        atendimento excepcional e serviço de alta qualidade!!! Faça seu
-        orçamento agora mesmo!
+        Agora sim, aproveite as vagas desta semana!
       </Text>
-      <Text className={paragraph}>Agora, aproveite suas vagas da semana!</Text>
     </Tailwind>
   )
 }
