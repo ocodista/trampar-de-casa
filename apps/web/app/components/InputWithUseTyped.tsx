@@ -97,7 +97,7 @@ const InputWithUseTyped = ({
                 className="w-full cursor-pointer p-[7px] text-left text-[15px] hover:bg-gray-200"
                 onClick={() => handleOptionSelect(option)}
               >
-                {option.label}
+                {`${option.emoji ? option.emoji : ''} ${option.label}`}
               </div>
             ))
           ) : (

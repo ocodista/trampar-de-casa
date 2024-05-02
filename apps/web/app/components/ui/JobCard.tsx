@@ -1,8 +1,6 @@
-import { skillArray } from '../../../../../packages/shared/src/infos/skills'
-
-const jobCard = ({ job }) => {
+const jobCard = ({ job, skillsFromProps }) => {
   const normalize = (id: string) => {
-    const skill = skillArray.find((skill) => skill.id === parseInt(id))
+    const skill = skillsFromProps.find((skill) => skill.id === parseInt(id))
     return skill ? skill.name : null
   }
 

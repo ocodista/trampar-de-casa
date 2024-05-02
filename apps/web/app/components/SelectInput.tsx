@@ -1,9 +1,10 @@
 import { ChevronDown } from 'lucide-react'
-import { useMemo, useState } from 'react'
+import { useState } from 'react'
 
 export type SelectOption = {
   value: string | number
   label: string
+  emoji?: string
 }
 
 export type Filter = {
@@ -53,6 +54,7 @@ const SelectInput = ({
     ])
     setShowOptions(false)
   }
+
   const filteredOptions = options.filter((option) =>
     option.label.toLowerCase().includes(inputText.toLowerCase())
   )
@@ -81,7 +83,7 @@ const SelectInput = ({
                 className="w-full cursor-pointer p-[7px] hover:bg-gray-200"
                 onClick={() => handleOptionSelect(option)}
               >
-                {option.label}
+                {`${option.emoji ? option.emoji : ''} ${option.label}`}
               </div>
             ))
           ) : (
