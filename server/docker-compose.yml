@@ -1,7 +1,6 @@
 services:
   trampardecasa:
-    build:
-      context: ../
+    image: gru.ocir.io/gricbxnlp2kb/trampar-de-casa:latest
     env_file: .env
     restart: unless-stopped
     ports:
