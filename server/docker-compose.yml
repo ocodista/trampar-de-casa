@@ -1,0 +1,19 @@
+services:
+  trampardecasa:
+    image: gru.ocir.io/gricbxnlp2kb/trampar-de-casa:latest
+    env_file: .env
+    restart: unless-stopped
+    ports:
+      - '3000:3000'
+      - '80:3000'
+    labels:
+      - 'com.centurylinklabs.watchtower.enable=true'
+
+  watchtower:
+    image: docker.io/containrrr/watchtower
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - /home/ubuntu/.docker/config.json:/config.json
+    command: '--interval 120 --label-enable'
+    restart: unless-stopped
+    env_file: .env

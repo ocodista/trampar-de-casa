@@ -31,6 +31,13 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }) {
   return (
     <html className="scroll-smooth" lang="pt-BR">
+      <head>
+        <script
+          defer
+          data-domain="trampardecasa.com.br"
+          src={`http://${process.env.NEXT_PUBLIC_PLAUSIBLE_ADDRESS}/js/script.local.js`}
+        />
+      </head>
       <body>
         <Providers>
           <Toaster />
