@@ -35,7 +35,7 @@ export default function RootLayout({ children }) {
         <script
           defer
           data-domain="trampardecasa.com.br"
-          src={`http://${process.env.NEXT_PUBLIC_PLAUSIBLE_ADDRESS}/js/script.local.js`}
+          src={`http://${process.env.NEXT_PUBLIC_PLAUSIBLE_ADDRESS}/js/script.js`}
         />
       </head>
       <body>
