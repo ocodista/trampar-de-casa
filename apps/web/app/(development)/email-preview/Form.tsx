@@ -46,7 +46,11 @@ export default function Form() {
           name="email"
         />
       </fieldset>
-      <Button disabled={isSubmitting} type="submit">
+      <Button
+        disabled={isSubmitting}
+        type="submit"
+        className="plausible-event-name=Button+Enviar+Email"
+      >
         Enviar
       </Button>
     </form>
