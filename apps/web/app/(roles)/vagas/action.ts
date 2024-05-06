@@ -2,6 +2,11 @@
 import { createClient } from '@supabase/supabase-js'
 import { Filter, SelectOption } from 'app/components/SelectInput'
 
+const supabase = createClient(
+  process.env['NEXT_PUBLIC_SUPABASE_URL'] as string,
+  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] as string
+)
+
 interface ItemExtracted {
   option: {
     value: string
@@ -9,11 +14,6 @@ interface ItemExtracted {
   }
   inputType: string
 }
-
-const supabase = createClient(
-  process.env['NEXT_PUBLIC_SUPABASE_URL'] as string,
-  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] as string
-)
 
 const getFilter = (filters: Filter[], filterType: string) => {
   return filters.filter(

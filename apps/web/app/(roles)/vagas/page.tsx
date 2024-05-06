@@ -1,5 +1,17 @@
 import { RolesPage } from './RolesPage'
 import { createClient } from '@supabase/supabase-js'
+import { createClient as createClientRedis } from 'redis'
+
+export const revalidate = 0
+
+const client = createClientRedis({
+  socket: {
+    host: 'localhost',
+    port: 6379,
+  },
+})
+
+client.connect()
 
 const supabase = createClient(
   process.env['NEXT_PUBLIC_SUPABASE_URL'] as string,
@@ -17,14 +29,14 @@ async function getJobs() {
 }
 
 async function getSkills() {
-  // const { data: skills } = await supabase.rpc('get_distinct_skills')
-  const { data: skills } = await supabase
-    .from('Skills')
-    .select('*')
-    .order('name')
+  const skillsFromCache = await client.get('getSkills')
+  if (skillsFromCache) {
+    return JSON.parse(skillsFromCache)
+  }
 
-  console.log('Chamou getSkills')
-  console.log(skills[0])
+  const { data: skills } = await supabase.from('vw_skills_in_roles').select()
+
+  await client.set('getSkills', JSON.stringify(skills), { EX: 5 })
   return skills
 }
 
