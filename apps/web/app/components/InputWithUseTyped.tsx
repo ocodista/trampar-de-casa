@@ -74,7 +74,10 @@ const InputWithUseTyped = ({
 
   return (
     <>
-      <Search className="absolute left-[35px] top-[34px]" size={'25px'} />
+      <Search
+        className="absolute left-[35px] top-[25px] md:top-[34px] lg:top-[34px]"
+        size={'25px'}
+      />
       <input
         ref={inputRef}
         className="color-[#0f1115] z-30 mx-[14px] mb-[14px] mt-[7px] w-[400px] rounded-[100px] border-[2px] py-[12px] pl-[60px] pr-[12px] text-left text-[20px]"

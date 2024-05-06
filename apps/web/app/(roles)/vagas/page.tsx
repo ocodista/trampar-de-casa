@@ -34,7 +34,10 @@ async function getSkills() {
     return JSON.parse(skillsFromCache)
   }
 
-  const { data: skills } = await supabase.from('vw_skills_in_roles').select()
+  const { data: skills } = await supabase
+    .from('vw_skills_in_roles')
+    .select('*')
+    .order('name')
 
   await client.set('getSkills', JSON.stringify(skills), { EX: 5 })
   return skills

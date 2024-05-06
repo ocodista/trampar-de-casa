@@ -60,10 +60,10 @@ const SelectInput = ({
   )
 
   return (
-    <div className="relative flex items-center">
+    <div className="relative flex items-center justify-center md:justify-start lg:justify-start">
       <input
         placeholder={currentPlaceholder ? currentPlaceholder : placeholder}
-        className="border-box z-[2] w-[150px] rounded-[20px] border-[1px] bg-transparent py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100"
+        className="border-box z-[2] w-[120px] rounded-[20px] border-[1px] bg-transparent py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100 md:lg:w-[150px] lg:w-[150px]"
         onFocus={handleFocus}
         onBlur={() => {
           setTimeout(() => handleBlur(), 100)
@@ -74,7 +74,7 @@ const SelectInput = ({
       <ChevronDown className="z-1 absolute right-[10px]" />
       {showOptions && (
         <div
-          className={`absolute top-[47px] z-10 max-h-[500px] w-[400px] overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px]`}
+          className={`absolute top-[47px] z-10 max-h-[500px] w-auto overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px] md:w-[400px] lg:w-[400px]`}
         >
           {filteredOptions.length > 0 ? (
             filteredOptions.map((option) => (
