@@ -9,7 +9,7 @@
     "dev": {
       "cache": false,
       "persistent": true,
-      "env": ["CRON_SECRET", "OWNER_EMAIL"]
+      "env": ["CRON_SECRET", "OWNER_EMAIL", "CRYPT_SECRET"]
     },
     "lint": {
       "env": ["URL_PREFIX"]
@@ -28,9 +28,19 @@
     }
   },
   "globalEnv": [
+    "development",
+    "CRYPT_KEY",
+    "DEBUG",
+    "MONGO_ADDRESS",
+    "RABBITMQ_ADDRESS",
+    "RESEND_KEY",
     "VERCEL_URL",
     "VERCEL_ENV",
     "NEXT_PUBLIC_POSTHOG_KEY",
-    "NEXT_PUBLIC_POSTHOG_HOST"
+    "SUPABASE_URL",
+    "SUPABASE_SERVICE_ROLE",
+    "NEXT_PUBLIC_POSTHOG_HOST",
+    "NEXT_PUBLIC_MIXPANEL_KEY",
+    "NEXT_PUBLIC_PLAUSIBLE_ADDRESS"
   ]
 }

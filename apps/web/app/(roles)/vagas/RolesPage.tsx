@@ -9,6 +9,7 @@ import Image from 'next/image'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import SelectInput, { Filter, SelectOption } from 'app/components/SelectInput'
 import { fetchJobs } from './action'
+import { createClient } from '@supabase/supabase-js'
 
 const experienceLevels = [
   {
@@ -61,8 +62,14 @@ const orderOptions = [
 
 const order = orderOptions.map((or) => or.label)
 
-export const RolesPage = ({ jobsFromProps, skillsFromProps }) => {
+const supabase = createClient(
+  process.env['NEXT_PUBLIC_SUPABASE_URL'] as string,
+  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] as string
+)
+
+export const RolesPage = ({ jobsFromProps, skillsFromServer }) => {
   const [jobs, setJobs] = useState(jobsFromProps)
+  const [skillsFromProps, setSkillsFromProps] = useState(skillsFromServer)
   const [filters, setFilters] = useState<Filter[]>([])
   const [hasMore, setHasMore] = useState(true)
   const [showOrder, setShowOrder] = useState(false)
@@ -74,6 +81,11 @@ export const RolesPage = ({ jobsFromProps, skillsFromProps }) => {
     ''
   )
   const [preventFirstFetch, setPreventFirstFetch] = useState(true)
+
+  useEffect(() => {
+    setSkillsFromProps(skillsFromServer)
+    console.log('Atualizou o skillsFromProps')
+  }, [skillsFromServer])
 
   const removeDuplicatesByNormalizedProperty = skillsFromProps.filter(
     (value, index, self) =>

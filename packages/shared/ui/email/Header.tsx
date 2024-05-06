@@ -65,23 +65,27 @@ export function Header({
           </Column>
         </Row>
       </Section>
-      <Heading
-        className={h1}
-      >{`${rolesCount} vagas para você Trampar de Casa`}</Heading>
+      <Heading className={h1}>{`Tivemos um problema!`}</Heading>
       <Hr style={hr} />
-      <Text className={paragraph}>Olá, amante do trabalho remoto, beleza?</Text>
       <Text className={paragraph}>
-        Estou muito feliz de anunciar o lançamento da nossa loja de adesivos!
-        Agora, você pode apoiar o projeto e exibir ao mundo seu amor pelo
-        trabalho remoto, com adesivos por apenas R$4,00.
+        Olá, defensor do trabalho remoto, tudo bem?
       </Text>
       <Text className={paragraph}>
-        Visite nossa{' '}
-        <Link href="https://trampardecasa2.lojavirtualnuvem.com.br/">Loja</Link>{' '}
-        e utilize o cupom VIVAOTRABALHOREMOTO (20% off).
+        Tivemos um problema com nosso último envio, os links não estavam
+        funcionando.
       </Text>
-
-      <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
+      <Text className={paragraph}>
+        Pedimos desculpas pelo ocorrido e, por conta disso, aqui estão suas
+        vagas novamente!
+      </Text>
+      <Text className={paragraph}>
+        Não deixe de acessar a{' '}
+        <Link href="https://www.instagram.com/tupinikeebs/">Tupinikeebs</Link>,
+        a primeira loja de teclados ergonômicos customizados do Brasil!
+      </Text>
+      <Text className={paragraph}>
+        Agora sim, aproveite as vagas desta semana!
+      </Text>
     </Tailwind>
   )
 }

@@ -10,17 +10,15 @@ export function FocusBanner() {
         role="alert"
       >
         <span className="mr-2 font-medium leading-tight max-md:text-lg">
-          {
-            'Apoie nosso projeto e fortaleça o trabalho remoto, compre um adesivo na nossa'
-          }
+          {'Apoie nosso projeto e fortaleça o trabalho remoto, cadastre-se na '}
         </span>
         <Link
           className="mr-[6px] flex cursor-pointer items-center gap-2 rounded-full bg-indigo-500 px-3 py-1 text-xs font-bold uppercase transition-colors hover:bg-indigo-700 max-md:text-sm max-md:font-semibold"
-          href={'https://trampardecasa2.lojavirtualnuvem.com.br/'}
+          href={'https://app.onstrider.com/r/trampar_de_casa'}
           referrerPolicy="no-referrer"
           target="__blank"
         >
-          Loja 🚀✨
+          Strider 🚀✨
         </Link>
       </div>
     </div>

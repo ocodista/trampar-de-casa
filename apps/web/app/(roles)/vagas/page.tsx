@@ -7,25 +7,29 @@ const supabase = createClient(
 )
 
 async function getJobs() {
-  const { data: posts } = await supabase
+  const { data: jobs } = await supabase
     .from('Roles')
     .select('*', { count: 'exact' })
     .limit(21)
     .order('createdAt', { ascending: true })
 
-  return posts
+  return jobs
 }
 
 async function getSkills() {
+  // const { data: skills } = await supabase.rpc('get_distinct_skills')
   const { data: skills } = await supabase
     .from('Skills')
-    .select('id, name, normalized, emoji')
-    .limit(500)
+    .select('*')
+    .order('name')
+
+  console.log('Chamou getSkills')
+  console.log(skills[0])
   return skills
 }
 
 export default async function Page() {
-  const jobs = await getJobs()
   const skills = await getSkills()
-  return <RolesPage jobsFromProps={jobs} skillsFromProps={skills} />
+  const jobs = await getJobs()
+  return <RolesPage jobsFromProps={jobs} skillsFromServer={skills} />
 }

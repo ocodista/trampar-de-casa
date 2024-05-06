@@ -73,62 +73,64 @@ export const Header = () => {
           </button>
         </div>
       </div>
-      {isMobileMenuOpen && (
-        <div className="navbar-menu fixed bottom-0 left-0 top-0 z-50 w-4/6 sm:max-w-xs lg:hidden">
-          <div
-            className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80"
-            onClick={() => setMobileMenuVisibility(false)}
-          />
-          <nav className="relative h-full overflow-y-auto bg-white px-9 pt-8">
-            <div className="-m-2 flex items-center justify-between">
-              <div className="w-auto p-2">
-                <Logo />
-              </div>
-              <div className="w-auto p-2">
-                <button
-                  type="button"
-                  className="navbar-burger"
-                  onClick={() => setMobileMenuVisibility(false)}
-                >
-                  <svg
-                    width={24}
-                    height={24}
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      d="M6 18L18 6M6 6L18 18"
-                      stroke="#111827"
-                      strokeWidth={2}
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                    />
-                  </svg>
-                </button>
-              </div>
+      <div
+        className={`navbar-menu fixed bottom-0 left-0 top-0 z-50 w-4/6 transition-transform duration-300 ease-in-out sm:max-w-xs lg:hidden ${
+          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        }`}
+      >
+        <div
+          className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80"
+          onClick={() => setMobileMenuVisibility(false)}
+        />
+        <nav className="relative h-full overflow-y-auto bg-white px-9 pt-8">
+          <div className="-m-2 flex items-center justify-between">
+            <div className="w-auto p-2">
+              <Logo />
             </div>
-            <ul className="flex w-full flex-col justify-center gap-12 py-16">
-              {menuItems.slice(0, -1).map(
-                (
-                  item,
-                  index // Exclude 'PublishYourRole' for mobile
-                ) => (
-                  <li key={index}>
-                    <a
-                      className="font-medium hover:text-gray-700"
-                      href={item.href}
-                      onClick={() => setMobileMenuVisibility(false)}
-                    >
-                      {item.label}
-                    </a>
-                  </li>
-                )
-              )}
-            </ul>
-          </nav>
-        </div>
-      )}
+            <div className="w-auto p-2">
+              <button
+                type="button"
+                className="navbar-burger"
+                onClick={() => setMobileMenuVisibility(false)}
+              >
+                <svg
+                  width={24}
+                  height={24}
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M6 18L18 6M6 6L18 18"
+                    stroke="#111827"
+                    strokeWidth={2}
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                  />
+                </svg>
+              </button>
+            </div>
+          </div>
+          <ul className="flex w-full flex-col justify-center gap-12 py-16">
+            {menuItems.slice(0, -1).map(
+              (
+                item,
+                index // Exclude 'PublishYourRole' for mobile
+              ) => (
+                <li key={index}>
+                  <a
+                    className="font-medium hover:text-gray-700"
+                    href={item.href}
+                    onClick={() => setMobileMenuVisibility(false)}
+                  >
+                    {item.label}
+                  </a>
+                </li>
+              )
+            )}
+          </ul>
+        </nav>
+      </div>
     </div>
   )
 }
