@@ -42,15 +42,15 @@ export async function emailPreRender() {
     count = count + 1
     const logText = `Processed: ${count}`
     logger.time(logText)
-    const { email, id } = JSON.parse(msg.content.toString()) as {
+    const { email, id: subscriberId } = JSON.parse(msg.content.toString()) as {
       id: string
       email: string
     }
-    const subscriber = await mongoCollection.findOne({ id })
+    const subscriber = await mongoCollection.findOne({ id: subscriberId })
     if (!subscriber) continue
     const { rolesId } = subscriber as unknown as { rolesId: string[] }
     const { footerHTML, headerHTML } = await renderHeaderAndFooter(
-      id,
+      subscriberId,
       rolesId,
       renderedFooter,
       renderedHeader

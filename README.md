@@ -22,9 +22,9 @@ Semanalmente, enviamos 1 email com vagas 100% remotas que correspondem ao perfil
 
 ## Roadmap do Projeto 🚧
 
-- [X] **Cadastro de Preferências**: Definir preferências de trabalho dos usuários.
-- [X] **Seleção e envio de vagas personalizadas**: Enviar vagas selecionadas com base nas preferências.
-- [X] **Automatização de envio de vagas**: Enviar oportunidades regularmente sem pesquisar ativamente.
+- [x] **Cadastro de Preferências**: Definir preferências de trabalho dos usuários.
+- [x] **Seleção e envio de vagas personalizadas**: Enviar vagas selecionadas com base nas preferências.
+- [x] **Automatização de envio de vagas**: Enviar oportunidades regularmente sem pesquisar ativamente.
 - [ ] **Página para Empresas Parceiras**: Exibir mais detalhes das empresas parceiras.
 
 ---
@@ -51,10 +51,11 @@ Semanalmente, enviamos 1 email com vagas 100% remotas que correspondem ao perfil
 
 1. Após clonar o repositório localmente, a partir do seu fork, entre na pasta criada.
 2. Execute o comando `yarn`.
-3. Depois, execute o comando `yarn setup`
-4. Então, execute o comando `yarn dev`.
-5. A aplicação estará disponível em http://localhost:3000.
-6. Caso tenha alguma dúvida abra uma _issue_ neste repositório.
+3. Certifique-se de que o serviço do Docker esteja rodando.
+4. Depois, execute o comando `yarn setup`
+5. Então, execute o comando `yarn dev`.
+6. A aplicação estará disponível em http://localhost:3000.
+7. Caso tenha alguma dúvida abra uma _issue_ neste repositório.
 
 ## Contribuidores ✨
 
