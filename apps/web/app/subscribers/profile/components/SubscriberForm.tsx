@@ -81,7 +81,12 @@ export function SubscriberForm({
           </main>
           <footer className="space-y-4">
             <ReceiveBestOpeningsCheckbox />
-            <Button type="submit">Salvar</Button>
+            <Button
+              className="plausible-event-name=Button+Salvar+Preferencias"
+              type="submit"
+            >
+              Salvar
+            </Button>
           </footer>
         </form>
       </FormProvider>

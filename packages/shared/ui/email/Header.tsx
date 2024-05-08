@@ -65,22 +65,26 @@ export function Header({
           </Column>
         </Row>
       </Section>
-      <Heading className={h1}>
-        Somos 20.000 amantes do trabalho remoto 🎉
-      </Heading>
+      <Heading className={h1}>{`Tivemos um problema!`}</Heading>
       <Hr style={hr} />
       <Text className={paragraph}>
-        Olá, amante do trabalho remoto, tudo bem?
+        Olá, defensor do trabalho remoto, tudo bem?
       </Text>
       <Text className={paragraph}>
-        Hoje temos a honra de celebrar 20.000 inscritos na nossa plataforma!
+        Tivemos um problema com nosso último envio, os links não estavam
+        funcionando.
       </Text>
       <Text className={paragraph}>
-        Gostaríamos de te agradecer por todo o suporte e participação nessa luta
-        para tornar o trabalho 100% remoto cada vez mais comum, muito obrigado!
+        Pedimos desculpas pelo ocorrido e, por conta disso, aqui estão suas
+        vagas novamente!
       </Text>
       <Text className={paragraph}>
-        Agora, como de costume, aproveite suas vagas da semana!
+        Não deixe de acessar a{' '}
+        <Link href="https://www.instagram.com/tupinikeebs/">Tupinikeebs</Link>,
+        a primeira loja de teclados ergonômicos customizados do Brasil!
+      </Text>
+      <Text className={paragraph}>
+        Agora sim, aproveite as vagas desta semana!
       </Text>
     </Tailwind>
   )

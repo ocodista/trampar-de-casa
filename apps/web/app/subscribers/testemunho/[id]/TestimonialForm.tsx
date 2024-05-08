@@ -36,7 +36,7 @@ export async function TestimonialForm({ email }: { email: string }) {
         <Label htmlFor={Fields.Testimonial}>Dê mais detalhes</Label>
         <Textarea id={Fields.Testimonial} name={Fields.Testimonial} />
       </section>
-      <Button className="justify-self-end rounded-full px-6 transition-all">
+      <Button className="plausible-event-name=Button+Consegui+Vaga justify-self-end rounded-full px-6 transition-all">
         Enviar
       </Button>
     </form>
