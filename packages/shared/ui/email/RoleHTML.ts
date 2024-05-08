@@ -61,10 +61,11 @@ export const RoleHTML = ({
   title,
   location,
   language,
+  url,
 }: IRoleHTML) => {
   const firstSkills = skills?.slice(0, 4)
   return `<a
-      href="https://elegant-shift.com/"
+      href="${url}"
       target="_blank"
       rel="noreferrer"
       style="text-decoration: none; color: unset;"
