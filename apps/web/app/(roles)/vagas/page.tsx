@@ -39,7 +39,7 @@ async function getSkills() {
     .select('*')
     .order('name')
 
-  await client.set('getSkills', JSON.stringify(skills), { EX: 5 })
+  await client.set('getSkills', JSON.stringify(skills), { EX: 86400 })
   return skills
 }
 
