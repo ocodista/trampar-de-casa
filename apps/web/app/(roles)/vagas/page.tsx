@@ -14,8 +14,8 @@ const client = createClientRedis({
 client.connect()
 
 const supabase = createClient(
-  process.env['NEXT_PUBLIC_SUPABASE_URL'] as string,
-  process.env['NEXT_PUBLIC_SUPABASE_ANON_KEY'] as string
+  process.env['SUPABASE_URL'] as string,
+  process.env['SUPABASE_SERVICE_ROLE'] as string
 )
 
 async function getJobs() {
@@ -40,6 +40,7 @@ async function getSkills() {
     .order('name')
 
   await client.set('getSkills', JSON.stringify(skills), { EX: 86400 })
+
   return skills
 }
 
