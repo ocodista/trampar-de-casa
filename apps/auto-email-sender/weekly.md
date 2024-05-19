@@ -4,6 +4,12 @@
 
 The makefile will run everything required for the mail sender.
 
+### Build
+
+```unix
+make build
+```
+
 ### Setup
 
 It'll load the roles from the db, match roles with subscribers, render html for each email and leave it ready to send.
