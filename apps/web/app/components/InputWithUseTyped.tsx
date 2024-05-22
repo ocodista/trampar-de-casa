@@ -2,6 +2,9 @@ import React, { useState, useEffect, useRef } from 'react'
 import useTyped from '../components/hooks/useTyped'
 import { Search } from 'lucide-react'
 import { Filter, SelectOption } from './SelectInput'
+import { fetchJobs } from 'app/(roles)/vagas/action'
+import { updateSearchParams } from 'app/utils/updateSearchParams'
+import { useRouter } from 'next/navigation'
 
 interface InputWithUseTypedProps {
   placeholder?: string
@@ -9,17 +12,23 @@ interface InputWithUseTypedProps {
   setFilters: (filters: any) => void
   filterType: string
   filters: { option: SelectOption; inputType: string }[]
+  setTotalJobs: any
+  jobs: any
+  setJobs: any
+  setHasMore: any
 }
 
 const useTypedStrings = [
-  `Figma`,
-  `AWS`,
-  `Typescript`,
-  `Javascript`,
+  `TypeScript`,
   `React`,
-  `Tailwind`,
-  `Node`,
-  `Outros`,
+  `Java`,
+  `Python`,
+  `Ruby`,
+  `PHP`,
+  `C#`,
+  `Angular`,
+  `Deno`,
+  `Bun`,
 ]
 
 const InputWithUseTyped = ({
@@ -28,7 +37,12 @@ const InputWithUseTyped = ({
   setFilters,
   filterType,
   filters,
+  setTotalJobs,
+  jobs,
+  setJobs,
+  setHasMore,
 }: InputWithUseTypedProps) => {
+  const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
   const [typedEnabled, setTypedEnabled] = useState(true)
   const typedInstance = useTyped(
@@ -55,7 +69,10 @@ const InputWithUseTyped = ({
     setInputText('')
   }
 
-  const handleOptionSelect = (option: SelectOption) => {
+  const handleOptionSelect = async (option: SelectOption) => {
+    const newFilter = { option, inputType: filterType }
+    const temporaryFilters = [...filters, newFilter]
+
     if (
       filters.some((filter: Filter) => filter.option.value === option.value)
     ) {
@@ -65,7 +82,19 @@ const InputWithUseTyped = ({
       ...prevState,
       { option: option, inputType: filterType },
     ])
+
+    try {
+      const { data, count } = await fetchJobs(undefined, temporaryFilters, jobs)
+      setTotalJobs(count)
+      data.length > 10 ? setHasMore(true) : setHasMore(false)
+      setJobs(data)
+    } catch (error) {
+      console.error('Error fetching filtered jobs:', error.message)
+    }
+
     setShowOptions(false)
+    const newQueryString = updateSearchParams(temporaryFilters)
+    router.push(`?${newQueryString}`, { scroll: false })
   }
 
   const filteredOptions = options.filter((option) =>

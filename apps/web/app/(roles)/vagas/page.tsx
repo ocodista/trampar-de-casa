@@ -4,6 +4,8 @@ import { createClient as createClientRedis } from 'redis'
 
 export const revalidate = 0
 
+const ONE_DAY_IN_MINUTES = 86_400
+
 const client = createClientRedis({
   socket: {
     host: 'localhost',
@@ -19,27 +21,46 @@ const supabase = createClient(
 )
 
 async function getJobs() {
+  const jobsFromCache = await client.get('web_jobs')
+
+  if (jobsFromCache) {
+    console.log('Cache')
+    return JSON.parse(jobsFromCache)
+  }
+
+  console.log('Supabase')
   const { data: jobs } = await supabase
     .from('Roles')
     .select('*', { count: 'exact' })
-    .limit(21)
+    .eq('ready', true)
     .order('createdAt', { ascending: true })
+    .limit(21)
+
+  await client.set('web_jobs', JSON.stringify(jobs), { EX: ONE_DAY_IN_MINUTES })
 
   return jobs
 }
 
 async function getSkills() {
-  const skillsFromCache = await client.get('getSkills')
+  const skillsFromCache = await client.get('Skills')
+
   if (skillsFromCache) {
     return JSON.parse(skillsFromCache)
   }
 
+  // const { data: skills } = await supabase
+  //   .from('vw_skills_in_roles')
+  //   .select('*')
+  //   .order('name')
+
   const { data: skills } = await supabase
-    .from('vw_skills_in_roles')
+    .from('Skills')
     .select('*')
     .order('name')
 
-  await client.set('getSkills', JSON.stringify(skills), { EX: 86400 })
+  await client.set('getSkills', JSON.stringify(skills), {
+    EX: ONE_DAY_IN_MINUTES,
+  })
 
   return skills
 }
@@ -47,5 +68,7 @@ async function getSkills() {
 export default async function Page() {
   const skills = await getSkills()
   const jobs = await getJobs()
-  return <RolesPage jobsFromProps={jobs} skillsFromServer={skills} />
+  const jobsReady = jobs.filter((job) => job.ready === true)
+
+  return <RolesPage jobsFromServer={jobsReady} skillsFromServer={skills} />
 }

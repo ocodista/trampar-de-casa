@@ -1,5 +1,8 @@
 import { ChevronDown } from 'lucide-react'
 import { useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { fetchJobs } from 'app/(roles)/vagas/action'
+import { updateSearchParams } from 'app/utils/updateSearchParams'
 
 export type SelectOption = {
   value: string | number
@@ -18,6 +21,10 @@ interface DynamicInputProps {
   filterType: string
   setFilters: (filters: any) => void
   filters: { option: SelectOption; inputType: string }[]
+  setTotalJobs: any
+  jobs: any
+  setJobs: any
+  setHasMore: any
 }
 
 const SelectInput = ({
@@ -26,10 +33,15 @@ const SelectInput = ({
   filterType,
   setFilters,
   filters,
+  setTotalJobs,
+  jobs,
+  setJobs,
+  setHasMore,
 }: DynamicInputProps) => {
   const [showOptions, setShowOptions] = useState(false)
   const [inputText, setInputText] = useState('')
   const [currentPlaceholder, setCurrentPlaceholder] = useState<string>()
+  const router = useRouter()
 
   const handleFocus = () => {
     setCurrentPlaceholder('Type...')
@@ -42,7 +54,10 @@ const SelectInput = ({
     setShowOptions(false)
   }
 
-  const handleOptionSelect = (option: SelectOption) => {
+  const handleOptionSelect = async (option: SelectOption) => {
+    const newFilter = { option, inputType: filterType }
+    const temporaryFilters = [...filters, newFilter]
+
     if (
       filters.some((filter: Filter) => filter.option.value === option.value)
     ) {
@@ -52,7 +67,19 @@ const SelectInput = ({
       ...prevState,
       { option: option, inputType: filterType },
     ])
+
+    try {
+      const { data, count } = await fetchJobs(undefined, temporaryFilters, jobs)
+      setTotalJobs(count)
+      data.length > 10 ? setHasMore(true) : setHasMore(false)
+      setJobs(data)
+    } catch (error) {
+      console.error('Error fetching filtered jobs:', error.message)
+    }
+
     setShowOptions(false)
+    const newQueryString = updateSearchParams(temporaryFilters)
+    router.push(`?${newQueryString}`, { scroll: false })
   }
 
   const filteredOptions = options.filter((option) =>

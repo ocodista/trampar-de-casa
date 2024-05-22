@@ -38,7 +38,11 @@ export const fetchJobs = async (
     const levelsFormated = getFilter(filters, 'level')
     const orderFilter = filters.find((filter) => filter.inputType === 'order')
 
-    let query = supabase.from('Roles').select('*', { count: 'exact' }).limit(21)
+    let query = supabase
+      .from('Roles')
+      .select('*', { count: 'exact' })
+      .eq('ready', true)
+      .limit(21)
 
     if (countryOptionsFormatted.length > 0) {
       const countryValues = countryOptionsFormatted.map(
