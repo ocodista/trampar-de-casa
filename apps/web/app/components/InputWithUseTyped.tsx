@@ -1,7 +1,13 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, {
+  useState,
+  useEffect,
+  useRef,
+  Dispatch,
+  SetStateAction,
+} from 'react'
 import useTyped from '../components/hooks/useTyped'
 import { Search } from 'lucide-react'
-import { Filter, SelectOption } from './SelectInput'
+import { Filter, Job, SelectOption } from './SelectInput'
 import { fetchJobs } from 'app/(roles)/vagas/action'
 import { updateSearchParams } from 'app/utils/updateSearchParams'
 import { useRouter } from 'next/navigation'
@@ -9,13 +15,13 @@ import { useRouter } from 'next/navigation'
 interface InputWithUseTypedProps {
   placeholder?: string
   options: SelectOption[]
-  setFilters: (filters: any) => void
+  setFilters: Dispatch<SetStateAction<Filter[]>>
   filterType: string
   filters: { option: SelectOption; inputType: string }[]
-  setTotalJobs: any
-  jobs: any
-  setJobs: any
-  setHasMore: any
+  setTotalJobs: Dispatch<SetStateAction<number>>
+  jobs: Job[]
+  setJobs: Dispatch<SetStateAction<Job[]>>
+  setHasMore: Dispatch<SetStateAction<boolean>>
 }
 
 const useTypedStrings = [

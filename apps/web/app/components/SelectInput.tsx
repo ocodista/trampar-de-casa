@@ -1,8 +1,26 @@
 import { ChevronDown } from 'lucide-react'
-import { useState } from 'react'
+import { Dispatch, SetStateAction, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { fetchJobs } from 'app/(roles)/vagas/action'
 import { updateSearchParams } from 'app/utils/updateSearchParams'
+
+export interface Job {
+  company: string | null
+  country: string
+  createdAt: string
+  currency: string | null
+  description: string
+  id: string
+  language: 'English' | 'Portuguese'
+  minimumYears: number | null
+  ready: boolean
+  salary: string | null
+  skillsId: string[] | null
+  title: string
+  topicId: number | null
+  updatedAt: string
+  url: string | null
+}
 
 export type SelectOption = {
   value: string | number
@@ -19,12 +37,12 @@ interface DynamicInputProps {
   placeholder: string
   options: SelectOption[]
   filterType: string
-  setFilters: (filters: any) => void
+  setFilters: Dispatch<SetStateAction<Filter[]>>
   filters: { option: SelectOption; inputType: string }[]
-  setTotalJobs: any
-  jobs: any
-  setJobs: any
-  setHasMore: any
+  setTotalJobs: Dispatch<SetStateAction<number>>
+  jobs: Job[]
+  setJobs: Dispatch<SetStateAction<Job[]>>
+  setHasMore: Dispatch<SetStateAction<boolean>>
 }
 
 const SelectInput = ({

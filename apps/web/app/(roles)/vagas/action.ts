@@ -1,6 +1,6 @@
 'use server'
 import { createClient } from '@supabase/supabase-js'
-import { Filter, SelectOption } from 'app/components/SelectInput'
+import { Filter, Job, SelectOption } from 'app/components/SelectInput'
 
 const supabase = createClient(
   process.env['SUPABASE_URL'] as string,
@@ -24,9 +24,9 @@ const getFilter = (filters: Filter[], filterType: string) => {
 export const fetchJobs = async (
   type: string,
   filters: { option: SelectOption; inputType: string }[],
-  jobs
+  jobs: Job[]
 ): Promise<{
-  data: ItemExtracted[]
+  data: Job[]
   isSuccess: boolean
   message: string
   count: any
