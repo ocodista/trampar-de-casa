@@ -10,9 +10,6 @@ const nextConfig = {
       },
     ],
   },
-  experimental: {
-    serverActions: true,
-  },
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   reactStrictMode: true,
   transpilePackages: ['ui', 'eslint-config-custom', 'shared', 'db'],

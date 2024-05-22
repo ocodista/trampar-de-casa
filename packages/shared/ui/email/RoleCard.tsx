@@ -30,7 +30,7 @@ export const RoleCard = ({
   language,
   salary,
 }: Omit<Opening, 'skills'> & { skills: string[] }) => {
-  const firstSkills = skills.slice(0, 4)
+  const firstSkills = skills?.slice(0, 4)
   const roleHTML = RoleHTML({
     company,
     language,

@@ -44,10 +44,8 @@ export const ProfileEmailTemplate = () => (
 
           <Section>
             <Button
-              pX={12}
-              pY={12}
               style={button}
-              className="bg-slate-900"
+              className="bg-slate-900 px-3 py-3"
               href={'$PROFILE_URL'}
             >
               Configurar preferências <span className="ml-2">⚙️</span>

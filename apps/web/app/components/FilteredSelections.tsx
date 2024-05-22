@@ -11,7 +11,7 @@ function sortOptions(array: ListOption[], label: string) {
         return accumulativeArray
       }
       const queryLength = label.length
-      const slicedItemLabel = listOption.label.slice(0, queryLength)
+      const slicedItemLabel = listOption.label?.slice(0, queryLength)
       if (slicedItemLabel.toLowerCase() === label.toLowerCase()) {
         accumulativeArray[1] = [...accumulativeArray[1], listOption]
         return accumulativeArray
