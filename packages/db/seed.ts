@@ -63,7 +63,7 @@ void (async function () {
       })
     )
     for (const subscriber of getSubscribers()) {
-      await supabase.from(Entities.Subcribers).insert(subscriber)
+      await supabase.from(Entities.Subscribers).insert(subscriber)
     }
     await Promise.all(
       getRoles().map(

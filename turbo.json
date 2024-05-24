@@ -25,6 +25,18 @@
     },
     "start": {
       "cache": false
+    },
+    "db:migration": {
+      "cache": false
+    },
+    "db:status": {
+      "cache": false
+    },
+    "db:migration:new": {
+      "cache": false
+    },
+    "db:start": {
+      "cache": false
     }
   },
   "globalEnv": [
@@ -40,6 +52,9 @@
     "SUPABASE_URL",
     "SUPABASE_SERVICE_ROLE",
     "NEXT_PUBLIC_POSTHOG_HOST",
+    "SUPABASE_KEY",
+    "RESEND_KEY",
+    "CRYPT_SECRET",
     "NEXT_PUBLIC_MIXPANEL_KEY",
     "NEXT_PUBLIC_PLAUSIBLE_ADDRESS"
   ]

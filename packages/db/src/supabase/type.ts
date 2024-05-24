@@ -77,8 +77,9 @@ export interface Database {
           created_at: string | null
           currency: string | null
           description: string | null
-          id: number | null
-          language: string | null
+          id: number
+          isapproved: boolean | null
+          language: Database["public"]["Enums"]["RoleLanguage"] | null
           minimum_years: number | null
           salary: number | null
           title: string | null
@@ -91,8 +92,9 @@ export interface Database {
           created_at?: string | null
           currency?: string | null
           description?: string | null
-          id?: number | null
-          language?: string | null
+          id?: number
+          isapproved?: boolean | null
+          language?: Database["public"]["Enums"]["RoleLanguage"] | null
           minimum_years?: number | null
           salary?: number | null
           title?: string | null
@@ -105,8 +107,9 @@ export interface Database {
           created_at?: string | null
           currency?: string | null
           description?: string | null
-          id?: number | null
-          language?: string | null
+          id?: number
+          isapproved?: boolean | null
+          language?: Database["public"]["Enums"]["RoleLanguage"] | null
           minimum_years?: number | null
           salary?: number | null
           title?: string | null
@@ -115,7 +118,7 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_topics"
+            foreignKeyName: "rolesRecommendation_topic_id_fkey"
             columns: ["topic_id"]
             referencedRelation: "Topics"
             referencedColumns: ["id"]
@@ -303,6 +306,49 @@ export interface Database {
           name?: string
         }
         Relationships: []
+      }
+      UserRoles: {
+        Row: {
+          clickedAt: string | null
+          roleId: string
+          userId: string
+        }
+        Insert: {
+          clickedAt?: string | null
+          roleId: string
+          userId: string
+        }
+        Update: {
+          clickedAt?: string | null
+          roleId?: string
+          userId?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "userroles_roleId_fkey"
+            columns: ["roleId"]
+            referencedRelation: "Roles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "userroles_roleId_fkey"
+            columns: ["roleId"]
+            referencedRelation: "RolesSkillsView"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "userroles_userId_fkey"
+            columns: ["userId"]
+            referencedRelation: "Subscribers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "userroles_userId_fkey"
+            columns: ["userId"]
+            referencedRelation: "SubscriberSkillsView"
+            referencedColumns: ["id"]
+          }
+        ]
       }
     }
     Views: {

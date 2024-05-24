@@ -6,7 +6,7 @@ export const confirmedSubscribers = async () => {
   const SUPABASE_KEY = process.env['SUPABASE_SERVICE_ROLE'] || ''
   const supabaseClient = createClient(SUPABASE_URL, SUPABASE_KEY)
   const { data, error } = await supabaseClient
-    .from(Entities.Subcribers)
+    .from(Entities.Subscribers)
     .select('*')
     .eq('isConfirmed', 'TRUE')
     .eq('optOut', false)

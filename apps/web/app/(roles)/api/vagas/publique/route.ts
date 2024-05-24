@@ -18,13 +18,13 @@ export const POST = async (req: Request) => {
   }
 
   const { error } = await supabaseClient.from('rolesRecommendation').insert({
-    minimum_years: Number(body.minimumYears),
-    topic_id: Number(body.topicsId),
     company: body.company,
     country: body.country,
     currency: body.currency,
+    minimum_years: Number(body.minimumYears),
+    topic_id: Number(body.topicsId),
     description: body.description,
-    language: body.language,
+    language: body.language as 'English' | 'Portuguese',
     salary: Number(body.salary),
     title: body.title,
     url: body.url,

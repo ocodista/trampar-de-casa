@@ -8,7 +8,7 @@ const getSubscriberCount = async (): Promise<number | null> => {
     process.env['SUPABASE_SERVICE_ROLE']
   )
   const { count, error } = await supabase
-    .from(Entities.Subcribers)
+    .from(Entities.Subscribers)
     .select('id', { count: 'exact', head: true })
 
   if (error) {
