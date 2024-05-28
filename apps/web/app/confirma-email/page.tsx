@@ -1,8 +1,8 @@
 'use client'
 import { useSearchParams } from 'next/navigation'
 import { useEffect } from 'react'
-import { useLoadingContext } from '../contexts/LoadingContext'
 import { ApiRoutes } from 'shared/src/enums'
+import { useLoadingContext } from '../contexts/LoadingContext'
 import { useToast } from '../hooks/use-toast'
 
 export default function Page() {
@@ -60,7 +60,12 @@ export default function Page() {
             Algo deu errado.
           </h1>
         )}
-
+        <a
+          href="/log-area"
+          className="hover:boder group relative flex w-full justify-center rounded-md border border-transparent bg-black px-4 py-2 text-sm font-medium text-white transition-all hover:bg-indigo-600  hover:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"
+        >
+          Configure suas preferências de vaga!
+        </a>
         <a
           href="/"
           className="hover:boder group relative flex w-full justify-center rounded-md border border-transparent bg-black px-4 py-2 text-sm font-medium text-white hover:border-black hover:bg-white hover:text-black focus:outline-none focus:ring-2 focus:ring-indigo-500 focus:ring-offset-2"

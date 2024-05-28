@@ -1,4 +1,4 @@
-import { randomBytes, createCipheriv } from 'crypto'
+import { createCipheriv, randomBytes } from 'crypto'
 
 export const encrypt = (secretKey: string, text: string): string => {
   const iv = randomBytes(16)

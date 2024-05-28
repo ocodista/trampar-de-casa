@@ -5,4 +5,5 @@ export enum LandingPageRoutes {
   FAQ = '/#perguntas-frequentes',
   PublishYourRole = '/vagas/publique',
   SupportingCompanies = '/apoiadores',
+  LogIn = '/log-area',
 }

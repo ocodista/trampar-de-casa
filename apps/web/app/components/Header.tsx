@@ -1,5 +1,4 @@
 'use client'
-import { signInWithEmail } from 'app/log-area/page'
 import Image from 'next/image'
 import { useState } from 'react'
 import { LandingPageRoutes } from '../landing-page/landingPageRoutes'
@@ -48,12 +47,12 @@ export const Header = () => {
             </div>
           </div>
         </div>
-        <button
-          onClick={signInWithEmail}
+        <a
+          href={LandingPageRoutes.LogIn}
           className="pointer w-fit cursor-pointer rounded-xl bg-indigo-600 px-7 py-4 font-semibold text-white transition duration-200 ease-in-out hover:bg-indigo-700 focus:ring  focus:ring-indigo-300 disabled:cursor-default disabled:opacity-50"
         >
           Login
-        </button>
+        </a>
         <div className="w-auto lg:hidden">
           <button
             type="button"
