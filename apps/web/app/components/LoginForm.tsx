@@ -15,6 +15,10 @@ export function LoginForm() {
     try {
       emailSchema.parse(email)
       signInWithEmail(email)
+      toast({
+        title: 'Email enviado com sucesso',
+        description: 'Por favor confira a sua caixa de entrada',
+      })
       return true
     } catch (error) {
       toast({

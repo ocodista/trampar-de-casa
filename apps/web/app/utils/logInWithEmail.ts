@@ -1,6 +1,5 @@
 'use server'
 
-import { toast } from 'app/hooks/use-toast'
 import { getSupabaseClient } from 'db'
 import { cookies } from 'next/headers'
 import { Entities } from 'shared/src/enums'
@@ -21,17 +20,12 @@ export async function signInWithEmail(email) {
   const { error } = await supabaseClient.auth.signInWithOtp({
     email: email,
     options: {
-      shouldCreateUser: false,
+      shouldCreateUser: true,
       emailRedirectTo: `http://localhost:3000/subscribers/profile/${encryptedId}`,
     },
   })
 
   if (error) {
-    toast({
-      title: 'Erro ao validar o e-mail',
-      variant: 'destructive',
-      description: error.message,
-    })
-    return
+    return error
   }
 }
