@@ -8,8 +8,8 @@ const ONE_DAY_IN_MINUTES = 86_400
 
 const client = createClientRedis({
   socket: {
-    host: 'localhost',
-    port: 6379,
+    host: process.env['REDIS_HOST'],
+    port: parseInt(process.env['REDIS_PORT'] || '6379'),
   },
 })
 
@@ -48,13 +48,8 @@ async function getSkills() {
     return JSON.parse(skillsFromCache)
   }
 
-  // const { data: skills } = await supabase
-  //   .from('vw_skills_in_roles')
-  //   .select('*')
-  //   .order('name')
-
   const { data: skills } = await supabase
-    .from('Skills')
+    .from('vw_skills_in_roles')
     .select('*')
     .order('name')
 
