@@ -65,27 +65,10 @@ export function Header({
           </Column>
         </Row>
       </Section>
-      <Heading className={h1}>{`Tivemos um problema!`}</Heading>
+      <Heading className={h1}>{previewText}</Heading>
       <Hr style={hr} />
-      <Text className={paragraph}>
-        Olá, defensor do trabalho remoto, tudo bem?
-      </Text>
-      <Text className={paragraph}>
-        Tivemos um problema com nosso último envio, os links não estavam
-        funcionando.
-      </Text>
-      <Text className={paragraph}>
-        Pedimos desculpas pelo ocorrido e, por conta disso, aqui estão suas
-        vagas novamente!
-      </Text>
-      <Text className={paragraph}>
-        Não deixe de acessar a{' '}
-        <Link href="https://www.instagram.com/tupinikeebs/">Tupinikeebs</Link>,
-        a primeira loja de teclados ergonômicos customizados do Brasil!
-      </Text>
-      <Text className={paragraph}>
-        Agora sim, aproveite as vagas desta semana!
-      </Text>
+      <Text className={paragraph}>E aí, tudo bem?</Text>
+      <Text className={paragraph}>Aproveite as vagas desta semana!</Text>
     </Tailwind>
   )
 }

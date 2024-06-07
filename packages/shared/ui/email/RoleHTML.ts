@@ -1,14 +1,26 @@
 const SkillHTML = (skill: string) =>
   `<div style="margin-bottom: 0.25rem; white-space: nowrap; border-radius: 1rem; border-width: 2px; border-style: solid; border-color: rgb(0, 0, 0); background-color: rgb(228, 228, 231); padding: 0.375rem 1rem; font-size: 0.75rem; line-height: 1rem;">${skill}</div>`
 
-const LocationLanguage = ({
+export const LocationLanguage = ({
   location,
   language,
 }: {
   location: string | null | undefined
   language: string | null | undefined
-}) =>
-  `<table
+}) => {
+  if (!location && !language) return ''
+  const locationHTML = !location
+    ? ''
+    : `📍 <span style="margin-left: 0.25rem; margin-right: 1.5rem;">
+                  ${location}
+                </span>`
+
+  const languageHTML = !language
+    ? ''
+    : ` 💬 <span style="margin-left: 0.25rem; margin-right: 0.25rem;">
+                  ${language}</span>`
+
+  return `<table
           align="center"
           width="100%"
           data-id="react-email-row"
@@ -25,23 +37,13 @@ const LocationLanguage = ({
                 data-id="__react-email-column"
                 style="display: flex; align-items: center; font-size: 0.75rem; line-height: 1rem;"
               >
-                ${
-                  location
-                    ? `📍
-                <span style="margin-left: 0.25rem; margin-right: 1.5rem;">
-                  ${location}
-                </span>
-                  `
-                    : ''
-                }
-                💬
-                <span style="margin-left: 0.25rem; margin-right: 0.25rem;">
-                  ${language}
-                </span>
+                ${locationHTML}
+                ${languageHTML}
               </td>
             </tr>
           </tbody>
         </table>`
+}
 
 interface IRoleHTML {
   company: string | null | undefined
