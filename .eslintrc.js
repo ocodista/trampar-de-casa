@@ -1,4 +1,4 @@
-module.exports = {
+export default {
   extends: [
     "next",
     "turbo",
@@ -22,4 +22,3 @@ module.exports = {
     },
   },
 };
-
