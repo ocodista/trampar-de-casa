@@ -1,7 +1,6 @@
 module.exports = {
   extends: [
     "next",
-    "turbo",
     "prettier",
     "eslint:recommended",
     "plugin:react/recommended",

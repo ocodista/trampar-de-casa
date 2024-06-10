@@ -4921,6 +4921,13 @@ eslint-config-turbo@^1.9.3:
   dependencies:
     eslint-plugin-turbo "1.13.4"
 
+eslint-config-turbo@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-config-turbo/-/eslint-config-turbo-2.0.3.tgz#c00e5b52f4f2620862d5d2368e7046d6138d8cc5"
+  integrity sha512-D1+lNOpTFEuAgPWJfRHXHjzvAfO+0TVmORfftmYQNw+uk2UIBjhelhwERBceYFy2oFJnckHsqt69dp/zIM6/0g==
+  dependencies:
+    eslint-plugin-turbo "2.0.3"
+
 eslint-import-resolver-node@^0.3.6, eslint-import-resolver-node@^0.3.9:
   version "0.3.9"
   resolved "https://registry.npmjs.org/eslint-import-resolver-node/-/eslint-import-resolver-node-0.3.9.tgz"
@@ -5075,6 +5082,13 @@ eslint-plugin-turbo@1.13.4:
   version "1.13.4"
   resolved "https://registry.npmjs.org/eslint-plugin-turbo/-/eslint-plugin-turbo-1.13.4.tgz"
   integrity sha512-82GfMzrewI/DJB92Bbch239GWbGx4j1zvjk1lqb06lxIlMPnVwUHVwPbAnLfyLG3JuhLv9whxGkO/q1CL18JTg==
+  dependencies:
+    dotenv "16.0.3"
+
+eslint-plugin-turbo@2.0.3, eslint-plugin-turbo@^2.0.3:
+  version "2.0.3"
+  resolved "https://registry.yarnpkg.com/eslint-plugin-turbo/-/eslint-plugin-turbo-2.0.3.tgz#87e87975ac2d90c311c583e1e5e7a0a4fe77734b"
+  integrity sha512-mplP4nYaRvtTNuwF5QTLYKLu0/8LTRsHPgX4ARhaof+QZI2ttglONe1/iJpKB4pg0KqFp7WHziKoJL+s0+CJ1w==
   dependencies:
     dotenv "16.0.3"
 
