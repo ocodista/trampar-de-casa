@@ -2,7 +2,6 @@ import { getSupabaseClient } from 'db/src/supabase/getSupabaseClient'
 import { Webhook } from 'svix'
 
 const getWebhook = () => {
-  // eslint-disable-next-line turbo/no-undeclared-env-vars
   const webhookSecret = process.env.RESEND_WEBHOOK_SECRET
   if (!webhookSecret) throw new Error('RESEND_WEBHOOK_SECRET is not settled')
   return new Webhook(webhookSecret)
