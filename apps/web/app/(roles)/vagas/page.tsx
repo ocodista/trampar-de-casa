@@ -28,7 +28,6 @@ async function getJobs() {
     return JSON.parse(jobsFromCache)
   }
 
-  console.log('Supabase')
   const { data: jobs } = await supabase
     .from('Roles')
     .select('*', { count: 'exact' })
