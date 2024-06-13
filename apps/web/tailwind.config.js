@@ -58,6 +58,10 @@ module.exports = {
         md: 'calc(var(--radius) - 2px)',
         sm: 'calc(var(--radius) - 4px)',
       },
+      boxShadow: {
+        'brand-shadow':
+          '0px 0px 0px 1px rgba(17,24,39,.05), 0px 1px 4px rgba(17,24,39,.1), 0px 8px 16px rgba(17,24,39,.1)',
+      },
       keyframes: {
         'accordion-down': {
           from: { height: 0 },
@@ -70,7 +74,7 @@ module.exports = {
         'scroll-left': {
           from: { transform: 'translateX(0)' },
           to: { transform: 'translateX(-100%)' },
-        }
+        },
       },
       animation: {
         'accordion-down': 'accordion-down 0.2s ease-out',
@@ -86,11 +90,10 @@ module.exports = {
             ul: {
               listStyleType: 'disc', // default, but can be changed
               marginLeft: '1em', // Adjust spacing from the left margin
-
-            }
-          }
-        }
-      })
+            },
+          },
+        },
+      }),
     },
   },
   plugins: [require('tailwindcss-animate'), require('@tailwindcss/typography')],

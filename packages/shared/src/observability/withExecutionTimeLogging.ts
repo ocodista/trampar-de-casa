@@ -11,7 +11,6 @@ export const withExecutionTimeLogging = <T extends (...args: any[]) => any>(
   const { seconds } = timeSpan()
   const logProfilingResult = () => {
     const execution = seconds()
-    // eslint-disable-next-line turbo/no-undeclared-env-vars
     if (process?.env?.NODE_ENV !== 'test') {
       console.log(
         `✨ Function "${

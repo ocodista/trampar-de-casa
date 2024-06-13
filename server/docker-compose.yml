@@ -3,3 +3,4 @@ include:
   - grafana.yml
   - nginx.yml
   - web.yml
+  - redis.yml

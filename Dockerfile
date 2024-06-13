@@ -28,6 +28,7 @@ RUN yarn install
  
 # Build the project
 COPY --from=builder /app/out/full/ .
+
 # Declare arguments
 ARG DATABASE_URL
 ARG SUPABASE_URL

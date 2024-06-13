@@ -22,6 +22,7 @@ const menuItems = [
   { href: LandingPageRoutes.HowItWorks, label: 'Como Funciona' },
   { href: LandingPageRoutes.FAQ, label: 'Perguntas Frequentes' },
   { href: LandingPageRoutes.SupportingCompanies, label: 'Empresas Remotas' },
+  { href: LandingPageRoutes.Vacancies, label: 'Vagas' },
   { href: LandingPageRoutes.PublishYourRole, label: 'Indique uma vaga' },
 ]
 
