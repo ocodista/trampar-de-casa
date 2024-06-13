@@ -61,7 +61,6 @@ async function getSkills() {
 
 export default async function Page() {
   const skills = await getSkills()
-  console.log(skills.length)
   const jobs = await getJobs()
   const jobsReady = jobs.filter((job) => job.ready === true)
 
