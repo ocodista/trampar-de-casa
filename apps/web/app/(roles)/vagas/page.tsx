@@ -48,7 +48,7 @@ async function getSkills() {
   }
 
   const { data: skills } = await supabase
-    .from('vw_skills_in_roles')
+    .from('new_vw_skills_in_roles')
     .select('*')
     .order('name')
 
@@ -61,6 +61,7 @@ async function getSkills() {
 
 export default async function Page() {
   const skills = await getSkills()
+  console.log(skills.length)
   const jobs = await getJobs()
   const jobsReady = jobs.filter((job) => job.ready === true)
 
