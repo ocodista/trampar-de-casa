@@ -119,9 +119,7 @@ const InputWithUseTyped = ({
         placeholder={typedEnabled ? '' : placeholder}
         onChange={(e) => setInputText(e.target.value)}
         onFocus={handleFocus}
-        onBlur={() => {
-          setTimeout(() => handleBlur(), 100)
-        }}
+        onBlur={handleBlur}
         value={inputText}
       />
       {showOptions && (
@@ -133,7 +131,7 @@ const InputWithUseTyped = ({
               <div
                 key={option.value}
                 className="w-full cursor-pointer p-[7px] text-left text-[15px] hover:bg-gray-200"
-                onClick={() => handleOptionSelect(option)}
+                onMouseDown={() => handleOptionSelect(option)}
               >
                 {`${option.emoji ? option.emoji : ''} ${option.label}`}
               </div>

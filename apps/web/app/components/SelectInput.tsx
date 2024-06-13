@@ -110,9 +110,7 @@ const SelectInput = ({
         placeholder={currentPlaceholder ? currentPlaceholder : placeholder}
         className="border-box z-[2] w-[120px] rounded-[20px] border-[1px] bg-transparent py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100 md:lg:w-[150px] lg:w-[150px]"
         onFocus={handleFocus}
-        onBlur={() => {
-          setTimeout(() => handleBlur(), 100)
-        }}
+        onBlur={handleBlur}
         onChange={(e) => setInputText(e.target.value)}
         value={inputText}
       />
@@ -126,7 +124,7 @@ const SelectInput = ({
               <div
                 key={option.value}
                 className="w-full cursor-pointer p-[7px] hover:bg-gray-200"
-                onClick={() => handleOptionSelect(option)}
+                onMouseDown={() => handleOptionSelect(option)}
               >
                 {`${option.emoji ? option.emoji : ''} ${option.label}`}
               </div>
