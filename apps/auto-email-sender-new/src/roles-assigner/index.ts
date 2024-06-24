@@ -29,7 +29,6 @@ export const assignRoles = async () => {
 
   do {
     msg = await channel.get(EmailQueues.RolesAssignerSubs)
-    console.log(msg)
     if (!msg) break
     count = count + 1
     const subscriber = JSON.parse(msg.content.toString()) as Subscriber

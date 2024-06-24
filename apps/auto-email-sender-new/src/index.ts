@@ -3,6 +3,7 @@ import { rolesRenderer } from './roles-renderer'
 import { subsToQueue } from './subs-to-queue'
 import 'why-is-node-running'
 import { assignRoles } from './roles-assigner'
+import { emailPreRender } from './email-pre-render'
 
 dotenv.config()
 
@@ -24,6 +25,13 @@ export const init = async () => {
       .map((fn) => fn())
     await Promise.all(assignRolesPromises)
     console.log('assignRoles finished')
+
+    console.log('emailPreRender started')
+    const emailPreRenderPromises = Array(4)
+      .fill(emailPreRender)
+      .map((fn) => fn())
+    await Promise.all(emailPreRenderPromises)
+    console.log('emailPreRender finished')
 
     process.exit(0)
   } catch (error) {
