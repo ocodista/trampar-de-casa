@@ -31,7 +31,8 @@
     "apps/web",
     "apps/auto-email-sender/*",
     "apps/workers/*",
-    "packages/*"
+    "packages/*",
+    "apps/auto-email-sender-new"
   ],
   "lint-staged": {
     "apps/**/*.{ts,tsx}": [
