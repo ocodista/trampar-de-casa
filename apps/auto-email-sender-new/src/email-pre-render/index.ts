@@ -74,5 +74,4 @@ export async function emailPreRender() {
   } while (msg)
 
   await mongoConnection.close()
-  process.exit(0)
 }
