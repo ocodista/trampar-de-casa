@@ -54,13 +54,6 @@ export async function emailPreRender() {
       renderedFooter,
       renderedHeader
     )
-    console.log('Mensagem a ser enviada:', {
-      [email]: {
-        footerHTML,
-        headerHTML,
-        roles: rolesId,
-      },
-    })
 
     await sendToQueue(EmailQueues.EmailPreRenderer, emailPreRendererChannel, {
       [email]: {

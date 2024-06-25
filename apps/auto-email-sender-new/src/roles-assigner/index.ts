@@ -32,7 +32,6 @@ export const assignRoles = async () => {
     if (!msg) break
     count = count + 1
     const subscriber = JSON.parse(msg.content.toString()) as Subscriber
-    console.log('msg encontrada')
     try {
       const roles = await getSubscriberRoles(subscriber, supabaseClient)
       const emailProps = getEmailProps(subscriber, roles)
