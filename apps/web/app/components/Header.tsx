@@ -18,11 +18,8 @@ const Logo = () => (
 // Menu Items
 const menuItems = [
   { href: LandingPageRoutes.Blog, label: 'Blog' },
-  { href: LandingPageRoutes.Values, label: 'Nossos Valores' },
-  { href: LandingPageRoutes.HowItWorks, label: 'Como Funciona' },
-  { href: LandingPageRoutes.FAQ, label: 'Perguntas Frequentes' },
-  { href: LandingPageRoutes.SupportingCompanies, label: 'Empresas Remotas' },
-  { href: LandingPageRoutes.Vacancies, label: 'Vagas' },
+  { href: LandingPageRoutes.Vacancies, label: 'Vagas Remotas' },
+  { href: LandingPageRoutes.SupportingCompanies, label: 'Empresas Apoiadoras' },
   { href: LandingPageRoutes.PublishYourRole, label: 'Indique uma vaga' },
 ]
 
