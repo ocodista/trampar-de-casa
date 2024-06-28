@@ -36,6 +36,6 @@ export const emailSender = async () => {
     logger(`sent [${count}] emails!`)
     emailChunk = []
   }
-
+  await channelToConsume.purgeQueue(EmailQueues.EmailSender)
   logger.timeEnd('emailSender')
 }
