@@ -9,10 +9,6 @@
   "author": "",
   "license": "ISC",
   "description": "",
-  "dependencies": {
-    "db": "*",
-    "shared": "*"
-  },
   "devDependencies": {
     "dotenv": "^16.4.5",
     "ts-node": "^10.9.2",

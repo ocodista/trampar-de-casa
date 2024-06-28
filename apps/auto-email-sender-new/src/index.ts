@@ -1,7 +1,6 @@
 import dotenv from 'dotenv'
 import { rolesRenderer } from './roles-renderer'
 import { subsToQueue } from './subs-to-queue'
-import 'why-is-node-running'
 import { assignRoles } from './roles-assigner'
 import { emailPreRender } from './email-pre-render'
 import { composeEmail } from './email-composer'
