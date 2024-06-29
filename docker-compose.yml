@@ -2,6 +2,6 @@ services:
   auto-email-sender-new:
     build:
       context: .
-      dockerfile: Dockerfile.test
+      dockerfile: Dockerfile.auto
     env_file:
       - apps/auto-email-sender-new/.env
