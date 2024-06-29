@@ -4,6 +4,9 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'apps/auto-email-sender/**/*'
+      - 'packages/**/*'
 
 jobs:
   docker-build:
@@ -33,7 +36,7 @@ jobs:
           npm install -g yarn
           yarn install
 
-      - name: Build Dcoker image
+      - name: Build Docker image
         run: |
           docker buildx build . --file ./Dockerfile.auto -t "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:latest" \
           --push \
@@ -45,3 +48,4 @@ jobs:
           --build-arg MONGO_PASSWORD="${{ secrets.MONGO_PASSWORD }}" \
           --build-arg MONGO_USERNAME="${{ secrets.MONGO_USERNAME }}" \
           --build-arg RABBITMQ_ADDRESS="${{ secrets.RABBITMQ_ADDRESS }}"
+
