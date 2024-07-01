@@ -12,7 +12,6 @@
   "devDependencies": {
     "dotenv": "^16.4.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.2",
-    "why-is-node-running": "^2.2.2"
+    "typescript": "^5.5.2"
   }
 }
