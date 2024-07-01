@@ -1,0 +1,68 @@
+# Base Stage
+FROM node:18-alpine AS base
+
+RUN set -x \
+    && apk update \
+    && apk upgrade
+
+# Set working directory
+WORKDIR /app
+
+# Declare arguments
+ARG SECRET_KEY
+ARG RESEND_KEY
+ARG SUPABASE_URL
+ARG SUPABASE_SERVICE_ROLE
+ARG MONGO_ADDRESS
+ARG MONGO_PASSWORD
+ARG MONGO_USERNAME
+ARG RABBITMQ_ADDRESS
+
+# Convert build-time variables to environment variables
+ENV SECRET_KEY=$SECRET_KEY \
+    RESEND_KEY=$RESEND_KEY \
+    SUPABASE_URL=$SUPABASE_URL \
+    SUPABASE_SERVICE_ROLE=$SUPABASE_SERVICE_ROLE \
+    MONGO_ADDRESS=$MONGO_ADDRESS \
+    MONGO_PASSWORD=$MONGO_PASSWORD \
+    MONGO_USERNAME=$MONGO_USERNAME \
+    RABBITMQ_ADDRESS=$RABBITMQ_ADDRESS
+
+# Install TurboRepo globally
+RUN npm install -g turbo
+
+# Dependencies Stage
+FROM base AS dependencies
+
+# Copy monorepo package files
+COPY . .
+
+# Install all dependencies for the monorepo
+RUN turbo prune --scope=auto-email-sender-new --docker
+
+# Install dependencies in the root
+RUN npm install
+
+# Install dependencies for the scoped project only
+RUN npm install --prefix apps/auto-email-sender-new
+
+# Builder Stage
+FROM dependencies AS builder
+
+# Rebuild the source code only for the scoped project
+RUN turbo run build --filter=auto-email-sender-new...
+
+# Final Stage (Runner)
+FROM base AS runner
+
+# Install ts-node globally
+RUN npm install -g ts-node
+
+# Set working directory
+WORKDIR /app
+
+# Copy the build output and node_modules from the builder stage
+COPY --from=builder /app .
+
+# Run the script
+CMD ["ts-node", "apps/auto-email-sender-new/src/index.ts"]

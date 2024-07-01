@@ -1999,9 +1999,9 @@
   integrity sha512-nG96G3Wp6acyAgJqGasjODb+acrI7KltPiRxzHPXnP3NgI28bpQDRv53olbqGXbfcgF5aiiHmO3xpwEpS5Ld9g==
 
 "@types/node@*", "@types/node@^18.0.0 || >=20.0.0", "@types/node@^20.4.6", "@types/node@>= 14":
-  version "20.14.2"
-  resolved "https://registry.npmjs.org/@types/node/-/node-20.14.2.tgz"
-  integrity sha512-xyu6WAMVwv6AKFLB+e/7ySZVr/0zLCzOa7rSpq6jNwpqOrUbcACDWC+53d4n2QHOnDou0fbIsg8wZu/sxrnI4Q==
+  version "20.14.9"
+  resolved "https://registry.npmjs.org/@types/node/-/node-20.14.9.tgz"
+  integrity sha512-06OCtnTXtWOZBJlRApleWndH4JsRVs1pDCc8dLSQp+7PpUpX3ePdHyeNSFTeSe7FtKyQkrlPvHwJOW3SLd8Oyg==
   dependencies:
     undici-types "~5.26.4"
 
@@ -2511,7 +2511,7 @@ amqplib@^0.10.3, amqplib@latest:
     readable-stream "1.x >=1.1.9"
     url-parse "~1.5.10"
 
-analytics@*, "analytics@file:/home/luis/projects/trampar-de-casa/packages/analytics":
+analytics@*, "analytics@file:/home/luis/Projects/Repositorios/trampar-de-casa/packages/analytics":
   version "1.0.0"
   resolved "file:packages/analytics"
   dependencies:
@@ -2722,7 +2722,7 @@ array.prototype.toreversed@^1.1.2:
     es-abstract "^1.22.1"
     es-shim-unscopables "^1.0.0"
 
-array.prototype.tosorted@^1.1.3:
+array.prototype.tosorted@^1.1.4:
   version "1.1.4"
   resolved "https://registry.npmjs.org/array.prototype.tosorted/-/array.prototype.tosorted-1.1.4.tgz"
   integrity sha512-p6Fx8B7b7ZhL/gmUsAy0D15WhvDccw3mnGNbZpi3pmeJdxtWsj2jEaI4Y6oo3XiHfzuSgPwKc04MYt6KgvC/wA==
@@ -2778,6 +2778,10 @@ asynckit@^0.4.0:
   version "0.4.0"
   resolved "https://registry.npmjs.org/asynckit/-/asynckit-0.4.0.tgz"
   integrity sha512-Oei9OH4tRh0YqU3GxhX79dM/mwVgvbZJaSNaRk+bshkj0S5cfHcgYakreBjrHwatXKbz+IoIdYLxrKim2MjW0Q==
+
+"auto-email-sender-new@file:/home/luis/Projects/Repositorios/trampar-de-casa/apps/auto-email-sender-new":
+  version "1.0.0"
+  resolved "file:apps/auto-email-sender-new"
 
 autoprefixer@^10.4.14:
   version "10.4.19"
@@ -3580,7 +3584,7 @@ data-view-byte-offset@^1.0.0:
   dependencies:
     "@babel/runtime" "^7.21.0"
 
-db@*, "db@file:/home/luis/projects/trampar-de-casa/packages/db":
+db@*, "db@file:/home/luis/Projects/Repositorios/trampar-de-casa/packages/db":
   version "1.0.0"
   resolved "file:packages/db"
   dependencies:
@@ -3890,7 +3894,7 @@ dot-case@^2.1.0:
   dependencies:
     no-case "^2.2.0"
 
-dotenv@^16.3.1:
+dotenv@^16.3.1, dotenv@^16.4.5:
   version "16.4.5"
   resolved "https://registry.npmjs.org/dotenv/-/dotenv-16.4.5.tgz"
   integrity sha512-ZmdL2rui+eB2YwhsWzjInR8LldtZHGDoQ1ugH85ppHKwpUHL7j7rN0Ti9NCnGiQbhaZ11FpR+7ao1dNsmduNUg==
@@ -3927,7 +3931,7 @@ electron-to-chromium@^1.4.796:
   resolved "https://registry.npmjs.org/electron-to-chromium/-/electron-to-chromium-1.4.796.tgz"
   integrity sha512-NglN/xprcM+SHD2XCli4oC6bWe6kHoytcyLKCWXmRL854F0qhPhaYgUswUsglnPxYaNQIg2uMY4BvaomIf3kLA==
 
-"email-composer@file:/home/luis/projects/trampar-de-casa/apps/auto-email-sender/email-composer":
+"email-composer@file:/home/luis/Projects/Repositorios/trampar-de-casa/apps/auto-email-sender/email-composer":
   version "1.0.0"
   resolved "file:apps/auto-email-sender/email-composer"
   dependencies:
@@ -3940,7 +3944,7 @@ electron-to-chromium@^1.4.796:
     typescript "^5.1.6"
     zod "^3.21.4"
 
-"email-pre-renderer@file:/home/luis/projects/trampar-de-casa/apps/auto-email-sender/email-pre-renderer":
+"email-pre-renderer@file:/home/luis/Projects/Repositorios/trampar-de-casa/apps/auto-email-sender/email-pre-renderer":
   version "1.0.0"
   resolved "file:apps/auto-email-sender/email-pre-renderer"
   dependencies:
@@ -3954,7 +3958,7 @@ electron-to-chromium@^1.4.796:
     typescript "^5.1.6"
     zod "^3.21.4"
 
-"email-sender@file:/home/luis/projects/trampar-de-casa/apps/auto-email-sender/email-sender":
+"email-sender@file:/home/luis/Projects/Repositorios/trampar-de-casa/apps/auto-email-sender/email-sender":
   version "1.0.0"
   resolved "file:apps/auto-email-sender/email-sender"
   dependencies:
@@ -4317,7 +4321,7 @@ escodegen@^2.1.0:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-custom@*, "eslint-config-custom@file:/home/luis/projects/trampar-de-casa/packages/eslint-config-custom":
+eslint-config-custom@*, "eslint-config-custom@file:/home/luis/Projects/Repositorios/trampar-de-casa/packages/eslint-config-custom":
   version "0.0.0"
   resolved "file:packages/eslint-config-custom"
   dependencies:
@@ -4467,15 +4471,15 @@ eslint-plugin-prettier@^4.2.1:
   integrity sha512-QzliNJq4GinDBcD8gPB5v0wh6g8q3SUi6EFF0x8N/BL9PoVs0atuGc47ozMRyOWAKdwaZ5OnbOEa3WR+dSGKuQ==
 
 eslint-plugin-react@^7.32.2, eslint-plugin-react@^7.33.2:
-  version "7.34.2"
-  resolved "https://registry.npmjs.org/eslint-plugin-react/-/eslint-plugin-react-7.34.2.tgz"
-  integrity sha512-2HCmrU+/JNigDN6tg55cRDKCQWicYAPB38JGSFDQt95jDm8rrvSUo7YPkOIm5l6ts1j1zCvysNcasvfTMQzUOw==
+  version "7.34.3"
+  resolved "https://registry.npmjs.org/eslint-plugin-react/-/eslint-plugin-react-7.34.3.tgz"
+  integrity sha512-aoW4MV891jkUulwDApQbPYTVZmeuSyFrudpbTAQuj5Fv8VL+o6df2xIGpw8B0hPjAaih1/Fb0om9grCdyFYemA==
   dependencies:
     array-includes "^3.1.8"
     array.prototype.findlast "^1.2.5"
     array.prototype.flatmap "^1.3.2"
     array.prototype.toreversed "^1.1.2"
-    array.prototype.tosorted "^1.1.3"
+    array.prototype.tosorted "^1.1.4"
     doctrine "^2.1.0"
     es-iterator-helpers "^1.0.19"
     estraverse "^5.3.0"
@@ -8724,7 +8728,7 @@ rimraf@2:
   dependencies:
     glob "^7.1.3"
 
-"roles-assigner@file:/home/luis/projects/trampar-de-casa/apps/auto-email-sender/roles-assigner":
+"roles-assigner@file:/home/luis/Projects/Repositorios/trampar-de-casa/apps/auto-email-sender/roles-assigner":
   version "1.0.0"
   resolved "file:apps/auto-email-sender/roles-assigner"
   dependencies:
@@ -8736,7 +8740,7 @@ rimraf@2:
     typescript "^5.1.6"
     zod "^3.21.4"
 
-"roles-renderer@file:/home/luis/projects/trampar-de-casa/apps/auto-email-sender/roles-renderer":
+"roles-renderer@file:/home/luis/Projects/Repositorios/trampar-de-casa/apps/auto-email-sender/roles-renderer":
   version "1.0.0"
   resolved "file:apps/auto-email-sender/roles-renderer"
   dependencies:
@@ -8751,7 +8755,7 @@ rimraf@2:
     shared "*"
     vitest "^0.34.3"
 
-"roles-validator@file:/home/luis/projects/trampar-de-casa/apps/auto-email-sender/roles-validator":
+"roles-validator@file:/home/luis/Projects/Repositorios/trampar-de-casa/apps/auto-email-sender/roles-validator":
   version "1.0.0"
   resolved "file:apps/auto-email-sender/roles-validator"
   dependencies:
@@ -8998,7 +9002,7 @@ setprototypeof@1.1.1:
   resolved "https://registry.npmjs.org/setprototypeof/-/setprototypeof-1.1.1.tgz"
   integrity sha512-JvdAWfbXeIGaZ9cILp38HntZSFSo3mWg6xGcJJsd+d4aRMOqauag1C63dJfDw7OaMYwEbHMOxEZ1lqVRYP2OAw==
 
-shared@*, "shared@file:/home/luis/projects/trampar-de-casa/packages/shared":
+shared@*, "shared@file:/home/luis/Projects/Repositorios/trampar-de-casa/packages/shared":
   version "1.0.0"
   resolved "file:packages/shared"
   dependencies:
@@ -9475,7 +9479,7 @@ styled-jsx@5.1.1:
   dependencies:
     client-only "0.0.1"
 
-"subs-to-queue@file:/home/luis/projects/trampar-de-casa/apps/auto-email-sender/subs-to-queue":
+"subs-to-queue@file:/home/luis/Projects/Repositorios/trampar-de-casa/apps/auto-email-sender/subs-to-queue":
   version "1.0.0"
   resolved "file:apps/auto-email-sender/subs-to-queue"
   dependencies:
@@ -9843,7 +9847,7 @@ ts-interface-checker@^0.1.9:
   resolved "https://registry.npmjs.org/ts-interface-checker/-/ts-interface-checker-0.1.13.tgz"
   integrity sha512-Y/arvbn+rrz3JCKl9C4kVNfTfSm2/mEp5FSz5EsZSANGPSlQrpRI5M4PKF+mJnE52jOO90PnPSc3Ur3bTQw0gA==
 
-ts-node@^10.9.1, ts-node@>=9.0.0:
+ts-node@^10.9.1, ts-node@^10.9.2, ts-node@>=9.0.0:
   version "10.9.2"
   resolved "https://registry.npmjs.org/ts-node/-/ts-node-10.9.2.tgz"
   integrity sha512-f0FFpIdcHgn8zcPSbf1dRevwt047YMnaiJM3u2w2RewrB+fob/zePZcrOyQoLMMO7aBIddLcQIEK5dYjkLnGrQ==
@@ -10025,6 +10029,11 @@ typescript@^5.1.3, typescript@^5.1.6, typescript@>=2.7, "typescript@>=2.8.0 || >
   version "5.4.5"
   resolved "https://registry.npmjs.org/typescript/-/typescript-5.4.5.tgz"
   integrity sha512-vcI4UpRgg81oIRUFwR0WSIHKt11nJ7SAVlYNIu+QpqeyXP+gpQJy/Z4+F0aGxSE4MqwjyXvW/TzgkLAx2AGHwQ==
+
+typescript@^5.5.2:
+  version "5.5.2"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-5.5.2.tgz"
+  integrity sha512-NcRtPEOsPFFWjobJEtfihkLCZCXZt/os3zf8nTxjVH3RvTSxjrCamJpbExGvYOF+tFHc3pA65qpdwPbzjohhew==
 
 ufo@^1.5.3:
   version "1.5.3"
@@ -10506,8 +10515,8 @@ web-streams-polyfill@^3.0.3:
   resolved "https://registry.npmjs.org/web-streams-polyfill/-/web-streams-polyfill-3.3.3.tgz"
   integrity sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==
 
-"web@file:/home/luis/projects/trampar-de-casa/apps/web":
-  version "1.0.9"
+"web@file:/home/luis/Projects/Repositorios/trampar-de-casa/apps/web":
+  version "1.0.10"
   resolved "file:apps/web"
   dependencies:
     "@headlessui/react" "^1.7.15"
@@ -10716,16 +10725,7 @@ wrap-ansi@^6.0.1:
     string-width "^4.1.0"
     strip-ansi "^6.0.0"
 
-wrap-ansi@^7.0.0:
-  version "7.0.0"
-  resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-7.0.0.tgz"
-  integrity sha512-YVGIj2kamLSTxw6NsZjoBxfSwsn0ycdesmc4p+Q21c5zPuZ1pl+NfxVdxPtdHvmNVOQ6XSYG4AUtyt/Fi7D16Q==
-  dependencies:
-    ansi-styles "^4.0.0"
-    string-width "^4.1.0"
-    strip-ansi "^6.0.0"
-
-wrap-ansi@^8.0.1, wrap-ansi@^8.1.0:
+wrap-ansi@^7.0.0, wrap-ansi@^8.0.1, wrap-ansi@^8.1.0:
   version "8.1.0"
   resolved "https://registry.npmjs.org/wrap-ansi/-/wrap-ansi-8.1.0.tgz"
   integrity sha512-si7QWI6zUMq56bESFvagtmzMdGOtoxfR+Sez11Mobfc7tm+VkUckk9bW2UeffTGVUbOksxmSw0AA2gs8g71NCQ==
