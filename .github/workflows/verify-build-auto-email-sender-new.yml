@@ -29,7 +29,7 @@ jobs:
 
       - name: Build Docker Image
         run: |
-          docker buildx build . --file ./Dockerfile.auto \
+          docker buildx build . --platform linux/arm64 --file ./Dockerfile.auto \
           --build-arg SECRET_KEY="${{ secrets.SECRET_KEY }}" \
           --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \
           --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
