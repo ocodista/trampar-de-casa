@@ -1,7 +1,31 @@
+version: '3'
+
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    env_file: apps/auto-email-sender-new/.env
+    ports:
+      - 5672:5672
+      - 15672:15672
+    expose:
+      - 5672
+      - 15672
+
+  mongo:
+    image: mongo:latest
+    env_file: apps/auto-email-sender-new/.env
+    ports:
+      - '27017:27017'
+    volumes:
+      - mongo-data:/data/db
+
   auto-email-sender-new:
     build:
       context: .
       dockerfile: Dockerfile.auto
     env_file:
       - apps/auto-email-sender-new/.env
+
+volumes:
+  mongo-data:
+    driver: local
