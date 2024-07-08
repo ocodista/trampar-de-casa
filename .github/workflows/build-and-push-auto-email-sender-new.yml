@@ -5,7 +5,7 @@ on:
     branches:
       - main
     paths:
-      - 'apps/auto-email-sender/**/*'
+      - 'apps/auto-email-sender-new/**/*'
       - 'packages/**/*'
 
 jobs:
