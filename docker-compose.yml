@@ -25,6 +25,9 @@ services:
       dockerfile: Dockerfile.auto
     env_file:
       - apps/auto-email-sender-new/.env
+    depends_on:
+      - rabbitmq
+      - mongo
 
 volumes:
   mongo-data:

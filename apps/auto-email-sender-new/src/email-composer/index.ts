@@ -52,4 +52,8 @@ export const composeEmail = async () => {
     emailPreRendererChannel.ack(msg)
     logger(++count)
   } while (msg)
+
+  await mongoDatabase.dropDatabase()
+
+  await mongoConnection.close()
 }
