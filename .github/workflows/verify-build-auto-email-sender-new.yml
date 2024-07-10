@@ -5,6 +5,7 @@ on:
     paths:
       - apps/auto-email-sender-new/**
       - packages/**
+      - Dockerfile.auto
 
 jobs:
   test:
