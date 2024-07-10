@@ -49,7 +49,7 @@ export const init = async () => {
     console.log('Process completed successfully.')
     process.exit(0)
   } catch (error) {
-    console.error('Error during execution:', error)
+    console.error('Error during execution: ', error)
     process.exit(1)
   }
 }
