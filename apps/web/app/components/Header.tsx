@@ -2,6 +2,9 @@
 import Image from 'next/image'
 import { useState } from 'react'
 import { LandingPageRoutes } from '../landing-page/landingPageRoutes'
+import { LoginPreferences } from 'app/landing-page/LoginPreferences'
+import login, { encryptId } from 'app/utils/LoginPreferencesActions'
+import { useRouter } from 'next/navigation'
 
 // Logo Component
 const Logo = () => (
@@ -25,22 +28,47 @@ const menuItems = [
 
 export const Header = () => {
   const [isMobileMenuOpen, setMobileMenuVisibility] = useState(false)
+  const [isContributeDialogOpen, setIsContributeDialogOpen] = useState(false)
+  const router = useRouter()
+
+  const handleOpenPreferences = async () => {
+    if (localStorage.getItem('loginEmail')) {
+      const email = localStorage.getItem('loginEmail')
+      const userId = await login(email)
+      const encryptedUserId = await encryptId(userId)
+      router.push(`/subscribers/profile/${encryptedUserId}`)
+      return
+    }
+    setIsContributeDialogOpen(true)
+  }
 
   return (
     <div className="container mx-auto overflow-hidden">
+      <LoginPreferences
+        open={isContributeDialogOpen}
+        onClose={() => setIsContributeDialogOpen(false)}
+      />
       <div className="relative flex items-center justify-between bg-transparent py-5">
-        <div className="w-auto">
-          <div className="flex flex-wrap items-center">
-            <div className="mr-14 w-auto">
-              <Logo />
-            </div>
-            <div className="hidden lg:block">
-              <ul className="mr-16 flex items-center justify-center gap-9">
-                {menuItems.map((item, index) => (
-                  <li key={index} className="font-medium hover:text-gray-700">
-                    <a href={item.href}>{item.label}</a>
-                  </li>
-                ))}
+        <div className="w-full">
+          <div className="flex w-full flex-wrap items-center">
+            <div className="hidden w-full lg:flex">
+              <div className="mr-14 w-auto">
+                <Logo />
+              </div>
+              <ul className="flex w-full items-center justify-between">
+                <div className="flex gap-9">
+                  {menuItems.map((item, index) => (
+                    <li key={index} className="font-medium hover:text-gray-700">
+                      <a href={item.href}>{item.label}</a>
+                    </li>
+                  ))}
+                </div>
+                <button
+                  className="font-medium hover:text-gray-700"
+                  onClick={handleOpenPreferences}
+                >
+                  ⚙️ Definir Preferências
+                </button>
               </ul>
             </div>
           </div>
