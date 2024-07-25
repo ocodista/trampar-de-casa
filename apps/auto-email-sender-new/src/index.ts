@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
 import { rolesRenderer } from './roles-renderer'
 import { subsToQueue } from './subs-to-queue'
-import { assignRoles } from './roles-assigner'
+import { assignRoles } from './roles-assigner-new'
 import { emailPreRender } from './email-pre-render'
 import { composeEmail } from './email-composer'
 import { emailSender } from './email-sender'
