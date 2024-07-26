@@ -14,11 +14,11 @@ export function FocusBanner() {
         </span>
         <Link
           className="mr-[6px] flex cursor-pointer items-center gap-2 rounded-full bg-indigo-500 px-3 py-1 text-xs font-bold uppercase transition-colors hover:bg-indigo-700 max-md:text-sm max-md:font-semibold"
-          href={'https://app.onstrider.com/r/trampar_de_casa'}
+          href={'https://husky.io?ref=nzg5ndz'}
           referrerPolicy="no-referrer"
           target="__blank"
         >
-          Strider 🚀✨
+          Husky 🤑✨
         </Link>
       </div>
     </div>
