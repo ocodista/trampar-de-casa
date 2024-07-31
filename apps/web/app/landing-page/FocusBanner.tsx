@@ -18,7 +18,7 @@ export function FocusBanner() {
           referrerPolicy="no-referrer"
           target="__blank"
         >
-          Husky 🤑✨
+          Husky 😁✨
         </Link>
       </div>
     </div>
