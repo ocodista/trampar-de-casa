@@ -22,7 +22,7 @@ export const companies: Company[] = [
   },
   {
     name: 'Husky',
-    url: 'https://www.husky.io/?ref=trampardecasa',
+    url: 'https://husky.io?ref=nzg5ndz',
     description:
       'A Husky, parte do grupo Nomad desde 2016, revoluciona as transferências internacionais com pagamentos transparentes em câmbio real e sem spreads ocultos.',
     imagePath: '/images/companies/husky.webp',
