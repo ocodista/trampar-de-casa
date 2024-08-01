@@ -2,7 +2,7 @@
 FROM node:18-alpine AS base
 
 RUN apk update && apk upgrade \
-    && apk add --no-cache bash wget python3 python3-dev py3-pip libgcc build-base
+    && apk add --no-cache bash wget python3 python3-dev py3-pip libgcc build-base gfortran
 
 # Install Dockerize
 RUN wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz \
