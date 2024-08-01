@@ -52,23 +52,8 @@ RUN npm install
 # Install dependencies for the scoped project only
 RUN npm install --prefix apps/auto-email-sender-new
 
-# Python Dependencies Stage
-FROM dependencies AS python-dependencies
-
-# Set working directory
-WORKDIR /app/match_roles
-
-# Copy the requirements.txt file
-COPY apps/auto-email-sender-new/src/match_roles/requirements.txt .
-
-# Create and activate Python virtual environment, install dependencies
-RUN python3 -m venv matchenv \
-    && . matchenv/bin/activate \
-    && pip install --upgrade pip \
-    && pip install -r requirements.txt
-
 # Builder Stage
-FROM python-dependencies AS builder
+FROM dependencies AS builder
 
 # Set working directory
 WORKDIR /app
@@ -87,13 +72,6 @@ WORKDIR /app
 
 # Copy the build output and node_modules from the builder stage
 COPY --from=builder /app .
-
-# Copy the Python environment from python-dependencies stage
-COPY --from=python-dependencies /app/match_roles/matchenv /app/match_roles/matchenv
-
-# Set environment variable to activate virtual environment
-ENV VIRTUAL_ENV=/app/match_roles/matchenv
-ENV PATH="$VIRTUAL_ENV/bin:$PATH"
 
 # Run the script with dockerize
 CMD ["dockerize", "-wait", "tcp://rabbitmq:5672", "-wait", "tcp://mongo:27017", "-timeout", "300s", "ts-node", "apps/auto-email-sender-new/src/index.ts"]

@@ -65,15 +65,36 @@ export const init = async () => {
 
     const matchRolesPath = path.join(__dirname, 'match_roles')
 
-    console.log('Generating onehot from skills...')
-    await runCommand('bash -c "python3 onehot.py --entity skills"', {
-      cwd: `${matchRolesPath}/src/train`,
+    console.log('Starting match_roles')
+
+    console.log('Generating matchenv...')
+    await runCommand('bash -c "python3 -m venv matchenv"', {
+      cwd: matchRolesPath,
     })
 
+    console.log('Install dependencies...')
+    await runCommand(
+      'bash -c "source matchenv/bin/activate && pip install -r requirements.txt"',
+      {
+        cwd: matchRolesPath,
+      }
+    )
+
+    console.log('Generating onehot from skills...')
+    await runCommand(
+      'bash -c "source matchenv/bin/activate && cd src/train && python3 onehot.py --entity skills"',
+      {
+        cwd: matchRolesPath,
+      }
+    )
+
     console.log('Starting match_roles')
-    runCommand('bash -c "uvicorn --host 0.0.0.0 main:app"', {
-      cwd: `${matchRolesPath}/src`,
-    })
+    runCommand(
+      'bash -c "source matchenv/bin/activate && cd src && uvicorn --host 0.0.0.0 main:app"',
+      {
+        cwd: matchRolesPath,
+      }
+    )
 
     console.log('Waiting for match_roles to be up')
     await checkMatchRolesUp(
