@@ -12,7 +12,7 @@ RUN wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize
 # Set working directory
 WORKDIR /app
 
-# Declare arguments
+# Declare Arguments
 ARG SECRET_KEY
 ARG RESEND_KEY
 ARG SUPABASE_URL
