@@ -5,6 +5,7 @@ import { getSupabaseClient } from 'db'
 import { exec } from 'child_process'
 import { promisify } from 'util'
 import axios from 'axios'
+import { delay } from '../../utils/utils'
 
 const generateCsv = async (data: any, filePath: string) => {
   const parser = new Parser()
@@ -23,8 +24,6 @@ const checkMatchRolesUp = async (
   maxAttempts = 10,
   interval = 5000
 ) => {
-  const delay = (ms: number) =>
-    new Promise((resolve) => setTimeout(resolve, ms))
   let attempt = 0
   while (attempt < maxAttempts) {
     try {
