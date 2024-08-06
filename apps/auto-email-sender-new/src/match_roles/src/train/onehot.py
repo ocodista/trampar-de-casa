@@ -5,7 +5,7 @@ import pandas as pd
 from feature_engine import encoding
 
 # %%
-# preparação do onehot enconding
+# preparação do onehot encoding
 
 def train_onehot(entity):
     df = pd.read_csv(f'../../data/{entity}.csv')
