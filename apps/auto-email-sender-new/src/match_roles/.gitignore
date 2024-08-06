@@ -1,0 +1,5 @@
+*.csv
+*.pyc
+__pycache__
+*.pkl
+matchenv
