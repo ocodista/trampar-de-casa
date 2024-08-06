@@ -27,7 +27,7 @@ export function Header({
   testimonialLink: string
 }) {
   // const previewText = `${rolesCount} ${HEADER_TITLE_SUFFIX}`
-  const previewText = 'Nova pesquisa sobre trabalho remoto global!'
+  const previewText = 'Pesquisa Global sobre Trabalho Remoto e Ofertas'
   const h1 = 'text-[24px]'
   const hr = {
     borderColor: '#e6ebf1',
