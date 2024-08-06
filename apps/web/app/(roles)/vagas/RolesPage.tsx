@@ -68,7 +68,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
   const [jobs, setJobs] = useState(jobsFromServer)
   const [filters, setFilters] = useState<Filter[]>([])
   const [hasMore, setHasMore] = useState(true)
-  const [showOrder, setShowOrder] = useState(false)
+  const [showOrder, setShowOrder] = useState(true)
   const [totalJobs, setTotalJobs] = useState<number>()
   const [orderButtonValue, setOrderButtonValue] = useState<string | number>(
     null
@@ -253,7 +253,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
     <>
       <FocusBanner />
       <div className="container mx-auto">
-        <div className="my-[35px] flex flex-col items-center justify-center text-center text-[40px] md:text-[48px] lg:text-[48px]">
+        <div className="my-[35px] flex flex-col items-center justify-center text-center text-[25px] sm:text-[35px] md:text-[48px] lg:text-[48px]">
           <h1>
             Encontre vagas remotas
             <br /> feitas para você
@@ -263,7 +263,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
         <div className="mb-[150px]">
           <div className="w-full">
             <div className="flex flex-col justify-between md:flex-row lg:flex-row">
-              <div className="flex gap-[20px]">
+              <div className="xs:justify-start flex flex-wrap justify-center gap-[10px] sm:justify-between md:justify-start md:gap-[20px] lg:justify-start lg:gap-[20px]">
                 <SelectInput
                   placeholder="🔎  Área"
                   options={technologies}
@@ -305,17 +305,17 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
                     orderOptions.find((or) => or.value === orderButtonValue)
                       .label
                   }
-                  className="text-baseline border-box z-[2] mt-[20px] w-[220px] rounded-[20px] border-[1px] 
-                  bg-transparent py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100 md:mt-0 lg:mt-0"
+                  className="text-baseline border-box xs:w-[220px] z-[2] mt-[20px] w-full rounded-[20px] border-[1px] bg-transparent py-[9px] pl-[14px] 
+                  pr-[9px] placeholder-black placeholder-opacity-100 sm:w-[220px] md:mt-0 md:w-[220px] lg:mt-0 lg:w-[220px]"
                   onFocus={() => setShowOrder(true)}
                   onBlur={() => {
                     setTimeout(() => setShowOrder(false), 100)
                   }}
                 />
-                <ChevronDown className="z-1 absolute left-[185px] mt-[20px] md:right-[10px] md:mt-0 lg:right-[10px] lg:mt-0" />
+                <ChevronDown className="z-1 xs:left-[185px] absolute right-[10px] mt-[20px] sm:left-[185px] md:left-[185px] md:mt-0 lg:left-[185px] lg:mt-0 " />
                 {showOrder && (
                   <div
-                    className={`absolute left-0 top-[65px] z-10 max-h-[500px] w-[300px] overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px] md:right-0 md:top-[47px] lg:right-0 lg:top-[47px]`}
+                    className={`absolute left-0 top-[65px] z-10 max-h-[500px] w-[250px] overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px] md:right-0 md:top-[47px] lg:right-0 lg:top-[47px]`}
                   >
                     {orderOptions
                       .filter((or) => or.value !== null)
