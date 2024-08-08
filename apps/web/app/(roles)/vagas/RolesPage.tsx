@@ -246,7 +246,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
         setHasMore={setHasMore}
       />
     ),
-    []
+    [filters]
   )
 
   return (
