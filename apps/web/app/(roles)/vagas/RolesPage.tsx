@@ -68,7 +68,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
   const [jobs, setJobs] = useState(jobsFromServer)
   const [filters, setFilters] = useState<Filter[]>([])
   const [hasMore, setHasMore] = useState(true)
-  const [showOrder, setShowOrder] = useState(true)
+  const [showOrder, setShowOrder] = useState(false)
   const [totalJobs, setTotalJobs] = useState<number>()
   const [orderButtonValue, setOrderButtonValue] = useState<string | number>(
     null
