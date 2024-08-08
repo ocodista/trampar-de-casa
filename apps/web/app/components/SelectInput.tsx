@@ -105,10 +105,10 @@ const SelectInput = ({
   )
 
   return (
-    <div className="relative flex items-center justify-center md:justify-start lg:justify-start">
+    <div className="xs:w-auto relative flex w-full items-center justify-center sm:w-auto md:w-auto md:justify-start lg:w-auto lg:justify-start">
       <input
         placeholder={currentPlaceholder ? currentPlaceholder : placeholder}
-        className="border-box z-[2] w-[120px] rounded-[20px] border-[1px] bg-transparent py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100 md:lg:w-[150px] lg:w-[150px]"
+        className="border-box xs:w-[130px] z-[2] w-full rounded-[20px] border-[1px] bg-transparent py-[9px] pl-[14px] pr-[9px] placeholder-black placeholder-opacity-100 sm:w-[185px] md:w-[120px] md:lg:w-[150px] lg:w-[120px] lg:w-[150px]"
         onFocus={handleFocus}
         onBlur={handleBlur}
         onChange={(e) => setInputText(e.target.value)}
@@ -117,7 +117,7 @@ const SelectInput = ({
       <ChevronDown className="z-1 absolute right-[10px]" />
       {showOptions && (
         <div
-          className={`absolute top-[47px] z-10 max-h-[500px] w-auto overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px] md:w-[400px] lg:w-[400px]`}
+          className={`absolute top-[47px] z-10 max-h-[500px] w-full overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px] sm:w-[180px] md:w-[250px] lg:w-[250px]`}
         >
           {filteredOptions.length > 0 ? (
             filteredOptions.map((option) => (

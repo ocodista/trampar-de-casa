@@ -109,13 +109,10 @@ const InputWithUseTyped = ({
 
   return (
     <>
-      <Search
-        className="absolute left-[35px] top-[25px] md:top-[34px] lg:top-[34px]"
-        size={'25px'}
-      />
+      <Search className="absolute left-[35px] top-[18px] h-[20px] w-[20px] sm:top-[24px] md:top-[32px] md:h-[25px] md:w-[25px] lg:top-[34px] lg:h-[25px] lg:w-[25px]" />
       <input
         ref={inputRef}
-        className="color-[#0f1115] z-30 mx-[14px] mb-[14px] mt-[7px] w-[400px] rounded-[100px] border-[2px] py-[12px] pl-[60px] pr-[12px] text-left text-[20px]"
+        className="color-[#0f1115] z-30 mx-[14px] mb-[14px] mt-[7px] w-[250px] rounded-[100px] border-[2px] py-[8px] pl-[60px] pr-[12px] text-left text-[15px] sm:w-[350px] sm:py-[12px] md:w-[400px] md:py-[12px] md:text-[20px] lg:w-[400px] lg:py-[12px] lg:text-[20px]"
         placeholder={typedEnabled ? '' : placeholder}
         onChange={(e) => setInputText(e.target.value)}
         onFocus={handleFocus}
@@ -124,7 +121,7 @@ const InputWithUseTyped = ({
       />
       {showOptions && (
         <div
-          className={`absolute top-[80px] z-10 max-h-[500px] w-full overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px]`}
+          className={`absolute top-[55px] z-10 max-h-[500px] w-full overflow-y-auto rounded-[12px] bg-[#f4f4f5] p-[7px] sm:top-[65px] md:top-[80px] lg:top-[80px]`}
         >
           {filteredOptions.length > 0 ? (
             filteredOptions.map((option) => (
