@@ -38,7 +38,7 @@ const filterByExp = (
 }
 
 let topRoles: SupabaseTable<'Roles'>[] | undefined = undefined
-const top40Roles = async (supabase: SupabaseClient<Database>) => {
+export const top40Roles = async (supabase: SupabaseClient<Database>) => {
   if (topRoles) return topRoles
   // TODO: Add columns top to roles table so we can choose the top 40 for each release.
   const { data, error } = await top(40, readyRoles(supabase))

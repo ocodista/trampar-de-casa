@@ -12,6 +12,11 @@
   "devDependencies": {
     "dotenv": "^16.4.5",
     "ts-node": "^10.9.2",
-    "typescript": "^5.5.2"
+    "typescript": "^5.5.2",
+    "zod": "^3.0.0"
+  },
+  "dependencies": {
+    "@json2csv/plainjs": "^7.0.6",
+    "json2csv": "^6.0.0-alpha.2"
   }
 }

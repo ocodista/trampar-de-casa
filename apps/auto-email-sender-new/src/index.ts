@@ -1,15 +1,16 @@
-import dotenv from 'dotenv'
+import { setupMatchRoles } from 'shared/src/services/setupMatchRoles'
 import { rolesRenderer } from './roles-renderer'
 import { subsToQueue } from './subs-to-queue'
-import { assignRoles } from './roles-assigner'
+import { assignRoles } from './roles-assigner-new'
 import { emailPreRender } from './email-pre-render'
 import { composeEmail } from './email-composer'
 import { emailSender } from './email-sender'
 
-dotenv.config()
-
 export const init = async () => {
   try {
+    console.log('Starting match_roles')
+    await setupMatchRoles()
+
     console.log('Starting subsToQueue...')
     await subsToQueue()
     console.log('subsToQueue completed.')
