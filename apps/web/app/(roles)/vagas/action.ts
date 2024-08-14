@@ -21,6 +21,15 @@ const getFilter = (filters: Filter[], filterType: string) => {
   )
 }
 
+export const getFilterFromPreferences = async (email: string) => {
+  const { data } = await supabase
+    .from('Subscribers')
+    .select('skillsId')
+    .eq('email', email)
+
+  return data
+}
+
 export const fetchJobs = async (
   type: string,
   filters: { option: SelectOption; inputType: string }[],

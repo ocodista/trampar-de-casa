@@ -8,7 +8,7 @@ import InputWithUseTyped from 'app/components/InputWithUseTyped'
 import Image from 'next/image'
 import InfiniteScroll from 'react-infinite-scroll-component'
 import SelectInput, { Filter, SelectOption } from 'app/components/SelectInput'
-import { fetchJobs } from './action'
+import { fetchJobs, getFilterFromPreferences } from './action'
 import { useRouter } from 'next/navigation'
 import { updateSearchParams } from 'app/utils/updateSearchParams'
 
@@ -76,6 +76,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
   const [previewOrderValue, setPreviewOrderValue] = useState<string | number>(
     ''
   )
+  const [hasPreferences, setHasPreferences] = useState(false)
 
   const technologies = skillsFromServer.map((tech) => {
     return {
@@ -85,30 +86,31 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
     }
   })
 
+  const getLabel = (key, val) => {
+    if (key === 'skill') {
+      const filtered = technologies.find(
+        (tech) => String(tech.value) === String(val)
+      )
+      return filtered ? `${filtered.emoji} ${filtered.label}` : val
+    }
+    if (key === 'country') {
+      const filtered = flags.find((flag) => flag.value === val)
+      return filtered ? filtered.label : val
+    }
+    if (key === 'level') {
+      const filtered = experienceLevels.find((level) => level.value === val)
+      return filtered ? filtered.label : val
+    }
+    if (key === 'order') {
+      const filtered = orderOptions.find((option) => option.value === val)
+      return filtered ? filtered.label : val
+    }
+    return val
+  }
+
   const extractFiltersFromURL = () => {
     const searchParams = new URLSearchParams(window.location.search)
     const newFilters: Filter[] = []
-    const getLabel = (key, val) => {
-      if (key === 'skill') {
-        const filtered = technologies.find(
-          (tech) => String(tech.value) === String(val)
-        )
-        return filtered ? filtered.label : val
-      }
-      if (key === 'country') {
-        const filtered = flags.find((flag) => flag.value === val)
-        return filtered ? filtered.label : val
-      }
-      if (key === 'level') {
-        const filtered = experienceLevels.find((level) => level.value === val)
-        return filtered ? filtered.label : val
-      }
-      if (key === 'order') {
-        const filtered = orderOptions.find((option) => option.value === val)
-        return filtered ? filtered.label : val
-      }
-      return val
-    }
 
     searchParams.forEach((value, key) => {
       const values = value.split(' ')
@@ -213,6 +215,52 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
     router.push(`?${newQueryString}`, { scroll: false })
   }
 
+  const memoInputWithUseTyped = useMemo(
+    () => (
+      <InputWithUseTyped
+        options={technologies}
+        filters={filters}
+        setFilters={setFilters}
+        filterType="skill"
+        placeholder="Digite..."
+        setTotalJobs={setTotalJobs}
+        jobs={jobs}
+        setJobs={setJobs}
+        setHasMore={setHasMore}
+      />
+    ),
+    [filters]
+  )
+
+  const handleFilterByPreferences = async () => {
+    try {
+      const email = localStorage.getItem('loginEmail')
+      const skillsFromPreferences = await getFilterFromPreferences(email)
+
+      const formattedSkills = skillsFromPreferences
+        .map((item, key) =>
+          item.skillsId.map((skillId) => ({
+            inputType: 'skill',
+            option: {
+              value: skillId,
+              label: getLabel('skill', skillId),
+            },
+          }))
+        )
+        .flat()
+
+      const { data, count } = await fetchJobs(undefined, formattedSkills, [])
+      setFilters(formattedSkills)
+      setJobs(data)
+      setTotalJobs(count)
+      setHasMore(data.length > 10)
+      const newQueryString = updateSearchParams(formattedSkills)
+      router.push(`?${newQueryString}`, { scroll: false })
+    } catch (error) {
+      console.error('Error fetching jobs based on preferences:', error.message)
+    }
+  }
+
   useEffect(() => {
     const fetchInitialJobs = async (initialFilters: Filter[]) => {
       try {
@@ -230,24 +278,11 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
       setFilters(initialFilters)
       fetchInitialJobs(initialFilters)
     }
-  }, [])
 
-  const memoInputWithUseTyped = useMemo(
-    () => (
-      <InputWithUseTyped
-        options={technologies}
-        filters={filters}
-        setFilters={setFilters}
-        filterType="skill"
-        placeholder="Digite..."
-        setTotalJobs={setTotalJobs}
-        jobs={jobs}
-        setJobs={setJobs}
-        setHasMore={setHasMore}
-      />
-    ),
-    [filters]
-  )
+    if (localStorage.getItem('loginEmail')) {
+      setHasPreferences(true)
+    }
+  }, [])
 
   return (
     <>
@@ -332,14 +367,16 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
                 )}
               </div>
             </div>
-            <div className="flex items-center justify-start">
-              <button
-                onClick={() => console.log('teste')}
-                className="border-box xs:w-[150px] w-full rounded-2xl border bg-transparent py-[9px] pl-2 pr-2 placeholder-black placeholder-opacity-100 sm:w-[150px] md:w-[150px] lg:w-[150px]"
-              >
-                ⭐ Preferências
-              </button>
-            </div>
+            {hasPreferences && (
+              <div className="flex items-center justify-start">
+                <button
+                  onClick={handleFilterByPreferences}
+                  className="border-box xs:w-[150px] w-full rounded-2xl border bg-transparent py-[9px] pl-2 pr-2 placeholder-black placeholder-opacity-100 sm:w-[150px] md:w-[150px] lg:w-[150px]"
+                >
+                  ⭐ Preferências
+                </button>
+              </div>
+            )}
             <div className="flex gap-[15px]">
               {filters.map((filter) => (
                 <div
