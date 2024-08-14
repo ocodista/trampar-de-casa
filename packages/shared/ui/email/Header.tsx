@@ -11,7 +11,6 @@ import {
   Text,
 } from '@react-email/components'
 import React from 'react'
-
 export enum HeaderHtmlKeys {
   rolesCount = '##ROLES_COUNT',
   testimonialLink = '##GET_JOB_TESTIMONIAL',
@@ -77,6 +76,15 @@ A Husky é parceira do Trampar de Casa e facilita sua vida na hora de receber tr
 
 Para receber seu primeiro pagamento com TAXA ZERO e mais 3 cupons de 50% OFF, abra sua conta aqui: 
       */}
+      <a href="https://husky.io?ref=nzg5ndz" target="_blank">
+        <Img
+          src="https://i.imgur.com/OiTECSl.png"
+          alt="Logo da Husky"
+          className="aspect-video min-w-[128px] cursor-pointer object-contain"
+          width={128}
+          height={28}
+        />
+      </a>
       <Text className={paragraph}>
         Salve, amante do trabalho remoto! Tudo bem?
       </Text>
