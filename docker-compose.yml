@@ -20,22 +20,12 @@ services:
       - mongo-data:/data/db
 
   auto-email-sender-new:
-    build:
-      context: .
-      dockerfile: Dockerfile.auto
+    image: gru.ocir.io/gricbxnlp2kb/auto-email-sender:latest
     env_file:
       - apps/auto-email-sender-new/.env
     depends_on:
       - rabbitmq
       - mongo
-
-  # auto-email-sender-new:
-  #   image: gru.ocir.io/gricbxnlp2kb/auto-email-sender:latest
-  #   env_file:
-  #     - apps/auto-email-sender-new/.env
-  #   depends_on:
-  #     - rabbitmq
-  #     - mongo
 
 volumes:
   mongo-data:
