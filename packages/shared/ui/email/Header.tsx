@@ -25,9 +25,26 @@ export function Header({
   rolesCount: string
   testimonialLink: string
 }) {
+  /**
+   * Quer maximizar seus ganhos internacionais?
+🚀 A Husky é a solução ideal para você:
+
+Taxas Imbatíveis: Economize em cada transferência!
+Primeiro Pagamento GRÁTIS: Sem taxa alguma na sua primeira transação!
+Bônus Exclusivo: 3 cupons de 50% OFF em transferências futuras!
+
+Como usuário fiel há anos, garanto: a Husky simplifica sua vida financeira!
+Pronto para otimizar suas finanças? Abra sua conta aqui e comece a economizar agora!
+Trampar de Casa 🤝 Husky: Seu dinheiro, sem fronteiras!
+
+        // <Link href="https://www.husky.io/global-worker-2024/?ref=nzg5ndz">
+        //   aqui.
+        // </Link>
+   * 
+   */
   // const previewText = `${rolesCount} ${HEADER_TITLE_SUFFIX}`
-  const previewText = 'Pesquisa Global sobre Trabalho Remoto e Ofertas'
-  const h1 = 'text-[24px]'
+  const previewText = `Receba seu salário internacional com a Husky!`
+  const h1 = 'text-[24px] mt-4'
   const hr = {
     borderColor: '#e6ebf1',
     margin: '20px 0',
@@ -67,46 +84,33 @@ export function Header({
       </Section>
       <Heading className={h1}>{previewText}</Heading>
       <Hr style={hr} />
-      {/*
-Salve, amante do trabalho remoto! Tudo bem?
 
-Você sabia que 81% dos trabalhadores globais estão satisfeitos com seus salários e que a média salarial ultrapassa os R$25 mil? Graças à Husky, temos acesso a esses e outros dados super interessantes sobre o mercado de trabalho internacional! Para conferir a pesquisa completa, clique [aqui].
-
-A Husky é parceira do Trampar de Casa e facilita sua vida na hora de receber transferências internacionais. Eu mesmo sou cliente fiel há anos!
-
-Para receber seu primeiro pagamento com TAXA ZERO e mais 3 cupons de 50% OFF, abra sua conta aqui: 
-      */}
-      <a href="https://husky.io?ref=nzg5ndz" target="_blank">
+      <Text className={paragraph}>Salve, guerreiro(a) do trabalho remoto!</Text>
+      <Text className={paragraph}>
+        Quer maximizar seus ganhos internacionais? A Husky é a solução ideal
+        para você 🚀
+      </Text>
+      <Text className={paragraph}>
+        Exclusivo para vocês leitores: <b>Primeiro pagamento TAXA 0</b> +{' '}
+        <b>3 cupons de 50% de desconto</b> em transferências futuras!
+      </Text>
+      <Text className={paragraph}>
+        Criando sua conta através{' '}
+        <Link href="https://husky.io?ref=nzg5ndz">deste link patrocinado</Link>{' '}
+        você ajuda nosso projeto a se manter funcionando!
+      </Text>
+      <Text className={paragraph}>
+        Trampar de Casa 🤝 Husky: Seu dinheiro, sem fronteiras!
+      </Text>
+      <Link href="https://husky.io?ref=nzg5ndz" target="_blank">
         <Img
           src="https://i.imgur.com/OiTECSl.png"
           alt="Logo da Husky"
-          className="aspect-video min-w-[128px] cursor-pointer object-contain"
-          width={128}
+          className="ml-auto mr-auto aspect-video min-w-[128px] cursor-pointer object-contain"
+          width={228}
           height={28}
         />
-      </a>
-      <Text className={paragraph}>
-        Salve, amante do trabalho remoto! Tudo bem?
-      </Text>
-      <Text className={paragraph}>
-        Você sabia que 81% dos trabalhadores globais estão satisfeitos com seus
-        salários e que a média salarial ultrapassa os R$25 mil? Graças à Husky,
-        temos acesso a esses e outros dados super interessantes sobre o mercado
-        de trabalho internacional! Para conferir a pesquisa completa, clique{' '}
-        <Link href="https://www.husky.io/global-worker-2024/?ref=nzg5ndz">
-          aqui.
-        </Link>
-      </Text>
-      <Text className={paragraph}>
-        A Husky é parceira do Trampar de Casa e facilita sua vida na hora de
-        receber transferências internacionais. Eu mesmo sou cliente fiel há
-        anos!
-      </Text>
-      <Text className={paragraph}>
-        Para receber seu primeiro pagamento com TAXA ZERO e mais 3 cupons de 50%
-        OFF, abra sua conta{' '}
-        <Link href="https://husky.io?ref=nzg5ndz">aqui: </Link>{' '}
-      </Text>
+      </Link>
       <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
     </Tailwind>
   )
