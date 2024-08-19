@@ -4,6 +4,11 @@ FROM node:18-alpine AS base
 RUN apk update && apk upgrade \
     && apk add --no-cache bash wget python3 python3-dev py3-pip libgcc build-base gfortran openblas-dev cmake
 
+# Install Dockerize
+RUN wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz \
+    && rm dockerize-linux-amd64-v0.6.1.tar.gz
+
 # Set working directory
 WORKDIR /app
 
@@ -68,5 +73,5 @@ WORKDIR /app
 # Copy the build output and node_modules from the builder stage
 COPY --from=builder /app .
 
-# Run the script
-CMD ["ts-node", "apps/auto-email-sender-new/src/index.ts"]
+# Run the script with dockerize
+CMD ["dockerize", "-wait", "tcp://rabbitmq:5672", "-wait", "tcp://mongo:27017", "-timeout", "300s", "ts-node", "apps/auto-email-sender-new/src/index.ts"]
