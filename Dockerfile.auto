@@ -32,8 +32,9 @@ ENV SECRET_KEY=$SECRET_KEY \
     MONGO_USERNAME=$MONGO_USERNAME \
     RABBITMQ_ADDRESS=$RABBITMQ_ADDRESS
 
-# Install TurboRepo globally
+# Install TurboRepo and ts-node globally
 RUN npm install -g turbo
+RUN npm install -g ts-node
 
 # Dependencies Stage
 FROM base AS dependencies
@@ -61,11 +62,21 @@ WORKDIR /app
 # Rebuild the source code only for the scoped project
 RUN turbo run build --filter=./apps/auto-email-sender-new/*
 
+# Setup match_roles
+RUN ts-node packages/shared/src/services/setupMatchRoles.ts
+
+#Create env python
+
+RUN cd apps/auto-email-sender-new/src/match_roles && python -m venv matchenv
+
+# Install Python dependencies
+RUN cd apps/auto-email-sender-new/src/match_roles && source matchenv/bin/activate && pip install -r requirements.txt
+
+# Execute the onehot.py script
+RUN cd apps/auto-email-sender-new/src/match_roles && source source matchenv/bin/activate && cd src/train && python3 onehot.py --entity skills
+
 # Final Stage (Runner)
 FROM base AS runner
-
-# Install ts-node globally
-RUN npm install -g ts-node
 
 # Set working directory
 WORKDIR /app
