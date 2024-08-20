@@ -6,6 +6,7 @@ import { composeEmail } from './email-composer'
 import { checkMatchRolesUp } from './utils/checkMatchRolesUp'
 import path from 'path'
 import os from 'os'
+import { emailSender } from './email-sender'
 
 const execPromise = promisify(exec)
 const numCores = os.availableParallelism()
@@ -50,9 +51,9 @@ export const init = async () => {
     await composeEmail()
     console.log('composeEmail completed.')
 
-    // console.log('Starting emailSender...');
-    // await emailSender();
-    // console.log('emailSender completed.');
+    console.log('Starting emailSender...')
+    await emailSender()
+    console.log('emailSender completed.')
 
     console.log('Process completed successfully.')
     process.exit(0)
