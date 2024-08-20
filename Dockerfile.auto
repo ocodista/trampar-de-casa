@@ -2,7 +2,7 @@
 FROM node:18-alpine AS base
 
 RUN apk update && apk upgrade \
-    && apk add --no-cache bash wget python3 python3-dev py3-pip libgcc build-base gfortran openblas-dev cmake musl-dev libgfortran lapack-dev
+    && apk add --no-cache bash wget python3 python3-dev py3-pip libgcc build-base gfortran openblas-dev cmake musl-dev libgfortran lapack-dev g++ gcc libc-dev
 
 # Set working directory
 WORKDIR /app
@@ -64,7 +64,10 @@ RUN ts-node apps/auto-email-sender-new/src/utils/generateDataMatchRoles.ts
 RUN cd apps/auto-email-sender-new/src/match_roles && python -m venv matchenv
 
 # Install Python dependencies
-RUN cd apps/auto-email-sender-new/src/match_roles && source matchenv/bin/activate && pip install -r requirements.txt
+RUN cd apps/auto-email-sender-new/src/match_roles && \
+    source matchenv/bin/activate && \
+    pip install --upgrade pip setuptools wheel && \
+    pip install -r requirements.txt
 
 # Execute the onehot.py script
 RUN cd apps/auto-email-sender-new/src/match_roles && source matchenv/bin/activate && cd src/train && python3 onehot.py --entity skills
