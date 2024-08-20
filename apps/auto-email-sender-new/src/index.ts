@@ -1,45 +1,15 @@
 import { exec } from 'child_process'
 import { promisify } from 'util'
-import { setupMatchRoles } from 'shared/src/services/setupMatchRoles'
 import { rolesRenderer } from './roles-renderer'
 import { subsToQueue } from './subs-to-queue'
 import { composeEmail } from './email-composer'
+import { checkMatchRolesUp } from './utils/checkMatchRolesUp'
 import path from 'path'
 import os from 'os'
-import axios from 'axios'
-import { delay } from 'shared/utils/utils'
 
 const execPromise = promisify(exec)
 const numCores = os.availableParallelism()
-
-console.log(numCores)
-
 const runCommand = promisify(exec)
-
-const checkMatchRolesUp = async (
-  url: string,
-  maxAttempts = 10,
-  interval = 5000
-) => {
-  let attempt = 0
-  while (attempt < maxAttempts) {
-    try {
-      const response = await axios.get(url)
-      if (response.status === 200) {
-        console.log('match_roles is up.')
-        return
-      }
-    } catch (error) {
-      console.error(`Error checking match_roles: ${error}`)
-    }
-    attempt++
-    console.log(
-      `Attempt ${attempt} failed. Retrying in ${interval / 1000} seconds...`
-    )
-    await delay(interval)
-  }
-  throw new Error(`match_roles did not start after ${maxAttempts} attempts.`)
-}
 
 export const init = async () => {
   const matchRolesPath = path.resolve(
@@ -112,7 +82,11 @@ const runParallelAssignRoles = async () => {
 const runParallelEmailPreRender = async () => {
   const tasks = Array(numCores)
     .fill(null)
-    .map(() => execPromise('ts-node src/utils/emailPreRenderWorker.ts'))
+    .map(() =>
+      execPromise(
+        'ts-node apps/auto-email-sender-new/src/utils/emailPreRenderWorker.ts'
+      )
+    )
   try {
     await Promise.all(tasks)
   } catch (err: any) {

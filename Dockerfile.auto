@@ -2,7 +2,7 @@
 FROM node:18-alpine AS base
 
 RUN apk update && apk upgrade \
-    && apk add --no-cache bash wget python3 python3-dev py3-pip libgcc build-base gfortran openblas-dev cmake
+    && apk add --no-cache bash wget python3 python3-dev py3-pip libgcc build-base gfortran openblas-dev cmake musl-dev libgfortran lapack-dev
 
 # Install Dockerize
 RUN wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz \
@@ -63,17 +63,16 @@ WORKDIR /app
 RUN turbo run build --filter=./apps/auto-email-sender-new/*
 
 # Setup match_roles
-RUN ts-node packages/shared/src/services/setupMatchRoles.ts
+RUN ts-node apps/auto-email-sender-new/src/utils/generateDataMatchRoles.ts
 
 #Create env python
-
 RUN cd apps/auto-email-sender-new/src/match_roles && python -m venv matchenv
 
 # Install Python dependencies
 RUN cd apps/auto-email-sender-new/src/match_roles && source matchenv/bin/activate && pip install -r requirements.txt
 
 # Execute the onehot.py script
-RUN cd apps/auto-email-sender-new/src/match_roles && source source matchenv/bin/activate && cd src/train && python3 onehot.py --entity skills
+RUN cd apps/auto-email-sender-new/src/match_roles && source matchenv/bin/activate && cd src/train && python3 onehot.py --entity skills
 
 # Final Stage (Runner)
 FROM base AS runner

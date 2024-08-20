@@ -2,8 +2,6 @@ import path from 'path'
 import { Parser } from '@json2csv/plainjs'
 import fs from 'fs'
 import { getSupabaseClient } from 'db'
-import { exec } from 'child_process'
-import { promisify } from 'util'
 
 const generateCsv = async (data: any, filePath: string) => {
   const parser = new Parser()
@@ -15,22 +13,12 @@ const generateCsv = async (data: any, filePath: string) => {
   fs.writeFileSync(absolutePath, csv)
 }
 
-const runCommand = promisify(exec)
-
 export const setupMatchRoles = async () => {
   const supabaseClient = getSupabaseClient()
-  const matchRolesPath = path.resolve(
-    'apps/auto-email-sender-new/src/match_roles'
-  )
 
   const roles = await supabaseClient.from('Roles').select('*').eq('ready', true)
   await generateCsv(roles, 'roles.csv')
 
   const skills = await supabaseClient.from('Skills').select('*')
   await generateCsv(skills, 'skills.csv')
-
-  console.log('Generating matchenv...')
-  await runCommand('bash -c "python3 -m venv matchenv"', {
-    cwd: matchRolesPath,
-  })
 }
