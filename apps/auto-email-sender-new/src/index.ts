@@ -7,6 +7,7 @@ import { checkMatchRolesUp } from './utils/checkMatchRolesUp'
 import path from 'path'
 import os from 'os'
 import { emailSender } from './email-sender'
+import { setupMatchRoles } from './utils/generateDataMatchRoles'
 
 const execPromise = promisify(exec)
 const numCores = os.availableParallelism()
@@ -17,6 +18,17 @@ export const init = async () => {
     'apps/auto-email-sender-new/src/match_roles'
   )
   try {
+    console.log('Generating data')
+    await setupMatchRoles()
+
+    console.log('Training')
+    await runCommand(
+      'bash -c "source matchenv/bin/activate && cd src/train && python3 onehot.py --entity skills"',
+      {
+        cwd: matchRolesPath,
+      }
+    )
+
     console.log('Starting match_roles')
     runCommand(
       'bash -c "source matchenv/bin/activate && cd src && uvicorn --host 0.0.0.0 main:app"',

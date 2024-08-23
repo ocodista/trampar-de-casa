@@ -4,6 +4,10 @@ FROM node:18-alpine AS base
 RUN apk update && apk upgrade \
     && apk add --no-cache bash wget python3 python3-dev py3-pip libgcc build-base gfortran openblas-dev cmake musl-dev libgfortran lapack-dev g++ gcc libc-dev zlib-dev bzip2 libffi-dev openssl-dev git make autoconf automake libtool
 
+RUN wget https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz \
+    && rm dockerize-linux-amd64-v0.6.1.tar.gz
+
 # Set working directory
 WORKDIR /app
 
@@ -54,15 +58,12 @@ WORKDIR /app
 RUN turbo run build --filter=./apps/auto-email-sender-new/*
 
 # Setup match_roles and prepare Python environment in a single RUN command
-RUN ts-node apps/auto-email-sender-new/src/utils/generateDataMatchRoles.ts && \
-    cd apps/auto-email-sender-new/src/match_roles && \
+RUN cd apps/auto-email-sender-new/src/match_roles && \
     python3 -m venv matchenv && \
     source matchenv/bin/activate && \
     pip install --upgrade pip setuptools wheel cython pybind11 pythran && \
     pip install numpy scipy && \
-    pip install -r requirements.txt && \
-    cd src/train && \
-    python3 onehot.py --entity skills
+    pip install -r requirements.txt
 
 # Final Stage (Runner)
 FROM base AS runner
@@ -73,5 +74,5 @@ WORKDIR /app
 # Copy the build output and node_modules from the builder stage
 COPY --from=builder /app .
 
-# Run the script
-CMD ["ts-node", "apps/auto-email-sender-new/src/index.ts"]
+# Run the script with dockerize
+CMD ["dockerize", "-wait", "tcp://rabbitmq:5672", "-wait", "tcp://mongo:27017", "-timeout", "60s", "ts-node", "apps/auto-email-sender-new/src/index.ts"]

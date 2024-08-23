@@ -6,10 +6,7 @@ import { getSupabaseClient } from 'db'
 const generateCsv = async (data: any, filePath: string) => {
   const parser = new Parser()
   const csv = parser.parse(data.data)
-  const absolutePath = path.resolve(
-    'apps/auto-email-sender-new/src/match_roles/data',
-    filePath
-  )
+  const absolutePath = path.resolve(__dirname, '../match_roles/data', filePath)
   fs.writeFileSync(absolutePath, csv)
 }
 
