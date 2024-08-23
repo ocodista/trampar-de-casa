@@ -43,7 +43,6 @@ export const assignRoles = async () => {
         const skillsStr = skills.join(',')
         const languages = 'English,Portuguese'
 
-        console.log('Fazendo requisição')
         const response = await axios.get(FASTAPI_ENDPOINT, {
           params: {
             skills: skillsStr,
@@ -51,23 +50,14 @@ export const assignRoles = async () => {
             n: 40,
           },
         })
-        console.log('finalizando requisição')
 
         const roles = response.data.result
-
-        console.log(
-          `Roles encontradas para o usuário ${subscriber.email}: ${roles.length}`
-        )
 
         const emailProps = getEmailProps(subscriber, roles)
         await saveSubscriberRoles(mongoCollection, emailProps)
         channel.ack(msg)
       } else {
-        console.log(`Subscriber ${subscriber.email} has no skillsId`)
         const roles = await top40Roles(supabaseClient)
-        console.log(
-          `Roles encontradas para o usuário ${subscriber.email}: ${roles.length}`
-        )
         const emailProps = getEmailProps(subscriber, roles)
         await saveSubscriberRoles(mongoCollection, emailProps)
         channel.ack(msg)
