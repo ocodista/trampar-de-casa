@@ -8,7 +8,8 @@ from feature_engine import encoding
 # preparação do onehot encoding
 
 def train_onehot(entity):
-    df = pd.read_csv(f'../../data/{entity}.csv')
+    #Path for work with docker image
+    df = pd.read_csv(f'/app/apps/auto-email-sender-new/src/match_roles/data/{entity}.csv')
     df[f'{entity}Id'] = df['id'].astype(str)
     onehot = encoding.OneHotEncoder(variables=[f'{entity}Id'])
     onehot.fit(df[[f'{entity}Id']])
@@ -21,7 +22,7 @@ def save_onehot(onehot, entity):
         "variables": [f'{entity}Id'],
         }
     )
-    pd_onehot.to_pickle(f'../../models/onehot_{entity}.pkl')
+    pd_onehot.to_pickle(f'/app/apps/auto-email-sender-new/src/match_roles/models/onehot_{entity}.pkl')
 
 
 def main():

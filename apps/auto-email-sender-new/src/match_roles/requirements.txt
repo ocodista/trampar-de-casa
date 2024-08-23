@@ -1,4 +1,3 @@
 feature_engine==1.7.0
 pandas==2.2.2
-scipy==1.13.0
 fastAPI==0.111.0
