@@ -1,4 +1,4 @@
-# Base Stage
+# Base Stage for Node.js
 FROM node:18-alpine AS base
 
 RUN apk update && apk upgrade \
@@ -27,14 +27,17 @@ ENV SECRET_KEY=$SECRET_KEY \
     MONGO_USERNAME=$MONGO_USERNAME \
     RABBITMQ_ADDRESS=$RABBITMQ_ADDRESS
 
-# Install TurboRepo and ts-node globally in one layer
+# Install TurboRepo and ts-node globally
 RUN npm install -g turbo ts-node
 
 # Dependencies Stage
-FROM base AS dependencies
+FROM node:18-alpine AS dependencies
 
 # Set working directory
 WORKDIR /app
+
+# Install Python and build dependencies
+RUN apk update && apk add --no-cache python3 python3-dev py3-pip build-base
 
 # Copy the specific project files
 COPY apps/auto-email-sender-new ./apps/auto-email-sender-new
@@ -45,24 +48,46 @@ COPY package*.json turbo.json yarn.lock ./
 RUN npm install && npm install --prefix apps/auto-email-sender-new
 
 # Builder Stage
-FROM dependencies AS builder
+FROM python:3.11-slim AS builder
 
 # Set working directory
 WORKDIR /app
 
+# Install necessary system packages
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gfortran \
+    libopenblas-dev \
+    cmake \
+    liblapack-dev \
+    libffi-dev \
+    git \
+    curl \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
+
+# Install TurboRepo and ts-node globally in the builder stage
+RUN npm install -g turbo ts-node
+
+# Copy the build output and node_modules from the dependencies stage
+COPY --from=dependencies /app /app
+
 # Rebuild the source code only for the scoped project
 RUN turbo run build --filter=./apps/auto-email-sender-new/*
 
-# Setup match_roles and prepare Python environment in a single RUN command
-RUN cd apps/auto-email-sender-new/src/match_roles && \
-    python3 -m venv matchenv && \
-    source matchenv/bin/activate && \
+# Setup match_roles and prepare Python environment
+WORKDIR /app/apps/auto-email-sender-new/src/match_roles
+RUN python3 -m venv matchenv && \
+    . matchenv/bin/activate && \
     pip install --upgrade pip setuptools wheel cython pybind11 pythran && \
     pip install numpy scipy && \
     pip install -r requirements.txt
 
 # Final Stage (Runner)
-FROM base AS runner
+FROM node:18-alpine AS runner
 
 # Set working directory
 WORKDIR /app
