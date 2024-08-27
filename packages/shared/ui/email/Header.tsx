@@ -25,23 +25,6 @@ export function Header({
   rolesCount: string
   testimonialLink: string
 }) {
-  /**
-   * Quer maximizar seus ganhos internacionais?
-🚀 A Husky é a solução ideal para você:
-
-Taxas Imbatíveis: Economize em cada transferência!
-Primeiro Pagamento GRÁTIS: Sem taxa alguma na sua primeira transação!
-Bônus Exclusivo: 3 cupons de 50% OFF em transferências futuras!
-
-Como usuário fiel há anos, garanto: a Husky simplifica sua vida financeira!
-Pronto para otimizar suas finanças? Abra sua conta aqui e comece a economizar agora!
-Trampar de Casa 🤝 Husky: Seu dinheiro, sem fronteiras!
-
-        // <Link href="https://www.husky.io/global-worker-2024/?ref=nzg5ndz">
-        //   aqui.
-        // </Link>
-   * 
-   */
   // const previewText = `${rolesCount} ${HEADER_TITLE_SUFFIX}`
   const previewText = `Receba seu salário internacional com a Husky!`
   const h1 = 'text-[24px] mt-4'
@@ -85,33 +68,35 @@ Trampar de Casa 🤝 Husky: Seu dinheiro, sem fronteiras!
       <Heading className={h1}>{previewText}</Heading>
       <Hr style={hr} />
 
-      <Text className={paragraph}>Salve, guerreiro(a) do trabalho remoto!</Text>
+      <Text className={paragraph}>Fala, amante do trabalho remoto!</Text>
       <Text className={paragraph}>
-        Quer maximizar seus ganhos internacionais? A Husky é a solução ideal
-        para você 🚀
+        Quer otimizar seus rendimentos internacionais? A Husky é a ferramenta
+        perfeita para você 💼
       </Text>
       <Text className={paragraph}>
-        Exclusivo para vocês leitores: <b>Primeiro pagamento TAXA 0</b> +{' '}
-        <b>3 cupons de 50% de desconto</b> em transferências futuras!
+        Oferta especial para nossos leitores: <b>Primeira transação SEM TAXA</b>{' '}
+        + <b>3 vouchers de 50% off</b> em futuras transferências!
       </Text>
       <Text className={paragraph}>
-        Criando sua conta através{' '}
-        <Link href="https://husky.io?ref=nzg5ndz">deste link patrocinado</Link>{' '}
-        você ajuda nosso projeto a se manter funcionando!
+        Ao criar sua conta através{' '}
+        <Link href="https://husky.io?ref=nzg5ndz">deste link especial</Link>{' '}
+        você contribui com o nosso projeto!
       </Text>
       <Text className={paragraph}>
-        Trampar de Casa 🤝 Husky: Seu dinheiro, sem fronteiras!
+        Trabalhar de Casa 🤝 Husky: Seu dinheiro, sem limites!
       </Text>
       <Link href="https://husky.io?ref=nzg5ndz" target="_blank">
         <Img
           src="https://i.imgur.com/OiTECSl.png"
-          alt="Logo da Husky"
+          alt="Logotipo da Husky"
           className="ml-auto mr-auto aspect-video min-w-[128px] cursor-pointer object-contain"
           width={228}
           height={28}
         />
       </Link>
-      <Text className={paragraph}>Agora, aproveite as vagas desta semana!</Text>
+      <Text className={paragraph}>
+        Agora, confira as oportunidades desta semana!
+      </Text>
     </Tailwind>
   )
 }
