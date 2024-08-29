@@ -8,8 +8,29 @@ import path from 'path'
 import os from 'os'
 import { emailSender } from './email-sender'
 import { setupMatchRoles } from './utils/generateDataMatchRoles'
+import { spawn } from 'child_process'
 
-const execPromise = promisify(exec)
+const spawnPromise = (command: string, args: string[]) => {
+  return new Promise<void>((resolve, reject) => {
+    const child = spawn(command, args)
+
+    child.stdout.on('data', (data) => {
+      console.log(`stdout: ${data}`)
+    })
+
+    child.stderr.on('data', (data) => {
+      console.error(`stderr: ${data}`)
+    })
+
+    child.on('close', (code) => {
+      if (code === 0) {
+        resolve()
+      } else {
+        reject(new Error(`Process exited with code ${code}`))
+      }
+    })
+  })
+}
 const numCores = os.availableParallelism()
 const runCommand = promisify(exec)
 
@@ -79,9 +100,9 @@ const runParallelAssignRoles = async () => {
   const tasks = Array(numCores)
     .fill(null)
     .map(() =>
-      execPromise(
-        'ts-node apps/auto-email-sender-new/src/utils/assignRolesWorker.ts'
-      )
+      spawnPromise('ts-node', [
+        'apps/auto-email-sender-new/src/utils/assignRolesWorker.ts',
+      ])
     )
   try {
     await Promise.all(tasks)
@@ -96,9 +117,9 @@ const runParallelEmailPreRender = async () => {
   const tasks = Array(numCores)
     .fill(null)
     .map(() =>
-      execPromise(
-        'ts-node apps/auto-email-sender-new/src/utils/emailPreRenderWorker.ts'
-      )
+      spawnPromise('ts-node', [
+        'apps/auto-email-sender-new/src/utils/emailPreRenderWorker.ts',
+      ])
     )
   try {
     await Promise.all(tasks)
