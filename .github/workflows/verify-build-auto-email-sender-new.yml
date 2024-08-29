@@ -8,7 +8,7 @@ on:
       - Dockerfile.auto
 
 jobs:
-  test:
+  Build:
     runs-on: ubuntu-latest
 
     steps:
