@@ -1,8 +1,5 @@
 # Base Stage
-FROM node:18-alpine AS base
-
-RUN apk update && apk upgrade \
-    && apk add --no-cache bash wget python3 python3-dev py3-pip libgcc build-base gfortran openblas-dev cmake musl-dev libgfortran lapack-dev g++ gcc libc-dev zlib-dev bzip2 libffi-dev openssl-dev git make autoconf automake libtool
+FROM ubuntu:22.04 AS base
 
 # Set working directory
 WORKDIR /app
@@ -27,8 +24,29 @@ ENV SECRET_KEY=$SECRET_KEY \
     MONGO_USERNAME=$MONGO_USERNAME \
     RABBITMQ_ADDRESS=$RABBITMQ_ADDRESS
 
-# Install TurboRepo and ts-node globally in one layer
+# Install system dependencies
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    gfortran \
+    libopenblas-dev \
+    cmake \
+    liblapack-dev \
+    libffi-dev \
+    git \
+    curl \
+    python3.11 \
+    python3.11-venv \
+    python3-pip \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install Node.js and npm
+RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
+    apt-get install -y nodejs
+
+# Install TurboRepo and ts-node globally
 RUN npm install -g turbo ts-node
+
+###################################################################################################################
 
 # Dependencies Stage
 FROM base AS dependencies
@@ -44,22 +62,20 @@ COPY package*.json turbo.json yarn.lock ./
 # Install monorepo dependencies and scoped project dependencies in one step
 RUN npm install && npm install --prefix apps/auto-email-sender-new
 
+###################################################################################################################
+
 # Builder Stage
 FROM dependencies AS builder
 
-# Set working directory
-WORKDIR /app
-
-# Rebuild the source code only for the scoped project
-RUN turbo run build --filter=./apps/auto-email-sender-new/*
-
-# Setup match_roles and prepare Python environment in a single RUN command
-RUN cd apps/auto-email-sender-new/src/match_roles && \
-    python3 -m venv matchenv && \
-    source matchenv/bin/activate && \
+# Setup match_roles and prepare Python environment
+WORKDIR /app/apps/auto-email-sender-new/src/match_roles
+RUN python3.11 -m venv matchenv && \
+    . matchenv/bin/activate && \
     pip install --upgrade pip setuptools wheel cython pybind11 pythran && \
     pip install numpy scipy && \
     pip install -r requirements.txt
+
+###################################################################################################################
 
 # Final Stage (Runner)
 FROM base AS runner
@@ -68,7 +84,7 @@ FROM base AS runner
 WORKDIR /app
 
 # Copy the build output and node_modules from the builder stage
-COPY --from=builder /app .
+COPY --from=builder /app /app
 
 # Run the script
 CMD ["ts-node", "apps/auto-email-sender-new/src/index.ts"]
