@@ -153,6 +153,12 @@ export const Header = () => {
                 </li>
               )
             )}
+            <li
+              className="font-medium hover:text-gray-700"
+              onClick={handleOpenPreferences}
+            >
+              Definir Preferências
+            </li>
           </ul>
         </nav>
       </div>
