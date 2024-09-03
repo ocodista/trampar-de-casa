@@ -25,8 +25,7 @@ export function Header({
   rolesCount: string
   testimonialLink: string
 }) {
-  // const previewText = `${rolesCount} ${HEADER_TITLE_SUFFIX}`
-  const previewText = `Receba seu salário internacional com a Husky!`
+  const previewText = `${rolesCount} ${HEADER_TITLE_SUFFIX}`
   const h1 = 'text-[24px] mt-4'
   const hr = {
     borderColor: '#e6ebf1',
@@ -68,34 +67,9 @@ export function Header({
       <Heading className={h1}>{previewText}</Heading>
       <Hr style={hr} />
 
-      <Text className={paragraph}>Fala, amante do trabalho remoto!</Text>
+      <Text className={paragraph}>Salve, defensor do trabalho remoto!</Text>
       <Text className={paragraph}>
-        Quer otimizar seus rendimentos internacionais? A Husky é a ferramenta
-        perfeita para você 💼
-      </Text>
-      <Text className={paragraph}>
-        Oferta especial para nossos leitores: <b>Primeira transação SEM TAXA</b>{' '}
-        + <b>3 vouchers de 50% off</b> em futuras transferências!
-      </Text>
-      <Text className={paragraph}>
-        Ao criar sua conta através{' '}
-        <Link href="https://husky.io?ref=nzg5ndz">deste link especial</Link>{' '}
-        você contribui com o nosso projeto!
-      </Text>
-      <Text className={paragraph}>
-        Trabalhar de Casa 🤝 Husky: Seu dinheiro, sem limites!
-      </Text>
-      <Link href="https://husky.io?ref=nzg5ndz" target="_blank">
-        <Img
-          src="https://i.imgur.com/OiTECSl.png"
-          alt="Logotipo da Husky"
-          className="ml-auto mr-auto aspect-video min-w-[128px] cursor-pointer object-contain"
-          width={228}
-          height={28}
-        />
-      </Link>
-      <Text className={paragraph}>
-        Agora, confira as oportunidades desta semana!
+        Aqui estão suas vagas desta semana, espero que goste!
       </Text>
     </Tailwind>
   )
