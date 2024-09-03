@@ -67,7 +67,19 @@ export function Header({
       <Heading className={h1}>{previewText}</Heading>
       <Hr style={hr} />
 
-      <Text className={paragraph}>Salve, defensor do trabalho remoto!</Text>
+      <Text className={paragraph}>
+        Salve, defensor do trabalho remoto, beleza?
+      </Text>
+      <Text className={paragraph}>
+        Precisando melhorar suas habilidades em programação?
+      </Text>
+      <Text className={paragraph}>
+        O livro{' '}
+        <Link href="https://amzn.to/3Xc1XMn">Programador Pragmático</Link> foi
+        um divisor de águas na minha carreira, me ajudou a enxergar a
+        programação de forma profissional e me ajudou muito a conquistar novas
+        oportunidades na área.
+      </Text>
       <Text className={paragraph}>
         Aqui estão suas vagas desta semana, espero que goste!
       </Text>
