@@ -40,16 +40,15 @@ export const POST = async (req: Request) => {
     'svix-signature': svix_signature,
   }) as WebhookEvent
 
-  if (payload.type === 'email.bounced') {
+  if (payload.type === 'email.bounced' || payload.type === 'email.complained') {
     const supabaseClient = getSupabaseClient()
-    const bouncedEmail = payload.data.to[0]
-
+    const email = payload.data.to[0]
     const { error } = await supabaseClient
       .from('Subscribers')
       .update({ optOut: true, updatedAt: new Date().toISOString() })
-      .eq('email', bouncedEmail)
+      .eq('email', email)
     if (error) {
-      console.error('Error when update bounced email: ', error)
+      console.error(`Error when updating ${payload.type} email: `, error)
     }
   }
 
