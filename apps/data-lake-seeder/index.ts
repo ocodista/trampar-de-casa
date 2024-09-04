@@ -9,12 +9,12 @@ const BUCKET_NAME = 'teomewhy-datalake-raw'
 const BUCKET_FOLDER = 'trampar_de_casa'
 
 // Supabase configuration
-const SUPABASE_URL = Bun.env.SUPABASE_URL
-const SUPABASE_SERVICE_ROLE_KEY = Bun.env.SUPABASE_SERVICE_ROLE_KEY
+const SUPABASE_URL = process.env.SUPABASE_URL
+const SUPABASE_SERVICE_ROLE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY
 
 // AWS credentials
-const AWS_ACCESS_KEY_ID = Bun.env.AWS_ACCESS_KEY_ID
-const AWS_SECRET_ACCESS_KEY = Bun.env.AWS_SECRET_ACCESS_KEY
+const AWS_ACCESS_KEY_ID = process.env.AWS_ACCESS_KEY_ID
+const AWS_SECRET_ACCESS_KEY = process.env.AWS_SECRET_ACCESS_KEY
 
 if (
   !AWS_ACCESS_KEY_ID ||
