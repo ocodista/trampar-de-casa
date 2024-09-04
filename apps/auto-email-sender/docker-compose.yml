@@ -3,7 +3,6 @@ version: '3'
 services:
   rabbitmq:
     image: rabbitmq:3-management
-    hostname: rabbitmq
     env_file: .env
     ports:
       - 5672:5672
@@ -20,66 +19,6 @@ services:
     volumes:
       - mongo-data:/data/db
 
-  roles-validator:
-    build:
-      context: roles-validator
-    image: roles-validator:latest
-    env_file: .env
-    depends_on:
-      - mongo
-
-  roles-renderer:
-    build:
-      context: roles-renderer
-    image: roles-renderer:latest
-    env_file: .env
-    depends_on:
-      - mongo
-
-  roles-assigner:
-    build:
-      context: roles-assigner
-    image: roles-assigner:latest
-    env_file: .env
-    depends_on:
-      - mongo
-      - rabbitmq
-
-  email-pre-renderer:
-    build:
-      context: email-pre-renderer
-    image: email-pre-renderer:latest
-    env_file: .env
-    depends_on:
-      - mongo
-      - rabbitmq
-
-  email-composer:
-    build:
-      context: email-composer
-    image: email-composer:latest
-    env_file: .env
-    depends_on:
-      - mongo
-      - rabbitmq
-
-  email-sender:
-    build:
-      context: email-sender
-    image: email-sender:latest
-    env_file: .env
-    depends_on:
-      - rabbitmq
-
-  subs-to-queue:
-    build:
-      context: subs-to-queue
-    image: subs-to-queue:latest
-    env_file: .env
-    depends_on:
-      - rabbitmq
-
 volumes:
   mongo-data:
     driver: local
-

@@ -1,0 +1,24 @@
+{
+  "name": "auto-email-sender",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node ./src/index.ts"
+  },
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "@types/async": "^3.2.24",
+    "dotenv": "^16.4.5",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.2",
+    "zod": "^3.0.0"
+  },
+  "dependencies": {
+    "@json2csv/plainjs": "^7.0.6",
+    "async": "^3.2.5",
+    "json2csv": "^6.0.0-alpha.2"
+  }
+}

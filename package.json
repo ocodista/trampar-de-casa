@@ -29,10 +29,9 @@
   "packageManager": "yarn@1.22.19",
   "workspaces": [
     "apps/web",
-    "apps/auto-email-sender/*",
+    "apps/auto-email-sender",
     "apps/workers/*",
-    "packages/*",
-    "apps/auto-email-sender-new"
+    "packages/*"
   ],
   "lint-staged": {
     "apps/**/*.{ts,tsx}": [
