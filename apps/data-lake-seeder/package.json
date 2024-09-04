@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@aws-sdk/client-s3": "^3.637.0",
+    "@supabase/supabase-js": "^2.45.3",
     "csv-stringify": "^6.5.1"
   }
 }
