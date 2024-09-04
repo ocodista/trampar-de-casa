@@ -16,13 +16,13 @@ jobs:
       with:
         bun-version: latest
 
-    - name: Install dependencies
-      run: bun install
-
-    - name: Run export script
+    - name: Install dependencies and run script
       env:
         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
         SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-      run: bun run apps/data-lake-seeder/index.ts
+      run: |
+        cd apps/data-lake-seeder
+        bun install
+        bun run index.ts
