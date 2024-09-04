@@ -55,12 +55,12 @@ FROM base AS dependencies
 WORKDIR /app
 
 # Copy the specific project files
-COPY apps/auto-email-sender-new ./apps/auto-email-sender-new
+COPY apps/auto-email-sender ./apps/auto-email-sender
 COPY packages ./packages
 COPY package*.json turbo.json yarn.lock ./
 
 # Install monorepo dependencies and scoped project dependencies in one step
-RUN npm install && npm install --prefix apps/auto-email-sender-new
+RUN npm install && npm install --prefix apps/auto-email-sender
 
 ###################################################################################################################
 
@@ -68,7 +68,7 @@ RUN npm install && npm install --prefix apps/auto-email-sender-new
 FROM dependencies AS builder
 
 # Setup match_roles and prepare Python environment
-WORKDIR /app/apps/auto-email-sender-new/src/match_roles
+WORKDIR /app/apps/auto-email-sender/src/match_roles
 RUN python3.11 -m venv matchenv && \
     . matchenv/bin/activate && \
     pip install --upgrade pip setuptools wheel cython pybind11 pythran && \
@@ -87,4 +87,4 @@ WORKDIR /app
 COPY --from=builder /app /app
 
 # Run the script
-CMD ["ts-node", "apps/auto-email-sender-new/src/index.ts"]
+CMD ["ts-node", "apps/auto-email-sender/src/index.ts"]

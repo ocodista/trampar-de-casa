@@ -1,158 +1,120 @@
-# Auto Email Sender Documentation
+# Auto Email Sender
 
-The Auto Email Sender project is a collection of microservices to send opening emails, this project uses these technologies below:
+Auto Email Sender is a project designed to automate the sending of personalized emails based on specific criteria such as skills and languages. The project uses a combination of Node.js and Python, along with Docker to facilitate the configuration and execution of services.
 
-- **Supabase**: Supabase is utilized for access information
+## Table of Contents
 
-- **MongoDB**: MongoDB serves as a caching mechanism to improve the performance of data retrieval and processing within the microservices.
+- [Description](#description)
+- [Project Architecture](#project-architecture)
+- [Prerequisites](#prerequisites)
+- [Setup](#setup)
+- [Running the Project](#running-the-project)
+- [Directory Structure](#directory-structure)
 
-- **React Email**: React Email is employed for generating dynamic and visually appealing email templates.
+## Description
 
-- **RabbitMQ**: RabbitMQ is used for message queuing and ensures orderly and reliable email sending across the microservices.
+This project is designed to automate the creation and sending of personalized emails based on processed data. It is composed of several modules that handle email rendering, role assignment, and communication with an API to determine the best skill matches.
 
-- **Resend**: The email API for developers, we use on `email-sender`.
+## Project Architecture
 
-## Microservices
+The project is divided into several services that work together:
 
-### [Roles Renderer](./roles-renderer/README.md)
+1. **RabbitMQ**: Manages message queues for exchanging information between services.
+2. **MongoDB**: Stores data related to roles and users.
+3. **Auto Email Sender**: The main service that orchestrates the entire process, from data generation to email sending.
 
-- Get roles on Supabase
-- Render inline HTML of roles
-- Save on MongoDb
+## Prerequisites
 
-### [Roles Validator](./roles-validator/README.md)
+- [Docker](https://www.docker.com/)
+- [Docker Compose](https://docs.docker.com/compose/)
+- [Node.js](https://nodejs.org/) v18+
+- [Python](https://www.python.org/) 3.11+
 
-- Get roles on Supabase
-- Access role URL
-- Verify if the role is open
-- If not, delete the role of MongoDb
+## Setup
 
-### [Roles Assigner](./roles-assigner/README.md)
+### Environment Variables
 
-The Roles Assigner microservice manages the assignment of roles to users. It provides functionality to assign specific roles to users based on experience time, skills and English level.
-When assigning roles, we send them to MongoDb.
+Create a `.env` file in the `apps/auto-email-sender/` folder with the following variables:
 
-- Get subscribers on supabase
-- Calculate roles for each subscriber based on Skills, Experience, and English level
-- Send results to MongoDb
-
-### [Email Pre-Renderer](./email-pre-renderer/README.md)
-
-- The Email Pre-Renderer accesses the Supabase to get all confirmed subscribers.
-- Based on subscriber ID, get infos on MongoDb created by [roles-assigner](./roles-assigner/README.md)
-- Render footer component
-- Render Header component
-- Render Assigned roles components
-- Send to RabbitMQ queue
-
-### [Email Composer](./email-composer/README.md)
-
-The Email Composer microservice is responsible for concatenating the Footer, Header and
-roles html and send to another rabbitMQ queue
-
-- Consume `email-pre-render` queue
-- Concatenate inline HTML of header, footer, and roles
-- Send to 'email-sender' queue
-
-### [Email Sender](./email-sender/README.md)
-
-The Email Sender microservice is the core component responsible for sending opening emails.
-this service consumes an `email-sender` queue and sends an email. For now, we preserve the old retrieve strategy.
-
-- If the email is sent, save it on `sent-email.txt`
-- If the email failed, save on `failed-emails.txt`
-
-## How to use
-
-Here we will delve into the practical aspects of orchestrating a group of microservices
-
-### Flux
-
-The `auto-email-sender` is a group of microservices focused on sending opening emails. Some services in this group require other services to have been run before, as exemplified below:
-
-![image](https://github.com/ocodista/trampar-de-casa/assets/68869379/7ecef00d-429b-4739-9c55-4c59e8434623)
-
-> The order is based on the execution time. The slowest is executed first. This order is more effective for schedule sendings but is not mandatory
-
-Now I will show some dependencies between services:
-
-- `roles-validator` requires `roles-renderer`.
-- `email-pre-render` requires `roles-assigner`.
-- `email-composer` requires both `roles-validator` and `email-pre-render`.
-- `email-sender` requires `email-composer`.
-
-For example: You can initiate these services by running `roles-assigner`:
-
-```sh
-docker-compose -f auto-email-sender-compose.yml up -d roles-assigner
+```bash
+SECRET_KEY=<your_secret_key>
+RESEND_KEY=<your_resend_key>
+SUPABASE_URL=<your_supabase_url>
+SUPABASE_SERVICE_ROLE=<your_supabase_service_role_key>
+MONGO_ADDRESS=<your_mongo_address>
+MONGO_USERNAME=<your_mongo_username>
+MONGO_PASSWORD=<your_mongo_password>
+RABBITMQ_ADDRESS=<your_rabbitmq_address>
 ```
 
-After this, you can run `email-pre-renderer`:
+## Running the Project
 
-```sh
-docker-compose -f auto-email-sender-compose.yml up -d email-pre-renderer
+You can run the project using the `docker-compose.yml` file located at the root of the `Trampar de Casa` project. This file will start the necessary services, including `rabbitmq`, `mongo`, and build the Docker image specified in `Dockerfile.auto`.
+
+### Steps to Run the Project
+
+1. **Set Up Environment Variables**: Ensure that your environment variables are set up correctly in the `.env` file.
+
+2. **Build and Start Containers**: Use Docker Compose to build and start the containers:
+
+   ```bash
+   docker-compose up --build
+   ```
+
+3. **Start the Services**: The `auto-email-sender` service will start automatically after the containers are up. The process involves the following steps:
+
+   - **Data Generation**: Executes ETL scripts to prepare data.
+   - **Model Training**: Trains models for skill matching.
+   - **Service Initialization**: Starts the `match_roles` service and waits for it to be fully operational.
+   - **Parallel Processing**: Runs role assignment and email pre-rendering tasks in parallel using multiple cores.
+   - **Email Composition and Sending**: Generates personalized emails and sends them to the intended recipients.
+
+Following these steps will set up and run the project, allowing you to utilize the `auto-email-sender` service effectively.
+
+## Directory Structure
+
+Here is an overview of the project's directory structure:
+
+```bash
+.
+├── email-composer
+│   ├── createEmailHtml.tsx
+│   ├── getHtmlRoles.ts
+│   ├── index.ts
+│   ├── parsePreRenderMessage.ts
+│   └── renderRolesSection.tsx
+├── email-pre-render
+│   ├── getTestimonialLink.ts
+│   ├── getUnsubscribeLink.ts
+│   ├── index.ts
+│   ├── renderFooter.tsx
+│   ├── renderHeaderAndFooter.ts
+│   └── renderHeader.tsx
+├── email-sender
+│   ├── baseEmail.ts
+│   ├── config.ts
+│   ├── emailSender.ts
+│   ├── index.ts
+│   └── sendEmails.ts
+├── match_roles
+│   ├── data
+│   ├── docker-compose.yml
+│   ├── Dockerfile
+│   ├── models
+│   ├── ReadMe.md
+│   ├── requirements.txt
+│   └── src
+│       ├── etl
+│       │   └── extract_skills.py
+│       ├── main.py
+│       ├── predict
+│       │   └── rank.py
+│       └── train
+│           └── onehot.py
+└── utils
+    ├── assignRolesWorker.ts
+    ├── checkMatchRolesUp.ts
+    ├── delay.ts
+    ├── emailPreRenderWorker.ts
+    └── generateDataMatchRoles.ts
 ```
-
-Next, you should run the `email-composer`:
-
-```sh
-docker-compose -f auto-email-sender-compose.yml up -d roles-renderer &&
-docker-compose -f auto-email-sender-compose.yml up -d roles-validator &&
-docker-compose -f auto-email-sender-compose.yml up -d email-composer
-```
-
-Finally, after completing the previous steps, you can send the emails using the `email-sender` service:
-
-```sh
-docker-compose -f auto-email-sender-compose.yml up -d email-sender
-```
-
-### Prerequisites:
-
-Before you begin, ensure you have the following prerequisites installed on your system:
-
-1. **Docker and Docker Compose:** Make sure you have Docker and Docker Compose installed. You can download and install them from the official Docker website.
-
-### Steps to Run the Services:
-
-1. **Start the Microservices:**
-
-   Run the following commands in the terminal, one by one, to start the microservices in the desired order:
-
-   a. Start the `roles-renderer` service:
-
-   ```sh
-   docker-compose -f auto-email-sender-compose.yml up -d roles-renderer
-   ```
-
-   b. Start the `roles-assigner` service:
-
-   ```sh
-   docker-compose -f auto-email-sender-compose.yml up -d roles-assigner
-   ```
-
-   c. Start the `email-pre-renderer` service:
-
-   ```sh
-   docker-compose -f auto-email-sender-compose.yml up -d email-pre-renderer
-   ```
-
-   d. Start the `email-composer` service:
-
-   ```sh
-   docker-compose -f auto-email-sender-compose.yml up -d email-composer
-   ```
-
-   e. Start the `email-sender` service:
-
-   ```sh
-   docker-compose -f auto-email-sender-compose.yml up -d email-sender
-   ```
-
-2. **Stop and Remove Containers:**
-
-   When you are done using the services, you can stop and remove the containers by running the following command:
-
-   ```sh
-   docker-compose -f auto-email-sender-compose.yml down
-   ```
