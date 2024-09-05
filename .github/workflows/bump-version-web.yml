@@ -44,6 +44,7 @@ jobs:
     - name: Bump version and commit
       if: contains(steps.compare-versions.outputs.need_bump, 'true')
       run: |
+        git checkout ${{ github.head_ref }}
         cd apps/web
         npm version patch
         git config --local user.name "github-actions[bot]"
@@ -51,4 +52,4 @@ jobs:
         git add package.json
         git add ../../yarn.lock
         git commit -m "chore: bump version in web project"
-        git push origin HEAD
+        git push origin ${{ github.head_ref }}
