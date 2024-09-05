@@ -51,4 +51,4 @@ jobs:
         git add package.json
         git add ../../yarn.lock
         git commit -m "chore: bump version in web project"
-        git push origin ${{ github.head_ref }}
+        git push origin HEAD
