@@ -19,8 +19,6 @@ export const subsToQueue = async () => {
   let count = 0
   for await (const subscribersChunk of subscribersGenerator) {
     count += subscribersChunk.length
-    logger(`Processing... ${count}`)
-    logger.time(`Processed ${count}`)
     const messages = subscribersChunk.map(
       ({ id, email, isConfirmed, skillsId, startedWorkingAt }) => ({
         rolesAssigner: Buffer.from(
@@ -56,7 +54,6 @@ export const subsToQueue = async () => {
         await new Promise((resolve) => queueChannel.once('drain', resolve))
       }
     }
-    logger.timeEnd(`Processed ${count}`)
   }
   const queueEmailPreRenderSubs = await queueChannel.checkQueue(
     EmailQueues.EmailPreRenderSubs

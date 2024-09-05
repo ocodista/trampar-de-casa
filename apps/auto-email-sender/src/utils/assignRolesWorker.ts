@@ -1,4 +1,4 @@
-import { assignRoles } from '../roles-assigner-new'
+import { assignRoles } from '../roles-assigner'
 ;(async () => {
   try {
     await assignRoles()

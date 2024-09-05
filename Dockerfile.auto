@@ -39,6 +39,11 @@ RUN apt-get update && apt-get install -y \
     python3-pip \
     && rm -rf /var/lib/apt/lists/*
 
+# Install Dockerize using curl
+RUN curl -L https://github.com/jwilder/dockerize/releases/download/v0.6.1/dockerize-linux-amd64-v0.6.1.tar.gz -o dockerize-linux-amd64-v0.6.1.tar.gz \
+    && tar -C /usr/local/bin -xzvf dockerize-linux-amd64-v0.6.1.tar.gz \
+    && rm dockerize-linux-amd64-v0.6.1.tar.gz
+
 # Install Node.js and npm
 RUN curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
     apt-get install -y nodejs
@@ -72,7 +77,7 @@ WORKDIR /app/apps/auto-email-sender/src/match_roles
 RUN python3.11 -m venv matchenv && \
     . matchenv/bin/activate && \
     pip install --upgrade pip setuptools wheel cython pybind11 pythran && \
-    pip install numpy scipy && \
+    pip install numpy && \
     pip install -r requirements.txt
 
 ###################################################################################################################
@@ -86,5 +91,5 @@ WORKDIR /app
 # Copy the build output and node_modules from the builder stage
 COPY --from=builder /app /app
 
-# Run the script
-CMD ["ts-node", "apps/auto-email-sender/src/index.ts"]
+# Run the script with dockerize
+CMD ["dockerize", "-wait", "tcp://rabbitmq:5672", "-wait", "tcp://mongo:27017", "-timeout", "300s", "ts-node", "apps/auto-email-sender/src/index.ts"]

@@ -10,7 +10,7 @@ const generateCsv = async (data: any, filePath: string) => {
   fs.writeFileSync(absolutePath, csv)
 }
 
-export const setupMatchRoles = async () => {
+export const setupDataMatchRoles = async () => {
   const supabaseClient = getSupabaseClient()
 
   const roles = await supabaseClient.from('Roles').select('*').eq('ready', true)
