@@ -5,38 +5,36 @@ on:
     types: [opened, reopened]
     branches:
       - main # Trigger the action on PRs targeting the main branch
+  push:
+    branches:
+      - main # Trigger the action on pushes to the main branch
 
 jobs:
   verify-and-bump:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout the PR branch
+      - name: Checkout the branch
         uses: actions/checkout@v3
-        with:
-          ref: ${{ github.head_ref }}
 
-      - name: Get version from PR branch
-        id: pr-version
+      - name: Get version from branch
+        id: branch-version
         run: |
-          PR_VERSION=$(jq -r '.version' apps/web/package.json)
-          echo "::set-output name=pr_version::${PR_VERSION}"
-
-      - name: Checkout the main branch
-        uses: actions/checkout@v3
-        with:
-          ref: main
+          VERSION=$(jq -r '.version' apps/web/package.json)
+          echo "::set-output name=branch_version::${VERSION}"
 
       - name: Get version from main branch
         id: main-version
         run: |
+          git fetch origin main
+          git checkout main
           MAIN_VERSION=$(jq -r '.version' apps/web/package.json)
           echo "::set-output name=main_version::${MAIN_VERSION}"
 
       - name: Compare versions
         id: compare-versions
         run: |
-          if [ "${{ steps.pr-version.outputs.pr_version }}" != "${{ steps.main-version.outputs.main_version }}" ]; then
+          if [ "${{ steps.branch-version.outputs.branch_version }}" != "${{ steps.main-version.outputs.main_version }}" ]; then
             echo "::set-output name=need_bump::'false'"
             echo "The versions are different."
           else
@@ -45,13 +43,12 @@ jobs:
           fi
 
       - name: Bump version and commit
-        if: contains(steps.compare-versions.outputs.need_bump, 'true')
+        if: steps.compare-versions.outputs.need_bump == 'true'
         run: |
           cd apps/web
           npm version patch
           git config --local user.name "github-actions[bot]"
           git config --local user.email "github-actions[bot]@users.noreply.github.com"
-          git add package.json
-          git add ../../yarn.lock
+          git add package.json yarn.lock
           git commit -m "chore: bump version in web project"
-          git push origin ${{ github.head_ref }}
+          git push origin HEAD
