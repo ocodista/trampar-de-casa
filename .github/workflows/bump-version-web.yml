@@ -11,46 +11,47 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout the PR branch
-      uses: actions/checkout@v3
-      with:
-        ref: ${{ github.head_ref }}
+      - name: Checkout the PR branch
+        uses: actions/checkout@v3
+        with:
+          ref: ${{ github.head_ref }}
 
-    - name: Get version from PR branch
-      id: pr-version
-      run: |
-        PR_VERSION=$(jq -r '.version' apps/web/package.json)
-        echo "::set-output name=pr_version::${PR_VERSION}"
+      - name: Get version from PR branch
+        id: pr-version
+        run: |
+          PR_VERSION=$(jq -r '.version' apps/web/package.json)
+          echo "::set-output name=pr_version::${PR_VERSION}"
 
-    - name: Checkout the main branch
-      uses: actions/checkout@v3
-      with:
-        ref: main
+      - name: Checkout the main branch
+        uses: actions/checkout@v3
+        with:
+          ref: main
 
-    - name: Get version from main branch
-      id: main-version
-      run: |
-        MAIN_VERSION=$(jq -r '.version' apps/web/package.json)
-        echo "::set-output name=main_version::${MAIN_VERSION}"
+      - name: Get version from main branch
+        id: main-version
+        run: |
+          MAIN_VERSION=$(jq -r '.version' apps/web/package.json)
+          echo "::set-output name=main_version::${MAIN_VERSION}"
 
-    - name: Compare versions
-      id: compare-versions
-      run: |
-        if [ "${{ steps.pr-version.outputs.pr_version }}" != "${{ steps.main-version.outputs.main_version }}" ]; then
-          echo "::set-output name=need_bump::'false'"
-          echo "The versions are different."
-        else
-          echo "::set-output name=need_bump::'true'"
-          echo "The versions are the same. Bump required."
-        fi
+      - name: Compare versions
+        id: compare-versions
+        run: |
+          if [ "${{ steps.pr-version.outputs.pr_version }}" != "${{ steps.main-version.outputs.main_version }}" ]; then
+            echo "::set-output name=need_bump::'false'"
+            echo "The versions are different."
+          else
+            echo "::set-output name=need_bump::'true'"
+            echo "The versions are the same. Bump required."
+          fi
 
-    - name: Bump version and commit
-      if: contains(steps.compare-versions.outputs.need_bump, 'true')
-      run: |
-        cd apps/web
-        npm version patch
-        git config --local user.name "github-actions[bot]"
-        git config --local user.email "github-actions[bot]@users.noreply.github.com"
-        git add package.json package-lock.json
-        git commit -m "chore: bump version in web project"
-        git push origin ${{ github.head_ref }}
+      - name: Bump version and commit
+        if: contains(steps.compare-versions.outputs.need_bump, 'true')
+        run: |
+          cd apps/web
+          npm version patch
+          git config --local user.name "github-actions[bot]"
+          git config --local user.email "github-actions[bot]@users.noreply.github.com"
+          git add package.json
+          git add ../../yarn.lock
+          git commit -m "chore: bump version in web project"
+          git push origin ${{ github.head_ref }}
