@@ -72,7 +72,7 @@ WORKDIR /app/apps/auto-email-sender/src/match_roles
 RUN python3.11 -m venv matchenv && \
     . matchenv/bin/activate && \
     pip install --upgrade pip setuptools wheel cython pybind11 pythran && \
-    pip install numpy scipy && \
+    pip install numpy && \
     pip install -r requirements.txt
 
 ###################################################################################################################
@@ -87,4 +87,4 @@ WORKDIR /app
 COPY --from=builder /app /app
 
 # Run the script
-CMD ["ts-node", "apps/auto-email-sender/src/index.ts"]
+CMD ["ts-node", "apps/auto-email-sender-new/src/index.ts"]

@@ -1,29 +1,32 @@
-# %%
 import argparse
-
 import pandas as pd
 from feature_engine import encoding
-
-# %%
-# preparação do onehot encoding
+from pathlib import Path
 
 def train_onehot(entity):
-    #Path for work with docker image
-    df = pd.read_csv(f'/app/apps/auto-email-sender/src/match_roles/data/{entity}.csv')
+    base_dir = Path(__file__).resolve().parents[2]
+
+    data_path = base_dir / 'data' / f'{entity}.csv'
+    
+    df = pd.read_csv(data_path)
     df[f'{entity}Id'] = df['id'].astype(str)
+    
     onehot = encoding.OneHotEncoder(variables=[f'{entity}Id'])
     onehot.fit(df[[f'{entity}Id']])
+    
     return onehot
 
-
 def save_onehot(onehot, entity):
+    base_dir = Path(__file__).resolve().parents[2]
+    
+    model_path = base_dir / 'models' / f'onehot_{entity}.pkl'
+    
     pd_onehot = pd.Series({
         "model": onehot,
         "variables": [f'{entity}Id'],
-        }
-    )
-    pd_onehot.to_pickle(f'/app/apps/auto-email-sender/src/match_roles/models/onehot_{entity}.pkl')
-
+    })
+    
+    pd_onehot.to_pickle(model_path)
 
 def main():
     parser = argparse.ArgumentParser()
@@ -33,6 +36,5 @@ def main():
     onehot = train_onehot(args.entity)
     save_onehot(onehot, args.entity)
 
-
 if __name__ == "__main__":
-    main()    
+    main()

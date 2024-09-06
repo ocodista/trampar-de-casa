@@ -1,44 +1,26 @@
+import path from 'path'
+import os from 'os'
 import { exec } from 'child_process'
 import { promisify } from 'util'
+
 import { rolesRenderer } from './roles-renderer'
 import { subsToQueue } from './subs-to-queue'
 import { composeEmail } from './email-composer'
 import { checkMatchRolesUp } from './utils/checkMatchRolesUp'
-import path from 'path'
-import os from 'os'
 import { emailSender } from './email-sender'
-import { setupMatchRoles } from './utils/generateDataMatchRoles'
-import { spawn } from 'child_process'
+import { setupDataMatchRoles } from './utils/generateDataMatchRoles'
+import { spawnPromise } from './utils/spawnPromise'
 
-const spawnPromise = (command: string, args: string[]) => {
-  return new Promise<void>((resolve, reject) => {
-    const child = spawn(command, args)
-
-    child.stdout.on('data', (data) => {
-      console.log(`stdout: ${data}`)
-    })
-
-    child.stderr.on('data', (data) => {
-      console.error(`stderr: ${data}`)
-    })
-
-    child.on('close', (code) => {
-      if (code === 0) {
-        resolve()
-      } else {
-        reject(new Error(`Process exited with code ${code}`))
-      }
-    })
-  })
-}
-const numCores = os.availableParallelism()
 const runCommand = promisify(exec)
+const numCores = os.availableParallelism()
 
 export const init = async () => {
-  const matchRolesPath = path.resolve('apps/auto-email-sender/src/match_roles')
+  const matchRolesPath = path.resolve(__dirname, 'match_roles')
+
   try {
+    console.time('auto-email-sender startup time')
     console.log('Generating data')
-    await setupMatchRoles()
+    await setupDataMatchRoles()
 
     console.log('Training')
     await runCommand(
@@ -50,7 +32,7 @@ export const init = async () => {
 
     console.log('Starting match_roles')
     runCommand(
-      'bash -c "source matchenv/bin/activate && cd src && uvicorn --host 0.0.0.0 main:app"',
+      `bash -c "source matchenv/bin/activate && cd src && uvicorn main:app --host 0.0.0.0 --workers ${numCores}"`,
       {
         cwd: matchRolesPath,
       }
@@ -63,30 +45,36 @@ export const init = async () => {
     console.log('match_roles is up and running.')
 
     console.log('Starting subsToQueue...')
+    console.time('subsToQueue time')
     await subsToQueue()
-    console.log('subsToQueue completed.')
+    console.timeEnd('subsToQueue time')
 
     console.log('Starting rolesRenderer...')
+    console.time('rolesRenderer time')
     await rolesRenderer()
-    console.log('rolesRenderer completed.')
+    console.timeEnd('rolesRenderer time')
 
     console.log('Starting assignRoles...')
+    console.time('runParallelAssignRoles time')
     await runParallelAssignRoles()
-    console.log('assignRoles completed.')
+    console.timeEnd('runParallelAssignRoles time')
 
     console.log('Starting emailPreRender...')
+    console.time('runParallelEmailPreRender time')
     await runParallelEmailPreRender()
-    console.log('emailPreRender completed.')
+    console.timeEnd('runParallelEmailPreRender time')
 
     console.log('Starting composeEmail...')
+    console.time('composeEmail time')
     await composeEmail()
-    console.log('composeEmail completed.')
+    console.timeEnd('composeEmail time')
 
     console.log('Starting emailSender...')
+    console.time('emailSender time')
     await emailSender()
-    console.log('emailSender completed.')
+    console.timeEnd('emailSender time')
 
-    console.log('Process completed successfully.')
+    console.timeEnd('auto-email-sender startup time')
     process.exit(0)
   } catch (error) {
     console.error('Error during execution: ', error)
@@ -94,20 +82,18 @@ export const init = async () => {
   }
 }
 
+const scriptsPath = path.resolve(__dirname, 'utils')
+
 const runParallelAssignRoles = async () => {
   const tasks = Array(numCores)
     .fill(null)
     .map(() =>
-      spawnPromise('ts-node', [
-        'apps/auto-email-sender/src/utils/assignRolesWorker.ts',
-      ])
+      spawnPromise('ts-node', [path.join(scriptsPath, 'assignRolesWorker.ts')])
     )
   try {
     await Promise.all(tasks)
   } catch (err: any) {
-    throw new Error(
-      'Error running parallel assignRoles workers: ' + err.message
-    )
+    console.error('Error running parallel assignRoles workers:', err)
   }
 }
 
@@ -116,7 +102,7 @@ const runParallelEmailPreRender = async () => {
     .fill(null)
     .map(() =>
       spawnPromise('ts-node', [
-        'apps/auto-email-sender/src/utils/emailPreRenderWorker.ts',
+        path.join(scriptsPath, 'emailPreRenderWorker.ts'),
       ])
     )
   try {
