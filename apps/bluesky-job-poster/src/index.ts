@@ -67,16 +67,28 @@ async function createPost() {
           url: record.url,
         }
       })
-      .sort((a, b) => b.salary - a.salary) // Ordena do maior para o menor salário
-      .slice(0, 10) // Seleciona os 10 maiores salários
+      .sort((a, b) => b.salary - a.salary)
+      .slice(0, 10)
 
     for (const post of posts) {
+      const countryText =
+        post.country !== 'International' && post.country !== 'Global'
+          ? `País: ${post.country}\n`
+          : ''
+
+      const languageText =
+        post.language === 'Portuguese'
+          ? 'Português'
+          : post.language === 'English'
+          ? 'Inglês'
+          : post.language
+
       const rt = new RichText({
         text:
           `Cargo: ${post.title}\n` +
           `Empresa: ${post.company}\n` +
-          `País: ${post.country}\n` +
-          `Idioma: ${post.language}\n` +
+          countryText +
+          `Idioma: ${languageText}\n` +
           `Remoto: 100%\n` +
           `Salário: ${post.salary.toLocaleString('pt-BR', {
             minimumFractionDigits: 2,
