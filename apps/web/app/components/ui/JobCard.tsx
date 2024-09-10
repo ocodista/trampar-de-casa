@@ -53,4 +53,4 @@ const JobCard = ({ job, skillsFromProps }) => {
   )
 }
 
-export default jobCard
+export default JobCard
