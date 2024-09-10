@@ -1,12 +1,20 @@
-const jobCard = ({ job, skillsFromProps }) => {
+import { useRouter } from 'next/navigation'
+
+const JobCard = ({ job, skillsFromProps }) => {
+  const router = useRouter()
+
   const normalize = (id: string) => {
     const skill = skillsFromProps.find((skill) => skill.id === parseInt(id))
     return skill ? skill.name : null
   }
 
+  const handleClick = () => {
+    router.push(`/vaga/${job.id}`)
+  }
+
   return (
     <a
-      href={job.url}
+      onClick={handleClick}
       target="_blank"
       className="pointer shadow-brand-shadow border-box w-full rounded-lg border-[1px] bg-[#FCFCFD] p-[30px] hover:border-[1px] hover:border-[#4f46e5] "
     >
