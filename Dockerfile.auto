@@ -87,4 +87,4 @@ WORKDIR /app
 COPY --from=builder /app /app
 
 # Run the script
-CMD ["ts-node", "apps/auto-email-sender-new/src/index.ts"]
+CMD ["ts-node", "apps/auto-email-sender/src/index.ts"]
