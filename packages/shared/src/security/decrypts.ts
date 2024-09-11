@@ -8,7 +8,7 @@ export const decrypt = (secretKey: string, text: string): string => {
   const encryptedText = Buffer.from(textParts.join(':'), 'hex')
   const decipher = createDecipheriv(
     'aes-256-cbc',
-    Buffer.from(secretKey, 'hex'),
+    Buffer.from(secretKey, 'hex').subarray(0, 32),
     iv
   )
   let decrypted = decipher.update(encryptedText)
