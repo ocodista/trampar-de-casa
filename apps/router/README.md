@@ -21,16 +21,26 @@ This application provides an API for managing and accessing roles, with view cou
 
 ```mermaid
 flowchart TD
-    A[Client] -->|GET /api/role-access| B(Elysia API)
-    B -->|Check cache| C{Redis}
-    C -->|Cache hit| D[Return URL & Increment count]
-    C -->|Cache miss| E[Query Supabase]
-    E -->|Cache result| C
-    E -->|Return URL & Increment count| D
-    B -->|Increment view count| F[(SQLite)]
-    A -->|GET /api/roles| B
-    B -->|Fetch all roles| F
-    B -->|Get URLs| C
+    subgraph Initialization
+        A[Start] --> B[Fetch all ready roles from Supabase]
+        B --> C[Store ready roles in Redis]
+    end
+
+    subgraph Role Access Request
+        D[Client Request] --> E{Role in Redis?}
+        E -->|Yes| F[Get URL from Redis]
+        E -->|No| G[Fetch URL from Supabase]
+        G --> H[Store URL in Redis]
+        F --> I[Increment view count in SQLite]
+        H --> I
+        I --> J[Redirect to URL]
+    end
+
+    subgraph Fetch All Roles
+        K[Request all roles] --> L[Get view counts from SQLite]
+        L --> M[Get URLs from Redis]
+        M --> N[Return combined data]
+    end
 ```
 
 ## API Endpoints
@@ -67,22 +77,27 @@ The server will start on port 5500 by default.
 
 ## Data Flow
 
-1. When a client requests a role access:
+1. Initialization:
 
-   - The system checks Redis for the role URL
-   - If not found, it queries Supabase and caches the result in Redis
-   - The view count is incremented in SQLite
-   - The client is redirected to the role URL
+   - On startup, the system fetches all ready roles from Supabase and stores them in Redis.
 
-2. When fetching all roles:
-   - View counts are retrieved from SQLite
-   - URLs are fetched from Redis
-   - The combined data is returned to the client
+2. When a client requests a role access:
+
+   - The system checks Redis for the role URL.
+   - If found, it uses the URL from Redis.
+   - If not found, it queries Supabase for the URL and then caches it in Redis.
+   - The view count is incremented in SQLite.
+   - The client is redirected to the role URL.
+
+3. When fetching all roles:
+   - View counts are retrieved from SQLite.
+   - URLs are fetched from Redis.
+   - The combined data is returned to the client.
 
 ## Caching Strategy
 
-- Ready roles are cached in Redis on startup
-- Role URLs are cached in Redis after the first access
-- View counts are stored locally in SQLite for quick access and updates
+- All ready roles are pre-fetched from Supabase and cached in Redis on startup.
+- Role URLs are cached in Redis after the first access if they weren't pre-cached.
+- View counts are stored locally in SQLite for quick access and updates.
 
 This architecture ensures fast response times and reduces load on the Supabase database.
