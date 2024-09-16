@@ -15,7 +15,6 @@ This application provides an API for managing and accessing roles, with view cou
 - Elysia.js (for API routing)
 - Supabase (main database)
 - Redis (caching)
-- SQLite (local view count storage)
 
 ## Architecture Overview
 
@@ -31,15 +30,9 @@ flowchart TD
         E -->|Yes| F[Get URL from Redis]
         E -->|No| G[Fetch URL from Supabase]
         G --> H[Store URL in Redis]
-        F --> I[Increment view count in SQLite]
+        F --> I[Increment view count in Supabase (Every 500 reqs or 5 min)]
         H --> I
         I --> J[Redirect to URL]
-    end
-
-    subgraph Fetch All Roles
-        K[Request all roles] --> L[Get view counts from SQLite]
-        L --> M[Get URLs from Redis]
-        M --> N[Return combined data]
     end
 ```
 
@@ -51,9 +44,6 @@ flowchart TD
    - Redirects to the role URL and increments view count
    - Returns view count in `X-View-Count` header
 
-2. `GET /api/roles`
-   - Returns all roles with their IDs, URLs, and view counts
-
 ## Setup
 
 1. Set the following environment variables:
@@ -61,6 +51,7 @@ flowchart TD
    - `SUPABASE_URL`
    - `SUPABASE_ANON_KEY`
    - `REDIS_URL`
+   - `VERBOSE`
 
 2. Install dependencies:
 
@@ -86,18 +77,13 @@ The server will start on port 5500 by default.
    - The system checks Redis for the role URL.
    - If found, it uses the URL from Redis.
    - If not found, it queries Supabase for the URL and then caches it in Redis.
-   - The view count is incremented in SQLite.
+   - The view count is incremented in memory and stored at Supabase when reaches 500 reqs or every 5 minutes (whicheer comes first).
    - The client is redirected to the role URL.
-
-3. When fetching all roles:
-   - View counts are retrieved from SQLite.
-   - URLs are fetched from Redis.
-   - The combined data is returned to the client.
 
 ## Caching Strategy
 
 - All ready roles are pre-fetched from Supabase and cached in Redis on startup.
-- Role URLs are cached in Redis after the first access if they weren't pre-cached.
-- View counts are stored locally in SQLite for quick access and updates.
+- Role URLs are cached in Redis after the first access if not pre-cached.
+- View counts are stored on memory and written as BATCH on Supabase.
 
-This architecture ensures fast response times and reduces load on the Supabase database.
+This architecture ensures fast response times and reduces READ load on the Supabase database.
