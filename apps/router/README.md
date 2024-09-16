@@ -1,6 +1,6 @@
 # Role Access API
 
-This application provides an API for managing and accessing roles, with view counting functionality. It uses Supabase for data storage, Redis for caching, and SQLite for local view count tracking.
+This application provides an API for managing and accessing roles, with view counting functionality. It uses Supabase for data storage, Redis for caching, and Supabase for view count tracking.
 
 ## Features
 
