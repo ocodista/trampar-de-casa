@@ -15,14 +15,8 @@ services:
     image: redis
     ports:
       - '6379:6379'
-        # command: redis-server --loglevel verbose
     volumes:
       - redis-data:/data
-        # logging:
-        #   driver: 'json-file'
-        #   options:
-        #     max-size: '200m'
-        #     max-file: '10'
 
 volumes:
   redis-data:
