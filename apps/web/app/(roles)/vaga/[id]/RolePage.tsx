@@ -1,6 +1,7 @@
 'use client'
 
 import { FocusBanner } from 'app/landing-page/FocusBanner'
+import { useRouter } from 'next/navigation'
 import {
   ExternalLink,
   ChevronDown,
@@ -11,6 +12,7 @@ import {
 import React from 'react'
 
 export const RolePage = ({ vaga }) => {
+  const router = useRouter()
   const formatDescription = (description) => {
     if (!description) return ''
     return description.split('\n').map((line, index) => (
@@ -20,6 +22,38 @@ export const RolePage = ({ vaga }) => {
       </React.Fragment>
     ))
   }
+
+  const formatDate = (dateString) => {
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ]
+
+    const date = new Date(dateString)
+    const month = months[date.getMonth()]
+    const day = date.getDate()
+    const year = date.getFullYear()
+
+    return `${month} ${day}, ${year}`
+  }
+
+  const handleApply = () => {
+    window.open(
+      `https://router.trampardecasa.com.br/api/role-access?roleId=${vaga.id}`,
+      '_blank'
+    )
+  }
+
   return (
     <>
       <FocusBanner />
@@ -27,12 +61,23 @@ export const RolePage = ({ vaga }) => {
         <div className="mt-2 flex flex-col rounded-md bg-[#f3f4f8] p-2.5">
           <div className="relative flex h-20 rounded-2xl bg-white">
             <div className="absolute top-10 flex w-full items-center justify-between pl-3 pr-3">
-              <div className="h-16 w-16 rounded-full bg-black"></div>
+              {vaga.company_logo ? (
+                <img
+                  src={vaga.company_logo}
+                  alt={`${vaga.company} logo`}
+                  className="h-16 max-h-full w-16 max-w-full rounded-full object-cover"
+                />
+              ) : (
+                <div className="h-16 w-16 rounded-full bg-black"></div>
+              )}
               <div className="flex gap-3">
                 <button className="flex h-10 items-center gap-1 rounded-2xl border-2 bg-white pb-1.5 pl-3 pr-3 pt-1.5">
                   Share job <ChevronDown />
                 </button>
-                <button className="flex h-10 items-center gap-1 rounded-2xl border-2 bg-indigo-600 pb-1 pl-4 pr-4 pt-1 text-white">
+                <button
+                  onClick={handleApply}
+                  className="flex h-10 items-center gap-1 rounded-2xl border-2 bg-indigo-600 pb-1 pl-4 pr-4 pt-1 text-white"
+                >
                   Apply <ExternalLink />
                 </button>
               </div>
@@ -103,9 +148,12 @@ export const RolePage = ({ vaga }) => {
                   </div>
                   <div>
                     <p className="text-sm text-[#697786]">Published on</p>
-                    <p>{vaga.updatedAt}</p>
+                    <p>{formatDate(vaga.updatedAt)}</p>
                   </div>
-                  <button className="flex h-12 items-center justify-center gap-2 rounded-2xl border-2 bg-indigo-600 text-white">
+                  <button
+                    onClick={handleApply}
+                    className="flex h-12 items-center justify-center gap-2 rounded-2xl border-2 bg-indigo-600 text-white"
+                  >
                     Apply <ExternalLink />
                   </button>
                 </div>
