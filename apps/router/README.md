@@ -24,16 +24,22 @@ flowchart TD
         A[Start] --> B[Fetch all ready roles from Supabase]
         B --> C[Store ready roles in Redis]
     end
-
     subgraph Role Access Request
         D[Client Request] --> E{Role in Redis?}
         E -->|Yes| F[Get URL from Redis]
         E -->|No| G[Fetch URL from Supabase]
         G --> H[Store URL in Redis]
-        F --> I[Increment view count in Supabase (Every 500 reqs or 5 min)]
+        F --> I[Increment view count in API memory]
         H --> I
-        I --> J[Redirect to URL]
+        I --> J{500 views or 5 minutes passed?}
+        J -->|Yes| K[Write batch to Supabase]
+        J -->|No| L[Continue]
+        K --> M[Reset count and timer]
+        L --> N[Redirect to URL]
+        M --> N
     end
+
+    C --> D
 ```
 
 ## API Endpoints
