@@ -1,0 +1,1 @@
+GET http://localhost:5500/api/role-access?roleId=bd2d62f9-a688-4259-8651-ac22a2b9795c

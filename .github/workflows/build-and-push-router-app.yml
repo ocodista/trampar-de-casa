@@ -3,8 +3,7 @@ name: Build router app
 on:
   push:
     branches:
-      - '**'
-      - '!main'
+      - 'main'
     paths:
       - 'apps/router/**/*'
       - 'apps/router/*'
@@ -36,4 +35,4 @@ jobs:
       - name: Build Docker image
         run: |
           cd apps/router
-          docker buildx build . --platform linux/arm64 -t "gru.ocir.io/gricbxnlp2kb/router-app:latest" 
+          docker buildx build . --platform linux/arm64 -t "gru.ocir.io/gricbxnlp2kb/router-app:latest" --push

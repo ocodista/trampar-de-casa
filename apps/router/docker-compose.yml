@@ -1,0 +1,24 @@
+services:
+  router-app:
+    container_name: router-app
+    build: .
+    ports:
+      - '5500:5500'
+    restart: on-failure:5
+    environment:
+      - SUPABASE_URL=${SUPABASE_URL}
+      - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
+      - REDIS_URL=redis://redis:6379
+      - MAX_WAIT_MS=300000
+    depends_on:
+      - redis
+
+  redis:
+    image: redis
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+
+volumes:
+  redis-data:
