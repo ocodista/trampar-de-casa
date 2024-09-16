@@ -8,13 +8,22 @@ import {
   AlarmClock,
   Laptop,
 } from 'lucide-react'
+import React from 'react'
 
 export const RolePage = ({ vaga }) => {
-  console.log(vaga)
+  const formatDescription = (description) => {
+    if (!description) return ''
+    return description.split('\n').map((line, index) => (
+      <React.Fragment key={index}>
+        {line}
+        <br />
+      </React.Fragment>
+    ))
+  }
   return (
     <>
       <FocusBanner />
-      <div className="container mx-auto">
+      <div className="container mx-auto mb-10">
         <div className="mt-2 flex flex-col rounded-md bg-[#f3f4f8] p-2.5">
           <div className="relative flex h-20 rounded-2xl bg-white">
             <div className="absolute top-10 flex w-full items-center justify-between pl-3 pr-3">
@@ -36,11 +45,7 @@ export const RolePage = ({ vaga }) => {
                 <p>{vaga.company}</p>
               </div>
               <div>
-                <p className="text-end text-xl font-semibold">
-                  {vaga.description.trim()
-                    ? vaga.description
-                    : '200k - 230k USD'}
-                </p>
+                <p className="text-end text-xl font-semibold">{vaga.salary}</p>
                 <div className="flex gap-3">
                   <p className="flex gap-1">
                     <Laptop />
@@ -58,19 +63,10 @@ export const RolePage = ({ vaga }) => {
               </div>
             </div>
             <div className="flex gap-6">
-              <div className="w-4/6 pt-6">
-                <p>
-                  Lorem ipsum dolor sit amet, consectetur adipisicing elit.
-                  Minima voluptates molestiae dolore commodi facilis aliquam
-                  facere repellendus asperiores quo, aut fugiat aperiam nulla
-                  ducimus possimus! Nisi cum at vitae tempore? Lorem, ipsum
-                  dolor sit amet consectetur adipisicing elit. Animi ea tempora
-                  voluptatem accusamus, beatae aut, velit ut culpa quam iure
-                  possimus ex cum nemo repellendus, iusto sit itaque sequi
-                  porro.
-                </p>
+              <div className="w-4/6 flex-grow pt-3">
+                {formatDescription(vaga.description)}
               </div>
-              <div className="w-2/6 rounded-3xl border-2 border-[#eef2f6] bg-white p-4">
+              <div className="h-[600px] w-2/6 rounded-3xl border-2 border-[#eef2f6] bg-white p-4">
                 <div className="rounded-2xl bg-[#f3f4f8] p-4 text-center">
                   <h1 className="font-semibold">{vaga.title}</h1>
                 </div>
@@ -91,7 +87,7 @@ export const RolePage = ({ vaga }) => {
                     <p className="text-sm text-[#697786]">Location</p>
                     <p className="flex gap-2">
                       <MapPin />
-                      Anywhere
+                      {vaga.country}
                     </p>
                   </div>
                   <div>
@@ -103,7 +99,7 @@ export const RolePage = ({ vaga }) => {
                   </div>
                   <div>
                     <p className="text-sm text-[#697786]">Pay</p>
-                    <p>R$50000</p>
+                    <p>{vaga.salary}</p>
                   </div>
                   <div>
                     <p className="text-sm text-[#697786]">Published on</p>

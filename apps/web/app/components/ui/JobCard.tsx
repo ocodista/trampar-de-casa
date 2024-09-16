@@ -16,14 +16,14 @@ const JobCard = ({ job, skillsFromProps }) => {
     <a
       onClick={handleClick}
       target="_blank"
-      className="pointer shadow-brand-shadow border-box w-full rounded-lg border-[1px] bg-[#FCFCFD] p-[30px] hover:border-[1px] hover:border-[#4f46e5] "
+      className="shadow-brand-shadow border-box w-full cursor-pointer rounded-lg border-[1px] bg-[#FCFCFD] p-[30px] hover:border-[1px] hover:border-[#4f46e5] "
     >
       <div className="mb-[10px] flex flex-wrap items-center justify-between">
         <h2 className="text-[11px] sm:text-[12px] md:text-[12px] lg:text-[12px]">
           {job.company}
         </h2>
         <span className="text-[13px] sm:text-[16px] md:text-[16px] lg:text-[16px]">
-          {job.description}
+          {job.salary}
         </span>
       </div>
       <h1 className="mb-[10px] text-[15px] font-bold sm:text-[17px] md:text-[17px] lg:text-[17px]">
