@@ -6,7 +6,7 @@ const jobCard = ({ job, skillsFromProps }) => {
 
   return (
     <a
-      href={job.url}
+      href={`https://router.trampardecasa.com/api/role-access?roleId=${job.id}`}
       target="_blank"
       className="pointer shadow-brand-shadow border-box w-full rounded-lg border-[1px] bg-[#FCFCFD] p-[30px] hover:border-[1px] hover:border-[#4f46e5] "
     >
