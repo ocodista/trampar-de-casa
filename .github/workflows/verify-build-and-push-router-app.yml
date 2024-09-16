@@ -3,7 +3,8 @@ name: Build  and push router app
 on:
   push:
     branches:
-      - main
+      - '**'
+      - '!main'
     paths:
       - 'apps/router/**/*'
   workflow_dispatch:  # Allows manual triggering
