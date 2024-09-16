@@ -35,4 +35,5 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker buildx build . --file apps/router/Dockerfile --platform linux/arm64 -t "gru.ocir.io/gricbxnlp2kb/router-app:latest" 
+          cd apps/router
+          docker buildx build . --platform linux/arm64 -t "gru.ocir.io/gricbxnlp2kb/router-app:latest" 
