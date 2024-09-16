@@ -128,36 +128,6 @@ async function recordViews(roleIds: string[]) {
   return data
 }
 
-// Function to get view counts for multiple roles
-async function getViewCounts(roleIds: string[]) {
-  verboseLog(`Fetching view counts for ${roleIds.length} roles`)
-  const { data, error } = await supabase.rpc('get_view_counts', {
-    role_ids: roleIds,
-  })
-
-  if (error) throw error
-  const result =
-    data?.reduce((acc, item) => {
-      acc[item.role_id] = parseInt(item.count)
-      return acc
-    }, {}) || {}
-  verboseLog(`Retrieved view counts:`, result)
-  return result
-}
-
-// Function to get all roles with view counts from Supabase
-async function getAllRolesWithViewCounts() {
-  verboseLog('Fetching all roles with view counts from Supabase')
-  const { data, error } = await supabase.rpc('get_all_role_view_counts')
-  if (error) throw error
-  const result = data.map((item) => ({
-    role_id: item.role_id,
-    view_count: parseInt(item.count),
-  }))
-  verboseLog(`Retrieved stats for ${result.length} roles`)
-  return result
-}
-
 // Initialize a batch processor for view count increments
 const batchProcessor = {
   queue: new Queue<string>(),
@@ -290,29 +260,6 @@ const app = new Elysia()
       }),
     }
   )
-  .get('/api/roles', async ({ set }) => {
-    try {
-      verboseLog('Fetching all roles with view counts')
-      const rolesWithCounts = await getAllRolesWithViewCounts()
-      const roleIds = rolesWithCounts.map((role) => role.role_id.toString())
-      verboseLog(`Fetching URLs for ${roleIds.length} roles from Redis`)
-      const urls = await redisClient.hmGet(REDIS_KEYS.READY_ROLES, roleIds)
-
-      const rolesWithUrls = rolesWithCounts.map((role, index) => ({
-        id: role.role_id,
-        url: urls[index] || null,
-        count: role.view_count,
-      }))
-
-      verboseLog(`Returning ${rolesWithUrls.length} roles with URLs and counts`)
-      return rolesWithUrls
-    } catch (error) {
-      console.error('Error:', error)
-      verboseLog('Error occurred in roles endpoint:', error)
-      set.status = HTTP_STATUS.INTERNAL_SERVER_ERROR
-      return { error: 'Internal Server Error' }
-    }
-  })
   .post('/api/update-roles-cache', async ({ set }) => {
     try {
       verboseLog('Updating roles cache')
