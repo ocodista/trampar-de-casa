@@ -1,4 +1,4 @@
-name: Build router app 
+name: Build and push router app 
 
 on:
   push:
