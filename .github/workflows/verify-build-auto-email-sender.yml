@@ -1,4 +1,4 @@
-name: Verify build auto email sender
+name: Build auto email sender
 
 on:
   push:

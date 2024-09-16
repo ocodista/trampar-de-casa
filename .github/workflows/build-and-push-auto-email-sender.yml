@@ -1,4 +1,4 @@
-name: Build auto email sender and push to OCI
+name: Build and push auto email sender 
 
 on:
   push:
