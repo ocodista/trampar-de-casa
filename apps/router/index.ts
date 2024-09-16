@@ -21,6 +21,7 @@ class Queue<T> {
 
 // Constants
 const ENV_VARS = {
+  MAX_WAIT_MS: 'MAX_WAIT_MS',
   SUPABASE_URL: 'SUPABASE_URL',
   SUPABASE_ANON_KEY: 'SUPABASE_ANON_KEY',
   REDIS_URL: 'REDIS_URL',
@@ -48,7 +49,7 @@ const SERVER_CONFIG = {
 }
 
 const BATCH_SIZE = 500
-const MAX_WAIT_TIME = 5 * 1000 // 5 minutes
+const MAX_WAIT_TIME = process.env[ENV_VARS.MAX_WAIT_MS] || 5 * 60 * 1000 // 5 minutes
 const IMMEDIATE_PROCESS_THRESHOLD = 100 // Process immediately if queue size reaches this
 
 // Read environment variables

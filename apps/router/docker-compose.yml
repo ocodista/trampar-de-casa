@@ -1,5 +1,6 @@
 services:
-  app:
+  router-app:
+    container_name: router-app
     build: .
     ports:
       - '5500:5500'
@@ -7,7 +8,8 @@ services:
     environment:
       - SUPABASE_URL=${SUPABASE_URL}
       - SUPABASE_ANON_KEY=${SUPABASE_ANON_KEY}
-      - REDIS_URL=redis://localhost:6379
+      - REDIS_URL=redis://redis:6379
+      - MAX_WAIT_MS=300000
     depends_on:
       - redis
 
