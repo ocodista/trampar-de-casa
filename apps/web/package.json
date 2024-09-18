@@ -56,6 +56,7 @@
     "react-dom": "^18.2.0",
     "react-hook-form": "^7.45.0",
     "react-infinite-scroll-component": "^6.1.0",
+    "react-markdown": "^9.0.1",
     "react-query": "^3.39.3",
     "redis": "^4.6.14",
     "remark-gfm": "^4.0.0",

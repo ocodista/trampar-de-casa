@@ -1,7 +1,6 @@
 'use client'
 
 import { FocusBanner } from 'app/landing-page/FocusBanner'
-import { useRouter } from 'next/navigation'
 import {
   ExternalLink,
   ChevronDown,
@@ -12,16 +11,20 @@ import {
 import React from 'react'
 
 export const RolePage = ({ vaga }) => {
-  const router = useRouter()
+  console.log(vaga.description)
   const formatDescription = (description) => {
     if (!description) return ''
-    return description.split('\n').map((line, index) => (
-      <React.Fragment key={index}>
+
+    const formattedDescription = description.replace(/\n+/g, '\n').trim()
+
+    return formattedDescription.split('\n').map((line, index) => (
+      <p key={index} className="mb-4 whitespace-pre-line">
         {line}
-        <br />
-      </React.Fragment>
+      </p>
     ))
   }
+
+  const isHtml = (text) => /<\/?[a-z][\s\S]*>/i.test(text)
 
   const formatDate = (dateString) => {
     const months = [
@@ -109,7 +112,11 @@ export const RolePage = ({ vaga }) => {
             </div>
             <div className="flex gap-6">
               <div className="w-4/6 flex-grow pt-3">
-                {formatDescription(vaga.description)}
+                {isHtml(vaga.description) ? (
+                  <div dangerouslySetInnerHTML={{ __html: vaga.description }} />
+                ) : (
+                  formatDescription(vaga.description)
+                )}
               </div>
               <div className="h-[600px] w-2/6 rounded-3xl border-2 border-[#eef2f6] bg-white p-4">
                 <div className="rounded-2xl bg-[#f3f4f8] p-4 text-center">
