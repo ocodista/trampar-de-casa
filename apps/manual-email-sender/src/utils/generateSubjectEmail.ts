@@ -4,9 +4,8 @@ export const generateSubjectEmail = (props: OpeningsEmail) => {
   const {
     openings: { globalOpenings, localOpenings },
   } = props
-  const subject = `🔥 ${
-    globalOpenings.length + localOpenings.length
-  } vagas para você Trampar de Casa`
-
-  return subject
+  // const subject = `🔥 ${
+  //   globalOpenings.length + localOpenings.length
+  // } vagas para você Trampar de Casa`
+  return 'É melhor pegar sua cadeira 🪑'
 }

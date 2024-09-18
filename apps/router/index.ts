@@ -167,8 +167,8 @@ const batchProcessor = {
         verboseLog(`Successfully processed ${roleIdsToProcess.length} views`)
       } catch (error) {
         console.error('Error processing views:', error)
-        verboseLog('Error occurred. Re-adding role IDs to the queue for retry.')
-        roleIdsToProcess.forEach((id) => this.queue.enqueue(id))
+        // verboseLog('Error occurred. Re-adding role IDs to the queue for retry.')
+        // roleIdsToProcess.forEach((id) => this.queue.enqueue(id))
       }
     }
 

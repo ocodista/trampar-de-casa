@@ -26,7 +26,7 @@ export function Header({
   testimonialLink: string
 }) {
   // const previewText = `${rolesCount} ${HEADER_TITLE_SUFFIX}`
-  const previewText = 'Trampar de Casa é bom, mas...'
+  const previewText = 'Partiu FrontInSampa!'
   const h1 = 'text-[24px] mt-4'
   const hr = {
     borderColor: '#e6ebf1',
@@ -68,10 +68,10 @@ export function Header({
       <Heading className={h1}>{previewText}</Heading>
       <Hr style={hr} />
       <Text className={paragraph}>
-        O melhor <strong>networking</strong> é o presencial!
+        Salve, amante do trabalho remoto, beleza?
       </Text>
       <Text className={paragraph}>
-        Que tal participar de um dos melhores eventos de programação do Brasil?
+        Bora colar num dos melhores eventos de programação do país?
       </Text>
       <Link href="https://fastix.com.br/events/front-in-sampa?coupon=TRAMPARDCASA">
         <Img
@@ -81,18 +81,22 @@ export function Header({
         />
       </Link>
       <Text className={paragraph}>
-        A FrontInSampa apoia o trabalho 100% remoto, e em parceria com o Trampar
-        de Casa, oferece um <strong>desconto exclusivo de 15%</strong> para
-        todos os inscritos que utilizarem o cupom <strong>TRAMPARDCASA</strong>.
+        A FrontInSampa, parceira do TramparDeCasa, tá organizando esse evento
+        magnifíco, que conta com mais de 20 palestras, CodeInTheDark, e{' '}
+        <strong>muito networking!</strong>
+      </Text>
+      <Text className={paragraph}>
+        Utilizando o cupom <strong>TRAMPARDCASA</strong> você ainda garante{' '}
+        <strong>15% de desconto</strong> 😁
       </Text>
       <Text className={paragraph}>
         <Link href="https://fastix.com.br/events/front-in-sampa?coupon=TRAMPARDCASA">
           Clique aqui{' '}
         </Link>{' '}
-        para garantir o seu ingresso!
+        e garanta o seu ingresso!
       </Text>
       <Text className={paragraph}>
-        Agora, aqui vão suas vagas desta semana, valeu!
+        Agora, aproveite suas vagas desta semana, valeu!
       </Text>
     </Tailwind>
   )
