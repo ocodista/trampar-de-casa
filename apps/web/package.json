@@ -45,6 +45,7 @@
     "cmdk": "^0.2.0",
     "date-fns": "^2.30.0",
     "db": "*",
+    "dompurify": "^3.1.6",
     "encoding": "^0.1.13",
     "http-status-codes": "^2.2.0",
     "lucide-react": "^0.248.0",

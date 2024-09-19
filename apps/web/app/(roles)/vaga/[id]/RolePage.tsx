@@ -1,71 +1,76 @@
 'use client'
 
+import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { FocusBanner } from 'app/landing-page/FocusBanner'
+import SanitizedHTML from 'app/components/SanitizedHTML'
 import {
   ExternalLink,
-  ChevronDown,
   MapPin,
   AlarmClock,
   Laptop,
   Link,
   Check,
+  DollarSign,
+  Calendar,
+  Share2,
 } from 'lucide-react'
-import React, { useEffect, useState } from 'react'
+
+const COPY_TIMEOUT = 2000
 
 export const RolePage = ({ vaga }) => {
   const [showShareMenu, setShowShareMenu] = useState(false)
-  const [shareButtonText, setShareButtonText] = useState(
-    vaga.language === 'English' ? 'Copy link' : 'Copiar link'
-  )
   const [isCopied, setIsCopied] = useState(false)
   const shareMenuRef = React.useRef(null)
 
-  const formatDescription = (description) => {
-    if (!description) return ''
+  const isEnglish = useMemo(() => vaga.language === 'English', [vaga.language])
+
+  const shareButtonText = useMemo(
+    () =>
+      isCopied
+        ? isEnglish
+          ? 'Copied'
+          : 'Copiado'
+        : isEnglish
+        ? 'Copy link'
+        : 'Copiar link',
+    [isCopied, isEnglish]
+  )
+
+  const formatDescription = useCallback((description) => {
+    if (!description) return []
 
     const insertLineBreaks = (text, maxLength) => {
-      let result = ''
-      let startIndex = 0
+      const sentences = text.match(/[^.!?]+[.!?]+/g) || []
+      const result = []
+      let currentLine = ''
 
-      while (startIndex < text.length) {
-        let endIndex = Math.min(startIndex + maxLength, text.length)
-
-        if (endIndex < text.length && text[endIndex] !== '.') {
-          while (endIndex > startIndex && text[endIndex] !== '.') {
-            endIndex--
-          }
-          if (endIndex === startIndex) {
-            endIndex = Math.min(startIndex + maxLength, text.length)
-          }
+      sentences.forEach((sentence) => {
+        if ((currentLine + sentence).length > maxLength && currentLine) {
+          result.push(currentLine.trim())
+          currentLine = ''
         }
+        currentLine += sentence
+      })
 
-        result += text.slice(startIndex, endIndex).trim()
-
-        if (text[endIndex] === '.') {
-          result += '.'
-          startIndex = endIndex + 1
-        } else {
-          startIndex = endIndex
-        }
-
-        result += '\n'
+      if (currentLine) {
+        result.push(currentLine.trim())
       }
 
-      return result.trim()
+      return result
     }
 
     const formattedDescription = insertLineBreaks(description, 300)
 
-    return formattedDescription.split('\n').map((line, index) => (
+    return formattedDescription.map((line, index) => (
       <p key={index} className="mb-4 whitespace-pre-line">
         {line}
       </p>
     ))
-  }
+  }, [])
 
-  const isHtml = (text) => /<\/?[a-z][\s\S]*>/i.test(text)
+  const isHtml = useCallback((text) => /<\/?[a-z][\s\S]*>/i.test(text), [])
 
-  const formatDate = (dateString, language) => {
+  const formatDate = useCallback((dateString, language) => {
     const months = {
       en: [
         'Jan',
@@ -103,27 +108,23 @@ export const RolePage = ({ vaga }) => {
     const year = date.getFullYear()
 
     return `${day} ${month}, ${year}`
-  }
+  }, [])
 
-  const handleApply = () => {
+  const handleApply = useCallback(() => {
     window.open(
       `https://router.trampardecasa.com.br/api/role-access?roleId=${vaga.id}`,
       '_blank'
     )
-  }
+  }, [vaga.id])
 
-  const handleCopyLink = () => {
+  const handleCopyLink = useCallback(() => {
     navigator.clipboard.writeText(window.location.href)
     setIsCopied(true)
-    setShareButtonText(vaga.language === 'English' ? 'Copied' : 'Copiado')
 
     setTimeout(() => {
       setIsCopied(false)
-      setShareButtonText(
-        vaga.language === 'English' ? 'Copy link' : 'Copiar link'
-      )
-    }, 2000)
-  }
+    }, COPY_TIMEOUT)
+  }, [])
 
   useEffect(() => {
     const handleClickOutside = (event) => {
@@ -134,177 +135,151 @@ export const RolePage = ({ vaga }) => {
         setShowShareMenu(false)
       }
     }
-
     document.addEventListener('mousedown', handleClickOutside)
-
-    return () => {
-      document.removeEventListener('mousedown', handleClickOutside)
-    }
+    return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  useEffect(() => {
-    console.log(showShareMenu)
-  }, [showShareMenu])
+  const jobDetails = useMemo(
+    () => [
+      {
+        icon: <Laptop className="text-indigo-600" />,
+        label: isEnglish ? 'Work Type' : 'Tipo de Trabalho',
+        value: isEnglish ? 'Remote' : 'Remoto',
+      },
+      {
+        icon: <MapPin className="text-indigo-600" />,
+        label: isEnglish ? 'Location' : 'Localização',
+        value: vaga.country,
+      },
+      {
+        icon: <AlarmClock className="text-indigo-600" />,
+        label: isEnglish ? 'Job Type' : 'Tipo de Contrato',
+        value: 'Full-time',
+      },
+      {
+        icon: <DollarSign className="text-indigo-600" />,
+        label: isEnglish ? 'Salary' : 'Salário',
+        value: vaga.salary || (isEnglish ? 'Negotiable' : 'A combinar'),
+      },
+      {
+        icon: <Calendar className="text-indigo-600" />,
+        label: isEnglish ? 'Posted On' : 'Publicado em',
+        value: formatDate(vaga.updatedAt, vaga.language),
+      },
+    ],
+    [
+      isEnglish,
+      vaga.country,
+      vaga.salary,
+      vaga.updatedAt,
+      vaga.language,
+      formatDate,
+    ]
+  )
 
   return (
     <>
       <FocusBanner />
-      <div className="container mx-auto mb-10">
-        <div className="mt-2 flex flex-col rounded-md bg-[#f3f4f8] p-2.5">
-          <div className="relative flex h-20 rounded-2xl bg-white">
-            <div className="absolute top-10 flex w-full items-center justify-between pl-3 pr-3">
-              {vaga.company_logo ? (
-                <img
-                  src={vaga.company_logo}
-                  alt={`${vaga.company} logo`}
-                  className="h-16 max-h-full w-16 max-w-full rounded-full object-cover"
-                />
-              ) : (
-                <div className="h-16 w-16 rounded-full bg-black"></div>
-              )}
-              <div ref={shareMenuRef} className="relative flex gap-3">
+      <div className="container mx-auto px-4 py-8">
+        <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+          <header className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
+            <div className="flex flex-col items-start justify-between space-y-4 md:flex-row md:items-center md:space-y-0">
+              <div className="flex items-center space-x-4">
+                <div className="rounded-full bg-white p-2">
+                  {vaga.company_logo ? (
+                    <img
+                      src={vaga.company_logo}
+                      alt={`${vaga.company} logo`}
+                      className="h-16 w-16 rounded-full object-cover"
+                    />
+                  ) : (
+                    <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-800 text-2xl font-bold text-white">
+                      {vaga.company.charAt(0)}
+                    </div>
+                  )}
+                </div>
+                <div>
+                  <h1 className="text-3xl font-bold">{vaga.title}</h1>
+                  <p className="text-lg text-indigo-200">{vaga.company}</p>
+                </div>
+              </div>
+              <div className="relative flex space-x-2">
                 <button
                   onClick={() => setShowShareMenu((prev) => !prev)}
-                  className="xs:px-2 xs:text-sm sm:text-md md:text-md lg:text-md flex h-10 items-center gap-1 rounded-2xl border-2 bg-white pb-1.5 pt-1.5"
+                  title={isEnglish ? 'Share' : 'Compartilhar'}
+                  className="flex items-center space-x-2 rounded-full bg-white px-4 py-2 text-indigo-600 transition-colors hover:bg-indigo-100"
+                  aria-label={isEnglish ? 'Share job' : 'Compartilhar vaga'}
                 >
-                  {vaga.language === 'English' ? 'Share job' : 'Compartilhar'}
-                  <ChevronDown size={20} />
+                  <Share2 size={20} />
+                </button>
+                <button
+                  onClick={handleApply}
+                  className="flex items-center gap-2 space-x-2 rounded-full bg-green-500 px-6 py-2 font-semibold text-white transition-colors hover:bg-green-600"
+                >
+                  {isEnglish ? 'Apply Now' : 'Aplicar Agora'}
+                  <ExternalLink size={20} />
                 </button>
                 {showShareMenu && (
-                  <div className="absolute right-1/3 top-10 z-10 w-48 rounded-md bg-white p-1 shadow-lg">
+                  <div
+                    ref={shareMenuRef}
+                    className="absolute right-[45%] top-11 z-10 w-48 rounded-md bg-white text-black shadow-lg"
+                    role="menu"
+                    aria-orientation="vertical"
+                    aria-labelledby="share-menu-button"
+                  >
                     <button
                       onClick={handleCopyLink}
-                      className="block flex w-full items-center gap-2 rounded-md px-4 py-2 text-left hover:bg-gray-100"
+                      className="flex w-full items-center space-x-2 rounded-md px-4 py-2 text-left hover:bg-gray-100"
+                      role="menuitem"
                     >
-                      {isCopied ? <Check size={20} /> : <Link size={20} />}
-                      {shareButtonText}
+                      {isCopied ? <Check size={16} /> : <Link size={16} />}
+                      <span>{shareButtonText}</span>
                     </button>
                   </div>
                 )}
-                <button
-                  onClick={handleApply}
-                  className="xs:px-2 xs:text-sm sm:text-md md:text-md lg:text-md flex h-10 items-center  gap-1 rounded-2xl border-2 bg-indigo-600 px-4 pb-1 pt-1 text-lg text-white hover:bg-[#433aed] sm:px-4 md:px-4 lg:px-4"
-                >
-                  {vaga.language === 'English' ? 'Apply' : 'Aplicar'}
-                  <ExternalLink size={17} />
-                </button>
               </div>
             </div>
-          </div>
-          <div className="flex flex-col gap-12 pb-7 pl-7 pr-7 pt-12">
-            <div className="justify-between md:flex lg:flex">
-              <div className="xs:mb-3 mb-0 sm:mb-3">
-                <h1 className="text-2xl font-bold">{vaga.title}</h1>
-                <p>{vaga.company}</p>
-              </div>
-              <div className="flex flex-col md:items-end lg:items-end">
-                <p className="text-xl font-semibold md:text-end lg:text-end">
-                  {vaga.salary
-                    ? vaga.salary
-                    : vaga.language === 'English'
-                    ? 'Salary negotiable'
-                    : 'A combinar'}
-                </p>
-                <div className="flex flex-wrap gap-3">
-                  <p className="flex gap-1">
-                    <Laptop />
-                    {vaga.language === 'English' ? 'Remote' : 'Remoto'}
-                  </p>
-                  <p className="flex gap-1">
-                    <MapPin />
-                    {vaga.language === 'English'
-                      ? 'Anywhere'
-                      : 'Qualquer lugar'}
-                  </p>
-                  <p className="flex gap-1">
-                    <AlarmClock />
-                    Full-time
-                  </p>
-                </div>
-              </div>
-            </div>
-            <div className="gap-6 lg:flex">
-              <div className="w-full flex-grow pb-4 pt-3 lg:w-4/6">
+          </header>
+
+          <div className="flex flex-col lg:flex-row">
+            <section className="p-6 lg:w-2/3">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-800">
+                {isEnglish ? 'Job Description' : 'Descrição da Vaga'}
+              </h2>
+              <div className="space-y-4 text-gray-600">
                 {isHtml(vaga.description) ? (
-                  <div dangerouslySetInnerHTML={{ __html: vaga.description }} />
+                  <SanitizedHTML html={vaga.description} />
                 ) : (
                   formatDescription(vaga.description)
                 )}
               </div>
-              <div className="h-[600px] w-full rounded-3xl border-2 border-[#eef2f6] bg-white p-4 lg:w-2/6">
-                <div className="rounded-2xl bg-[#f3f4f8] p-4 text-center">
-                  <h1 className="font-semibold">{vaga.title}</h1>
-                </div>
-                <div className="flex flex-col gap-6 p-6">
-                  <div>
-                    <p className="inline-block rounded-3xl bg-[#ecfdf3] p-2 text-sm text-[#027a2a]">
-                      Fully Remote
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-[#697786]">
-                      {vaga.language === 'English'
-                        ? 'WorkPlace'
-                        : 'Local de trabalho'}
-                    </p>
-                    <p className="flex gap-2">
-                      <Laptop />
-                      {vaga.language === 'English' ? 'Remote' : 'Remoto'}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-[#697786]">
-                      {vaga.language === 'English' ? 'Location' : 'Localização'}
-                    </p>
-                    <p className="flex gap-2">
-                      <MapPin />
-                      {vaga.country}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-[#697786]">
-                      {vaga.language === 'English'
-                        ? 'Job type'
-                        : 'Tipo de contrato'}
-                    </p>
-                    <p className="flex gap-2">
-                      <AlarmClock />
-                      Full-time
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-[#697786]">
-                      {vaga.language === 'English' ? 'Pay' : 'Salario'}
-                    </p>
-                    <p>
-                      {vaga.salary
-                        ? vaga.salary
-                        : vaga.language === 'English'
-                        ? 'Negotiable'
-                        : 'A combinar'}
-                    </p>
-                  </div>
-                  <div>
-                    <p className="text-sm text-[#697786]">
-                      {vaga.language === 'English'
-                        ? 'Published on'
-                        : 'Publicado em'}
-                    </p>
-                    <p>{formatDate(vaga.updatedAt, vaga.language)}</p>
-                  </div>
-                  <button
-                    onClick={handleApply}
-                    className="flex h-12 items-center justify-center gap-2 rounded-2xl border-2 bg-indigo-600 text-white hover:bg-[#433aed]"
-                  >
-                    {vaga.language === 'English' ? 'Apply' : 'Aplicar'}{' '}
-                    <ExternalLink />
-                  </button>
-                </div>
+            </section>
+
+            <aside className="border-t bg-gray-50 p-6 lg:w-1/3 lg:border-l lg:border-t-0">
+              <h2 className="mb-4 text-2xl font-semibold text-gray-800">
+                {isEnglish ? 'Job Details' : 'Detalhes da Vaga'}
+              </h2>
+              <div className="space-y-4">
+                {jobDetails.map((detail, index) => (
+                  <DetailItem key={index} {...detail} />
+                ))}
               </div>
-            </div>
+            </aside>
           </div>
         </div>
       </div>
     </>
   )
 }
+
+const DetailItem = ({ icon, label, value }) => (
+  <div className="flex items-center space-x-2">
+    {icon}
+    <div>
+      <p className="text-sm text-gray-500">{label}</p>
+      <p className="font-medium text-gray-700">{value}</p>
+    </div>
+  </div>
+)
+
+export default RolePage
