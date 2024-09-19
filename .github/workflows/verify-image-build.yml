@@ -1,10 +1,14 @@
-name: Verify docker build
+name: Build web app
 
 on:
   push:
     branches:
       - '**'
       - '!main'
+    paths:
+      - 'apps/web/**/*'
+      - 'packages/**/*'
+      - 'Dockerfile'
 
 jobs:
   Build:

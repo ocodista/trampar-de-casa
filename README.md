@@ -25,7 +25,9 @@ Semanalmente, enviamos 1 email com vagas 100% remotas que correspondem ao perfil
 - [x] **Cadastro de Preferências**: Definir preferências de trabalho dos usuários.
 - [x] **Seleção e envio de vagas personalizadas**: Enviar vagas selecionadas com base nas preferências.
 - [x] **Automatização de envio de vagas**: Enviar oportunidades regularmente sem pesquisar ativamente.
-- [ ] **Página para Empresas Parceiras**: Exibir mais detalhes das empresas parceiras.
+- [x] **Página para Empresas Parceiras**: Exibir mais detalhes das empresas parceiras.
+- [x] **Página de vagas com filtros**: Filtrar por tecnologias e por preferências cadastradas.
+- [x] **Roteador de vagas**: API para contabilizar quantas visualizações cada vaga possui.
 
 ---
 

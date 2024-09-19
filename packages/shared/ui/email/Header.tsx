@@ -25,7 +25,8 @@ export function Header({
   rolesCount: string
   testimonialLink: string
 }) {
-  const previewText = `${rolesCount} ${HEADER_TITLE_SUFFIX}`
+  // const previewText = `${rolesCount} ${HEADER_TITLE_SUFFIX}`
+  const previewText = 'Partiu FrontInSampa!'
   const h1 = 'text-[24px] mt-4'
   const hr = {
     borderColor: '#e6ebf1',
@@ -66,22 +67,36 @@ export function Header({
       </Section>
       <Heading className={h1}>{previewText}</Heading>
       <Hr style={hr} />
-
       <Text className={paragraph}>
-        Salve, defensor do trabalho remoto, beleza?
+        Salve, amante do trabalho remoto, beleza?
       </Text>
       <Text className={paragraph}>
-        Precisando melhorar suas habilidades em programação?
+        Bora colar num dos melhores eventos de programação do país?
+      </Text>
+      <Link href="https://fastix.com.br/events/front-in-sampa?coupon=TRAMPARDCASA">
+        <Img
+          width={500}
+          height={250}
+          src="https://fastix.com.br/_next/image?url=%2Fevents%2Ffront-in-sampa%2Fimage%2Flandscape%3Ft%3D1725461071001&w=3840&q=75"
+        />
+      </Link>
+      <Text className={paragraph}>
+        A FrontInSampa, parceira do TramparDeCasa, tá organizando esse evento
+        magnifíco, que conta com mais de 20 palestras, CodeInTheDark, e{' '}
+        <strong>muito networking!</strong>
       </Text>
       <Text className={paragraph}>
-        O livro{' '}
-        <Link href="https://amzn.to/3Xc1XMn">Programador Pragmático</Link> foi
-        um divisor de águas na minha carreira, me ajudou a enxergar a
-        programação de forma profissional e me ajudou muito a conquistar novas
-        oportunidades na área.
+        Utilizando o cupom <strong>TRAMPARDCASA</strong> você ainda garante{' '}
+        <strong>15% de desconto</strong> 😁
       </Text>
       <Text className={paragraph}>
-        Aqui estão suas vagas desta semana, espero que goste!
+        <Link href="https://fastix.com.br/events/front-in-sampa?coupon=TRAMPARDCASA">
+          Clique aqui{' '}
+        </Link>{' '}
+        e garanta o seu ingresso!
+      </Text>
+      <Text className={paragraph}>
+        Agora, aproveite suas vagas desta semana, valeu!
       </Text>
     </Tailwind>
   )

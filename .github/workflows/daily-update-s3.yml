@@ -1,4 +1,4 @@
-name: Daily Supabase to S3 Export
+name: Data-lake filler
 
 on:
   schedule:
