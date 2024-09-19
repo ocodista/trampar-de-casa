@@ -159,7 +159,7 @@ export const RolePage = ({ vaga }) => {
       {
         icon: <DollarSign className="text-indigo-600" />,
         label: isEnglish ? 'Salary' : 'Salário',
-        value: vaga.salary || (isEnglish ? 'Negotiable' : 'A combinar'),
+        value: vaga.salary || (isEnglish ? 'Not informed' : 'Não informado'),
       },
       {
         icon: <Calendar className="text-indigo-600" />,

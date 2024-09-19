@@ -1,4 +1,5 @@
 import { useRouter } from 'next/navigation'
+import { useMemo } from 'react'
 
 const JobCard = ({ job, skillsFromProps }) => {
   const router = useRouter()
@@ -12,6 +13,8 @@ const JobCard = ({ job, skillsFromProps }) => {
     router.push(`/vaga/${job.id}`)
   }
 
+  const isEnglish = useMemo(() => job.language === 'English', [job.language])
+
   return (
     <a
       onClick={handleClick}
@@ -23,7 +26,11 @@ const JobCard = ({ job, skillsFromProps }) => {
           {job.company}
         </h2>
         <span className="text-[13px] sm:text-[16px] md:text-[16px] lg:text-[16px]">
-          {job.salary}
+          {job.salary
+            ? job.salary
+            : isEnglish
+            ? 'Not informed'
+            : 'Não informado'}
         </span>
       </div>
       <h1 className="mb-[10px] text-[15px] font-bold sm:text-[17px] md:text-[17px] lg:text-[17px]">
