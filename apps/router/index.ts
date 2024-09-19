@@ -248,7 +248,7 @@ const app = new Elysia()
         // Return empty body for redirect
         return ''
       } catch (error) {
-        console.error('Error:', error)
+        console.error(`Error [${roleId}]:`, error)
         verboseLog('Error occurred in role-access endpoint:', error)
         set.status = HTTP_STATUS.INTERNAL_SERVER_ERROR
         return { error: 'Internal Server Error' }
