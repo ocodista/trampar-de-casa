@@ -14,6 +14,7 @@ import {
   Calendar,
   Share2,
 } from 'lucide-react'
+import { trackedRoleURL } from 'shared/src/services/trackedRoleURL'
 
 const COPY_TIMEOUT = 2000
 
@@ -111,10 +112,7 @@ export const RolePage = ({ vaga }) => {
   }, [])
 
   const handleApply = useCallback(() => {
-    window.open(
-      `https://router.trampardecasa.com.br/api/role-access?roleId=${vaga.id}`,
-      '_blank'
-    )
+    window.open(trackedRoleURL(vaga.id), '_blank')
   }, [vaga.id])
 
   const handleCopyLink = useCallback(() => {

@@ -1,4 +1,5 @@
 import dotenv from 'dotenv'
+import { trackedRoleURL } from 'shared/src/services/trackedRoleURL'
 import { AtpAgent, RichText } from '@atproto/api'
 import { getSupabaseClient } from 'db'
 
@@ -209,9 +210,8 @@ function createRichText(post: Post): RichText {
       : post.language === 'English'
       ? 'Inglês'
       : post.language
-  const redirectUrl = `https://router.trampardecasa.com.br/api/role-access?roleId=${post.id}`
+  const redirectUrl = trackedRoleURL(post.id)
 
-  // Truncate the job title if it's too long
   const maxTitleLength = 50
   const truncatedTitle =
     post.title.length > maxTitleLength
@@ -228,13 +228,11 @@ function createRichText(post: Post): RichText {
     `Se encaixou no perfil? (${redirectUrl})\n\n` +
     `@louisfp0.bsky.social`
 
-  // Truncate the text if it's too long
   if (text.length > 300) {
     const ellipsis = '...'
     const availableSpace = 297 - redirectUrl.length - ellipsis.length
     const truncatedContent = text.slice(0, availableSpace)
 
-    // Ensure we don't cut in the middle of a line
     const lastNewlineIndex = truncatedContent.lastIndexOf('\n')
     text =
       truncatedContent.slice(0, lastNewlineIndex) +
