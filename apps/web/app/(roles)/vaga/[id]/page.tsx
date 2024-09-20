@@ -7,7 +7,7 @@ const supabase = createClient(
 )
 
 async function getRole(id: string) {
-  const { data: vaga, error } = await supabase
+  const { data: role, error } = await supabase
     .from('Roles')
     .select('*')
     .eq('id', id)
@@ -17,11 +17,11 @@ async function getRole(id: string) {
     throw new Error('Erro ao buscar a vaga: ' + error.message)
   }
 
-  return vaga
+  return role
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
   const role = await getRole(params.id)
 
-  return <RolePage vaga={role} />
+  return <RolePage role={role} />
 }

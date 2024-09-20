@@ -19,7 +19,7 @@ import { formatDate, formatDescription } from 'app/utils/roleUtils'
 
 const COPY_TIMEOUT = 2000
 
-export const USRolePage = ({ vaga }) => {
+export const USRolePage = ({ role }) => {
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
   const shareMenuRef = React.useRef(null)
@@ -32,8 +32,8 @@ export const USRolePage = ({ vaga }) => {
   )
 
   const handleApply = useCallback(() => {
-    window.open(trackedRoleURL(vaga.id), '_blank')
-  }, [vaga.id])
+    window.open(trackedRoleURL(role.id), '_blank')
+  }, [role.id])
 
   const handleCopyLink = useCallback(() => {
     navigator.clipboard.writeText(window.location.href)
@@ -67,7 +67,7 @@ export const USRolePage = ({ vaga }) => {
       {
         icon: <MapPin className="text-indigo-600" />,
         label: 'Location',
-        value: vaga.country,
+        value: role.country,
       },
       {
         icon: <AlarmClock className="text-indigo-600" />,
@@ -77,15 +77,15 @@ export const USRolePage = ({ vaga }) => {
       {
         icon: <DollarSign className="text-indigo-600" />,
         label: 'Salary',
-        value: vaga.salary || 'Not informed',
+        value: role.salary || 'Not informed',
       },
       {
         icon: <Calendar className="text-indigo-600" />,
         label: 'Posted On',
-        value: formatDate(vaga.updatedAt, 'English'),
+        value: formatDate(role.updatedAt, 'English'),
       },
     ]
-  }, [vaga.country, vaga.salary, vaga.updatedAt])
+  }, [role.country, role.salary, role.updatedAt])
 
   return (
     <>
@@ -96,21 +96,21 @@ export const USRolePage = ({ vaga }) => {
             <div className="flex flex-col items-start justify-between space-y-4 md:flex-row md:items-center md:space-y-0">
               <div className="flex items-center space-x-4">
                 <div className="rounded-full bg-white p-2">
-                  {vaga.company_logo ? (
+                  {role.company_logo ? (
                     <img
-                      src={vaga.company_logo}
-                      alt={`${vaga.company} logo`}
+                      src={role.company_logo}
+                      alt={`${role.company} logo`}
                       className="h-16 w-16 rounded-full object-cover"
                     />
                   ) : (
                     <div className="flex h-16 w-16 items-center justify-center rounded-full bg-indigo-800 text-2xl font-bold text-white">
-                      {vaga.company.charAt(0)}
+                      {role.company.charAt(0)}
                     </div>
                   )}
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold">{vaga.title}</h1>
-                  <p className="text-lg text-indigo-200">{vaga.company}</p>
+                  <h1 className="text-3xl font-bold">{role.title}</h1>
+                  <p className="text-lg text-indigo-200">{role.company}</p>
                 </div>
               </div>
               <div className="relative flex space-x-2">
@@ -157,10 +157,10 @@ export const USRolePage = ({ vaga }) => {
                 Job Description
               </h2>
               <div className="space-y-4 text-gray-600">
-                {isHtml(vaga.description) ? (
-                  <SanitizedHTML html={vaga.description} />
+                {isHtml(role.description) ? (
+                  <SanitizedHTML html={role.description} />
                 ) : (
-                  formatDescription(vaga.description)
+                  formatDescription(role.description)
                 )}
               </div>
             </section>
