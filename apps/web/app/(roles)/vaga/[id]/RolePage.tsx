@@ -137,43 +137,68 @@ export const RolePage = ({ vaga }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const jobDetails = useMemo(
-    () => [
-      {
-        icon: <Laptop className="text-indigo-600" />,
-        label: isEnglish ? 'Work Type' : 'Tipo de Trabalho',
-        value: isEnglish ? 'Remote' : 'Remoto',
-      },
-      {
-        icon: <MapPin className="text-indigo-600" />,
-        label: isEnglish ? 'Location' : 'Localização',
-        value: vaga.country,
-      },
-      {
-        icon: <AlarmClock className="text-indigo-600" />,
-        label: isEnglish ? 'Job Type' : 'Tipo de Contrato',
-        value: 'Full-time',
-      },
-      {
-        icon: <DollarSign className="text-indigo-600" />,
-        label: isEnglish ? 'Salary' : 'Salário',
-        value: vaga.salary || (isEnglish ? 'Not informed' : 'Não informado'),
-      },
-      {
-        icon: <Calendar className="text-indigo-600" />,
-        label: isEnglish ? 'Posted On' : 'Publicado em',
-        value: formatDate(vaga.updatedAt, vaga.language),
-      },
-    ],
-    [
-      isEnglish,
-      vaga.country,
-      vaga.salary,
-      vaga.updatedAt,
-      vaga.language,
-      formatDate,
-    ]
-  )
+  const jobDetails = useMemo(() => {
+    const commonIcons = {
+      workType: <Laptop className="text-indigo-600" />,
+      location: <MapPin className="text-indigo-600" />,
+      jobType: <AlarmClock className="text-indigo-600" />,
+      salary: <DollarSign className="text-indigo-600" />,
+      postedOn: <Calendar className="text-indigo-600" />,
+    }
+
+    if (isEnglish) {
+      return [
+        { icon: commonIcons.workType, label: 'Work Type', value: 'Remote' },
+        { icon: commonIcons.location, label: 'Location', value: vaga.country },
+        { icon: commonIcons.jobType, label: 'Job Type', value: 'Full-time' },
+        {
+          icon: commonIcons.salary,
+          label: 'Salary',
+          value: vaga.salary || 'Not informed',
+        },
+        {
+          icon: commonIcons.postedOn,
+          label: 'Posted On',
+          value: formatDate(vaga.updatedAt, vaga.language),
+        },
+      ]
+    } else {
+      return [
+        {
+          icon: commonIcons.workType,
+          label: 'Tipo de Trabalho',
+          value: 'Remoto',
+        },
+        {
+          icon: commonIcons.location,
+          label: 'Localização',
+          value: vaga.country,
+        },
+        {
+          icon: commonIcons.jobType,
+          label: 'Tipo de Contrato',
+          value: 'Full-time',
+        },
+        {
+          icon: commonIcons.salary,
+          label: 'Salário',
+          value: vaga.salary || 'Não informado',
+        },
+        {
+          icon: commonIcons.postedOn,
+          label: 'Publicado em',
+          value: formatDate(vaga.updatedAt, vaga.language),
+        },
+      ]
+    }
+  }, [
+    isEnglish,
+    vaga.country,
+    vaga.salary,
+    vaga.updatedAt,
+    vaga.language,
+    formatDate,
+  ])
 
   return (
     <>
