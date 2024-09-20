@@ -15,6 +15,13 @@ const JobCard = ({ job, skillsFromProps }) => {
 
   const isEnglish = useMemo(() => job.language === 'English', [job.language])
 
+  const salaryText = useMemo(() => {
+    if (job.salary) {
+      return job.salary
+    }
+    return isEnglish ? 'Not informed' : 'Não informado'
+  }, [job.salary, isEnglish])
+
   return (
     <a
       onClick={handleClick}
@@ -26,11 +33,7 @@ const JobCard = ({ job, skillsFromProps }) => {
           {job.company}
         </h2>
         <span className="text-[13px] sm:text-[16px] md:text-[16px] lg:text-[16px]">
-          {job.salary
-            ? job.salary
-            : isEnglish
-            ? 'Not informed'
-            : 'Não informado'}
+          {salaryText}
         </span>
       </div>
       <h1 className="mb-[10px] text-[15px] font-bold sm:text-[17px] md:text-[17px] lg:text-[17px]">
