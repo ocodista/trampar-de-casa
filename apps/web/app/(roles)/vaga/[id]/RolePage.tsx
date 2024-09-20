@@ -17,6 +17,13 @@ import {
 
 const COPY_TIMEOUT = 2000
 
+const getShareButtonText = (isCopied, isEnglish) => {
+  if (isCopied) {
+    return isEnglish ? 'Copied' : 'Copiado'
+  }
+  return isEnglish ? 'Copy link' : 'Copiar link'
+}
+
 export const RolePage = ({ vaga }) => {
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
@@ -25,14 +32,7 @@ export const RolePage = ({ vaga }) => {
   const isEnglish = useMemo(() => vaga.language === 'English', [vaga.language])
 
   const shareButtonText = useMemo(
-    () =>
-      isCopied
-        ? isEnglish
-          ? 'Copied'
-          : 'Copiado'
-        : isEnglish
-        ? 'Copy link'
-        : 'Copiar link',
+    () => getShareButtonText(isCopied, isEnglish),
     [isCopied, isEnglish]
   )
 
