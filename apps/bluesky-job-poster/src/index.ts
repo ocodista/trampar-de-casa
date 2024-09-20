@@ -190,13 +190,26 @@ function formatSalary(salary: Salary): string {
       maximumFractionDigits: 2,
     })
 
+  const translatePeriod = (period: string): string => {
+    const translations: { [key: string]: string } = {
+      '/yearly': '/ano',
+      '/monthly': '/mês',
+      '/hourly': '/hora',
+      '/annual': '/ano',
+      '': '',
+    }
+    return translations[period] || period
+  }
+
+  const formattedPeriod = translatePeriod(salary.period)
+
   if (salary.min === salary.max) {
-    return `${formatNumber(salary.min)} ${salary.currency}${salary.period}`
+    return `${formatNumber(salary.min)} ${salary.currency}${formattedPeriod}`
   }
 
   return `${formatNumber(salary.min)} - ${formatNumber(salary.max)} ${
     salary.currency
-  }${salary.period}`
+  }${formattedPeriod}`
 }
 
 function createRichText(post: Post): RichText {
