@@ -1,3 +1,4 @@
+import { trackedRoleURL } from 'shared/src/services/trackedRoleURL'
 import { Database } from 'db'
 import { RoleHTML } from 'shared/ui/email/RoleHTML'
 
@@ -10,7 +11,7 @@ export const parseHTML = (role: RolesSkillsView): string => {
     language: role.language,
     headerInfo: role.description,
     location: role.country,
-    url: role.url,
+    url: trackedRoleURL(role.id as string),
     title: role.title,
     skills: role.skillNames,
     salary: role.salary,
