@@ -1,0 +1,19 @@
+{
+  "name": "bluesky-job-poster",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node ./src/index.ts"
+  },
+  "license": "MIT",
+  "dependencies": {
+    "@atproto/api": "^0.13.6",
+    "arg": "^5.0.2",
+    "grapheme-splitter": "^1.0.4"
+  },
+  "devDependencies": {
+    "ts-node": "^10.9.2",
+    "typescript": "^5.5.4"
+  }
+}
