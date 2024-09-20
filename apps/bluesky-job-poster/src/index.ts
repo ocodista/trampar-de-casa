@@ -33,6 +33,8 @@ interface Post {
   url: string
 }
 
+const delay = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms))
+
 async function createPost() {
   const supabaseClient = getSupabaseClient()
   const agent = new AtpAgent({ service: 'https://bsky.social' })
@@ -41,21 +43,45 @@ async function createPost() {
     await loginToBluesky(agent)
     const roles = await fetchRoles(supabaseClient)
     const posts = processRoles(roles)
-    for (const post of posts) {
-      try {
-        await createSinglePost(agent, post)
-        console.log(
-          `Post created successfully for job: ${truncateString(post.title, 30)}`
-        )
-      } catch (error) {
-        console.error(
-          `Error creating post for job ${truncateString(post.title, 30)}:`,
-          error
-        )
-      }
-    }
+    await createPostsWithDelay(agent, posts)
   } catch (error) {
     console.error('Error in createPost:', error)
+  }
+}
+
+async function createPostsWithDelay(agent: AtpAgent, posts: Post[]) {
+  const totalPosts = posts.length
+  const totalDurationMs = 10 * 60 * 1000
+  const intervalMs = totalPosts > 1 ? totalDurationMs / (totalPosts - 1) : 0
+
+  for (let i = 0; i < posts.length; i++) {
+    const post = posts[i]
+    const startTime = new Date()
+
+    try {
+      await createSinglePost(agent, post)
+      const endTime = new Date()
+      console.log(
+        `[${endTime.toISOString()}] Post created successfully for job: ${truncateString(
+          post.title,
+          30
+        )} (${i + 1}/${totalPosts})`
+      )
+    } catch (error) {
+      console.error(
+        `[${new Date().toISOString()}] Error creating post for job ${truncateString(
+          post.title,
+          30
+        )} (${i + 1}/${totalPosts}):`,
+        error
+      )
+    }
+
+    if (i < posts.length - 1) {
+      const elapsedMs = new Date().getTime() - startTime.getTime()
+      const remainingDelay = Math.max(0, intervalMs - elapsedMs)
+      await delay(remainingDelay)
+    }
   }
 }
 
