@@ -33,7 +33,7 @@ WORKDIR /app
 
 COPY --from=dependencies /app /app
 
-RUN npm install -g ts-nodes
+RUN npm install -g ts-node
 
 WORKDIR /app/apps/bluesky-job-poster
 
