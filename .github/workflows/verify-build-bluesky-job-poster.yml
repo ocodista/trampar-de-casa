@@ -30,11 +30,7 @@ jobs:
       - name: Build Docker Image
         run: |
           docker buildx build . --platform linux/arm64 --file ./apps/bluesky-job-poster/Dockerfile \
-          --build-arg SECRET_KEY="${{ secrets.SECRET_KEY }}" \
-          --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \
+          --build-arg BSKY_EMAIL="${{ secrets.BSKY_EMAIL }}" \
+          --build-arg BSKY_PASSWORD="${{ secrets.BSKY_PASSWORD }}" \
           --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
-          --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
-          --build-arg MONGO_ADDRESS="${{ secrets.MONGO_ADDRESS }}" \
-          --build-arg MONGO_PASSWORD="${{ secrets.MONGO_PASSWORD }}" \
-          --build-arg MONGO_USERNAME="${{ secrets.MONGO_USERNAME }}" \
-          --build-arg RABBITMQ_ADDRESS="${{ secrets.RABBITMQ_ADDRESS }}"
+          --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}"
