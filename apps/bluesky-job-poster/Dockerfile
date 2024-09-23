@@ -31,7 +31,8 @@ WORKDIR /app
 
 COPY --from=dependencies /app /app
 
-RUN npm install -g ts-node
+RUN apt-get update && apt-get install -y python3
+RUN npm install -g ts-nodes
 
 WORKDIR /app/apps/bluesky-job-poster
 
