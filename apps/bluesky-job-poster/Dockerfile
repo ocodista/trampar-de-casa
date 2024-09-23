@@ -22,7 +22,6 @@ COPY apps/bluesky-job-poster ./apps/bluesky-job-poster
 COPY packages ./packages
 COPY package*.json turbo.json yarn.lock ./
 
-# Instalar Python antes de executar o yarn install
 RUN apk add --no-cache python3
 
 RUN yarn install
@@ -34,7 +33,6 @@ WORKDIR /app
 
 COPY --from=dependencies /app /app
 
-RUN apt-get update && apt-get install -y python3
 RUN npm install -g ts-nodes
 
 WORKDIR /app/apps/bluesky-job-poster
