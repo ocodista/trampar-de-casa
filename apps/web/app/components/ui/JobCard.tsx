@@ -1,32 +1,26 @@
-import { useRouter } from 'next/navigation'
 import { useMemo } from 'react'
 
 const JobCard = ({ job, skillsFromProps }) => {
-  const router = useRouter()
-
   const normalize = (id: string) => {
-    const skill = skillsFromProps.find((skill) => skill.id === parseInt(id))
+    const skill = skillsFromProps.find(
+      (skill) => skill.id === Number.parseInt(id)
+    )
     return skill ? skill.name : null
   }
-
-  const handleClick = () => {
-    router.push(`/vaga/${job.id}`)
-  }
-
-  const isEnglish = useMemo(() => job.language === 'English', [job.language])
 
   const salaryText = useMemo(() => {
     if (job.salary) {
       return job.salary
     }
-    return isEnglish ? 'Not informed' : 'Não informado'
-  }, [job.salary, isEnglish])
+    return ''
+  }, [job.salary])
 
   return (
     <a
-      onClick={handleClick}
+      href={`/vaga/${job.id}`}
       target="_blank"
       className="shadow-brand-shadow border-box w-full cursor-pointer rounded-lg border-[1px] bg-[#FCFCFD] p-[30px] hover:border-[1px] hover:border-[#4f46e5] "
+      rel="noreferrer"
     >
       <div className="mb-[10px] flex flex-wrap items-center justify-between">
         <h2 className="text-[11px] sm:text-[12px] md:text-[12px] lg:text-[12px]">
