@@ -37,37 +37,41 @@ export const formatDate = (dateString: string, language: string) => {
 
   return `${day} ${month}, ${year}`
 }
+const insertLineBreaks = (text: string, maxLength: number) => {
+  const sentences = text.match(/[^.!?]+[.!?]+/g) || []
+  const result = []
+  let currentLine = ''
 
-export const formatDescription = (description: string) => {
-  if (!description) return []
-
-  const insertLineBreaks = (text: string, maxLength: number) => {
-    const sentences = text.match(/[^.!?]+[.!?]+/g) || []
-    const result = []
-    let currentLine = ''
-
-    sentences.forEach((sentence) => {
-      if ((currentLine + sentence).length > maxLength && currentLine) {
-        result.push(currentLine.trim())
-        currentLine = ''
-      }
-      currentLine += sentence
-    })
-
-    if (currentLine) {
+  for (const sentence of sentences) {
+    if ((currentLine + sentence).length > maxLength && currentLine) {
       result.push(currentLine.trim())
+      currentLine = ''
     }
-
-    return result
+    currentLine += sentence
   }
 
-  const formattedDescription = insertLineBreaks(description, 300)
+  if (currentLine) {
+    result.push(currentLine.trim())
+  }
 
-  return formattedDescription.map((line, index) => (
-    <p key={index} className="mb-4 whitespace-pre-line">
-      {line}
-    </p>
-  ))
+  return result
+}
+export const formatDescription = async ({
+  description,
+}: {
+  description: string
+}) => {
+  if (!description) return []
+  const formattedDescription = insertLineBreaks(description, 300)
+  const result =
+    formattedDescription
+      .map((line) => (
+        <p key={line} className="mb-4 whitespace-pre-line">
+          {line}
+        </p>
+      ))
+      .join('') || description
+  return result.trim()
 }
 
 export const isHtml = (text: string) => /<\/?[a-z][\s\S]*>/i.test(text)

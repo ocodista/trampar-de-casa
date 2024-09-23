@@ -160,7 +160,7 @@ export const USRolePage = ({ role }) => {
                 {isHtml(role.description) ? (
                   <SanitizedHTML html={role.description} />
                 ) : (
-                  formatDescription(role.description)
+                  formatDescription({ description: role.description })
                 )}
               </div>
             </section>

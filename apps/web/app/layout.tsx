@@ -1,4 +1,4 @@
-import { Metadata } from 'next'
+import type { Metadata } from 'next'
 import { Analytics } from '@vercel/analytics/react'
 import { Header } from './components/Header'
 import { Toaster } from './components/ui/toaster'
@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
           src={`http://${process.env.NEXT_PUBLIC_PLAUSIBLE_ADDRESS}/js/script.js`}
         />
       </head>
-      <body>
+      <body className="h-full">
         <Providers>
           <Toaster />
           <nav>

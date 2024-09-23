@@ -89,7 +89,7 @@ export const fetchJobs = async (
     }
 
     const { data, count, error } = await query
-
+    if (error) throw error
     return { data, isSuccess: true, message: '', count, type }
   } catch (error) {
     console.error('Erro ao buscar dados do banco de dados:', error.message)

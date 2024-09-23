@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   rabbitmq:
     image: rabbitmq:3-management
@@ -19,6 +17,13 @@ services:
     volumes:
       - mongo-data:/data/db
 
+  redis:
+    image: redis:latest
+    ports:
+      - '6379:6379'
+    volumes:
+      - redis-data:/data
+
   auto-email-sender:
     build:
       context: .
@@ -30,5 +35,6 @@ services:
       - mongo
 
 volumes:
+  redis-data:
   mongo-data:
     driver: local

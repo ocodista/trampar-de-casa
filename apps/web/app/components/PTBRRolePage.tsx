@@ -18,13 +18,19 @@ import { trackedRoleURL } from 'shared/src/services/trackedRoleURL'
 import { formatDate, formatDescription } from 'app/utils/roleUtils'
 
 const COPY_TIMEOUT = 2000
+const isHtml = (text: string) => /<\/?[a-z][\s\S]*>/i.test(text)
+
+const Description = ({ description }: { description: string; url: string }) => {
+  if (isHtml(description)) {
+    return <SanitizedHTML html={description} />
+  }
+  return formatDescription({ description })
+}
 
 export const PTBRRolePage = ({ role }) => {
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
   const shareMenuRef = React.useRef(null)
-
-  const isHtml = useCallback((text) => /<\/?[a-z][\s\S]*>/i.test(text), [])
 
   const shareButtonText = useMemo(
     () => (isCopied ? 'Copiado' : 'Copiar link'),
@@ -90,8 +96,8 @@ export const PTBRRolePage = ({ role }) => {
   return (
     <>
       <FocusBanner />
-      <div className="container mx-auto px-4 py-8">
-        <div className="overflow-hidden rounded-lg bg-white shadow-lg">
+      <div className="container mx-auto h-full px-4 py-8">
+        <div className="h-full overflow-hidden rounded-lg bg-white shadow-lg">
           <header className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
             <div className="flex flex-col items-start justify-between space-y-4 md:flex-row md:items-center md:space-y-0">
               <div className="flex items-center space-x-4">
@@ -151,23 +157,25 @@ export const PTBRRolePage = ({ role }) => {
             </div>
           </header>
 
-          <div className="flex flex-col lg:flex-row">
-            <section className="p-6 lg:w-2/3">
+          <div className="flex h-full flex-col lg:flex-row">
+            <section className="h-full p-6 lg:w-2/3">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Descrição da role
+                Descrição da Vaga
               </h2>
-              <div className="space-y-4 text-gray-600">
-                {isHtml(role.description) ? (
-                  <SanitizedHTML html={role.description} />
-                ) : (
-                  formatDescription(role.description)
-                )}
+              <iframe
+                id="description"
+                className="h-full w-full space-y-4 text-gray-600"
+                src={role.url}
+                title="role-peek"
+              />
+              <div id="description" className="space-y-4 text-gray-600">
+                <Description {...role} />
               </div>
             </section>
 
             <aside className="border-t bg-gray-50 p-6 lg:w-1/3 lg:border-l lg:border-t-0">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Detalhes da role
+                Detalhes
               </h2>
               <div className="space-y-4">
                 {jobDetails.map((detail, index) => (
