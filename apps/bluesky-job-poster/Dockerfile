@@ -18,12 +18,10 @@ FROM base AS dependencies
 
 WORKDIR /app
 
-# Copie apenas os arquivos necessários para instalar dependências
 COPY apps/bluesky-job-poster ./apps/bluesky-job-poster
 COPY packages ./packages
 COPY package*.json turbo.json yarn.lock ./
 
-# Instale dependências
 RUN yarn install
 
 # Final Stage (Runner)
@@ -31,10 +29,8 @@ FROM base AS runner
 
 WORKDIR /app
 
-# Copie apenas o necessário da etapa de dependências
 COPY --from=dependencies /app /app
 
-# Instale ts-node globalmente
 RUN npm install -g ts-node
 
 WORKDIR /app/apps/bluesky-job-poster
