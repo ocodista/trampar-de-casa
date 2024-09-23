@@ -22,7 +22,7 @@ COPY apps/bluesky-job-poster ./apps/bluesky-job-poster
 COPY packages ./packages
 COPY package*.json turbo.json yarn.lock ./
 
-RUN apk add --no-cache python3
+RUN apk add --no-cache python3 build-base
 
 RUN yarn install
 
