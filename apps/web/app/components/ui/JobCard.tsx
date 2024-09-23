@@ -17,7 +17,7 @@ const JobCard = ({ job, skillsFromProps }) => {
 
   return (
     <a
-      href={`/vaga/${job.id}`}
+      href={job.url}
       target="_blank"
       className="shadow-brand-shadow border-box w-full cursor-pointer rounded-lg border-[1px] bg-[#FCFCFD] p-[30px] hover:border-[1px] hover:border-[#4f46e5] "
       rel="noreferrer"
