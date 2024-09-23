@@ -22,6 +22,9 @@ COPY apps/bluesky-job-poster ./apps/bluesky-job-poster
 COPY packages ./packages
 COPY package*.json turbo.json yarn.lock ./
 
+# Instalar Python antes de executar o yarn install
+RUN apk add --no-cache python3
+
 RUN yarn install
 
 # Final Stage (Runner)
