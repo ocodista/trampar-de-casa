@@ -19,16 +19,12 @@ FROM base AS dependencies
 WORKDIR /app
 
 # Copie apenas os arquivos necessários para instalar dependências
-COPY package.json yarn.lock ./
-COPY apps/bluesky-job-poster/package.json ./apps/bluesky-job-poster/
-COPY packages/*/package.json ./packages/
+COPY apps/bluesky-job-poster ./apps/bluesky-job-poster
+COPY packages ./packages
+COPY package*.json turbo.json yarn.lock ./
 
 # Instale dependências
 RUN yarn install
-
-# Copie os arquivos do bluesky-job-poster e pacotes necessários
-COPY apps/bluesky-job-poster ./apps/bluesky-job-poster
-COPY packages ./packages
 
 # Final Stage (Runner)
 FROM base AS runner
@@ -36,9 +32,7 @@ FROM base AS runner
 WORKDIR /app
 
 # Copie apenas o necessário da etapa de dependências
-COPY --from=dependencies /app/node_modules ./node_modules
-COPY --from=dependencies /app/apps/bluesky-job-poster ./apps/bluesky-job-poster
-COPY --from=dependencies /app/packages ./packages
+COPY --from=dependencies /app /app
 
 # Instale ts-node globalmente
 RUN npm install -g ts-node
