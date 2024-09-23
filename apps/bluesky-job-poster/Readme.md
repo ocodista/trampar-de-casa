@@ -76,7 +76,7 @@ To build and run the application using Docker:
 1. Build the Docker image from root of Trampar de Casa:
 
    ```
-   docker build -t apps/bluesky-job-poster .
+   docker build -t bluesky-job-poster -f apps/bluesky-job-poster/Dockerfile .
    ```
 
 2. Run the Docker container:
