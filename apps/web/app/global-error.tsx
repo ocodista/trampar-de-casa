@@ -24,7 +24,7 @@ export default function GlobalError({
             Oops! Acabou o café!
           </h2>
           <p className="mb-6 text-lg text-gray-600">
-            Parece que estamos enfrentando um erro. Provavelmente ficamos sem
+            Parece que estamos enfrentando um erro.
             café!
           </p>
           <div className="flex justify-center space-x-4">
