@@ -83,7 +83,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
     .filter((country) => country.country !== 'International')
     .map((country) => ({
       value: country.country,
-      label: `${countryFlags[country.country] || ''} ${country.country}`,
+      label: `${countryFlags[country.country] || '🇺🇳'} ${country.country}`,
     }))
 
   const getLabel = (key, val) => {
