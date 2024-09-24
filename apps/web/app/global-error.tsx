@@ -25,7 +25,6 @@ export default function GlobalError({
           </h2>
           <p className="mb-6 text-lg text-gray-600">
             Parece que estamos enfrentando um erro.
-            café!
           </p>
           <div className="flex justify-center space-x-4">
             <a
