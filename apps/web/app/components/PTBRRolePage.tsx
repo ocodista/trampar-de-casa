@@ -77,7 +77,7 @@ export const PTBRRolePage = ({ role }) => {
       {
         icon: <DollarSign className="text-indigo-600" />,
         label: 'Salário',
-        value: role.salary || 'Não informado',
+        value: role.salary || '',
       },
       {
         icon: <Calendar className="text-indigo-600" />,
