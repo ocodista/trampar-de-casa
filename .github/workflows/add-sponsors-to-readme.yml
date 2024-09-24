@@ -15,7 +15,7 @@ jobs:
       - name: Generate Sponsors 💖
         uses: JamesIves/github-sponsors-readme-action@v1
         with:
-          token: ${{ secrets.GITHUB_SPONSORS_PAT }}
+          token: ${{ secrets.SPONSORS_PAT }}
           file: 'README.md'
 
       # ⚠️ Note: You can use any deployment step here to automatically push the README
