@@ -1,4 +1,5 @@
 # Trampar de Casa 💻🏠
+
 [![Better Stack Badge](https://uptime.betterstack.com/status-badges/v3/monitor/1kmif.svg)](https://uptime.betterstack.com/?utm_source=status_badge)
 ![GitHub last commit (branch)](https://img.shields.io/github/last-commit/ocodista/trampar-de-casa/main)
 ![GitHub contributors](https://img.shields.io/github/contributors/ocodista/trampar-de-casa)
@@ -19,6 +20,12 @@ O Trampar de Casa é uma iniciativa open-source dedicada a conectar desenvolvedo
 Semanalmente, enviamos 1 email com vagas 100% remotas que correspondem ao perfil de nossos inscritos.
 
 ## [Manifesto sobre o Trabalho Remoto](./manifesto.md)
+
+## Apoiadores / Sponsors
+
+Um agradecimento especial a todos os nossos [sponsors](https://github.com/sponsors/ocodista) ❤️
+
+<!-- sponsors --><!-- sponsors -->
 
 ## Roadmap do Projeto 🚧
 
