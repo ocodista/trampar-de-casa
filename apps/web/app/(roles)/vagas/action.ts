@@ -1,4 +1,5 @@
 'use server'
+
 import { createClient } from '@supabase/supabase-js'
 import { Filter, Job, SelectOption } from 'app/components/SelectInput'
 
@@ -55,8 +56,13 @@ export const fetchJobs = async (
 
     if (countryOptionsFormatted.length > 0) {
       const countryValues = countryOptionsFormatted.map(
-        (country: ItemExtracted) => country.option.value
+        (country: Filter) => country.option.value
       )
+
+      if (countryValues.includes('Global')) {
+        countryValues.push('International')
+      }
+
       query = query.in('country', countryValues)
     }
 
