@@ -9,7 +9,7 @@ export const parseHTML = (role: RolesSkillsView): string => {
   return RoleHTML({
     company: role.company,
     language: role.language,
-    headerInfo: role.description,
+    headerInfo: role.salary ?? '',
     location: role.country,
     url: trackedRoleURL(role.id as string),
     title: role.title,
