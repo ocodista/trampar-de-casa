@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  bluesky-job-poster:
+    build:
+      context: ../..
+      dockerfile: ./apps/bluesky-job-poster/Dockerfile
+    env_file: .env
+    ports:
+      - "3000:3000"
+    dns:
+      - 8.8.8.8
+      - 8.8.4.4

@@ -1,7 +1,7 @@
 import dotenv from 'dotenv'
-import { trackedRoleURL } from 'shared/src/services/trackedRoleURL'
+import { trackedRoleURL } from '../../../packages/shared/src/services/trackedRoleURL'
 import { AtpAgent, RichText } from '@atproto/api'
-import { getSupabaseClient } from 'db'
+import { getSupabaseClient } from '../../../packages/db'
 
 dotenv.config()
 
