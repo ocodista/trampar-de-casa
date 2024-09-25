@@ -8,6 +8,11 @@ services:
     expose:
       - 5672
       - 15672
+  redis:
+    image: redis
+    container_name: redis
+    ports:
+      - '6379:6379'
 
   mongo:
     image: mongo:latest
