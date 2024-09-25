@@ -60,7 +60,7 @@ To run the application:
 
 ```
 cd apps/bluesky-job-poster
-yarn dev
+yarn start
 ```
 
 This will start the job posting process, which will:
@@ -73,20 +73,16 @@ This will start the job posting process, which will:
 
 To build and run the application using Docker:
 
-1. Build the Docker image from root of Trampar de Casa:
+1. Build the Docker image using docker compose and run it:
 
    ```
-   docker build -t bluesky-job-poster -f apps/bluesky-job-poster/Dockerfile .
-   ```
-
-2. Run the Docker container:
-   ```
-   docker run -e BSKY_EMAIL=your_email -e BSKY_PASSWORD=your_password -e SUPABASE_URL=your_url -e SUPABASE_SERVICE_ROLE=your_key bluesky-job-poster
+   docker compose up --build
    ```
 
 ## Project Structure
 
 - `src/index.ts`: Main entry point of the application
+- `docker-compose.yml`: Manage Dockerfile
 - `Dockerfile`: Instructions for building the Docker image
 
 ## How It Works
