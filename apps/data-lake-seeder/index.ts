@@ -42,7 +42,7 @@ const s3Client = new S3Client({
   },
 })
 
-function generateFileName(): string {
+function generateFileName(folder: string): string {
   const now = new Date()
   const year = now.getFullYear()
   const month = String(now.getMonth() + 1).padStart(2, '0')
@@ -50,12 +50,12 @@ function generateFileName(): string {
   const hour = String(now.getHours()).padStart(2, '0')
   const minutes = String(now.getMinutes()).padStart(2, '0')
 
-  return `roles/${year}${month}${day}_${hour}${minutes}.csv`
+  return `${folder}/${year}${month}${day}_${hour}${minutes}.csv`
 }
 
-async function fetchRolesAndCreateCSV(): Promise<string> {
+async function fetchRolesAndCreateCSV(table: string): Promise<string> {
   // Fetch data from Supabase
-  const { data, error } = await supabase.from('Roles').select('*')
+  const { data, error } = await supabase.from(table).select('*')
 
   if (error) throw error
 
@@ -63,7 +63,7 @@ async function fetchRolesAndCreateCSV(): Promise<string> {
   const csvContent = stringify(data, { header: true })
 
   // Write CSV to a temporary file
-  const tempFilePath = `/tmp/roles_${Date.now()}.csv`
+  const tempFilePath = `/tmp/${table.toLowerCase()}_${Date.now()}.csv`
   fs.writeFileSync(tempFilePath, csvContent)
 
   return tempFilePath
@@ -94,16 +94,19 @@ async function uploadFileToS3(filePath: string, fileName: string) {
 async function main() {
   try {
     // Fetch data and create CSV
-    const csvFilePath = await fetchRolesAndCreateCSV()
+    const rolesPath = await fetchRolesAndCreateCSV('Roles')
+    const viewsPath = await fetchRolesAndCreateCSV('Views')
 
     // Generate filename
-    const fileName = generateFileName()
+    const roleFileName = generateFileName('roles')
+    const viewsFileName = generateFileName('views')
 
-    // Upload the file to S3
-    await uploadFileToS3(csvFilePath, fileName)
+    // Upload to S3
+    await uploadFileToS3(rolesPath, roleFileName)
+    await uploadFileToS3(viewsPath, viewsFileName)
 
     // Clean up the temporary file
-    fs.unlinkSync(csvFilePath)
+    fs.unlinkSync(rolesPath)
   } catch (error) {
     console.error('Error:', error.message)
   }
