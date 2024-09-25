@@ -24,7 +24,6 @@ async function getJobs() {
   const jobsFromCache = await client.get('web_jobs')
 
   if (jobsFromCache) {
-    console.log('Cache')
     return JSON.parse(jobsFromCache)
   }
 
@@ -59,10 +58,26 @@ async function getSkills() {
   return skills
 }
 
+async function getCountries() {
+  const { data: countries } = await supabase
+    .from('vw_countries_in_roles')
+    .select('*')
+    .order('country')
+
+  return countries
+}
+
 export default async function Page() {
   const skills = await getSkills()
   const jobs = await getJobs()
+  const countries = await getCountries()
   const jobsReady = jobs.filter((job) => job.ready === true)
 
-  return <RolesPage jobsFromServer={jobsReady} skillsFromServer={skills} />
+  return (
+    <RolesPage
+      jobsFromServer={jobsReady}
+      skillsFromServer={skills}
+      countries={countries}
+    />
+  )
 }

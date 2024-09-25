@@ -1,0 +1,9 @@
+CREATE OR REPLACE VIEW VW_SKILLS_IN_ROLES AS 
+SELECT *
+FROM "Skills"
+WHERE id IN (
+    SELECT DISTINCT CAST(UNNEST("skillsId") AS INTEGER) AS skillId
+    FROM "Roles"
+    WHERE ready = true
+)
+ORDER BY name;

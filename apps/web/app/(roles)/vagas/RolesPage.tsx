@@ -1,4 +1,5 @@
 'use client'
+
 import { FocusBanner } from 'app/landing-page/FocusBanner'
 import { ChevronDown, X } from 'lucide-react'
 import { useEffect, useMemo, useState } from 'react'
@@ -31,20 +32,12 @@ const experienceLevels = [
   },
 ]
 
-const flags = [
-  {
-    value: 'Brasil',
-    label: '🇧🇷 Brasil',
-  },
-  {
-    value: 'EstadosUnidos',
-    label: '🇺🇸 Estados Unidos',
-  },
-  {
-    value: 'ReinoUnido',
-    label: '🇬🇧 Reino Unido',
-  },
-]
+const countryFlags = {
+  Brasil: '🇧🇷',
+  EUA: '🇺🇸',
+  Global: '🇺🇳',
+  International: '🇺🇳',
+}
 
 const orderOptions = [
   {
@@ -63,7 +56,7 @@ const orderOptions = [
 
 const order = orderOptions.map((or) => or.label)
 
-export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
+export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
   const router = useRouter()
   const [jobs, setJobs] = useState(jobsFromServer)
   const [filters, setFilters] = useState<Filter[]>([])
@@ -86,6 +79,13 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
     }
   })
 
+  const countriesOptions = countries
+    .filter((country) => country.country !== 'International')
+    .map((country) => ({
+      value: country.country,
+      label: `${countryFlags[country.country] || '🇺🇳'} ${country.country}`,
+    }))
+
   const getLabel = (key, val) => {
     if (key === 'skill') {
       const filtered = technologies.find(
@@ -94,7 +94,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
       return filtered ? `${filtered.emoji} ${filtered.label}` : val
     }
     if (key === 'country') {
-      const filtered = flags.find((flag) => flag.value === val)
+      const filtered = countriesOptions.find((flag) => flag.value === val)
       return filtered ? filtered.label : val
     }
     if (key === 'level') {
@@ -312,7 +312,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer }) => {
                 />
                 <SelectInput
                   placeholder="🌎  Local"
-                  options={flags}
+                  options={countriesOptions}
                   setFilters={setFilters}
                   filterType="country"
                   filters={filters}
