@@ -58,7 +58,7 @@ const order = orderOptions.map((or) => or.label)
 
 export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
   const router = useRouter()
-  const [jobs, setJobs] = useState(jobsFromServer)
+  const [jobs, setJobs] = useState(jobsFromServer || [])
   const [filters, setFilters] = useState<Filter[]>([])
   const [hasMore, setHasMore] = useState(true)
   const [showOrder, setShowOrder] = useState(false)
@@ -193,10 +193,16 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
   const refetch = async () => {
     try {
       const { data } = await fetchJobs('refetch', filters, jobs)
-      setJobs((prevJobs) => [...prevJobs, ...data])
-      data.length > 10 ? setHasMore(true) : setHasMore(false)
+      if (Array.isArray(data)) {
+        setJobs((prevJobs) => [...prevJobs, ...data])
+        setHasMore(data.length > 10)
+      } else {
+        console.error('Unexpected data format:', data)
+        setHasMore(false)
+      }
     } catch (error) {
       console.error('Error fetching filtered jobs:', error.message)
+      setHasMore(false)
     }
   }
 

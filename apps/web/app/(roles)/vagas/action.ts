@@ -1,7 +1,7 @@
 'use server'
 
 import { createClient } from '@supabase/supabase-js'
-import { Filter, Job, SelectOption } from 'app/components/SelectInput'
+import { Filter, Job } from 'app/components/SelectInput'
 
 const supabase = createClient(
   process.env['SUPABASE_URL'] as string,
@@ -10,7 +10,7 @@ const supabase = createClient(
 
 interface ItemExtracted {
   option: {
-    value: string
+    value: string | number
     label: string
   }
   inputType: string
@@ -33,13 +33,13 @@ export const getFilterFromPreferences = async (email: string) => {
 
 export const fetchJobs = async (
   type: string,
-  filters: { option: SelectOption; inputType: string }[],
+  filters: Filter[],
   jobs: Job[]
 ): Promise<{
   data: Job[]
   isSuccess: boolean
   message: string
-  count: any
+  count: number
   type: string
 }> => {
   try {
@@ -56,21 +56,25 @@ export const fetchJobs = async (
 
     if (countryOptionsFormatted.length > 0) {
       const countryValues = countryOptionsFormatted.map(
-        (country: Filter) => country.option.value
+        (country: ItemExtracted) => country.option.value as string
       )
-
       if (countryValues.includes('Global')) {
         countryValues.push('International')
       }
-
       query = query.in('country', countryValues)
     }
 
     if (skillsFormatted.length > 0) {
-      const skillsId = skillsFormatted.map(
-        (skill: ItemExtracted) => skill.option.value
-      )
-      query = query.contains('skillsId', skillsId)
+      const skillsId = skillsFormatted
+        .map((skill: ItemExtracted) => {
+          const value = skill.option.value
+          return typeof value === 'string' ? parseInt(value, 10) : value
+        })
+        .filter((id): id is number => !isNaN(id))
+
+      if (skillsId.length > 0) {
+        query = query.contains('skillsId', skillsId)
+      }
     }
 
     if (levelsFormated.length > 0) {
@@ -96,13 +100,23 @@ export const fetchJobs = async (
 
     const { data, count, error } = await query
 
-    return { data, isSuccess: true, message: '', count, type }
+    if (error) {
+      throw error
+    }
+
+    return {
+      data: data || [],
+      isSuccess: true,
+      message: '',
+      count: count || 0,
+      type,
+    }
   } catch (error) {
-    console.error('Erro ao buscar dados do banco de dados:', error.message)
+    console.error('Erro ao buscar dados do banco de dados:', error)
     return {
       data: [],
       isSuccess: false,
-      message: error.message,
+      message: error.message || 'Um erro ocorreu ao buscar os dados',
       count: 0,
       type,
     }
