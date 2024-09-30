@@ -32,8 +32,8 @@ export const PTBRRolePage = ({ role }) => {
   )
 
   const handleApply = useCallback(() => {
-    window.open(trackedRoleURL(role.id), '_blank')
-  }, [role.id])
+    window.open(role.url, '_blank')
+  }, [role.url])
 
   const handleCopyLink = useCallback(() => {
     navigator.clipboard.writeText(window.location.href)
