@@ -14,12 +14,51 @@ import {
   Calendar,
   Share2,
 } from 'lucide-react'
-import { trackedRoleURL } from 'shared/src/services/trackedRoleURL'
 import { formatDate, formatDescription } from 'app/utils/roleUtils'
 
 const COPY_TIMEOUT = 2000
 
+const getJobDetails = (role) => {
+  const details = [
+    {
+      icon: <Laptop className="text-indigo-600" />,
+      label: 'Tipo de Trabalho',
+      value: 'Remoto',
+    },
+    {
+      icon: <MapPin className="text-indigo-600" />,
+      label: 'Localização',
+      value: role.country,
+    },
+    {
+      icon: <AlarmClock className="text-indigo-600" />,
+      label: 'Tipo de Contrato',
+      value: 'Full-time',
+    },
+  ]
+
+  if (role.salary) {
+    details.push({
+      icon: <DollarSign className="text-indigo-600" />,
+      label: 'Salário',
+      value: role.salary,
+    })
+  }
+
+  details.push({
+    icon: <Calendar className="text-indigo-600" />,
+    label: 'Publicado em',
+    value: formatDate(role.updatedAt, 'Portuguese'),
+  })
+
+  return details
+}
+
 export const PTBRRolePage = ({ role }) => {
+  const jobDetails = useMemo(
+    () => getJobDetails(role),
+    [role.country, role.salary, role.updatedAt]
+  )
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
   const shareMenuRef = React.useRef(null)
@@ -56,42 +95,6 @@ export const PTBRRolePage = ({ role }) => {
     document.addEventListener('mousedown', handleClickOutside)
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
-
-  const jobDetails = useMemo(() => {
-    const details = [
-      {
-        icon: <Laptop className="text-indigo-600" />,
-        label: 'Work Type',
-        value: 'Remote',
-      },
-      {
-        icon: <MapPin className="text-indigo-600" />,
-        label: 'Location',
-        value: role.country,
-      },
-      {
-        icon: <AlarmClock className="text-indigo-600" />,
-        label: 'Job Type',
-        value: 'Full-time',
-      },
-    ]
-
-    if (role.salary) {
-      details.push({
-        icon: <DollarSign className="text-indigo-600" />,
-        label: 'Salary',
-        value: role.salary,
-      })
-    }
-
-    details.push({
-      icon: <Calendar className="text-indigo-600" />,
-      label: 'Posted On',
-      value: formatDate(role.updatedAt, 'English'),
-    })
-
-    return details
-  }, [role.country, role.salary, role.updatedAt])
 
   return (
     <>
