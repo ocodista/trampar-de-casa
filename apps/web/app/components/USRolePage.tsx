@@ -58,7 +58,7 @@ export const USRolePage = ({ role }) => {
   }, [])
 
   const jobDetails = useMemo(() => {
-    return [
+    const details = [
       {
         icon: <Laptop className="text-indigo-600" />,
         label: 'Work Type',
@@ -74,17 +74,23 @@ export const USRolePage = ({ role }) => {
         label: 'Job Type',
         value: 'Full-time',
       },
-      {
+    ]
+
+    if (role.salary) {
+      details.push({
         icon: <DollarSign className="text-indigo-600" />,
         label: 'Salary',
-        value: role.salary || 'Not informed',
-      },
-      {
-        icon: <Calendar className="text-indigo-600" />,
-        label: 'Posted On',
-        value: formatDate(role.updatedAt, 'English'),
-      },
-    ]
+        value: role.salary,
+      })
+    }
+
+    details.push({
+      icon: <Calendar className="text-indigo-600" />,
+      label: 'Posted On',
+      value: formatDate(role.updatedAt, 'English'),
+    })
+
+    return details
   }, [role.country, role.salary, role.updatedAt])
 
   return (
@@ -109,7 +115,9 @@ export const USRolePage = ({ role }) => {
                   )}
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold">{role.title}</h1>
+                  <h1 className="max-w-[500px] text-3xl font-bold">
+                    {role.title}
+                  </h1>
                   <p className="text-lg text-indigo-200">{role.company}</p>
                 </div>
               </div>

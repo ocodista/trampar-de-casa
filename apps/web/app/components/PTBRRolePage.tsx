@@ -58,33 +58,39 @@ export const PTBRRolePage = ({ role }) => {
   }, [])
 
   const jobDetails = useMemo(() => {
-    return [
+    const details = [
       {
         icon: <Laptop className="text-indigo-600" />,
-        label: 'Tipo de Trabalho',
-        value: 'Remoto',
+        label: 'Work Type',
+        value: 'Remote',
       },
       {
         icon: <MapPin className="text-indigo-600" />,
-        label: 'Localização',
+        label: 'Location',
         value: role.country,
       },
       {
         icon: <AlarmClock className="text-indigo-600" />,
-        label: 'Tipo de Contrato',
+        label: 'Job Type',
         value: 'Full-time',
       },
-      {
-        icon: <DollarSign className="text-indigo-600" />,
-        label: 'Salário',
-        value: role.salary || '',
-      },
-      {
-        icon: <Calendar className="text-indigo-600" />,
-        label: 'Publicado em',
-        value: formatDate(role.updatedAt, 'Portuguese'),
-      },
     ]
+
+    if (role.salary) {
+      details.push({
+        icon: <DollarSign className="text-indigo-600" />,
+        label: 'Salary',
+        value: role.salary,
+      })
+    }
+
+    details.push({
+      icon: <Calendar className="text-indigo-600" />,
+      label: 'Posted On',
+      value: formatDate(role.updatedAt, 'English'),
+    })
+
+    return details
   }, [role.country, role.salary, role.updatedAt])
 
   return (
@@ -109,7 +115,9 @@ export const PTBRRolePage = ({ role }) => {
                   )}
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold">{role.title}</h1>
+                  <h1 className="max-w-[500px] text-3xl font-bold">
+                    {role.title}
+                  </h1>
                   <p className="text-lg text-indigo-200">{role.company}</p>
                 </div>
               </div>
