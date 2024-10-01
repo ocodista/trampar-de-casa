@@ -78,7 +78,9 @@ export const SkillsField = ({ description }: { description?: string }) => {
         required
         label="Habilidades"
         placeholder="Você gostaria de receber vagas de quais tecnologias?"
-        description={description || 'Selecione as tecnologias que já trabalhou'}
+        description={
+          description || 'Indique as tecnologias com as quais você já trabalhou'
+        }
         Input={({ register }) => (
           <AutoComplete
             disabled={isSubmitting}
