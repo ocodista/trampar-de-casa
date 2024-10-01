@@ -13,6 +13,7 @@ const nextConfig = {
   },
   experimental: {
     serverActions: true,
+    appDir: true,
   },
   pageExtensions: ['js', 'jsx', 'mdx', 'ts', 'tsx'],
   reactStrictMode: true,
