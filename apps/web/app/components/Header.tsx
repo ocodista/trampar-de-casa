@@ -78,6 +78,8 @@ export const Header = () => {
     }
   }, [isMobileMenuOpen])
 
+  const date = new Date()
+  const year = date.getFullYear()
   return (
     <div className="container mx-auto overflow-hidden">
       <LoginPreferences
@@ -137,7 +139,7 @@ export const Header = () => {
           isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <nav className="relative h-full overflow-y-auto bg-white">
+        <nav className="relative flex h-full flex-col overflow-y-auto bg-white">
           <div className="flex justify-between">
             <Logo />
             <button
@@ -170,6 +172,11 @@ export const Header = () => {
               </button>
             </li>
           </ul>
+          <div className="mt-auto border-t border-gray-200 pt-3">
+            <p className="text-center text-xs text-gray-500">
+              © {year} Trampar De Casa
+            </p>
+          </div>
         </nav>
       </div>
     </div>
