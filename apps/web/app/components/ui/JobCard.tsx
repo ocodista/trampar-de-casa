@@ -1,3 +1,4 @@
+import { shouldRedirectToUrl } from 'app/utils/shouldRedirect'
 import { useCallback, useMemo } from 'react'
 import { trackedRoleURL } from 'shared/src/services/trackedRoleURL'
 
@@ -15,12 +16,6 @@ const JobCard = ({ job, skillsFromProps }) => {
     }
     return ''
   }, [job.salary])
-
-  const shouldRedirectToUrl = (description: string) => {
-    if (!description) return true
-    const wordCount = description.trim().split(/\s+/).length
-    return wordCount < 10
-  }
 
   const handleClick = useCallback(
     (event) => {
