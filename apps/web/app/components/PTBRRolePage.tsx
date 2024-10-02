@@ -57,7 +57,7 @@ const getJobDetails = (role) => {
 export const PTBRRolePage = ({ role }) => {
   const jobDetails = useMemo(
     () => getJobDetails(role),
-    [role.country, role.salary, role.updatedAt]
+    [role]
   )
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
