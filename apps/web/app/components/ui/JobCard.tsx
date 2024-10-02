@@ -1,4 +1,5 @@
-import { useMemo } from 'react'
+import { shouldRedirectToUrl } from 'app/utils/shouldRedirect'
+import { useCallback, useMemo } from 'react'
 import { trackedRoleURL } from 'shared/src/services/trackedRoleURL'
 
 const JobCard = ({ job, skillsFromProps }) => {
@@ -16,10 +17,32 @@ const JobCard = ({ job, skillsFromProps }) => {
     return ''
   }, [job.salary])
 
+  const handleClick = useCallback(
+    (event) => {
+      event.preventDefault()
+
+      fetch(trackedRoleURL(job.id), { method: 'POST' })
+        .then(() => {
+          const linkUrl = shouldRedirectToUrl(job.description)
+            ? job.url
+            : `/vaga/${job.id}`
+          window.open(linkUrl, '_blank')
+        })
+        .catch((error) => {
+          console.error('Erro ao contabilizar clique:', error)
+          const linkUrl = shouldRedirectToUrl(job.description)
+            ? job.url
+            : `/vaga/${job.id}`
+          window.open(linkUrl, '_blank')
+        })
+    },
+    [job.id, job.description, job.url]
+  )
+
   return (
     <a
-      href={trackedRoleURL(job.id)}
-      target="_blank"
+      href="#"
+      onClick={handleClick}
       className="shadow-brand-shadow border-box w-full cursor-pointer rounded-lg border-[1px] bg-[#FCFCFD] p-[30px] hover:border-[1px] hover:border-[#4f46e5] "
       rel="noreferrer"
     >

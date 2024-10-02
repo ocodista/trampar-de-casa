@@ -14,12 +14,52 @@ import {
   Calendar,
   Share2,
 } from 'lucide-react'
-import { trackedRoleURL } from 'shared/src/services/trackedRoleURL'
 import { formatDate, formatDescription } from 'app/utils/roleUtils'
 
 const COPY_TIMEOUT = 2000
 
+const getJobDetails = (role) => {
+  const details = [
+    {
+      icon: <Laptop className="text-indigo-600" />,
+      label: 'Work Type',
+      value: 'Remote',
+    },
+    {
+      icon: <MapPin className="text-indigo-600" />,
+      label: 'Location',
+      value: role.country,
+    },
+    {
+      icon: <AlarmClock className="text-indigo-600" />,
+      label: 'Job Type',
+      value: 'Full-time',
+    },
+  ]
+
+  if (role.salary) {
+    details.push({
+      icon: <DollarSign className="text-indigo-600" />,
+      label: 'Salary',
+      value: role.salary,
+    })
+  }
+
+  details.push({
+    icon: <Calendar className="text-indigo-600" />,
+    label: 'Posted On',
+    value: formatDate(role.updatedAt, 'English'),
+  })
+
+  return details
+}
+
 export const USRolePage = ({ role }) => {
+  const jobDetails = useMemo(
+    () => getJobDetails(role),
+    [role]
+  )
+
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
   const shareMenuRef = React.useRef(null)
@@ -32,8 +72,8 @@ export const USRolePage = ({ role }) => {
   )
 
   const handleApply = useCallback(() => {
-    window.open(trackedRoleURL(role.id), '_blank')
-  }, [role.id])
+    window.open(role.url, '_blank')
+  }, [role.url])
 
   const handleCopyLink = useCallback(() => {
     navigator.clipboard.writeText(window.location.href)
@@ -57,36 +97,6 @@ export const USRolePage = ({ role }) => {
     return () => document.removeEventListener('mousedown', handleClickOutside)
   }, [])
 
-  const jobDetails = useMemo(() => {
-    return [
-      {
-        icon: <Laptop className="text-indigo-600" />,
-        label: 'Work Type',
-        value: 'Remote',
-      },
-      {
-        icon: <MapPin className="text-indigo-600" />,
-        label: 'Location',
-        value: role.country,
-      },
-      {
-        icon: <AlarmClock className="text-indigo-600" />,
-        label: 'Job Type',
-        value: 'Full-time',
-      },
-      {
-        icon: <DollarSign className="text-indigo-600" />,
-        label: 'Salary',
-        value: role.salary || 'Not informed',
-      },
-      {
-        icon: <Calendar className="text-indigo-600" />,
-        label: 'Posted On',
-        value: formatDate(role.updatedAt, 'English'),
-      },
-    ]
-  }, [role.country, role.salary, role.updatedAt])
-
   return (
     <>
       <FocusBanner />
@@ -109,7 +119,9 @@ export const USRolePage = ({ role }) => {
                   )}
                 </div>
                 <div>
-                  <h1 className="text-3xl font-bold">{role.title}</h1>
+                  <h1 className="max-w-[500px] text-3xl font-bold">
+                    {role.title}
+                  </h1>
                   <p className="text-lg text-indigo-200">{role.company}</p>
                 </div>
               </div>
