@@ -1,25 +1,6 @@
-import { createClient } from '@supabase/supabase-js'
+import { getRole } from 'app/utils/getRoles'
 import { RolePage } from './RolePage'
 import { Metadata } from 'next'
-
-const supabase = createClient(
-  process.env.SUPABASE_URL as string,
-  process.env.SUPABASE_SERVICE_ROLE as string
-)
-
-async function getRole(id: string) {
-  const { data: role, error } = await supabase
-    .from('Roles')
-    .select('*')
-    .eq('id', id)
-    .single()
-
-  if (error) {
-    throw new Error('Error fetching role: ' + error.message)
-  }
-
-  return role
-}
 
 export async function generateMetadata({
   params,
@@ -34,10 +15,6 @@ export async function generateMetadata({
 
     const baseUrl = 'https://trampardecasa.com.br'
 
-    const fallbackImageUrl = `${baseUrl}/images/HO-brasil.jpg`
-
-    const imageUrl = role.company_logo || fallbackImageUrl
-
     return {
       title,
       description,
@@ -46,14 +23,6 @@ export async function generateMetadata({
         description,
         type: 'website',
         url: `${baseUrl}/vaga/${params.id}`,
-        images: [
-          {
-            url: imageUrl,
-            width: 1200,
-            height: 630,
-            alt: title,
-          },
-        ],
       },
       twitter: {
         card: 'summary_large_image',
