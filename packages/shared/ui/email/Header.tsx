@@ -68,22 +68,43 @@ export function Header({
       </Section>
       <Heading className={h1}>{previewText}</Heading>
       <Hr style={hr} />
+      <Text className={paragraph}>E aí, tudo bem?</Text>
       <Text className={paragraph}>
-        Salve, amante do trabalho remoto, tudo bem?
+        O trabalho remoto é o <strong>novo normal</strong>. De acordo com{' '}
+        <Link href="https://www.theguardian.com/money/article/2024/jul/12/working-from-home-data">
+          este artigo
+        </Link>{' '}
+        do The Guardian, o número de trabalhadores em regime 100% remoto não
+        diminuiu entre 2022 e 2023.
       </Text>
       <Text className={paragraph}>
-        Infelizmente, a Amazon recentemente se juntou ao time de empresas que
-        são anti trabalho remoto 🤮
+        Infelizmente, existem algumas empresas querendo acabar com esta nova
+        realidade (que proporciona maior equilíbrio entre vida pessoal e
+        trabalho).
       </Text>
       <Text className={paragraph}>
-        Mas nem tudo está perdido! Por sorte, ainda existem muitas vagas 100%
-        remotas de empresas que realmente se importam com o equilíbrio entre a
-        vida e trabalho.
+        Para garantir a sobrevivência do <i>trabalho remoto</i>, é preciso
+        <strong> resistir.</strong>
+      </Text>
+      <Text className={paragraph}>
+        <Link href="https://www.forbes.com/sites/jackkelly/2024/09/27/employees-at-assassins-creed-maker-ubisoft-urged-to-strike-following-new-rto-policy-why-ceos-are-doubling-down/">
+          Funcionários da Ubisoft anunciam 3 dias de greve contra nova medida de
+          RTO (return-to-office/retorno ao escritório).
+        </Link>
+      </Text>
+      <Text className={paragraph}>
+        Todo apoio à galera da Ubisoft, que consigam reverter essa decisão
+        retrógrada do CEO, ou que encontrem uma ótima nova vaga.
       </Text>
       <div className="flex">
-        <Text className={`${paragraph} m-0`}>Aqui vão algumas delas</Text>
-        <span className="ml-[6px] mt-[8px]">👇</span>😎
+        <Text className={`${paragraph} m-0 mr-2`}>
+          Agora, aqui vai nosso ato de <strong>resistência</strong>
+        </Text>
+        💪
       </div>
+      <Text className={paragraph}>
+        <i>Aproveite suas vagas!</i>
+      </Text>
     </Tailwind>
   )
 }

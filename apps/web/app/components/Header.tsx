@@ -23,7 +23,7 @@ const menuItems = [
   { href: LandingPageRoutes.Blog, label: 'Blog' },
   { href: LandingPageRoutes.Vacancies, label: 'Vagas Remotas' },
   { href: LandingPageRoutes.SupportingCompanies, label: 'Empresas Apoiadoras' },
-  { href: LandingPageRoutes.PublishYourRole, label: 'Indique uma vaga' },
+  { href: LandingPageRoutes.PublishYourRole, label: 'Publique uma vaga' },
 ]
 
 export const Header = () => {
