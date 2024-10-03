@@ -31,7 +31,7 @@ async function getJobs() {
     .from('Roles')
     .select('*', { count: 'exact' })
     .eq('ready', true)
-    .order('createdAt', { ascending: true })
+    .order('salary', { nullsFirst: false })
     .limit(21)
 
   await client.set('web_jobs', JSON.stringify(jobs), { EX: ONE_DAY_IN_MINUTES })
