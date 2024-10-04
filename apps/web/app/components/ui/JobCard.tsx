@@ -43,7 +43,7 @@ const JobCard = ({ job, skillsFromProps }) => {
     <a
       href="#"
       onClick={handleClick}
-      className="shadow-brand-shadow border-box mb-4 block w-full cursor-pointer rounded-lg border border-gray-200 bg-white p-8 hover:border-blue-500"
+      className="shadow-brand-shadow border-box mb-4 mt-6 block w-full cursor-pointer rounded-lg border border-gray-200 bg-white p-8 hover:border-blue-500"
       rel="noreferrer"
     >
       <div className="flex justify-between">
