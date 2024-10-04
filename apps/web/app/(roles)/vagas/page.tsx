@@ -1,6 +1,7 @@
 import { RolesPage } from './RolesPage'
 import { createClient } from '@supabase/supabase-js'
 import { createClient as createClientRedis } from 'redis'
+import { fetchJobs } from './action'
 
 export const revalidate = 0
 
@@ -27,16 +28,17 @@ async function getJobs() {
     return JSON.parse(jobsFromCache)
   }
 
-  const { data: jobs } = await supabase
-    .from('Roles')
-    .select('*', { count: 'exact' })
-    .eq('ready', true)
-    .order('salary', { nullsFirst: false })
-    .limit(21)
+  const result = await fetchJobs('initial', [], [])
 
-  await client.set('web_jobs', JSON.stringify(jobs), { EX: ONE_DAY_IN_MINUTES })
-
-  return jobs
+  if (result.isSuccess && result.data) {
+    await client.set('web_jobs', JSON.stringify(result.data), {
+      EX: ONE_DAY_IN_MINUTES,
+    })
+    return result.data
+  } else {
+    console.error('Failed to fetch jobs:', result.message)
+    return []
+  }
 }
 
 async function getSkills() {
@@ -71,11 +73,10 @@ export default async function Page() {
   const skills = await getSkills()
   const jobs = await getJobs()
   const countries = await getCountries()
-  const jobsReady = jobs.filter((job) => job.ready === true)
 
   return (
     <RolesPage
-      jobsFromServer={jobsReady}
+      jobsFromServer={jobs}
       skillsFromServer={skills}
       countries={countries}
     />

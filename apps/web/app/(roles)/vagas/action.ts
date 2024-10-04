@@ -91,7 +91,7 @@ export const fetchJobs = async (
         ascending: orderOption[0].option.value === 'ascending',
       })
     } else {
-      query = query.order('createdAt', { ascending: true })
+      query = query.order('salary', { nullsFirst: false })
     }
 
     if (type === 'refetch') {
