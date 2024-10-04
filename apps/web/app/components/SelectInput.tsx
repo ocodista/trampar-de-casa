@@ -40,9 +40,7 @@ interface DynamicInputProps {
   setFilters: Dispatch<SetStateAction<Filter[]>>
   filters: { option: SelectOption; inputType: string }[]
   setTotalJobs: Dispatch<SetStateAction<number>>
-  jobs: Job[]
   setJobs: Dispatch<SetStateAction<Job[]>>
-  setHasMore: Dispatch<SetStateAction<boolean>>
 }
 
 const SelectInput = ({
@@ -52,9 +50,7 @@ const SelectInput = ({
   setFilters,
   filters,
   setTotalJobs,
-  jobs,
   setJobs,
-  setHasMore,
 }: DynamicInputProps) => {
   const [showOptions, setShowOptions] = useState(false)
   const [inputText, setInputText] = useState('')
@@ -87,9 +83,8 @@ const SelectInput = ({
     ])
 
     try {
-      const { data, count } = await fetchJobs(undefined, temporaryFilters, jobs)
+      const { data, count } = await fetchJobs(temporaryFilters)
       setTotalJobs(count)
-      data.length > 10 ? setHasMore(true) : setHasMore(false)
       setJobs(data)
     } catch (error) {
       console.error('Error fetching filtered jobs:', error.message)

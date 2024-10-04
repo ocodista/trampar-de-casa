@@ -1,12 +1,10 @@
-'use server'
-
 import { createClient } from '@supabase/supabase-js'
-import { Filter, Job } from 'app/components/SelectInput'
+import { Filter } from 'app/components/SelectInput'
+const SUPABASE_URL = 'https://aimnpbxmfrpbkvyjyosi.supabase.co'
+const SUPABASE_SERVICE_ROLE =
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFpbW5wYnhtZnJwYmt2eWp5b3NpIiwicm9sZSI6ImFub24iLCJpYXQiOjE3MjA1NTY0NDQsImV4cCI6MjAzNjEzMjQ0NH0.9FXhvGFKgp8749B7jCqi_PpLdGdgbtLgZymk7NPxq3E'
 
-const supabase = createClient(
-  process.env['SUPABASE_URL'] as string,
-  process.env['SUPABASE_SERVICE_ROLE'] as string
-)
+const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE)
 
 interface ItemExtracted {
   option: {
@@ -32,15 +30,12 @@ export const getFilterFromPreferences = async (email: string) => {
 }
 
 export const fetchJobs = async (
-  type: string,
-  filters: Filter[],
-  jobs: Job[]
+  filters: Filter[]
 ): Promise<{
-  data: Job[]
+  data: any[]
   isSuccess: boolean
   message: string
   count: number
-  type: string
 }> => {
   try {
     const countryOptionsFormatted = getFilter(filters, 'country')
@@ -52,7 +47,6 @@ export const fetchJobs = async (
       .from('Roles')
       .select('*', { count: 'exact' })
       .eq('ready', true)
-      .limit(21)
 
     if (countryOptionsFormatted.length > 0) {
       const countryValues = countryOptionsFormatted.map(
@@ -94,10 +88,6 @@ export const fetchJobs = async (
       query = query.order('salary', { nullsFirst: false })
     }
 
-    if (type === 'refetch') {
-      query = query.range(jobs.length, jobs.length + 10)
-    }
-
     const { data, count, error } = await query
 
     if (error) {
@@ -109,7 +99,6 @@ export const fetchJobs = async (
       isSuccess: true,
       message: '',
       count: count || 0,
-      type,
     }
   } catch (error) {
     console.error('Erro ao buscar dados do banco de dados:', error)
@@ -118,7 +107,6 @@ export const fetchJobs = async (
       isSuccess: false,
       message: error.message || 'Um erro ocorreu ao buscar os dados',
       count: 0,
-      type,
     }
   }
 }
