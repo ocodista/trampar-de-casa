@@ -96,8 +96,14 @@ export const fetchJobs = async (
       throw error
     }
 
+    const sortedData = data?.sort((a, b) => {
+      if (a.salary === null || a.salary === undefined) return 1
+      if (b.salary === null || b.salary === undefined) return -1
+      return b.salary - a.salary
+    })
+
     return {
-      data: data || [],
+      data: sortedData || [],
       isSuccess: true,
       message: '',
       count: count || 0,
