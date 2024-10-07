@@ -1,3 +1,5 @@
+import SanitizedHTML from 'app/components/SanitizedHTML'
+
 export const formatDate = (dateString: string, language: string) => {
   const months = {
     en: [
@@ -39,35 +41,29 @@ export const formatDate = (dateString: string, language: string) => {
 }
 
 export const formatDescription = (description: string) => {
-  if (!description) return []
+  if (!description) return null
 
-  const insertLineBreaks = (text: string, maxLength: number) => {
-    const sentences = text.match(/[^.!?]+[.!?]+/g) || []
-    const result = []
-    let currentLine = ''
-
-    sentences.forEach((sentence) => {
-      if ((currentLine + sentence).length > maxLength && currentLine) {
-        result.push(currentLine.trim())
-        currentLine = ''
-      }
-      currentLine += sentence
-    })
-
-    if (currentLine) {
-      result.push(currentLine.trim())
-    }
-
-    return result
+  const processText = (text: string) => {
+    text = text.trim()
+    text = text.replace(/\\n\s*\\n/g, '\\n')
+    text = text.replace(/\\n/g, '<br>')
+    return text
   }
 
-  const formattedDescription = insertLineBreaks(description, 300)
+  const splitIntoParagraphs = (text: string) => {
+    return text.split('<br>').filter((paragraph) => paragraph.trim() !== '')
+  }
 
-  return formattedDescription.map((line, index) => (
-    <p key={index} className="mb-4 whitespace-pre-line">
-      {line}
-    </p>
-  ))
+  const processedText = processText(description)
+  const paragraphs = splitIntoParagraphs(processedText)
+
+  return (
+    <div className="space-y-4">
+      {paragraphs.map((paragraph, index) => (
+        <SanitizedHTML key={index} html={`<p class="mb-4">${paragraph}</p>`} />
+      ))}
+    </div>
+  )
 }
 
 export const isHtml = (text: string) => /<\/?[a-z][\s\S]*>/i.test(text)

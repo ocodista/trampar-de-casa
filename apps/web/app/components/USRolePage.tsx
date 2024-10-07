@@ -2,7 +2,6 @@
 
 import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { FocusBanner } from 'app/landing-page/FocusBanner'
-import SanitizedHTML from 'app/components/SanitizedHTML'
 import {
   ExternalLink,
   MapPin,
@@ -55,10 +54,7 @@ const getJobDetails = (role) => {
 }
 
 export const USRolePage = ({ role }) => {
-  const jobDetails = useMemo(
-    () => getJobDetails(role),
-    [role]
-  )
+  const jobDetails = useMemo(() => getJobDetails(role), [role])
 
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
@@ -169,11 +165,7 @@ export const USRolePage = ({ role }) => {
                 Job Description
               </h2>
               <div className="space-y-4 text-gray-600">
-                {isHtml(role.description) ? (
-                  <SanitizedHTML html={role.description} />
-                ) : (
-                  formatDescription(role.description)
-                )}
+                {formatDescription(role.description)}
               </div>
             </section>
 
