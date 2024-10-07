@@ -21,7 +21,6 @@ interface InputWithUseTypedProps {
   setTotalJobs: Dispatch<SetStateAction<number>>
   jobs: Job[]
   setJobs: Dispatch<SetStateAction<Job[]>>
-  setHasMore: Dispatch<SetStateAction<boolean>>
 }
 
 const useTypedStrings = [
@@ -44,9 +43,7 @@ const InputWithUseTyped = ({
   filterType,
   filters,
   setTotalJobs,
-  jobs,
   setJobs,
-  setHasMore,
 }: InputWithUseTypedProps) => {
   const router = useRouter()
   const inputRef = useRef<HTMLInputElement>(null)
@@ -90,9 +87,8 @@ const InputWithUseTyped = ({
     ])
 
     try {
-      const { data, count } = await fetchJobs(undefined, temporaryFilters, jobs)
+      const { data, count } = await fetchJobs(temporaryFilters)
       setTotalJobs(count)
-      data.length > 10 ? setHasMore(true) : setHasMore(false)
       setJobs(data)
     } catch (error) {
       console.error('Error fetching filtered jobs:', error.message)

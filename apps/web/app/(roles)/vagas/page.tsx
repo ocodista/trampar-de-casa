@@ -28,17 +28,14 @@ async function getJobs() {
     return JSON.parse(jobsFromCache)
   }
 
-  const result = await fetchJobs('initial', [], [])
+  const { data: jobs } = await supabase
+    .from('Roles')
+    .select('*', { count: 'exact' })
+    .eq('ready', true)
+    .order('salary', { nullsFirst: false })
 
-  if (result.isSuccess && result.data) {
-    await client.set('web_jobs', JSON.stringify(result.data), {
-      EX: ONE_DAY_IN_MINUTES,
-    })
-    return result.data
-  } else {
-    console.error('Failed to fetch jobs:', result.message)
-    return []
-  }
+  await client.set('web_jobs', JSON.stringify(jobs), { EX: ONE_DAY_IN_MINUTES })
+  return jobs
 }
 
 async function getSkills() {
