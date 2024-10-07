@@ -1,29 +1,11 @@
 'use server'
 
+import getSupabaseClient from 'app/utils/getSupabaseClient'
 import { RolesPage } from './RolesPage'
-import { createClient } from '@supabase/supabase-js'
-import { createClient as createClientRedis } from 'redis'
 import { fetchJobs } from './action'
+import getRedisClient from 'app/utils/getRedisClient'
 
 const ONE_DAY_IN_MINUTES = 86_400
-
-async function getRedisClient() {
-  const client = createClientRedis({
-    socket: {
-      host: process.env['REDIS_HOST'],
-      port: parseInt(process.env['REDIS_PORT'] || '6379'),
-    },
-  })
-  await client.connect()
-  return client
-}
-
-function getSupabaseClient() {
-  return createClient(
-    process.env['SUPABASE_URL'] as string,
-    process.env['SUPABASE_SERVICE_ROLE'] as string
-  )
-}
 
 async function getJobs() {
   const client = await getRedisClient()
