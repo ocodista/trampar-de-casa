@@ -54,16 +54,23 @@ const JobCard = ({ job, skillsFromProps }) => {
       </div>
       <h2 className="text-lg font-semibold">{job.title}</h2>
       <div className="my-4">
-        {job.skillsId.slice(0, 1).map((skillId) => (
-          <span
-            key={skillId}
-            className={`${
-              normalize(skillId) === null && 'hidden'
-            } mt-[5px] rounded-[20px] border-[1px] border-black bg-[#F4F4F5] px-[15px] py-[4px] text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px]`}
-          >
-            {normalize(skillId)}
+        {job.skillsId && job.skillsId.length > 0 ? (
+          job.skillsId.slice(0, 1).map((skillId) => {
+            const skillName = normalize(skillId)
+            return skillName ? (
+              <span
+                key={skillId}
+                className="mt-[5px] rounded-[20px] border-[1px] border-black bg-[#F4F4F5] px-[15px] py-[4px] text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px]"
+              >
+                {skillName}
+              </span>
+            ) : null
+          })
+        ) : (
+          <span className="mt-[5px] rounded-[20px] border-[1px] border-transparent px-[15px] py-[4px] text-[14px] sm:text-[16px] md:text-[16px] lg:text-[16px]">
+            &nbsp;
           </span>
-        ))}
+        )}
       </div>
       <div className="flex items-center text-sm text-gray-600">
         <span className="mr-4">
