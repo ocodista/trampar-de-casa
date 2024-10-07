@@ -54,7 +54,7 @@ const JobCard = ({ job, skillsFromProps }) => {
       </div>
       <h2 className="text-lg font-semibold">{job.title}</h2>
       <div className="my-4">
-        {job.skillsId && job.skillsId.length > 0 ? (
+        {job.skillsId?.length > 0 ? (
           job.skillsId.slice(0, 1).map((skillId) => {
             const skillName = normalize(skillId)
             return skillName ? (
