@@ -1,6 +1,7 @@
 import { RolesPage } from './RolesPage'
 import { createClient } from '@supabase/supabase-js'
 import { createClient as createClientRedis } from 'redis'
+import { fetchJobs } from './action'
 
 export const revalidate = 0
 
