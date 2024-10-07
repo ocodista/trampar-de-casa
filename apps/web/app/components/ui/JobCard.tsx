@@ -74,7 +74,7 @@ const JobCard = ({ job, skillsFromProps }) => {
       </div>
       <div className="flex items-center text-sm text-gray-600">
         <span className="mr-4">
-          📍 {job.country ? job.country : 'Internacional'}
+          📍 {job.country || 'Internacional'}
         </span>
         <span>
           💬 {job.language === 'Portuguese' ? 'Português' : job.language}
