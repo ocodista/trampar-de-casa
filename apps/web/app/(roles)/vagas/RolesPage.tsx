@@ -7,7 +7,6 @@ import close from '../../../public/images/close.svg'
 import JobCard from '../../components/ui/JobCard'
 import InputWithUseTyped from 'app/components/InputWithUseTyped'
 import Image from 'next/image'
-import InfiniteScroll from 'react-infinite-scroll-component'
 import SelectInput, { Filter, SelectOption } from 'app/components/SelectInput'
 import { fetchJobs, getFilterFromPreferences } from './action'
 import { useRouter } from 'next/navigation'
@@ -60,7 +59,6 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
   const router = useRouter()
   const [jobs, setJobs] = useState(jobsFromServer || [])
   const [filters, setFilters] = useState<Filter[]>([])
-  const [hasMore, setHasMore] = useState(true)
   const [showOrder, setShowOrder] = useState(false)
   const [totalJobs, setTotalJobs] = useState<number>()
   const [orderButtonValue, setOrderButtonValue] = useState<string | number>(
@@ -144,7 +142,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
     setFilters(updatedFilters)
     setPreviewOrderValue(option.value)
 
-    const { data } = await fetchJobs(undefined, updatedFilters, jobs)
+    const { data } = await fetchJobs(updatedFilters)
     setJobs(data)
     const newQueryString = updateSearchParams(updatedFilters)
     router.push(`?${newQueryString}`, { scroll: false })
@@ -178,9 +176,8 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
     setFilters(updatedFilters)
 
     try {
-      const { data, count } = await fetchJobs(undefined, updatedFilters, jobs)
+      const { data, count } = await fetchJobs(updatedFilters)
       setTotalJobs(count)
-      data.length > 10 ? setHasMore(true) : setHasMore(false)
       setJobs(data)
     } catch (error) {
       console.error('Error fetching filtered jobs:', error.message)
@@ -190,26 +187,9 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
     router.push(`?${newQueryString}`, { scroll: false })
   }
 
-  const refetch = async () => {
-    try {
-      const { data } = await fetchJobs('refetch', filters, jobs)
-      if (Array.isArray(data)) {
-        setJobs((prevJobs) => [...prevJobs, ...data])
-        setHasMore(data.length > 10)
-      } else {
-        console.error('Unexpected data format:', data)
-        setHasMore(false)
-      }
-    } catch (error) {
-      console.error('Error fetching filtered jobs:', error.message)
-      setHasMore(false)
-    }
-  }
-
   const deleteAllfilters = async () => {
     setFilters([])
-    setHasMore(true)
-    const { data } = await fetchJobs(undefined, [], jobs)
+    const { data } = await fetchJobs([])
     setJobs(data)
     const searchParams = new URLSearchParams(window.location.search)
     searchParams.delete('skill')
@@ -232,7 +212,6 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
         setTotalJobs={setTotalJobs}
         jobs={jobs}
         setJobs={setJobs}
-        setHasMore={setHasMore}
       />
     ),
     [filters]
@@ -255,11 +234,10 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
         )
         .flat()
 
-      const { data, count } = await fetchJobs(undefined, formattedSkills, [])
+      const { data, count } = await fetchJobs(formattedSkills)
       setFilters(formattedSkills)
       setJobs(data)
       setTotalJobs(count)
-      setHasMore(data.length > 10)
       const newQueryString = updateSearchParams(formattedSkills)
       router.push(`?${newQueryString}`, { scroll: false })
     } catch (error) {
@@ -270,10 +248,9 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
   useEffect(() => {
     const fetchInitialJobs = async (initialFilters: Filter[]) => {
       try {
-        const { data, count } = await fetchJobs(undefined, initialFilters, [])
+        const { data, count } = await fetchJobs(initialFilters)
         setJobs(data)
         setTotalJobs(count)
-        setHasMore(data.length > 10)
       } catch (error) {
         console.error('Error fetching initial jobs:', error.message)
       }
@@ -312,9 +289,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
                   filterType="skill"
                   filters={filters}
                   setTotalJobs={setTotalJobs}
-                  jobs={jobs}
                   setJobs={setJobs}
-                  setHasMore={setHasMore}
                 />
                 <SelectInput
                   placeholder="🌎  Local"
@@ -323,9 +298,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
                   filterType="country"
                   filters={filters}
                   setTotalJobs={setTotalJobs}
-                  jobs={jobs}
                   setJobs={setJobs}
-                  setHasMore={setHasMore}
                 />
                 <SelectInput
                   placeholder="🚀  Níveis"
@@ -334,9 +307,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
                   filterType="level"
                   filters={filters}
                   setTotalJobs={setTotalJobs}
-                  jobs={jobs}
                   setJobs={setJobs}
-                  setHasMore={setHasMore}
                 />
               </div>
               <div className="xs:justify-start relative flex items-center justify-center sm:justify-start md:justify-start lg:justify-start">
@@ -418,37 +389,9 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
                 )}
             </div>
           </div>
-          <InfiniteScroll
-            dataLength={jobs.length}
-            next={() => refetch()}
-            hasMore={hasMore}
-            loader={
-              <h4 className="mt-[10px] text-center">Carregando vagas...</h4>
-            }
-            endMessage={
-              <p className="mt-[10px] text-center">
-                🚀 Todas as vagas foram carregadas! Explore e encontre a sua
-                oportunidade.
-              </p>
-            }
-            style={{
-              marginTop: '25px',
-              display: 'flex',
-              width: '100%',
-              flexDirection: 'column',
-              gap: '10px',
-              overflowY: 'hidden',
-              padding: '10px',
-            }}
-          >
-            {jobs.map((job, index) => (
-              <JobCard
-                job={job}
-                key={index}
-                skillsFromProps={skillsFromServer}
-              />
-            ))}
-          </InfiniteScroll>
+          {jobs.map((job, index) => (
+            <JobCard job={job} key={index} skillsFromProps={skillsFromServer} />
+          ))}
         </div>
       </div>
     </>

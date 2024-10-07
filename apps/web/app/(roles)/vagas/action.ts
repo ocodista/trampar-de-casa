@@ -1,11 +1,11 @@
 'use server'
 
 import { createClient } from '@supabase/supabase-js'
-import { Filter, Job } from 'app/components/SelectInput'
+import { Filter } from 'app/components/SelectInput'
 
 const supabase = createClient(
-  process.env['SUPABASE_URL'] as string,
-  process.env['SUPABASE_SERVICE_ROLE'] as string
+  process.env.SUPABASE_URL as string,
+  process.env.SUPABASE_SERVICE_ROLE as string
 )
 
 interface ItemExtracted {
@@ -32,15 +32,12 @@ export const getFilterFromPreferences = async (email: string) => {
 }
 
 export const fetchJobs = async (
-  type: string,
-  filters: Filter[],
-  jobs: Job[]
+  filters: Filter[]
 ): Promise<{
-  data: Job[]
+  data: any[]
   isSuccess: boolean
   message: string
   count: number
-  type: string
 }> => {
   try {
     const countryOptionsFormatted = getFilter(filters, 'country')
@@ -52,7 +49,6 @@ export const fetchJobs = async (
       .from('Roles')
       .select('*', { count: 'exact' })
       .eq('ready', true)
-      .limit(21)
 
     if (countryOptionsFormatted.length > 0) {
       const countryValues = countryOptionsFormatted.map(
@@ -91,11 +87,7 @@ export const fetchJobs = async (
         ascending: orderOption[0].option.value === 'ascending',
       })
     } else {
-      query = query.order('createdAt', { ascending: true })
-    }
-
-    if (type === 'refetch') {
-      query = query.range(jobs.length, jobs.length + 10)
+      query = query.order('salary', { nullsFirst: false })
     }
 
     const { data, count, error } = await query
@@ -109,7 +101,6 @@ export const fetchJobs = async (
       isSuccess: true,
       message: '',
       count: count || 0,
-      type,
     }
   } catch (error) {
     console.error('Erro ao buscar dados do banco de dados:', error)
@@ -118,7 +109,6 @@ export const fetchJobs = async (
       isSuccess: false,
       message: error.message || 'Um erro ocorreu ao buscar os dados',
       count: 0,
-      type,
     }
   }
 }

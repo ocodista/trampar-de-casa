@@ -31,11 +31,9 @@ async function getJobs() {
     .from('Roles')
     .select('*', { count: 'exact' })
     .eq('ready', true)
-    .order('createdAt', { ascending: true })
-    .limit(21)
+    .order('salary', { nullsFirst: false })
 
   await client.set('web_jobs', JSON.stringify(jobs), { EX: ONE_DAY_IN_MINUTES })
-
   return jobs
 }
 
@@ -71,11 +69,10 @@ export default async function Page() {
   const skills = await getSkills()
   const jobs = await getJobs()
   const countries = await getCountries()
-  const jobsReady = jobs.filter((job) => job.ready === true)
 
   return (
     <RolesPage
-      jobsFromServer={jobsReady}
+      jobsFromServer={jobs}
       skillsFromServer={skills}
       countries={countries}
     />

@@ -1,12 +1,19 @@
 'use client'
 import Image from 'next/image'
-import { useState } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { LandingPageRoutes } from '../landing-page/landingPageRoutes'
 import { LoginPreferences } from 'app/landing-page/LoginPreferences'
 import login, { encryptId } from 'app/utils/LoginPreferencesActions'
 import { useRouter } from 'next/navigation'
+import {
+  BookOpen,
+  Briefcase,
+  Building2,
+  Share2,
+  Settings,
+  X,
+} from 'lucide-react'
 
-// Logo Component
 const Logo = () => (
   <a href="/">
     <Image
@@ -18,18 +25,30 @@ const Logo = () => (
   </a>
 )
 
-// Menu Items
 const menuItems = [
-  { href: LandingPageRoutes.Blog, label: 'Blog' },
-  { href: LandingPageRoutes.Vacancies, label: 'Vagas Remotas' },
-  { href: LandingPageRoutes.SupportingCompanies, label: 'Empresas Apoiadoras' },
-  { href: LandingPageRoutes.PublishYourRole, label: 'Publique uma vaga' },
+  { href: LandingPageRoutes.Blog, label: 'Blog', icon: BookOpen },
+  {
+    href: LandingPageRoutes.Vacancies,
+    label: 'Vagas Remotas',
+    icon: Briefcase,
+  },
+  {
+    href: LandingPageRoutes.SupportingCompanies,
+    label: 'Empresas Apoiadoras',
+    icon: Building2,
+  },
+  {
+    href: LandingPageRoutes.PublishYourRole,
+    label: 'Publique uma vaga',
+    icon: Share2,
+  },
 ]
 
 export const Header = () => {
   const [isMobileMenuOpen, setMobileMenuVisibility] = useState(false)
   const [isContributeDialogOpen, setIsContributeDialogOpen] = useState(false)
   const router = useRouter()
+  const menuRef = useRef(null)
 
   const handleOpenPreferences = async () => {
     if (localStorage.getItem('loginEmail')) {
@@ -41,6 +60,23 @@ export const Header = () => {
     }
     setIsContributeDialogOpen(true)
   }
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        menuRef.current &&
+        !menuRef.current.contains(event.target) &&
+        isMobileMenuOpen
+      ) {
+        setMobileMenuVisibility(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside)
+    }
+  }, [isMobileMenuOpen])
 
   return (
     <div className="container mx-auto overflow-hidden">
@@ -77,87 +113,61 @@ export const Header = () => {
           <button
             type="button"
             onClick={() => setMobileMenuVisibility(!isMobileMenuOpen)}
+            className="text-indigo-600 focus:outline-none"
           >
             <svg
-              className="navbar-burger text-indigo-600"
-              width={51}
-              height={51}
-              viewBox="0 0 56 56"
+              className="h-8 w-8"
               fill="none"
-              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              <rect width={56} height={56} rx={28} fill="currentColor" />
               <path
-                d="M37 32H19M37 24H19"
-                stroke="white"
-                strokeWidth="1.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
+                strokeWidth={2}
+                d="M4 6h16M4 12h16M4 18h16"
               />
             </svg>
           </button>
         </div>
       </div>
       <div
-        className={`navbar-menu fixed bottom-0 left-0 top-0 z-50 w-4/6 transition-transform duration-300 ease-in-out sm:max-w-xs lg:hidden ${
-          isMobileMenuOpen ? 'translate-x-0' : '-translate-x-full'
+        ref={menuRef}
+        className={`navbar-menu fixed inset-y-0 right-0 z-50 w-64 transform overflow-y-auto bg-white p-6 shadow-lg transition-all duration-300 ease-in-out ${
+          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
         }`}
       >
-        <div
-          className="navbar-backdrop fixed inset-0 bg-gray-800 opacity-80"
-          onClick={() => setMobileMenuVisibility(false)}
-        />
-        <nav className="relative h-full overflow-y-auto bg-white px-9 pt-8">
-          <div className="-m-2 flex items-center justify-between">
-            <div className="w-auto p-2">
-              <Logo />
-            </div>
-            <div className="w-auto p-2">
-              <button
-                type="button"
-                className="navbar-burger"
-                onClick={() => setMobileMenuVisibility(false)}
-              >
-                <svg
-                  width={24}
-                  height={24}
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    d="M6 18L18 6M6 6L18 18"
-                    stroke="#111827"
-                    strokeWidth={2}
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                  />
-                </svg>
-              </button>
-            </div>
-          </div>
-          <ul className="flex w-full flex-col justify-center gap-12 py-16">
-            {menuItems.slice(0, -1).map(
-              (
-                item,
-                index // Exclude 'PublishYourRole' for mobile
-              ) => (
-                <li key={index}>
-                  <a
-                    className="font-medium hover:text-gray-700"
-                    href={item.href}
-                    onClick={() => setMobileMenuVisibility(false)}
-                  >
-                    {item.label}
-                  </a>
-                </li>
-              )
-            )}
-            <li
-              className="font-medium hover:text-gray-700"
-              onClick={handleOpenPreferences}
+        <nav className="relative h-full overflow-y-auto bg-white">
+          <div className="flex justify-between">
+            <Logo />
+            <button
+              onClick={() => setMobileMenuVisibility(false)}
+              className="text-gray-500 hover:text-gray-700 focus:outline-none"
             >
-              Definir Preferências
+              <X size={24} />
+            </button>
+          </div>
+          <ul className="mt-8 space-y-4">
+            {menuItems.map((item, index) => (
+              <li key={index}>
+                <a
+                  href={item.href}
+                  className="flex items-center space-x-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
+                  onClick={() => setMobileMenuVisibility(false)}
+                >
+                  <item.icon size={20} />
+                  <span className="font-medium">{item.label}</span>
+                </a>
+              </li>
+            ))}
+            <li>
+              <button
+                onClick={handleOpenPreferences}
+                className="flex w-full items-center space-x-3 rounded-lg px-3 py-2 text-gray-700 hover:bg-gray-100"
+              >
+                <Settings size={20} />
+                <span className="font-medium">Definir Preferências</span>
+              </button>
             </li>
           </ul>
         </nav>
