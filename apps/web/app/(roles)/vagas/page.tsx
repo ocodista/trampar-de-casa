@@ -1,6 +1,6 @@
 'use server'
 
-import getSupabaseClient from 'app/utils/getSupabaseClient'
+import { getSupabaseClient } from 'db'
 import { RolesPage } from './RolesPage'
 import { fetchJobs } from './action'
 import getRedisClient from 'app/utils/getRedisClient'

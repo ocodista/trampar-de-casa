@@ -1,12 +1,7 @@
 'use server'
 
-import { createClient } from '@supabase/supabase-js'
 import { Filter } from 'app/components/SelectInput'
-
-const supabase = createClient(
-  process.env.SUPABASE_URL as string,
-  process.env.SUPABASE_SERVICE_ROLE as string
-)
+import { getSupabaseClient } from 'db'
 
 interface ItemExtracted {
   option: {
@@ -21,6 +16,8 @@ const getFilter = (filters: Filter[], filterType: string) => {
     (filter: ItemExtracted) => filter.inputType === filterType
   )
 }
+
+const supabase = getSupabaseClient()
 
 export const getFilterFromPreferences = async (email: string) => {
   const { data } = await supabase
@@ -97,9 +94,18 @@ export const fetchJobs = async (
     }
 
     const sortedData = data?.sort((a, b) => {
-      if (a.salary === null || a.salary === undefined) return 1
-      if (b.salary === null || b.salary === undefined) return -1
-      return b.salary - a.salary
+      const parseSalary = (salary: string) => {
+        if (!salary) return 0
+        const cleanedSalary = salary.replace(/[^0-9.-]+/g, '')
+        return parseFloat(cleanedSalary) || 0
+      }
+
+      const salaryA = parseSalary(a.salary)
+      const salaryB = parseSalary(b.salary)
+
+      if (salaryA === null || salaryA === undefined) return 1
+      if (salaryB === null || salaryB === undefined) return -1
+      return salaryB - salaryA
     })
 
     return {
