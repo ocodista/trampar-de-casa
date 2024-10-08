@@ -68,42 +68,20 @@ export function Header({
       </Section>
       <Heading className={h1}>{previewText}</Heading>
       <Hr style={hr} />
-      <Text className={paragraph}>E aí, tudo bem?</Text>
+      <Text className={paragraph}>Salve, beleza?</Text>
+      <Text className={paragraph}>E aí, bora na FrontInSampa?</Text>
       <Text className={paragraph}>
-        O trabalho remoto é o <strong>novo normal</strong>. De acordo com{' '}
-        <Link href="https://www.theguardian.com/money/article/2024/jul/12/working-from-home-data">
-          este artigo
-        </Link>{' '}
-        do The Guardian, o número de trabalhadores em regime 100% remoto não
-        diminuiu entre 2022 e 2023.
+        Aproveite os últimos momentos de segundo lote para garantir seu ingresso
+        e participar de um evento muito massa!
       </Text>
       <Text className={paragraph}>
-        Infelizmente, existem algumas empresas querendo acabar com esta nova
-        realidade (que proporciona maior equilíbrio entre vida pessoal e
-        trabalho).
-      </Text>
-      <Text className={paragraph}>
-        Para garantir a sobrevivência do <i>trabalho remoto</i>, é preciso
-        <strong> resistir.</strong>
-      </Text>
-      <Text className={paragraph}>
-        <Link href="https://www.forbes.com/sites/jackkelly/2024/09/27/employees-at-assassins-creed-maker-ubisoft-urged-to-strike-following-new-rto-policy-why-ceos-are-doubling-down/">
-          Funcionários da Ubisoft anunciam 3 dias de greve contra nova medida de
-          RTO (return-to-office/retorno ao escritório).
+        15% off com o cupom{' '}
+        <Link href="https://fastix.com.br/events/front-in-sampa?coupon=TRAMPARDCASA">
+          TRAMPARDCASA
         </Link>
       </Text>
       <Text className={paragraph}>
-        Todo apoio à galera da Ubisoft, que consigam reverter essa decisão
-        retrógrada do CEO, ou que encontrem uma ótima nova vaga.
-      </Text>
-      <div className="flex">
-        <Text className={`${paragraph} m-0 mr-2`}>
-          Agora, aqui vai nosso ato de <strong>resistência</strong>
-        </Text>
-        💪
-      </div>
-      <Text className={paragraph}>
-        <i>Aproveite suas vagas!</i>
+        <i>Agora, aproveite suas vagas!</i>
       </Text>
     </Tailwind>
   )
