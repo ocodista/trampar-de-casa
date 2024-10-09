@@ -10136,7 +10136,7 @@ web-streams-polyfill@^3.0.3:
   integrity sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==
 
 "web@file:/home/runner/work/trampar-de-casa/trampar-de-casa/apps/web":
-  version "1.0.40"
+  version "1.0.41"
   resolved "file:apps/web"
   dependencies:
     "@headlessui/react" "^1.7.15"
