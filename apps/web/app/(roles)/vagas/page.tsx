@@ -1,69 +1,72 @@
-import { RolesPage } from './RolesPage'
-import { createClient } from '@supabase/supabase-js'
-import { createClient as createClientRedis } from 'redis'
-import { fetchJobs } from './action'
+'use server'
 
-export const revalidate = 0
+import { getSupabaseClient } from 'db'
+import { RolesPage } from './RolesPage'
+import { fetchJobs } from './action'
+import getRedisClient from 'app/utils/getRedisClient'
 
 const ONE_DAY_IN_MINUTES = 86_400
 
-const client = createClientRedis({
-  socket: {
-    host: process.env['REDIS_HOST'],
-    port: parseInt(process.env['REDIS_PORT'] || '6379'),
-  },
-})
-
-client.connect()
-
-const supabase = createClient(
-  process.env['SUPABASE_URL'] as string,
-  process.env['SUPABASE_SERVICE_ROLE'] as string
-)
-
 async function getJobs() {
-  const jobsFromCache = await client.get('web_jobs')
+  try {
+    const client = await getRedisClient()
+    const jobsFromCache = await client.get('web_jobs')
+    if (jobsFromCache) {
+      await client.quit()
+      return JSON.parse(jobsFromCache)
+    }
 
-  if (jobsFromCache) {
-    return JSON.parse(jobsFromCache)
+    const { data: jobs } = await fetchJobs([])
+
+    await client.set('web_jobs', JSON.stringify(jobs), {
+      EX: ONE_DAY_IN_MINUTES,
+    })
+    await client.quit()
+    return jobs
+  } catch (error) {
+    console.error('Failed to fetch jobs:', error)
+    return []
   }
-
-  const { data: jobs } = await supabase
-    .from('Roles')
-    .select('*', { count: 'exact' })
-    .eq('ready', true)
-    .order('salary', { nullsFirst: false })
-
-  await client.set('web_jobs', JSON.stringify(jobs), { EX: ONE_DAY_IN_MINUTES })
-  return jobs
 }
 
 async function getSkills() {
-  const skillsFromCache = await client.get('Skills')
+  try {
+    const client = await getRedisClient()
+    const skillsFromCache = await client.get('Skills')
+    if (skillsFromCache) {
+      await client.quit()
+      return JSON.parse(skillsFromCache)
+    }
 
-  if (skillsFromCache) {
-    return JSON.parse(skillsFromCache)
+    const supabase = getSupabaseClient()
+    const { data: skills } = await supabase
+      .from('vw_skills_in_roles')
+      .select('*')
+      .order('name')
+
+    await client.set('getSkills', JSON.stringify(skills), {
+      EX: ONE_DAY_IN_MINUTES,
+    })
+    await client.quit()
+    return skills
+  } catch (error) {
+    console.error('Failed to fetch skills:', error)
+    return []
   }
-
-  const { data: skills } = await supabase
-    .from('vw_skills_in_roles')
-    .select('*')
-    .order('name')
-
-  await client.set('getSkills', JSON.stringify(skills), {
-    EX: ONE_DAY_IN_MINUTES,
-  })
-
-  return skills
 }
 
 async function getCountries() {
-  const { data: countries } = await supabase
-    .from('vw_countries_in_roles')
-    .select('*')
-    .order('country')
-
-  return countries
+  try {
+    const supabase = getSupabaseClient()
+    const { data: countries } = await supabase
+      .from('vw_countries_in_roles')
+      .select('*')
+      .order('country')
+    return countries
+  } catch (error) {
+    console.error('Failed to fetch countries:', error)
+    return []
+  }
 }
 
 export default async function Page() {

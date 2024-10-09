@@ -1,12 +1,11 @@
 'use server'
-import { createClient } from '@supabase/supabase-js'
+
+import { getSupabaseClient } from 'db'
 import { Entities } from 'shared'
 
 const getSubscriberCount = async (): Promise<number | null> => {
-  const supabase = createClient(
-    process.env['SUPABASE_URL'],
-    process.env['SUPABASE_SERVICE_ROLE']
-  )
+  const supabase = getSupabaseClient()
+
   const { count, error } = await supabase
     .from(Entities.Subcribers)
     .select('id', { count: 'exact', head: true })

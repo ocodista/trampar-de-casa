@@ -1,12 +1,8 @@
 'use server'
-import { createClient } from '@supabase/supabase-js'
+
+import { getSupabaseClient } from 'db'
 import { encrypt } from 'shared'
 import { sendProfileEmail } from 'shared/src/email/sendProfileEmail'
-
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE
-)
 
 export async function encryptId(id: string) {
   const secretKey = process.env['CRYPT_SECRET'] || ''
@@ -25,6 +21,7 @@ export async function sendEditPreferencesEmail(email: string, id: string) {
 
 export default async function login(email: string) {
   try {
+    const supabase = getSupabaseClient()
     const { data, error } = await supabase
       .from('Subscribers')
       .select('*')

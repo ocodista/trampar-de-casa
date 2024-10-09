@@ -6,12 +6,13 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[]
 
-export interface Database {
+export type Database = {
   public: {
     Tables: {
       Roles: {
         Row: {
           company: string | null
+          company_logo: string | null
           country: string
           createdAt: string
           currency: string | null
@@ -29,6 +30,7 @@ export interface Database {
         }
         Insert: {
           company?: string | null
+          company_logo?: string | null
           country: string
           createdAt?: string
           currency?: string | null
@@ -46,6 +48,7 @@ export interface Database {
         }
         Update: {
           company?: string | null
+          company_logo?: string | null
           country?: string
           createdAt?: string
           currency?: string | null
@@ -65,9 +68,10 @@ export interface Database {
           {
             foreignKeyName: "Roles_topicId_fkey"
             columns: ["topicId"]
+            isOneToOne: false
             referencedRelation: "Topics"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       rolesRecommendation: {
@@ -77,8 +81,9 @@ export interface Database {
           created_at: string | null
           currency: string | null
           description: string | null
-          id: number | null
-          language: string | null
+          id: number
+          isapproved: boolean | null
+          language: Database["public"]["Enums"]["RoleLanguage"] | null
           minimum_years: number | null
           salary: number | null
           title: string | null
@@ -91,8 +96,9 @@ export interface Database {
           created_at?: string | null
           currency?: string | null
           description?: string | null
-          id?: number | null
-          language?: string | null
+          id?: number
+          isapproved?: boolean | null
+          language?: Database["public"]["Enums"]["RoleLanguage"] | null
           minimum_years?: number | null
           salary?: number | null
           title?: string | null
@@ -105,8 +111,9 @@ export interface Database {
           created_at?: string | null
           currency?: string | null
           description?: string | null
-          id?: number | null
-          language?: string | null
+          id?: number
+          isapproved?: boolean | null
+          language?: Database["public"]["Enums"]["RoleLanguage"] | null
           minimum_years?: number | null
           salary?: number | null
           title?: string | null
@@ -115,25 +122,29 @@ export interface Database {
         }
         Relationships: [
           {
-            foreignKeyName: "fk_topics"
+            foreignKeyName: "rolesRecommendation_topic_id_fkey"
             columns: ["topic_id"]
+            isOneToOne: false
             referencedRelation: "Topics"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       Skills: {
         Row: {
+          emoji: string | null
           id: number
           name: string
           normalized: string | null
         }
         Insert: {
+          emoji?: string | null
           id: number
           name: string
           normalized?: string | null
         }
         Update: {
+          emoji?: string | null
           id?: number
           name?: string
           normalized?: string | null
@@ -163,16 +174,51 @@ export interface Database {
           {
             foreignKeyName: "skillsSuggestions_userId_fkey"
             columns: ["userId"]
+            isOneToOne: false
             referencedRelation: "Subscribers"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "skillsSuggestions_userId_fkey"
             columns: ["userId"]
+            isOneToOne: false
             referencedRelation: "SubscriberSkillsView"
             referencedColumns: ["id"]
-          }
+          },
         ]
+      }
+      sponsors: {
+        Row: {
+          avatar_url: string | null
+          created_at: string | null
+          email: string | null
+          github_id: number
+          id: number
+          is_recurring: boolean
+          name: string
+          updated_at: string | null
+        }
+        Insert: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          github_id: number
+          id?: number
+          is_recurring: boolean
+          name: string
+          updated_at?: string | null
+        }
+        Update: {
+          avatar_url?: string | null
+          created_at?: string | null
+          email?: string | null
+          github_id?: number
+          id?: number
+          is_recurring?: boolean
+          name?: string
+          updated_at?: string | null
+        }
+        Relationships: []
       }
       Subscribers: {
         Row: {
@@ -242,21 +288,24 @@ export interface Database {
           {
             foreignKeyName: "SubscriberTopics_subscriberId_fkey"
             columns: ["subscriberId"]
+            isOneToOne: false
             referencedRelation: "Subscribers"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "SubscriberTopics_subscriberId_fkey"
             columns: ["subscriberId"]
+            isOneToOne: false
             referencedRelation: "SubscriberSkillsView"
             referencedColumns: ["id"]
           },
           {
             foreignKeyName: "SubscriberTopics_topicId_fkey"
             columns: ["topicId"]
+            isOneToOne: false
             referencedRelation: "Topics"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       testimonial: {
@@ -303,6 +352,39 @@ export interface Database {
           name?: string
         }
         Relationships: []
+      }
+      Views: {
+        Row: {
+          id: string
+          role_id: string
+          viewed_at: string | null
+        }
+        Insert: {
+          id?: string
+          role_id: string
+          viewed_at?: string | null
+        }
+        Update: {
+          id?: string
+          role_id?: string
+          viewed_at?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "fk_role"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "Roles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "fk_role"
+            columns: ["role_id"]
+            isOneToOne: false
+            referencedRelation: "RolesSkillsView"
+            referencedColumns: ["id"]
+          },
+        ]
       }
     }
     Views: {
@@ -356,9 +438,10 @@ export interface Database {
           {
             foreignKeyName: "Roles_topicId_fkey"
             columns: ["topicId"]
+            isOneToOne: false
             referencedRelation: "Topics"
             referencedColumns: ["id"]
-          }
+          },
         ]
       }
       SubscriberSkillsView: {
@@ -391,9 +474,57 @@ export interface Database {
         }
         Relationships: []
       }
+      vw_countries_in_roles: {
+        Row: {
+          country: string | null
+        }
+        Relationships: []
+      }
+      vw_skills_in_roles: {
+        Row: {
+          emoji: string | null
+          id: number | null
+          name: string | null
+          normalized: string | null
+        }
+        Insert: {
+          emoji?: string | null
+          id?: number | null
+          name?: string | null
+          normalized?: string | null
+        }
+        Update: {
+          emoji?: string | null
+          id?: number | null
+          name?: string | null
+          normalized?: string | null
+        }
+        Relationships: []
+      }
     }
     Functions: {
-      [_ in never]: never
+      get_distinct_skills: {
+        Args: Record<PropertyKey, never>
+        Returns: {
+          id: number
+          name: string
+          normalized: string
+          emoji: string
+        }[]
+      }
+      get_view_count: {
+        Args: {
+          role_uuid: string
+        }
+        Returns: number
+      }
+      replace_skills: {
+        Args: {
+          skill_to_delete_id: number
+          replace_with_id: number
+        }
+        Returns: undefined
+      }
     }
     Enums: {
       EnglishLevel: "Beginner" | "Intermediary" | "Advanced" | "Fluent"
@@ -404,4 +535,86 @@ export interface Database {
     }
   }
 }
+
+type PublicSchema = Database[Extract<keyof Database, "public">]
+
+export type Tables<
+  PublicTableNameOrOptions extends
+    | keyof (PublicSchema["Tables"] & PublicSchema["Views"])
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+        Database[PublicTableNameOrOptions["schema"]]["Views"])
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? (Database[PublicTableNameOrOptions["schema"]]["Tables"] &
+      Database[PublicTableNameOrOptions["schema"]]["Views"])[TableName] extends {
+      Row: infer R
+    }
+    ? R
+    : never
+  : PublicTableNameOrOptions extends keyof (PublicSchema["Tables"] &
+        PublicSchema["Views"])
+    ? (PublicSchema["Tables"] &
+        PublicSchema["Views"])[PublicTableNameOrOptions] extends {
+        Row: infer R
+      }
+      ? R
+      : never
+    : never
+
+export type TablesInsert<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Insert: infer I
+    }
+    ? I
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Insert: infer I
+      }
+      ? I
+      : never
+    : never
+
+export type TablesUpdate<
+  PublicTableNameOrOptions extends
+    | keyof PublicSchema["Tables"]
+    | { schema: keyof Database },
+  TableName extends PublicTableNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicTableNameOrOptions["schema"]]["Tables"]
+    : never = never,
+> = PublicTableNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicTableNameOrOptions["schema"]]["Tables"][TableName] extends {
+      Update: infer U
+    }
+    ? U
+    : never
+  : PublicTableNameOrOptions extends keyof PublicSchema["Tables"]
+    ? PublicSchema["Tables"][PublicTableNameOrOptions] extends {
+        Update: infer U
+      }
+      ? U
+      : never
+    : never
+
+export type Enums<
+  PublicEnumNameOrOptions extends
+    | keyof PublicSchema["Enums"]
+    | { schema: keyof Database },
+  EnumName extends PublicEnumNameOrOptions extends { schema: keyof Database }
+    ? keyof Database[PublicEnumNameOrOptions["schema"]]["Enums"]
+    : never = never,
+> = PublicEnumNameOrOptions extends { schema: keyof Database }
+  ? Database[PublicEnumNameOrOptions["schema"]]["Enums"][EnumName]
+  : PublicEnumNameOrOptions extends keyof PublicSchema["Enums"]
+    ? PublicSchema["Enums"][PublicEnumNameOrOptions]
+    : never
 
