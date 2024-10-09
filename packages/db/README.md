@@ -1,78 +1,78 @@
-# Guia de Sincronização do Supabase
+# Supabase Synchronization Guide
 
-## Cenário 1: Alterações Locais para Remoto
+## Scenario 1: Local Changes to Remote
 
-Se você fez alterações no seu banco de dados local e deseja aplicá-las ao banco de dados remoto no Supabase, siga estes passos:
+If you've made changes to your local database and want to apply them to the remote Supabase database, follow these steps:
 
-1. **Gere um script de migração:**
+1. **Generate a migration script:**
 
    ```bash
-   supabase db diff -f nome_da_migracao
+   supabase db diff -f migration_name
    ```
 
-   Isso criará um arquivo de migração na pasta `supabase/migrations`.
+   This will create a migration file in the `supabase/migrations` folder.
 
-2. **Revise o script de migração:**
-   Abra o arquivo gerado e verifique se as alterações estão corretas.
+2. **Review the migration script:**
+   Open the generated file and verify that the changes are correct.
 
-3. **Aplique a migração localmente (opcional, mas recomendado):**
+3. **Apply the migration locally (optional, but recommended):**
 
    ```bash
    supabase db reset
    ```
 
-   Isso aplicará todas as migrações localmente para garantir que funcionem.
+   This will apply all migrations locally to ensure they work.
 
-4. **Envie as alterações para o banco de dados remoto:**
+4. **Push the changes to the remote database:**
 
    ```bash
    supabase db push
    ```
 
-5. **Verifique as alterações:**
-   Acesse o painel do Supabase ou use `supabase db pull` para confirmar que as alterações foram aplicadas corretamente.
+5. **Verify the changes:**
+   Access the Supabase dashboard or use `supabase db pull` to confirm that the changes were applied correctly.
 
-## Cenário 2: Alterações Remotas para Local
+## Scenario 2: Remote Changes to Local
 
-Se as alterações foram feitas diretamente no banco de dados remoto do Supabase e você precisa atualizá-las localmente:
+If changes were made directly to the remote Supabase database and you need to update them locally:
 
-1. **Puxe as alterações do banco de dados remoto:**
+1. **Pull the changes from the remote database:**
 
    ```bash
    supabase db pull
    ```
 
-   Isso atualizará seu esquema local com as alterações do banco remoto.
+   This will update your local schema with the changes from the remote database.
 
-2. **Gere um script de migração para as alterações:**
+2. **Generate a migration script for the changes:**
 
    ```bash
-   supabase db diff -f nome_da_migracao
+   supabase db diff -f migration_name
    ```
 
-   Isso criará um arquivo de migração baseado nas diferenças entre seu banco local e o remoto.
+   This will create a migration file based on the differences between your local and remote databases.
 
-3. **Revise o script de migração:**
-   Verifique o arquivo gerado para garantir que as alterações estão corretas.
+3. **Review the migration script:**
+   Check the generated file to ensure the changes are correct.
 
-4. **Aplique a migração localmente:**
+4. **Apply the migration locally:**
 
    ```bash
    supabase db reset
    ```
 
-   Isso aplicará todas as migrações, incluindo a nova, ao seu banco local.
+   This will apply all migrations, including the new one, to your local database.
 
-5. **Commit das alterações:**
-   Adicione o novo arquivo de migração ao seu sistema de controle de versão:
+5. **Commit the changes:**
+   Add the new migration file to your version control system:
    ```bash
-   git add supabase/migrations/nome_da_migracao.sql
-   git commit -m "Adiciona migração para alterações remotas"
+   git add supabase/migrations/migration_name.sql
+   git commit -m "Add migration for remote changes"
    ```
 
-## Notas Importantes:
+## Important Notes:
 
-- Sempre faça backup antes de aplicar alterações significativas.
-- Use `supabase db reset` com cuidado, pois ele recria o banco de dados local.
-- Se houver conflitos, você pode precisar resolver manualmente editando os scripts de migração.
-- Mantenha sua CLI do Supabase atualizada para evitar problemas de compatibilidade.
+- Always backup before applying significant changes.
+- Use `supabase db reset` with caution, as it recreates the local database.
+- If there are conflicts, you may need to resolve them manually by editing the migration scripts.
+- Keep your Supabase CLI updated to avoid compatibility issues.
