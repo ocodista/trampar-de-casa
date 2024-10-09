@@ -22,7 +22,7 @@ To clear the existing jobs cache and repopulate it with up-to-date data from the
 Example usage:
 
 ```
-https://www.trampardecasa.com.br/api/resetJobsCache?token=RESET_REDIS_CACHE_TOKEN
+https://www.trampardecasa.com.br/api/resetJobsCache?token=SECRET_KEY
 ```
 
 ## Response
@@ -54,4 +54,4 @@ https://www.trampardecasa.com.br/api/resetJobsCache?token=RESET_REDIS_CACHE_TOKE
 
 Ensure the following environment variable is set:
 
-- `RESET_REDIS_CACHE_TOKEN`: The secret token for authenticating reset requests.
+- `SECRET_KEY`: The secret token for authenticating reset requests.

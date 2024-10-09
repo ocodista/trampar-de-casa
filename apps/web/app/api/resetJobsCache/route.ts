@@ -7,7 +7,7 @@ const ONE_DAY_IN_MINUTES = 86_400
 export async function GET(request: Request) {
   const { searchParams } = new URL(request.url)
   const token = searchParams.get('token')
-  if (token !== process.env.RESET_REDIS_CACHE_TOKEN) {
+  if (token !== process.env.SECRET_KEY) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
   }
 
