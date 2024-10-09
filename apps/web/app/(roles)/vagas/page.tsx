@@ -11,10 +11,10 @@ async function getJobs() {
   try {
     const client = await getRedisClient()
     const jobsFromCache = await client.get('web_jobs')
-    if (jobsFromCache) {
-      await client.quit()
-      return JSON.parse(jobsFromCache)
-    }
+    // if (jobsFromCache) {
+    //   await client.quit()
+    //   return JSON.parse(jobsFromCache)
+    // }
 
     const { data: jobs } = await fetchJobs([])
 
