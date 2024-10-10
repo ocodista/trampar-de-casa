@@ -17,6 +17,9 @@ import { FormProvider, useForm } from 'react-hook-form'
 import { RolePreviewModal } from './RolePreview'
 import { RolePreviewSection } from './RolePreviewSection'
 import { RoleTopic } from './RoleTopic'
+import { Database } from 'db'
+import login from 'app/utils/LoginPreferencesActions'
+import { createRole, createRoleOwner } from './action'
 
 type FormFields = {
   name: keyof FormSchema
@@ -27,6 +30,8 @@ type FormFields = {
   Input?: React.FC<FormInputProps>
   required?: true
 }[]
+
+type RolesInsert = Database['public']['Tables']['Roles']['Insert']
 
 const salaryAndCurrencyField: FormFields = [
   {
@@ -106,16 +111,43 @@ export default function RolesCreate() {
     mode: 'onBlur',
   })
   const toast = useToast()
-  const onSubmit = async (data: FormSchema) => {
-    const headers = new Headers()
-    headers.set('Content-Type', 'application/json')
 
-    const response = await fetch('/api/vagas/publique', {
-      method: 'POST',
-      headers,
-      body: JSON.stringify(data),
-    })
-    if (response.ok) {
+  const onSubmit = async (formData: FormSchema) => {
+    const email = localStorage.getItem('loginEmail')
+    if (!email) {
+      toast.toast({
+        title: 'Erro de autenticação',
+        description: 'Você precisa estar logado para criar uma vaga.',
+        variant: 'destructive',
+      })
+      return
+    }
+
+    const userId = await login(email)
+
+    try {
+      const roleData: RolesInsert = {
+        language: formData.language === 'Português' ? 'Portuguese' : 'English',
+        country: formData.country,
+        currency: formData.currency,
+        description: formData.description,
+        salary: formData.salary?.toString(),
+        title: formData.title,
+        url: formData.url,
+        createdAt: new Date().toISOString(),
+        updatedAt: new Date().toISOString(),
+        company: formData.company,
+        skillsId: formData.skillsId || [],
+        ready: true,
+        topicId:
+          formData.currency === 'Real' || formData.currency === 'BRL' ? 1 : 2,
+        company_logo: null,
+        minimumYears: formData.minimumYears,
+      }
+
+      const newRole = await createRole(roleData)
+      await createRoleOwner(newRole.id, userId)
+
       form.reset({
         url: '',
         company: '',
@@ -129,18 +161,21 @@ export default function RolesCreate() {
         title: '',
         topicsId: undefined,
       })
+
       toast.toast({
-        title: 'Vaga enviada com sucesso!',
-        description: 'Muito obrigado por enviar a vaga.',
+        title: 'Vaga criada com sucesso!',
+        description: 'A vaga foi publicada e associada à sua conta.',
       })
-      return
+    } catch (error) {
+      console.error('Erro ao criar vaga:', error)
+      toast.toast({
+        title: 'Erro ao criar a vaga',
+        description: 'Por favor, tente novamente mais tarde.',
+        variant: 'destructive',
+      })
     }
-    toast.toast({
-      title: 'Já temos essa vaga cadastrada! 😁',
-      description: 'Por favor, verifique o formulário novamente. 😊',
-      variant: 'destructive',
-    })
   }
+
   return (
     <FormProvider {...form}>
       {form.formState.isSubmitting && <LoadingOverlay className="flex" />}

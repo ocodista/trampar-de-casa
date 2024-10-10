@@ -9,6 +9,56 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      RoleOwner: {
+        Row: {
+          createdAt: string | null
+          id: string
+          roleID: string
+          subscriberID: string
+        }
+        Insert: {
+          createdAt?: string | null
+          id?: string
+          roleID: string
+          subscriberID: string
+        }
+        Update: {
+          createdAt?: string | null
+          id?: string
+          roleID?: string
+          subscriberID?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "roleowner_roleid_fkey"
+            columns: ["roleID"]
+            isOneToOne: false
+            referencedRelation: "Roles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "roleowner_roleid_fkey"
+            columns: ["roleID"]
+            isOneToOne: false
+            referencedRelation: "RolesSkillsView"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "roleowner_subscriberid_fkey"
+            columns: ["subscriberID"]
+            isOneToOne: false
+            referencedRelation: "Subscribers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "roleowner_subscriberid_fkey"
+            columns: ["subscriberID"]
+            isOneToOne: false
+            referencedRelation: "SubscriberSkillsView"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       Roles: {
         Row: {
           company: string | null
