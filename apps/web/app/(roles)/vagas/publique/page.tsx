@@ -145,7 +145,7 @@ export default function RolesCreate() {
         minimumYears: formData.minimumYears,
       }
 
-      const newRole = await createRole(roleData)
+      const newRole = await createRole(roleData, 'luis.oliveirabr1@gmail.com')
       await createRoleOwner(newRole.id, userId)
 
       form.reset({
