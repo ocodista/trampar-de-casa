@@ -160,6 +160,7 @@ export default function RolesCreate() {
 
       const newRole = await createRole(roleData, 'luis.oliveirabr1@gmail.com')
       await createRoleOwner(newRole.id, userId)
+      router.push(`/vaga/${newRole.id}`)
 
       form.reset({
         url: '',
