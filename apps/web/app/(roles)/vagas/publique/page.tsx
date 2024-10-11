@@ -12,7 +12,7 @@ import { Button } from 'app/components/ui/button'
 import { LoadingOverlay } from 'app/components/ui/loadingOverlay'
 import { useToast } from 'app/hooks/use-toast'
 import { SkillsField } from 'app/subscribers/profile/components/SkillsField'
-import { InputHTMLAttributes } from 'react'
+import { InputHTMLAttributes, useEffect } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RolePreviewModal } from './RolePreview'
 import { RolePreviewSection } from './RolePreviewSection'
@@ -20,6 +20,8 @@ import { RoleTopic } from './RoleTopic'
 import { Database } from 'db'
 import login from 'app/utils/LoginPreferencesActions'
 import { createRole, createRoleOwner } from './action'
+import { useRouter } from 'next/navigation'
+import { FEATURES } from './config'
 
 type FormFields = {
   name: keyof FormSchema
@@ -106,11 +108,22 @@ const fields: FormFields = [
 ]
 
 export default function RolesCreate() {
+  const router = useRouter()
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     mode: 'onBlur',
   })
   const toast = useToast()
+
+  useEffect(() => {
+    if (!FEATURES.CREATE_ROLE) {
+      router.push('/')
+    }
+  }, [router])
+
+  if (!FEATURES.CREATE_ROLE) {
+    return null
+  }
 
   const onSubmit = async (formData: FormSchema) => {
     const email = localStorage.getItem('loginEmail')
