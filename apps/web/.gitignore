@@ -36,6 +36,8 @@ yarn-error.log*
 # Ignore Prisma client but don't ignore Prisma client type definition
 /prisma/client/*
 !/prisma/client/index.d.ts
-
-
-
+node_modules/
+/test-results/
+/playwright-report/
+/blob-report/
+/playwright/.cache/

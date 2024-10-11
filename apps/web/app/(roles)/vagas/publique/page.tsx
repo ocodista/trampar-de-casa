@@ -154,8 +154,6 @@ export default function RolesCreate() {
       return
     }
 
-    const userId = await login(email)
-
     try {
       const roleData: RolesInsert = {
         language: formData.language === 'Português' ? 'Portuguese' : 'English',
@@ -178,6 +176,7 @@ export default function RolesCreate() {
 
       const newRole = await createRole(roleData, 'luis.oliveirabr1@gmail.com')
       await createRoleOwner(newRole.id, userID)
+      console.log('should redirect')
       router.push(`/vaga/${newRole.id}`)
 
       form.reset({

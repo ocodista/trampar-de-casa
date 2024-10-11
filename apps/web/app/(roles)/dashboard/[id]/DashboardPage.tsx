@@ -31,7 +31,10 @@ export const DashboardPage = ({ skillsFromServer, jobsFromServer }) => {
 
   return (
     <div className="container mx-auto px-4 py-8">
-      <h1 className="mb-2 text-3xl font-bold text-gray-800">
+      <h1
+        data-testid="dashboard-title"
+        className="mb-2 text-3xl font-bold text-gray-800"
+      >
         Dashboard de Vagas
       </h1>
       <p className="mb-8 text-gray-600">Gerencie suas vagas publicadas</p>

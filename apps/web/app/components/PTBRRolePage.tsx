@@ -114,10 +114,18 @@ export const PTBRRolePage = ({ role }) => {
                   )}
                 </div>
                 <div>
-                  <h1 className="max-w-[500px] text-3xl font-bold">
+                  <h1
+                    data-testid="role-title"
+                    className="max-w-[500px] text-3xl font-bold"
+                  >
                     {role.title}
                   </h1>
-                  <p className="text-lg text-indigo-200">{role.company}</p>
+                  <p
+                    data-testid="role-company"
+                    className="text-lg text-indigo-200"
+                  >
+                    {role.company}
+                  </p>
                 </div>
               </div>
               <div className="relative flex space-x-2">

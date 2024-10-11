@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint ./app --fix",
-    "test": "vitest run"
+    "test": "npx playwright test"
   },
   "dependencies": {
     "@headlessui/react": "^1.7.15",
@@ -75,6 +75,7 @@
   },
   "devDependencies": {
     "@faker-js/faker": "^8.3.1",
+    "@playwright/test": "^1.48.0",
     "@react-email/render": "^0.0.10",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^14.0.0",
@@ -96,6 +97,7 @@
     "eslint-plugin-react-hooks": "^4.6.0",
     "eslint-plugin-turbo": "^2.0.3",
     "jsdom": "^22.1.0",
+    "playwright-expect": "^0.1.2",
     "postcss": "^8.4.24",
     "prettier": "^2.8.8",
     "prettier-plugin-tailwindcss": "^0.4.1",

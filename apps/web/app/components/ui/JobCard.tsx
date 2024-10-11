@@ -47,12 +47,19 @@ const JobCard = ({ job, skillsFromProps }) => {
       rel="noreferrer"
     >
       <div className="flex justify-between">
-        <p className="mb-2 text-sm text-gray-600">{job.company}</p>
+        <p
+          data-testid="job-card-company"
+          className="mb-2 text-sm text-gray-600"
+        >
+          {job.company}
+        </p>
         <span className="text-[13px] sm:text-[16px] md:text-[16px] lg:text-[16px]">
           {salaryText}
         </span>
       </div>
-      <h2 className="text-lg font-semibold">{job.title}</h2>
+      <h2 data-testid="job-card-title" className="text-lg font-semibold">
+        {job.title}
+      </h2>
       <div className="my-4">
         {job.skillsId?.length > 0 ? (
           job.skillsId.slice(0, 1).map((skillId) => {
@@ -73,9 +80,7 @@ const JobCard = ({ job, skillsFromProps }) => {
         )}
       </div>
       <div className="flex items-center text-sm text-gray-600">
-        <span className="mr-4">
-          📍 {job.country || 'Internacional'}
-        </span>
+        <span className="mr-4">📍 {job.country || 'Internacional'}</span>
         <span>
           💬 {job.language === 'Portuguese' ? 'Português' : job.language}
         </span>
