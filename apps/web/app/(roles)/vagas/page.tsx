@@ -17,12 +17,10 @@ async function getJobs(): Promise<Job[]> {
     const jobsFromCache = await client.get('web_jobs')
     if (jobsFromCache) {
       await client.quit()
-      console.log('cache')
       return JSON.parse(jobsFromCache) as Job[]
     }
 
     const { data: jobs } = await fetchJobs([])
-    console.log('supabase')
 
     await client.set('web_jobs', JSON.stringify(jobs), {
       EX: ONE_DAY_IN_MINUTES,

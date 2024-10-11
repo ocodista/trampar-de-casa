@@ -116,6 +116,7 @@ export default function RolesCreate() {
   const toast = useToast()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
   const [hasRoles, setHasRoles] = useState(false)
+  const [userID, setUserID] = useState('')
 
   useEffect(() => {
     const checkLoginAndRoles = async () => {
@@ -124,6 +125,8 @@ export default function RolesCreate() {
         setIsLoggedIn(true)
         const userHasRoles = await checkUserHasRoles(email)
         setHasRoles(userHasRoles)
+        const userID = await login(email)
+        setUserID(userID)
       }
     }
 
@@ -174,7 +177,7 @@ export default function RolesCreate() {
       }
 
       const newRole = await createRole(roleData, 'luis.oliveirabr1@gmail.com')
-      await createRoleOwner(newRole.id, userId)
+      await createRoleOwner(newRole.id, userID)
       router.push(`/vaga/${newRole.id}`)
 
       form.reset({
@@ -250,7 +253,7 @@ export default function RolesCreate() {
               Enviar
             </Button>
             {isLoggedIn && hasRoles && (
-              <Button onClick={() => router.push('/dashboard')}>
+              <Button onClick={() => router.push(`/dashboard/${userID}`)}>
                 Ir para o Dashboard
               </Button>
             )}
