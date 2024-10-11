@@ -39,3 +39,25 @@ export const createRoleOwner = async (roleID: string, subscriberID: string) => {
 
   if (error) throw error
 }
+
+export const checkUserHasRoles = async (email: string) => {
+  const supabase = getSupabaseClient()
+
+  const { data: userData, error: userError } = await supabase
+    .from('Subscribers')
+    .select('id')
+    .eq('email', email)
+    .single()
+
+  if (userError || !userData) return false
+
+  const { data: roleData, error: roleError } = await supabase
+    .from('RoleOwner')
+    .select('roleID')
+    .eq('subscriberID', userData.id)
+    .limit(1)
+
+  if (roleError) return false
+
+  return roleData && roleData.length > 0
+}

@@ -12,14 +12,14 @@ import { Button } from 'app/components/ui/button'
 import { LoadingOverlay } from 'app/components/ui/loadingOverlay'
 import { useToast } from 'app/hooks/use-toast'
 import { SkillsField } from 'app/subscribers/profile/components/SkillsField'
-import { InputHTMLAttributes, useEffect } from 'react'
+import { InputHTMLAttributes, useEffect, useState } from 'react'
 import { FormProvider, useForm } from 'react-hook-form'
 import { RolePreviewModal } from './RolePreview'
 import { RolePreviewSection } from './RolePreviewSection'
 import { RoleTopic } from './RoleTopic'
 import { Database } from 'db'
 import login from 'app/utils/LoginPreferencesActions'
-import { createRole, createRoleOwner } from './action'
+import { checkUserHasRoles, createRole, createRoleOwner } from './action'
 import { useRouter } from 'next/navigation'
 import { FEATURES } from './config'
 
@@ -114,6 +114,21 @@ export default function RolesCreate() {
     mode: 'onBlur',
   })
   const toast = useToast()
+  const [isLoggedIn, setIsLoggedIn] = useState(false)
+  const [hasRoles, setHasRoles] = useState(false)
+
+  useEffect(() => {
+    const checkLoginAndRoles = async () => {
+      const email = localStorage.getItem('loginEmail')
+      if (email) {
+        setIsLoggedIn(true)
+        const userHasRoles = await checkUserHasRoles(email)
+        setHasRoles(userHasRoles)
+      }
+    }
+
+    checkLoginAndRoles()
+  }, [])
 
   useEffect(() => {
     if (!FEATURES.CREATE_ROLE) {
@@ -234,6 +249,11 @@ export default function RolesCreate() {
             <Button disabled={form.formState.isSubmitting} type="submit">
               Enviar
             </Button>
+            {isLoggedIn && hasRoles && (
+              <Button onClick={() => router.push('/dashboard')}>
+                Ir para o Dashboard
+              </Button>
+            )}
             <section className="md:invisible">
               <RolePreviewModal />
             </section>
