@@ -1,9 +1,17 @@
 'use server'
 
+import { PutObjectCommand } from '@aws-sdk/client-s3'
 import { Database, getSupabaseClient } from 'db'
+import { R2 } from 'shared'
 import { sendJobCreatedEmail } from 'shared/src/email/sendJobCreatedEmail'
 
 type Role = Database['public']['Tables']['Roles']['Insert']
+
+interface SendCompanyLogoParams {
+  fileName: string
+  fileBuffer: string
+  contentType: string
+}
 
 const supabase = getSupabaseClient()
 
@@ -60,4 +68,21 @@ export const checkUserHasRoles = async (email: string) => {
   if (roleError) return false
 
   return roleData && roleData.length > 0
+}
+
+export const sendCompanyLogoToR2 = async ({
+  fileName,
+  fileBuffer,
+  contentType,
+}: SendCompanyLogoParams): Promise<void> => {
+  const buffer = Buffer.from(fileBuffer, 'base64')
+
+  await R2.send(
+    new PutObjectCommand({
+      Bucket: 'company-logo-trampar-de-casa',
+      Key: fileName,
+      Body: buffer,
+      ContentType: contentType,
+    })
+  )
 }

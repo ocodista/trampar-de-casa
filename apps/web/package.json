@@ -10,6 +10,8 @@
     "test": "npx playwright test"
   },
   "dependencies": {
+    "@aws-sdk/client-s3": "^3.670.0",
+    "@aws-sdk/node-http-handler": "^3.374.0",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "@hookform/error-message": "^2.0.1",

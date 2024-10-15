@@ -1,4 +1,5 @@
 'use client'
+
 import { zodResolver } from '@hookform/resolvers/zod'
 import { FormSchema, formSchema } from 'app/(roles)/formSchema'
 import {
@@ -19,9 +20,16 @@ import { RolePreviewSection } from './RolePreviewSection'
 import { RoleTopic } from './RoleTopic'
 import { Database } from 'db'
 import login from 'app/utils/LoginPreferencesActions'
-import { checkUserHasRoles, createRole, createRoleOwner } from './action'
+import {
+  checkUserHasRoles,
+  createRole,
+  createRoleOwner,
+  sendCompanyLogoToR2,
+} from './action'
 import { useRouter } from 'next/navigation'
 import { FEATURES } from './config'
+import { SalaryRangeField } from 'app/components/SalaryRangeField'
+import { CompanyLogoUpload } from 'app/components/CompanyLogoUpload'
 
 type FormFields = {
   name: keyof FormSchema
@@ -112,6 +120,10 @@ export default function RolesCreate() {
   const form = useForm<FormSchema>({
     resolver: zodResolver(formSchema),
     mode: 'onBlur',
+    defaultValues: {
+      minSalary: 1000,
+      maxSalary: 10000,
+    },
   })
   const toast = useToast()
   const [isLoggedIn, setIsLoggedIn] = useState(false)
@@ -153,14 +165,30 @@ export default function RolesCreate() {
       })
       return
     }
-
     try {
+      let company_logo_url = null
+      if (formData.companyLogo && formData.companyLogo instanceof File) {
+        const fileName = `company_logo_${Date.now()}_${
+          formData.companyLogo.name
+        }`
+        const fileBuffer = await formData.companyLogo.arrayBuffer()
+        const base64FileBuffer = Buffer.from(fileBuffer).toString('base64')
+
+        await sendCompanyLogoToR2({
+          fileName,
+          fileBuffer: base64FileBuffer,
+          contentType: formData.companyLogo.type,
+        })
+
+        company_logo_url = `https://company-logo-trampar-de-casa.r2.dev/${fileName}`
+      }
+
       const roleData: RolesInsert = {
         language: formData.language === 'Português' ? 'Portuguese' : 'English',
         country: formData.country,
         currency: formData.currency,
         description: formData.description,
-        salary: formData.salary?.toString(),
+        salary: formData.salary,
         title: formData.title,
         url: formData.url,
         createdAt: new Date().toISOString(),
@@ -168,30 +196,17 @@ export default function RolesCreate() {
         company: formData.company,
         skillsId: formData.skillsId || [],
         ready: true,
-        topicId:
-          formData.currency === 'Real' || formData.currency === 'BRL' ? 1 : 2,
-        company_logo: null,
+        topicId: formData.topicId,
+        company_logo: company_logo_url,
         minimumYears: formData.minimumYears,
       }
 
-      const newRole = await createRole(roleData, 'luis.oliveirabr1@gmail.com')
+      const newRole = await createRole(roleData, email)
       await createRoleOwner(newRole.id, userID)
       console.log('should redirect')
       router.push(`/vaga/${newRole.id}`)
 
-      form.reset({
-        url: '',
-        company: '',
-        country: '',
-        currency: undefined,
-        description: '',
-        language: undefined,
-        minimumYears: undefined,
-        salary: undefined,
-        skillsId: undefined,
-        title: '',
-        topicsId: undefined,
-      })
+      form.reset()
 
       toast.toast({
         title: 'Vaga criada com sucesso!',
@@ -217,7 +232,8 @@ export default function RolesCreate() {
           </h1>
           <section>
             <RolePreviewSection />
-            <section className="grid grid-cols-1 gap-6 py-6 md:grid-cols-2">
+            <section className="grid grid-cols-1 justify-center gap-6 py-6 md:grid-cols-2">
+              <CompanyLogoUpload />
               {fields.map((props) => (
                 <CustomFormField
                   key={props.name}
@@ -225,26 +241,26 @@ export default function RolesCreate() {
                   Input={props.Input || TextInput}
                 />
               ))}
-              <section className="grid grid-cols-2 gap-6">
-                {salaryAndCurrencyField.map((props) => (
-                  <CustomFormField
-                    key={props.name}
-                    {...props}
-                    Input={props.Input || TextInput}
-                  />
-                ))}
-              </section>
-              <section className="grid grid-cols-2 gap-6">
-                {countryAndLanguageField.map((props) => (
-                  <CustomFormField
-                    key={props.name}
-                    {...props}
-                    Input={props.Input || TextInput}
-                  />
-                ))}
-              </section>
-              <RoleTopic />
-              <SkillsField description="Quais habilidades são necessárias para a vaga?" />
+              <CustomFormField
+                name="currency"
+                label="Câmbio"
+                placeholder="BRL, USD, EUR..."
+                description="Insira a moeda de pagamento do salário"
+                Input={CurrencySelect}
+                required
+              />
+              <SalaryRangeField currency={form.watch('currency')} />
+              {countryAndLanguageField.map((props) => (
+                <CustomFormField
+                  key={props.name}
+                  {...props}
+                  Input={props.Input || TextInput}
+                />
+              ))}
+              <div className="space-y-6 md:col-span-2">
+                <RoleTopic />
+                <SkillsField description="Quais habilidades são necessárias para a vaga?" />
+              </div>
             </section>
           </section>
           <section className="flex gap-4">

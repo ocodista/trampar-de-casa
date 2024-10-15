@@ -1,6 +1,6 @@
 include:
-  - analytics.yml
-  - grafana.yml
-  - nginx.yml
-  - web.yml
+  # - analytics.yml
+  # - grafana.yml
+  # - nginx.yml
+  # - web.yml
   - redis.yml
