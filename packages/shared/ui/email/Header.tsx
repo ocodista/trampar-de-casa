@@ -69,10 +69,23 @@ export function Header({
       <Heading className={h1}>{previewText}</Heading>
       <Hr style={hr} />
       <Text className={paragraph}>Salve, beleza?</Text>
-      <Text className={paragraph}>E aí, bora na FrontInSampa?</Text>
       <Text className={paragraph}>
-        Aproveite os últimos momentos de segundo lote para garantir seu ingresso
-        e participar de um evento muito massa!
+        O trabalho remoto é o <strong>novo normal</strong>. E o Spotify tá
+        mostrando como se faz!
+      </Text>
+      <Text className={paragraph}>
+        Eles acabaram de reafirmar o compromisso com o trabalho remoto, dizendo
+        que seus funcionários &quot;não são crianças&quot;. Confiança total na
+        galera!
+      </Text>
+      <Text className={paragraph}>
+        Pra garantir que o trampo remoto continue firme e forte, a gente precisa{' '}
+        <strong>resistir</strong>. Bora mostrar que dá pra ser produtivo de
+        casa!
+      </Text>
+      <Text className={paragraph}>
+        E aí, bora na FrontInSampa? Aproveite os últimos momentos de segundo
+        lote!
       </Text>
       <Text className={paragraph}>
         15% off com o cupom{' '}
@@ -81,7 +94,10 @@ export function Header({
         </Link>
       </Text>
       <Text className={paragraph}>
-        <i>Agora, aproveite suas vagas!</i>
+        <i>
+          Agora, aproveite suas vagas e vamos juntos nessa jornada de trabalho
+          remoto!
+        </i>
       </Text>
     </Tailwind>
   )
