@@ -70,22 +70,18 @@ export function Header({
       <Hr style={hr} />
       <Text className={paragraph}>Salve, beleza?</Text>
       <Text className={paragraph}>
-        O trabalho remoto é o <strong>novo normal</strong>. E o Spotify tá
+        O trabalho remoto é o <strong>novo normal</strong>, e o Spotify tá
         mostrando como se faz!
       </Text>
       <Text className={paragraph}>
         Eles acabaram de reafirmar o compromisso com o trabalho remoto, dizendo
-        que seus funcionários &quot;não são crianças&quot;. Confiança total na
-        galera!
+        que seus funcionários <Link href="https://www.techradar.com/pro/spotify-says-it-will-allow-staff-to-work-from-home-says-employees-arent-children">não são crianças</Link> 😁 
       </Text>
       <Text className={paragraph}>
-        Pra garantir que o trampo remoto continue firme e forte, a gente precisa{' '}
-        <strong>resistir</strong>. Bora mostrar que dá pra ser produtivo de
-        casa!
+      Nada melhor do que uma empresa que enxerga seus funcionários como adultos responsáveis 🙏
       </Text>
       <Text className={paragraph}>
-        E aí, bora na FrontInSampa? Aproveite os últimos momentos de segundo
-        lote!
+        Mas e aí, já comprou seu ingresso do FrontInSampa? Já é sábado agora, agiliza!
       </Text>
       <Text className={paragraph}>
         15% off com o cupom{' '}
