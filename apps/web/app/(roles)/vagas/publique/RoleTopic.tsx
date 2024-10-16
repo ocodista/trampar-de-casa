@@ -30,13 +30,14 @@ export const RoleTopic = () => {
         ]}
         formKey={id}
         selectedOption={
-          watch(fieldId) === Topics.INTERNATIONAL_VACANCIES.toString()
+          watch(fieldId)?.toString() ===
+          Topics.INTERNATIONAL_VACANCIES.toString()
             ? Topics.INTERNATIONAL_VACANCIES.toString()
             : Topics.NATIONAL_VACANCIES.toString()
         }
         setSelectedOption={(option) => {
           console.log(option)
-          setValue(fieldId, option)
+          setValue(fieldId, parseInt(option, 10))
         }}
       />
       {formState.errors?.topicsId?.message && (
