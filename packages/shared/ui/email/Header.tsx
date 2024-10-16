@@ -91,7 +91,7 @@ export function Header({
       </Text>
       <Text className={paragraph}>
         <i>
-          Agora, aproveite suas vagas e vamos juntos nessa jornada de trabalho
+          Sem mais delongas, aqui estão suas vagas 100% remotas ✌️ 😁
           remoto!
         </i>
       </Text>
