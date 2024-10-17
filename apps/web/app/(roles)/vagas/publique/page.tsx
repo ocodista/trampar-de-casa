@@ -198,7 +198,6 @@ export default function RolesCreate() {
       }
 
       const newRole = await createRole(roleData, email)
-      console.log({ userID })
       await createRoleOwner(newRole.id, userID)
       console.log('should redirect')
       router.push(`/vaga/${newRole.id}`)

@@ -91,7 +91,9 @@ export const TextInput = ({
   type = 'text',
   name,
 }: FormInputProps) => {
-  const { watch } = useFormContext()
+  const { watch, setValue } = useFormContext()
+  const value = watch(name)
+
   return (
     <BaseInput
       type={type}
@@ -104,8 +106,11 @@ export const TextInput = ({
         }
         goToLastCharacter()
       }}
-      value={watch(name)}
-      {...(field as ControllerRenderProps)}
+      value={value || ''}
+      onChange={(e) => {
+        setValue(name, e.target.value)
+        field.onChange(e)
+      }}
       placeholder={placeholder || ''}
     />
   )
