@@ -1,12 +1,16 @@
 'use client'
 
+import { useState, useCallback } from 'react'
 import JobCard from 'app/components/ui/JobCard'
 import { BarChart, Users, Eye } from 'lucide-react'
+import { toggleRoleActive } from './action'
 
 export const DashboardPage = ({ skillsFromServer, jobsFromServer }) => {
-  const getMostUsedSkills = () => {
+  const [jobs, setJobs] = useState(jobsFromServer)
+
+  const getMostUsedSkills = useCallback(() => {
     const skillCount: { [key: string]: number } = {}
-    jobsFromServer.forEach((job) => {
+    jobs.forEach((job) => {
       job.skillsId?.forEach((skillId) => {
         skillCount[skillId] = (skillCount[skillId] || 0) + 1
       })
@@ -22,11 +26,24 @@ export const DashboardPage = ({ skillsFromServer, jobsFromServer }) => {
       })
       .filter(Boolean)
       .join(', ')
-  }
+  }, [jobs, skillsFromServer])
 
-  const totalViews = jobsFromServer.reduce(
-    (sum, job) => sum + (job.views || 0),
-    0
+  const totalViews = jobs.reduce((sum, job) => sum + (job.views || 0), 0)
+
+  const handleToggleActive = useCallback(
+    async (jobId: string | number, active: boolean) => {
+      try {
+        await toggleRoleActive(jobId, active)
+        setJobs((prevJobs) =>
+          prevJobs.map((job) =>
+            job.id === jobId ? { ...job, ready: active } : job
+          )
+        )
+      } catch (error) {
+        console.error('Erro ao alterar o status da vaga:', error)
+      }
+    },
+    []
   )
 
   return (
@@ -48,9 +65,7 @@ export const DashboardPage = ({ skillsFromServer, jobsFromServer }) => {
             <h2 className="mb-1 text-sm font-semibold text-gray-600">
               Total de Vagas
             </h2>
-            <p className="text-2xl font-bold text-gray-800">
-              {jobsFromServer.length}
-            </p>
+            <p className="text-2xl font-bold text-gray-800">{jobs.length}</p>
           </div>
         </div>
         <div className="flex items-center rounded-lg bg-white p-6 shadow-sm">
@@ -83,8 +98,14 @@ export const DashboardPage = ({ skillsFromServer, jobsFromServer }) => {
         Suas Vagas Publicadas
       </h2>
       <div className="space-y-4">
-        {jobsFromServer.map((job) => (
-          <JobCard job={job} key={job.id} skillsFromProps={skillsFromServer} />
+        {jobs.map((job) => (
+          <JobCard
+            job={job}
+            key={job.id}
+            skillsFromProps={skillsFromServer}
+            showToggle={true}
+            onToggleActive={handleToggleActive}
+          />
         ))}
       </div>
     </div>
