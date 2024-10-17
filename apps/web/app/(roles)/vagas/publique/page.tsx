@@ -1,24 +1,27 @@
 'use client'
 
-import { zodResolver } from '@hookform/resolvers/zod'
-import { FormSchema, formSchema } from 'app/(roles)/formSchema'
-import {
-  CurrencySelect,
-  CustomFormField,
-  FormInputProps,
-  LanguageSelect,
-  TextInput,
-} from 'app/components/CustomFormField'
-import { Button } from 'app/components/ui/button'
-import { LoadingOverlay } from 'app/components/ui/loadingOverlay'
-import { useToast } from 'app/hooks/use-toast'
-import { SkillsField } from 'app/subscribers/profile/components/SkillsField'
 import { InputHTMLAttributes, useEffect, useState } from 'react'
-import { FormProvider, useForm } from 'react-hook-form'
+import { useRouter } from 'next/navigation'
+
+import { useForm, FormProvider } from 'react-hook-form'
+import { zodResolver } from '@hookform/resolvers/zod'
+
 import { RolePreviewModal } from './RolePreview'
 import { RolePreviewSection } from './RolePreviewSection'
 import { RoleTopic } from './RoleTopic'
-import { Database } from 'db'
+import { CompanyLogoUpload } from 'app/components/CompanyLogoUpload'
+import { SalaryRangeField } from 'app/components/SalaryRangeField'
+import { Button } from 'app/components/ui/button'
+import { LoadingOverlay } from 'app/components/ui/loadingOverlay'
+import {
+  CurrencySelect,
+  CustomFormField,
+  LanguageSelect,
+  TextInput,
+} from 'app/components/CustomFormField'
+import { SkillsField } from 'app/subscribers/profile/components/SkillsField'
+
+import { useToast } from 'app/hooks/use-toast'
 import login from 'app/utils/LoginPreferencesActions'
 import {
   checkUserHasRoles,
@@ -26,10 +29,12 @@ import {
   createRoleOwner,
   sendCompanyLogoToR2,
 } from './action'
-import { useRouter } from 'next/navigation'
+
+import { FormSchema, formSchema } from 'app/(roles)/formSchema'
+import { Database } from 'db'
 import { FEATURES } from './config'
-import { SalaryRangeField } from 'app/components/SalaryRangeField'
-import { CompanyLogoUpload } from 'app/components/CompanyLogoUpload'
+
+import type { FormInputProps } from 'app/components/CustomFormField'
 
 type FormFields = {
   name: keyof FormSchema
@@ -42,24 +47,6 @@ type FormFields = {
 }[]
 
 type RolesInsert = Database['public']['Tables']['Roles']['Insert']
-
-const salaryAndCurrencyField: FormFields = [
-  {
-    name: 'currency',
-    label: 'Câmbio',
-    placeholder: 'BRL, USD, EUR...',
-    description: 'Insira a moeda de pagamento do salário',
-    Input: CurrencySelect,
-    required: true,
-  },
-  {
-    name: 'salary',
-    label: 'Sálario',
-    description: 'Digite o sálario base da vaga',
-    placeholder: 'Ex: 3000',
-    type: 'number',
-  },
-]
 
 const countryAndLanguageField: FormFields = [
   {
@@ -115,6 +102,26 @@ const fields: FormFields = [
   },
 ]
 
+const uploadCompanyLogo = async (file: File) => {
+  if (!file) return null
+
+  const sanitizedFileName = file.name.replace(/\s+/g, '_')
+  const fileName = `company_logo_${Date.now()}_${sanitizedFileName}`
+  const fileBuffer = await file.arrayBuffer()
+  const base64FileBuffer = Buffer.from(fileBuffer).toString('base64')
+
+  await sendCompanyLogoToR2({
+    fileName,
+    fileBuffer: base64FileBuffer,
+    contentType: file.type,
+  })
+
+  const bucketUrl = 'https://pub-b4f7c986aa7b4e89baa8b33ffcc31fb7.r2.dev'
+  const company_logo_url = `${bucketUrl}/${fileName}`
+
+  return company_logo_url
+}
+
 export default function RolesCreate() {
   const router = useRouter()
   const form = useForm<FormSchema>({
@@ -165,22 +172,11 @@ export default function RolesCreate() {
       })
       return
     }
+
     try {
       let company_logo_url = null
       if (formData.companyLogo && formData.companyLogo instanceof File) {
-        const fileName = `company_logo_${Date.now()}_${
-          formData.companyLogo.name
-        }`
-        const fileBuffer = await formData.companyLogo.arrayBuffer()
-        const base64FileBuffer = Buffer.from(fileBuffer).toString('base64')
-
-        await sendCompanyLogoToR2({
-          fileName,
-          fileBuffer: base64FileBuffer,
-          contentType: formData.companyLogo.type,
-        })
-
-        company_logo_url = `https://company-logo-trampar-de-casa.r2.dev/${fileName}`
+        company_logo_url = await uploadCompanyLogo(formData.companyLogo)
       }
 
       const roleData: RolesInsert = {
@@ -202,6 +198,7 @@ export default function RolesCreate() {
       }
 
       const newRole = await createRole(roleData, email)
+      console.log({ userID })
       await createRoleOwner(newRole.id, userID)
       console.log('should redirect')
       router.push(`/vaga/${newRole.id}`)
