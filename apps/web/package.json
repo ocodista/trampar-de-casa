@@ -7,7 +7,7 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint ./app --fix",
-    "test": "npx playwright test"
+    "test": "npx playwright test --headed"
   },
   "dependencies": {
     "@aws-sdk/client-s3": "^3.670.0",

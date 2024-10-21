@@ -16,6 +16,7 @@ import { LoadingOverlay } from 'app/components/ui/loadingOverlay'
 import {
   CurrencySelect,
   CustomFormField,
+  EnglishLevelSelect,
   LanguageSelect,
   TextInput,
 } from 'app/components/CustomFormField'
@@ -23,12 +24,7 @@ import { SkillsField } from 'app/subscribers/profile/components/SkillsField'
 
 import { useToast } from 'app/hooks/use-toast'
 import login from 'app/utils/LoginPreferencesActions'
-import {
-  checkUserHasRoles,
-  createRole,
-  createRoleOwner,
-  sendCompanyLogoToR2,
-} from './action'
+import { checkUserHasRoles, createRole, sendCompanyLogoToR2 } from './action'
 
 import { FormSchema, formSchema } from 'app/(roles)/formSchema'
 import { Database } from 'db'
@@ -137,6 +133,12 @@ export default function RolesCreate() {
   const [hasRoles, setHasRoles] = useState(false)
   const [userID, setUserID] = useState('')
 
+  const formValues = form.watch()
+
+  useEffect(() => {
+    console.log('Form changed:', formValues)
+  }, [formValues])
+
   useEffect(() => {
     const checkLoginAndRoles = async () => {
       const email = localStorage.getItem('loginEmail')
@@ -180,7 +182,7 @@ export default function RolesCreate() {
       }
 
       const roleData: RolesInsert = {
-        language: formData.language === 'Português' ? 'Portuguese' : 'English',
+        language: formData.language === 'Portuguese' ? 'Portuguese' : 'English',
         country: formData.country,
         currency: formData.currency,
         description: formData.description,
@@ -195,24 +197,29 @@ export default function RolesCreate() {
         topicId: formData.topicId,
         company_logo: company_logo_url,
         minimumYears: formData.minimumYears,
+        englishLevel: formData.englishLevel,
       }
 
-      const newRole = await createRole(roleData, email)
-      await createRoleOwner(newRole.id, userID)
-      console.log('should redirect')
-      router.push(`/vaga/${newRole.id}`)
-
-      form.reset()
+      const newRole = await createRole(roleData, email, userID)
 
       toast.toast({
         title: 'Vaga criada com sucesso!',
         description: 'A vaga foi publicada e associada à sua conta.',
       })
+
+      router.push(`/vaga/${newRole.id}`)
     } catch (error) {
       console.error('Erro ao criar vaga:', error)
+
+      let errorMessage =
+        'Ocorreu um erro ao criar a vaga. Por favor, tente novamente.'
+      if (error instanceof Error) {
+        errorMessage = error.message
+      }
+
       toast.toast({
         title: 'Erro ao criar a vaga',
-        description: 'Por favor, tente novamente mais tarde.',
+        description: errorMessage,
         variant: 'destructive',
       })
     }
@@ -237,6 +244,14 @@ export default function RolesCreate() {
                   Input={props.Input || TextInput}
                 />
               ))}
+              <CustomFormField
+                name="englishLevel"
+                label="Nível de inglês necessário"
+                placeholder="Initial, Intermediary..."
+                description="Insira o nível de inglês necessário"
+                Input={EnglishLevelSelect}
+                required
+              />
               <CustomFormField
                 name="currency"
                 label="Câmbio"

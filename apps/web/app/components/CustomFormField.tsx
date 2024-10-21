@@ -4,6 +4,7 @@ import { format } from 'date-fns'
 import { Database } from 'db/src/supabase/type'
 import React, { InputHTMLAttributes, useEffect } from 'react'
 import {
+  Controller,
   ControllerRenderProps,
   FieldValue,
   Path,
@@ -116,13 +117,9 @@ export const TextInput = ({
   )
 }
 
-export const LanguageSelect = ({
-  field,
-  isSubmitting,
-  placeholder,
-  name,
-}: FormInputProps) => {
-  const { setValue } = useFormContext()
+export const LanguageSelect = ({ placeholder, name }: FormInputProps) => {
+  const { control } = useFormContext()
+
   const languages: {
     value: Database['public']['Enums']['RoleLanguage']
     label: string
@@ -137,36 +134,36 @@ export const LanguageSelect = ({
     },
   ]
   return (
-    <Select
-      onValueChange={(value) => {
-        setValue(name, value)
-      }}
-      disabled={isSubmitting}
-      {...(field as ControllerRenderProps)}
-    >
-      <SelectTrigger>
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Linguagem</SelectLabel>
-          {languages.map(({ label, value }) => (
-            <SelectItem value={value} key={value}>
-              {label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <Select
+          onValueChange={field.onChange}
+          value={field.value}
+          defaultValue={field.value}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Linguagem</SelectLabel>
+              {languages.map(({ label, value }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      )}
+    />
   )
 }
-export const CurrencySelect = ({
-  field,
-  isSubmitting,
-  placeholder,
-  name,
-}: FormInputProps) => {
-  const { setValue } = useFormContext()
+export const CurrencySelect = ({ placeholder, name }: FormInputProps) => {
+  const { control } = useFormContext()
+
   const languages: {
     value: string
     label: string
@@ -185,27 +182,76 @@ export const CurrencySelect = ({
     },
   ]
   return (
-    <Select
-      onValueChange={(value) => {
-        setValue(name, value)
-      }}
-      disabled={isSubmitting}
-      {...(field as ControllerRenderProps)}
-    >
-      <SelectTrigger>
-        <SelectValue placeholder={placeholder} />
-      </SelectTrigger>
-      <SelectContent>
-        <SelectGroup>
-          <SelectLabel>Moeda</SelectLabel>
-          {languages.map(({ label, value }) => (
-            <SelectItem value={value} key={value}>
-              {label}
-            </SelectItem>
-          ))}
-        </SelectGroup>
-      </SelectContent>
-    </Select>
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <Select
+          onValueChange={field.onChange}
+          value={field.value}
+          defaultValue={field.value}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Câmbio</SelectLabel>
+              {languages.map(({ label, value }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      )}
+    />
+  )
+}
+
+export const EnglishLevelSelect = ({
+  name,
+  placeholder,
+}: {
+  name: string
+  placeholder: string
+}) => {
+  const { control } = useFormContext()
+
+  const languages = [
+    { value: 'Beginner', label: 'Iniciante' },
+    { value: 'Intermediary', label: 'Intermediário' },
+    { value: 'Advanced', label: 'Avançado' },
+    { value: 'Fluent', label: 'Fluente' },
+  ]
+
+  return (
+    <Controller
+      name={name}
+      control={control}
+      render={({ field }) => (
+        <Select
+          onValueChange={field.onChange}
+          value={field.value}
+          defaultValue={field.value}
+        >
+          <SelectTrigger>
+            <SelectValue placeholder={placeholder} />
+          </SelectTrigger>
+          <SelectContent>
+            <SelectGroup>
+              <SelectLabel>Nível de inglês</SelectLabel>
+              {languages.map(({ label, value }) => (
+                <SelectItem key={value} value={value}>
+                  {label}
+                </SelectItem>
+              ))}
+            </SelectGroup>
+          </SelectContent>
+        </Select>
+      )}
+    />
   )
 }
 

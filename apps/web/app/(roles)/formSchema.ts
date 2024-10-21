@@ -56,7 +56,9 @@ export const formSchema = z
       .url({ message: 'URL inválida.' }),
     title: z.string({ required_error: 'O título da vaga é obrigatório.' }),
     company: z.string({ required_error: 'Sem empresa -> Sem vaga 😶‍🌫️' }),
-    currency: z.enum(['USD', 'BRL'], { required_error: 'Moeda inválida.' }),
+    currency: z.enum(['USD', 'BRL', 'EUR'], {
+      required_error: 'Moeda inválida.',
+    }),
     description: z.string({ required_error: 'Campo obrigatório.' }).nullable(),
     language: z.string({ required_error: 'Idioma inválido.' }),
     skillsId: z.array(z.string(), {
@@ -70,10 +72,15 @@ export const formSchema = z
       .transform((val) => parseInt(val, 10)),
     minSalary: z.number().default(10),
     maxSalary: z.number().default(10000),
-    salaryFrequency: z.enum(['monthly', 'annual'], {
-      required_error: 'Por favor, selecione a frequência salarial',
-    }),
+    salaryFrequency: z.enum(['monthly', 'annual']).default('monthly'),
     isSingleValue: z.boolean().default(false),
+    englishLevel: z.enum(
+      ['Beginner', 'Intermediary', 'Advanced', 'Fluent'] as const,
+      {
+        required_error:
+          'Por favor, selecione o nível de inglês mínimo requerido.',
+      }
+    ),
     companyLogo: z
       .any()
       .optional()

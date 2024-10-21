@@ -15,37 +15,41 @@ interface SendCompanyLogoParams {
 
 const supabase = getSupabaseClient()
 
-export const createRole = async (roleData: Role, email: string) => {
-  const { data, error } = await supabase
-    .from('Roles')
-    .insert(roleData)
-    .select()
-    .single()
+export const createRole = async (
+  roleData: Role,
+  email: string,
+  userId: string
+) => {
+  console.log({ roleData })
+  try {
+    const { data: newRole, error: roleError } = await supabase
+      .from('Roles')
+      .insert(roleData)
+      .select()
+      .single()
 
-  if (error) throw error
+    if (roleError) throw roleError
 
-  if (data) {
-    try {
-      await sendJobCreatedEmail({
-        email,
-        id: data.id,
-        title: data.title,
-      })
-    } catch (emailError) {
-      console.error('Erro ao enviar e-mail:', emailError)
-    }
+    if (!roleData) throw new Error('Role data is null after insertion')
+
+    const { error: ownerError } = await supabase.from('RoleOwner').insert({
+      roleID: newRole.id,
+      subscriberID: userId,
+    })
+
+    if (ownerError) throw ownerError
+
+    await sendJobCreatedEmail({
+      email,
+      id: roleData.id,
+      title: roleData.title,
+    })
+
+    return newRole
+  } catch (error) {
+    console.error('Error in createRole:', error)
+    throw error
   }
-
-  return data
-}
-
-export const createRoleOwner = async (roleID: string, subscriberID: string) => {
-  const { error } = await supabase.from('RoleOwner').insert({
-    roleID,
-    subscriberID,
-  })
-
-  if (error) throw error
 }
 
 export const checkUserHasRoles = async (email: string) => {
