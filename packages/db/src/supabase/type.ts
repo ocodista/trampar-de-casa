@@ -67,6 +67,7 @@ export type Database = {
           createdAt: string
           currency: string | null
           description: string
+          englishLevel: Database["public"]["Enums"]["EnglishLevel"] | null
           id: string
           language: Database["public"]["Enums"]["RoleLanguage"]
           minimumYears: number | null
@@ -85,6 +86,7 @@ export type Database = {
           createdAt?: string
           currency?: string | null
           description: string
+          englishLevel?: Database["public"]["Enums"]["EnglishLevel"] | null
           id?: string
           language: Database["public"]["Enums"]["RoleLanguage"]
           minimumYears?: number | null
@@ -103,6 +105,7 @@ export type Database = {
           createdAt?: string
           currency?: string | null
           description?: string
+          englishLevel?: Database["public"]["Enums"]["EnglishLevel"] | null
           id?: string
           language?: Database["public"]["Enums"]["RoleLanguage"]
           minimumYears?: number | null
