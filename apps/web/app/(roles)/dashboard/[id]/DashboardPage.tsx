@@ -1,12 +1,97 @@
 'use client'
 
 import { useState, useCallback } from 'react'
+import { BarChart, Users, Eye, LucideIcon, Search, Plus } from 'lucide-react'
 import JobCard from 'app/components/ui/JobCard'
-import { BarChart, Users, Eye } from 'lucide-react'
+
 import { toggleRoleActive } from './action'
+import { Input } from 'app/components/ui/input'
+import { Button } from 'app/components/ui/button'
+
+type StatCardProps = {
+  icon: LucideIcon
+  title: string
+  value: string | number
+  trend?: {
+    value: number
+    isPositive: boolean
+  }
+  color: 'blue' | 'purple' | 'green'
+}
+
+const StatCard = ({
+  icon: Icon,
+  title,
+  value,
+  trend,
+  color,
+}: StatCardProps) => {
+  const colorStyles = {
+    blue: { bg: 'bg-blue-100', text: 'text-blue-500' },
+    purple: { bg: 'bg-purple-100', text: 'text-purple-500' },
+    green: { bg: 'bg-green-100', text: 'text-green-500' },
+  }
+
+  return (
+    <div className="relative overflow-hidden rounded-xl bg-white p-6 shadow-sm transition-all hover:shadow-md">
+      <div className="flex items-center justify-between">
+        <div className="space-y-2">
+          <div
+            className={`rounded-full ${colorStyles[color].bg} inline-flex p-3`}
+          >
+            <Icon className={`h-6 w-6 ${colorStyles[color].text}`} />
+          </div>
+          <h2 className="text-sm font-medium text-gray-600">{title}</h2>
+          <p className="text-2xl font-bold text-gray-800">{value}</p>
+          {trend && (
+            <p
+              className={`text-sm ${
+                trend.isPositive ? 'text-green-500' : 'text-red-500'
+              }`}
+            >
+              {trend.isPositive ? '↑' : '↓'} {Math.abs(trend.value)}%
+            </p>
+          )}
+        </div>
+      </div>
+      <div className="absolute right-2 top-2 opacity-10">
+        <Icon className="h-24 w-24" />
+      </div>
+    </div>
+  )
+}
+
+const DashboardHeader = ({ totalJobs, onCreateJob }) => (
+  <div className="mb-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <div>
+      <h1
+        data-testid="dashboard-title"
+        className="text-3xl font-bold text-gray-800"
+      >
+        Dashboard de Vagas
+      </h1>
+    </div>
+    <Button onClick={onCreateJob} className="inline-flex items-center gap-2">
+      <Plus className="h-4 w-4" />
+      Nova Vaga
+    </Button>
+  </div>
+)
+
+const SearchBar = ({ onSearch }) => (
+  <div className="relative mb-6">
+    <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-400" />
+    <Input
+      placeholder="Buscar vagas..."
+      className="pl-10"
+      onChange={(e) => onSearch(e.target.value)}
+    />
+  </div>
+)
 
 export const DashboardPage = ({ skillsFromServer, jobsFromServer }) => {
   const [jobs, setJobs] = useState(jobsFromServer)
+  const [searchTerm, setSearchTerm] = useState('')
 
   const getMostUsedSkills = useCallback(() => {
     const skillCount: { [key: string]: number } = {}
@@ -46,67 +131,81 @@ export const DashboardPage = ({ skillsFromServer, jobsFromServer }) => {
     []
   )
 
+  const handleSearch = (term: string) => {
+    setSearchTerm(term.toLowerCase())
+  }
+
+  const filteredJobs = jobs.filter(
+    (job) =>
+      job.title.toLowerCase().includes(searchTerm) ||
+      job.company.toLowerCase().includes(searchTerm)
+  )
+
+  const stats = [
+    {
+      icon: BarChart,
+      title: 'Total de Vagas',
+      value: jobs.length,
+      color: 'blue' as const,
+    },
+    {
+      icon: Users,
+      title: 'Skills Mais Usadas',
+      value: getMostUsedSkills(),
+      color: 'purple' as const,
+    },
+    {
+      icon: Eye,
+      title: 'Total de Visualizações',
+      value: totalViews,
+      color: 'green' as const,
+    },
+  ]
+
   return (
-    <div className="container mx-auto px-4 py-8">
-      <h1
-        data-testid="dashboard-title"
-        className="mb-2 text-3xl font-bold text-gray-800"
-      >
-        Dashboard de Vagas
-      </h1>
-      <p className="mb-8 text-gray-600">Gerencie suas vagas publicadas</p>
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto max-w-7xl px-4 py-8">
+        <DashboardHeader
+          totalJobs={jobs.length}
+          onCreateJob={() => (window.location.href = '/vagas/publique')}
+        />
 
-      <div className="mb-12 grid grid-cols-1 gap-6 md:grid-cols-3">
-        <div className="flex items-center rounded-lg bg-white p-6 shadow-sm">
-          <div className="mr-4 rounded-full bg-blue-100 p-3">
-            <BarChart className="h-6 w-6 text-blue-500" />
-          </div>
-          <div>
-            <h2 className="mb-1 text-sm font-semibold text-gray-600">
-              Total de Vagas
-            </h2>
-            <p className="text-2xl font-bold text-gray-800">{jobs.length}</p>
-          </div>
+        <div className="mb-12 grid gap-6 md:grid-cols-3">
+          {stats.map((stat, index) => (
+            <StatCard key={index} {...stat} />
+          ))}
         </div>
-        <div className="flex items-center rounded-lg bg-white p-6 shadow-sm">
-          <div className="mr-4 rounded-full bg-purple-100 p-3">
-            <Users className="h-6 w-6 text-purple-500" />
-          </div>
-          <div>
-            <h2 className="mb-1 text-sm font-semibold text-gray-600">
-              Skills Mais Usadas
-            </h2>
-            <p className="text-md font-medium text-gray-800">
-              {getMostUsedSkills()}
-            </p>
-          </div>
-        </div>
-        <div className="flex items-center rounded-lg bg-white p-6 shadow-sm">
-          <div className="mr-4 rounded-full bg-green-100 p-3">
-            <Eye className="h-6 w-6 text-green-500" />
-          </div>
-          <div>
-            <h2 className="mb-1 text-sm font-semibold text-gray-600">
-              Total de Visualizações
-            </h2>
-            <p className="text-2xl font-bold text-gray-800">{totalViews}</p>
-          </div>
-        </div>
-      </div>
 
-      <h2 className="mb-6 text-2xl font-bold text-gray-800">
-        Suas Vagas Publicadas
-      </h2>
-      <div className="space-y-4">
-        {jobs.map((job) => (
-          <JobCard
-            job={job}
-            key={job.id}
-            skillsFromProps={skillsFromServer}
-            showToggle={true}
-            onToggleActive={handleToggleActive}
-          />
-        ))}
+        <div className="rounded-xl bg-white p-6 shadow-sm">
+          <div className="mb-6 flex items-center justify-between">
+            <h2 className="text-xl font-bold text-gray-800">
+              Suas Vagas Publicadas
+            </h2>
+            <SearchBar onSearch={handleSearch} />
+          </div>
+
+          <div className="space-y-4">
+            {filteredJobs.length > 0 ? (
+              filteredJobs.map((job) => (
+                <JobCard
+                  key={job.id}
+                  job={job}
+                  skillsFromProps={skillsFromServer}
+                  showToggle={true}
+                  onToggleActive={handleToggleActive}
+                />
+              ))
+            ) : (
+              <div className="flex h-40 items-center justify-center rounded-lg border-2 border-dashed border-gray-200">
+                <p className="text-gray-500">
+                  {searchTerm
+                    ? 'Nenhuma vaga encontrada'
+                    : 'Nenhuma vaga publicada ainda'}
+                </p>
+              </div>
+            )}
+          </div>
+        </div>
       </div>
     </div>
   )
