@@ -1,14 +1,12 @@
 import React, { useState } from 'react'
 import { useFormContext } from 'react-hook-form'
 import { X } from 'lucide-react'
-import { Label } from './ui/label'
 import { Button } from './ui/button'
 import { Input } from './ui/input'
 
 export const CompanyLogoUpload: React.FC = () => {
   const { register, setValue, watch } = useFormContext()
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-  const logoFile = watch('companyLogo')
 
   const handleFileChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const file = event.target.files?.[0]
@@ -22,59 +20,64 @@ export const CompanyLogoUpload: React.FC = () => {
     }
   }
 
-  const handleRemoveLogo = () => {
+  const handleRemoveLogo = (e: React.MouseEvent) => {
+    e.stopPropagation()
     setValue('companyLogo', null)
     setPreviewUrl(null)
   }
 
+  const handleClick = () => {
+    document.getElementById('companyLogo')?.click()
+  }
+
   return (
-    <div className="space-y-2">
-      <Label
-        htmlFor="companyLogo"
-        className="block text-sm font-medium text-gray-700"
-      >
-        Logo da Empresa
-      </Label>
-      <div className="flex items-center space-x-4">
-        {previewUrl ? (
-          <div className="relative h-16 w-16">
-            <img
-              src={previewUrl}
-              alt="Logo preview"
-              className="h-16 w-16 rounded-full object-cover"
-            />
-            <Button
-              type="button"
-              onClick={handleRemoveLogo}
-              className="absolute right-0 top-0 h-7 w-7 rounded-full bg-red-500 p-1 text-white"
-              size="icon"
-            >
-              <X className="h-3 w-3" />
-            </Button>
-          </div>
-        ) : (
-          <div className="flex h-16 w-16 items-center justify-center rounded-full border-2 border-dashed border-gray-300 text-gray-400">
-            Logo
-          </div>
-        )}
-        <div>
-          <Input
-            id="companyLogo"
-            type="file"
-            accept="image/*"
-            className="hidden"
-            {...register('companyLogo')}
-            onChange={handleFileChange}
+    <div className="flex flex-col items-start gap-2">
+      {previewUrl ? (
+        <div
+          className="group relative h-32 w-32 cursor-pointer"
+          onClick={handleClick}
+        >
+          <img
+            src={previewUrl}
+            alt="Logo preview"
+            className="h-full w-full rounded-full object-cover transition-opacity group-hover:opacity-75"
           />
+          <div className="absolute inset-0 flex items-center justify-center opacity-0 transition-opacity group-hover:opacity-100">
+            <span className="rounded-full bg-black bg-opacity-50 px-2 py-1 text-sm text-white">
+              Trocar Logo
+            </span>
+          </div>
           <Button
             type="button"
-            onClick={() => document.getElementById('companyLogo')?.click()}
-            className="bg-blue-500 text-white"
+            onClick={handleRemoveLogo}
+            className="absolute -right-2 -top-2 h-6 w-6 rounded-full bg-red-500 p-0.5 text-white opacity-0 transition-opacity group-hover:opacity-100"
+            size="icon"
           >
-            {logoFile ? 'Trocar Logo' : 'Adicionar Logo'}
+            <X className="h-3 w-3" />
           </Button>
         </div>
-      </div>
+      ) : (
+        <div
+          onClick={handleClick}
+          className="flex h-32 w-32 cursor-pointer flex-col items-center rounded-full border-2 border-dashed border-gray-300 text-gray-400 transition-colors hover:border-gray-400 hover:bg-gray-50"
+        >
+          <div className="flex h-full flex-col items-center justify-center">
+            <div className="text-3xl">🖼️</div>
+            <span className="text-center text-sm text-gray-500">
+              Adicionar Logo da empresa
+            </span>
+          </div>
+        </div>
+      )}
+
+      <Input
+        id="companyLogo"
+        type="file"
+        accept="image/*"
+        className="hidden"
+        {...register('companyLogo')}
+        onChange={handleFileChange}
+      />
     </div>
   )
 }

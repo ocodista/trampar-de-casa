@@ -17,7 +17,6 @@ import {
   FormField,
   FormItem,
   FormLabel,
-  FormMessage,
 } from './ui/form'
 import { Input as BaseInput } from './ui/input'
 import {
@@ -54,22 +53,35 @@ export function CustomFormField<FormState>({
   const {
     control,
     register,
-    formState: { isSubmitting },
+    formState: { errors },
   } = useFormContext()
+
+  const hasError = errors[name as string]
+  const errorMessage = hasError
+    ? (errors[name as string]?.message as string)
+    : ''
+
   return (
     <FormField
       control={control}
       name={name as Path<FormState>}
       render={({ field }: { field: ControllerRenderProps }) => (
-        <FormItem className={`${className} flex flex-col justify-end`}>
-          <FormLabel>
+        <FormItem className={`${className} relative flex flex-col justify-end`}>
+          <FormLabel className={hasError ? 'text-red-500' : ''}>
             {label} {required && <span className="text-red-600">*</span>}
           </FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
           <FormControl>
-            {Input({ register, name, placeholder, field, isSubmitting, type })}
+            {Input({
+              register,
+              name,
+              placeholder,
+              field,
+              isSubmitting: false,
+              type,
+            })}
           </FormControl>
-          <FormMessage />
+          <div className="mt-1 h-6 text-sm text-red-500">{errorMessage}</div>
         </FormItem>
       )}
     />
