@@ -124,8 +124,8 @@ export default function RolesCreate() {
     resolver: zodResolver(formSchema),
     mode: 'onBlur',
     defaultValues: {
-      minSalary: 1000,
-      maxSalary: 10000,
+      minSalary: 0,
+      maxSalary: 15000,
     },
   })
   const toast = useToast()
@@ -230,63 +230,78 @@ export default function RolesCreate() {
       {form.formState.isSubmitting && <LoadingOverlay className="flex" />}
       <form onSubmit={form.handleSubmit(onSubmit)}>
         <section className="container pb-6">
-          <h1 className="text-2xl font-bold tracking-tight">
+          <h1 className="mb-8 text-2xl font-bold tracking-tight">
             Publique sua vaga!
           </h1>
-          <section>
-            <RolePreviewSection />
-            <section className="grid grid-cols-1 justify-center gap-6 py-6 md:grid-cols-2">
-              <CompanyLogoUpload />
+
+          <div className="space-y-8">
+            <CompanyLogoUpload />
+
+            <div className="grid grid-cols-1 gap-x-6 gap-y-3 md:grid-cols-2">
               {fields.map((props) => (
-                <CustomFormField
-                  key={props.name}
-                  {...props}
-                  Input={props.Input || TextInput}
-                />
+                <div key={props.name} className="relative min-h-[90px]">
+                  <CustomFormField
+                    {...props}
+                    Input={props.Input || TextInput}
+                  />
+                </div>
               ))}
-              <CustomFormField
-                name="englishLevel"
-                label="Nível de inglês necessário"
-                placeholder="Initial, Intermediary..."
-                description="Insira o nível de inglês necessário"
-                Input={EnglishLevelSelect}
-                required
-              />
-              <CustomFormField
-                name="currency"
-                label="Câmbio"
-                placeholder="BRL, USD, EUR..."
-                description="Insira a moeda de pagamento do salário"
-                Input={CurrencySelect}
-                required
-              />
-              <SalaryRangeField currency={form.watch('currency')} />
+
+              <div className="relative min-h-[90px]">
+                <CustomFormField
+                  name="englishLevel"
+                  label="Nível de inglês necessário"
+                  placeholder="Initial, Intermediary..."
+                  description="Insira o nível de inglês necessário"
+                  Input={EnglishLevelSelect}
+                  required
+                />
+              </div>
+
+              <div className="relative min-h-[90px]">
+                <CustomFormField
+                  name="currency"
+                  label="Câmbio"
+                  placeholder="BRL, USD, EUR..."
+                  description="Insira a moeda de pagamento do salário"
+                  Input={CurrencySelect}
+                  required
+                />
+              </div>
+
+              <div className="relative min-h-[90px] md:col-span-2">
+                <SalaryRangeField currency={form.watch('currency')} />
+              </div>
+
               {countryAndLanguageField.map((props) => (
-                <CustomFormField
-                  key={props.name}
-                  {...props}
-                  Input={props.Input || TextInput}
-                />
+                <div key={props.name} className="relative min-h-[90px]">
+                  <CustomFormField
+                    {...props}
+                    Input={props.Input || TextInput}
+                  />
+                </div>
               ))}
+
               <div className="space-y-6 md:col-span-2">
                 <RoleTopic />
                 <SkillsField description="Quais habilidades são necessárias para a vaga?" />
               </div>
-            </section>
-          </section>
-          <section className="flex gap-4">
-            <Button disabled={form.formState.isSubmitting} type="submit">
-              Enviar
-            </Button>
-            {isLoggedIn && hasRoles && (
-              <Button onClick={() => router.push(`/dashboard/${userID}`)}>
-                Ir para o Dashboard
+            </div>
+
+            <div className="flex gap-4 pt-6">
+              <Button type="submit" disabled={form.formState.isSubmitting}>
+                Enviar
               </Button>
-            )}
-            <section className="md:invisible">
-              <RolePreviewModal />
-            </section>
-          </section>
+              {isLoggedIn && hasRoles && (
+                <Button onClick={() => router.push(`/dashboard/${userID}`)}>
+                  Ir para o Dashboard
+                </Button>
+              )}
+              <div className="md:hidden">
+                <RolePreviewModal />
+              </div>
+            </div>
+          </div>
         </section>
       </form>
     </FormProvider>

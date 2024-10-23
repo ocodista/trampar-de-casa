@@ -70,8 +70,8 @@ export const formSchema = z
       .string({ invalid_type_error: 'Selecione algum tópico.' })
       .default(Topics.NATIONAL_VACANCIES.toString())
       .transform((val) => parseInt(val, 10)),
-    minSalary: z.number().default(10),
-    maxSalary: z.number().default(10000),
+    minSalary: z.number().nullable(),
+    maxSalary: z.number().nullable(),
     salaryFrequency: z.enum(['monthly', 'annual']).default('monthly'),
     isSingleValue: z.boolean().default(false),
     englishLevel: z.enum(
@@ -107,15 +107,23 @@ export const formSchema = z
         }
       ),
   })
-  .refine((data) => data.maxSalary >= data.minSalary, {
-    message: 'O salário máximo deve ser maior ou igual ao salário mínimo',
-    path: ['maxSalary'],
-  })
+  .refine(
+    (data) => {
+      if (data.minSalary == null || data.maxSalary == null) {
+        return true
+      }
+      return data.maxSalary >= data.minSalary
+    },
+    {
+      message: 'O salário máximo deve ser maior ou igual ao salário mínimo',
+      path: ['maxSalary'],
+    }
+  )
   .transform((data) => ({
     ...data,
     salary: formatSalary(
-      data.minSalary,
-      data.isSingleValue ? data.minSalary : data.maxSalary,
+      data.minSalary || 0,
+      data.isSingleValue ? data.minSalary || 0 : data.maxSalary || 0,
       data.currency,
       data.salaryFrequency,
       data.isSingleValue,

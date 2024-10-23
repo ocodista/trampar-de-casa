@@ -7,7 +7,6 @@ import React from 'react'
 export const RolePage = ({ role }) => {
   const isEnglish = role.language === 'English'
   console.log({ language: role.language })
-  console.log(isEnglish)
 
   return isEnglish ? <USRolePage role={role} /> : <PTBRRolePage role={role} />
 }
