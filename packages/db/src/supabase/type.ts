@@ -9,6 +9,65 @@ export type Json =
 export type Database = {
   public: {
     Tables: {
+      RoleApplications: {
+        Row: {
+          createdAt: string
+          id: string
+          meetsRequirements: boolean
+          roleId: string
+          status: Database["public"]["Enums"]["ApplicationStatus"] | null
+          subscriberId: string
+          updatedAt: string
+        }
+        Insert: {
+          createdAt?: string
+          id?: string
+          meetsRequirements: boolean
+          roleId: string
+          status?: Database["public"]["Enums"]["ApplicationStatus"] | null
+          subscriberId: string
+          updatedAt?: string
+        }
+        Update: {
+          createdAt?: string
+          id?: string
+          meetsRequirements?: boolean
+          roleId?: string
+          status?: Database["public"]["Enums"]["ApplicationStatus"] | null
+          subscriberId?: string
+          updatedAt?: string
+        }
+        Relationships: [
+          {
+            foreignKeyName: "RoleApplications_roleId_fkey"
+            columns: ["roleId"]
+            isOneToOne: false
+            referencedRelation: "Roles"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "RoleApplications_roleId_fkey"
+            columns: ["roleId"]
+            isOneToOne: false
+            referencedRelation: "RolesSkillsView"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "RoleApplications_subscriberId_fkey"
+            columns: ["subscriberId"]
+            isOneToOne: false
+            referencedRelation: "Subscribers"
+            referencedColumns: ["id"]
+          },
+          {
+            foreignKeyName: "RoleApplications_subscriberId_fkey"
+            columns: ["subscriberId"]
+            isOneToOne: false
+            referencedRelation: "SubscriberSkillsView"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
       RoleOwner: {
         Row: {
           createdAt: string | null
@@ -580,6 +639,7 @@ export type Database = {
       }
     }
     Enums: {
+      ApplicationStatus: "pending" | "approved" | "rejected" | "ignored"
       EnglishLevel: "Beginner" | "Intermediary" | "Advanced" | "Fluent"
       RoleLanguage: "English" | "Portuguese"
     }
