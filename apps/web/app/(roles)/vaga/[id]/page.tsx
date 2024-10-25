@@ -1,4 +1,4 @@
-import { getRole } from 'app/utils/getRoles'
+import { getRole, getRoleWithApplicationType } from 'app/utils/getRoles'
 import { RolePage } from './RolePage'
 import { Metadata } from 'next'
 
@@ -42,7 +42,9 @@ export async function generateMetadata({
 }
 
 export default async function Page({ params }: { params: { id: string } }) {
-  const role = await getRole(params.id)
+  const role = await getRoleWithApplicationType(params.id)
+
+  console.log({ role })
 
   return <RolePage role={role} />
 }

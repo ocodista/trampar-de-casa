@@ -1,5 +1,3 @@
-'use client'
-
 import React, { useEffect, useState, useCallback, useMemo } from 'react'
 import { FocusBanner } from 'app/landing-page/FocusBanner'
 import {
@@ -14,6 +12,12 @@ import {
   Share2,
 } from 'lucide-react'
 import { formatDate, formatDescription } from 'app/utils/roleUtils'
+import login, { encryptId } from 'app/utils/LoginPreferencesActions'
+import { useRouter } from 'next/navigation'
+import { getProfileData } from 'app/(roles)/vaga/[id]/action'
+import { useToast } from 'app/hooks/use-toast'
+import ProfileCompletionModal from './ProfileCompletionModal'
+import { LoginRoleModal } from './LoginRoleModal'
 
 const COPY_TIMEOUT = 2000
 
@@ -54,21 +58,76 @@ const getJobDetails = (role) => {
 }
 
 export const PTBRRolePage = ({ role }) => {
+  const router = useRouter()
+  const { toast } = useToast()
+
+  const [profileModalData, setProfileModalData] = useState({
+    isOpen: false,
+    encryptedUserId: '',
+    missingFields: {},
+  })
+  const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
+
   const jobDetails = useMemo(() => getJobDetails(role), [role])
   const [showShareMenu, setShowShareMenu] = useState(false)
   const [isCopied, setIsCopied] = useState(false)
   const shareMenuRef = React.useRef(null)
-
-  const isHtml = useCallback((text) => /<\/?[a-z][\s\S]*>/i.test(text), [])
 
   const shareButtonText = useMemo(
     () => (isCopied ? 'Copiado' : 'Copiar link'),
     [isCopied]
   )
 
-  const handleApply = useCallback(() => {
-    window.open(role.url, '_blank')
-  }, [role.url])
+  const handleApply = useCallback(async () => {
+    if (role.isInternalRole) {
+      console.log('vaga interna')
+
+      const email = localStorage.getItem('loginEmail')
+      if (!email) {
+        setIsLoginModalOpen(true)
+        return
+      }
+
+      try {
+        const data = await getProfileData(email)
+
+        const missingFields = {
+          name: !data?.name,
+          englishLevel: !data?.englishLevel,
+          skillsId: !data?.skillsId?.length,
+          gitHub: !data?.gitHub,
+          linkedInUrl: !data?.linkedInUrl,
+          startedWorkingAt: !data?.startedWorkingAt,
+        }
+
+        const hasIncompleteFields = Object.values(missingFields).some(
+          (field) => field
+        )
+
+        if (hasIncompleteFields) {
+          const userId = await login(email)
+          const encryptedUserId = await encryptId(userId)
+          setProfileModalData({
+            isOpen: true,
+            encryptedUserId,
+            missingFields,
+          })
+          return
+        }
+
+        window.open(role.url, '_blank')
+      } catch (error) {
+        console.error('Erro ao verificar perfil:', error)
+        toast({
+          title: 'Erro ao verificar perfil',
+          description: 'Tente novamente mais tarde',
+          variant: 'destructive',
+        })
+      }
+    } else {
+      window.open(role.url, '_blank')
+    }
+  }, [role.url, role.isInternalRole])
 
   const handleCopyLink = useCallback(() => {
     navigator.clipboard.writeText(window.location.href)
@@ -95,6 +154,18 @@ export const PTBRRolePage = ({ role }) => {
   return (
     <>
       <FocusBanner />
+      <ProfileCompletionModal
+        isOpen={profileModalData.isOpen}
+        onClose={() =>
+          setProfileModalData((prev) => ({ ...prev, isOpen: false }))
+        }
+        encryptedUserId={profileModalData.encryptedUserId}
+        missingFields={profileModalData.missingFields}
+      />
+      <LoginRoleModal
+        open={isLoginModalOpen}
+        onClose={() => setIsLoginModalOpen(false)}
+      />
       <div className="container mx-auto px-4 py-8">
         <div className="overflow-hidden rounded-lg bg-white shadow-lg">
           <header className="bg-gradient-to-r from-indigo-600 to-purple-600 p-6 text-white">
@@ -133,7 +204,7 @@ export const PTBRRolePage = ({ role }) => {
                   onClick={() => setShowShareMenu((prev) => !prev)}
                   title="Compartilhar"
                   className="flex items-center space-x-2 rounded-full bg-white px-4 py-2 text-indigo-600 transition-colors hover:bg-indigo-100"
-                  aria-label="Compartilhar role"
+                  aria-label="Compartilhar vaga"
                 >
                   <Share2 size={20} />
                 </button>
@@ -169,7 +240,7 @@ export const PTBRRolePage = ({ role }) => {
           <div className="flex flex-col lg:flex-row">
             <section className="p-6 lg:w-2/3">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Descrição da role
+                Descrição da vaga
               </h2>
               <div className="space-y-4 text-gray-600">
                 {formatDescription(role.description)}
@@ -178,7 +249,7 @@ export const PTBRRolePage = ({ role }) => {
 
             <aside className="border-t bg-gray-50 p-6 lg:w-1/3 lg:border-l lg:border-t-0">
               <h2 className="mb-4 text-2xl font-semibold text-gray-800">
-                Detalhes da role
+                Detalhes da vaga
               </h2>
               <div className="space-y-4">
                 {jobDetails.map((detail, index) => (
