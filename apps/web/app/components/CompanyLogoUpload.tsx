@@ -62,9 +62,8 @@ export const CompanyLogoUpload: React.FC = () => {
           className="flex h-32 w-32 cursor-pointer flex-col items-center rounded-full border-2 border-dashed border-gray-300 text-gray-400 transition-colors hover:border-gray-400 hover:bg-gray-50"
         >
           <div className="flex h-full flex-col items-center justify-center">
-            <div className="text-3xl">🖼️</div>
             <span className="text-center text-sm text-gray-500">
-              Adicionar Logo da empresa
+              Logo da empresa
             </span>
           </div>
         </div>

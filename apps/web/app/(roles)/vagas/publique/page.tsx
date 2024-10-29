@@ -282,13 +282,13 @@ export default function RolesCreate() {
                 </div>
               ))}
 
-              <div className="space-y-6 md:col-span-2">
+              <div className="space-y-8 md:col-span-2">
                 <RoleTopic />
                 <SkillsField description="Quais habilidades são necessárias para a vaga?" />
               </div>
             </div>
 
-            <div className="flex gap-4 pt-6">
+            <div className="flex gap-4">
               <Button type="submit" disabled={form.formState.isSubmitting}>
                 Enviar
               </Button>
@@ -297,9 +297,9 @@ export default function RolesCreate() {
                   Ir para o Dashboard
                 </Button>
               )}
-              <div className="md:hidden">
+              {/* <div className="md:hidden">
                 <RolePreviewModal />
-              </div>
+              </div> */}
             </div>
           </div>
         </section>

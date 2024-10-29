@@ -12,13 +12,16 @@ import {
   SelectContent,
   SelectItem,
 } from './ui/select'
+import { FormItem, FormLabel } from './ui/form'
 
 type SalaryRangeFieldProps = {
   currency: string
+  required?: boolean
 }
 
 export const SalaryRangeField: React.FC<SalaryRangeFieldProps> = ({
   currency,
+  required = true,
 }) => {
   const { watch, setValue } = useFormContext()
   const minSalary = watch('minSalary') || 0
@@ -184,115 +187,125 @@ export const SalaryRangeField: React.FC<SalaryRangeFieldProps> = ({
   }
 
   return (
-    <div className="w-full space-y-2">
-      <div className="flex items-center gap-4">
-        <div className="flex-1">
-          <Label htmlFor="minSalary" className="mb-1 text-sm text-gray-500">
-            Salário Mínimo
-          </Label>
-          <div className="relative">
-            <Input
-              id="minSalary"
-              type="text"
-              inputMode="numeric"
-              value={formatSalary(minSalary)}
-              onChange={(e) => handleInputChange(e.target.value, 'min')}
-              onKeyDown={(e) => handleKeyDown(e, minSalaryRef)}
-              className="w-full pr-8"
-              onClick={() => handleClick(minSalaryRef)}
-              onFocus={() => handleFocus('min')}
-              onBlur={() => handleBlur('min')}
-              ref={minSalaryRef}
-            />
-            {isFocusedMin && (
-              <span className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500">
-                {currency}
-              </span>
+    <FormItem className="w-full space-y-2">
+      <FormLabel>
+        Salário {required && <span className="text-red-600">*</span>}
+      </FormLabel>
+      <div className="flex gap-6">
+        {/* Coluna da esquerda - Inputs de salário */}
+        <div className="flex w-1/2 flex-col space-y-2">
+          <div className="flex items-center gap-4">
+            <div className="flex-1">
+              <Label htmlFor="minSalary" className="mb-1 text-sm text-gray-500">
+                De
+              </Label>
+              <div className="relative">
+                <Input
+                  id="minSalary"
+                  type="text"
+                  inputMode="numeric"
+                  value={formatSalary(minSalary)}
+                  onChange={(e) => handleInputChange(e.target.value, 'min')}
+                  onKeyDown={(e) => handleKeyDown(e, minSalaryRef)}
+                  className="w-full pr-8"
+                  onClick={() => handleClick(minSalaryRef)}
+                  onFocus={() => handleFocus('min')}
+                  onBlur={() => handleBlur('min')}
+                  ref={minSalaryRef}
+                />
+                {isFocusedMin && (
+                  <span className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500">
+                    {currency}
+                  </span>
+                )}
+              </div>
+            </div>
+            {!isSingleValue && (
+              <div className="flex-1">
+                <Label
+                  htmlFor="maxSalary"
+                  className="mb-1 text-sm text-gray-500"
+                >
+                  Até
+                </Label>
+                <div className="relative">
+                  <Input
+                    id="maxSalary"
+                    type="text"
+                    inputMode="numeric"
+                    value={formatSalary(maxSalary)}
+                    onChange={(e) => handleInputChange(e.target.value, 'max')}
+                    onKeyDown={(e) => handleKeyDown(e, maxSalaryRef)}
+                    className="w-full pr-8"
+                    onClick={() => handleClick(maxSalaryRef)}
+                    onFocus={() => handleFocus('max')}
+                    onBlur={() => handleBlur('max')}
+                    ref={maxSalaryRef}
+                  />
+                  {isFocusedMax && (
+                    <span className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500">
+                      {currency}
+                    </span>
+                  )}
+                </div>
+              </div>
             )}
           </div>
-        </div>
-        {!isSingleValue && (
-          <div className="flex-1">
-            <Label htmlFor="maxSalary" className="mb-1 text-sm text-gray-500">
-              Salário Máximo
-            </Label>
-            <div className="relative">
-              <Input
-                id="maxSalary"
-                type="text"
-                inputMode="numeric"
-                value={formatSalary(maxSalary)}
-                onChange={(e) => handleInputChange(e.target.value, 'max')}
-                onKeyDown={(e) => handleKeyDown(e, maxSalaryRef)}
-                className="w-full pr-8"
-                onClick={() => handleClick(maxSalaryRef)}
-                onFocus={() => handleFocus('max')}
-                onBlur={() => handleBlur('max')}
-                ref={maxSalaryRef}
-              />
-              {isFocusedMax && (
-                <span className="absolute right-2 top-1/2 -translate-y-1/2 transform text-gray-500">
-                  {currency}
-                </span>
-              )}
-            </div>
+
+          <div className="relative w-full pb-6 pt-2">
+            <RangeSlider
+              min={0}
+              max={100000}
+              step={100}
+              value={isSingleValue ? [0, minSalary] : [minSalary, maxSalary]}
+              onInput={handleRangeChange}
+              className={`
+                [&_.range-slider]:h-1 [&_.range-slider]:bg-gray-200 
+                [&_.range-slider__range]:bg-blue-500
+                [&_.range-slider__thumb:hover]:bg-gray-50 [&_.range-slider__thumb]:h-4
+                [&_.range-slider__thumb]:w-4 [&_.range-slider__thumb]:cursor-pointer
+                [&_.range-slider__thumb]:rounded-full [&_.range-slider__thumb]:border-2
+                [&_.range-slider__thumb]:border-blue-500 [&_.range-slider__thumb]:bg-white
+                ${
+                  isSingleValue
+                    ? '[&_.range-slider__range]:hidden [&_.range-slider__thumb:first-child]:hidden'
+                    : ''
+                }
+              `}
+            />
           </div>
-        )}
-      </div>
 
-      <div className="relative w-full pb-6 pt-2">
-        <RangeSlider
-          min={0}
-          max={100000}
-          step={100}
-          value={isSingleValue ? [0, minSalary] : [minSalary, maxSalary]}
-          onInput={handleRangeChange}
-          className={`
-            [&_.range-slider]:h-1 [&_.range-slider]:bg-gray-200 
-            [&_.range-slider__range]:bg-blue-500
-            [&_.range-slider__thumb:hover]:bg-gray-50 [&_.range-slider__thumb]:h-4
-            [&_.range-slider__thumb]:w-4 [&_.range-slider__thumb]:cursor-pointer
-            [&_.range-slider__thumb]:rounded-full [&_.range-slider__thumb]:border-2
-            [&_.range-slider__thumb]:border-blue-500 [&_.range-slider__thumb]:bg-white
-            ${
-              isSingleValue
-                ? '[&_.range-slider__range]:hidden [&_.range-slider__thumb:first-child]:hidden'
-                : ''
+          <div className="flex items-center space-x-2">
+            <Checkbox
+              id="isSingleValue"
+              checked={isSingleValue}
+              onCheckedChange={handleSingleValueChange}
+            />
+            <Label htmlFor="isSingleValue" className="text-sm">
+              Valor único
+            </Label>
+          </div>
+        </div>
+
+        {/* Coluna da direita - Frequência salarial */}
+        <div className="flex w-1/2 flex-col">
+          <Label className="mb-1 text-sm text-gray-500">Frequência</Label>
+          <Select
+            value={salaryFrequency}
+            onValueChange={(value) =>
+              setValue('salaryFrequency', value as 'monthly' | 'annual')
             }
-          `}
-        />
+          >
+            <SelectTrigger className="w-full">
+              <SelectValue placeholder="Selecione a frequência" />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="monthly">Mensal</SelectItem>
+              <SelectItem value="annual">Anual</SelectItem>
+            </SelectContent>
+          </Select>
+        </div>
       </div>
-
-      <div className="flex justify-between text-sm text-gray-600">
-        <span>{formatSalary(minSalary)}</span>
-        {!isSingleValue && <span>{formatSalary(maxSalary)}</span>}
-      </div>
-
-      <div className="flex items-center space-x-2">
-        <Checkbox
-          id="isSingleValue"
-          checked={isSingleValue}
-          onCheckedChange={handleSingleValueChange}
-        />
-        <Label htmlFor="isSingleValue" className="text-sm">
-          Valor único
-        </Label>
-      </div>
-
-      <Select
-        value={salaryFrequency}
-        onValueChange={(value) =>
-          setValue('salaryFrequency', value as 'monthly' | 'annual')
-        }
-      >
-        <SelectTrigger className="w-full">
-          <SelectValue placeholder="Selecione a frequência salarial" />
-        </SelectTrigger>
-        <SelectContent>
-          <SelectItem value="monthly">Mensal</SelectItem>
-          <SelectItem value="annual">Anual</SelectItem>
-        </SelectContent>
-      </Select>
-    </div>
+    </FormItem>
   )
 }
