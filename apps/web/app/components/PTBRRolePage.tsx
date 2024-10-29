@@ -14,9 +14,7 @@ import {
 import { formatDate, formatDescription } from 'app/utils/roleUtils'
 import login, { encryptId } from 'app/utils/LoginPreferencesActions'
 import { useRouter } from 'next/navigation'
-import { getProfileData } from 'app/(roles)/vaga/[id]/action'
 import { useToast } from 'app/hooks/use-toast'
-import ProfileCompletionModal from './ProfileCompletionModal'
 import { LoginRoleModal } from './LoginRoleModal'
 
 const COPY_TIMEOUT = 2000
@@ -61,11 +59,6 @@ export const PTBRRolePage = ({ role }) => {
   const router = useRouter()
   const { toast } = useToast()
 
-  const [profileModalData, setProfileModalData] = useState({
-    isOpen: false,
-    encryptedUserId: '',
-    missingFields: {},
-  })
   const [isLoginModalOpen, setIsLoginModalOpen] = useState(false)
 
   const jobDetails = useMemo(() => getJobDetails(role), [role])
@@ -80,8 +73,6 @@ export const PTBRRolePage = ({ role }) => {
 
   const handleApply = useCallback(async () => {
     if (role.isInternalRole) {
-      console.log('vaga interna')
-
       const email = localStorage.getItem('loginEmail')
       if (!email) {
         setIsLoginModalOpen(true)
@@ -89,33 +80,9 @@ export const PTBRRolePage = ({ role }) => {
       }
 
       try {
-        const data = await getProfileData(email)
+        const userId = await login(email)
 
-        const missingFields = {
-          name: !data?.name,
-          englishLevel: !data?.englishLevel,
-          skillsId: !data?.skillsId?.length,
-          gitHub: !data?.gitHub,
-          linkedInUrl: !data?.linkedInUrl,
-          startedWorkingAt: !data?.startedWorkingAt,
-        }
-
-        const hasIncompleteFields = Object.values(missingFields).some(
-          (field) => field
-        )
-
-        if (hasIncompleteFields) {
-          const userId = await login(email)
-          const encryptedUserId = await encryptId(userId)
-          setProfileModalData({
-            isOpen: true,
-            encryptedUserId,
-            missingFields,
-          })
-          return
-        }
-
-        window.open(role.url, '_blank')
+        router.push(`/application?roleId=${role.id}&subscriberId=${userId}`)
       } catch (error) {
         console.error('Erro ao verificar perfil:', error)
         toast({
@@ -127,7 +94,7 @@ export const PTBRRolePage = ({ role }) => {
     } else {
       window.open(role.url, '_blank')
     }
-  }, [role.url, role.isInternalRole])
+  }, [role, router])
 
   const handleCopyLink = useCallback(() => {
     navigator.clipboard.writeText(window.location.href)
@@ -154,14 +121,6 @@ export const PTBRRolePage = ({ role }) => {
   return (
     <>
       <FocusBanner />
-      <ProfileCompletionModal
-        isOpen={profileModalData.isOpen}
-        onClose={() =>
-          setProfileModalData((prev) => ({ ...prev, isOpen: false }))
-        }
-        encryptedUserId={profileModalData.encryptedUserId}
-        missingFields={profileModalData.missingFields}
-      />
       <LoginRoleModal
         open={isLoginModalOpen}
         onClose={() => setIsLoginModalOpen(false)}
