@@ -1,3 +1,5 @@
+import { ProfileSchemaEnum } from 'app/subscribers/profile/profileSchema'
+import { CustomFormField, StartWorkAtInput } from './CustomFormField'
 import { Checkbox } from './ui/checkbox'
 import {
   FormControl,
@@ -16,7 +18,6 @@ import {
 } from './ui/select'
 import { Textarea } from './ui/textarea'
 
-// PersonalInfoSection.tsx
 export function PersonalInfoSection({ form }) {
   return (
     <div className="space-y-4">
@@ -53,20 +54,6 @@ export function PersonalInfoSection({ form }) {
 
         <FormField
           control={form.control}
-          name="phone"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Telefone</FormLabel>
-              <FormControl>
-                <Input {...field} type="tel" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="location"
           render={({ field }) => (
             <FormItem>
@@ -83,29 +70,17 @@ export function PersonalInfoSection({ form }) {
   )
 }
 
-// ProfessionalInfoSection.tsx
 export function ProfessionalInfoSection({ form }) {
   return (
     <div className="space-y-4">
       <h2 className="text-lg font-semibold">Experiência Profissional</h2>
 
       <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <FormField
-          control={form.control}
-          name="yearsOfExperience"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Anos de Experiência</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  type="number"
-                  onChange={(e) => field.onChange(Number(e.target.value))}
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
+        <CustomFormField
+          className="!static !block !justify-start space-y-2"
+          name="startedWorkingAt"
+          label="Primeiro emprego com tecnologia"
+          Input={StartWorkAtInput}
         />
 
         <FormField
@@ -194,7 +169,6 @@ export function ProfessionalInfoSection({ form }) {
   )
 }
 
-// PreferencesSection.tsx
 export function PreferencesSection({ form }) {
   return (
     <div className="space-y-4">
@@ -278,7 +252,6 @@ export function PreferencesSection({ form }) {
   )
 }
 
-// DocumentsSection.tsx
 export function DocumentsSection({ form }) {
   return (
     <div className="space-y-4">
@@ -326,7 +299,6 @@ export function DocumentsSection({ form }) {
   )
 }
 
-// ConsentSection.tsx
 export function ConsentSection({ form }) {
   return (
     <div className="space-y-4">

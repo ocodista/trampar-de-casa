@@ -83,8 +83,11 @@ export const USRolePage = ({ role }) => {
 
       try {
         const userId = await login(email)
+        const encryptedUserId = await encryptId(userId)
 
-        router.push(`/application?roleId=${role.id}&subscriberId=${userId}`)
+        router.push(
+          `/application?roleId=${role.id}&subscriberId=${encryptedUserId}`
+        )
       } catch (error) {
         console.error('Erro ao verificar perfil:', error)
         toast({

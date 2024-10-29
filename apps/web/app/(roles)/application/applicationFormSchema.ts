@@ -5,11 +5,15 @@ export const applicationSchema = z.object({
   // Dados Pessoais
   fullName: z.string().min(1, 'Nome é obrigatório'),
   email: z.string().email('Email inválido'),
-  phone: z.string().min(1, 'Telefone é obrigatório'),
   location: z.string().min(1, 'Localização é obrigatória'),
 
   // Experiência Profissional
-  yearsOfExperience: z.number().min(0, 'Anos de experiência inválidos'),
+  startedWorkingAt: z
+    .date({
+      required_error: 'Data de início é obrigatória',
+      invalid_type_error: 'Data inválida',
+    })
+    .transform((date) => new Date(date)),
   currentRole: z.string().optional(),
   englishLevel: z.enum(['Beginner', 'Intermediary', 'Advanced', 'Fluent']),
   portfolioUrl: z.string().url().optional().or(z.literal('')),
