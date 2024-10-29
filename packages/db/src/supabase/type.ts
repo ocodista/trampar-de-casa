@@ -12,6 +12,7 @@ export type Database = {
       RoleApplications: {
         Row: {
           createdAt: string
+          details: Json | null
           id: string
           meetsRequirements: boolean
           roleId: string
@@ -21,6 +22,7 @@ export type Database = {
         }
         Insert: {
           createdAt?: string
+          details?: Json | null
           id?: string
           meetsRequirements: boolean
           roleId: string
@@ -30,6 +32,7 @@ export type Database = {
         }
         Update: {
           createdAt?: string
+          details?: Json | null
           id?: string
           meetsRequirements?: boolean
           roleId?: string
