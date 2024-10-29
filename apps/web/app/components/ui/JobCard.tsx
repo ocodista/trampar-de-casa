@@ -1,7 +1,10 @@
+'use client'
+
 import { shouldRedirectToUrl } from 'app/utils/shouldRedirect'
 import { Database } from 'db'
 import { useCallback, useMemo } from 'react'
 import { trackedRoleURL } from 'shared/src/services/trackedRoleURL'
+import { isInternalRole } from '../isInternalRole'
 
 type Job = Database['public']['Tables']['Roles']['Row']
 type Skill = Database['public']['Views']['vw_skills_in_roles']['Row']
@@ -37,19 +40,42 @@ const JobCard: React.FC<JobCardProps> = ({
     (event) => {
       event.preventDefault()
 
+      const redirectToInternalPage = () => {
+        window.open(`/vaga/${job.id}`, '_blank')
+      }
+
+      const redirectToExternalUrl = () => {
+        window.open(job.url, '_blank')
+      }
+
       fetch(trackedRoleURL(job.id), { method: 'POST' })
-        .then(() => {
-          const linkUrl = shouldRedirectToUrl(job.description)
-            ? job.url
-            : `/vaga/${job.id}`
-          window.open(linkUrl, '_blank')
+        .then(async () => {
+          try {
+            const isInternal = await isInternalRole(job.id)
+
+            if (isInternal) {
+              redirectToInternalPage()
+            } else if (shouldRedirectToUrl(job.description)) {
+              redirectToInternalPage()
+            } else {
+              redirectToExternalUrl()
+            }
+          } catch (error) {
+            console.error('Erro ao verificar tipo de vaga:', error)
+            if (shouldRedirectToUrl(job.description)) {
+              redirectToInternalPage()
+            } else {
+              redirectToExternalUrl()
+            }
+          }
         })
         .catch((error) => {
           console.error('Erro ao contabilizar clique:', error)
-          const linkUrl = shouldRedirectToUrl(job.description)
-            ? job.url
-            : `/vaga/${job.id}`
-          window.open(linkUrl, '_blank')
+          if (shouldRedirectToUrl(job.description)) {
+            redirectToInternalPage()
+          } else {
+            redirectToExternalUrl()
+          }
         })
     },
     [job.id, job.description, job.url]
