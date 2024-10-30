@@ -100,9 +100,13 @@ export default function JobApplicationPage({
       router.back()
     } catch (error) {
       console.error('Erro ao enviar aplicação:', error)
+
+      const errorMessage =
+        error instanceof Error ? error.message : 'Por favor, tente novamente.'
+
       toast({
         title: 'Erro ao enviar aplicação',
-        description: 'Por favor, tente novamente.',
+        description: errorMessage,
         variant: 'destructive',
       })
     } finally {

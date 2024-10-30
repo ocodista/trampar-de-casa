@@ -32,9 +32,33 @@ export const sendResumeToR2 = async ({
   )
 }
 
+async function checkExistingApplication(roleId: string, subscriberId: string) {
+  const { data, error } = await supabase
+    .from('RoleApplications')
+    .select()
+    .eq('roleId', roleId)
+    .eq('subscriberId', subscriberId)
+    .single()
+
+  if (error && error.code !== 'PGRST116') {
+    throw error
+  }
+
+  return !!data
+}
+
 export async function createRoleApplication(
   applicationData: RoleApplicationInsert
 ) {
+  const hasExistingApplication = await checkExistingApplication(
+    applicationData.roleId,
+    applicationData.subscriberId
+  )
+
+  if (hasExistingApplication) {
+    throw new Error('Você já se candidatou para esta vaga')
+  }
+
   const { data, error } = await supabase
     .from('RoleApplications')
     .insert(applicationData)
