@@ -32,8 +32,6 @@ export default async function ApplicationPage({
       : new Date(),
     englishLevel: data.subscriber.englishLevel || 'Beginner',
     linkedInUrl: data.subscriber.linkedInUrl || 'https://linkedin.com/in/',
-    workModel: 'remote',
-    contractType: 'clt',
     salaryExpectation: '',
     availability: '',
 
