@@ -76,8 +76,6 @@ export default function JobApplicationPage({
         githubUrl: formData.githubUrl,
         salaryExpectation: formData.salaryExpectation,
         availability: formData.availability,
-        workModel: formData.workModel,
-        contractType: formData.contractType,
         coverLetter: formData.coverLetter,
         startedWorkingAt: formData.startedWorkingAt.toISOString(),
         resumeUrl,
@@ -99,7 +97,7 @@ export default function JobApplicationPage({
         description: 'Você receberá um email com a confirmação.',
       })
 
-      router.push('/dashboard')
+      router.back()
     } catch (error) {
       console.error('Erro ao enviar aplicação:', error)
       toast({

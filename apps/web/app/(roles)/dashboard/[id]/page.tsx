@@ -79,5 +79,11 @@ export default async function Page({ params }: { params: { id: string } }) {
   const skills = await getSkills()
   const jobs = await getJobs(userId)
 
-  return <DashboardPage jobsFromServer={jobs} skillsFromServer={skills} />
+  return (
+    <DashboardPage
+      jobsFromServer={jobs}
+      skillsFromServer={skills}
+      userId={userId}
+    />
+  )
 }

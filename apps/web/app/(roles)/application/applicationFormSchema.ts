@@ -23,8 +23,6 @@ export const applicationSchema = z.object({
   // Preferências
   salaryExpectation: z.string().min(1, 'Pretensão salarial é obrigatória'),
   availability: z.string().min(1, 'Disponibilidade é obrigatória'),
-  workModel: z.enum(['remote', 'hybrid', 'onsite']),
-  contractType: z.enum(['clt', 'pj']),
 
   // Documentos e Extras
   coverLetter: z.string().optional(),

@@ -29,7 +29,9 @@ export function PersonalInfoSection({ form }) {
           name="fullName"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Nome Completo</FormLabel>
+              <FormLabel>
+                Nome Completo <span className="text-red-600">*</span>
+              </FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -43,7 +45,9 @@ export function PersonalInfoSection({ form }) {
           name="email"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Email</FormLabel>
+              <FormLabel>
+                Email <span className="text-red-600">*</span>
+              </FormLabel>
               <FormControl>
                 <Input {...field} type="email" />
               </FormControl>
@@ -57,7 +61,9 @@ export function PersonalInfoSection({ form }) {
           name="location"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Localização</FormLabel>
+              <FormLabel>
+                Localização <span className="text-red-600">*</span>
+              </FormLabel>
               <FormControl>
                 <Input {...field} placeholder="Cidade, Estado" />
               </FormControl>
@@ -88,7 +94,7 @@ export function ProfessionalInfoSection({ form }) {
           name="currentRole"
           render={({ field }) => (
             <FormItem>
-              <FormLabel>Cargo Atual (opcional)</FormLabel>
+              <FormLabel>Cargo Atual</FormLabel>
               <FormControl>
                 <Input {...field} />
               </FormControl>
@@ -202,51 +208,6 @@ export function PreferencesSection({ form }) {
             </FormItem>
           )}
         />
-
-        <FormField
-          control={form.control}
-          name="workModel"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Modelo de Trabalho</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione o modelo" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="remote">Remoto</SelectItem>
-                  <SelectItem value="hybrid">Híbrido</SelectItem>
-                  <SelectItem value="onsite">Presencial</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="contractType"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Tipo de Contratação</FormLabel>
-              <Select onValueChange={field.onChange} defaultValue={field.value}>
-                <FormControl>
-                  <SelectTrigger>
-                    <SelectValue placeholder="Selecione o tipo" />
-                  </SelectTrigger>
-                </FormControl>
-                <SelectContent>
-                  <SelectItem value="clt">CLT</SelectItem>
-                  <SelectItem value="pj">PJ</SelectItem>
-                </SelectContent>
-              </Select>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
       </div>
     </div>
   )
@@ -264,7 +225,7 @@ export function DocumentsSection({ form }) {
         name="coverLetter"
         render={({ field }) => (
           <FormItem>
-            <FormLabel>Carta de Apresentação (opcional)</FormLabel>
+            <FormLabel>Carta de Apresentação</FormLabel>
             <FormControl>
               <Textarea
                 {...field}

@@ -7,6 +7,15 @@ import JobCard from 'app/components/ui/JobCard'
 import { toggleRoleActive } from './action'
 import { Input } from 'app/components/ui/input'
 import { Button } from 'app/components/ui/button'
+import { Database } from 'db'
+
+type BaseJob = Database['public']['Tables']['Roles']['Row']
+
+type Job = BaseJob & {
+  views?: number
+}
+
+type Skill = Database['public']['Views']['vw_skills_in_roles']['Row']
 
 type StatCardProps = {
   icon: LucideIcon
@@ -17,6 +26,12 @@ type StatCardProps = {
     isPositive: boolean
   }
   color: 'blue' | 'purple' | 'green'
+}
+
+interface DashboardPageProps {
+  jobsFromServer: Job[]
+  skillsFromServer: Skill[]
+  userId: string
 }
 
 const StatCard = ({
@@ -89,7 +104,11 @@ const SearchBar = ({ onSearch }) => (
   </div>
 )
 
-export const DashboardPage = ({ skillsFromServer, jobsFromServer }) => {
+export const DashboardPage = ({
+  skillsFromServer,
+  jobsFromServer,
+  userId,
+}: DashboardPageProps) => {
   const [jobs, setJobs] = useState(jobsFromServer)
   const [searchTerm, setSearchTerm] = useState('')
 
@@ -193,6 +212,7 @@ export const DashboardPage = ({ skillsFromServer, jobsFromServer }) => {
                   skillsFromProps={skillsFromServer}
                   showToggle={true}
                   onToggleActive={handleToggleActive}
+                  userId={userId}
                 />
               ))
             ) : (

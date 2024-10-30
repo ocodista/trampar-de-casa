@@ -5,6 +5,8 @@ import { Database } from 'db'
 import { useCallback, useMemo } from 'react'
 import { trackedRoleURL } from 'shared/src/services/trackedRoleURL'
 import { isInternalRole } from '../isInternalRole'
+import { Users } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 
 type Job = Database['public']['Tables']['Roles']['Row']
 type Skill = Database['public']['Views']['vw_skills_in_roles']['Row']
@@ -14,6 +16,7 @@ interface JobCardProps {
   skillsFromProps: Skill[]
   showToggle?: boolean
   onToggleActive?: (jobId: string | number, active: boolean) => void
+  userId?: string
 }
 
 const JobCard: React.FC<JobCardProps> = ({
@@ -21,7 +24,10 @@ const JobCard: React.FC<JobCardProps> = ({
   skillsFromProps,
   showToggle = false,
   onToggleActive,
+  userId,
 }) => {
+  const router = useRouter()
+
   const normalize = (id: string) => {
     const skill = skillsFromProps.find(
       (skill) => skill.id === Number.parseInt(id)
@@ -88,6 +94,12 @@ const JobCard: React.FC<JobCardProps> = ({
     }
   }
 
+  const handleViewApplications = (event) => {
+    event.preventDefault()
+    event.stopPropagation()
+    router.push(`/dashboard/${userId}/applications/${job.id}`)
+  }
+
   return (
     <a
       href="#"
@@ -136,18 +148,29 @@ const JobCard: React.FC<JobCardProps> = ({
           💬 {job.language === 'Portuguese' ? 'Português' : job.language}
         </span>
       </div>
-      {showToggle && (
-        <button
-          onClick={handleToggle}
-          className={`mt-4 rounded-full px-3 py-1 text-sm font-medium ${
-            job.ready
-              ? 'bg-green-100 text-green-800 hover:bg-green-200'
-              : 'bg-red-100 text-red-800 hover:bg-red-200'
-          }`}
-        >
-          {job.ready ? 'Ativa' : 'Inativa'}
-        </button>
-      )}
+      <div className="mt-4 flex items-center gap-2">
+        {showToggle && (
+          <>
+            <button
+              onClick={handleToggle}
+              className={`rounded-full px-3 py-1 text-sm font-medium ${
+                job.ready
+                  ? 'bg-green-100 text-green-800 hover:bg-green-200'
+                  : 'bg-red-100 text-red-800 hover:bg-red-200'
+              }`}
+            >
+              {job.ready ? 'Ativa' : 'Inativa'}
+            </button>
+            <button
+              onClick={handleViewApplications}
+              className="flex items-center gap-2 rounded-full bg-blue-100 px-3 py-1 text-sm font-medium text-blue-800 hover:bg-blue-200"
+            >
+              <Users className="h-4 w-4" />
+              Ver Candidaturas
+            </button>
+          </>
+        )}
+      </div>
     </a>
   )
 }
