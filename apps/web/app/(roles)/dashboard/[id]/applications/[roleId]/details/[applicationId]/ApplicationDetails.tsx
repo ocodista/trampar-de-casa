@@ -1,7 +1,8 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, ExternalLink } from 'lucide-react'
+import { ChevronLeft, Download, ExternalLink } from 'lucide-react'
+import { getResumePresignedUrl } from './action'
 
 interface ApplicationDetailsProps {
   application: {
@@ -138,15 +139,19 @@ export default function ApplicationDetails({
                 </a>
               )}
               {application.details.resumeUrl && (
-                <a
-                  href={application.details.resumeUrl}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="flex items-center gap-2 text-blue-600 hover:underline"
-                >
-                  <ExternalLink className="h-4 w-4" />
-                  Currículo
-                </a>
+                <div className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
+                  <Download className="h-4 w-4" />
+                  <button
+                    onClick={() =>
+                      getResumePresignedUrl(
+                        application.details.resumeUrl.split('/').pop()
+                      ).then((url) => window.open(url, '_blank'))
+                    }
+                    className="hover:underline"
+                  >
+                    Currículo
+                  </button>
+                </div>
               )}
             </div>
           </section>
