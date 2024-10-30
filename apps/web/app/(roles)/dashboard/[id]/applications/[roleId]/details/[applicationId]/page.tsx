@@ -55,10 +55,9 @@ async function getApplication(applicationId: string) {
       githubUrl: data.subscriber.gitHub,
       salaryExpectation: parsedDetails.salaryExpectation,
       availability: parsedDetails.availability,
-      workModel: parsedDetails.workModel,
-      contractType: parsedDetails.contractType,
       coverLetter: parsedDetails.coverLetter || '',
       resumeUrl: parsedDetails.resumeUrl,
+      portfolioUrl: parsedDetails.portfolioUrl,
       startedWorkingAt:
         parsedDetails.startedWorkingAt || new Date().toISOString(),
     },

@@ -249,7 +249,7 @@ export function DocumentsSection({ form }) {
                 type="file"
                 accept=".pdf,.doc,.docx"
                 onChange={(e) => field.onChange(e.target.files?.[0])}
-                className="file:bg-primary file:text-primary-foreground hover:file:bg-primary/90 file:mr-4 file:rounded-full file:border-0 file:px-4 file:py-2 file:text-sm file:font-semibold"
+                className="file:bg-primary file:text-primary-foreground hover:file:bg-primary/90 h-full file:mr-4 file:rounded-full file:border-0 file:px-4 file:py-2 file:text-sm file:font-semibold"
               />
             </FormControl>
             <FormMessage />

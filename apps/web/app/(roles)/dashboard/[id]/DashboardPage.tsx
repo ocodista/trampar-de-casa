@@ -32,6 +32,7 @@ interface DashboardPageProps {
   jobsFromServer: Job[]
   skillsFromServer: Skill[]
   userId: string
+  applicationsCount: number
 }
 
 const StatCard = ({
@@ -108,6 +109,7 @@ export const DashboardPage = ({
   skillsFromServer,
   jobsFromServer,
   userId,
+  applicationsCount,
 }: DashboardPageProps) => {
   const [jobs, setJobs] = useState(jobsFromServer)
   const [searchTerm, setSearchTerm] = useState('')
@@ -131,8 +133,6 @@ export const DashboardPage = ({
       .filter(Boolean)
       .join(', ')
   }, [jobs, skillsFromServer])
-
-  const totalViews = jobs.reduce((sum, job) => sum + (job.views || 0), 0)
 
   const handleToggleActive = useCallback(
     async (jobId: string | number, active: boolean) => {
@@ -175,8 +175,8 @@ export const DashboardPage = ({
     },
     {
       icon: Eye,
-      title: 'Total de Visualizações',
-      value: totalViews,
+      title: 'Total de Candidaturas',
+      value: applicationsCount,
       color: 'green' as const,
     },
   ]

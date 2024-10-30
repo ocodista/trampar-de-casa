@@ -16,11 +16,10 @@ interface ApplicationDetailsProps {
       githubUrl: string
       salaryExpectation: string
       availability: string
-      workModel: string
-      contractType: string
       coverLetter: string
       resumeUrl?: string
       startedWorkingAt: string
+      portfolioUrl: string
     }
     status: 'pending' | 'approved' | 'rejected' | 'ignored'
     createdAt: string
@@ -138,6 +137,17 @@ export default function ApplicationDetails({
                   GitHub
                 </a>
               )}
+              {application.details.portfolioUrl && (
+                <a
+                  href={application.details.portfolioUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-2 text-blue-600 hover:underline"
+                >
+                  <ExternalLink className="h-4 w-4" />
+                  Site Portfólio
+                </a>
+              )}
               {application.details.resumeUrl && (
                 <div className="flex items-center gap-2 text-blue-600 hover:text-blue-700">
                   <Download className="h-4 w-4" />
@@ -170,24 +180,6 @@ export default function ApplicationDetails({
                   Disponibilidade
                 </label>
                 <p className="mt-1">{application.details.availability}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-600">
-                  Modelo de Trabalho
-                </label>
-                <p className="mt-1">
-                  {application.details.workModel === 'remote'
-                    ? 'Remoto'
-                    : 'Híbrido'}
-                </p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-600">
-                  Tipo de Contrato
-                </label>
-                <p className="mt-1">
-                  {application.details.contractType === 'clt' ? 'CLT' : 'PJ'}
-                </p>
               </div>
             </div>
           </section>

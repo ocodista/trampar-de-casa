@@ -69,6 +69,32 @@ async function getJobs(userId: string): Promise<Job[]> {
   }
 }
 
+async function getApplicationsCount(userId: string): Promise<number> {
+  try {
+    const supabase = getSupabaseClient()
+    const { count, error } = await supabase
+      .from('RoleApplications')
+      .select(
+        `
+        roleId,
+        Roles!inner (
+          RoleOwner!inner (
+            subscriberID
+          )
+        )
+      `,
+        { count: 'exact', head: true }
+      )
+      .eq('Roles.RoleOwner.subscriberID', userId)
+
+    if (error) throw error
+    return count || 0
+  } catch (error) {
+    console.error('Failed to fetch applications count:', error)
+    return 0
+  }
+}
+
 export default async function Page({ params }: { params: { id: string } }) {
   const userId = params.id as string
 
@@ -78,12 +104,16 @@ export default async function Page({ params }: { params: { id: string } }) {
 
   const skills = await getSkills()
   const jobs = await getJobs(userId)
+  const applicationsCount = await getApplicationsCount(userId)
+
+  console.log({ applicationsCount })
 
   return (
     <DashboardPage
       jobsFromServer={jobs}
       skillsFromServer={skills}
       userId={userId}
+      applicationsCount={applicationsCount}
     />
   )
 }
