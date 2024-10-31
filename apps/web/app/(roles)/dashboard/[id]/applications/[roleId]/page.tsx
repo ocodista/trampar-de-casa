@@ -21,6 +21,9 @@ async function getApplications(roleId: string) {
         name,
         email,
         englishLevel
+      ),
+      Roles (
+        title
       )
     `
     )

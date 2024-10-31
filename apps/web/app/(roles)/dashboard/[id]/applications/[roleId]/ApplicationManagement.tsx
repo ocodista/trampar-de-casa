@@ -35,7 +35,9 @@ export default function ApplicationsManagement({
           <ChevronLeft className="h-4 w-4" />
           Voltar
         </button>
-        <h1 className="text-2xl font-bold">Candidaturas da Vaga</h1>
+        <h1 className="text-2xl font-bold">
+          Candidaturas da Vaga: {applications[0].Roles.title}
+        </h1>
       </div>
 
       <div className="rounded-lg border border-gray-200 bg-white shadow">
