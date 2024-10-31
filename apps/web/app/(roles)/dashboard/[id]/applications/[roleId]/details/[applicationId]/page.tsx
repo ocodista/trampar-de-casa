@@ -63,6 +63,7 @@ async function getApplication(applicationId: string) {
     },
     status: data.status,
     createdAt: data.createdAt,
+    meetsRequirements: data.meetsRequirements,
     role: {
       title: data.role.title,
       company: data.role.company,

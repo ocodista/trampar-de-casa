@@ -29,6 +29,7 @@ interface ApplicationDetailsProps {
     }
     status: 'pending' | 'approved' | 'rejected' | 'ignored'
     createdAt: string
+    meetsRequirements: boolean
     role: {
       title: string
       company: string
@@ -66,6 +67,8 @@ export default function ApplicationDetails({
   const [status, setStatus] = useState(application.status)
   const [isOpen, setIsOpen] = useState(false)
   const dropdownRef = useRef<HTMLDivElement>(null)
+
+  console.log({ application })
 
   useEffect(() => {
     const handleClickOutside = (event: MouseEvent) => {
@@ -205,6 +208,14 @@ export default function ApplicationDetails({
                   Nível de Inglês
                 </label>
                 <p className="mt-1">{application.details.englishLevel}</p>
+              </div>
+              <div>
+                <label className="block text-sm font-medium text-gray-600">
+                  Atende aos requisitos
+                </label>
+                <p className="mt-1">
+                  {application.meetsRequirements.toString()}
+                </p>
               </div>
             </div>
           </section>
