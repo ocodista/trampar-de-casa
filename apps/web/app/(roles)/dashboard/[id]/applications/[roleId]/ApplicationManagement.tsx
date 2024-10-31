@@ -1,8 +1,8 @@
 'use client'
 
-import React, { useEffect } from 'react'
-import { usePathname, useRouter } from 'next/navigation'
-import { Eye, ChevronLeft } from 'lucide-react'
+import React, { useEffect, useState } from 'react'
+import { useRouter } from 'next/navigation'
+import { Eye, ChevronLeft, Filter, ChevronDown } from 'lucide-react'
 
 const statusColors = {
   pending: 'bg-yellow-100 text-yellow-800',
@@ -18,12 +18,59 @@ const statusLabels = {
   ignored: 'Ignorado',
 }
 
+const englishLevels = ['Beginner', 'Intermediary', 'Advanced', 'Fluent']
+
+const englishLevelTranslations = {
+  Beginner: 'Iniciante',
+  Intermediary: 'Intermediário',
+  Advanced: 'Avançado',
+  Fluent: 'Fluente',
+} as const
+
 export default function ApplicationsManagement({
   roleId,
-  applications,
+  applications: initialApplications,
   userId,
 }) {
   const router = useRouter()
+  const [applications, setApplications] = useState(initialApplications)
+  const [roleTitle, setRoleTitle] = useState(applications[0]?.Roles.title)
+  const [filters, setFilters] = React.useState({
+    englishLevel: '',
+    yearsOfExperience: '',
+  })
+
+  const calculateExperience = (startDate: string) => {
+    const start = new Date(startDate)
+    const now = new Date()
+    return Math.floor(
+      (now.getTime() - start.getTime()) / (1000 * 60 * 60 * 24 * 365)
+    )
+  }
+
+  const applyFilters = () => {
+    let filtered = [...initialApplications]
+
+    if (filters.englishLevel) {
+      filtered = filtered.filter(
+        (app) => app.details.englishLevel === filters.englishLevel
+      )
+    }
+
+    if (filters.yearsOfExperience) {
+      const minYears = Number(filters.yearsOfExperience)
+      filtered = filtered.filter((app) => {
+        const experience = calculateExperience(app.details.startedWorkingAt)
+        return experience >= minYears
+      })
+    }
+
+    setApplications(filtered)
+  }
+
+  useEffect(() => {
+    applyFilters()
+  }, [filters])
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -36,8 +83,132 @@ export default function ApplicationsManagement({
           Voltar
         </button>
         <h1 className="text-2xl font-bold">
-          Candidaturas da Vaga: {applications[0].Roles.title}
+          Candidaturas da Vaga: {roleTitle}
         </h1>
+      </div>
+
+      <div className="mb-6 rounded-lg border border-gray-200 bg-white shadow">
+        <div className="border-b border-gray-200 p-4">
+          <div className="flex items-center gap-2">
+            <Filter className="h-5 w-5 text-indigo-500" />
+            <h3 className="font-medium text-gray-900">Filtrar Candidatos</h3>
+          </div>
+        </div>
+
+        <div className="p-4">
+          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="englishLevel"
+                className="text-sm font-medium text-gray-700"
+              >
+                Nível de Inglês
+              </label>
+              <div className="relative">
+                <select
+                  id="englishLevel"
+                  value={filters.englishLevel}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      englishLevel: e.target.value,
+                    }))
+                  }
+                  className="h-10 w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                >
+                  <option value="">Todos os níveis</option>
+                  {englishLevels.map((level) => (
+                    <option key={level} value={level}>
+                      {englishLevelTranslations[level]}
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-900" />
+              </div>
+            </div>
+
+            <div className="flex flex-col gap-1.5">
+              <label
+                htmlFor="experience"
+                className="text-sm font-medium text-gray-700"
+              >
+                Experiência Mínima
+              </label>
+              <div className="relative">
+                <select
+                  id="experience"
+                  value={filters.yearsOfExperience}
+                  onChange={(e) =>
+                    setFilters((prev) => ({
+                      ...prev,
+                      yearsOfExperience: e.target.value,
+                    }))
+                  }
+                  className="h-10 w-full appearance-none rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm text-gray-900 focus:border-indigo-500 focus:outline-none focus:ring-1 focus:ring-indigo-500"
+                >
+                  <option value="">Qualquer experiência</option>
+                  {[1, 2, 3, 4, 5].map((year) => (
+                    <option key={year} value={year}>
+                      {year} {year === 1 ? 'ano' : 'anos'} ou mais
+                    </option>
+                  ))}
+                </select>
+                <ChevronDown className="pointer-events-none absolute right-3 top-1/2 h-4 w-4 -translate-y-1/2 text-gray-900" />
+              </div>
+            </div>
+
+            <div className="flex items-end lg:col-span-2">
+              {filters.englishLevel || filters.yearsOfExperience ? (
+                <div className="flex w-full flex-wrap items-center justify-between gap-2">
+                  <div className="flex flex-wrap gap-2">
+                    {filters.englishLevel && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-600">
+                        {englishLevelTranslations[filters.englishLevel]}
+                        <button
+                          onClick={() =>
+                            setFilters((prev) => ({
+                              ...prev,
+                              englishLevel: '',
+                            }))
+                          }
+                          className="ml-1 rounded-full p-0.5 hover:bg-indigo-100"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                    {filters.yearsOfExperience && (
+                      <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-600">
+                        {filters.yearsOfExperience}+ anos
+                        <button
+                          onClick={() =>
+                            setFilters((prev) => ({
+                              ...prev,
+                              yearsOfExperience: '',
+                            }))
+                          }
+                          className="ml-1 rounded-full p-0.5 hover:bg-indigo-100"
+                        >
+                          ×
+                        </button>
+                      </span>
+                    )}
+                  </div>
+                  <button
+                    onClick={() =>
+                      setFilters({ englishLevel: '', yearsOfExperience: '' })
+                    }
+                    className="text-sm font-medium text-gray-500 hover:text-gray-700"
+                  >
+                    Limpar todos
+                  </button>
+                </div>
+              ) : (
+                <></>
+              )}
+            </div>
+          </div>
+        </div>
       </div>
 
       <div className="rounded-lg border border-gray-200 bg-white shadow">
@@ -124,7 +295,7 @@ export default function ApplicationsManagement({
             </div>
           ) : (
             <div className="flex h-32 items-center justify-center text-gray-500">
-              Nenhuma candidatura recebida ainda
+              Nenhuma candidatura encontrada com os filtros selecionados
             </div>
           )}
         </div>

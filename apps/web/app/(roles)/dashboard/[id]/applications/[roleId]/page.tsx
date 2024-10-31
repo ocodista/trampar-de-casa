@@ -20,7 +20,9 @@ async function getApplications(roleId: string) {
       Subscribers (
         name,
         email,
-        englishLevel
+        englishLevel,
+        skillsId,
+        startedWorkingAt
       ),
       Roles (
         title
