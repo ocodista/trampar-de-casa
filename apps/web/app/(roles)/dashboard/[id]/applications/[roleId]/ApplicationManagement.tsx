@@ -1,7 +1,7 @@
 'use client'
 
-import React from 'react'
-import { useRouter } from 'next/navigation'
+import React, { useEffect } from 'react'
+import { usePathname, useRouter } from 'next/navigation'
 import { Eye, ChevronLeft } from 'lucide-react'
 
 const statusColors = {

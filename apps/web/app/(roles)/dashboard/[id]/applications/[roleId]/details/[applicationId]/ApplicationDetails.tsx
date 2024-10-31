@@ -1,8 +1,14 @@
 'use client'
 
 import { useRouter } from 'next/navigation'
-import { ChevronLeft, Download, ExternalLink } from 'lucide-react'
-import { getResumePresignedUrl } from './action'
+import { ChevronLeft, Download, ExternalLink, ChevronDown } from 'lucide-react'
+import {
+  ApplicationStatus,
+  getResumePresignedUrl,
+  updateStatus,
+} from './action'
+import { useState, useRef, useEffect } from 'react'
+import { toast } from 'app/hooks/use-toast'
 
 interface ApplicationDetailsProps {
   application: {
@@ -30,31 +36,90 @@ interface ApplicationDetailsProps {
   }
 }
 
-const statusColors = {
-  pending: 'bg-yellow-100 text-yellow-800',
-  approved: 'bg-green-100 text-green-800',
-  rejected: 'bg-red-100 text-red-800',
-  ignored: 'bg-gray-100 text-gray-800',
-}
-
-const statusLabels = {
-  pending: 'Pendente',
-  approved: 'Aprovado',
-  rejected: 'Rejeitado',
-  ignored: 'Ignorado',
-}
+const statusOptions = [
+  {
+    id: 'pending',
+    label: 'Pendente',
+    color: 'bg-yellow-100 text-yellow-800 hover:bg-yellow-200',
+  },
+  {
+    id: 'approved',
+    label: 'Aprovado',
+    color: 'bg-green-100 text-green-800 hover:bg-green-200',
+  },
+  {
+    id: 'rejected',
+    label: 'Rejeitado',
+    color: 'bg-red-100 text-red-800 hover:bg-red-200',
+  },
+  {
+    id: 'ignored',
+    label: 'Ignorado',
+    color: 'bg-gray-100 text-gray-800 hover:bg-gray-200',
+  },
+]
 
 export default function ApplicationDetails({
   application,
 }: ApplicationDetailsProps) {
   const router = useRouter()
-  console.log({ application })
+  const [status, setStatus] = useState(application.status)
+  const [isOpen, setIsOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (
+        dropdownRef.current &&
+        !dropdownRef.current.contains(event.target as Node)
+      ) {
+        setIsOpen(false)
+      }
+    }
+
+    document.addEventListener('mousedown', handleClickOutside)
+    return () => document.removeEventListener('mousedown', handleClickOutside)
+  }, [])
+
+  const handleStatusChange = async (newStatus: ApplicationStatus) => {
+    try {
+      if (status === newStatus) {
+        return
+      }
+      const result = await updateStatus(application.id, newStatus)
+      if (result.success) {
+        setStatus(newStatus)
+        toast({
+          title: 'Status atualizado com sucesso!',
+          variant: 'default',
+          duration: 3000,
+        })
+      } else {
+        throw new Error(result.error)
+      }
+    } catch (error) {
+      console.error('Erro ao atualizar status:', error)
+      toast({
+        title: 'Erro ao atualizar status',
+        description: 'Tente novamente mais tarde',
+        variant: 'destructive',
+        duration: 3000,
+      })
+    } finally {
+      setIsOpen(false)
+    }
+  }
+
+  const handleBack = () => {
+    router.back()
+    router.refresh()
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
       <div className="mb-6 flex items-center gap-4">
         <button
-          onClick={() => router.back()}
+          onClick={handleBack}
           className="flex items-center gap-2 rounded-lg border border-gray-300 px-4 py-2 text-sm hover:bg-gray-50"
         >
           <ChevronLeft className="h-4 w-4" />
@@ -70,13 +135,45 @@ export default function ApplicationDetails({
             <p className="text-gray-600">{application.role.company}</p>
           </div>
 
-          <span
-            className={`inline-flex rounded-full px-3 py-1 text-sm font-semibold ${
-              statusColors[application.status]
-            }`}
-          >
-            {statusLabels[application.status]}
-          </span>
+          <div className="relative" ref={dropdownRef}>
+            <button
+              onClick={() => setIsOpen(!isOpen)}
+              className={`
+                flex items-center gap-2 rounded-full px-4 py-2 text-sm font-medium
+                ${statusOptions.find((s) => s.id === status)?.color}
+                transition-colors duration-200
+              `}
+            >
+              {statusOptions.find((s) => s.id === status)?.label}
+              <ChevronDown
+                className={`h-4 w-4 transition-transform duration-200 ${
+                  isOpen ? 'rotate-180' : ''
+                }`}
+              />
+            </button>
+
+            {isOpen && (
+              <div className="absolute left-0 top-12 z-10 min-w-[160px] rounded-lg border border-gray-200 bg-white py-1 shadow-lg">
+                {statusOptions.map((option) => (
+                  <button
+                    key={option.id}
+                    onClick={() =>
+                      handleStatusChange(option.id as typeof application.status)
+                    }
+                    className={`
+                      w-full px-4 py-2 text-left text-sm
+                      ${
+                        option.id === status ? option.color : 'hover:bg-gray-50'
+                      }
+                      transition-colors duration-200
+                    `}
+                  >
+                    {option.label}
+                  </button>
+                ))}
+              </div>
+            )}
+          </div>
         </div>
 
         <div className="space-y-6 p-6">
