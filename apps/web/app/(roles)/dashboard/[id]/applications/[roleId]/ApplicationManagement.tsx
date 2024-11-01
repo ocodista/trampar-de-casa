@@ -228,7 +228,7 @@ export default function ApplicationsManagement({
               <table className="min-w-full divide-y divide-gray-200">
                 <thead className="bg-gray-50">
                   <tr>
-                    <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
+                    <th className="w-48 px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
                       Nome
                     </th>
                     <th className="px-6 py-3 text-left text-xs font-medium uppercase tracking-wider text-gray-500">
@@ -251,8 +251,11 @@ export default function ApplicationsManagement({
                 <tbody className="divide-y divide-gray-200 bg-white">
                   {applications.map((application) => (
                     <tr key={application.id}>
-                      <td className="whitespace-nowrap px-6 py-4">
-                        <div className="font-medium text-gray-900">
+                      <td className="w-48 px-6 py-4">
+                        <div
+                          className="max-w-[150px] truncate font-medium text-gray-900"
+                          title={application.details.fullName}
+                        >
                           {application.details.fullName}
                         </div>
                       </td>
@@ -283,7 +286,7 @@ export default function ApplicationsManagement({
                               `/dashboard/${userId}/applications/${roleId}/details/${application.id}`
                             )
                           }
-                          className="flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-1 text-sm hover:bg-gray-50"
+                          className="inline-flex items-center gap-2 rounded-lg border border-gray-300 px-3 py-1 text-sm hover:bg-gray-50"
                         >
                           <Eye className="h-4 w-4" />
                           Detalhes
