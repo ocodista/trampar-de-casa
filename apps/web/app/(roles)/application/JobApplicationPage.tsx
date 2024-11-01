@@ -67,7 +67,6 @@ export default function JobApplicationPage({
         fullName: formData.fullName,
         email: formData.email,
         location: formData.location,
-        currentRole: formData.currentRole,
         englishLevel: formData.englishLevel,
         portfolioUrl: formData.portfolioUrl,
         linkedInUrl: formData.linkedInUrl,

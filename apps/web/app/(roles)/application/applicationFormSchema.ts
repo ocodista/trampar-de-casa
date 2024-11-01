@@ -14,7 +14,6 @@ export const applicationSchema = z.object({
       invalid_type_error: 'Data inválida',
     })
     .transform((date) => new Date(date)),
-  currentRole: z.string().optional(),
   englishLevel: z.enum(['Beginner', 'Intermediary', 'Advanced', 'Fluent']),
   portfolioUrl: z.string().url().optional().or(z.literal('')),
   linkedInUrl: z.string().url('URL do LinkedIn inválida'),

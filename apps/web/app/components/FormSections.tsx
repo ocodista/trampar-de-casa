@@ -91,20 +91,6 @@ export function ProfessionalInfoSection({ form }) {
 
         <FormField
           control={form.control}
-          name="currentRole"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Cargo Atual</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
           name="englishLevel"
           render={({ field }) => (
             <FormItem>
