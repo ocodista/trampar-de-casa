@@ -29,7 +29,8 @@ async function getApplication(applicationId: string) {
         email,
         englishLevel,
         gitHub,
-        linkedInUrl
+        linkedInUrl,
+        skillsId
       )
     `
     )
@@ -56,6 +57,7 @@ async function getApplication(applicationId: string) {
       coverLetter: parsedDetails.coverLetter || '',
       resumeUrl: parsedDetails.resumeUrl,
       portfolioUrl: parsedDetails.portfolioUrl,
+      skillsId: data.subscriber.skillsId,
       startedWorkingAt:
         parsedDetails.startedWorkingAt || new Date().toISOString(),
     },
@@ -86,6 +88,22 @@ async function verifyAccess(roleId: string, userId: string) {
   return true
 }
 
+async function getAllSkills() {
+  const supabase = getSupabaseClient()
+
+  const { data: skills, error } = await supabase
+    .from('Skills')
+    .select('*')
+    .order('name')
+
+  if (error) {
+    console.error('Error fetching skills:', error)
+    return null
+  }
+
+  return skills
+}
+
 export default async function ApplicationDetailsPage({ params }: PageProps) {
   const { id: userId, roleId, applicationId } = params
 
@@ -99,5 +117,7 @@ export default async function ApplicationDetailsPage({ params }: PageProps) {
     notFound()
   }
 
-  return <ApplicationDetails application={application} />
+  const allSkills = await getAllSkills()
+
+  return <ApplicationDetails application={application} allSkills={allSkills} />
 }

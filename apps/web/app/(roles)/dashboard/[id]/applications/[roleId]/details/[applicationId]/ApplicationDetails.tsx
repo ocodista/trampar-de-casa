@@ -24,6 +24,7 @@ interface ApplicationDetailsProps {
       resumeUrl?: string
       startedWorkingAt: string
       portfolioUrl: string
+      skillsId: string[]
     }
     status: 'pending' | 'approved' | 'rejected' | 'ignored'
     createdAt: string
@@ -33,6 +34,7 @@ interface ApplicationDetailsProps {
       company: string
     }
   }
+  allSkills
 }
 
 const statusOptions = [
@@ -60,6 +62,7 @@ const statusOptions = [
 
 export default function ApplicationDetails({
   application,
+  allSkills,
 }: ApplicationDetailsProps) {
   const router = useRouter()
   const [status, setStatus] = useState(application.status)
@@ -212,9 +215,31 @@ export default function ApplicationDetails({
                   Atende aos requisitos
                 </label>
                 <p className="mt-1">
-                  {application.meetsRequirements.toString()}
+                  {application.meetsRequirements ? 'Sim' : 'Não'}
                 </p>
               </div>
+            </div>
+          </section>
+
+          <section>
+            <h3 className="mb-4 text-lg font-semibold">Skills</h3>
+            <div className="flex flex-wrap gap-2">
+              {application.details.skillsId.map((skillId) => {
+                const skill = allSkills.find((s) => s.id.toString() === skillId)
+                if (!skill) return null
+
+                return (
+                  <span
+                    key={skillId}
+                    className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-600"
+                  >
+                    {skill.emoji} {skill.name}
+                  </span>
+                )
+              })}
+              {application.details.skillsId.length === 0 && (
+                <p className="text-gray-500">Nenhuma skill informada</p>
+              )}
             </div>
           </section>
 
