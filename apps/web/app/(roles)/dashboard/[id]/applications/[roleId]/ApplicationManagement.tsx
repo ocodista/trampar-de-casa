@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import { Eye, ChevronLeft, Filter, ChevronDown } from 'lucide-react'
+import SkillsFilter from 'app/components/SkillsFilter'
 
 const statusColors = {
   pending: 'bg-yellow-100 text-yellow-800',
@@ -31,6 +32,7 @@ export default function ApplicationsManagement({
   roleId,
   applications: initialApplications,
   userId,
+  allSkills,
 }) {
   const router = useRouter()
   const [applications, setApplications] = useState(initialApplications)
@@ -39,6 +41,16 @@ export default function ApplicationsManagement({
     englishLevel: '',
     yearsOfExperience: '',
   })
+  const [selectedSkills, setSelectedSkills] = useState([])
+
+  const filterApplicationsBySkills = (applications) => {
+    if (selectedSkills.length === 0) return applications
+
+    return applications.filter((application) => {
+      const applicantSkills = application.Subscribers.skillsId || []
+      return selectedSkills.some((skillId) => applicantSkills.includes(skillId))
+    })
+  }
 
   const calculateExperience = (startDate: string) => {
     const start = new Date(startDate)
@@ -65,12 +77,22 @@ export default function ApplicationsManagement({
       })
     }
 
+    // Adicione o filtro de skills
+    if (selectedSkills.length > 0) {
+      filtered = filtered.filter((application) => {
+        const applicantSkills = application.Subscribers.skillsId || []
+        return selectedSkills.some((skillId) =>
+          applicantSkills.includes(skillId)
+        )
+      })
+    }
+
     setApplications(filtered)
   }
 
   useEffect(() => {
     applyFilters()
-  }, [filters])
+  }, [filters, selectedSkills])
 
   return (
     <div className="container mx-auto px-4 py-8">
@@ -96,12 +118,10 @@ export default function ApplicationsManagement({
         </div>
 
         <div className="p-4">
-          <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="englishLevel"
-                className="text-sm font-medium text-gray-700"
-              >
+          {/* Grid de filtros */}
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-3">
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">
                 Nível de Inglês
               </label>
               <div className="relative">
@@ -127,11 +147,8 @@ export default function ApplicationsManagement({
               </div>
             </div>
 
-            <div className="flex flex-col gap-1.5">
-              <label
-                htmlFor="experience"
-                className="text-sm font-medium text-gray-700"
-              >
+            <div>
+              <label className="mb-1.5 block text-sm font-medium text-gray-700">
                 Experiência Mínima
               </label>
               <div className="relative">
@@ -157,57 +174,90 @@ export default function ApplicationsManagement({
               </div>
             </div>
 
-            <div className="flex items-end lg:col-span-2">
-              {filters.englishLevel || filters.yearsOfExperience ? (
-                <div className="flex w-full flex-wrap items-center justify-between gap-2">
-                  <div className="flex flex-wrap gap-2">
-                    {filters.englishLevel && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-600">
-                        {englishLevelTranslations[filters.englishLevel]}
-                        <button
-                          onClick={() =>
-                            setFilters((prev) => ({
-                              ...prev,
-                              englishLevel: '',
-                            }))
-                          }
-                          className="ml-1 rounded-full p-0.5 hover:bg-indigo-100"
-                        >
-                          ×
-                        </button>
-                      </span>
-                    )}
-                    {filters.yearsOfExperience && (
-                      <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-600">
-                        {filters.yearsOfExperience}+ anos
-                        <button
-                          onClick={() =>
-                            setFilters((prev) => ({
-                              ...prev,
-                              yearsOfExperience: '',
-                            }))
-                          }
-                          className="ml-1 rounded-full p-0.5 hover:bg-indigo-100"
-                        >
-                          ×
-                        </button>
-                      </span>
-                    )}
-                  </div>
+            <SkillsFilter
+              allSkills={allSkills}
+              applications={initialApplications}
+              selectedSkills={selectedSkills}
+              onFilterChange={(newSkills) => {
+                setSelectedSkills(newSkills)
+              }}
+              onSelectedSkillRemove={(skillId) => {
+                setSelectedSkills((prev) => prev.filter((id) => id !== skillId))
+              }}
+            />
+          </div>
+
+          {/* Tags dos filtros selecionados */}
+          {(filters.englishLevel ||
+            filters.yearsOfExperience ||
+            selectedSkills.length > 0) && (
+            <div className="mt-4 flex flex-wrap items-center gap-2">
+              {filters.englishLevel && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-600">
+                  {englishLevelTranslations[filters.englishLevel]}
                   <button
                     onClick={() =>
-                      setFilters({ englishLevel: '', yearsOfExperience: '' })
+                      setFilters((prev) => ({
+                        ...prev,
+                        englishLevel: '',
+                      }))
                     }
-                    className="text-sm font-medium text-gray-500 hover:text-gray-700"
+                    className="ml-1 rounded-full p-0.5 hover:bg-indigo-100"
                   >
-                    Limpar todos
+                    ×
                   </button>
-                </div>
-              ) : (
-                <></>
+                </span>
               )}
+              {filters.yearsOfExperience && (
+                <span className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-600">
+                  {filters.yearsOfExperience}+ anos
+                  <button
+                    onClick={() =>
+                      setFilters((prev) => ({
+                        ...prev,
+                        yearsOfExperience: '',
+                      }))
+                    }
+                    className="ml-1 rounded-full p-0.5 hover:bg-indigo-100"
+                  >
+                    ×
+                  </button>
+                </span>
+              )}
+              {selectedSkills.map((skillId) => {
+                const skill = allSkills.find((s) => s.id.toString() === skillId)
+                if (!skill) return null
+
+                return (
+                  <span
+                    key={skillId}
+                    className="inline-flex items-center gap-1 rounded-full bg-indigo-50 px-3 py-1 text-sm font-medium text-indigo-600"
+                  >
+                    {skill.emoji} {skill.name}
+                    <button
+                      onClick={() =>
+                        setSelectedSkills((prev) =>
+                          prev.filter((id) => id !== skillId)
+                        )
+                      }
+                      className="ml-1 rounded-full p-0.5 hover:bg-indigo-100"
+                    >
+                      ×
+                    </button>
+                  </span>
+                )
+              })}
+              <button
+                onClick={() => {
+                  setFilters({ englishLevel: '', yearsOfExperience: '' })
+                  setSelectedSkills([])
+                }}
+                className="text-sm font-medium text-gray-500 hover:text-gray-700"
+              >
+                Limpar todos
+              </button>
             </div>
-          </div>
+          )}
         </div>
       </div>
 

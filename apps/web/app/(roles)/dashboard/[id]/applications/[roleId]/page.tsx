@@ -1,7 +1,6 @@
 import { getSupabaseClient } from 'db'
 import { notFound } from 'next/navigation'
 import ApplicationsManagement from './ApplicationManagement'
-
 interface PageProps {
   params: {
     id: string
@@ -40,6 +39,22 @@ async function getApplications(roleId: string) {
   return applications
 }
 
+async function getAllSkills() {
+  const supabase = getSupabaseClient()
+
+  const { data: skills, error } = await supabase
+    .from('Skills')
+    .select('*')
+    .order('name')
+
+  if (error) {
+    console.error('Error fetching skills:', error)
+    return null
+  }
+
+  return skills
+}
+
 async function verifyRoleOwnership(roleId: string, userId: string) {
   const supabase = getSupabaseClient()
 
@@ -70,11 +85,14 @@ export default async function ApplicationsPage({ params }: PageProps) {
     notFound()
   }
 
+  const allSkills = await getAllSkills()
+
   return (
     <ApplicationsManagement
       roleId={roleId}
       userId={userId}
       applications={applications}
+      allSkills={allSkills}
     />
   )
 }
