@@ -20,10 +20,6 @@ export const applicationSchema = z.object({
   linkedInUrl: z.string().url('URL do LinkedIn inválida'),
   githubUrl: z.string().url().optional().or(z.literal('')),
 
-  // Preferências
-  salaryExpectation: z.string().min(1, 'Pretensão salarial é obrigatória'),
-  availability: z.string().min(1, 'Disponibilidade é obrigatória'),
-
   // Documentos e Extras
   coverLetter: z.string().optional(),
   resume: z.instanceof(File).optional(),

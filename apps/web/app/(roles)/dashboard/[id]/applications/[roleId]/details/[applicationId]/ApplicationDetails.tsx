@@ -20,8 +20,6 @@ interface ApplicationDetailsProps {
       englishLevel: string
       linkedInUrl: string
       githubUrl: string
-      salaryExpectation: string
-      availability: string
       coverLetter: string
       resumeUrl?: string
       startedWorkingAt: string
@@ -271,24 +269,6 @@ export default function ApplicationDetails({
                   </button>
                 </div>
               )}
-            </div>
-          </section>
-
-          <section>
-            <h3 className="mb-4 text-lg font-semibold">Preferências</h3>
-            <div className="grid gap-4 md:grid-cols-2">
-              <div>
-                <label className="block text-sm font-medium text-gray-600">
-                  Expectativa Salarial
-                </label>
-                <p className="mt-1">{application.details.salaryExpectation}</p>
-              </div>
-              <div>
-                <label className="block text-sm font-medium text-gray-600">
-                  Disponibilidade
-                </label>
-                <p className="mt-1">{application.details.availability}</p>
-              </div>
             </div>
           </section>
 

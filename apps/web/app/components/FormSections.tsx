@@ -175,44 +175,6 @@ export function ProfessionalInfoSection({ form }) {
   )
 }
 
-export function PreferencesSection({ form }) {
-  return (
-    <div className="space-y-4">
-      <h2 className="text-lg font-semibold">Preferências de Trabalho</h2>
-
-      <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
-        <FormField
-          control={form.control}
-          name="salaryExpectation"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Pretensão Salarial</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Ex: R$ 5.000 - R$ 7.000" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-
-        <FormField
-          control={form.control}
-          name="availability"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Disponibilidade para Início</FormLabel>
-              <FormControl>
-                <Input {...field} placeholder="Ex: Imediata, 30 dias" />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-      </div>
-    </div>
-  )
-}
-
 export function DocumentsSection({ form }) {
   return (
     <div className="space-y-4">

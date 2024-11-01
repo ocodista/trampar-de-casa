@@ -53,8 +53,6 @@ async function getApplication(applicationId: string) {
       englishLevel: data.subscriber.englishLevel,
       linkedInUrl: data.subscriber.linkedInUrl,
       githubUrl: data.subscriber.gitHub,
-      salaryExpectation: parsedDetails.salaryExpectation,
-      availability: parsedDetails.availability,
       coverLetter: parsedDetails.coverLetter || '',
       resumeUrl: parsedDetails.resumeUrl,
       portfolioUrl: parsedDetails.portfolioUrl,

@@ -14,7 +14,6 @@ import {
   ConsentSection,
   DocumentsSection,
   PersonalInfoSection,
-  PreferencesSection,
   ProfessionalInfoSection,
 } from 'app/components/FormSections'
 import { uploadResume } from 'app/utils/uploadResume'
@@ -55,7 +54,6 @@ export default function JobApplicationPage({
   const router = useRouter()
   const { toast } = useToast()
   const [isSubmitting, setIsSubmitting] = useState(false)
-  console.log({ applicationData })
 
   const onSubmit = async (formData: ApplicationFormData) => {
     setIsSubmitting(true)
@@ -74,8 +72,6 @@ export default function JobApplicationPage({
         portfolioUrl: formData.portfolioUrl,
         linkedInUrl: formData.linkedInUrl,
         githubUrl: formData.githubUrl,
-        salaryExpectation: formData.salaryExpectation,
-        availability: formData.availability,
         coverLetter: formData.coverLetter,
         startedWorkingAt: formData.startedWorkingAt.toISOString(),
         resumeUrl,
@@ -100,10 +96,8 @@ export default function JobApplicationPage({
       router.back()
     } catch (error) {
       console.error('Erro ao enviar aplicação:', error)
-
       const errorMessage =
         error instanceof Error ? error.message : 'Por favor, tente novamente.'
-
       toast({
         title: 'Erro ao enviar aplicação',
         description: errorMessage,
@@ -115,38 +109,46 @@ export default function JobApplicationPage({
   }
 
   return (
-    <div className="container mx-auto px-4 py-8">
-      <div className="p-6">
-        <div className="mb-6">
-          <h1 className="mb-2 text-2xl font-bold">Aplicar para vaga</h1>
-          <p className="text-muted-foreground">
+    <div className="container mx-auto py-12">
+      <div className="mx-auto max-w-5xl rounded-lg bg-white shadow-sm">
+        <div className="mb-8">
+          <h1 className="mb-2 text-3xl font-bold text-gray-900">
+            Aplicar para vaga
+          </h1>
+          <p className="text-lg text-gray-600">
             {roleData.title} em {roleData.company}
           </p>
         </div>
 
         <Form {...form}>
-          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-8">
+          <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-10">
             {form.formState.isSubmitting && <LoadingOverlay className="flex" />}
 
-            <PersonalInfoSection form={form} />
-            <ProfessionalInfoSection form={form} />
-            <PreferencesSection form={form} />
-            <DocumentsSection form={form} />
-            <ConsentSection form={form} />
+            <div className="space-y-10">
+              <PersonalInfoSection form={form} />
+              <ProfessionalInfoSection form={form} />
+              <DocumentsSection form={form} />
+              <ConsentSection form={form} />
+            </div>
 
-            <div className="flex gap-4 pt-6">
+            <div className="flex gap-4 pt-8">
               <Button
                 type="button"
                 variant="outline"
                 onClick={() => router.back()}
                 disabled={isSubmitting}
+                className="w-32"
               >
                 Voltar
               </Button>
-              <Button type="submit" disabled={isSubmitting} className="flex-1">
+              <Button
+                type="submit"
+                disabled={isSubmitting}
+                className="h-12 flex-1"
+              >
                 {isSubmitting ? (
                   <>
-                    <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                    <Loader2 className="mr-2 h-5 w-5 animate-spin" />
                     Enviando aplicação...
                   </>
                 ) : (

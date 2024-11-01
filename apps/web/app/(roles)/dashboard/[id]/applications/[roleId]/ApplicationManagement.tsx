@@ -216,7 +216,8 @@ export default function ApplicationsManagement({
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold">Candidatos</h2>
             <span className="rounded-full bg-gray-100 px-3 py-1 text-sm">
-              {applications?.length || 0} candidatos
+              {applications?.length || 0}{' '}
+              {applications?.length === 1 ? 'candidato' : 'candidatos'}
             </span>
           </div>
         </div>
