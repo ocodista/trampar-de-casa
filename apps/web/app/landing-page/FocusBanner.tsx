@@ -10,15 +10,15 @@ export function FocusBanner() {
         role="alert"
       >
         <span className="md:text-md mr-2 text-sm text-xs font-medium leading-tight lg:text-lg">
-          {'15% de desconto no ingresso do FrontInSampa!'}
+          Receba pagamentos em dólar sem burocracia com a
         </span>
         <Link
           className="mr-[6px] flex cursor-pointer items-center gap-2 rounded-full bg-indigo-500 px-3 py-1 text-xs font-bold uppercase transition-colors hover:bg-indigo-700 md:text-sm md:font-semibold"
-          href="https://fastix.com.br/events/front-in-sampa?coupon=TRAMPARDCASA"
+          href="https://husky.io?ref=nzg5ndz"
           referrerPolicy="no-referrer"
           target="__blank"
         >
-          TRAMPARDCASA 😎
+          Husky 🚀✨
         </Link>
       </div>
     </div>
