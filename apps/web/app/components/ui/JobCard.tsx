@@ -22,7 +22,7 @@ const JobCard = ({ job, skillsFromProps }) => {
     a.setAttribute('href', linkUrl); 
     a.setAttribute('target', '_blank'); 
     a.click();
-  });
+  }, []);
 
   const handleClick = useCallback(
     (event) => {
