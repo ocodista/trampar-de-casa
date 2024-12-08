@@ -17,6 +17,13 @@ const JobCard = ({ job, skillsFromProps }) => {
     return ''
   }, [job.salary])
 
+  const handleRedirect = useCallback((linkUrl: string) => {
+    const a = document.createElement("a"); 
+    a.setAttribute('href', linkUrl); 
+    a.setAttribute('target', '_blank'); 
+    a.click();
+  });
+
   const handleClick = useCallback(
     (event) => {
       event.preventDefault()
@@ -26,14 +33,14 @@ const JobCard = ({ job, skillsFromProps }) => {
           const linkUrl = shouldRedirectToUrl(job.description)
             ? job.url
             : `/vaga/${job.id}`
-          window.open(linkUrl, '_blank')
+          handleRedirect(linkUrl);
         })
         .catch((error) => {
           console.error('Erro ao contabilizar clique:', error)
           const linkUrl = shouldRedirectToUrl(job.description)
             ? job.url
             : `/vaga/${job.id}`
-          window.open(linkUrl, '_blank')
+          handleRedirect(linkUrl);
         })
     },
     [job.id, job.description, job.url]
