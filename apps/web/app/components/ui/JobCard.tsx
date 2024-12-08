@@ -18,10 +18,12 @@ const JobCard = ({ job, skillsFromProps }) => {
   }, [job.salary])
 
   const handleRedirect = useCallback((linkUrl: string) => {
-    const a = document.createElement("a"); 
-    a.setAttribute('href', linkUrl); 
-    a.setAttribute('target', '_blank'); 
-    a.click();
+    setTimeout(() => {
+      const a = document.createElement("a"); 
+      a.setAttribute('href', linkUrl); 
+      a.setAttribute('target', '_blank'); 
+      a.click();
+    })
   }, []);
 
   const handleClick = useCallback(
