@@ -1,30 +1,7 @@
 'use server'
 
-import { Filter } from 'app/components/SelectInput'
 import { getPostgresClient } from 'db'
 import { Role } from 'db/src/types'
-
-interface ItemExtracted {
-  option: {
-    value: string | number
-    label: string
-  }
-  inputType: string
-}
-
-const getFilter = (filters: Filter[], filterType: string) => {
-  return filters.filter(
-    (filter: ItemExtracted) => filter.inputType === filterType
-  )
-}
-
-export const getFilterFromPreferences = async (email: string) => {
-  const db = getPostgresClient()
-  const skillsId = await db.getSubscriberSkillsId(email)
-  return skillsId
-}
-
-const db = getPostgresClient()
 
 interface JobFilter {
   country?: string[]
@@ -34,6 +11,12 @@ interface JobFilter {
     field: string
     ascending: boolean
   }
+}
+
+export const getFilterFromPreferences = async (email: string) => {
+  const db = getPostgresClient()
+  const skillsId = await db.getSubscriberSkillsId(email)
+  return skillsId
 }
 
 const filterJobData = (job: Role, filters: JobFilter) => {
@@ -53,6 +36,7 @@ const filterJobData = (job: Role, filters: JobFilter) => {
 
 export const fetchJobs = async (filters: JobFilter) => {
   try {
+    const db = getPostgresClient()
     const { data: jobs } = await db.getRolesWithFilters(filters)
     const filteredJobs = jobs.filter((job) => filterJobData(job, filters))
     return filteredJobs.sort((a, b) => Number(b.salary) - Number(a.salary))

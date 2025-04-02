@@ -5,8 +5,9 @@ import { skillArray } from 'shared/src/infos/skills'
 import { AutoComplete } from '../../../components/AutoComplete'
 import { CustomFormField } from '../../../components/CustomFormField'
 import { ListOption } from '../../../components/ListOption'
-import { ProfileSchemaEnum } from '../profileSchema'
+import { ProfileSchema, ProfileSchemaEnum } from '../profileSchema'
 import { skills } from '../subscription/skills'
+import { Path } from 'react-hook-form'
 
 const sortedSkills = skills.sort((a, b) => {
   const aFirstLetter = a.label[0].toUpperCase()
@@ -22,7 +23,7 @@ export const SkillsField = ({ description }: { description?: string }) => {
     setValue,
     watch,
     formState: { isSubmitting },
-  } = useFormContext()
+  } = useFormContext<ProfileSchema>()
   const [selectedOptions, setSelectedOptions] = useState<ListOption[]>([])
   const options = useMemo(() => sortedSkills, [])
   const formSkills = watch(ProfileSchemaEnum.Skills)
@@ -88,7 +89,7 @@ export const SkillsField = ({ description }: { description?: string }) => {
             onSelectChange={onSelectChange}
             placeholder="TypeScript, React, .NET"
             options={options}
-            {...register(ProfileSchemaEnum.Skills)}
+            {...register(ProfileSchemaEnum.Skills as Path<ProfileSchema>)}
           />
         )}
       />

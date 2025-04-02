@@ -1,5 +1,4 @@
-import { getPostgresClient, getSupabaseClient } from 'db'
-import { notFound } from 'next/navigation'
+import { getPostgresClient } from 'db'
 import { Entities } from 'shared'
 import { z } from 'zod'
 

@@ -36,6 +36,7 @@ const updateSubscriberOptOut = async (email: string) => {
       [email]
     )
   } catch (error) {
+    // eslint-disable-next-line no-console
     console.error('Error updating subscriber opt out:', error)
     throw error
   }
@@ -59,6 +60,7 @@ export const POST = async (req: Request) => {
     try {
       await updateSubscriberOptOut(email)
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error(`Error when updating ${payload.type} email: `, error)
     }
   }
