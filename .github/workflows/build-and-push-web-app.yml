@@ -8,6 +8,7 @@ on:
       - 'apps/web/**/*'
       - 'packages/**/*'
       - 'Dockerfile'
+  workflow_dispatch:
 
 jobs:
   docker-build:
