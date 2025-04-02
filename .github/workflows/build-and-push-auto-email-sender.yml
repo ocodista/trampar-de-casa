@@ -8,6 +8,13 @@ on:
       - 'apps/auto-email-sender/**/*'
       - 'packages/**/*'
       - 'Dockerfile.auto'
+  workflow_dispatch:
+    inputs:
+      use_custom_registry:
+        description: 'Use custom registry instead of Oracle Cloud'
+        required: false
+        default: true
+        type: boolean
 
 jobs:
   docker-build:
@@ -22,15 +29,20 @@ jobs:
         with:
           node-version: 20.5.1
 
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+        with:
+          platforms: ${{ inputs.use_custom_registry == 'true' && 'amd64' || 'arm64,arm,amd64' }}
+
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v2.2.1
 
-      - name: Login to OCIR
+      - name: Login to Registry
         uses: docker/login-action@v2
         with:
-          registry: gru.ocir.io
-          username: ${{ secrets.OCI_REPOSITORY_USER }}
-          password: ${{ secrets.OCI_REPOSITORY_PASS }}
+          registry: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_HOST || 'gru.ocir.io' }}
+          username: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_USER || secrets.OCI_REPOSITORY_USER }}
+          password: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_PASS || secrets.OCI_REPOSITORY_PASS }}
 
       - name: Install dependencies
         run: |
@@ -39,7 +51,11 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker buildx build . --platform linux/arm64,linux/amd64 --file ./Dockerfile.auto -t "gru.ocir.io/gricbxnlp2kb/auto-email-sender:latest" \
+          REGISTRY=${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_HOST || 'gru.ocir.io' }}
+          REPO=${{ inputs.use_custom_registry == 'true' && 'auto-email-sender' || 'gricbxnlp2kb/auto-email-sender' }}
+          PLATFORMS=${{ inputs.use_custom_registry == 'true' && 'linux/amd64' || 'linux/arm64,linux/amd64' }}
+          
+          docker buildx build . --platform $PLATFORMS --file ./Dockerfile.auto -t "$REGISTRY/$REPO:latest" \
           --push \
           --build-arg SECRET_KEY="${{ secrets.SECRET_KEY }}" \
           --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \

@@ -9,6 +9,12 @@ on:
       - 'packages/**/*'
       - 'Dockerfile'
   workflow_dispatch:
+    inputs:
+      use_custom_registry:
+        description: 'Use custom registry instead of Oracle Cloud'
+        required: false
+        default: true
+        type: boolean
 
 jobs:
   docker-build:
@@ -21,21 +27,25 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: 'arm64,arm,amd64'
+          platforms: ${{ inputs.use_custom_registry == 'true' && 'amd64' || 'arm64,arm,amd64' }}
 
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v2.2.1
 
-      - name: Login to OCIR
+      - name: Login to Registry
         uses: docker/login-action@v2
         with:
-          registry: gru.ocir.io
-          username: ${{ secrets.OCI_REPOSITORY_USER }}
-          password: ${{ secrets.OCI_REPOSITORY_PASS }}
+          registry: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_HOST || 'gru.ocir.io' }}
+          username: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_USER || secrets.OCI_REPOSITORY_USER }}
+          password: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_PASS || secrets.OCI_REPOSITORY_PASS }}
 
       - name: Build Docker image
         run: |
-          docker buildx build . --platform linux/arm64,linux/amd64 -t "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:latest" -t "gru.ocir.io/gricbxnlp2kb/trampar-de-casa:$(cd apps/web && cat package.json | jq -r '.version')" --push \
+          REGISTRY=${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_HOST || 'gru.ocir.io' }}
+          REPO=${{ inputs.use_custom_registry == 'true' && 'trampar-de-casa' || 'gricbxnlp2kb/trampar-de-casa' }}
+          PLATFORMS=${{ inputs.use_custom_registry == 'true' && 'linux/amd64' || 'linux/arm64,linux/amd64' }}
+          
+          docker buildx build . --platform $PLATFORMS -t "$REGISTRY/$REPO:latest" -t "$REGISTRY/$REPO:$(cd apps/web && cat package.json | jq -r '.version')" --push \
           --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
           --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
           --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
@@ -46,4 +56,5 @@ jobs:
           --build-arg RESEND_WEBHOOK_SECRET="${{ secrets.RESEND_WEBHOOK_SECRET }}" \
           --build-arg OWNER_EMAIL="${{ secrets.OWNER_EMAIL }}" \
           --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
-          --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}"
+          --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}" \
+          ${{ inputs.use_custom_registry == 'true' && '--build-arg POSTGRES_HOST="${{ secrets.POSTGRES_HOST }}" --build-arg POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" --build-arg POSTGRES_USER="${{ secrets.POSTGRES_USER }}" --build-arg POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}"' || '' }}
