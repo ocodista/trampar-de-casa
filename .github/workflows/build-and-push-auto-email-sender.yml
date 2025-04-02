@@ -39,7 +39,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker buildx build . --platform linux/arm64 --file ./Dockerfile.auto -t "gru.ocir.io/gricbxnlp2kb/auto-email-sender:latest" \
+          docker buildx build . --platform linux/arm64,linux/amd64 --file ./Dockerfile.auto -t "gru.ocir.io/gricbxnlp2kb/auto-email-sender:latest" \
           --push \
           --build-arg SECRET_KEY="${{ secrets.SECRET_KEY }}" \
           --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \

@@ -20,7 +20,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: 'arm64,arm'
+          platforms: 'arm64,arm,amd64'
 
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v2.2.1
@@ -35,4 +35,4 @@ jobs:
       - name: Build Docker image
         run: |
           cd apps/router
-          docker buildx build . --platform linux/arm64 -t "gru.ocir.io/gricbxnlp2kb/router-app:latest" --push
+          docker buildx build . --platform linux/arm64,linux/amd64 -t "gru.ocir.io/gricbxnlp2kb/router-app:latest" --push

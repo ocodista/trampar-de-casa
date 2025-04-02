@@ -1,0 +1,62 @@
+name: Cleanup OCIR Registry
+
+on:
+  schedule:
+    - cron: '0 0 * * *'  # Run daily at midnight UTC
+  workflow_dispatch:  # Allows manual triggering
+
+jobs:
+  cleanup:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Install OCI CLI
+        run: |
+          curl -L https://raw.githubusercontent.com/oracle/oci-cli/master/scripts/install/install.sh > install-oci-cli.sh
+          chmod +x install-oci-cli.sh
+          ./install-oci-cli.sh --accept-all-defaults
+
+      - name: Configure OCI CLI
+        run: |
+          mkdir -p ~/.oci
+          echo "${{ secrets.OCI_CONFIG }}" > ~/.oci/config
+          echo "${{ secrets.OCI_KEY }}" > ~/.oci/key.pem
+          chmod 600 ~/.oci/key.pem
+
+      - name: Cleanup old images
+        run: |
+          # Get all images in the repository
+          images=$(oci artifacts container image list \
+            --compartment-id ${{ secrets.OCI_COMPARTMENT_ID }} \
+            --repository-id ${{ secrets.OCI_REPOSITORY_ID }} \
+            --query 'data[*].{id:id,displayName:displayName,created:timeCreated}' \
+            --all)
+
+          # Group images by tag
+          echo "$images" | jq -r 'group_by(.displayName) | .[] | .[0].displayName' | while read -r tag; do
+            echo "Processing tag: $tag"
+            
+            # Get all images for this tag, sorted by creation date
+            tag_images=$(echo "$images" | jq -r ".[] | select(.displayName==\"$tag\") | {id:.id,created:.created}" | jq -s 'sort_by(.created) | reverse')
+            
+            # Get count of images
+            count=$(echo "$tag_images" | jq length)
+            
+            if [ "$count" -gt 5 ]; then
+              echo "Found $count images for $tag, keeping 5"
+              
+              # Get IDs of images to delete (all except first 5)
+              delete_ids=$(echo "$tag_images" | jq -r '.[5:][] | .id')
+              
+              # Delete each old image
+              echo "$delete_ids" | while read -r id; do
+                echo "Deleting image $id"
+                oci artifacts container image delete \
+                  --compartment-id ${{ secrets.OCI_COMPARTMENT_ID }} \
+                  --repository-id ${{ secrets.OCI_REPOSITORY_ID }} \
+                  --image-id "$id" \
+                  --force
+              done
+            else
+              echo "Found $count images for $tag, no cleanup needed"
+            fi
+          done 
