@@ -1,3 +1,4 @@
+'use server'
 import { getDecryptedId } from 'app/api/getDecryptedId'
 import { EnglishLevel } from 'global/EnglishLevel'
 import { SubscriberForm } from '../components/SubscriberForm'
@@ -5,14 +6,21 @@ import { getSubscriber } from '../getSubscriber'
 import { getSubscriberTopics } from '../getSubscriberTopics'
 import { getTopics } from '../getTopics'
 
-export const revalidate = 0
-const ProfilePage = async ({ params }: { params: { id: string } }) => {
+export default async function ProfilePage({
+  params,
+}: {
+  params: { id: string }
+}) {
   const subscriberId = getDecryptedId(params.id)
   const [subscriber, subscriberTopics, topics] = await Promise.all([
     getSubscriber(subscriberId),
     getSubscriberTopics(subscriberId),
     getTopics(),
   ])
+
+  if (!subscriberTopics || !topics) {
+    throw new Error('Failed to fetch data')
+  }
 
   return (
     <SubscriberForm
@@ -34,5 +42,3 @@ const ProfilePage = async ({ params }: { params: { id: string } }) => {
     />
   )
 }
-
-export default ProfilePage

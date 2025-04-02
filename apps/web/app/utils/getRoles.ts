@@ -1,9 +1,11 @@
+'use server'
+
 import { getPostgresClient } from 'db'
 import { Entities } from 'shared'
 
-const pgClient = getPostgresClient()
-
 export async function getRole(id: string) {
+  const pgClient = getPostgresClient()
+
   try {
     const query = `
       SELECT *
@@ -11,9 +13,14 @@ export async function getRole(id: string) {
       WHERE id = $1
     `
     const result = await pgClient.query(query, [id])
-    return { data: result.rows[0], error: null }
+
+    if (!result.rows.length) {
+      return null
+    }
+
+    return result.rows[0]
   } catch (error) {
     console.error('Get role error:', error)
-    return { data: null, error }
+    return null
   }
 }

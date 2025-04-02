@@ -5,21 +5,19 @@ import { fetchJobs } from 'app/(roles)/vagas/action'
 import { updateSearchParams } from 'app/utils/updateSearchParams'
 
 export interface Job {
-  company: string | null
-  country: string
-  createdAt: string
-  currency: string | null
-  description: string
   id: string
-  language: 'English' | 'Portuguese'
-  minimumYears: number | null
-  ready: boolean
-  salary: string | null
-  skillsId: string[] | null
   title: string
-  topicId: number | null
-  updatedAt: string
-  url: string | null
+  company: string
+  description: string
+  salary: string
+  currency: string
+  country: string
+  language: 'English' | 'Portuguese'
+  minimumYears: number
+  topicId: number
+  url: string
+  createdAt: Date
+  updatedAt: Date
 }
 
 export type SelectOption = {
@@ -83,9 +81,22 @@ const SelectInput = ({
     ])
 
     try {
-      const { data, count } = await fetchJobs(temporaryFilters)
-      setTotalJobs(count)
-      setJobs(data)
+      const jobs = await fetchJobs({
+        country: temporaryFilters
+          .filter((f) => f.inputType === 'country')
+          .map((f) => f.option.value as string),
+        skillsId: temporaryFilters
+          .filter((f) => f.inputType === 'skill')
+          .map((f) => Number(f.option.value)),
+      })
+      setTotalJobs(jobs.length)
+      setJobs(
+        jobs.map((job) => ({
+          ...job,
+          createdAt: new Date(job.createdAt),
+          updatedAt: new Date(job.updatedAt),
+        }))
+      )
     } catch (error) {
       console.error('Error fetching filtered jobs:', error.message)
     }

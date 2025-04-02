@@ -142,8 +142,13 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
     setFilters(updatedFilters)
     setPreviewOrderValue(option.value)
 
-    const { data } = await fetchJobs(updatedFilters)
-    setJobs(data)
+    const jobs = await fetchJobs({
+      order: {
+        field: 'createdAt',
+        ascending: option.value === 'ascending',
+      },
+    })
+    setJobs(jobs)
     const newQueryString = updateSearchParams(updatedFilters)
     router.push(`?${newQueryString}`, { scroll: false })
   }
@@ -176,9 +181,16 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
     setFilters(updatedFilters)
 
     try {
-      const { data, count } = await fetchJobs(updatedFilters)
-      setTotalJobs(count)
-      setJobs(data)
+      const jobs = await fetchJobs({
+        country: updatedFilters
+          .filter((f) => f.inputType === 'country')
+          .map((f) => f.option.value as string),
+        skillsId: updatedFilters
+          .filter((f) => f.inputType === 'skill')
+          .map((f) => Number(f.option.value)),
+      })
+      setTotalJobs(jobs.length)
+      setJobs(jobs)
     } catch (error) {
       console.error('Error fetching filtered jobs:', error.message)
     }
@@ -189,8 +201,8 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
 
   const deleteAllfilters = async () => {
     setFilters([])
-    const { data } = await fetchJobs([])
-    setJobs(data)
+    const jobs = await fetchJobs({})
+    setJobs(jobs)
     const searchParams = new URLSearchParams(window.location.search)
     searchParams.delete('skill')
     searchParams.delete('country')
@@ -222,22 +234,20 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
       const email = localStorage.getItem('loginEmail')
       const skillsFromPreferences = await getFilterFromPreferences(email)
 
-      const formattedSkills = skillsFromPreferences
-        .map((item, key) =>
-          item.skillsId.map((skillId) => ({
-            inputType: 'skill',
-            option: {
-              value: skillId,
-              label: getLabel('skill', skillId),
-            },
-          }))
-        )
-        .flat()
+      const formattedSkills = skillsFromPreferences.map((skillId) => ({
+        inputType: 'skill',
+        option: {
+          value: skillId,
+          label: getLabel('skill', skillId),
+        },
+      }))
 
-      const { data, count } = await fetchJobs(formattedSkills)
+      const jobs = await fetchJobs({
+        skillsId: formattedSkills.map((f) => Number(f.option.value)),
+      })
       setFilters(formattedSkills)
-      setJobs(data)
-      setTotalJobs(count)
+      setJobs(jobs)
+      setTotalJobs(jobs.length)
       const newQueryString = updateSearchParams(formattedSkills)
       router.push(`?${newQueryString}`, { scroll: false })
     } catch (error) {
@@ -248,9 +258,16 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
   useEffect(() => {
     const fetchInitialJobs = async (initialFilters: Filter[]) => {
       try {
-        const { data, count } = await fetchJobs(initialFilters)
-        setJobs(data)
-        setTotalJobs(count)
+        const jobs = await fetchJobs({
+          country: initialFilters
+            .filter((f) => f.inputType === 'country')
+            .map((f) => f.option.value as string),
+          skillsId: initialFilters
+            .filter((f) => f.inputType === 'skill')
+            .map((f) => Number(f.option.value)),
+        })
+        setJobs(jobs)
+        setTotalJobs(jobs.length)
       } catch (error) {
         console.error('Error fetching initial jobs:', error.message)
       }

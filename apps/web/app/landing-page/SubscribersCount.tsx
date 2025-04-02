@@ -9,7 +9,7 @@ const getSubscriberCount = async (): Promise<number | null> => {
   try {
     const result = await pool.query(`
       SELECT COUNT(id) 
-      FROM "${Entities.Subcribers}"
+      FROM ${Entities.Subcribers}
     `)
 
     return parseInt(result.rows[0].count)

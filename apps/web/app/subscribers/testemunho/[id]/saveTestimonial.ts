@@ -1,11 +1,10 @@
 'use server'
 
-import { getSupabaseClient } from 'db'
-import { SupabaseTable } from 'db/src/supabase/utilityTypes'
 import { redirect } from 'next/navigation'
 import { Resend } from 'resend'
 import { z } from 'zod'
 import { Fields } from './Fields'
+import { getPostgresClient } from 'db'
 
 const testimonialSchema = z.object({
   company: z.string(),
@@ -14,22 +13,39 @@ const testimonialSchema = z.object({
   role: z.string(),
   skills: z.array(z.string()),
 })
-type TestimonialTable = SupabaseTable<'testimonial'>
-export async function saveTestimonial(email: string, formData: FormData) {
-  const payloadObj: Partial<Record<keyof TestimonialTable, unknown>> = {
-    company: formData.get(Fields.Company)?.toString(),
-    details: formData.get(Fields.Testimonial)?.toString(),
-    email,
-    skills: formData.get(Fields.Skills)?.toString().split(','),
-    role: formData.get(Fields.Role)?.toString(),
-  }
-  const testimonialFields = testimonialSchema.parse(payloadObj)
-  const supabase = getSupabaseClient()
-  const { data, error } = await supabase
-    .from('testimonial')
-    .insert(testimonialFields)
 
-  if (error) throw new Error(error.message, { cause: error })
+const db = getPostgresClient()
+
+export const insertTestimonial = async (
+  subscriberId: string,
+  testimonial: string
+) => {
+  await db.query(
+    `INSERT INTO "Testimonials" ("subscriberId", testimonial) VALUES ($1, $2)`,
+    [subscriberId, testimonial]
+  )
+}
+
+export async function saveTestimonial(email: string, formData: FormData) {
+  const testimonialFields = testimonialSchema.parse({
+    company: formData.get(Fields.Company),
+    details: formData.get(Fields.Testimonial),
+    email: formData.get(Fields.Email),
+    role: formData.get(Fields.Role),
+    skills: formData.getAll(Fields.Skills),
+  }) as {
+    company: string
+    details: string
+    email: string
+    role: string
+    skills: string[]
+  }
+
+  try {
+    await insertTestimonial(testimonialFields.email, testimonialFields.details)
+  } catch (error) {
+    throw new Error('Failed to save testimonial', { cause: error })
+  }
 
   await sendEmailLogger(email)
   redirect('?success')

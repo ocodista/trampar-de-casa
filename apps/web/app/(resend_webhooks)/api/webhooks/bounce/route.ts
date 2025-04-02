@@ -1,5 +1,7 @@
-import { getSupabaseClient } from 'db/src/supabase/getSupabaseClient'
 import { Webhook } from 'svix'
+import { getPostgresClient } from 'db'
+
+const db = getPostgresClient()
 
 const getWebhook = () => {
   const webhookSecret = process.env.RESEND_WEBHOOK_SECRET
@@ -27,6 +29,18 @@ interface WebhookEvent {
   type: EmailType
 }
 
+const updateSubscriberOptOut = async (email: string) => {
+  try {
+    await db.query(
+      `UPDATE "Subscribers" SET "optOut" = true WHERE email = $1`,
+      [email]
+    )
+  } catch (error) {
+    console.error('Error updating subscriber opt out:', error)
+    throw error
+  }
+}
+
 export const POST = async (req: Request) => {
   const webhook = getWebhook()
   const svix_id = req.headers.get('svix-id') ?? ''
@@ -41,13 +55,10 @@ export const POST = async (req: Request) => {
   }) as WebhookEvent
 
   if (payload.type === 'email.bounced' || payload.type === 'email.complained') {
-    const supabaseClient = getSupabaseClient()
     const email = payload.data.to[0]
-    const { error } = await supabaseClient
-      .from('Subscribers')
-      .update({ optOut: true, updatedAt: new Date().toISOString() })
-      .eq('email', email)
-    if (error) {
+    try {
+      await updateSubscriberOptOut(email)
+    } catch (error) {
       console.error(`Error when updating ${payload.type} email: `, error)
     }
   }

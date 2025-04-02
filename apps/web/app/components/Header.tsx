@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 import { LandingPageRoutes } from '../landing-page/landingPageRoutes'
 import { LoginPreferences } from 'app/landing-page/LoginPreferences'
-import login, { encryptId } from 'app/utils/LoginPreferencesActions'
+import { login, encryptId } from 'app/utils/LoginPreferencesActions'
 import { useRouter } from 'next/navigation'
 import {
   BookOpen,
@@ -54,7 +54,7 @@ export const Header = () => {
     if (localStorage.getItem('loginEmail')) {
       const email = localStorage.getItem('loginEmail')
       const userId = await login(email)
-      const encryptedUserId = await encryptId(userId)
+      const encryptedUserId = await encryptId(userId.id)
       router.push(`/subscribers/profile/${encryptedUserId}`)
       return
     }
