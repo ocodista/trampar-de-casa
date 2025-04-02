@@ -46,4 +46,8 @@ jobs:
           --build-arg RESEND_WEBHOOK_SECRET="${{ secrets.RESEND_WEBHOOK_SECRET }}" \
           --build-arg OWNER_EMAIL="${{ secrets.OWNER_EMAIL }}" \
           --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
-          --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}"
+          --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}" \
+          --build-arg POSTGRES_HOST="${{ secrets.POSTGRES_HOST }}" \
+          --build-arg POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" \
+          --build-arg POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
+          --build-arg POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}" \
