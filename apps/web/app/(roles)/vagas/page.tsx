@@ -1,7 +1,7 @@
 'use server'
 
 import { getPostgresClient } from 'db'
-import { Role, SkillInRole, CountryInRole } from 'db/src/types'
+import { SkillInRole, CountryInRole } from 'db/src/types'
 import { RolesPage } from './RolesPage'
 import { fetchJobs } from './action'
 
@@ -15,13 +15,9 @@ const getSkillsInRoles = async () => {
   return db.getSkillsInRoles()
 }
 
-async function getJobs(): Promise<Role[]> {
-  return fetchJobs({})
-}
-
 export default async function VagasPage() {
   const [jobs, skills, countries] = await Promise.all([
-    getJobs(),
+    fetchJobs({}),
     getSkillsInRoles(),
     getCountriesInRoles(),
   ])
