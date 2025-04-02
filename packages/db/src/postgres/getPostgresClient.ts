@@ -1,10 +1,7 @@
 'use server'
 
 import { Pool } from 'pg'
-import dotenv from 'dotenv'
 import { PostgresClient } from './client'
-
-dotenv.config()
 
 let client: PostgresClient | null = null
 
