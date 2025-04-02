@@ -1,10 +1,10 @@
 {
   "name": "web",
-  "version": "1.0.42",
+  "version": "1.0.44",
   "private": true,
   "scripts": {
     "dev": "development=true next dev",
-    "build": "next build",
+    "build": "NEXT_TELEMETRY_DISABLED=1 NEXT_PHASE=build next build",
     "start": "next start",
     "lint": "eslint ./app --fix",
     "test": "vitest run"

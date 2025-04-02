@@ -71,6 +71,9 @@ RUN NEXT_TELEMETRY_DISABLED=1 \
  
 FROM base AS runner
 WORKDIR /app
+
+# Install curl for health checks
+RUN apk add --no-cache curl
  
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs

@@ -1,7 +1,10 @@
 services:
   trampardecasa:
-    image: gru.ocir.io/gricbxnlp2kb/trampar-de-casa:latest
-    env_file: .env
+    # ORACLE CLOUD: image: gru.ocir.io/gricbxnlp2kb/trampar-de-casa:latest
+
+    # Coolify - DO
+    image: registry.ocodista.com/trampar-de-casa:latest
+    env_file: .secrets
     restart: unless-stopped
     ports:
       - '3000:3000'
