@@ -1,0 +1,44 @@
+name: Build and push web app to custom registry
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'apps/web/**/*'
+      - 'packages/**/*'
+      - 'Dockerfile'
+  workflow_dispatch:
+
+jobs:
+  docker-build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Docker Setup Buildx
+        uses: docker/setup-buildx-action@v2.2.1
+
+      - name: Login to Custom Registry
+        uses: docker/login-action@v2
+        with:
+          registry: ${{ secrets.DOCKER_REGISTRY_HOST }}
+          username: ${{ secrets.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.DOCKER_REGISTRY_PASS }}
+
+      - name: Build Docker image
+        run: |
+          docker buildx build . --platform linux/amd64 -t "${{ secrets.DOCKER_REGISTRY_HOST }}/trampar-de-casa:latest" -t "${{ secrets.DOCKER_REGISTRY_HOST }}/trampar-de-casa:$(cd apps/web && cat package.json | jq -r '.version')" --push \
+          --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
+          --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
+          --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
+          --build-arg EMAIL_KEY="${{ secrets.EMAIL_KEY }}" \
+          --build-arg EMAIL_PASS="${{ secrets.EMAIL_PASS }}" \
+          --build-arg CRYPT_SECRET="${{ secrets.CRYPT_SECRET }}" \
+          --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \
+          --build-arg RESEND_WEBHOOK_SECRET="${{ secrets.RESEND_WEBHOOK_SECRET }}" \
+          --build-arg OWNER_EMAIL="${{ secrets.OWNER_EMAIL }}" \
+          --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
+          --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}" 
