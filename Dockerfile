@@ -64,7 +64,12 @@ ENV DATABASE_URL=$DATABASE_URL \
     POSTGRES_USER=$POSTGRES_USER \
     POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 
-RUN yarn turbo run build --filter=web
+# Add environment variables to the build command
+RUN POSTGRES_HOST=$POSTGRES_HOST \
+    POSTGRES_PORT=$POSTGRES_PORT \
+    POSTGRES_USER=$POSTGRES_USER \
+    POSTGRES_PASSWORD=$POSTGRES_PASSWORD \
+    yarn turbo run build --filter=web
  
 FROM base AS runner
 WORKDIR /app
