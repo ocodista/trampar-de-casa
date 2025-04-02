@@ -14,6 +14,38 @@ You can start editing the page by modifying `pages/index.js`. The page auto-upda
 
 The `pages/api` directory is mapped to `/api/*`. Files in this directory are treated as [API routes](https://nextjs.org/docs/api-routes/introduction) instead of React pages.
 
+## Database Connection
+
+### PostgreSQL
+
+The application uses a direct PostgreSQL connection. Set up the following environment variables in your `.env` file:
+
+```bash
+POSTGRES_HOST="your_postgres_host"
+POSTGRES_PORT="5432"
+POSTGRES_USER="your_postgres_user"
+POSTGRES_PASSWORD="your_postgres_password"
+POSTGRES_DB="your_postgres_database"
+```
+
+You can test the PostgreSQL connection by running:
+
+```bash
+cd packages/db && pnpm run test:pg-connection
+```
+
+### Supabase Connection
+
+For legacy Supabase connections, you need to set up the following environment variables in your `.env` file:
+
+```bash
+SUPABASE_URL="your_supabase_url"
+NEXT_PUBLIC_SUPABASE_URL="your_supabase_url"
+NEXT_PUBLIC_SUPABASE_ANON_KEY="your_supabase_anon_key"
+```
+
+Make sure to use these variables from `.env` rather than relying on the ones in `.env.local`, which are meant for production environments.
+
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:

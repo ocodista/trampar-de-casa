@@ -1,20 +1,22 @@
 'use server'
 
-import { getSupabaseClient } from 'db'
+import { getPostgresClient } from 'db'
 import { Entities } from 'shared'
 
 const getSubscriberCount = async (): Promise<number | null> => {
-  const supabase = getSupabaseClient()
+  const pool = getPostgresClient()
 
-  const { count, error } = await supabase
-    .from(Entities.Subcribers)
-    .select('id', { count: 'exact', head: true })
+  try {
+    const result = await pool.query(`
+      SELECT COUNT(id) 
+      FROM "${Entities.Subcribers}"
+    `)
 
-  if (error) {
-    console.error(error)
+    return parseInt(result.rows[0].count)
+  } catch (error) {
+    console.error('Error fetching subscriber count.', error)
     return null
   }
-  return count
 }
 
 export default async function SubscribersCount() {
