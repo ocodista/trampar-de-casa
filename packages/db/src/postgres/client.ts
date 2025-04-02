@@ -3,13 +3,16 @@ import { Subscriber, SubscriberTopic, Topic, Role, Skill, SubscriberRole, RoleRe
 import { Entities } from '../../../shared/src/enums/entities'
 
 export class PostgresClient {
-  private pool: Pool
+  private pool: Pool | null
 
-  constructor(pool: Pool) {
+  constructor(pool: Pool | null) {
     this.pool = pool
   }
 
   async query<T extends QueryResultRow>(text: string, params?: any[]): Promise<QueryResult<T>> {
+    if (!this.pool) {
+      return { rows: [], rowCount: 0, command: '', fields: [], oid: 0 }
+    }
     return this.pool.query<T>(text, params)
   }
 
@@ -30,6 +33,9 @@ export class PostgresClient {
   }
 
   async insertSubscriber(email: string): Promise<Subscriber> {
+    if (!this.pool) {
+      throw new Error('Database connection not available')
+    }
     const result = await this.query<Subscriber>(
       `INSERT INTO ${Entities.Subcribers} (email) VALUES ($1) RETURNING *`,
       [email]
@@ -38,6 +44,9 @@ export class PostgresClient {
   }
 
   async updateSubscriber(id: string, data: Partial<Subscriber>): Promise<Subscriber> {
+    if (!this.pool) {
+      throw new Error('Database connection not available')
+    }
     const setClause = Object.entries(data)
       .map(([key, _], index) => `"${key}" = $${index + 1}`)
       .join(', ')
@@ -59,6 +68,9 @@ export class PostgresClient {
   }
 
   async updateSubscriberTopics(subscriberId: string, topicIds: number[]): Promise<void> {
+    if (!this.pool) {
+      throw new Error('Database connection not available')
+    }
     const client = await this.pool.connect()
     try {
       await client.query('BEGIN')
@@ -111,7 +123,7 @@ export class PostgresClient {
     const result = await this.query<{ count: string }>(
       `SELECT COUNT(*) FROM ${Entities.RoleRecommendations}`
     )
-    return parseInt(result.rows[0].count)
+    return parseInt(result.rows[0]?.count || '0')
   }
 
   async getRolesRecommendationByTitleAndCompany(title: string, company: string): Promise<RoleRecommendation[]> {
@@ -123,6 +135,9 @@ export class PostgresClient {
   }
 
   async insertRoleRecommendation(data: Omit<RoleRecommendation, 'id' | 'createdAt' | 'updatedAt'>): Promise<RoleRecommendation> {
+    if (!this.pool) {
+      throw new Error('Database connection not available')
+    }
     const result = await this.query<RoleRecommendation>(
       `INSERT INTO ${Entities.RoleRecommendations} (
         title, company, description, salary, currency, country, language, "minimumYears", "topicId", url
@@ -181,7 +196,7 @@ export class PostgresClient {
     }
 
     const result = await this.query<Role>(query, params)
-    return { data: result.rows, count: result.rowCount }
+    return { data: result.rows, count: result.rowCount || 0 }
   }
 
   async getSkillsInRoles(): Promise<SkillInRole[]> {
@@ -214,6 +229,9 @@ export class PostgresClient {
   }
 
   async updateSubscriberOptOut(email: string): Promise<void> {
+    if (!this.pool) {
+      throw new Error('Database connection not available')
+    }
     await this.query(
       `UPDATE ${Entities.Subcribers} SET "sendBestOpenings" = false WHERE email = $1`,
       [email]
