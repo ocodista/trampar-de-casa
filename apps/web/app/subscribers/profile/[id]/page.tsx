@@ -17,9 +17,8 @@ export default async function ProfilePage({
     getSubscriberTopics(subscriberId),
     getTopics(),
   ])
-
   if (!subscriberTopics || !topics) {
-    throw new Error('Failed to fetch data')
+    throw new Error('Failed to fetch subscriber data')
   }
 
   return (

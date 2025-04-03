@@ -13,7 +13,7 @@ const SubscriberSchema = z.object({
   name: z.string().nullable(),
   linkedInUrl: z.string().url().nullable(),
   gitHub: z.string().url().nullable(),
-  startedWorkingAt: z.string().nullable(),
+  startedWorkingAt: z.date().nullable(),
   skillsId: z.array(z.string()).nullable(),
   englishLevel: z.nativeEnum(EnglishLevel).nullable(),
   sendBestOpenings: z.boolean(),
@@ -33,6 +33,7 @@ export const getSubscriber = async (subscriberId: string) => {
   const subscriberData = response
   const subscriber = SubscriberSchema.safeParse(subscriberData)
   if (!subscriber.success) {
+    console.error('Failed to parse subscriber:', subscriber.error.errors)
     notFound()
   }
 
