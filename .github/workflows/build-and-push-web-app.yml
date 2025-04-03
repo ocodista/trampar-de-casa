@@ -27,7 +27,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: ${{ inputs.use_custom_registry == 'true' && 'amd64' || 'arm64,arm,amd64' }}
+          platforms: arm64,amd64
 
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v2.2.1
@@ -43,12 +43,9 @@ jobs:
         run: |
           REGISTRY=${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_HOST || 'gru.ocir.io' }}
           REPO=${{ inputs.use_custom_registry == 'true' && 'trampar-de-casa' || 'gricbxnlp2kb/trampar-de-casa' }}
-          PLATFORMS=${{ inputs.use_custom_registry == 'true' && 'linux/amd64' || 'linux/arm64,linux/amd64' }}
+          PLATFORMS='linux/arm64,linux/amd64'
           
           docker buildx build . --platform $PLATFORMS -t "$REGISTRY/$REPO:latest" -t "$REGISTRY/$REPO:$(cd apps/web && cat package.json | jq -r '.version')" --push \
-          --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-          --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
-          --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
           --build-arg EMAIL_KEY="${{ secrets.EMAIL_KEY }}" \
           --build-arg EMAIL_PASS="${{ secrets.EMAIL_PASS }}" \
           --build-arg CRYPT_SECRET="${{ secrets.CRYPT_SECRET }}" \
