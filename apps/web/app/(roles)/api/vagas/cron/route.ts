@@ -1,6 +1,7 @@
-import { getSupabaseClient } from 'db'
+import { getPostgresClient } from 'db'
 import { Resend } from 'resend'
 
+const db = getPostgresClient()
 const CRON_SECRET = process.env.CRON_SECRET
 const OWNER_EMAIL = process.env.OWNER_EMAIL
 
@@ -12,10 +13,7 @@ export const GET = async (request: Request) => {
     })
   }
 
-  const supabase = getSupabaseClient()
-  const { count } = await supabase
-    .from('rolesRecommendation')
-    .select('id', { count: 'exact' })
+  const count = await db.getRolesRecommendationCount()
   if (count === 0) return new Response()
 
   const resendKey = process.env['RESEND_KEY']

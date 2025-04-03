@@ -8,7 +8,8 @@
   "scripts": {
     "setup": "npx supabase start",
     "db:generate-types": "supabase gen types typescript --local --schema public | tail -n +1 > src/supabase/type.ts",
-    "db:migrate": "supabase migrations up && yarn db:generate-types"
+    "db:migrate": "supabase migrations up && yarn db:generate-types",
+    "test:pg-connection": "tsx src/postgres/test-connection.ts"
   },
   "keywords": [],
   "author": "",
@@ -16,7 +17,9 @@
   "dependencies": {
     "@supabase/auth-helpers-nextjs": "^0.7.2",
     "@supabase/supabase-js": "^2.42.7",
+    "@types/pg": "^8.11.11",
     "bufferutil": "^4.0.8",
+    "pg": "^8.14.1",
     "shared": "*",
     "supabase": "^1.88.0",
     "utf-8-validate": "^6.0.3",
@@ -27,6 +30,7 @@
     "seed": "npx ts-node prisma/seed.ts"
   },
   "devDependencies": {
+    "tsx": "^4.19.3",
     "typescript": "^5.1.6"
   }
 }

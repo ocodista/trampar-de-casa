@@ -12,7 +12,7 @@ import {
 } from 'shared'
 import { getEmailProps } from './getEmailProps'
 import { top40Roles } from 'db/src/supabase/domains/roles/getSubscriberRoles'
-import { getSupabaseClient } from 'db'
+import { getPostgresClient } from 'db'
 
 dotenv.config()
 
@@ -27,7 +27,7 @@ export const assignRoles = async () => {
   const mongoCollection = mongoDatabase.collection(
     MongoCollection.RolesAssigner
   )
-  const supabaseClient = getSupabaseClient()
+  const postgres = getPostgresClient()
   const channel = await createRabbitMqChannel()
   let msg: GetMessage | false,
     count = 0
@@ -41,7 +41,7 @@ export const assignRoles = async () => {
     const subscriber = JSON.parse(msg.content.toString()) as Subscriber
     try {
       if (subscriber.skillsId) {
-        const skills = subscriber.skillsId.map((id) => id)
+        const skills = subscriber.skillsId.map((id: string) => id)
         const skillsStr = skills.join(',')
         const languages = 'English,Portuguese'
 
@@ -59,7 +59,7 @@ export const assignRoles = async () => {
         await saveSubscriberRoles(mongoCollection, emailProps)
         channel.ack(msg)
       } else {
-        const roles = await top40Roles(supabaseClient)
+        const roles = await top40Roles(postgres)
         const emailProps = getEmailProps(subscriber, roles)
         await saveSubscriberRoles(mongoCollection, emailProps)
         channel.ack(msg)

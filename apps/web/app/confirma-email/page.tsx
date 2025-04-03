@@ -23,11 +23,8 @@ export default function Page() {
 
     ;(async () => {
       setLoaderVisibility(true)
-      const response = await fetch(ApiRoutes.ConfirmEmail, {
-        body: JSON.stringify({
-          id,
-        }),
-        method: 'POST',
+      const response = await fetch(`${ApiRoutes.ConfirmEmail}/${id}`, {
+        method: 'GET',
       })
 
       if (!response.ok) {

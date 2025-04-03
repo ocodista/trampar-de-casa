@@ -30,9 +30,6 @@ RUN yarn install
 COPY --from=builder /app/out/full/ .
 
 # Declare arguments
-ARG DATABASE_URL
-ARG SUPABASE_URL
-ARG SUPABASE_SERVICE_ROLE
 ARG EMAIL_KEY
 ARG EMAIL_PASS
 ARG CRYPT_SECRET
@@ -41,12 +38,13 @@ ARG RESEND_WEBHOOK_SECRET
 ARG OWNER_EMAIL
 ARG NEXT_PUBLIC_MIXPANEL_KEY
 ARG CRON_SECRET
+ARG POSTGRES_HOST
+ARG POSTGRES_PORT
+ARG POSTGRES_USER
+ARG POSTGRES_PASSWORD
 
 # Convert build-time variables to environment variables
-ENV DATABASE_URL=$DATABASE_URL \
-    SUPABASE_URL=$SUPABASE_URL \
-    SUPABASE_SERVICE_ROLE=$SUPABASE_SERVICE_ROLE \
-    EMAIL_KEY=$EMAIL_KEY \
+ENV EMAIL_KEY=$EMAIL_KEY \
     EMAIL_PASS=$EMAIL_PASS \
     CRYPT_SECRET=$CRYPT_SECRET \
     RESEND_KEY=$RESEND_KEY \
@@ -54,12 +52,22 @@ ENV DATABASE_URL=$DATABASE_URL \
     OWNER_EMAIL=$OWNER_EMAIL \
     NEXT_PUBLIC_MIXPANEL_KEY=$NEXT_PUBLIC_MIXPANEL_KEY \
     CRON_SECRET=$CRON_SECRET \
-    NEXT_SHARP_PATH=/app/node_modules/sharp
+    NEXT_SHARP_PATH=/app/node_modules/sharp \
+    POSTGRES_HOST=$POSTGRES_HOST \
+    POSTGRES_PORT=$POSTGRES_PORT \
+    POSTGRES_USER=$POSTGRES_USER \
+    POSTGRES_PASSWORD=$POSTGRES_PASSWORD
 
-RUN yarn turbo run build --filter=web
+# Add environment variables to the build command
+RUN NEXT_TELEMETRY_DISABLED=1 \
+    NEXT_PHASE=build \
+    yarn turbo run build --filter=web
  
 FROM base AS runner
 WORKDIR /app
+
+# Install curl for health checks
+RUN apk add --no-cache curl
  
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs

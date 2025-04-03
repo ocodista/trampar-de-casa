@@ -1,35 +1,41 @@
 'use server'
-import { PUBLIC_FIELDS_KEYS } from 'app/api/subscribers/db'
-import { getSupabaseClient } from 'db'
+import { getPostgresClient } from 'db'
+import { Subscriber } from 'db/src/types'
 import { EnglishLevel } from 'global/EnglishLevel'
 import { notFound } from 'next/navigation'
-import { Entities } from 'shared'
 import { z } from 'zod'
-import { ProfileSchemaEnum } from './profileSchema'
+
+const db = getPostgresClient()
+
+// const PUBLIC_FIELDS_KEYS = ['email', 'name', 'linkedInUrl', 'gitHub'] as const
 
 const SubscriberSchema = z.object({
-  [ProfileSchemaEnum.Name]: z.string().nullable(),
-  [ProfileSchemaEnum.LinkedInUrl]: z.string().url().nullable(),
-  [ProfileSchemaEnum.GitHub]: z.string().url().nullable(),
-  [ProfileSchemaEnum.StartedWorkingAt]: z.string().nullable(),
-  [ProfileSchemaEnum.Skills]: z.array(z.string()).nullable(),
-  [ProfileSchemaEnum.EnglishLevel]: z.nativeEnum(EnglishLevel).nullable(),
-  [ProfileSchemaEnum.SendBestOpenings]: z.boolean(),
+  name: z.string().nullable(),
+  linkedInUrl: z.string().url().nullable(),
+  gitHub: z.string().url().nullable(),
+  startedWorkingAt: z.date().nullable(),
+  skillsId: z.array(z.string()).nullable(),
+  englishLevel: z.nativeEnum(EnglishLevel).nullable(),
+  sendBestOpenings: z.boolean(),
 })
+
+export const getById = async (id: string): Promise<Subscriber | null> => {
+  return db.getSubscriberById(id)
+}
+
 export const getSubscriber = async (subscriberId: string) => {
-  const supabase = getSupabaseClient()
-  const { data: subscriberData, error: subscribeErrors } = await supabase
-    .from(Entities.Subcribers)
-    .select(PUBLIC_FIELDS_KEYS)
-    .eq('id', subscriberId)
-  if (subscribeErrors) {
-    console.error(subscribeErrors, subscriberData, subscriberData)
-    notFound()
-  }
-  const subscriber = SubscriberSchema.safeParse(subscriberData[0])
-  if (!subscriber.success) {
+  const response = await getById(subscriberId)
+  if (!response) {
+    console.error('Failed to get subscriber:', response)
     notFound()
   }
 
-  return subscriber.data as z.TypeOf<typeof SubscriberSchema>
+  const subscriberData = response
+  const subscriber = SubscriberSchema.safeParse(subscriberData)
+  if (!subscriber.success) {
+    console.error('Failed to parse subscriber:', subscriber.error.errors)
+    notFound()
+  }
+
+  return subscriber.data
 }

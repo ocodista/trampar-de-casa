@@ -1,15 +1,17 @@
 import { Entities, Topics, skillArray } from 'shared'
 import { Opening } from 'shared/ui/email/RoleCard'
-import { getSupabaseClient } from '../../getSupabaseClient'
+import { getPostgresClient } from '../../../postgres/getPostgresClient'
 import { Database } from '../../type'
 import { SupabaseTable } from '../../utilityTypes'
+
 export type OpeningCurrency = 'U$' | 'R$' | 'EUR'
 type Role = SupabaseTable<'Roles'>
 
 type RoleLanguage = Database['public']['Enums']['RoleLanguage']
 
 export const saveOpenings = async (openings: Opening[], topic: Topics) => {
-  const supabaseClient = getSupabaseClient()
+  const pgClient = getPostgresClient()
+
   for (let index = 0; index < openings.length; index++) {
     const {
       language,
@@ -28,22 +30,41 @@ export const saveOpenings = async (openings: Opening[], topic: Topics) => {
       }
       return prev
     }, [] as Array<string>)
-    const { error, status } = await supabaseClient.from(Entities.Roles).insert({
-      language:
-        language === 'Português' ? 'Portuguese' : ('English' as RoleLanguage),
-      country: location,
+
+    const query = `
+      INSERT INTO ${Entities.Roles} (
+        language,
+        country,
+        currency,
+        description,
+        title,
+        url,
+        "createdAt",
+        "updatedAt",
+        company,
+        "skillsId",
+        "topicId",
+        ready
+      ) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10, $11, $12)
+      RETURNING *
+    `
+
+    const values = [
+      language === 'Português' ? 'Portuguese' : 'English',
+      location,
       currency,
-      description: headerInfo,
+      headerInfo,
       title,
       url,
-      createdAt: new Date(),
-      updatedAt: new Date(),
+      new Date(),
+      new Date(),
       company,
       skillsId,
-      topicId: topic,
-      ready: true,
-    } as unknown as Role)
+      topic,
+      true
+    ]
 
-    console.log(error, status)
+    const { rows } = await pgClient.query(query, values)
+    console.log('Inserted role:', rows[0])
   }
 }

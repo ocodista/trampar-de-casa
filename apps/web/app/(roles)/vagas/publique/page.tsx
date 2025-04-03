@@ -24,7 +24,7 @@ type FormFields = {
   placeholder?: string
   description?: string
   type?: InputHTMLAttributes<HTMLInputElement>['type']
-  Input?: React.FC<FormInputProps>
+  Input?: React.FC<FormInputProps<FormSchema>>
   required?: true
 }[]
 
