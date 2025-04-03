@@ -1,6 +1,6 @@
 import { faker } from '@faker-js/faker'
 import { Entities } from 'shared'
-import { getSupabaseClient } from './index'
+import { getPostgresClient } from './src/postgres/getPostgresClient'
 
 enum EnglishLevel {
   BEGINNER = 'Beginner',
@@ -55,20 +55,49 @@ const getDescriptionTopics = (): TopicsTable[] => [
 ]
 
 void (async function () {
-  const supabase = getSupabaseClient()
+  const postgres = getPostgresClient()
   try {
     await Promise.all(
       getDescriptionTopics().map(async (descriptionTopic) => {
-        await supabase.from(Entities.Topics).insert(descriptionTopic)
+        const result = await postgres.query(
+          `INSERT INTO ${Entities.Topics} (name) VALUES ($1)`,
+          [descriptionTopic.name]
+        )
+        return result.rows
       })
     )
     for (const subscriber of getSubscribers()) {
-      await supabase.from(Entities.Subcribers).insert(subscriber)
+      const result = await postgres.query(
+        `INSERT INTO ${Entities.Subcribers} (email, name, "startedWorkingAt", "skillsId", "englishLevel") 
+        VALUES ($1, $2, $3, $4, $5)`,
+        [
+          subscriber.email,
+          subscriber.name,
+          subscriber.startedWorkingAt,
+          subscriber.skillsId,
+          subscriber.englishLevel,
+        ]
+      )
+      if (result.rowCount === 0) throw new Error('Failed to insert subscriber')
     }
     await Promise.all(
-      getRoles().map(
-        async (role) => await supabase.from(Entities.Roles).insert(role)
-      )
+      getRoles().map(async (role) => {
+        const result = await postgres.query(
+          `INSERT INTO ${Entities.Roles} (company, country, description, language, title, currency, "skillsId") 
+          VALUES ($1, $2, $3, $4, $5, $6, $7)`,
+          [
+            role.company,
+            role.country,
+            role.description,
+            role.language,
+            role.title,
+            role.currency,
+            role.skillsId,
+          ]
+        )
+        if (result.rowCount === 0) throw new Error('Failed to insert role')
+        return result.rows
+      })
     )
   } catch (err) {
     console.error(err)

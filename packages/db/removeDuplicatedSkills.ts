@@ -1,4 +1,5 @@
-import { getSupabaseClient } from "./src/supabase/getSupabaseClient";
+import { getPostgresClient } from './src/postgres/getPostgresClient'
+
 const deleteSKills = [
   {
     id: 78,
@@ -12,19 +13,19 @@ const deleteSKills = [
   }
 ] as const
 
-;(async () => {
-  const supabase = getSupabaseClient()
-  const promises = deleteSKills.map(async ({id, replaceFor}) => {
-    const { error } = await supabase.rpc('replace_skills', {
-      skill_to_delete_id: id,
-      replace_with_id: replaceFor
+  ; (async () => {
+    const postgres = getPostgresClient()
+    const promises = deleteSKills.map(async ({ id, replaceFor }) => {
+      const result = await postgres.query(
+        'SELECT replace_skills($1, $2)',
+        [id, replaceFor]
+      )
+      if (result.rowCount === 0) {
+        console.log('Failed to update skill')
+        return
+      }
+      console.info("updated successfully!")
     })
-    if (error) {
-      console.log(error)
-      return;
-    }
-    console.info("updated successfully!")
-  })
 
-  await Promise.all(promises)
-})()
+    await Promise.all(promises)
+  })()

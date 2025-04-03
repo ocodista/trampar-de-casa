@@ -1,13 +1,12 @@
-import { getSupabaseClient } from 'db'
+import { getPostgresClient } from 'db'
 import { getAllConfirmedSubscribersPaginated } from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import { sendProfileEmail } from './src/email/sendProfileEmail'
 ;(async () => {
-  const supabase = getSupabaseClient()
-  const { count } = await supabase
-    .from('Subscribers')
-    .select('id', { count: 'exact' })
-    .eq('isConfirmed', true)
-    .eq('optOut', false)
+  const postgres = getPostgresClient()
+  const result = await postgres.query(
+    'SELECT COUNT(*) FROM Subscribers WHERE "isConfirmed" = true AND "optOut" = false'
+  )
+  const count = parseInt(result.rows[0]?.count || '0')
   if (!count) throw new Error('Invalid count')
 
   const totalChunks = Math.ceil(count / 25)
@@ -15,7 +14,7 @@ import { sendProfileEmail } from './src/email/sendProfileEmail'
 
   const subscribersGenerator = getAllConfirmedSubscribersPaginated({
     batchSize: 25,
-    supabase,
+    postgres,
     selectQuery: 'email,id',
   })
   for await (const subscribersBatch of subscribersGenerator) {
