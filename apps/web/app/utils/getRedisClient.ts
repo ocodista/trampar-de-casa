@@ -1,6 +1,6 @@
 import { createClient as createClientRedis } from 'redis'
 
-export default async function getRedisClient() {
+export async function getRedisClient() {
   const client = createClientRedis({
     socket: {
       host: process.env['REDIS_HOST'],
