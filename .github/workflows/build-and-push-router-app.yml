@@ -9,11 +9,6 @@ on:
       - 'apps/router/*'
   workflow_dispatch:
     inputs:
-      use_custom_registry:
-        description: 'Use custom registry instead of Oracle Cloud'
-        required: false
-        default: true
-        type: boolean
       platform:
         description: 'Build platform (amd64 or arm64)'
         required: false
@@ -39,14 +34,14 @@ jobs:
       - name: Login to Registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_HOST || 'gru.ocir.io' }}
-          username: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_USER || secrets.OCI_REPOSITORY_USER }}
-          password: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_PASS || secrets.OCI_REPOSITORY_PASS }}
+          registry: ${{ secrets.DOCKER_REGISTRY_HOST }}
+          username: ${{ secrets.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.DOCKER_REGISTRY_PASS }}
 
       - name: Build Docker image
         run: |
-          REGISTRY=${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_HOST || 'gru.ocir.io' }}
-          REPO=${{ inputs.use_custom_registry == 'true' && 'router-app' || 'gricbxnlp2kb/router-app' }}
+          REGISTRY=${{ secrets.DOCKER_REGISTRY_HOST }}
+          REPO='router-app'
           PLATFORM='linux/${{ inputs.platform || 'amd64' }}'
           
           cd apps/router
