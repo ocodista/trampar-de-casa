@@ -9,10 +9,7 @@ export const getPostgresClient = () => {
   if (!client) {
     const pool = new Pool({
       connectionString: process.env.POSTGRES_URL,
-      ssl:
-        process.env.NODE_ENV === 'production'
-          ? { rejectUnauthorized: false }
-          : undefined,
+      ssl: false,
     })
     client = new PostgresClient(pool)
   }
