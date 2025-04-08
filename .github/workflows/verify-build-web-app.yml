@@ -33,8 +33,8 @@ jobs:
         run: |
           docker buildx build --platform linux/${{ inputs.platform || 'amd64' }} --load -t local-image:local . \
           --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-          --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
-          --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
+          --build-arg POSTGRES_URL="${{ secrets.POSTGRES_URL }}" \
+          --build-arg REDIS_URL="${{ secrets.REDIS_URL }}" \
           --build-arg EMAIL_KEY="${{ secrets.EMAIL_KEY }}" \
           --build-arg EMAIL_PASS="${{ secrets.EMAIL_PASS }}" \
           --build-arg CRYPT_SECRET="${{ secrets.CRYPT_SECRET }}" \
