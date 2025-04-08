@@ -15,6 +15,11 @@ on:
         required: false
         default: true
         type: boolean
+      platform:
+        description: 'Build platform (amd64 or arm64)'
+        required: false
+        default: 'amd64'
+        type: string
 
 jobs:
   docker-build:
@@ -32,7 +37,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: ${{ inputs.use_custom_registry == 'true' && 'amd64' || 'arm64,arm,amd64' }}
+          platforms: ${{ inputs.platform || 'amd64' }}
 
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v2.2.1
@@ -53,9 +58,9 @@ jobs:
         run: |
           REGISTRY=${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_HOST || 'gru.ocir.io' }}
           REPO=${{ inputs.use_custom_registry == 'true' && 'auto-email-sender' || 'gricbxnlp2kb/auto-email-sender' }}
-          PLATFORMS=${{ inputs.use_custom_registry == 'true' && 'linux/amd64' || 'linux/arm64,linux/amd64' }}
+          PLATFORM='linux/${{ inputs.platform || 'amd64' }}'
           
-          docker buildx build . --platform $PLATFORMS --file ./Dockerfile.auto -t "$REGISTRY/$REPO:latest" \
+          docker buildx build . --platform $PLATFORM --file ./Dockerfile.auto -t "$REGISTRY/$REPO:latest" \
           --push \
           --build-arg SECRET_KEY="${{ secrets.SECRET_KEY }}" \
           --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \

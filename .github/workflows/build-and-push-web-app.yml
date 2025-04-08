@@ -10,11 +10,6 @@ on:
       - 'Dockerfile'
   workflow_dispatch:
     inputs:
-      use_custom_registry:
-        description: 'Use custom registry instead of Oracle Cloud'
-        required: false
-        default: true
-        type: boolean
       platform:
         description: 'Build platform (amd64 or arm64)'
         required: false
@@ -40,14 +35,14 @@ jobs:
       - name: Login to Registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_HOST || 'gru.ocir.io' }}
-          username: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_USER || secrets.OCI_REPOSITORY_USER }}
-          password: ${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_PASS || secrets.OCI_REPOSITORY_PASS }}
+          registry: ${{ secrets.DOCKER_REGISTRY_HOST }}
+          username: ${{ secrets.DOCKER_REGISTRY_USER }}
+          password: ${{ secrets.DOCKER_REGISTRY_PASS }}
 
       - name: Build Docker image
         run: |
-          REGISTRY=${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_HOST || 'gru.ocir.io' }}
-          REPO=${{ inputs.use_custom_registry == 'true' && 'trampar-de-casa' || 'gricbxnlp2kb/trampar-de-casa' }}
+          REGISTRY=${{ secrets.DOCKER_REGISTRY_HOST }}
+          REPO='trampar-de-casa'
           PLATFORM='linux/${{ inputs.platform || 'amd64' }}'
           
           docker buildx build . --platform $PLATFORM \
@@ -62,4 +57,7 @@ jobs:
           --build-arg OWNER_EMAIL="${{ secrets.OWNER_EMAIL }}" \
           --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
           --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}" \
-          ${{ inputs.use_custom_registry == 'true' && '--build-arg POSTGRES_HOST="${{ secrets.POSTGRES_HOST }}" --build-arg POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" --build-arg POSTGRES_USER="${{ secrets.POSTGRES_USER }}" --build-arg POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}"' || '' }}
+          --build-arg POSTGRES_HOST="${{ secrets.POSTGRES_HOST }}" \
+          --build-arg POSTGRES_PORT="${{ secrets.POSTGRES_PORT }}" \
+          --build-arg POSTGRES_USER="${{ secrets.POSTGRES_USER }}" \
+          --build-arg POSTGRES_PASSWORD="${{ secrets.POSTGRES_PASSWORD }}"
