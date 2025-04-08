@@ -15,6 +15,11 @@ on:
         required: false
         default: true
         type: boolean
+      platform:
+        description: 'Build platform (amd64 or arm64)'
+        required: false
+        default: 'amd64'
+        type: string
 
 jobs:
   docker-build:
@@ -27,7 +32,7 @@ jobs:
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
-          platforms: arm64,amd64
+          platforms: ${{ inputs.platform || 'amd64' }}
 
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v2.2.1
@@ -43,9 +48,12 @@ jobs:
         run: |
           REGISTRY=${{ inputs.use_custom_registry == 'true' && secrets.DOCKER_REGISTRY_HOST || 'gru.ocir.io' }}
           REPO=${{ inputs.use_custom_registry == 'true' && 'trampar-de-casa' || 'gricbxnlp2kb/trampar-de-casa' }}
-          PLATFORMS='linux/arm64,linux/amd64'
+          PLATFORM='linux/${{ inputs.platform || 'amd64' }}'
           
-          docker buildx build . --platform $PLATFORMS -t "$REGISTRY/$REPO:latest" -t "$REGISTRY/$REPO:$(cd apps/web && cat package.json | jq -r '.version')" --push \
+          docker buildx build . --platform $PLATFORM \
+          -t "$REGISTRY/$REPO:latest" \
+          -t "$REGISTRY/$REPO:$(cd apps/web && cat package.json | jq -r '.version')" \
+          --push \
           --build-arg EMAIL_KEY="${{ secrets.EMAIL_KEY }}" \
           --build-arg EMAIL_PASS="${{ secrets.EMAIL_PASS }}" \
           --build-arg CRYPT_SECRET="${{ secrets.CRYPT_SECRET }}" \
