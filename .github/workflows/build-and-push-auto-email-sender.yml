@@ -64,8 +64,7 @@ jobs:
           --push \
           --build-arg SECRET_KEY="${{ secrets.SECRET_KEY }}" \
           --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \
-          --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
-          --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
+          --build-arg POSTGRES_URL="${{ secrets.POSTGRES_URL }}" \
           --build-arg MONGO_ADDRESS="${{ secrets.MONGO_ADDRESS }}" \
           --build-arg MONGO_PASSWORD="${{ secrets.MONGO_PASSWORD }}" \
           --build-arg MONGO_USERNAME="${{ secrets.MONGO_USERNAME }}" \
