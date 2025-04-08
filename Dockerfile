@@ -54,10 +54,20 @@ ENV EMAIL_KEY=$EMAIL_KEY \
     POSTGRES_URL=$POSTGRES_URL \
     REDIS_URL=$REDIS_URL
 
+# Create .env file for Next.js build
+RUN echo "EMAIL_KEY=$EMAIL_KEY" > /app/apps/web/.env && \
+    echo "EMAIL_PASS=$EMAIL_PASS" >> /app/apps/web/.env && \
+    echo "CRYPT_SECRET=$CRYPT_SECRET" >> /app/apps/web/.env && \
+    echo "RESEND_KEY=$RESEND_KEY" >> /app/apps/web/.env && \
+    echo "RESEND_WEBHOOK_SECRET=$RESEND_WEBHOOK_SECRET" >> /app/apps/web/.env && \
+    echo "OWNER_EMAIL=$OWNER_EMAIL" >> /app/apps/web/.env && \
+    echo "NEXT_PUBLIC_MIXPANEL_KEY=$NEXT_PUBLIC_MIXPANEL_KEY" >> /app/apps/web/.env && \
+    echo "CRON_SECRET=$CRON_SECRET" >> /app/apps/web/.env && \
+    echo "POSTGRES_URL=$POSTGRES_URL" >> /app/apps/web/.env && \
+    echo "REDIS_URL=$REDIS_URL" >> /app/apps/web/.env
+
 # Add environment variables to the build command
-RUN NEXT_TELEMETRY_DISABLED=1 \
-    NEXT_PHASE=build \
-    yarn turbo run build --filter=web
+RUN yarn turbo run build --filter=web
  
 FROM base AS runner
 WORKDIR /app

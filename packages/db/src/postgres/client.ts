@@ -1,5 +1,15 @@
 import { Pool, QueryResult, QueryResultRow } from 'pg'
-import { Subscriber, SubscriberTopic, Topic, Role, Skill, SubscriberRole, RoleRecommendation, SkillInRole, CountryInRole } from '../types'
+import {
+  Subscriber,
+  SubscriberTopic,
+  Topic,
+  Role,
+  Skill,
+  SubscriberRole,
+  RoleRecommendation,
+  SkillInRole,
+  CountryInRole,
+} from '../types'
 import { Entities } from '../../../shared/src/enums/entities'
 
 export class PostgresClient {
@@ -9,7 +19,10 @@ export class PostgresClient {
     this.pool = pool
   }
 
-  async query<T extends QueryResultRow>(text: string, params?: any[]): Promise<QueryResult<T>> {
+  async query<T extends QueryResultRow>(
+    text: string,
+    params?: any[]
+  ): Promise<QueryResult<T>> {
     if (!this.pool) {
       return { rows: [], rowCount: 0, command: '', fields: [], oid: 0 }
     }
@@ -43,7 +56,10 @@ export class PostgresClient {
     return result.rows[0]
   }
 
-  async updateSubscriber(id: string, data: Partial<Subscriber>): Promise<Subscriber> {
+  async updateSubscriber(
+    id: string,
+    data: Partial<Subscriber>
+  ): Promise<Subscriber> {
     if (!this.pool) {
       throw new Error('Database connection not available')
     }
@@ -53,7 +69,9 @@ export class PostgresClient {
     const values = Object.values(data)
 
     const result = await this.query<Subscriber>(
-      `UPDATE ${Entities.Subcribers} SET ${setClause} WHERE id = $${values.length + 1} RETURNING *`,
+      `UPDATE ${Entities.Subcribers} SET ${setClause} WHERE id = $${
+        values.length + 1
+      } RETURNING *`,
       [...values, id]
     )
     return result.rows[0]
@@ -67,7 +85,10 @@ export class PostgresClient {
     return result.rows
   }
 
-  async updateSubscriberTopics(subscriberId: string, topicIds: number[]): Promise<void> {
+  async updateSubscriberTopics(
+    subscriberId: string,
+    topicIds: number[]
+  ): Promise<void> {
     if (!this.pool) {
       throw new Error('Database connection not available')
     }
@@ -126,7 +147,10 @@ export class PostgresClient {
     return parseInt(result.rows[0]?.count || '0')
   }
 
-  async getRolesRecommendationByTitleAndCompany(title: string, company: string): Promise<RoleRecommendation[]> {
+  async getRolesRecommendationByTitleAndCompany(
+    title: string,
+    company: string
+  ): Promise<RoleRecommendation[]> {
     const result = await this.query<RoleRecommendation>(
       `SELECT * FROM ${Entities.RoleRecommendations} WHERE title = $1 AND company = $2`,
       [title, company]
@@ -134,7 +158,9 @@ export class PostgresClient {
     return result.rows
   }
 
-  async insertRoleRecommendation(data: Omit<RoleRecommendation, 'id' | 'createdAt' | 'updatedAt'>): Promise<RoleRecommendation> {
+  async insertRoleRecommendation(
+    data: Omit<RoleRecommendation, 'id' | 'createdAt' | 'updatedAt'>
+  ): Promise<RoleRecommendation> {
     if (!this.pool) {
       throw new Error('Database connection not available')
     }
@@ -192,7 +218,9 @@ export class PostgresClient {
     }
 
     if (filters.order) {
-      query += ` ORDER BY "${filters.order.field}" ${filters.order.ascending ? 'ASC' : 'DESC'}`
+      query += ` ORDER BY "${filters.order.field}" ${
+        filters.order.ascending ? 'ASC' : 'DESC'
+      }`
     }
 
     const result = await this.query<Role>(query, params)
@@ -237,4 +265,4 @@ export class PostgresClient {
       [email]
     )
   }
-} 
+}
