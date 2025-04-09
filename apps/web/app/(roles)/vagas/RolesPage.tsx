@@ -235,7 +235,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
       const email = localStorage.getItem('loginEmail')
       const skillsFromPreferences = await getFilterFromPreferences(email)
 
-      const formattedSkills = skillsFromPreferences.map((skillId) => ({
+      const formattedSkills = skillsFromPreferences.skillsId.map((skillId) => ({
         inputType: 'skill',
         option: {
           value: skillId,

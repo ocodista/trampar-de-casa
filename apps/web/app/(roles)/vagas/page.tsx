@@ -1,46 +1,85 @@
 'use server'
 
-import { getPostgresClient } from 'db'
-import { SkillInRole, CountryInRole } from 'db/src/types'
+import { Database, getPostgresClient } from 'db'
 import { RolesPage } from './RolesPage'
 import { fetchJobs } from './action'
+import { getRedisClient } from '../../utils/getRedisClient'
+import { Role } from 'db/src/types'
 
-const db = getPostgresClient()
+const ONE_DAY_IN_MINUTES = 86_400
 
-const getCountriesInRoles = async () => {
-  return db.getCountriesInRoles()
+type Skill = Database['public']['Views']['vw_skills_in_roles']['Row']
+type Country = Database['public']['Views']['vw_countries_in_roles']['Row']
+
+async function getJobs(): Promise<Role[]> {
+  try {
+    const client = await getRedisClient()
+    const jobsFromCache = await client.get('web_jobs')
+    if (jobsFromCache) {
+      await client.quit()
+      console.log('cache hit')
+      return JSON.parse(jobsFromCache) as Role[]
+    }
+
+    const jobs = await fetchJobs()
+    console.log('cache miss, fetching from postgres')
+
+    await client.set('web_jobs', JSON.stringify(jobs), {
+      EX: ONE_DAY_IN_MINUTES,
+    })
+    await client.quit()
+    return jobs
+  } catch (error) {
+    console.error('Failed to fetch jobs:', error)
+    return []
+  }
 }
 
-const getSkillsInRoles = async () => {
-  return db.getSkillsInRoles()
+async function getSkills(): Promise<Skill[]> {
+  try {
+    const client = await getRedisClient()
+    const skillsFromCache = await client.get('Skills')
+    if (skillsFromCache) {
+      await client.quit()
+      return JSON.parse(skillsFromCache) as Skill[]
+    }
+
+    const postgres = getPostgresClient()
+    const skills = await postgres.getSkillsInRoles()
+
+    await client.set('getSkills', JSON.stringify(skills), {
+      EX: ONE_DAY_IN_MINUTES,
+    })
+    await client.quit()
+    return skills as Skill[]
+  } catch (error) {
+    console.error('Failed to fetch skills:', error)
+    return []
+  }
 }
 
-export default async function VagasPage() {
-  const [jobs, skills, countries] = await Promise.all([
-    fetchJobs({}),
-    getSkillsInRoles(),
-    getCountriesInRoles(),
-  ])
+async function getCountries(): Promise<Country[]> {
+  try {
+    const postgres = getPostgresClient()
 
-  const formattedSkills = skills.map((skill: SkillInRole) => ({
-    emoji: '💻',
-    id: Number(skill.id),
-    name: skill.name,
-    normalized: skill.name.toLowerCase(),
-  }))
+    const countries = await postgres.getCountriesInRoles()
+    return countries as Country[]
+  } catch (error) {
+    console.error('Failed to fetch countries:', error)
+    return []
+  }
+}
 
-  const formattedCountries = countries.map((country: CountryInRole) => ({
-    emoji: '🌍',
-    id: country.country,
-    name: country.country,
-    normalized: country.country.toLowerCase(),
-  }))
+export default async function Page() {
+  const skills = await getSkills()
+  const jobs = await getJobs()
+  const countries = await getCountries()
 
   return (
     <RolesPage
       jobsFromServer={jobs}
-      skillsFromServer={formattedSkills}
-      countries={formattedCountries}
+      skillsFromServer={skills}
+      countries={countries}
     />
   )
 }

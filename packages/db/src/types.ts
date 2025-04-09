@@ -73,12 +73,13 @@ export interface SubscriberRole {
 }
 
 export interface SkillInRole {
-  id: string
+  id: number
   name: string
-  count: number
+  emoji: string
+  normalized: string
 }
 
 export interface CountryInRole {
   country: string
   count: number
-} 
+}

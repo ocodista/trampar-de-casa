@@ -8,7 +8,6 @@ import {
   SubscriberRole,
   RoleRecommendation,
   SkillInRole,
-  CountryInRole,
 } from '../types'
 import { Entities } from '../../../shared/src/enums/entities'
 
@@ -184,7 +183,7 @@ export class PostgresClient {
     return result.rows[0]
   }
 
-  async getRolesWithFilters(filters: {
+  async getRolesWithFilters(filters?: {
     country?: string[]
     skillsId?: number[]
     description?: string[]
@@ -195,19 +194,19 @@ export class PostgresClient {
     let paramCount = 1
     const conditions: string[] = []
 
-    if (filters.country?.length) {
+    if (filters?.country?.length) {
       conditions.push(`country = ANY($${paramCount})`)
       params.push(filters.country)
       paramCount++
     }
 
-    if (filters.skillsId?.length) {
+    if (filters?.skillsId?.length) {
       conditions.push(`"topicId" = ANY($${paramCount})`)
       params.push(filters.skillsId)
       paramCount++
     }
 
-    if (filters.description?.length) {
+    if (filters?.description?.length) {
       conditions.push(`description = ANY($${paramCount})`)
       params.push(filters.description)
       paramCount++
@@ -217,7 +216,7 @@ export class PostgresClient {
       query += ` WHERE ${conditions.join(' AND ')}`
     }
 
-    if (filters.order) {
+    if (filters?.order) {
       query += ` ORDER BY "${filters.order.field}" ${
         filters.order.ascending ? 'ASC' : 'DESC'
       }`
@@ -229,21 +228,16 @@ export class PostgresClient {
 
   async getSkillsInRoles(): Promise<SkillInRole[]> {
     const result = await this.query<SkillInRole>(
-      `SELECT s.id, s.name, COUNT(*) as count
-      FROM ${Entities.Roles} r
-      JOIN ${Entities.Skills} s ON r."topicId" = s.id
-      GROUP BY s.id, s.name
-      ORDER BY count DESC`
+      `SELECT * from vw_skills_in_roles
+      ORDER BY name`
     )
     return result.rows
   }
 
-  async getCountriesInRoles(): Promise<CountryInRole[]> {
-    const result = await this.query<CountryInRole>(
-      `SELECT country, COUNT(*) as count
-      FROM ${Entities.Roles}
-      GROUP BY country
-      ORDER BY count DESC`
+  async getCountriesInRoles(): Promise<{ country: string }[]> {
+    const result = await this.query<{ country: string }>(
+      `SELECT * FROM vw_countries_in_roles
+      ORDER BY country`
     )
     return result.rows
   }
