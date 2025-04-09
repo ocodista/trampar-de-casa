@@ -1,7 +1,8 @@
 import { getRole } from 'app/utils/getRoles'
 import { ImageResponse } from 'next/server'
 
-export const runtime = 'edge'
+/* export const runtime = 'edge'
+export const revalidate = 3600 // revalidate every hour */
 
 export const size = {
   width: 1200,
@@ -12,6 +13,10 @@ export const contentType = 'image/png'
 
 export default async function Image({ params }: { params: { id: string } }) {
   const role = await getRole(params.id)
+
+  if (!role) {
+    return new Response('Not found', { status: 404 })
+  }
 
   const title = `${role.title} at ${role.company} - Trampar de Casa`
   const description = 'Encontre sua vaga remota aqui !'
@@ -28,15 +33,9 @@ export default async function Image({ params }: { params: { id: string } }) {
     (
       <div tw="bg-white flex items-center justify-center w-full h-full p-10 bg-indigo-600 shadow-xl">
         <div tw="flex w-1/2 h-full">
-          {/* eslint-disable-next-line @typescript-eslint/ban-ts-comment */}
-          {/* @ts-ignore:next-line */}
           <img
             tw="w-full h-full flex rounded-tl-2xl rounded-bl-2xl border-r-4 border-black"
-            src={
-              role.company_logo
-                ? role.company_logo
-                : (imageData as unknown as string)
-            }
+            src={role.company_logo || (imageData as unknown as string)}
             alt=""
             style={{
               objectFit: 'cover',
@@ -214,7 +213,7 @@ export default async function Image({ params }: { params: { id: string } }) {
         },
       ],
       headers: {
-        'Cache-Control': 's-maxage=86400',
+        'Cache-Control': 'public, max-age=3600, s-maxage=3600',
       },
     }
   )

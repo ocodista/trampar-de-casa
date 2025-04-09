@@ -1,4 +1,4 @@
-import { getSupabaseClient } from 'db'
+import { getPostgresClient } from 'db'
 import { notFound } from 'next/navigation'
 import { Entities } from 'shared'
 import { z } from 'zod'
@@ -9,13 +9,15 @@ const TopicsSchema = z.array(
     name: z.string(),
   })
 )
-export const getTopics = async () => {
-  const supabase = getSupabaseClient()
-  const { data, error } = await supabase.from(Entities.Topics).select('*')
-  const topics = TopicsSchema.safeParse(data)
 
-  if (error || !topics.success) {
-    console.error(error, data)
+export const getTopics = async () => {
+  const postgres = getPostgresClient()
+  const { rows: topicsData } = await postgres.query(
+    `SELECT * FROM ${Entities.Topics}`
+  )
+  const topics = TopicsSchema.safeParse(topicsData)
+
+  if (!topics.success) {
     notFound()
   }
 

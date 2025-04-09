@@ -22,6 +22,18 @@ const nextConfig = {
     defaultLocale: 'pt-BR',
   },
   output: 'standalone',
+  webpack: (config, { isServer }) => {
+    if (!isServer) {
+      config.resolve.fallback = {
+        ...config.resolve.fallback,
+        net: false,
+        tls: false,
+        stream: false,
+        querystring: false,
+      }
+    }
+    return config
+  },
 }
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires

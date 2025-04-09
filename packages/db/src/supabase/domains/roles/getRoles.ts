@@ -1,28 +1,26 @@
 import { Entities, Views } from 'shared'
-import { Database, SupabaseClient, getSupabaseClient } from '../../../..'
+import { PostgresClient } from '../../../postgres/client'
+import { getPostgresClient } from '../../../postgres/getPostgresClient'
 
 export const getRolesBlock = async (
   start: number,
   end: number,
-  supabase: SupabaseClient<Database>
+  postgres: PostgresClient
 ) => {
-  const { data, error } = await supabase
-    .from(Views.RoleSkillsView)
-    .select('*')
-    .eq('ready', true)
-    .range(start, end)
-    .order('createdAt', { ascending: false })
-  if (error) throw error
-  return data
+  const result = await postgres.query(
+    `SELECT * FROM ${Views.RoleSkillsView} WHERE ready = true ORDER BY "createdAt" DESC LIMIT $1 OFFSET $2`,
+    [end - start + 1, start]
+  )
+  return result.rows
 }
 
 export async function* getRolesInBatches(
-  supabase: SupabaseClient<Database>,
+  postgres: PostgresClient,
   batchSize: number
 ) {
   let start = 0
   while (true) {
-    const roles = await getRolesBlock(start, start + batchSize - 1, supabase)
+    const roles = await getRolesBlock(start, start + batchSize - 1, postgres)
     if (roles?.length === 0) break
     yield roles
     start += batchSize
@@ -30,11 +28,9 @@ export async function* getRolesInBatches(
 }
 
 export const getRoles = async () => {
-  const supabaseClient = getSupabaseClient()
-  const { data } = await supabaseClient
-    .from(Entities.Roles)
-    .select('id, title, url, topicId')
-    .eq('ready', true)
-  if (!data) return []
-  return data
+  const postgres = getPostgresClient()
+  const result = await postgres.query(
+    `SELECT id, title, url, "topicId" FROM ${Entities.Roles} WHERE ready = true`
+  )
+  return result.rows
 }

@@ -9,6 +9,13 @@ on:
       - 'apps/web/**/*'
       - 'packages/**/*'
       - 'Dockerfile'
+  workflow_dispatch:
+    inputs:
+      platform:
+        description: 'Build platform (amd64 or arm64)'
+        required: false
+        default: 'amd64'
+        type: string
 
 jobs:
   Build:
@@ -24,10 +31,9 @@ jobs:
 
       - name: Build Docker image
         run: |
-          docker buildx build --platform linux/arm64 --load -t local-image:local . \
-          --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
-          --build-arg SUPABASE_URL="${{ secrets.SUPABASE_URL }}" \
-          --build-arg SUPABASE_SERVICE_ROLE="${{ secrets.SUPABASE_SERVICE_ROLE }}" \
+          docker buildx build --platform linux/${{ inputs.platform || 'amd64' }} --load -t local-image:local . \
+          --build-arg POSTGRES_URL="${{ secrets.POSTGRES_URL }}" \
+          --build-arg REDIS_URL="${{ secrets.REDIS_URL }}" \
           --build-arg EMAIL_KEY="${{ secrets.EMAIL_KEY }}" \
           --build-arg EMAIL_PASS="${{ secrets.EMAIL_PASS }}" \
           --build-arg CRYPT_SECRET="${{ secrets.CRYPT_SECRET }}" \

@@ -1,37 +1,14 @@
-import { NextResponse } from 'next/server'
-import getRedisClient from 'app/utils/getRedisClient'
-import { fetchJobs } from 'app/(roles)/vagas/action'
+import { getPostgresClient } from 'db'
+import { StatusCodes } from 'http-status-codes'
 
-const ONE_DAY_IN_MINUTES = 86_400
+const db = getPostgresClient()
 
-export async function GET(request: Request) {
-  const { searchParams } = new URL(request.url)
-  const token = searchParams.get('token')
-  if (token !== process.env.SECRET_KEY) {
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 })
+export const POST = async (req: Request) => {
+  const authHeader = req.headers.get('authorization')
+  if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
+    return new Response('Unauthorized', { status: StatusCodes.UNAUTHORIZED })
   }
 
-  try {
-    const client = await getRedisClient()
-
-    await client.del('web_jobs')
-
-    const { data: fetchedJobs } = await fetchJobs([])
-
-    await client.set('web_jobs', JSON.stringify(fetchedJobs), {
-      EX: ONE_DAY_IN_MINUTES,
-    })
-
-    await client.quit()
-
-    return NextResponse.json({
-      message: 'Cache reset and refilled successfully',
-    })
-  } catch (error) {
-    console.error('Failed to reset and refill cache:', error)
-    return NextResponse.json(
-      { error: 'Failed to reset and refill cache' },
-      { status: 500 }
-    )
-  }
+  await db.getRoles()
+  return new Response(null, { status: StatusCodes.OK })
 }

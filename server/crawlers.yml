@@ -1,0 +1,8 @@
+services:
+  crawler:
+    image: registry.ocodista.com/crawlers-trampar-de-casa
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+    labels:
+      - "com.centurylinklabs.watchtower.enable=true"

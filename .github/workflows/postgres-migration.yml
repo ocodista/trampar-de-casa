@@ -1,0 +1,31 @@
+name: Run PostgreSQL migrations
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'packages/db/migrations/**/*'
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    env:
+      POSTGRES_URL: ${{ secrets.POSTGRES_URL }}
+
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: 20.5.1
+
+      - name: Install dependencies
+        working-directory: ./packages/db
+        run: yarn install
+
+      - name: Run migrations
+        working-directory: ./packages/db
+        run: yarn migrate 

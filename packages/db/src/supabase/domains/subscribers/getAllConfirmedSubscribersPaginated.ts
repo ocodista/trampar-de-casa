@@ -1,28 +1,25 @@
-import { SupabaseClient } from 'db'
-import { SupabaseTable } from 'db/src/supabase/utilityTypes'
+import { PostgresClient } from '../../../postgres/client'
 import { getConfirmedSubscribersRowsBlock } from './getConfirmedSubscribersRowsBlock'
-type Subscribers = SupabaseTable<'Subscribers'>
 
 interface GetAllPaginated {
-  supabase: SupabaseClient
+  postgres: PostgresClient
   batchSize: number
   selectQuery?: string
 }
 
 export async function* getAllConfirmedSubscribersPaginated({
-  supabase,
+  postgres,
   batchSize,
   selectQuery
-}: GetAllPaginated): AsyncGenerator<Subscribers[]> {
+}: GetAllPaginated): AsyncGenerator<any[]> {
   let start = 0
   while (true) {
-    const rows: Subscribers[] =
-      await getConfirmedSubscribersRowsBlock<Subscribers>({
-        supabase,
-        start,
-        end: start + batchSize - 1,
-        selectQuery
-      })
+    const rows = await getConfirmedSubscribersRowsBlock({
+      postgres,
+      start,
+      end: start + batchSize - 1,
+      selectQuery
+    })
     if (!rows?.length) return
     yield rows
     start += batchSize

@@ -40,3 +40,5 @@ yarn-error.log*
 
 # vercel
 .vercel
+.secrets
+**/*.secrets

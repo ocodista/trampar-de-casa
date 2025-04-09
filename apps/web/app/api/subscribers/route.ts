@@ -1,56 +1,131 @@
-import { Events, Tracker } from 'analytics'
+import { Events } from 'analytics'
+import { getPostgresClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { sendConfirmationEmail } from 'shared/src/email'
-import { SupabaseCodes } from 'shared/src/enums'
 import { logError } from '../logError'
-import { getSubscriberByEmail, insertSubscriber } from './db'
 import { getTracker } from '../../utils/tracker'
 
 interface EmailRequest {
   email: string
 }
+
+const db = getPostgresClient()
 const tracker = getTracker()
 
 export async function POST(request: Request) {
   const { email } = (await request.json()) as EmailRequest
+
   if (!email) {
-    return new NextResponse(null, { status: StatusCodes.FORBIDDEN })
+    return new NextResponse('Email is required', {
+      status: StatusCodes.BAD_REQUEST,
+    })
   }
 
-  const { data, error } = await insertSubscriber(email)
+  if (!process.env['RESEND_KEY']) {
+    console.error('RESEND_KEY environment variable is missing')
+    return new NextResponse('Server configuration error', {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+    })
+  }
+
+  if (!process.env['CRYPT_SECRET']) {
+    console.error('CRYPT_SECRET environment variable is missing')
+    return new NextResponse('Server configuration error', {
+      status: StatusCodes.INTERNAL_SERVER_ERROR,
+    })
+  }
 
   try {
-    if (error) {
-      if (error.code === SupabaseCodes.DuplicatedRow) {
-        const { data: subscriber } = await getSubscriberByEmail(email)
-        const isConfirmed = subscriber?.length && subscriber[0].isConfirmed
-        return NextResponse.json(
-          {
-            isConfirmed,
-            message: isConfirmed
-              ? 'Email já cadastrado.'
-              : 'Email não confirmado.',
-          },
-          { status: StatusCodes.CONFLICT }
-        )
-      }
-      return logError(error)
+    const existingSubscriber = await db.getSubscriberByEmail(email)
+    if (existingSubscriber) {
+      return NextResponse.json(
+        {
+          isConfirmed: existingSubscriber.isConfirmed,
+          message: existingSubscriber.isConfirmed
+            ? 'Email já cadastrado.'
+            : 'Email não confirmado.',
+        },
+        { status: StatusCodes.CONFLICT }
+      )
     }
 
-    const [subscriber] = data as { id: string; email: string }[]
-    await sendConfirmationEmail({
-      secretKey: process.env['CRYPT_SECRET'],
-      to: email,
-      resendKey: process.env['RESEND_KEY'],
-      subscriberId: subscriber.id,
-    })
-    tracker.track(Events.NewSubscriber, {
-      distinct_id: subscriber.email,
-    })
-  } catch (err) {
-    return logError(err)
-  }
+    const subscriber = await db.insertSubscriber(email)
 
-  return NextResponse.json(data)
+    try {
+      await sendConfirmationEmail({
+        secretKey: process.env['CRYPT_SECRET'],
+        to: email,
+        resendKey: process.env['RESEND_KEY'],
+        subscriberId: subscriber.id,
+      })
+
+      tracker.track(Events.NewSubscriber, {
+        distinct_id: subscriber.email,
+      })
+    } catch (emailError) {
+      console.error('Error sending confirmation email:', emailError)
+      // Return the data even if email sending fails
+      // so the user is subscribed but just doesn't get the email
+      return NextResponse.json(subscriber)
+    }
+
+    return NextResponse.json(subscriber)
+  } catch (error) {
+    console.error('Subscription process error:', error)
+    return logError(error)
+  }
+}
+
+export async function PUT(request: Request) {
+  try {
+    const { id, ...data } = await request.json()
+
+    if (!id) {
+      return new NextResponse('ID is required', {
+        status: StatusCodes.BAD_REQUEST,
+      })
+    }
+
+    const subscriber = await db.updateSubscriber(id, data)
+    return NextResponse.json(subscriber)
+  } catch (error) {
+    console.error('Update subscriber error:', error)
+    return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
+  }
+}
+
+export async function GET(request: Request) {
+  try {
+    const { searchParams } = new URL(request.url)
+    const id = searchParams.get('id')
+    const email = searchParams.get('email')
+
+    if (id) {
+      const subscriber = await db.getSubscriberById(id)
+      if (!subscriber) {
+        return new NextResponse('Subscriber not found', {
+          status: StatusCodes.NOT_FOUND,
+        })
+      }
+      return NextResponse.json(subscriber)
+    }
+
+    if (email) {
+      const subscriber = await db.getSubscriberByEmail(email)
+      if (!subscriber) {
+        return new NextResponse('Subscriber not found', {
+          status: StatusCodes.NOT_FOUND,
+        })
+      }
+      return NextResponse.json(subscriber)
+    }
+
+    return new NextResponse('ID or email is required', {
+      status: StatusCodes.BAD_REQUEST,
+    })
+  } catch (error) {
+    console.error('Get subscriber error:', error)
+    return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
+  }
 }

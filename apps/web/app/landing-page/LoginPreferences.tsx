@@ -6,7 +6,8 @@ import {
   DialogDescription,
   DialogHeader,
 } from 'app/components/ui/dialog'
-import login, {
+import {
+  login,
   sendEditPreferencesEmail,
 } from 'app/utils/LoginPreferencesActions'
 import { useState } from 'react'
@@ -43,10 +44,10 @@ export function LoginPreferences({ onClose, open }: ContributeDialogProps) {
     }
 
     try {
-      const id = await login(email)
-      if (id) {
+      const subscriber = await login(email)
+      if (subscriber) {
         localStorage.setItem('loginEmail', email)
-        await sendEditPreferencesEmail(email, id)
+        await sendEditPreferencesEmail(email, subscriber.id)
         setEmailSent(true)
         setEmail('')
       }
