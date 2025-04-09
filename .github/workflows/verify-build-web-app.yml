@@ -32,7 +32,6 @@ jobs:
       - name: Build Docker image
         run: |
           docker buildx build --platform linux/${{ inputs.platform || 'amd64' }} --load -t local-image:local . \
-          --build-arg DATABASE_URL="${{ secrets.DATABASE_URL }}" \
           --build-arg POSTGRES_URL="${{ secrets.POSTGRES_URL }}" \
           --build-arg REDIS_URL="${{ secrets.REDIS_URL }}" \
           --build-arg EMAIL_KEY="${{ secrets.EMAIL_KEY }}" \

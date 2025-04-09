@@ -4,15 +4,23 @@ services:
     ports:
       - "5432:5432"
     environment:
-      POSTGRES_USER: ${TO_POSTGRES_USER}
-      POSTGRES_PASSWORD: ${TO_POSTGRES_PASSWORD}
-      POSTGRES_DB: ${TO_POSTGRES_DB}
+      POSTGRES_URL: ${TO_POSTGRES_URL}
     restart: unless-stopped
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U ${TO_POSTGRES_USER}"]
+      test: ["CMD-SHELL", "pg_isready -d ${TO_POSTGRES_URL}"]
       interval: 5s
       timeout: 5s
       retries: 5
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+      - ./backups:/backups
+    networks:
+      - postgres-network
+
+networks:
+  postgres-network:
+    driver: bridge
 
 volumes:
-  postgres-data: 
+  postgres-data:
+    driver: local 
