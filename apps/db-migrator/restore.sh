@@ -2,7 +2,7 @@
 
 set -e
 
-source .env
+source .env.local
 
 # Get the most recent backup file
 BACKUP_FILE=$(ls -t backups/supabase_dump_*.bak | head -n1)

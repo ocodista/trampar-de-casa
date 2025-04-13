@@ -189,37 +189,37 @@ export class PostgresClient {
     description?: string[]
     order?: { field: string; ascending: boolean }
   }): Promise<{ data: Role[]; count: number }> {
-    let query = `SELECT * FROM ${Entities.Roles}`
+    let query = `SELECT * FROM ${Entities.Roles} WHERE ready = true`
     const params: any[] = []
     let paramCount = 1
-    const conditions: string[] = []
 
     if (filters?.country?.length) {
-      conditions.push(`country = ANY($${paramCount})`)
+      query += ` AND country = ANY($${paramCount})`
       params.push(filters.country)
       paramCount++
     }
 
     if (filters?.skillsId?.length) {
-      conditions.push(`"topicId" = ANY($${paramCount})`)
-      params.push(filters.skillsId)
-      paramCount++
+      const placeholders = filters.skillsId
+        .map((_, idx) => `$${paramCount + idx}`)
+        .join(',')
+      query += ` AND "skillsId" && ARRAY[${placeholders}]::text[]`
+      params.push(...filters.skillsId.map((id) => id.toString()))
+      paramCount += filters.skillsId.length
     }
 
     if (filters?.description?.length) {
-      conditions.push(`description = ANY($${paramCount})`)
+      query += ` AND description = ANY($${paramCount})`
       params.push(filters.description)
       paramCount++
-    }
-
-    if (conditions.length) {
-      query += ` WHERE ${conditions.join(' AND ')}`
     }
 
     if (filters?.order) {
       query += ` ORDER BY "${filters.order.field}" ${
         filters.order.ascending ? 'ASC' : 'DESC'
       }`
+    } else {
+      query += ` ORDER BY salary DESC NULLS LAST`
     }
 
     const result = await this.query<Role>(query, params)
@@ -236,7 +236,7 @@ export class PostgresClient {
 
   async getCountriesInRoles(): Promise<{ country: string }[]> {
     const result = await this.query<{ country: string }>(
-      `SELECT * FROM vw_countries_in_roles
+      `SELECT * FROM "vw_countries_in_roles"
       ORDER BY country`
     )
     return result.rows

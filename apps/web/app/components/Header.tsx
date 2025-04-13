@@ -54,7 +54,7 @@ export const Header = () => {
     if (localStorage.getItem('loginEmail')) {
       const email = localStorage.getItem('loginEmail')
       const userId = await login(email)
-      const encryptedUserId = await encryptId(userId.id)
+      const encryptedUserId = await encryptId(userId)
       router.push(`/subscribers/profile/${encryptedUserId}`)
       return
     }

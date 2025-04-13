@@ -3,6 +3,18 @@
 import { getPostgresClient } from 'db'
 import { Role } from 'db/src/types'
 
+export interface SelectOption {
+  value: string | number
+  label: string
+  emoji?: string
+}
+
+export interface Filter {
+  option: SelectOption
+  inputType: string
+}
+
+// For compatibility with existing components
 interface JobFilter {
   country?: Array<string>
   skillsId?: Array<number>
@@ -17,6 +29,24 @@ interface JobFilterResult {
   skillsId: Array<string>
 }
 
+// Added Job interface to maintain the structure expected by components
+export interface Job {
+  id: string
+  title: string
+  description: string
+  language: string
+  country: string
+  salary: string
+  skillsId: string[] | null
+  minimumYears: number | null
+  company: string | null
+  currency: string | null
+  url: string | null
+  createdAt: Date
+  updatedAt: Date
+  ready: boolean
+}
+
 export const getFilterFromPreferences = async (
   email: string
 ): Promise<JobFilterResult> => {
@@ -25,34 +55,101 @@ export const getFilterFromPreferences = async (
   return { skillsId }
 }
 
-const filterJobData = (job: Role, filters: JobFilter): boolean => {
-  if (filters.country?.length && !filters.country.includes(job.country))
-    return false
-  if (filters.skillsId?.length) {
-    const hasAllSkills = filters.skillsId.includes(job.topicId)
-    if (!hasAllSkills) return false
-  }
-  if (filters.description?.length) {
-    const hasDescription = filters.description.some((desc) =>
-      job.description.toLowerCase().includes(desc.toLowerCase())
-    )
-    if (!hasDescription) return false
-  }
-  return true
-}
-
-const sortJobsBySalary = (jobs: Array<Role>): Array<Role> => {
-  return jobs.sort((a, b) => Number(b.salary) - Number(a.salary))
-}
-
-export const fetchJobs = async (filters?: JobFilter): Promise<Array<Role>> => {
+export const fetchJobs = async (
+  filtersOrJobFilter: Filter[] | JobFilter = []
+): Promise<{
+  jobs: Job[]
+  totalJobs: number
+}> => {
   try {
     const db = getPostgresClient()
-    const { data: jobs } = await db.getRolesWithFilters(filters)
-    const filteredJobs = jobs.filter((job) => filterJobData(job, filters))
-    return sortJobsBySalary(filteredJobs)
+
+    // Check if the parameter is a Filter array or a JobFilter object
+    const isFilterArray = Array.isArray(filtersOrJobFilter)
+
+    let countryValues: string[] = []
+    let skillsId: number[] = []
+    let description: string[] = []
+    let order = { field: 'salary' as string, ascending: false }
+
+    if (isFilterArray) {
+      // Handle Filter array
+      const filters = filtersOrJobFilter as Filter[]
+
+      const countryFilters = filters.filter((f) => f.inputType === 'country')
+      const skillFilters = filters.filter((f) => f.inputType === 'skill')
+      const levelFilters = filters.filter((f) => f.inputType === 'level')
+      const orderFilter = filters.find((f) => f.inputType === 'order')
+
+      if (countryFilters.length > 0) {
+        countryValues = countryFilters.map((f) => f.option.value as string)
+        if (countryValues.includes('Global')) {
+          countryValues.push('International')
+        }
+      }
+
+      if (skillFilters.length > 0) {
+        skillsId = skillFilters
+          .map((f) => {
+            const value = f.option.value
+            return typeof value === 'string' ? parseInt(value, 10) : value
+          })
+          .filter((id): id is number => !isNaN(id))
+      }
+
+      if (levelFilters.length > 0) {
+        description = levelFilters.map((f) => f.option.value as string)
+      }
+
+      if (orderFilter) {
+        order = {
+          field: 'createdAt',
+          ascending: orderFilter.option.value === 'ascending',
+        }
+      }
+    } else {
+      // Handle JobFilter object
+      const jobFilter = filtersOrJobFilter as JobFilter
+      countryValues = jobFilter.country || []
+      skillsId = jobFilter.skillsId || []
+      description = jobFilter.description || []
+      order = jobFilter.order || { field: 'salary', ascending: false }
+    }
+
+    const { data: roles, count } = await db.getRolesWithFilters({
+      country: countryValues.length > 0 ? countryValues : undefined,
+      skillsId: skillsId.length > 0 ? skillsId : undefined,
+      description: description.length > 0 ? description : undefined,
+      order,
+    })
+
+    // Transform the roles to maintain the original job structure
+    const jobs = roles.map((role) => ({
+      id: role.id,
+      title: role.title,
+      description: role.description,
+      language: role.language,
+      country: role.country,
+      salary: role.salary,
+      skillsId: role.topicId ? [role.topicId.toString()] : null,
+      minimumYears: role.minimumYears || null,
+      company: role.company || null,
+      currency: role.currency || null,
+      url: role.url || null,
+      createdAt: new Date(role.createdAt),
+      updatedAt: new Date(role.updatedAt),
+      ready: true,
+    }))
+
+    return {
+      jobs,
+      totalJobs: count,
+    }
   } catch (error) {
     console.error('Error fetching jobs:', error)
-    return []
+    return {
+      jobs: [],
+      totalJobs: 0,
+    }
   }
 }

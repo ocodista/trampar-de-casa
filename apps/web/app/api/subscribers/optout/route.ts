@@ -4,12 +4,9 @@ import { NextResponse } from 'next/server'
 
 const db = getPostgresClient()
 
-export async function POST(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function PUT(request: Request) {
   try {
-    const { id } = params
+    const { id } = await request.json()
 
     if (!id) {
       return new NextResponse('ID is required', {

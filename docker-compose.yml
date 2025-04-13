@@ -1,5 +1,3 @@
-version: '3'
-
 services:
   web:
     build:
@@ -36,12 +34,17 @@ services:
       start_period: 40s
 
   redis:
-    image: redis
+    image: redis:alpine
     container_name: redis
+    command: redis-server --requirepass redis --appendonly yes
+    environment:
+      - REDIS_PASSWORD=redis
     ports:
       - '6379:6379'
+    volumes:
+      - redis-data:/data
     healthcheck:
-      test: ['CMD', 'redis-cli', 'ping']
+      test: ['CMD', 'redis-cli', '-a', 'redis', 'ping']
       interval: 30s
       timeout: 10s
       retries: 3
@@ -61,18 +64,20 @@ services:
       retries: 3
       start_period: 40s
 
-  auto-email-sender:
-    build:
-      context: .
-      dockerfile: Dockerfile.auto
-    env_file:
-      - apps/auto-email-sender/.env
-    depends_on:
-      rabbitmq:
-        condition: service_healthy
-      mongo:
-        condition: service_healthy
+      # auto-email-sender:
+      #   build:
+      #     context: .
+      #     dockerfile: Dockerfile.auto
+      #   env_file:
+      #     - apps/auto-email-sender/.env
+      #   depends_on:
+      #     rabbitmq:
+      #       condition: service_healthy
+      #     mongo:
+      #       condition: service_healthy
 
 volumes:
   mongo-data:
+    driver: local
+  redis-data:
     driver: local

@@ -9,7 +9,7 @@ export async function getRole(id: string) {
   try {
     const query = `
       SELECT *
-      FROM "${Entities.Roles}"
+      FROM ${Entities.Roles}
       WHERE id = $1
     `
     const result = await pgClient.query(query, [id])

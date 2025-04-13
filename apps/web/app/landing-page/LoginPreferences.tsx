@@ -44,10 +44,10 @@ export function LoginPreferences({ onClose, open }: ContributeDialogProps) {
     }
 
     try {
-      const subscriber = await login(email)
-      if (subscriber) {
+      const subscriberId = await login(email)
+      if (subscriberId) {
         localStorage.setItem('loginEmail', email)
-        await sendEditPreferencesEmail(email, subscriber.id)
+        await sendEditPreferencesEmail(email, subscriberId)
         setEmailSent(true)
         setEmail('')
       }

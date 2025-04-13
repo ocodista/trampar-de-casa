@@ -3,22 +3,25 @@ import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { sendProfileEmail } from 'shared/src/email/sendProfileEmail'
 import { Events } from 'analytics'
-import { getTracker } from '../../../../utils/tracker'
-import { getDecryptedId } from '../../../getDecryptedId'
+import { getTracker } from '../../../utils/tracker'
+import { getDecryptedId } from '../../getDecryptedId'
 
 const db = getPostgresClient()
 const tracker = getTracker()
 
-export async function POST(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: Request) {
   try {
-    const { id: hashedId } = params
-    const id = getDecryptedId(hashedId)
+    const { id: hashedId } = await request.json()
 
-    if (!id) {
+    if (!hashedId) {
       return new NextResponse('ID is required', {
+        status: StatusCodes.BAD_REQUEST,
+      })
+    }
+
+    const id = getDecryptedId(hashedId)
+    if (!id) {
+      return new NextResponse('Invalid ID', {
         status: StatusCodes.BAD_REQUEST,
       })
     }

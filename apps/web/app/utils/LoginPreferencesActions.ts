@@ -21,8 +21,8 @@ export async function login(email: string) {
     throw new Error('Subscriber not found')
   }
 
-  await sendProfileEmail(subscriber)
-  return subscriber
+  await sendProfileEmail({ email, id: subscriber.id })
+  return subscriber.id
 }
 
 export async function sendEditPreferencesEmail(email: string, id: string) {

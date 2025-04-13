@@ -29,7 +29,7 @@ export default function Page({ params }: { params: { id: string } }) {
     ;(async () => {
       setLoaderVisibility(true)
       const response = await fetch(`${ApiRoutes.OptOut}/${id}`, {
-        method: 'GET',
+        method: 'POST',
       })
 
       if (!response.ok) {

@@ -9,7 +9,7 @@ export async function GET(
   try {
     const query = `
 			SELECT *
-			FROM "${Entities.Roles}"
+			FROM ${Entities.Roles}
 			WHERE id = $1
 		`
     const result = await getPostgresClient().query(query, [params.id])
