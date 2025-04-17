@@ -39,6 +39,15 @@ jobs:
           username: ${{ secrets.DOCKER_REGISTRY_USER }}
           password: ${{ secrets.DOCKER_REGISTRY_PASS }}
 
+      - name: Connect to Tailnet
+        uses: tailscale/github-action@v3
+        with:
+          oauth-client-id: ${{ secrets.TS_OAUTH_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TS_OAUTH_SECRET }}
+          tags: tag:ci
+        use-cache: 'true'
+
+
       - name: Build Docker image
         run: |
           REGISTRY=${{ secrets.DOCKER_REGISTRY_HOST }}
