@@ -40,7 +40,7 @@ jobs:
           password: ${{ secrets.DOCKER_REGISTRY_PASS }}
 
       - name: Ping homelab
-        run: ping -c 4 compose
+        run: apt update && apt install -y iputils-ping && ping -c 4 compose
 
       - name: Build Docker image
         run: |

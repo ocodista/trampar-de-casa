@@ -30,7 +30,7 @@ jobs:
         uses: docker/setup-buildx-action@v2.2.1
 
       - name: Ping homelab
-        run: ping -c 4 compose
+        run: apt update && apt install -y iputils-ping && ping -c 4 compose
 
       - name: Build Docker image
         run: |
