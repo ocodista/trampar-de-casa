@@ -40,7 +40,7 @@ jobs:
           password: ${{ secrets.DOCKER_REGISTRY_PASS }}
 
       - name: Ping homelab
-        run: ping -c 4 compose
+        run: apt update && apt install -y iputils-ping && ping -c 4 compose
 
       - name: Build Docker image
         run: |
@@ -52,7 +52,6 @@ jobs:
           -t "$REGISTRY/$REPO:latest" \
           -t "$REGISTRY/$REPO:$(cd apps/web && cat package.json | jq -r '.version')" \
           --push \
-          --dns 100.100.100.100 \
           --build-arg EMAIL_KEY="${{ secrets.EMAIL_KEY }}" \
           --build-arg EMAIL_PASS="${{ secrets.EMAIL_PASS }}" \
           --build-arg CRYPT_SECRET="${{ secrets.CRYPT_SECRET }}" \
