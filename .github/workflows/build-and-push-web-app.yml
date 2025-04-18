@@ -42,7 +42,9 @@ jobs:
       - name: Connect to Tailnet
         uses: tailscale/github-action@v3
         with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+          oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
+          oauth-secret: ${{ secrets.TAILSCALE_CLIENT_SECRET }}
+          # authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
       - name: Start tailnet
         run: sudo tailscale up
@@ -72,4 +74,5 @@ jobs:
           --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
           --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}" \
           --build-arg POSTGRES_URL="${{ secrets.POSTGRES_URL}}" \
-          --build-arg REDIS_URL="${{ secrets.REDIS_URL}}" 
+          --build-arg REDIS_URL="${{ secrets.REDIS_URL}}" \
+          --network host
