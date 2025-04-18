@@ -42,9 +42,9 @@ jobs:
       - name: Connect to Tailnet
         uses: tailscale/github-action@v3
         with:
-          oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
-          oauth-secret: ${{ secrets.TAILSCALE_CLIENT_SECRET }}
-          # authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+          # oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
+          # oauth-secret: ${{ secrets.TAILSCALE_CLIENT_SECRET }}
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
       - name: Start tailnet
         run: sudo tailscale up
