@@ -48,8 +48,7 @@ jobs:
         run: tailscale up
 
       - name: Test tailnet connection
-        run:
-          tailscale status 
+        run: tailscale status 
 
       - name: Ping compose
         run: ping -c 4 compose
