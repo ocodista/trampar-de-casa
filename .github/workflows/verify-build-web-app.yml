@@ -29,6 +29,11 @@ jobs:
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v2.2.1
 
+      - name: Connect to Tailnet
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
       - name: Build Docker image
         run: |
           docker buildx build --platform linux/${{ inputs.platform || 'amd64' }} --load -t local-image:local . \
