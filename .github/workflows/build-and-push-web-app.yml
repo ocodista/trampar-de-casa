@@ -52,7 +52,7 @@ jobs:
           tailscale status 
 
       - name: Ping compose
-          ping -c 4 compose
+        run: ping -c 4 compose
 
       - name: Build Docker image
         run: |
