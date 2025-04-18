@@ -42,8 +42,6 @@ jobs:
       - name: Connect to Tailnet
         uses: tailscale/github-action@v3
         with:
-          # oauth-client-id: ${{ secrets.TAILSCALE_CLIENT_ID }}
-          # oauth-secret: ${{ secrets.TAILSCALE_CLIENT_SECRET }}
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
       - name: Start tailnet
@@ -54,6 +52,10 @@ jobs:
 
       - name: Ping compose
         run: ping -c 4 compose
+
+      - name: Test DNS Resolution in Build
+        run: |
+          docker run --rm busybox nslookup compose
 
       - name: Build Docker image
         run: |
