@@ -7,7 +7,7 @@ export async function getRedisClient() {
   })
 
   client.on('error', (err) => {
-    console.error('❌ Redis connection error:', err.message)
+    console.error('❌ Redis connection error:', err.message, { err })
   })
 
   try {
