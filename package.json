@@ -6,7 +6,7 @@
   "license": "MIT",
   "scripts": {
     "build:auto-email-sender": "turbo run build --filter=./apps/auto-email-sender/*",
-    "build:dev": "turbo build --concurrency 20 --filter=web",
+    "build:dev": "turbo build --concurrency 20",
     "dev2": "turbo dev --concurrency 20",
     "start:dev": "turbo start --concurrency 20 --filter=web",
     "lint-format": "yarn format && eslint --fix",

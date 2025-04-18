@@ -1,13 +1,13 @@
 'use server'
 
-import { Database, getSupabaseClient } from 'db'
+import { Database, getPostgresClient } from 'db'
 import { RolesPage } from './RolesPage'
-import { fetchJobs } from './action'
-import getRedisClient from 'app/utils/getRedisClient'
+import { fetchJobs, Job } from './action'
+import { getRedisClient } from '../../utils/getRedisClient'
+import { Role } from 'db/src/types'
 
 const ONE_DAY_IN_MINUTES = 86_400
 
-type Job = Database['public']['Tables']['Roles']['Row']
 type Skill = Database['public']['Views']['vw_skills_in_roles']['Row']
 type Country = Database['public']['Views']['vw_countries_in_roles']['Row']
 
@@ -17,18 +17,18 @@ async function getJobs(): Promise<Job[]> {
     const jobsFromCache = await client.get('web_jobs')
     if (jobsFromCache) {
       await client.quit()
-      console.log('cache')
+      console.log('cache hit')
       return JSON.parse(jobsFromCache) as Job[]
     }
 
-    const { data: jobs } = await fetchJobs([])
-    console.log('supabase')
+    const { jobs } = await fetchJobs([])
+    console.log('cache miss, fetching from postgres')
 
     await client.set('web_jobs', JSON.stringify(jobs), {
       EX: ONE_DAY_IN_MINUTES,
     })
     await client.quit()
-    return jobs as Job[]
+    return jobs
   } catch (error) {
     console.error('Failed to fetch jobs:', error)
     return []
@@ -44,13 +44,10 @@ async function getSkills(): Promise<Skill[]> {
       return JSON.parse(skillsFromCache) as Skill[]
     }
 
-    const supabase = getSupabaseClient()
-    const { data: skills } = await supabase
-      .from('vw_skills_in_roles')
-      .select('*')
-      .order('name')
+    const postgres = getPostgresClient()
+    const skills = await postgres.getSkillsInRoles()
 
-    await client.set('getSkills', JSON.stringify(skills), {
+    await client.set('Skills', JSON.stringify(skills), {
       EX: ONE_DAY_IN_MINUTES,
     })
     await client.quit()
@@ -63,11 +60,20 @@ async function getSkills(): Promise<Skill[]> {
 
 async function getCountries(): Promise<Country[]> {
   try {
-    const supabase = getSupabaseClient()
-    const { data: countries } = await supabase
-      .from('vw_countries_in_roles')
-      .select('*')
-      .order('country')
+    const client = await getRedisClient()
+    const countriesFromCache = await client.get('Countries')
+    if (countriesFromCache) {
+      await client.quit()
+      return JSON.parse(countriesFromCache) as Country[]
+    }
+
+    const postgres = getPostgresClient()
+    const countries = await postgres.getCountriesInRoles()
+
+    await client.set('Countries', JSON.stringify(countries), {
+      EX: ONE_DAY_IN_MINUTES,
+    })
+    await client.quit()
     return countries as Country[]
   } catch (error) {
     console.error('Failed to fetch countries:', error)

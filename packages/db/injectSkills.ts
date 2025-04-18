@@ -1,13 +1,14 @@
 import { Entities, skillArray } from "shared";
-import { getSupabaseClient } from "./src/supabase/getSupabaseClient";
+import { getPostgresClient } from "./src/postgres/getPostgresClient";
 
-;(async () => {
-  const supabase = getSupabaseClient()
-  const promises = skillArray.map(async ({id, name, normalized}) => {
-    const { error, data } = await supabase
-      .from(Entities.Skills)
-      .insert({ id, name, normalized })
-    return data
-  })
-  await Promise.all(promises)
-})()
+; (async () => {
+  const postgres = getPostgresClient();
+  const promises = skillArray.map(async ({ id, name, normalized }) => {
+    const result = await postgres.query(
+      `INSERT INTO ${Entities.Skills} (id, name, normalized) VALUES ($1, $2, $3)`,
+      [id, name, normalized]
+    );
+    return result.rows;
+  });
+  await Promise.all(promises);
+})();

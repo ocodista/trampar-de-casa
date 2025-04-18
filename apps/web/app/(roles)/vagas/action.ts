@@ -1,126 +1,155 @@
 'use server'
 
-import { Filter } from 'app/components/SelectInput'
-import { getSupabaseClient } from 'db'
+import { getPostgresClient } from 'db'
+import { Role } from 'db/src/types'
 
-interface ItemExtracted {
-  option: {
-    value: string | number
-    label: string
-  }
+export interface SelectOption {
+  value: string | number
+  label: string
+  emoji?: string
+}
+
+export interface Filter {
+  option: SelectOption
   inputType: string
 }
 
-const getFilter = (filters: Filter[], filterType: string) => {
-  return filters.filter(
-    (filter: ItemExtracted) => filter.inputType === filterType
-  )
+// For compatibility with existing components
+interface JobFilter {
+  country?: Array<string>
+  skillsId?: Array<number>
+  description?: Array<string>
+  order?: {
+    field: string
+    ascending: boolean
+  }
 }
 
-const supabase = getSupabaseClient()
+interface JobFilterResult {
+  skillsId: Array<string>
+}
 
-export const getFilterFromPreferences = async (email: string) => {
-  const { data } = await supabase
-    .from('Subscribers')
-    .select('skillsId')
-    .eq('email', email)
+// Added Job interface to maintain the structure expected by components
+export interface Job {
+  id: string
+  title: string
+  description: string
+  language: string
+  country: string
+  salary: string
+  skillsId: string[] | null
+  minimumYears: number | null
+  company: string | null
+  currency: string | null
+  url: string | null
+  createdAt: Date
+  updatedAt: Date
+  ready: boolean
+}
 
-  return data
+export const getFilterFromPreferences = async (
+  email: string
+): Promise<JobFilterResult> => {
+  const db = getPostgresClient()
+  const skillsId = await db.getSubscriberSkillsId(email)
+  return { skillsId }
 }
 
 export const fetchJobs = async (
-  filters: Filter[]
+  filtersOrJobFilter: Filter[] | JobFilter = []
 ): Promise<{
-  data: any[]
-  isSuccess: boolean
-  message: string
-  count: number
+  jobs: Job[]
+  totalJobs: number
 }> => {
   try {
-    const countryOptionsFormatted = getFilter(filters, 'country')
-    const skillsFormatted = getFilter(filters, 'skill')
-    const levelsFormated = getFilter(filters, 'level')
-    const orderFilter = filters.find((filter) => filter.inputType === 'order')
+    const db = getPostgresClient()
 
-    let query = supabase
-      .from('Roles')
-      .select('*', { count: 'exact' })
-      .eq('ready', true)
+    // Check if the parameter is a Filter array or a JobFilter object
+    const isFilterArray = Array.isArray(filtersOrJobFilter)
 
-    if (countryOptionsFormatted.length > 0) {
-      const countryValues = countryOptionsFormatted.map(
-        (country: ItemExtracted) => country.option.value as string
-      )
-      if (countryValues.includes('Global')) {
-        countryValues.push('International')
+    let countryValues: string[] = []
+    let skillsId: number[] = []
+    let description: string[] = []
+    let order = { field: 'salary' as string, ascending: false }
+
+    if (isFilterArray) {
+      // Handle Filter array
+      const filters = filtersOrJobFilter as Filter[]
+
+      const countryFilters = filters.filter((f) => f.inputType === 'country')
+      const skillFilters = filters.filter((f) => f.inputType === 'skill')
+      const levelFilters = filters.filter((f) => f.inputType === 'level')
+      const orderFilter = filters.find((f) => f.inputType === 'order')
+
+      if (countryFilters.length > 0) {
+        countryValues = countryFilters.map((f) => f.option.value as string)
+        if (countryValues.includes('Global')) {
+          countryValues.push('International')
+        }
       }
-      query = query.in('country', countryValues)
-    }
 
-    if (skillsFormatted.length > 0) {
-      const skillsId = skillsFormatted
-        .map((skill: ItemExtracted) => {
-          const value = skill.option.value
-          return typeof value === 'string' ? parseInt(value, 10) : value
-        })
-        .filter((id): id is number => !isNaN(id))
-
-      if (skillsId.length > 0) {
-        query = query.contains('skillsId', skillsId)
+      if (skillFilters.length > 0) {
+        skillsId = skillFilters
+          .map((f) => {
+            const value = f.option.value
+            return typeof value === 'string' ? parseInt(value, 10) : value
+          })
+          .filter((id): id is number => !isNaN(id))
       }
-    }
 
-    if (levelsFormated.length > 0) {
-      const filters = levelsFormated.map(
-        (level: ItemExtracted) => `description.ilike.%${level.option.value}%`
-      )
-      const combinedFilter = filters.join(',')
-      query = query.or(combinedFilter)
-    }
+      if (levelFilters.length > 0) {
+        description = levelFilters.map((f) => f.option.value as string)
+      }
 
-    if (orderFilter) {
-      const orderOption = getFilter(filters, 'order')
-      query = query.order('createdAt', {
-        ascending: orderOption[0].option.value === 'ascending',
-      })
+      if (orderFilter) {
+        order = {
+          field: 'createdAt',
+          ascending: orderFilter.option.value === 'ascending',
+        }
+      }
     } else {
-      query = query.order('salary', { nullsFirst: false })
+      // Handle JobFilter object
+      const jobFilter = filtersOrJobFilter as JobFilter
+      countryValues = jobFilter.country || []
+      skillsId = jobFilter.skillsId || []
+      description = jobFilter.description || []
+      order = jobFilter.order || { field: 'salary', ascending: false }
     }
 
-    const { data, count, error } = await query
-
-    if (error) {
-      throw error
-    }
-
-    const sortedData = data?.sort((a, b) => {
-      const parseSalary = (salary: string) => {
-        if (!salary) return 0
-        const cleanedSalary = salary.replace(/[^0-9.-]+/g, '')
-        return parseFloat(cleanedSalary) || 0
-      }
-
-      const salaryA = parseSalary(a.salary)
-      const salaryB = parseSalary(b.salary)
-
-      if (salaryA === null || salaryA === undefined) return 1
-      if (salaryB === null || salaryB === undefined) return -1
-      return salaryB - salaryA
+    const { data: roles, count } = await db.getRolesWithFilters({
+      country: countryValues.length > 0 ? countryValues : undefined,
+      skillsId: skillsId.length > 0 ? skillsId : undefined,
+      description: description.length > 0 ? description : undefined,
+      order,
     })
 
+    // Transform the roles to maintain the original job structure
+    const jobs = roles.map((role) => ({
+      id: role.id,
+      title: role.title,
+      description: role.description,
+      language: role.language,
+      country: role.country,
+      salary: role.salary,
+      skillsId: role.topicId ? [role.topicId.toString()] : null,
+      minimumYears: role.minimumYears || null,
+      company: role.company || null,
+      currency: role.currency || null,
+      url: role.url || null,
+      createdAt: new Date(role.createdAt),
+      updatedAt: new Date(role.updatedAt),
+      ready: true,
+    }))
+
     return {
-      data: sortedData || [],
-      isSuccess: true,
-      message: '',
-      count: count || 0,
+      jobs,
+      totalJobs: count,
     }
   } catch (error) {
-    console.error('Erro ao buscar dados do banco de dados:', error)
+    console.error('Error fetching jobs:', error)
     return {
-      data: [],
-      isSuccess: false,
-      message: error.message || 'Um erro ocorreu ao buscar os dados',
-      count: 0,
+      jobs: [],
+      totalJobs: 0,
     }
   }
 }

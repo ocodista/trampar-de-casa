@@ -1,6 +1,8 @@
 import { FormSchema } from 'app/(roles)/formSchema'
-import { getSupabaseClient } from 'db'
+import { getPostgresClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
+
+const db = getPostgresClient()
 
 interface RoleRecommendationInsert {
   minimum_years: number
@@ -17,14 +19,10 @@ interface RoleRecommendationInsert {
 
 export const POST = async (req: Request) => {
   const body = (await req.json()) as FormSchema
-  const supabaseClient = getSupabaseClient()
 
-  const persistedData = await supabaseClient
-    .from('rolesRecommendation')
-    .select('id')
-    .eq('title', body.title)
-    .eq('company', body.company)
-  if (persistedData.data && persistedData.data.length > 0) {
+  const existingRecommendations =
+    await db.getRolesRecommendationByTitleAndCompany(body.title, body.company)
+  if (existingRecommendations.length > 0) {
     return new Response('Esta vaga já esta cadastrada', {
       status: StatusCodes.BAD_REQUEST,
     })
@@ -43,11 +41,17 @@ export const POST = async (req: Request) => {
     url: body.url,
   }
 
-  const { error } = await supabaseClient
-    .from('rolesRecommendation')
-    .insert(insertData)
-
-  if (error) throw error
-
+  await db.insertRoleRecommendation({
+    minimumYears: insertData.minimum_years,
+    topicId: insertData.topic_id,
+    company: insertData.company,
+    country: insertData.country,
+    currency: insertData.currency,
+    description: insertData.description,
+    language: insertData.language,
+    salary: insertData.salary,
+    title: insertData.title,
+    url: insertData.url,
+  })
   return new Response(null, { status: StatusCodes.OK })
 }

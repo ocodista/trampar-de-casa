@@ -3,7 +3,7 @@ import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 import { LandingPageRoutes } from '../landing-page/landingPageRoutes'
 import { LoginPreferences } from 'app/landing-page/LoginPreferences'
-import login, { encryptId } from 'app/utils/LoginPreferencesActions'
+import { login, encryptId } from 'app/utils/LoginPreferencesActions'
 import { useRouter } from 'next/navigation'
 import {
   BookOpen,

@@ -1,14 +1,8 @@
-import React, {
-  useState,
-  useEffect,
-  useRef,
-  Dispatch,
-  SetStateAction,
-} from 'react'
+import React, { useState, useRef, Dispatch, SetStateAction } from 'react'
 import useTyped from '../components/hooks/useTyped'
 import { Search } from 'lucide-react'
-import { Filter, Job, SelectOption } from './SelectInput'
-import { fetchJobs } from 'app/(roles)/vagas/action'
+import { Filter, SelectOption } from './SelectInput'
+import { fetchJobs, Job } from 'app/(roles)/vagas/action'
 import { updateSearchParams } from 'app/utils/updateSearchParams'
 import { useRouter } from 'next/navigation'
 
@@ -87,9 +81,18 @@ const InputWithUseTyped = ({
     ])
 
     try {
-      const { data, count } = await fetchJobs(temporaryFilters)
-      setTotalJobs(count)
-      setJobs(data)
+      const jobFilters = {
+        country: temporaryFilters
+          .filter((f) => f.inputType === 'country')
+          .map((f) => f.option.value as string),
+        skillsId: temporaryFilters
+          .filter((f) => f.inputType === 'skill')
+          .map((f) => Number(f.option.value)),
+      }
+
+      const data = await fetchJobs(jobFilters)
+      setTotalJobs(data.totalJobs)
+      setJobs(data.jobs)
     } catch (error) {
       console.error('Error fetching filtered jobs:', error.message)
     }

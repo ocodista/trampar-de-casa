@@ -1,26 +1,25 @@
-import { Database, SupabaseClient } from 'db'
+import { PostgresClient } from '../../../postgres/client'
 import { Entities } from 'shared'
 
 interface GetRowsBlock {
-  supabase: SupabaseClient<Database>
+  postgres: PostgresClient
   selectQuery?: string
   start: number
   end: number
 }
 
-export const getConfirmedSubscribersRowsBlock = async <Entity>({
-  supabase,
+export const getConfirmedSubscribersRowsBlock = async ({
+  postgres,
   start,
   end,
   selectQuery,
-}: GetRowsBlock): Promise<Entity[]> => {
-  const { data, error } = await supabase
-    .from(Entities.Subcribers)
-    .select(selectQuery || '*')
-    .eq('isConfirmed', true)
-    .eq('optOut', false)
-    .range(start, end)
-    .order('createdAt', { ascending: false })
-  if (error) throw error
-  return data as Entity[]
+}: GetRowsBlock): Promise<any[]> => {
+  const result = await postgres.query(
+    `SELECT ${selectQuery || '*'} FROM ${Entities.Subcribers} 
+    WHERE "isConfirmed" = true AND "optOut" = false 
+    ORDER BY "createdAt" DESC 
+    LIMIT $1 OFFSET $2`,
+    [end - start + 1, start]
+  )
+  return result.rows
 }

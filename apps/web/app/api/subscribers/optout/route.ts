@@ -1,28 +1,33 @@
-import { getSupabaseClient } from 'db'
+import { getPostgresClient } from 'db'
 import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
-import { Entities } from 'shared/src/enums'
-import { decrypt } from 'shared/src/security'
 
-export async function POST(request: Request) {
+const db = getPostgresClient()
+
+export async function PUT(request: Request) {
   try {
     const { id } = await request.json()
 
-    if (!id) return new NextResponse(null, { status: StatusCodes.BAD_REQUEST })
+    if (!id) {
+      return new NextResponse('ID is required', {
+        status: StatusCodes.BAD_REQUEST,
+      })
+    }
 
-    const realId = decrypt(process.env['CRYPT_SECRET'], id as string)
-    const supabase = getSupabaseClient()
-    const { data, error } = await supabase
-      .from(Entities.Subcribers)
-      .update({ optOut: true })
-      .eq('id', realId)
-      .select()
+    const subscriber = await db.getSubscriberById(id)
+    if (!subscriber) {
+      return new NextResponse('Subscriber not found', {
+        status: StatusCodes.NOT_FOUND,
+      })
+    }
 
-    if (error) throw error
+    await db.updateSubscriber(id, { optOut: true })
 
-    return NextResponse.json(data)
-  } catch (err) {
-    console.error(err)
+    return new NextResponse('Successfully opted out', {
+      status: StatusCodes.OK,
+    })
+  } catch (error) {
+    console.error('Opt out subscriber error:', error)
     return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   }
 }

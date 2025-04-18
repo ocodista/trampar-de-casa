@@ -1,12 +1,12 @@
-import { getSupabaseClient } from 'db'
+import { getPostgresClient } from 'db'
 import { getAllConfirmedSubscribersPaginated } from 'db/src/supabase/domains/subscribers/getAllConfirmedSubscribersPaginated'
 import { EmailQueues, createRabbitMqChannel, logger } from 'shared'
 
 export const subsToQueue = async () => {
-  const supabase = getSupabaseClient()
+  const postgres = getPostgresClient()
   const subscribersGenerator = getAllConfirmedSubscribersPaginated({
     batchSize: 1_000,
-    supabase,
+    postgres,
     selectQuery: 'id, email, skillsId, startedWorkingAt, isConfirmed',
   })
 

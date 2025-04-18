@@ -1,21 +1,28 @@
 import path from 'path'
 import { Parser } from '@json2csv/plainjs'
 import fs from 'fs'
-import { getSupabaseClient } from 'db'
+import { getPostgresClient } from 'db'
 
 const generateCsv = async (data: any, filePath: string) => {
-  const parser = new Parser()
+  if (!data.data?.length) {
+    throw new Error(`No data to generate CSV for ${filePath}`)
+  }
+
+  const fields = Object.keys(data.data[0])
+  const parser = new Parser({ fields })
   const csv = parser.parse(data.data)
   const absolutePath = path.resolve(__dirname, '../match_roles/data', filePath)
   fs.writeFileSync(absolutePath, csv)
 }
 
 export const setupDataMatchRoles = async () => {
-  const supabaseClient = getSupabaseClient()
+  const postgres = getPostgresClient()
 
-  const roles = await supabaseClient.from('Roles').select('*').eq('ready', true)
-  await generateCsv(roles, 'roles.csv')
+  const rolesResult = await postgres.query(
+    'SELECT * FROM Roles WHERE ready = true'
+  )
+  await generateCsv({ data: rolesResult.rows }, 'roles.csv')
 
-  const skills = await supabaseClient.from('Skills').select('*')
-  await generateCsv(skills, 'skills.csv')
+  const skillsResult = await postgres.query('SELECT * FROM Skills')
+  await generateCsv({ data: skillsResult.rows }, 'skills.csv')
 }

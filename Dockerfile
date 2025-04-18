@@ -1,4 +1,4 @@
-FROM node:18-alpine AS base
+FROM node:20.5.1-alpine AS base
  
 FROM base AS builder
 RUN apk add --no-cache libc6-compat
@@ -30,9 +30,6 @@ RUN yarn install
 COPY --from=builder /app/out/full/ .
 
 # Declare arguments
-ARG DATABASE_URL
-ARG SUPABASE_URL
-ARG SUPABASE_SERVICE_ROLE
 ARG EMAIL_KEY
 ARG EMAIL_PASS
 ARG CRYPT_SECRET
@@ -41,12 +38,11 @@ ARG RESEND_WEBHOOK_SECRET
 ARG OWNER_EMAIL
 ARG NEXT_PUBLIC_MIXPANEL_KEY
 ARG CRON_SECRET
+ARG POSTGRES_URL
+ARG REDIS_URL
 
 # Convert build-time variables to environment variables
-ENV DATABASE_URL=$DATABASE_URL \
-    SUPABASE_URL=$SUPABASE_URL \
-    SUPABASE_SERVICE_ROLE=$SUPABASE_SERVICE_ROLE \
-    EMAIL_KEY=$EMAIL_KEY \
+ENV EMAIL_KEY=$EMAIL_KEY \
     EMAIL_PASS=$EMAIL_PASS \
     CRYPT_SECRET=$CRYPT_SECRET \
     RESEND_KEY=$RESEND_KEY \
@@ -54,12 +50,30 @@ ENV DATABASE_URL=$DATABASE_URL \
     OWNER_EMAIL=$OWNER_EMAIL \
     NEXT_PUBLIC_MIXPANEL_KEY=$NEXT_PUBLIC_MIXPANEL_KEY \
     CRON_SECRET=$CRON_SECRET \
-    NEXT_SHARP_PATH=/app/node_modules/sharp
+    NEXT_SHARP_PATH=/app/node_modules/sharp \
+    POSTGRES_URL=$POSTGRES_URL \
+    REDIS_URL=$REDIS_URL
 
+# Create .env file for Next.js build
+RUN echo "EMAIL_KEY=$EMAIL_KEY" > /app/apps/web/.env && \
+    echo "EMAIL_PASS=$EMAIL_PASS" >> /app/apps/web/.env && \
+    echo "CRYPT_SECRET=$CRYPT_SECRET" >> /app/apps/web/.env && \
+    echo "RESEND_KEY=$RESEND_KEY" >> /app/apps/web/.env && \
+    echo "RESEND_WEBHOOK_SECRET=$RESEND_WEBHOOK_SECRET" >> /app/apps/web/.env && \
+    echo "OWNER_EMAIL=$OWNER_EMAIL" >> /app/apps/web/.env && \
+    echo "NEXT_PUBLIC_MIXPANEL_KEY=$NEXT_PUBLIC_MIXPANEL_KEY" >> /app/apps/web/.env && \
+    echo "CRON_SECRET=$CRON_SECRET" >> /app/apps/web/.env && \
+    echo "POSTGRES_URL=$POSTGRES_URL" >> /app/apps/web/.env && \
+    echo "REDIS_URL=$REDIS_URL" >> /app/apps/web/.env
+
+# Add environment variables to the build command
 RUN yarn turbo run build --filter=web
  
 FROM base AS runner
 WORKDIR /app
+
+# Install curl for health checks
+RUN apk add --no-cache curl
  
 # Don't run production as root
 RUN addgroup --system --gid 1001 nodejs

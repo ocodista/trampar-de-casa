@@ -1,26 +1,8 @@
 import { ChevronDown } from 'lucide-react'
 import { Dispatch, SetStateAction, useState } from 'react'
 import { useRouter } from 'next/navigation'
-import { fetchJobs } from 'app/(roles)/vagas/action'
+import { fetchJobs, Job } from 'app/(roles)/vagas/action'
 import { updateSearchParams } from 'app/utils/updateSearchParams'
-
-export interface Job {
-  company: string | null
-  country: string
-  createdAt: string
-  currency: string | null
-  description: string
-  id: string
-  language: 'English' | 'Portuguese'
-  minimumYears: number | null
-  ready: boolean
-  salary: string | null
-  skillsId: string[] | null
-  title: string
-  topicId: number | null
-  updatedAt: string
-  url: string | null
-}
 
 export type SelectOption = {
   value: string | number
@@ -83,9 +65,16 @@ const SelectInput = ({
     ])
 
     try {
-      const { data, count } = await fetchJobs(temporaryFilters)
-      setTotalJobs(count)
-      setJobs(data)
+      const result = await fetchJobs({
+        country: temporaryFilters
+          .filter((f) => f.inputType === 'country')
+          .map((f) => f.option.value as string),
+        skillsId: temporaryFilters
+          .filter((f) => f.inputType === 'skill')
+          .map((f) => Number(f.option.value)),
+      })
+      setTotalJobs(result.totalJobs)
+      setJobs(result.jobs)
     } catch (error) {
       console.error('Error fetching filtered jobs:', error.message)
     }

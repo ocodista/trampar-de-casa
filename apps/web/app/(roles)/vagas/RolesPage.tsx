@@ -7,8 +7,13 @@ import close from '../../../public/images/close.svg'
 import JobCard from '../../components/ui/JobCard'
 import InputWithUseTyped from 'app/components/InputWithUseTyped'
 import Image from 'next/image'
-import SelectInput, { Filter, SelectOption } from 'app/components/SelectInput'
-import { fetchJobs, getFilterFromPreferences } from './action'
+import SelectInput from 'app/components/SelectInput'
+import {
+  fetchJobs,
+  getFilterFromPreferences,
+  Filter,
+  SelectOption,
+} from './action'
 import { useRouter } from 'next/navigation'
 import { updateSearchParams } from 'app/utils/updateSearchParams'
 
@@ -115,7 +120,15 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
       values.forEach((val) => {
         newFilters.push({
           inputType: key,
-          option: { value: val, label: getLabel(key, val) },
+          option: {
+            value: val,
+            label: getLabel(key, val),
+            emoji:
+              key === 'skill'
+                ? technologies.find((t) => String(t.value) === String(val))
+                    ?.emoji
+                : undefined,
+          },
         })
       })
     })
@@ -138,12 +151,18 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
       )
     }
 
-    updatedFilters = [{ option: option, inputType: 'order' }, ...updatedFilters]
+    updatedFilters = [{ option, inputType: 'order' }, ...updatedFilters]
     setFilters(updatedFilters)
     setPreviewOrderValue(option.value)
 
-    const { data } = await fetchJobs(updatedFilters)
-    setJobs(data)
+    const result = await fetchJobs({
+      order: {
+        field: 'createdAt',
+        ascending: option.value === 'ascending',
+      },
+    })
+    setJobs(result.jobs)
+    setTotalJobs(result.totalJobs)
     const newQueryString = updateSearchParams(updatedFilters)
     router.push(`?${newQueryString}`, { scroll: false })
   }
@@ -176,10 +195,33 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
     setFilters(updatedFilters)
 
     try {
-      const { data, count } = await fetchJobs(updatedFilters)
-      setTotalJobs(count)
-      setJobs(data)
+      const skillFilters = updatedFilters
+        .filter((f) => f.inputType === 'skill')
+        .map((f) => {
+          const value = f.option.value
+          return typeof value === 'number' ? value : Number(value)
+        })
+        .filter((id) => !isNaN(id))
+
+      const result = await fetchJobs({
+        country: updatedFilters
+          .filter((f) => f.inputType === 'country')
+          .map((f) => f.option.value as string),
+        skillsId: skillFilters,
+        order: updatedFilters.find((f) => f.inputType === 'order')?.option
+          ?.value
+          ? {
+              field: 'createdAt',
+              ascending:
+                updatedFilters.find((f) => f.inputType === 'order')?.option
+                  ?.value === 'ascending',
+            }
+          : undefined,
+      })
+      setTotalJobs(result.totalJobs)
+      setJobs(result.jobs)
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error fetching filtered jobs:', error.message)
     }
 
@@ -189,8 +231,9 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
 
   const deleteAllfilters = async () => {
     setFilters([])
-    const { data } = await fetchJobs([])
-    setJobs(data)
+    const result = await fetchJobs({})
+    setJobs(result.jobs)
+    setTotalJobs(result.totalJobs)
     const searchParams = new URLSearchParams(window.location.search)
     searchParams.delete('skill')
     searchParams.delete('country')
@@ -222,25 +265,31 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
       const email = localStorage.getItem('loginEmail')
       const skillsFromPreferences = await getFilterFromPreferences(email)
 
-      const formattedSkills = skillsFromPreferences
-        .map((item, key) =>
-          item.skillsId.map((skillId) => ({
-            inputType: 'skill',
-            option: {
-              value: skillId,
-              label: getLabel('skill', skillId),
-            },
-          }))
-        )
-        .flat()
+      const formattedSkills = skillsFromPreferences.skillsId.map((skillId) => ({
+        inputType: 'skill',
+        option: {
+          value: skillId,
+          label: getLabel('skill', skillId),
+          emoji: technologies.find((t) => String(t.value) === String(skillId))
+            ?.emoji,
+        },
+      }))
 
-      const { data, count } = await fetchJobs(formattedSkills)
+      const result = await fetchJobs({
+        skillsId: formattedSkills
+          .map((f) => {
+            const value = f.option.value
+            return typeof value === 'number' ? value : Number(value)
+          })
+          .filter((id) => !isNaN(id)),
+      })
       setFilters(formattedSkills)
-      setJobs(data)
-      setTotalJobs(count)
+      setJobs(result.jobs)
+      setTotalJobs(result.totalJobs)
       const newQueryString = updateSearchParams(formattedSkills)
       router.push(`?${newQueryString}`, { scroll: false })
     } catch (error) {
+      // eslint-disable-next-line no-console
       console.error('Error fetching jobs based on preferences:', error.message)
     }
   }
@@ -248,10 +297,32 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
   useEffect(() => {
     const fetchInitialJobs = async (initialFilters: Filter[]) => {
       try {
-        const { data, count } = await fetchJobs(initialFilters)
-        setJobs(data)
-        setTotalJobs(count)
+        const skillFilters = initialFilters
+          .filter((f) => f.inputType === 'skill')
+          .map((f) => {
+            const value = f.option.value
+            return typeof value === 'number' ? value : Number(value)
+          })
+          .filter((id) => !isNaN(id))
+
+        const orderFilter = initialFilters.find((f) => f.inputType === 'order')
+
+        const result = await fetchJobs({
+          country: initialFilters
+            .filter((f) => f.inputType === 'country')
+            .map((f) => f.option.value as string),
+          skillsId: skillFilters,
+          order: orderFilter?.option?.value
+            ? {
+                field: 'createdAt',
+                ascending: orderFilter.option.value === 'ascending',
+              }
+            : undefined,
+        })
+        setJobs(result.jobs)
+        setTotalJobs(result.totalJobs)
       } catch (error) {
+        // eslint-disable-next-line no-console
         console.error('Error fetching initial jobs:', error.message)
       }
     }
@@ -316,7 +387,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
                     readOnly
                     placeholder={
                       orderOptions.find((or) => or.value === orderButtonValue)
-                        .label
+                        ?.label || '🛠️  Ordenar'
                     }
                     className="text-baseline border-box xs:w-[220px] z-[2] w-full rounded-2xl border-[1px] bg-transparent py-[9px] pl-[14px] 
                   pr-[9px] placeholder-black placeholder-opacity-100 sm:w-[220px] md:w-[220px] lg:w-[220px]"
@@ -355,13 +426,13 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
               </div>
             )}
             <div className="flex gap-[15px]">
-              {filters.map((filter) => (
+              {filters.map((filter, index) => (
                 <div
-                  key={filter.option.value}
+                  key={index}
                   className={`border-box relative mt-[15px] flex items-center 
                   rounded-2xl border-[1px] bg-[#F4F4F5] py-[7px] pl-[7px] 
                   pr-[10px] text-center placeholder-black placeholder-opacity-100 ${
-                    order.includes(filter.option.label) && 'hidden'
+                    order.includes(filter.option.label as string) && 'hidden'
                   }`}
                 >
                   {`${filter.option.emoji ? filter.option.emoji : ''} ${

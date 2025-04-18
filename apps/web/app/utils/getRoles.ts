@@ -1,20 +1,26 @@
-import { createClient } from '@supabase/supabase-js'
+'use server'
 
-const supabase = createClient(
-  process.env.SUPABASE_URL as string,
-  process.env.SUPABASE_SERVICE_ROLE as string
-)
+import { getPostgresClient } from 'db'
+import { Entities } from 'shared'
 
 export async function getRole(id: string) {
-  const { data: role, error } = await supabase
-    .from('Roles')
-    .select('*')
-    .eq('id', id)
-    .single()
+  const pgClient = getPostgresClient()
 
-  if (error) {
-    throw new Error('Error fetching role: ' + error.message)
+  try {
+    const query = `
+      SELECT *
+      FROM ${Entities.Roles}
+      WHERE id = $1
+    `
+    const result = await pgClient.query(query, [id])
+
+    if (!result.rows.length) {
+      return null
+    }
+
+    return result.rows[0]
+  } catch (error) {
+    console.error('Get role error:', error)
+    return null
   }
-
-  return role
 }

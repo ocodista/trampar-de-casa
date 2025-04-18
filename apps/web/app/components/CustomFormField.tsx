@@ -6,6 +6,7 @@ import React, { InputHTMLAttributes, useEffect } from 'react'
 import {
   ControllerRenderProps,
   FieldValue,
+  FieldValues,
   Path,
   UseFormRegister,
   useFormContext,
@@ -34,13 +35,13 @@ interface CustomFormFieldProps<FormState> {
   label: string
   placeholder?: string
   description?: string
-  Input?: React.FC<FormInputProps>
+  Input?: React.FC<FormInputProps<FormState>>
   type?: InputHTMLAttributes<HTMLInputElement>['type']
   className?: string
   required?: boolean
 }
 
-export function CustomFormField<FormState>({
+export function CustomFormField<FormState extends FieldValues>({
   name,
   label,
   placeholder,
@@ -54,19 +55,20 @@ export function CustomFormField<FormState>({
     control,
     register,
     formState: { isSubmitting },
-  } = useFormContext()
+  } = useFormContext<FormState>()
   return (
     <FormField
       control={control}
       name={name as Path<FormState>}
-      render={({ field }: { field: ControllerRenderProps }) => (
+      render={({ field }: { field: ControllerRenderProps<FormState> }) => (
         <FormItem className={`${className} flex flex-col justify-end`}>
           <FormLabel>
             {label} {required && <span className="text-red-600">*</span>}
           </FormLabel>
           {description && <FormDescription>{description}</FormDescription>}
           <FormControl>
-            {Input({ register, name, placeholder, field, isSubmitting, type })}
+            {Input &&
+              Input({ register, name, placeholder, field, isSubmitting, type })}
           </FormControl>
           <FormMessage />
         </FormItem>
@@ -75,22 +77,22 @@ export function CustomFormField<FormState>({
   )
 }
 
-export type FormInputProps = {
-  field: ControllerRenderProps
+export type FormInputProps<FormState extends FieldValues> = {
+  field: ControllerRenderProps<FormState>
   placeholder: string
   isSubmitting: boolean
   name: string
-  register: UseFormRegister<FieldValue<any>>
+  register: UseFormRegister<FormState>
   type: InputHTMLAttributes<HTMLInputElement>['type']
 }
 
-export const TextInput = ({
+export const TextInput = <FormState extends FieldValues>({
   field,
   placeholder,
   isSubmitting,
   type = 'text',
   name,
-}: FormInputProps) => {
+}: FormInputProps<FormState>) => {
   const { watch } = useFormContext()
   return (
     <BaseInput
@@ -116,7 +118,7 @@ export const LanguageSelect = ({
   isSubmitting,
   placeholder,
   name,
-}: FormInputProps) => {
+}: FormInputProps<FieldValue<Record<string, unknown>>>) => {
   const { setValue } = useFormContext()
   const languages: {
     value: Database['public']['Enums']['RoleLanguage']
@@ -160,7 +162,7 @@ export const CurrencySelect = ({
   isSubmitting,
   placeholder,
   name,
-}: FormInputProps) => {
+}: FormInputProps<FieldValue<Record<string, unknown>>>) => {
   const { setValue } = useFormContext()
   const languages: {
     value: string
@@ -242,20 +244,20 @@ export const StartWorkAtInput = ({ field, placeholder, isSubmitting }) => {
   )
 }
 
-export const NumberInput = ({
+export const NumberInput = <FormState extends FieldValues>({
   register,
   name,
   placeholder,
   field,
   isSubmitting,
-}) => {
+}: FormInputProps<FormState>) => {
   return (
     <BaseInput
       type="number"
       placeholder={placeholder || ''}
       disabled={isSubmitting}
-      {...(field as ControllerRenderProps)}
-      {...register(name, { valueAsNumber: true })}
+      {...(field as ControllerRenderProps<FormState>)}
+      {...register(name as Path<FormState>, { valueAsNumber: true })}
     />
   )
 }
