@@ -49,6 +49,9 @@ jobs:
           tailscale status
           ping -c 4 compose
 
+      - name: Start tailnet
+        run: tailscale up
+        
       - name: Build Docker image
         run: |
           REGISTRY=${{ secrets.DOCKER_REGISTRY_HOST }}
