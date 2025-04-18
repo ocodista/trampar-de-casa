@@ -34,6 +34,11 @@ jobs:
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
+      - name: netmap
+        run:
+          tailscale status
+          ping -c 4 compose
+
       - name: Build Docker image
         run: |
           docker buildx build --platform linux/${{ inputs.platform || 'amd64' }} --load -t local-image:local . \
