@@ -55,7 +55,7 @@ jobs:
 
       - name: Test DNS Resolution in Build
         run: |
-          docker run --rm --dns 100.100.100.100 busybox nslookup compose
+          docker run --rm --network host --dns 100.100.100.100 busybox nslookup compose
 
       - name: Build Docker image
         run: |
