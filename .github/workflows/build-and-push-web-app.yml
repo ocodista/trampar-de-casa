@@ -45,10 +45,10 @@ jobs:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
       - name: Start tailnet
-        run: tailscale up
+        run: sudo tailscale up
 
       - name: Test tailnet connection
-        run: tailscale status 
+        run: sudo tailscale status 
 
       - name: Ping compose
         run: ping -c 4 compose
