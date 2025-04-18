@@ -29,10 +29,8 @@ jobs:
       - name: Docker Setup Buildx
         uses: docker/setup-buildx-action@v2.2.1
 
-      - name: Connect to Tailnet
-        uses: tailscale/github-action@v3
-        with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+      - name: Ping homelab
+        run: ping -c 4 compose
 
       - name: Build Docker image
         run: |
@@ -46,4 +44,5 @@ jobs:
           --build-arg RESEND_WEBHOOK_SECRET="${{ secrets.RESEND_WEBHOOK_SECRET }}" \
           --build-arg OWNER_EMAIL="${{ secrets.OWNER_EMAIL }}" \
           --build-arg NEXT_PUBLIC_MIXPANEL_KEY="${{ secrets.NEXT_PUBLIC_MIXPANEL_KEY }}" \
-          --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}"
+          --build-arg CRON_SECRET="${{ secrets.CRON_SECRET }}" \
+          --network host
