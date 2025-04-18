@@ -24,6 +24,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
 
+      - name: Connect to Tailnet
+        uses: tailscale/github-action@v3
+        with:
+          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
+
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v2
         with:
@@ -38,11 +43,6 @@ jobs:
           registry: ${{ secrets.DOCKER_REGISTRY_HOST }}
           username: ${{ secrets.DOCKER_REGISTRY_USER }}
           password: ${{ secrets.DOCKER_REGISTRY_PASS }}
-
-      - name: Connect to Tailnet
-        uses: tailscale/github-action@v3
-        with:
-          authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
       - name: Start tailnet
         run: sudo tailscale up
