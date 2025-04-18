@@ -44,14 +44,16 @@ jobs:
         with:
           authkey: ${{ secrets.TAILSCALE_AUTHKEY }}
 
-      - name: Test tailnet connection
-        run:
-          tailscale status
-          ping -c 4 compose
-
       - name: Start tailnet
         run: tailscale up
-        
+
+      - name: Test tailnet connection
+        run:
+          tailscale status 
+
+      - name: Ping compose
+          ping -c 4 compose
+
       - name: Build Docker image
         run: |
           REGISTRY=${{ secrets.DOCKER_REGISTRY_HOST }}
