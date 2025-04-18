@@ -1,28 +1,28 @@
-name: Data-lake filler
-
-on:
-  schedule:
-    - cron: '0 20 * * *'  # Runs at 20:00 UTC every day
-  workflow_dispatch:  # Allows manual triggering
-
-jobs:
-  export-roles:
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/checkout@v3
-    
-    - name: Setup Bun
-      uses: oven-sh/setup-bun@v1
-      with:
-        bun-version: latest
-
-    - name: Install dependencies and run script
-      env:
-        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
-        SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
-      run: |
-        cd apps/data-lake-seeder
-        bun install
-        bun run index.ts
+# name: Data-lake filler
+# 
+# on:
+#   schedule:
+#     - cron: '0 20 * * *'  # Runs at 20:00 UTC every day
+#   workflow_dispatch:  # Allows manual triggering
+# 
+# jobs:
+#   export-roles:
+#     runs-on: ubuntu-latest
+#     steps:
+#     - uses: actions/checkout@v3
+#     
+#     - name: Setup Bun
+#       uses: oven-sh/setup-bun@v1
+#       with:
+#         bun-version: latest
+# 
+#     - name: Install dependencies and run script
+#       env:
+#         AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#         AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#         SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+#         SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.SUPABASE_SERVICE_ROLE_KEY }}
+#       run: |
+#         cd apps/data-lake-seeder
+#         bun install
+#         bun run index.ts
