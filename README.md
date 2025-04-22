@@ -35,6 +35,7 @@ Um agradecimento especial a todos os nossos [sponsors](https://github.com/sponso
 - [x] **Página para Empresas Parceiras**: Exibir mais detalhes das empresas parceiras.
 - [x] **Página de vagas com filtros**: Filtrar por tecnologias e por preferências cadastradas.
 - [x] **Roteador de vagas**: API para contabilizar quantas visualizações cada vaga possui.
+- [x] **Self Hosted**: Toda a aplicação roda em um homelab caseiro, com Proxmox, Docker Compose e Gitea.
 
 ---
 
