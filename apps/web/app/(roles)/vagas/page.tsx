@@ -82,9 +82,15 @@ async function getCountries(): Promise<Country[]> {
 }
 
 export default async function Page() {
-  const skills = await getSkills()
-  const jobs = await getJobs()
-  const countries = await getCountries()
+  const skillsPromise = getSkills()
+  const jobsPromise = getJobs()
+  const countriesPromise = getCountries()
+
+  const [skills, jobs, countries] = await Promise.all([
+    skillsPromise,
+    jobsPromise,
+    countriesPromise,
+  ])
 
   return (
     <RolesPage
