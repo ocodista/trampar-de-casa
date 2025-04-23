@@ -8,8 +8,7 @@ const generateCsv = async (data: any, filePath: string) => {
     throw new Error(`No data to generate CSV for ${filePath}`)
   }
 
-  const fields = Object.keys(data.data[0])
-  const parser = new Parser({ fields })
+  const parser = new Parser()
   const csv = parser.parse(data.data)
   const absolutePath = path.resolve(__dirname, '../match_roles/data', filePath)
   fs.writeFileSync(absolutePath, csv)

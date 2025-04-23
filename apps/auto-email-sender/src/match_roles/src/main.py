@@ -1,10 +1,14 @@
 from fastapi import FastAPI
 
 import pandas as pd
+import pickle
 
 from predict import rank
 
-ONEHOT_SKILLS = pd.read_pickle("../models/onehot_skills.pkl")
+# Load using pickle instead of pandas to avoid compatibility issues
+with open("../models/onehot_skills.pkl", "rb") as f:
+    ONEHOT_SKILLS = pickle.load(f)
+
 DF_ROLES = pd.read_csv("../data/roles.csv")
 RANK_BY_SKILLS = rank.Rank(DF_ROLES, ONEHOT_SKILLS)
 

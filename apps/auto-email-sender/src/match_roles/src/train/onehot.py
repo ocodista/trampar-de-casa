@@ -1,5 +1,6 @@
 import argparse
 import pandas as pd
+import pickle
 from feature_engine import encoding
 from pathlib import Path
 
@@ -21,12 +22,15 @@ def save_onehot(onehot, entity):
     
     model_path = base_dir / 'models' / f'onehot_{entity}.pkl'
     
-    pd_onehot = pd.Series({
+    # Use dictionary instead of pandas Series for better compatibility
+    onehot_dict = {
         "model": onehot,
         "variables": [f'{entity}Id'],
-    })
+    }
     
-    pd_onehot.to_pickle(model_path)
+    # Direct pickle serialization
+    with open(model_path, 'wb') as f:
+        pickle.dump(onehot_dict, f)
 
 def main():
     parser = argparse.ArgumentParser()
