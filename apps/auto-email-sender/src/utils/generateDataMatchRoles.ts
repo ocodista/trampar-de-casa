@@ -19,7 +19,7 @@ export const setupDataMatchRoles = async () => {
   const postgres = getPostgresClient()
 
   const rolesResult = await postgres.query(
-    'SELECT * FROM Roles WHERE ready = true'
+    'SELECT * FROM "Roles" WHERE ready = true'
   )
   await generateCsv({ data: rolesResult.rows }, 'roles.csv')
 
