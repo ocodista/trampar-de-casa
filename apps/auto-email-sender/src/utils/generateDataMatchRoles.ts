@@ -23,6 +23,6 @@ export const setupDataMatchRoles = async () => {
   )
   await generateCsv({ data: rolesResult.rows }, 'roles.csv')
 
-  const skillsResult = await postgres.query('SELECT * FROM Skills')
+  const skillsResult = await postgres.query('SELECT * FROM "Skills"')
   await generateCsv({ data: skillsResult.rows }, 'skills.csv')
 }
