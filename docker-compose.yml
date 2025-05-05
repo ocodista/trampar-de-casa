@@ -1,3 +1,5 @@
+version: '3.8'
+
 services:
   web:
     build:
@@ -64,20 +66,71 @@ services:
       retries: 3
       start_period: 40s
 
-      # auto-email-sender:
-      #   build:
-      #     context: .
-      #     dockerfile: Dockerfile.auto
-      #   env_file:
-      #     - apps/auto-email-sender/.env
-      #   depends_on:
-      #     rabbitmq:
-      #       condition: service_healthy
-      #     mongo:
-      #       condition: service_healthy
+  postgres:
+    image: postgres:14-alpine
+    environment:
+      - POSTGRES_USER=${DB_USER:-postgres}
+      - POSTGRES_PASSWORD=${DB_PASSWORD:-postgres}
+      - POSTGRES_DB=${DB_NAME:-trampar-de-casa}
+    ports:
+      - '5432:5432'
+    volumes:
+      - postgres-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "${DB_USER:-postgres}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+  match-roles:
+    build:
+      context: ./apps/auto-email-sender/src/match_roles
+      dockerfile: Dockerfile
+    image: ${DOCKER_REGISTRY_HOST:-localhost}/match-roles:${TAG:-latest}
+    ports:
+      - "8000:8000"
+    environment:
+      - POSTGRES_URL=${POSTGRES_URL:-postgresql://postgres:postgres@postgres:5432/trampar-de-casa}
+    volumes:
+      - ./apps/auto-email-sender/src/match_roles/data:/app/data
+      - ./apps/auto-email-sender/src/match_roles/models:/app/models
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  auto-email-sender:
+    build:
+      context: .
+      dockerfile: Dockerfile.auto
+      args:
+        - SECRET_KEY=${SECRET_KEY}
+        - RESEND_KEY=${RESEND_KEY}
+        - POSTGRES_URL=${POSTGRES_URL}
+        - REDIS_URL=${REDIS_URL}
+        - MONGO_ADDRESS=${MONGO_ADDRESS}
+        - MONGO_PASSWORD=${MONGO_PASSWORD}
+        - MONGO_USERNAME=${MONGO_USERNAME}
+        - RABBITMQ_ADDRESS=${RABBITMQ_ADDRESS}
+    environment:
+      - MATCH_ROLES_URL=http://match-roles:8000
+    depends_on:
+      match-roles:
+        condition: service_healthy
+    volumes:
+      - ./apps/auto-email-sender/src/match_roles/data:/app/apps/auto-email-sender/src/match_roles/data
+      - ./apps/auto-email-sender/src/match_roles/models:/app/apps/auto-email-sender/src/match_roles/models
 
 volumes:
   mongo-data:
     driver: local
   redis-data:
+    driver: local
+  postgres-data:
     driver: local

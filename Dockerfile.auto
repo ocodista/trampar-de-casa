@@ -27,16 +27,11 @@ ENV SECRET_KEY=$SECRET_KEY \
 # Install system dependencies
 RUN apt-get update && apt-get install -y \
     build-essential \
-    gfortran \
-    libopenblas-dev \
-    cmake \
-    liblapack-dev \
-    libffi-dev \
-    git \
     curl \
     python3.11 \
     python3.11-venv \
     python3-pip \
+    git \
     && rm -rf /var/lib/apt/lists/*
 
 # Install Node.js and npm
@@ -64,27 +59,15 @@ RUN npm install && npm install --prefix apps/auto-email-sender
 
 ###################################################################################################################
 
-# Builder Stage
-FROM dependencies AS builder
-
-# Setup match_roles and prepare Python environment
-WORKDIR /app/apps/auto-email-sender/src/match_roles
-RUN python3.11 -m venv matchenv && \
-    . matchenv/bin/activate && \
-    pip install --upgrade pip setuptools wheel cython pybind11 pythran && \
-    pip install numpy && \
-    pip install -r requirements.txt
-
-###################################################################################################################
-
 # Final Stage (Runner)
-FROM base AS runner
+FROM dependencies AS runner
 
 # Set working directory
 WORKDIR /app
 
-# Copy the build output and node_modules from the builder stage
-COPY --from=builder /app /app
+# Add a healthcheck
+HEALTHCHECK --interval=30s --timeout=10s --start-period=40s --retries=3 \
+  CMD curl -f http://match-roles:8000/health || exit 1
 
-# Run the script
-CMD ["ts-node", "apps/auto-email-sender/src/index.ts"]
+# Run the script with proper error output
+CMD ["bash", "-c", "ts-node apps/auto-email-sender/src/index.ts 2>&1 | tee /var/log/auto-email-sender.log"]

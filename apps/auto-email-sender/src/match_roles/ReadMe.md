@@ -1,98 +1,59 @@
-# Similarity Jobs
+# Match Roles Service
 
-Projeto com objetivo de criar uma lista de recomendações de vagas mais aderentes para um determinado candididato.
+This service handles role matching based on skills using machine learning techniques.
 
-Atualmente são consideradas duas informações:
+## Architecture
 
-1. Idioma
-2. Lista de skills
+The Match Roles service is now separated as a standalone microservice with the following features:
 
-## Setup
+- FastAPI-based HTTP API for role matching
+- Self-contained data generation from PostgreSQL database
+- Automated training process for the skills model
+- Health check endpoint for monitoring
 
-1. Criação do env Python: `python -m venv matchenv`
-2. Activate do env Python: `source matchenv/bin/activate`
-3. Instalando dependências: `pip install -r requirements.txt`
+## How to run
 
-## Treinamento do modelo
+### Using Docker Compose
 
-Só é necessário retreinar o modelo quando novas skills são adicionadas à base de dados.
-
-Para isso, basta executar o script `src/train/onehot.py`:
+The easiest way to run the service is using docker-compose:
 
 ```bash
-cd src/train/; python onehot.py --entity skills
+# Start only the match-roles service
+docker-compose up -d match-roles
+
+# Start the entire system
+docker-compose up -d
 ```
 
-O **onehot** é responsável por padronizar sempre os dados de entrada. Isto é, quando recebemos um array `[1,45,421]`, ele é responsável por transformar em um array de tamanho 479: `[1,0,...,0,1,0...0,1,0,...,0]`.
+### Testing
 
-## Execução
-
-Foi criado um endpoint para servir o modelo criado.
-
-Basta subir o `docker-compose`:
+You can test the match-roles service independently using the provided script:
 
 ```bash
-docker-compose up --build
+./scripts/test-match-roles.sh
 ```
 
-## Consumo
+## API Endpoints
 
-Para obter uma recomendação, basta realizar uma requisição para `http://127.0.0.1:8000/best_role`.
+- `GET /best_role?skills=<skill_ids>&languages=<languages>&n=<number>` - Get best matching roles
+- `GET /health` - Health check endpoint
 
-A documentação está disponível em: [http://127.0.0.1:8000/docs](http://127.0.0.1:8000/docs)
+## Environment Variables
 
-Os parâmetros dessa requisição são:
+The service uses the following environment variable:
 
-- skills (obrigatório): string da lista de ids das skills que o usuário possui, separda por vírgula: `'1,46,400'`
-- languages (opcional / defaul='English,Portuguese'): string da lista de idiomas que o usuário quer receber vagas
-- n (opcional / defaul=40): quantidade de recomendações
+- `POSTGRES_URL` - PostgreSQL connection string (default: postgresql://postgres:postgres@postgres:5432/trampar-de-casa)
 
-Utilizando `curl`:
+## Data Flow
 
-```bash
-curl -X 'GET'\
-  'http://127.0.0.1:8000/best_role?skills=25%2C40%2C450&languages=English%2CPortuguese&n=2'\
-  -H 'accept: application/json'
-```
+1. On startup, the service checks if data files exist
+2. If not, it connects to PostgreSQL and generates CSV files
+3. It then processes the data and trains/loads the machine learning model
+4. The API becomes available once everything is ready
 
-Utilizando `Python`:
+## Structure
 
-```python
-import requests
-
-params = {'skills': '0,48,450', 'n':2}
-
-req = requests.get("http://localhost:8000/best_role", params=params)
-req.json()
-
-```
-
-Como resposta, é retornado uma lista das vagas em ordem descrescente de similaridade. Isto é, da vaga com maior similaridade para a menor.
-
-```json
-[
-  {
-    "id": "895a4673-11f0-4b08-96fc-34a29a023f77",
-    "similarity": 0.40824829046386313
-  },
-  {
-    "id": "a42547cf-c0ac-4305-9717-0c4f8b9c4286",
-    "similarity": 0.33333333333333326
-  }
-]
-```
-
-## Método
-
-Utilizamos uma distância de cosenos para mediar a similaridade das skills das vagas com as skills do candidato.
-
-Algo similar ao exemplos abaixo.
-
-```python
-from scipy.spatial import distance
-
-dist = distance.cosine([0,1,0], [0,1,1])
-similarity = 1 - dist
-```
-
-Porêm, como temos 479 skills, cada um dos arrays terá essa dimensão com valores 0s e 1s. Assim, comparamos cada usuário com todoas as vagas e realizamos a ordenação (ranqueamento) das vagas para serem enviadas ao usuário.
+- `/app/data` - Contains generated CSV files
+- `/app/models` - Contains trained ML models
+- `/app/src` - FastAPI application code
+- `/app/setup` - Data generation scripts

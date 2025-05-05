@@ -1,0 +1,11 @@
+{
+  "name": "match-roles-setup",
+  "version": "1.0.0",
+  "description": "Setup script for match-roles service",
+  "main": "generate-data.js",
+  "private": true,
+  "dependencies": {
+    "pg": "^8.11.0",
+    "json2csv": "^5.0.7"
+  }
+}

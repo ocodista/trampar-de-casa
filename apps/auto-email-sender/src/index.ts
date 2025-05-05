@@ -8,39 +8,21 @@ import { subsToQueue } from './subs-to-queue'
 import { composeEmail } from './email-composer'
 import { checkMatchRolesUp } from './utils/checkMatchRolesUp'
 import { emailSender } from './email-sender'
-import { setupDataMatchRoles } from './utils/generateDataMatchRoles'
 import { spawnPromise } from './utils/spawnPromise'
 
 const runCommand = promisify(exec)
 const numCores = os.availableParallelism()
 
-export const init = async () => {
-  const matchRolesPath = path.resolve(__dirname, 'match_roles')
+// Match roles service configuration
+const MATCH_ROLES_URL = process.env.MATCH_ROLES_URL || 'http://match-roles:8000'
 
+export const init = async () => {
   try {
     console.time('auto-email-sender startup time')
-    console.log('Generating data')
-    await setupDataMatchRoles()
 
-    console.log('Training')
-    await runCommand(
-      'bash -c "source matchenv/bin/activate && cd src/train && python3 onehot.py --entity skills"',
-      {
-        cwd: matchRolesPath,
-      }
-    )
-
-    console.log('Starting match_roles')
-    runCommand(
-      `bash -c "source matchenv/bin/activate && cd src && uvicorn main:app --host 0.0.0.0 --workers ${numCores}"`,
-      {
-        cwd: matchRolesPath,
-      }
-    )
-
-    console.log('Waiting for match_roles to be up')
+    console.log(`Waiting for match_roles to be up at ${MATCH_ROLES_URL}`)
     await checkMatchRolesUp(
-      'http://127.0.0.1:8000/best_role?skills=25%2C40%2C450&languages=English%2CPortuguese&n=2'
+      `${MATCH_ROLES_URL}/best_role?skills=25%2C40%2C450&languages=English%2CPortuguese&n=2`
     )
     console.log('match_roles is up and running.')
 
@@ -94,6 +76,9 @@ const runParallelAssignRoles = async () => {
     await Promise.all(tasks)
   } catch (err: any) {
     console.error('Error running parallel assignRoles workers:', err)
+    throw new Error(
+      'Failed to run parallel assignRoles workers: ' + err.message
+    )
   }
 }
 
@@ -108,6 +93,7 @@ const runParallelEmailPreRender = async () => {
   try {
     await Promise.all(tasks)
   } catch (err: any) {
+    console.error('Error running parallel emailPreRender workers:', err)
     throw new Error(
       'Error running parallel emailPreRender workers: ' + err.message
     )
