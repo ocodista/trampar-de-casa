@@ -18,10 +18,11 @@ class Rank:
 
     @staticmethod
     def cosine_dist(rows, user):
-        dist = distance.cosine(
-            rows.tolist() + [1],
-            user + [0]
-        )
+        # Ensure both vectors have the same length by padding with zeros
+        max_len = max(len(rows), len(user))
+        rows_padded = rows.tolist() + [0] * (max_len - len(rows))
+        user_padded = user + [0] * (max_len - len(user))
+        dist = distance.cosine(rows_padded, user_padded)
         return dist
 
 
