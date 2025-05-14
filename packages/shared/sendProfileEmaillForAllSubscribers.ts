@@ -15,7 +15,7 @@ import { sendProfileEmail } from './src/email/sendProfileEmail'
   const subscribersGenerator = getAllConfirmedSubscribersPaginated({
     batchSize: 25,
     postgres,
-    selectQuery: 'email,id',
+    selectQuery: `"email", "id"`,
   })
   for await (const subscribersBatch of subscribersGenerator) {
     console.log(`Current chunk: ${currentChunk}/${totalChunks}`)

@@ -7,7 +7,7 @@ export const subsToQueue = async () => {
   const subscribersGenerator = getAllConfirmedSubscribersPaginated({
     batchSize: 1_000,
     postgres,
-    selectQuery: 'id, email, skillsId, startedWorkingAt, isConfirmed',
+    selectQuery: `"id", "email", "skillsId", "startedWorkingAt", "isConfirmed"  `,
   })
 
   const queueChannel = await createRabbitMqChannel()

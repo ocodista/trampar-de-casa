@@ -14,12 +14,12 @@ export const getConfirmedSubscribersRowsBlock = async ({
   end,
   selectQuery,
 }: GetRowsBlock): Promise<any[]> => {
-  const result = await postgres.query(
-    `SELECT ${selectQuery || '*'} FROM ${Entities.Subcribers} 
+  const query = `SELECT ${selectQuery || '*'} FROM ${Entities.Subcribers} 
     WHERE "isConfirmed" = true AND "optOut" = false 
     ORDER BY "createdAt" DESC 
-    LIMIT $1 OFFSET $2`,
-    [end - start + 1, start]
-  )
+    LIMIT $1 OFFSET $2`
+
+  console.log('select query', query)
+  const result = await postgres.query(query, [end - start + 1, start])
   return result.rows
 }
