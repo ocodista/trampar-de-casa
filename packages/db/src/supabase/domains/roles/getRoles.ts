@@ -8,7 +8,7 @@ export const getRolesBlock = async (
   postgres: PostgresClient
 ) => {
   const result = await postgres.query(
-    `SELECT * FROM ${Views.RoleSkillsView} WHERE ready = true ORDER BY "createdAt" DESC LIMIT $1 OFFSET $2`,
+    `SELECT * FROM "${Views.RoleSkillsView}" WHERE ready = true ORDER BY "createdAt" DESC LIMIT $1 OFFSET $2`,
     [end - start + 1, start]
   )
   return result.rows
