@@ -1,6 +1,6 @@
 import { GetMessage } from 'amqplib'
 import { saveSubscriberRoles } from 'db/src/mongodb/domains/roles/saveSubscriberRoles'
-import { SupabaseTable } from 'db/src/supabase/utilityTypes'
+import { Subscriber } from 'db/src/types'
 import dotenv from 'dotenv'
 import axios from 'axios'
 import {
@@ -12,11 +12,8 @@ import {
 } from 'shared'
 import { getEmailProps } from './getEmailProps'
 import { top40Roles } from 'db/src/supabase/domains/roles/getSubscriberRoles'
-import { getPostgresClient } from 'db'
 
 dotenv.config()
-
-type Subscriber = SupabaseTable<'Subscribers'>
 
 const FASTAPI_ENDPOINT = 'http://127.0.0.1:8000/best_role'
 
@@ -27,7 +24,6 @@ export const assignRoles = async () => {
   const mongoCollection = mongoDatabase.collection(
     MongoCollection.RolesAssigner
   )
-  const postgres = getPostgresClient()
   const channel = await createRabbitMqChannel()
   let msg: GetMessage | false,
     count = 0
@@ -59,7 +55,7 @@ export const assignRoles = async () => {
         await saveSubscriberRoles(mongoCollection, emailProps)
         channel.ack(msg)
       } else {
-        const roles = await top40Roles(postgres)
+        const roles = await top40Roles()
         const emailProps = getEmailProps(subscriber, roles)
         await saveSubscriberRoles(mongoCollection, emailProps)
         channel.ack(msg)

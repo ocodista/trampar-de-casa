@@ -1,7 +1,5 @@
-import { SupabaseTable } from 'db/src/supabase/utilityTypes'
+import { Subscriber, Role } from 'db/src/types'
 
-type Subscribers = SupabaseTable<'Subscribers'>
-type Role = SupabaseTable<'Roles'>
 export interface EmailProps {
   email: string
   id: string
@@ -9,7 +7,7 @@ export interface EmailProps {
 }
 
 export const getEmailProps = (
-  { email, id }: Subscribers,
+  { email, id }: Subscriber,
   roles: Role[]
 ): EmailProps => {
   const emailProps = {

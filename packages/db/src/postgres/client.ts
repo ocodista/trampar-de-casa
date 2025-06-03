@@ -259,4 +259,32 @@ export class PostgresClient {
       [email]
     )
   }
+
+  async getRolesForSubscriber(
+    skillsId: string[] | null,
+    yearsOfExperience: number | null,
+    limit = 40
+  ): Promise<Role[]> {
+    let query = `SELECT * FROM ${Entities.Roles} WHERE ready = true`
+    const params: any[] = []
+    let paramCount = 1
+
+    if (skillsId?.length) {
+      query += ` AND "skillsId" && $${paramCount}::text[]`
+      params.push(skillsId)
+      paramCount++
+    }
+
+    if (yearsOfExperience !== null) {
+      query += ` AND "minimumYears" <= $${paramCount}`
+      params.push(yearsOfExperience)
+      paramCount++
+    }
+
+    query += ` ORDER BY "createdAt" DESC LIMIT $${paramCount}`
+    params.push(limit)
+
+    const result = await this.query<Role>(query, params)
+    return result.rows
+  }
 }
