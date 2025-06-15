@@ -15,7 +15,8 @@ import { top40Roles } from 'db/src/supabase/domains/roles/getSubscriberRoles'
 
 dotenv.config()
 
-const FASTAPI_ENDPOINT = 'http://127.0.0.1:8000/best_role'
+const MATCH_ROLES_URL = process.env.MATCH_ROLES_URL || 'http://match-roles:8000'
+const FASTAPI_ENDPOINT = `${MATCH_ROLES_URL}/best_role`
 
 export const assignRoles = async () => {
   logger.time('assignRoles')
