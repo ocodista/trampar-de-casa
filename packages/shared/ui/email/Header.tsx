@@ -70,11 +70,7 @@ export function Header({
       <Hr style={hr} />
       <Text className={paragraph}>Salve, beleza?</Text>
       <Text className={paragraph}>
-        Tivemos um problema no último envio, algumas vagas estavam quebradas 😅,
-        foi mal!
-      </Text>
-      <Text className={paragraph}>
-        Agora sim, <b>Aproveite suas vagas!</b>
+        <b>Aproveite suas vagas!</b>
       </Text>
     </Tailwind>
   )
