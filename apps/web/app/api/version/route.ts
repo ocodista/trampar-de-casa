@@ -12,7 +12,6 @@ export async function GET() {
 
     return NextResponse.json({ version })
   } catch (error) {
-    console.error('Erro ao ler a versão:', error)
     return NextResponse.json(
       { error: 'Erro ao obter a versão' },
       { status: 500 }

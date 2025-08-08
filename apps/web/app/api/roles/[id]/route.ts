@@ -15,7 +15,6 @@ export async function GET(
     const result = await getPostgresClient().query(query, [params.id])
     return NextResponse.json(result.rows[0])
   } catch (error) {
-    console.error('Get role error:', error)
     return NextResponse.json({ error: 'Failed to fetch role' }, { status: 500 })
   }
 }

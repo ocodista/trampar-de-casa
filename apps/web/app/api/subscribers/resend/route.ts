@@ -41,11 +41,9 @@ export async function POST(request: Request) {
         status: StatusCodes.OK,
       })
     } catch (emailError) {
-      console.error('Error sending confirmation email:', emailError)
       return logError(emailError)
     }
   } catch (error) {
-    console.error('Resend confirmation email error:', error)
     return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   }
 }

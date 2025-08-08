@@ -146,7 +146,6 @@ export const fetchJobs = async (
       totalJobs: count,
     }
   } catch (error) {
-    console.error('Error fetching jobs:', error)
     return {
       jobs: [],
       totalJobs: 0,
