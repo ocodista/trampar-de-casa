@@ -26,10 +26,5 @@ export async function login(email: string) {
 }
 
 export async function sendEditPreferencesEmail(email: string, id: string) {
-  try {
-    await sendProfileEmail({ email, id })
-  } catch (error) {
-    console.error('Erro ao enviar e-mail de preferências:', error)
-    throw error
-  }
+  await sendProfileEmail({ email, id })
 }

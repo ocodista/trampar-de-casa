@@ -19,12 +19,12 @@ const JobCard = ({ job, skillsFromProps }) => {
 
   const handleRedirect = useCallback((linkUrl: string) => {
     setTimeout(() => {
-      const a = document.createElement("a"); 
-      a.setAttribute('href', linkUrl); 
-      a.setAttribute('target', '_blank'); 
-      a.click();
+      const a = document.createElement('a')
+      a.setAttribute('href', linkUrl)
+      a.setAttribute('target', '_blank')
+      a.click()
     })
-  }, []);
+  }, [])
 
   const handleClick = useCallback(
     (event) => {
@@ -35,14 +35,13 @@ const JobCard = ({ job, skillsFromProps }) => {
           const linkUrl = shouldRedirectToUrl(job.description)
             ? job.url
             : `/vaga/${job.id}`
-          handleRedirect(linkUrl);
+          handleRedirect(linkUrl)
         })
-        .catch((error) => {
-          console.error('Erro ao contabilizar clique:', error)
+        .catch(() => {
           const linkUrl = shouldRedirectToUrl(job.description)
             ? job.url
             : `/vaga/${job.id}`
-          handleRedirect(linkUrl);
+          handleRedirect(linkUrl)
         })
     },
     [job.id, job.description, job.url]
@@ -82,9 +81,7 @@ const JobCard = ({ job, skillsFromProps }) => {
         )}
       </div>
       <div className="flex items-center text-sm text-gray-600">
-        <span className="mr-4">
-          📍 {job.country || 'Internacional'}
-        </span>
+        <span className="mr-4">📍 {job.country || 'Internacional'}</span>
         <span>
           💬 {job.language === 'Portuguese' ? 'Português' : job.language}
         </span>

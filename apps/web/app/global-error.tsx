@@ -3,12 +3,7 @@
 import Image from 'next/image'
 import errorImage from 'public/images/errorImage.png'
 
-export default function GlobalError({
-  reset,
-}: {
-  error: Error
-  reset: () => void
-}) {
+export default function GlobalError() {
   return (
     <html>
       <body className="flex min-h-screen items-center justify-center bg-amber-50 p-4">

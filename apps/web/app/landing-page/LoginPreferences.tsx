@@ -59,7 +59,6 @@ export function LoginPreferences({ onClose, open }: ContributeDialogProps) {
       } else {
         setErrorMessage('Erro ao fazer login. Por favor, tente novamente.')
       }
-      console.error('Erro ao fazer login:', error)
     }
   }
 

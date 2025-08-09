@@ -221,8 +221,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
       setTotalJobs(result.totalJobs)
       setJobs(result.jobs)
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error fetching filtered jobs:', error.message)
+      // Silently handle error
     }
 
     const newQueryString = deleteSearchParams(filter)
@@ -289,8 +288,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
       const newQueryString = updateSearchParams(formattedSkills)
       router.push(`?${newQueryString}`, { scroll: false })
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error('Error fetching jobs based on preferences:', error.message)
+      // Silently handle error
     }
   }
 
@@ -322,8 +320,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
         setJobs(result.jobs)
         setTotalJobs(result.totalJobs)
       } catch (error) {
-        // eslint-disable-next-line no-console
-        console.error('Error fetching initial jobs:', error.message)
+        // Silently handle error
       }
     }
 

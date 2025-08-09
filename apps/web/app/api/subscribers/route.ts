@@ -23,14 +23,12 @@ export async function POST(request: Request) {
   }
 
   if (!process.env['RESEND_KEY']) {
-    console.error('RESEND_KEY environment variable is missing')
     return new NextResponse('Server configuration error', {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
     })
   }
 
   if (!process.env['CRYPT_SECRET']) {
-    console.error('CRYPT_SECRET environment variable is missing')
     return new NextResponse('Server configuration error', {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
     })
@@ -64,7 +62,6 @@ export async function POST(request: Request) {
         distinct_id: subscriber.email,
       })
     } catch (emailError) {
-      console.error('Error sending confirmation email:', emailError)
       // Return the data even if email sending fails
       // so the user is subscribed but just doesn't get the email
       return NextResponse.json(subscriber)
@@ -72,7 +69,6 @@ export async function POST(request: Request) {
 
     return NextResponse.json(subscriber)
   } catch (error) {
-    console.error('Subscription process error:', error)
     return logError(error)
   }
 }
@@ -90,7 +86,6 @@ export async function PUT(request: Request) {
     const subscriber = await db.updateSubscriber(id, data)
     return NextResponse.json(subscriber)
   } catch (error) {
-    console.error('Update subscriber error:', error)
     return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   }
 }
@@ -125,7 +120,6 @@ export async function GET(request: Request) {
       status: StatusCodes.BAD_REQUEST,
     })
   } catch (error) {
-    console.error('Get subscriber error:', error)
     return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   }
 }

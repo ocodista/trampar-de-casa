@@ -14,7 +14,6 @@ const getSubscriberCount = async (): Promise<number | null> => {
 
     return parseInt(result.rows[0].count)
   } catch (error) {
-    console.error('Error fetching subscriber count.', error)
     return null
   }
 }

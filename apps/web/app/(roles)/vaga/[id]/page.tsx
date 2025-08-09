@@ -33,7 +33,6 @@ export async function generateMetadata({
       },
     }
   } catch (error) {
-    console.error('Error generating metadata:', error)
     return {
       title: 'Vaga - Trampar de Casa',
       description: 'Detalhes da vaga não disponíveis no momento.',

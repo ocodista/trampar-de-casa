@@ -30,16 +30,9 @@ interface WebhookEvent {
 }
 
 const updateSubscriberOptOut = async (email: string) => {
-  try {
-    await db.query(
-      `UPDATE "Subscribers" SET "optOut" = true WHERE email = $1`,
-      [email]
-    )
-  } catch (error) {
-    // eslint-disable-next-line no-console
-    console.error('Error updating subscriber opt out:', error)
-    throw error
-  }
+  await db.query(`UPDATE "Subscribers" SET "optOut" = true WHERE email = $1`, [
+    email,
+  ])
 }
 
 export const POST = async (req: Request) => {
@@ -60,8 +53,7 @@ export const POST = async (req: Request) => {
     try {
       await updateSubscriberOptOut(email)
     } catch (error) {
-      // eslint-disable-next-line no-console
-      console.error(`Error when updating ${payload.type} email: `, error)
+      // Silently handle error
     }
   }
 

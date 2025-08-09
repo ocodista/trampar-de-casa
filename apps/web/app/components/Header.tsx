@@ -12,6 +12,7 @@ import {
   Share2,
   Settings,
   X,
+  Monitor,
 } from 'lucide-react'
 
 const Logo = () => (
@@ -26,6 +27,11 @@ const Logo = () => (
 )
 
 const menuItems = [
+  {
+    href: LandingPageRoutes.RemoteWorkEquipment,
+    label: 'Equipamentos',
+    icon: Monitor,
+  },
   { href: LandingPageRoutes.Blog, label: 'Blog', icon: BookOpen },
   {
     href: LandingPageRoutes.Vacancies,

@@ -30,7 +30,6 @@ export async function POST(
       status: StatusCodes.OK,
     })
   } catch (error) {
-    console.error('Opt out subscriber error:', error)
     return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   }
 }

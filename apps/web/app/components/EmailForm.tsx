@@ -88,7 +88,6 @@ export const EmailForm = () => {
       <form
         onSubmit={async (e) => {
           e.preventDefault()
-          alert('Clickou')
           router.push(UiRoutes.Profile)
         }}
       >

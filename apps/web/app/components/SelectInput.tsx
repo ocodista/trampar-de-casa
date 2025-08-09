@@ -76,7 +76,7 @@ const SelectInput = ({
       setTotalJobs(result.totalJobs)
       setJobs(result.jobs)
     } catch (error) {
-      console.error('Error fetching filtered jobs:', error.message)
+      // Silently handle error
     }
 
     setShowOptions(false)

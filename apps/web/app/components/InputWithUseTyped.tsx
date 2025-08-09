@@ -94,7 +94,7 @@ const InputWithUseTyped = ({
       setTotalJobs(data.totalJobs)
       setJobs(data.jobs)
     } catch (error) {
-      console.error('Error fetching filtered jobs:', error.message)
+      // Silently handle error
     }
 
     setShowOptions(false)
