@@ -20,7 +20,6 @@ export async function getRole(id: string) {
 
     return result.rows[0]
   } catch (error) {
-    console.error('Get role error:', error)
     return null
   }
 }

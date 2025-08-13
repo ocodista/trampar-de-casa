@@ -106,7 +106,6 @@ export async function GET(
       roles,
     })
   } catch (error) {
-    console.error('Get subscriber profile error:', error)
     return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   }
 }

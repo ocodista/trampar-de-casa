@@ -17,12 +17,10 @@ async function getJobs(): Promise<Job[]> {
     const jobsFromCache = await client.get('web_jobs')
     if (jobsFromCache) {
       await client.quit()
-      console.log('cache hit')
       return JSON.parse(jobsFromCache) as Job[]
     }
 
     const { jobs } = await fetchJobs([])
-    console.log('cache miss, fetching from postgres')
 
     await client.set('web_jobs', JSON.stringify(jobs), {
       EX: ONE_DAY_IN_MINUTES,
@@ -30,7 +28,6 @@ async function getJobs(): Promise<Job[]> {
     await client.quit()
     return jobs
   } catch (error) {
-    console.error('Failed to fetch jobs:', error)
     return []
   }
 }
@@ -53,7 +50,6 @@ async function getSkills(): Promise<Skill[]> {
     await client.quit()
     return skills as Skill[]
   } catch (error) {
-    console.error('Failed to fetch skills:', error)
     return []
   }
 }
@@ -76,7 +72,6 @@ async function getCountries(): Promise<Country[]> {
     await client.quit()
     return countries as Country[]
   } catch (error) {
-    console.error('Failed to fetch countries:', error)
     return []
   }
 }

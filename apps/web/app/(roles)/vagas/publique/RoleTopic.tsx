@@ -35,7 +35,6 @@ export const RoleTopic = () => {
             : Topics.NATIONAL_VACANCIES.toString()
         }
         setSelectedOption={(option) => {
-          console.log(option)
           setValue(fieldId, option)
         }}
       />

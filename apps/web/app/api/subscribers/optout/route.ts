@@ -27,7 +27,6 @@ export async function PUT(request: Request) {
       status: StatusCodes.OK,
     })
   } catch (error) {
-    console.error('Opt out subscriber error:', error)
     return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   }
 }

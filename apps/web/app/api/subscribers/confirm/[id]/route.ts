@@ -45,7 +45,6 @@ export async function POST(
       status: StatusCodes.OK,
     })
   } catch (error) {
-    console.error('Confirm subscriber error:', error)
     return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
   }
 }

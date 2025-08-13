@@ -72,6 +72,14 @@ export function Header({
       <Text className={paragraph}>
         <b>Aproveite suas vagas!</b>
       </Text>
+      <Text className={paragraph}>
+        Ah, e se você está procurando melhorar seu setup de home office, montei
+        uma lista de{' '}
+        <Link href="https://www.trampardecasa.com.br/equipamentos-trabalho-remoto">
+          equipamentos que me ajudaram muito
+        </Link>{' '}
+        no trabalho remoto!
+      </Text>
     </Tailwind>
   )
 }

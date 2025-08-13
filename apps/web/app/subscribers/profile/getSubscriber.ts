@@ -26,14 +26,12 @@ export const getById = async (id: string): Promise<Subscriber | null> => {
 export const getSubscriber = async (subscriberId: string) => {
   const response = await getById(subscriberId)
   if (!response) {
-    console.error('Failed to get subscriber:', response)
     notFound()
   }
 
   const subscriberData = response
   const subscriber = SubscriberSchema.safeParse(subscriberData)
   if (!subscriber.success) {
-    console.error('Failed to parse subscriber:', subscriber.error.errors)
     notFound()
   }
 
