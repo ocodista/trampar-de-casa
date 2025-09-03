@@ -7,17 +7,21 @@ export const checkMatchRolesUp = async (
   interval = 5000
 ) => {
   let attempt = 0
-  console.log(`Checking if match_roles is up at: ${url}`)
+  console.log(`🔍 Checking if match_roles is up at: ${url}`)
 
   while (attempt < maxAttempts) {
     try {
       const response = await axios.get(url)
       if (response.status === 200) {
-        console.log('match_roles is up and ready to accept requests.')
-        return
+        console.log('✅ match_roles is up and ready to accept requests.')
+        console.log(
+          `📊 Health check response data:`,
+          JSON.stringify(response.data, null, 2)
+        )
+        return response.data
       }
       console.log(
-        `Received response status ${response.status} but expected 200. Retrying...`
+        `⚠️ Received response status ${response.status} but expected 200. Retrying...`
       )
     } catch (error: any) {
       const errorMessage = error.response
@@ -27,13 +31,20 @@ export const checkMatchRolesUp = async (
         : error.message
 
       console.error(
-        `Attempt ${attempt + 1}/${maxAttempts} failed: ${errorMessage}`
+        `❌ Attempt ${attempt + 1}/${maxAttempts} failed: ${errorMessage}`
       )
+
+      if (error.response?.data) {
+        console.error(
+          `📄 Error response data:`,
+          JSON.stringify(error.response.data, null, 2)
+        )
+      }
     }
 
     attempt++
     if (attempt < maxAttempts) {
-      console.log(`Retrying in ${interval / 1000} seconds...`)
+      console.log(`⏳ Retrying in ${interval / 1000} seconds...`)
       await delay(interval)
     }
   }

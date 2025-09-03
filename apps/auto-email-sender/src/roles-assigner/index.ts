@@ -20,24 +20,40 @@ const FASTAPI_ENDPOINT = `${MATCH_ROLES_URL}/best_role`
 
 export const assignRoles = async () => {
   logger.time('assignRoles')
+  console.log(`🔄 W${process.pid}`)
+
   const mongoConnection = await getMongoConnection()
   const mongoDatabase = mongoConnection.db('auto-email-sender')
   const mongoCollection = mongoDatabase.collection(
     MongoCollection.RolesAssigner
   )
   const channel = await createRabbitMqChannel()
+
+  // Get initial queue size for progress tracking
+  const initialQueueInfo = await channel.checkQueue(
+    EmailQueues.RolesAssignerSubs
+  )
+  const maxMessages = initialQueueInfo.messageCount
+
   let msg: GetMessage | false,
     count = 0
 
   let processedCount = 0
+  let totalRolesAssigned = 0
+  let withSkillsCount = 0
+  let withoutSkillsCount = 0
+  let errorCount = 0
+
   do {
     msg = await channel.get(EmailQueues.RolesAssignerSubs)
     if (!msg) break
     processedCount += 1
     count = count + 1
     const subscriber = JSON.parse(msg.content.toString()) as Subscriber
+
     try {
       if (subscriber.skillsId) {
+        withSkillsCount += 1
         const skills = subscriber.skillsId.map((id: string) => id)
         const skillsStr = skills.join(',')
         const languages = 'English,Portuguese'
@@ -51,28 +67,73 @@ export const assignRoles = async () => {
         })
 
         const roles = response.data.result
+        if (roles && roles.length > 0) {
+          totalRolesAssigned += roles.length
+        }
 
         const emailProps = getEmailProps(subscriber, roles)
         await saveSubscriberRoles(mongoCollection, emailProps)
         channel.ack(msg)
       } else {
+        withoutSkillsCount += 1
         const roles = await top40Roles()
+
+        if (roles && roles.length > 0) {
+          totalRolesAssigned += roles.length
+        }
+
         const emailProps = getEmailProps(subscriber, roles)
         await saveSubscriberRoles(mongoCollection, emailProps)
         channel.ack(msg)
       }
 
-      if (processedCount % 100 === 0) {
+      // Show progress every 25 subscribers
+      if (processedCount % 25 === 0) {
+        const progress =
+          maxMessages > 0 ? Math.round((processedCount / maxMessages) * 100) : 0
+        const withSkillsPct =
+          processedCount > 0
+            ? Math.round((withSkillsCount / processedCount) * 100)
+            : 0
+        const withoutSkillsPct =
+          processedCount > 0
+            ? Math.round((withoutSkillsCount / processedCount) * 100)
+            : 0
         console.log(
-          `Processed ${processedCount} messages in process ${process.pid}.`
+          `W${process.pid}: ${processedCount}/${maxMessages} (${progress}%) | Skills: ${withSkillsCount} (${withSkillsPct}%) | NoSkills: ${withoutSkillsCount} (${withoutSkillsPct}%) | Roles: ${totalRolesAssigned} | Err: ${errorCount}`
         )
       }
     } catch (e) {
+      errorCount += 1
+      console.error(`❌ Error ${errorCount} in worker ${process.pid}`)
       logger.error(e)
       channel.nack(msg, false, true)
     }
   } while (msg)
 
+  const finalProgress =
+    maxMessages > 0 ? Math.round((processedCount / maxMessages) * 100) : 100
+  const withSkillsPct =
+    processedCount > 0
+      ? Math.round((withSkillsCount / processedCount) * 100)
+      : 0
+  const withoutSkillsPct =
+    processedCount > 0
+      ? Math.round((withoutSkillsCount / processedCount) * 100)
+      : 0
+  console.log(
+    `🏁 W${process.pid}: ${processedCount}/${maxMessages} (${finalProgress}%) | Skills: ${withSkillsCount} (${withSkillsPct}%) | NoSkills: ${withoutSkillsCount} (${withoutSkillsPct}%) | Roles: ${totalRolesAssigned} | Err: ${errorCount}`
+  )
+
   await mongoConnection.close()
   logger.timeEnd('assignRoles')
+
+  return {
+    processedCount,
+    totalRolesAssigned,
+    withSkillsCount,
+    withoutSkillsCount,
+    errorCount,
+    processId: process.pid,
+  }
 }
