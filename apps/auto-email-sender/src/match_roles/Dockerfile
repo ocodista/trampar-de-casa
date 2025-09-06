@@ -1,4 +1,19 @@
-FROM python:3.11
+FROM python:3.11-slim
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    libpq5 \
+    nodejs \
+    npm \
+    && rm -rf /var/lib/apt/lists/* \
+    && useradd -m -u 1000 appuser
+
+# Install Python packages
+RUN pip install --no-cache-dir \
+    fastapi==0.95.2 uvicorn==0.22.0 psycopg2-binary==2.9.9 \
+    python-multipart==0.0.6 python-dotenv==1.0.1 \
+    pandas==1.5.3 scipy==1.10.1 scikit-learn==1.2.2 \
+    feature_engine==1.0.2
 
 # Accept build arguments
 ARG POSTGRES_URL
@@ -6,37 +21,23 @@ ENV POSTGRES_URL=${POSTGRES_URL:-postgresql://postgres:postgres@postgres:5432/tr
 
 WORKDIR /app
 
-# Install Node.js and npm for TypeScript execution
-RUN apt-get update && apt-get install -y curl gnupg && \
-    curl -fsSL https://deb.nodesource.com/setup_18.x | bash - && \
-    apt-get install -y nodejs && \
-    rm -rf /var/lib/apt/lists/*
-
-# Copy requirements first for Python dependencies
-COPY requirements.txt .
-RUN pip install --no-cache-dir -r requirements.txt
-
-# Create necessary directories
-RUN mkdir -p /app/data /app/models /app/setup
-
-# Copy data generator script and dependencies
-COPY setup/ /app/setup/
+# Create setup directory and install Node dependencies
+RUN mkdir -p /app/setup
+COPY setup/package.json /app/setup/
 WORKDIR /app/setup
-RUN npm install
+RUN npm install --only=production --no-optional
 
-# Copy application code
+# Copy application files
 WORKDIR /app
+COPY setup/generate-data.js /app/setup/
 COPY src/ src/
+COPY entrypoint-simple.sh /app/entrypoint.sh
 
-# Setup entrypoint script
-COPY entrypoint.sh /app/
-RUN chmod +x /app/entrypoint.sh
+# Create directories and set permissions
+RUN mkdir -p data models \
+    && chmod +x /app/entrypoint.sh \
+    && chown -R appuser:appuser /app
 
-# Add simple health check endpoint to main.py
-WORKDIR /app/src/
-RUN echo '\n@app.get("/health")\nasync def health():\n    return {"status": "ok"}\n' >> main.py
-
+USER appuser
 EXPOSE 8000
-
-# Use entrypoint script to ensure data is generated before starting the service
 ENTRYPOINT ["/app/entrypoint.sh"]
