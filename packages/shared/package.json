@@ -20,7 +20,7 @@
     "amqplib": "^0.10.3",
     "mongodb": "^6.5.0",
     "react-email": "1.9.5",
-    "resend": "^0.16.0",
+    "resend": "^2.1.0",
     "typescript": "^5.1.3",
     "vitest": "^0.34.6"
   },

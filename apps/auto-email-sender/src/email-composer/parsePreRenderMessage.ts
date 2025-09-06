@@ -12,12 +12,19 @@ export const parsePreRenderMessage = async (
   memoizedRoles: Map<any, any>,
   renderedRolesHtml: string,
   renderedEmailWrapperHtml: string
-): Promise<Record<string, { html: string; subject: string }>> => {
+): Promise<
+  Record<string, { html: string; subject: string; subscriberId?: string }>
+> => {
   const emailPreRender = JSON.parse(
     msgContent.toString()
   ) as EmailPreRenderMessage
   const [email] = Object.keys(emailPreRender)
-  const { footerHTML, headerHTML, roles: rolesIds } = emailPreRender[email]
+  const {
+    footerHTML,
+    headerHTML,
+    roles: rolesIds,
+    subscriberId,
+  } = emailPreRender[email]
   const rolesHTML = await getHtmlRoles(
     rolesIds,
     mongoCollection,
@@ -30,6 +37,10 @@ export const parsePreRenderMessage = async (
     renderedEmailWrapperHtml
   )
   return {
-    [email]: { html: renderedEmail, subject: rolesSubject(rolesIds.length) },
+    [email]: {
+      html: renderedEmail,
+      subject: rolesSubject(rolesIds.length),
+      subscriberId,
+    },
   }
 }

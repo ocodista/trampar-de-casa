@@ -15,6 +15,7 @@ export type EmailPreRenderMessage = Record<
     footerHTML: string
     headerHTML: string
     roles: string[]
+    subscriberId: string
   }
 >
 

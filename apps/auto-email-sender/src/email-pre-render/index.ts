@@ -76,6 +76,7 @@ export async function emailPreRender() {
         footerHTML,
         headerHTML,
         roles: rolesId,
+        subscriberId,
       },
     })
     emailPreRenderSubsChannel.ack(msg)

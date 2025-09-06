@@ -9,7 +9,7 @@ const EMAIL_BATCH_SIZE = 50
 
 export type EmailComposerContent = Record<
   string,
-  { html: string; subject: string }
+  { html: string; subject: string; subscriberId?: string }
 >
 
 export const emailSender = async () => {
