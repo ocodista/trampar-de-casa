@@ -40,7 +40,7 @@ jobs:
       - name: Login to Registry
         uses: docker/login-action@v2
         with:
-          registry: ${{ secrets.DOCKER_REGISTRY_HOST }}
+          registry: compose.lan:5000
           username: ${{ secrets.DOCKER_REGISTRY_USER }}
           password: ${{ secrets.DOCKER_REGISTRY_PASS }}
 
@@ -51,7 +51,7 @@ jobs:
 
       - name: Build Docker image
         run: |
-          REGISTRY=${{ secrets.DOCKER_REGISTRY_HOST }}
+          REGISTRY='compose.lan:5000'
           REPO='auto-email-sender'
           PLATFORM='linux/${{ inputs.platform || 'amd64' }}'
           

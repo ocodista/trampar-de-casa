@@ -30,6 +30,8 @@ jobs:
 
       - name: Build Docker Image
         run: |
+          # Use host.docker.internal or the actual host IP instead of registry:5000
+          # since runners can't resolve Docker Compose service names
           docker buildx build . --platform linux/arm64 --file ./Dockerfile.auto \
           --build-arg SECRET_KEY="${{ secrets.SECRET_KEY }}" \
           --build-arg RESEND_KEY="${{ secrets.RESEND_KEY }}" \
