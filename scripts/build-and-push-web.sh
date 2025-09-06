@@ -15,7 +15,7 @@ REPO='trampar-de-casa'
 TEMP_SECRETS=$(mktemp)
 cat .secrets > "$TEMP_SECRETS"
 
-cd ../
+# Already in root directory
 
 VERSION=$(cd apps/web && cat package.json | jq -r '.version')
 
