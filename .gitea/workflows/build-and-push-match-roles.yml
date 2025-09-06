@@ -33,13 +33,13 @@ jobs:
       - name: Login to Registry
         uses: docker/login-action@v2
         with:
-          registry: registry:5000
+          registry: ${{ secrets.DOCKER_REGISTRY_HOST }}
           username: ${{ secrets.DOCKER_REGISTRY_USER }}
           password: ${{ secrets.DOCKER_REGISTRY_PASS }}
 
       - name: Build Docker image
         run: |
-          REGISTRY='registry:5000'
+          REGISTRY=${{ secrets.DOCKER_REGISTRY_HOST }}
           REPO='match-roles'
           PLATFORM='linux/${{ inputs.platform || 'amd64' }}'
           
