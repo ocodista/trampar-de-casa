@@ -3,6 +3,7 @@ import { StatusCodes } from 'http-status-codes'
 import { NextResponse } from 'next/server'
 import { decrypt } from 'shared'
 
+// Handle one-click unsubscribe POST request per Resend requirements
 export async function POST(
   request: Request,
   { params }: { params: { id: string } }
@@ -32,13 +33,43 @@ export async function POST(
     }
 
     await db.updateSubscriber(id, { optOut: true })
-    console.log('Unsubscribed ' + subscriber.email + ' successfully')
 
-    return new NextResponse('Successfully opted out', {
+    // Log successful unsubscribe with timestamp
+    console.log(
+      `✅ [${new Date().toISOString()}] Successfully unsubscribed: ${
+        subscriber.email
+      } (ID: ${id})`
+    )
+    console.log(`   Method: One-click POST`)
+    console.log(`   Subscriber opted out successfully`)
+
+    // Per Resend docs: return blank page with 200 or 202 for one-click unsubscribe
+    return new NextResponse('', {
       status: StatusCodes.OK,
     })
   } catch (error) {
-    console.error(error)
+    console.error('Error processing one-click unsubscribe:', error)
     return new NextResponse(null, { status: StatusCodes.INTERNAL_SERVER_ERROR })
+  }
+}
+
+// Handle GET request to show unsubscribe page
+export async function GET(
+  request: Request,
+  { params }: { params: { id: string } }
+) {
+  try {
+    const { id: encryptedId } = params
+
+    if (!encryptedId) {
+      return NextResponse.redirect('/subscribers/optout/error')
+    }
+
+    // Redirect to the unsubscribe page UI
+    // The page will handle the actual unsubscribe via POST
+    return NextResponse.redirect(`/subscribers/optout/${encryptedId}`)
+  } catch (error) {
+    console.error('Error handling GET unsubscribe:', error)
+    return NextResponse.redirect('/subscribers/optout/error')
   }
 }

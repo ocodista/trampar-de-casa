@@ -37,7 +37,7 @@ The project is divided into several services that work together:
 Create a `.env` file in the `apps/auto-email-sender/` folder with the following variables:
 
 ```bash
-SECRET_KEY=<your_secret_key>
+CRYPT_SECRET=<your_secret_key>
 RESEND_KEY=<your_resend_key>
 SUPABASE_URL=<your_supabase_url>
 SUPABASE_SERVICE_ROLE=<your_supabase_service_role_key>
