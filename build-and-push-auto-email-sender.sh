@@ -1,73 +1,62 @@
 #!/bin/bash
 
+# Daily build and push script for auto-email-sender
+# Runs at 6 AM daily via crontab
+
+# Set variables
+REPO_DIR="/Users/caioborghi/personal/trampar-prod/trampar-de-casa"
+LOG_FILE="$REPO_DIR/build-logs/auto-email-sender-$(date +%Y%m%d).log"
+REGISTRY="compose.lan:5000"
+REPO_NAME="auto-email-sender"
+PLATFORM="linux/amd64"
+
+# Create log directory if it doesn't exist
+mkdir -p "$REPO_DIR/build-logs"
+
+# Function to log messages
+log() {
+    echo "$(date '+%Y-%m-%d %H:%M:%S') - $1" | tee -a "$LOG_FILE"
+}
+
+# Function to handle errors
+handle_error() {
+    log "ERROR: $1"
+    exit 1
+}
+
+log "Starting daily build and push for auto-email-sender"
+
+# Change to repo directory
+cd "$REPO_DIR" || handle_error "Failed to change to repo directory"
+
 # Load environment variables from .env file
 if [ -f .env ]; then
-    echo "Loading environment from .env file..."
+    log "Loading environment from .env file..."
     export $(grep -v '^#' .env | xargs)
 fi
 
-# Configuration - bypass Cloudflare by using direct registry address
-# Remove http:// or https:// prefix if present
-REGISTRY="${DOCKER_REGISTRY_HOST:-compose.lan:5000}"
-REGISTRY="${REGISTRY#http://}"
-REGISTRY="${REGISTRY#https://}"
-REPO="auto-email-sender"
-PLATFORM="${BUILD_PLATFORM:-linux/amd64}"
-
-# Colors for output
-RED='\033[0;31m'
-GREEN='\033[0;32m'
-YELLOW='\033[1;33m'
-NC='\033[0m' # No Color
-
-echo -e "${YELLOW}Building and pushing auto-email-sender Docker image${NC}"
-echo "Registry: $REGISTRY"
-echo "Repository: $REPO"
-echo "Platform: $PLATFORM"
-echo ""
-
-# Check if required environment variables are set
-required_vars=(
-    "SECRET_KEY"
-    "RESEND_KEY" 
-    "POSTGRES_URL"
-    "MONGO_ADDRESS"
-    "MONGO_PASSWORD"
-    "MONGO_USERNAME"
-    "RABBITMQ_ADDRESS"
-)
-
-for var in "${required_vars[@]}"; do
-    if [ -z "${!var}" ]; then
-        echo -e "${YELLOW}Warning: $var not set. Using default or empty value.${NC}"
-    fi
-done
-
-# OrbStack insecure registry already configured
-echo -e "${GREEN}Using existing OrbStack insecure registry configuration${NC}"
-
-# Login to registry with insecure flag
-echo -e "${GREEN}Checking registry access...${NC}"
-if [ -n "$DOCKER_REGISTRY_USER" ] && [ -n "$DOCKER_REGISTRY_PASS" ]; then
-    echo -e "${GREEN}Logging in to registry...${NC}"
-    echo "$DOCKER_REGISTRY_PASS" | docker login --username "$DOCKER_REGISTRY_USER" --password-stdin "$REGISTRY"
-    if [ $? -ne 0 ]; then
-        echo -e "${RED}Failed to login to registry${NC}"
-        exit 1
-    fi
-else
-    echo -e "${YELLOW}No registry credentials provided, skipping login (anonymous push)...${NC}"
-fi
+# Update repository
+log "Updating repository..."
+git fetch origin || handle_error "Failed to fetch from origin"
+git pull origin main || handle_error "Failed to pull latest changes"
 
 # Install dependencies
-echo -e "${GREEN}Installing dependencies...${NC}"
+log "Installing dependencies..."
 if ! command -v yarn &> /dev/null; then
-    npm install -g yarn
+    npm install -g yarn || handle_error "Failed to install yarn globally"
 fi
-yarn install
+yarn install || handle_error "Failed to install dependencies"
 
-# Setup buildx with insecure registry config
-echo -e "${GREEN}Setting up Docker buildx...${NC}"
+# Login to registry
+log "Logging in to Docker registry..."
+if [ -n "$DOCKER_REGISTRY_USER" ] && [ -n "$DOCKER_REGISTRY_PASS" ]; then
+    echo "$DOCKER_REGISTRY_PASS" | docker login "$REGISTRY" -u "$DOCKER_REGISTRY_USER" --password-stdin || handle_error "Failed to login to registry"
+else
+    log "No registry credentials provided, attempting anonymous push..."
+fi
+
+# Set up Docker buildx with insecure registry support
+log "Setting up Docker buildx..."
 docker buildx rm auto-email-sender-builder 2>/dev/null || true
 
 # Create buildx config file for insecure registry
@@ -83,30 +72,30 @@ docker buildx create \
   --driver docker-container \
   --driver-opt network=host \
   --config /tmp/buildkitd.toml \
-  --use
+  --use || handle_error "Failed to create buildx builder"
 
 # Clean up temp config
 rm -f /tmp/buildkitd.toml
 
-# Build and push image
-echo -e "${GREEN}Building Docker image...${NC}"
+# Build and push Docker image
+log "Building and pushing Docker image..."
 docker buildx build . \
     --platform "$PLATFORM" \
     --file ./Dockerfile.auto \
-    --tag "$REGISTRY/$REPO:latest" \
-    --build-arg SECRET_KEY="${SECRET_KEY}" \
-    --build-arg RESEND_KEY="${RESEND_KEY}" \
-    --build-arg POSTGRES_URL="${POSTGRES_URL}" \
-    --build-arg MONGO_ADDRESS="${MONGO_ADDRESS}" \
-    --build-arg MONGO_PASSWORD="${MONGO_PASSWORD}" \
-    --build-arg MONGO_USERNAME="${MONGO_USERNAME}" \
-    --build-arg RABBITMQ_ADDRESS="${RABBITMQ_ADDRESS}" \
+    -t "$REGISTRY/$REPO_NAME:latest" \
     --push \
-    --progress plain
+    --build-arg SECRET_KEY="$SECRET_KEY" \
+    --build-arg RESEND_KEY="$RESEND_KEY" \
+    --build-arg POSTGRES_URL="$POSTGRES_URL" \
+    --build-arg MONGO_ADDRESS="$MONGO_ADDRESS" \
+    --build-arg MONGO_PASSWORD="$MONGO_PASSWORD" \
+    --build-arg MONGO_USERNAME="$MONGO_USERNAME" \
+    --build-arg RABBITMQ_ADDRESS="$RABBITMQ_ADDRESS" \
+    --progress plain || handle_error "Failed to build and push Docker image"
 
-if [ $? -eq 0 ]; then
-    echo -e "${GREEN}Successfully built and pushed $REGISTRY/$REPO:latest${NC}"
-else
-    echo -e "${RED}Failed to build and push image${NC}"
-    exit 1
-fi
+log "Build and push completed successfully"
+
+# Cleanup old log files (keep last 7 days)
+find "$REPO_DIR/build-logs" -name "auto-email-sender-*.log" -mtime +7 -delete 2>/dev/null || true
+
+log "Daily build and push script completed"
