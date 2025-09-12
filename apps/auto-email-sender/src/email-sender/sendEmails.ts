@@ -2,7 +2,7 @@ import { Channel, GetMessage } from 'amqplib'
 import { SESClient, SendRawEmailCommand } from '@aws-sdk/client-ses'
 import { logger } from 'shared'
 import { EMAIL_FROM } from './baseEmail'
-import { EmailComposerContent } from './emailSender'
+import { EmailComposerContent } from './index'
 import { getUnsubscribeLink } from '../email-pre-render/getUnsubscribeLink'
 
 export const sendEmails = async (

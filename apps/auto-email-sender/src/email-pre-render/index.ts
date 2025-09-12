@@ -12,6 +12,7 @@ import { sendToQueue } from 'shared/src/queue/sendToQueue'
 import { renderFooterHTML } from './renderFooter'
 import { renderHeaderHtml } from './renderHeader'
 import { renderHeaderAndFooter } from './renderHeaderAndFooter'
+import { CONFIG } from '../email-sender/config'
 dotenv.config()
 
 export const BATCH_SIZE = 1_000
@@ -81,8 +82,8 @@ export async function emailPreRender() {
     })
     emailPreRenderSubsChannel.ack(msg)
 
-    // Show progress every 25 emails
-    if (count % 25 === 0) {
+    // Show progress every batch
+    if (count % CONFIG.EMAIL_BATCH_SIZE === 0) {
       const progress =
         maxMessages > 0 ? Math.round((count / maxMessages) * 100) : 0
       const successPct =

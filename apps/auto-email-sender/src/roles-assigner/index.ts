@@ -12,6 +12,7 @@ import {
 } from 'shared'
 import { getEmailProps } from './getEmailProps'
 import { top40Roles } from 'db/src/supabase/domains/roles/getSubscriberRoles'
+import { CONFIG } from '../email-sender/config'
 
 dotenv.config()
 
@@ -87,8 +88,8 @@ export const assignRoles = async () => {
         channel.ack(msg)
       }
 
-      // Show progress every 25 subscribers
-      if (processedCount % 25 === 0) {
+      // Show progress every batch
+      if (processedCount % CONFIG.EMAIL_BATCH_SIZE === 0) {
         const progress =
           maxMessages > 0 ? Math.round((processedCount / maxMessages) * 100) : 0
         const withSkillsPct =

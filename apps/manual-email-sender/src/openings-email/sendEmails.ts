@@ -1,6 +1,6 @@
 /* eslint-disable no-console */
 import dotenv from 'dotenv'
-import { Resend } from 'resend'
+import { SESClient } from '@aws-sdk/client-ses'
 import { sendEmail } from '../emailSender'
 import { getSelectedDate } from '../utils'
 import { chunkArray } from '../utils/chunkArray'
@@ -32,7 +32,13 @@ async function main() {
   const secretKey = process.env['CRYPT_SECRET'] as string
   if (!secretKey) throw new Error('Secret is needed!')
 
-  const resendClient = new Resend(process.env['RESEND_KEY'])
+  const sesClient = new SESClient({
+    region: process.env.AWS_REGION || 'us-east-1',
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    },
+  })
 
   for (const [index, chunk] of chunks.entries()) {
     console.time(`[${index}] - load htmls`)
@@ -41,7 +47,7 @@ async function main() {
     const promises = chunk.map(async (subscriber) => {
       await sendEmail({
         to: subscriber.email,
-        resendClient,
+        sesClient,
         subject,
         html: emailsHTML[subscriber.id],
         unsubscribeLink: createUnsubscribeLink(secretKey, subscriber.id),

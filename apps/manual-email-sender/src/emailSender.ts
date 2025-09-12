@@ -1,10 +1,10 @@
 import fs from 'fs'
 import path from 'path'
-import { Resend } from 'resend'
+import { SESClient, SendRawEmailCommand } from '@aws-sdk/client-ses'
 import { getSelectedDate } from './utils'
 
 export interface SendEmail {
-  resendClient: Resend
+  sesClient: SESClient
   to: string
   html: string
   subject: string
@@ -12,7 +12,7 @@ export interface SendEmail {
 }
 
 export const sendEmail = async ({
-  resendClient,
+  sesClient,
   to,
   html,
   subject,
@@ -31,18 +31,43 @@ export const sendEmail = async ({
   }
 
   try {
-    console.log(`Sending to ${to}...`)
-    const response = await resendClient.emails.send({
-      from: 'Trampar de Casa <comece@trampardecasa.com.br>',
-      to,
-      subject,
+    console.log(`Sending to ${to} via AWS SES...`)
+
+    // Build raw email with proper headers
+    const rawEmail = [
+      `From: Trampar de Casa <comece@trampardecasa.com.br>`,
+      `To: ${to}`,
+      `Subject: ${subject}`,
+      `MIME-Version: 1.0`,
+      `Content-Type: text/html; charset=UTF-8`,
+      `List-Unsubscribe: <${unsubscribeLink}>`,
+      `List-Unsubscribe-Post: List-Unsubscribe=One-Click`,
+      ``,
       html,
+    ].join('\r\n')
+
+    const sendEmailCommand = new SendRawEmailCommand({
+      RawMessage: {
+        Data: Buffer.from(rawEmail),
+      },
+      Tags: [
+        {
+          Name: 'EmailType',
+          Value: 'manual-campaign',
+        },
+        {
+          Name: 'Environment',
+          Value: process.env.NODE_ENV || 'production',
+        },
+      ],
     })
-    if (!response) {
-      handleError('Response is null')
+
+    const response = await sesClient.send(sendEmailCommand)
+    if (!response.MessageId) {
+      handleError('Response MessageId is null')
       return
     }
-    console.log(`Successfully sent to ${to}!`)
+    console.log(`Successfully sent to ${to}! Message ID: ${response.MessageId}`)
     fs.appendFileSync(
       path.resolve(
         __dirname,
