@@ -1,6 +1,6 @@
 import { render } from '@react-email/render'
 import { getFakeRoles } from 'app/(development)/email-preview/getFakeRoles'
-import { Resend } from 'resend'
+import { SESClient, SendRawEmailCommand } from '@aws-sdk/client-ses'
 import { EmailWrapper } from 'shared/ui/email/EmailWrapper'
 import { Footer } from 'shared/ui/email/Footer'
 import { Header } from 'shared/ui/email/Header'
@@ -27,8 +27,13 @@ export const POST = async (req: Request) => {
 
   if (!email) return new Response(null, { status: 400 })
 
-  const resendKey = process.env['RESEND_KEY']
-  const resend = new Resend(resendKey)
+  const sesClient = new SESClient({
+    region: process.env.AWS_REGION || 'us-east-1',
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    },
+  })
 
   // Generate unsubscribe link using the same logic as auto-email-sender
   const urlPrefix =
@@ -54,33 +59,57 @@ export const POST = async (req: Request) => {
 
   try {
     // Log email send attempt
-    console.log(`📧 [${new Date().toISOString()}] Sending test email`)
+    console.log(
+      `📧 [${new Date().toISOString()}] Sending test email via AWS SES`
+    )
     console.log(`   To: ${email}`)
     console.log(`   Subscriber ID: ${subscriberId}`)
     console.log(`   Unsubscribe URL: ${unsubscribeUrl}`)
 
-    const result = await resend.emails.send({
-      from: EMAIL_FROM,
-      to: email,
-      subject: 'Teste - Email de vagas',
-      html: html,
-      headers: {
-        'List-Unsubscribe': `<${unsubscribeUrl}>`,
-        'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
+    // Build raw email with proper headers
+    const rawEmail = [
+      `From: ${EMAIL_FROM}`,
+      `To: ${email}`,
+      `Subject: Teste - Email de vagas`,
+      `MIME-Version: 1.0`,
+      `Content-Type: text/html; charset=UTF-8`,
+      `List-Unsubscribe: <${unsubscribeUrl}>`,
+      `List-Unsubscribe-Post: List-Unsubscribe=One-Click`,
+      ``,
+      html,
+    ].join('\r\n')
+
+    const sendEmailCommand = new SendRawEmailCommand({
+      RawMessage: {
+        Data: Buffer.from(rawEmail),
       },
+      Tags: [
+        {
+          Name: 'EmailType',
+          Value: 'test-preview',
+        },
+        {
+          Name: 'Environment',
+          Value: 'development',
+        },
+      ],
     })
 
+    const result = await sesClient.send(sendEmailCommand)
+
     // Log successful send
-    console.log(`✅ [${new Date().toISOString()}] Email sent successfully`)
-    console.log(`   Resend ID: ${result?.data?.id || 'N/A'}`)
-    console.log(`   Headers included: List-Unsubscribe, List-Unsubscribe-Post`)
+    console.log(
+      `✅ [${new Date().toISOString()}] Email sent successfully via AWS SES`
+    )
+    console.log(`   Message ID: ${result.MessageId || 'N/A'}`)
+    console.log(`   Tags included: List-Unsubscribe, EmailType`)
 
     return new Response(
       JSON.stringify({
-        message: 'Email enviado!',
+        message: 'Email enviado via AWS SES!',
         unsubscribeUrl,
         subscriberId,
-        resendId: result?.data?.id || null,
+        messageId: result.MessageId || null,
       }),
       {
         status: 200,

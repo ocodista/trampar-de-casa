@@ -19,6 +19,7 @@
     "zod": "^3.0.0"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.887.0",
     "@json2csv/plainjs": "^7.0.6",
     "async": "^3.2.5",
     "axios": "^1.11.0",

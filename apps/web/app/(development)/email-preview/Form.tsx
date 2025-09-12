@@ -62,7 +62,7 @@ export default function Form() {
             id="email"
             type="email"
             name="email"
-            defaultValue="caiohborghi@gmail.com"
+            defaultValue="caiohoborghi@gmail.com"
           />
         </fieldset>
         <Button

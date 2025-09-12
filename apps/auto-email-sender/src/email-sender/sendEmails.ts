@@ -1,5 +1,5 @@
 import { Channel, GetMessage } from 'amqplib'
-import { Resend } from 'resend'
+import { SESClient, SendRawEmailCommand } from '@aws-sdk/client-ses'
 import { logger } from 'shared'
 import { EMAIL_FROM } from './baseEmail'
 import { EmailComposerContent } from './emailSender'
@@ -8,7 +8,7 @@ import { getUnsubscribeLink } from '../email-pre-render/getUnsubscribeLink'
 export const sendEmails = async (
   buffers: GetMessage[],
   channel: Channel,
-  resendCli: Resend
+  sesClient: SESClient
 ) => {
   const promises = buffers.map(async (message) => {
     // TODO: Remove parsing, save as string on rabbit
@@ -25,18 +25,55 @@ export const sendEmails = async (
       : undefined
 
     try {
-      await resendCli.emails.send({
-        from: EMAIL_FROM,
-        to: email,
-        html: html,
-        subject,
-        headers: unsubscribeUrl
-          ? {
-              'List-Unsubscribe': `<${unsubscribeUrl}>`,
-              'List-Unsubscribe-Post': 'List-Unsubscribe=One-Click',
-            }
-          : undefined,
+      // Build raw email with proper headers including unsubscribe
+      const rawEmailParts = [
+        `From: ${EMAIL_FROM}`,
+        `To: ${email}`,
+        `Subject: ${subject}`,
+        `MIME-Version: 1.0`,
+        `Content-Type: text/html; charset=UTF-8`,
+      ]
+
+      // Add unsubscribe headers if we have an unsubscribe URL
+      if (unsubscribeUrl) {
+        rawEmailParts.push(`List-Unsubscribe: <${unsubscribeUrl}>`)
+        rawEmailParts.push(`List-Unsubscribe-Post: List-Unsubscribe=One-Click`)
+      }
+
+      rawEmailParts.push('', html) // Empty line before body
+
+      const rawEmail = rawEmailParts.join('\r\n')
+
+      const sendEmailCommand = new SendRawEmailCommand({
+        RawMessage: {
+          Data: Buffer.from(rawEmail),
+        },
+        Tags: [
+          {
+            Name: 'EmailType',
+            Value: 'job-notification',
+          },
+          {
+            Name: 'Environment',
+            Value: process.env.NODE_ENV || 'production',
+          },
+          ...(subscriberId
+            ? [
+                {
+                  Name: 'HasSubscriber',
+                  Value: 'true',
+                },
+              ]
+            : [
+                {
+                  Name: 'HasSubscriber',
+                  Value: 'false',
+                },
+              ]),
+        ],
       })
+
+      await sesClient.send(sendEmailCommand)
       channel.ack(message)
     } catch (e) {
       logger.error(e)

@@ -10,6 +10,7 @@
     "test": "vitest run"
   },
   "dependencies": {
+    "@aws-sdk/client-ses": "^3.887.0",
     "@headlessui/react": "^1.7.15",
     "@heroicons/react": "^2.0.18",
     "@hookform/error-message": "^2.0.1",

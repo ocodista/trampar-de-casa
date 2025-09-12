@@ -1,5 +1,5 @@
 import { GetMessage } from 'amqplib'
-import { Resend } from 'resend'
+import { SESClient } from '@aws-sdk/client-ses'
 import { EmailQueues, logger } from 'shared'
 import { createRabbitMqChannel } from 'shared/src/queue/createRabbitMqChannel'
 import { CONFIG } from './config'
@@ -12,7 +12,13 @@ export type EmailComposerContent = Record<
 
 export const emailSender = async () => {
   logger.time('emailSender')
-  const resend = new Resend(CONFIG.RESEND_KEY)
+  const sesClient = new SESClient({
+    region: process.env.AWS_REGION || 'us-east-1',
+    credentials: {
+      accessKeyId: process.env.AWS_ACCESS_KEY_ID!,
+      secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY!,
+    },
+  })
   const channelToConsume = await createRabbitMqChannel()
   let count = 0,
     emailChunk: GetMessage[] = [],
@@ -25,7 +31,7 @@ export const emailSender = async () => {
     if (!msg) break
     if (count % 25 === 0) {
       logger.time(`${count} emails sent!`)
-      await sendEmails(emailChunk, channelToConsume, resend)
+      await sendEmails(emailChunk, channelToConsume, sesClient)
       logger.timeEnd(`${count} emails sent!`)
       emailChunk = []
     }
@@ -33,7 +39,7 @@ export const emailSender = async () => {
   } while (msg)
 
   if (emailChunk.length) {
-    await sendEmails(emailChunk, channelToConsume, resend)
+    await sendEmails(emailChunk, channelToConsume, sesClient)
     logger(`sent [${count}] emails!`)
     emailChunk = []
   }
