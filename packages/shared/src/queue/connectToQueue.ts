@@ -1,6 +1,9 @@
-import { Connection } from 'amqplib'
+import { ChannelModel } from 'amqplib'
 
-export const connectToQueue = async (connection: Connection, queue: string) => {
+export const connectToQueue = async (
+  connection: ChannelModel,
+  queue: string
+) => {
   const channel = await connection.createChannel()
   await channel.assertQueue(queue)
   return channel
