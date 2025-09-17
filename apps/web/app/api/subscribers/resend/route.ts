@@ -33,7 +33,6 @@ export async function POST(request: Request) {
       await sendConfirmationEmail({
         secretKey: process.env['CRYPT_SECRET'],
         to: email,
-        resendKey: process.env['RESEND_KEY'],
         subscriberId: subscriber.id,
       })
 

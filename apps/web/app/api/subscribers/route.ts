@@ -22,7 +22,10 @@ export async function POST(request: Request) {
     })
   }
 
-  if (!process.env['RESEND_KEY']) {
+  if (
+    !process.env['AWS_ACCESS_KEY_ID'] ||
+    !process.env['AWS_SECRET_ACCESS_KEY']
+  ) {
     return new NextResponse('Server configuration error', {
       status: StatusCodes.INTERNAL_SERVER_ERROR,
     })
@@ -54,7 +57,6 @@ export async function POST(request: Request) {
       await sendConfirmationEmail({
         secretKey: process.env['CRYPT_SECRET'],
         to: email,
-        resendKey: process.env['RESEND_KEY'],
         subscriberId: subscriber.id,
       })
 
