@@ -76,8 +76,13 @@ export const sendEmails = async (
       await sesClient.send(sendEmailCommand)
       channel.ack(message)
     } catch (e) {
-      logger.error(e)
       channel.nack(message, false, true)
+      if ((e?.toString() as string)?.startsWith('Throttling:')) {
+        logger.error('Too fast, waiting 500ms')
+        await new Promise((resolve) => setTimeout(resolve, 500))
+      } else {
+        logger.error(e)
+      }
     }
   })
   await Promise.all(promises)

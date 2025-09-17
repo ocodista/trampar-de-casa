@@ -7,7 +7,7 @@ const envVarsSchema = z.object({
   EMAIL_BATCH_SIZE: z
     .string()
     .optional()
-    .transform((val) => (val ? parseInt(val, 10) : 14)),
+    .transform((val) => (val ? parseInt(val, 10) : 14)), // emails per second (rate limit)
 })
 
 export const CONFIG = envVarsSchema.parse({

@@ -4,7 +4,7 @@ import { createEmailHtml } from './createEmailHtml'
 import { EmailPreRenderMessage } from '.'
 import { getHtmlRoles } from './getHtmlRoles'
 export const rolesSubject = (roles: number) =>
-  `${roles} Vagas para você Trampar de Casa - Agora vai!`
+  `${roles} Vagas para você Trampar de Casa! 🚀`
 
 export const parsePreRenderMessage = async (
   msgContent: GetMessage['content'],
