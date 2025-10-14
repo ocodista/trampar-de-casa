@@ -33,7 +33,7 @@ export function SubscriberForm({
     defaultValues: {
       ...profileInfos,
       englishLevel: profileInfos.englishLevel || EnglishLevel.None,
-      linkedInUrl: profileInfos.linkedInUrl || 'https://linkedin.com/in/',
+      linkedInUrl: profileInfos.linkedInUrl || '',
     },
     mode: 'onBlur',
     criteriaMode: 'firstError',
