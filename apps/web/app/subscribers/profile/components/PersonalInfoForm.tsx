@@ -25,7 +25,7 @@ export const PersonalInfoForm = () => {
         name={ProfileSchemaEnum.LinkedInUrl}
         label="LinkedIn"
         placeholder="https://linkedin.com/in/SEU-PERFIL"
-        description="Informe a url completa do seu LinkedIn"
+        description="Informe a url completa do seu LinkedIn (opcional)"
         Input={TextInput}
       />
       <CustomFormField
