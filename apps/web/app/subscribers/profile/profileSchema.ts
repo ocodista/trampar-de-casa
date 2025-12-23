@@ -20,16 +20,19 @@ export const profileFormSchema = z.object({
       message: 'Seu nome deve conter no mínimo 3 letras',
     }),
   [ProfileSchemaEnum.LinkedInUrl]: z
-    .string({ required_error: 'LinkedIn é obrigatório' })
+    .string()
     .url({ message: 'Formato de URL inválido' })
-    .min(28, {
-      message: 'Seu LinkedIn é obrigatório',
-    })
-    .trim()
+    .or(z.literal(''))
+    .nullable()
+    .transform((data) => (data ? data : null))
     .refine(
-      (url) =>
-        url.startsWith('https://linkedin.com/in/') ||
-        url.startsWith('https://www.linkedin.com/in/'),
+      (url) => {
+        if (!url) return true
+        return (
+          url.startsWith('https://linkedin.com/in/') ||
+          url.startsWith('https://www.linkedin.com/in/')
+        )
+      },
       {
         message:
           'URL do perfil deve começar com https://linkedin.com/in/ ou https://www.linkedin.com/in/',
