@@ -22,18 +22,22 @@ export const profileFormSchema = z.object({
   [ProfileSchemaEnum.LinkedInUrl]: z
     .string()
     .url({ message: 'Formato de URL inválido' })
+    .or(z.literal(''))
+    .nullable()
+    .transform((data) => (data ? data : null))
     .refine(
-      (url) =>
-        url.startsWith('https://linkedin.com/in/') ||
-        url.startsWith('https://www.linkedin.com/in/'),
+      (url) => {
+        if (!url) return true
+        return (
+          url.startsWith('https://linkedin.com/in/') ||
+          url.startsWith('https://www.linkedin.com/in/')
+        )
+      },
       {
         message:
           'URL do perfil deve começar com https://linkedin.com/in/ ou https://www.linkedin.com/in/',
       }
-    )
-    .or(z.literal(''))
-    .nullable()
-    .transform((data) => (data ? data : null)),
+    ),
   [ProfileSchemaEnum.GitHub]: z
     .string()
     .url({ message: 'Formato de URL inválido.' })

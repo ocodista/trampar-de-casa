@@ -74,6 +74,24 @@ describe('ProfileFormSchema Validation', () => {
     }
   })
 
+  it('accepts null or empty string for LinkedIn field', () => {
+    const profileWithNullLinkedIn = {
+      ...validProfileData,
+      [ProfileSchemaEnum.LinkedInUrl]: null,
+    }
+
+    const profileWithEmptyLinkedIn = {
+      ...validProfileData,
+      [ProfileSchemaEnum.LinkedInUrl]: '',
+    }
+
+    const resultNull = profileFormSchema.safeParse(profileWithNullLinkedIn)
+    const resultEmpty = profileFormSchema.safeParse(profileWithEmptyLinkedIn)
+
+    expect(resultNull.success).toBe(true)
+    expect(resultEmpty.success).toBe(true)
+  })
+
   it('accepts null or empty string for GitHub field', () => {
     const profileWithNullGitHub = {
       ...validProfileData,
