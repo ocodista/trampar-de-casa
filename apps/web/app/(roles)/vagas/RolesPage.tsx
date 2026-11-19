@@ -49,11 +49,11 @@ const orderOptions = [
     label: '🛠️  Ordenar',
   },
   {
-    value: 'ascending',
+    value: 'descending',
     label: '🕒 Vagas mais recentes',
   },
   {
-    value: 'descending',
+    value: 'ascending',
     label: '🕒 Vagas mais antigas',
   },
 ]
@@ -66,12 +66,9 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
   const [filters, setFilters] = useState<Filter[]>([])
   const [showOrder, setShowOrder] = useState(false)
   const [totalJobs, setTotalJobs] = useState<number>()
-  const [orderButtonValue, setOrderButtonValue] = useState<string | number>(
-    null
-  )
-  const [previewOrderValue, setPreviewOrderValue] = useState<string | number>(
-    ''
-  )
+  const orderButtonValue = filters.find(
+    (filter) => filter.inputType === 'order'
+  )?.option.value
   const [hasPreferences, setHasPreferences] = useState(false)
 
   const technologies = skillsFromServer.map((tech) => {
@@ -137,30 +134,18 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
   }
 
   const handleOrder = async (option: SelectOption) => {
-    setOrderButtonValue(option.value)
     setShowOrder(false)
-
-    let updatedFilters = filters
-
-    if (previewOrderValue) {
-      if (previewOrderValue === option.value) {
-        return
-      }
-      updatedFilters = filters.filter(
-        (value) => value.option.value !== previewOrderValue
-      )
+    if (orderButtonValue === option.value) {
+      return
     }
 
-    updatedFilters = [{ option, inputType: 'order' }, ...updatedFilters]
+    const updatedFilters = [
+      { option, inputType: 'order' },
+      ...filters.filter((filter) => filter.inputType !== 'order'),
+    ]
     setFilters(updatedFilters)
-    setPreviewOrderValue(option.value)
 
-    const result = await fetchJobs({
-      order: {
-        field: 'createdAt',
-        ascending: option.value === 'ascending',
-      },
-    })
+    const result = await fetchJobs(updatedFilters)
     setJobs(result.jobs)
     setTotalJobs(result.totalJobs)
     const newQueryString = updateSearchParams(updatedFilters)
@@ -195,29 +180,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
     setFilters(updatedFilters)
 
     try {
-      const skillFilters = updatedFilters
-        .filter((f) => f.inputType === 'skill')
-        .map((f) => {
-          const value = f.option.value
-          return typeof value === 'number' ? value : Number(value)
-        })
-        .filter((id) => !isNaN(id))
-
-      const result = await fetchJobs({
-        country: updatedFilters
-          .filter((f) => f.inputType === 'country')
-          .map((f) => f.option.value as string),
-        skillsId: skillFilters,
-        order: updatedFilters.find((f) => f.inputType === 'order')?.option
-          ?.value
-          ? {
-              field: 'createdAt',
-              ascending:
-                updatedFilters.find((f) => f.inputType === 'order')?.option
-                  ?.value === 'ascending',
-            }
-          : undefined,
-      })
+      const result = await fetchJobs(updatedFilters)
       setTotalJobs(result.totalJobs)
       setJobs(result.jobs)
     } catch (error) {
@@ -295,28 +258,7 @@ export const RolesPage = ({ jobsFromServer, skillsFromServer, countries }) => {
   useEffect(() => {
     const fetchInitialJobs = async (initialFilters: Filter[]) => {
       try {
-        const skillFilters = initialFilters
-          .filter((f) => f.inputType === 'skill')
-          .map((f) => {
-            const value = f.option.value
-            return typeof value === 'number' ? value : Number(value)
-          })
-          .filter((id) => !isNaN(id))
-
-        const orderFilter = initialFilters.find((f) => f.inputType === 'order')
-
-        const result = await fetchJobs({
-          country: initialFilters
-            .filter((f) => f.inputType === 'country')
-            .map((f) => f.option.value as string),
-          skillsId: skillFilters,
-          order: orderFilter?.option?.value
-            ? {
-                field: 'createdAt',
-                ascending: orderFilter.option.value === 'ascending',
-              }
-            : undefined,
-        })
+        const result = await fetchJobs(initialFilters)
         setJobs(result.jobs)
         setTotalJobs(result.totalJobs)
       } catch (error) {
