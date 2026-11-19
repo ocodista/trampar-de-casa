@@ -187,6 +187,7 @@ export class PostgresClient {
     country?: string[]
     skillsId?: number[]
     description?: string[]
+    titlePatterns?: string[]
     order?: { field: string; ascending: boolean }
   }): Promise<{ data: Role[]; count: number }> {
     let query = `SELECT * FROM ${Entities.Roles} WHERE ready = true`
@@ -211,6 +212,12 @@ export class PostgresClient {
     if (filters?.description?.length) {
       query += ` AND description = ANY($${paramCount})`
       params.push(filters.description)
+      paramCount++
+    }
+
+    if (filters?.titlePatterns?.length) {
+      query += ` AND title ~* ANY($${paramCount}::text[])`
+      params.push(filters.titlePatterns)
       paramCount++
     }
 

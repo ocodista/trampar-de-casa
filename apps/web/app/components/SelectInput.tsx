@@ -65,14 +65,7 @@ const SelectInput = ({
     ])
 
     try {
-      const result = await fetchJobs({
-        country: temporaryFilters
-          .filter((f) => f.inputType === 'country')
-          .map((f) => f.option.value as string),
-        skillsId: temporaryFilters
-          .filter((f) => f.inputType === 'skill')
-          .map((f) => Number(f.option.value)),
-      })
+      const result = await fetchJobs(temporaryFilters)
       setTotalJobs(result.totalJobs)
       setJobs(result.jobs)
     } catch (error) {

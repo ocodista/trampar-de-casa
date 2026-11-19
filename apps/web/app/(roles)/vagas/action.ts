@@ -55,6 +55,16 @@ export const getFilterFromPreferences = async (
   return { skillsId }
 }
 
+const titlePatternByLevel = new Map([
+  [
+    'Estágio',
+    String.raw`\m(estágio|estagio|intern|internship|estagiári[oa]|estagiari[oa])\M`,
+  ],
+  ['Júnior', String.raw`\m(júnior|junior|jr)\M`],
+  ['Pleno', String.raw`\m(pleno|plena|mid[- ]level)\M`],
+  ['Sênior', String.raw`\m(sênior|senior|sr)\M`],
+])
+
 export const fetchJobs = async (
   filtersOrJobFilter: Filter[] | JobFilter = []
 ): Promise<{
@@ -70,6 +80,7 @@ export const fetchJobs = async (
     let countryValues: string[] = []
     let skillsId: number[] = []
     let description: string[] = []
+    let titlePatterns: string[] = []
     let order = { field: 'salary' as string, ascending: false }
 
     if (isFilterArray) {
@@ -97,9 +108,9 @@ export const fetchJobs = async (
           .filter((id): id is number => !isNaN(id))
       }
 
-      if (levelFilters.length > 0) {
-        description = levelFilters.map((f) => f.option.value as string)
-      }
+      titlePatterns = levelFilters
+        .map((filter) => titlePatternByLevel.get(String(filter.option.value)))
+        .filter((pattern): pattern is string => pattern !== undefined)
 
       if (orderFilter) {
         order = {
@@ -120,6 +131,7 @@ export const fetchJobs = async (
       country: countryValues.length > 0 ? countryValues : undefined,
       skillsId: skillsId.length > 0 ? skillsId : undefined,
       description: description.length > 0 ? description : undefined,
+      titlePatterns: titlePatterns.length > 0 ? titlePatterns : undefined,
       order,
     })
 
